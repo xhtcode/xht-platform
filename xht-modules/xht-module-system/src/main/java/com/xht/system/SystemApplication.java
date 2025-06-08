@@ -1,0 +1,20 @@
+package com.xht.system;
+
+import com.xht.framework.swagger.annotation.EnableCustomSwagger;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/**
+ * 系统模块启动类
+ *
+ * @author xht
+ **/
+@Slf4j
+@EnableCustomSwagger
+@SpringBootApplication
+public class SystemApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(SystemApplication.class, args);
+    }
+}

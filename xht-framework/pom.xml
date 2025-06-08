@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.xht</groupId>
+        <artifactId>xht-platform</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>xht-framework</artifactId>
+    <packaging>pom</packaging>
+    <description>通用模块</description>
+    <modules>
+        <module>xht-framework-bom</module>
+        <module>xht-framework-core</module>
+        <module>xht-framework-log</module>
+        <module>xht-framework-web</module>
+        <module>xht-framework-swagger</module>
+        <module>xht-framework-mybatis</module>
+    </modules>
+
+</project>
