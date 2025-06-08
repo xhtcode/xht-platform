@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xht.system.user.mapper.SysUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.xht.system.user.domain.vo.SysUserVO">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
+        <result property="avatarUrl" column="avatar_url" jdbcType="VARCHAR"/>
+        <result property="userStatus" column="user_status" jdbcType="TINYINT"/>
+        <result property="deptId" column="dept_id" jdbcType="BIGINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <association property="profile" javaType="com.xht.system.user.domain.response.SysUserProfilesResponse">
+            <result property="realName" column="real_name" jdbcType="VARCHAR"/>
+            <result property="idCardNumber" column="id_card_number" jdbcType="VARCHAR"/>
+            <result property="gender" column="gender" jdbcType="TINYINT"/>
+            <result property="birthDate" column="birth_date" jdbcType="DATE"/>
+            <result property="age" column="age" jdbcType="TINYINT"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="postalCode" column="postal_code" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,user_name,pass_word,nick_name,avatar_url,user_status,
+        create_time,update_time,create_by,update_by,is_del
+    </sql>
+
+    <!-- 自定义查询 -->
+    <select id="findPage" resultMap="BaseResultMap" parameterType="com.xht.system.user.domain.request.UserQueryRequest">
+        SELECT
+        t1.id
+        , t1.user_name, t1.pass_word, t1.nick_name, t1.avatar_url, t1.user_status,
+        t1.create_time, t1.update_time, t1.create_by, t1.update_by,
+        t2.real_name,t2.id_card_number,t2.gender,t2.birth_date,
+        t2.age,t2.address,t2.postal_code
+        FROM sys_user t1
+        LEFT JOIN sys_user_profiles t2 ON t1.id = t2.user_id
+        WHERE t1.is_del = 0
+        <if test="queryRequest. keyWord != null and queryRequest.keyWord != ''">
+            AND (t1.user_name LIKE CONCAT('%', #{queryRequest.keyWord}, '%') OR t1.nick_name LIKE CONCAT('%',
+            #{queryRequest.keyWord}, '%') OR
+            t2.real_name LIKE CONCAT('%', #{queryRequest.keyWord}, '%') OR t2.id_card_number LIKE CONCAT('%',
+            #{queryRequest.keyWord}, '%'))
+        </if>
+        <if test="queryRequest.userStatus != null">
+            AND t1.user_status = #{queryRequest.userStatus}
+        </if>
+        <if test="queryRequest.userName != null and queryRequest.userName != ''">
+            AND t1.user_name LIKE CONCAT('%', #{queryRequest.userName}, '%')
+        </if>
+        <if test="queryRequest.nickName != null and queryRequest.nickName != ''">
+            AND t1.nick_name LIKE CONCAT('%', #{queryRequest.nickName}, '%')
+        </if>
+        <if test="queryRequest.realName != null and queryRequest.realName != ''">
+            AND t2.real_name LIKE CONCAT('%', #{queryRequest.realName}, '%')
+        </if>
+        <if test="queryRequest.gender != null">
+            AND t2.gender = #{queryRequest.gender}
+        </if>
+        <if test="queryRequest.age != null">
+            AND t2.age = #{queryRequest.age}
+        </if>
+        <if test="queryRequest.idCardNumber != null and queryRequest.idCardNumber != ''">
+            AND t2.id_card_number LIKE CONCAT('%', #{queryRequest.idCardNumber}, '%')
+        </if>
+        <if test="queryRequest.birthDateStart != null">
+            AND t2.birth_date &gt;= #{queryRequest.birthDateStart}
+        </if>
+        <if test="queryRequest.birthDateEnd != null">
+            AND t2.birth_date &lt;= #{queryRequest.birthDateEnd}
+        </if>
+        <if test="queryRequest.postalCode != null and queryRequest.postalCode != ''">
+            AND t2.postal_code = #{queryRequest.postalCode}
+        </if>
+        <if test="queryRequest.deptId != null and queryRequest.deptId != ''">
+            AND t1.dept_id = #{queryRequest.deptId}
+        </if>
+    </select>
+    <select id="findInfoByUserId" resultMap="BaseResultMap">
+        SELECT t1.id
+                ,
+               t1.user_name,
+               t1.pass_word,
+               t1.nick_name,
+               t1.avatar_url,
+               t1.user_status,
+               t1.dept_id,
+               t1.create_time,
+               t1.update_time,
+               t1.create_by,
+               t1.update_by,
+               t2.real_name,
+               t2.id_card_number,
+               t2.gender,
+               t2.birth_date,
+               t2.age,
+               t2.address,
+               t2.postal_code
+        FROM sys_user t1
+                 LEFT JOIN sys_user_profiles t2 ON t1.id = t2.user_id
+                 LEFT JOIN sys_user_dept t3 ON t1.id = t3.user_id
+        WHERE t1.is_del = 0
+          and t1.id = #{userId}
+    </select>
+</mapper>

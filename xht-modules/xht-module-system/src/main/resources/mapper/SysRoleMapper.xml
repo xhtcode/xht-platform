@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xht.system.authority.mapper.SysRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.xht.system.authority.domain.entity.SysRoleEntity">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="roleCode" column="role_code" jdbcType="VARCHAR"/>
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <result property="dataScope" column="data_scope" jdbcType="TINYINT"/>
+        <result property="roleStatus" column="role_status" jdbcType="TINYINT"/>
+        <result property="roleSort" column="role_sort" jdbcType="INTEGER"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="isDel" column="is_del" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,role_code,role_name,data_scope,role_status,role_sort,
+        remark,create_time,update_time,create_by,update_by,
+        is_del
+    </sql>
+</mapper>

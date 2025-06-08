@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- 指定POM模型的版本 -->
+    <modelVersion>4.0.0</modelVersion>
+    <!-- 定义项目的groupId，通常是公司或组织的域名反写 -->
+    <groupId>com.xht</groupId>
+    <!-- 定义项目的artifactId，通常是项目或模块的名称 -->
+    <artifactId>xht-framework-bom</artifactId>
+    <!-- 定义项目的版本号，这里使用了属性引用 -->
+    <version>${revision}</version>
+    <!-- 项目的描述信息 -->
+    <description>xht-framework-bom通用模块依赖配置</description>
+
+    <properties>
+        <!-- 定义revision属性，其值引用了xht.version属性 -->
+        <revision>${xht.version}</revision>
+        <!-- 定义项目版本号，初始值为1.0.0 -->
+        <xht.version>1.0.0</xht.version>
+        <spring-boot.version>3.4.4</spring-boot.version>
+        <docker-maven-plugin.version>0.46.0</docker-maven-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <!-- 管理项目的依赖版本，避免在各个子模块中重复定义 -->
+        <dependencies>
+            <!-- 核心模块依赖 -->
+            <dependency>
+                <groupId>com.xht</groupId>
+                <artifactId>xht-framework-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- log日志记录模块依赖 -->
+            <dependency>
+                <groupId>com.xht</groupId>
+                <artifactId>xht-framework-log</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 通信模块依赖 -->
+            <dependency>
+                <groupId>com.xht</groupId>
+                <artifactId>xht-framework-web</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- swagger模块依赖 -->
+            <dependency>
+                <groupId>com.xht</groupId>
+                <artifactId>xht-framework-swagger</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- mybatis模块依赖 -->
+            <dependency>
+                <groupId>com.xht</groupId>
+                <artifactId>xht-framework-mybatis</artifactId>
+                <version>${revision}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <!-- 构建配置 -->
+        <plugins>
+            <!-- Spring Boot Maven插件配置 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <!-- 跳过Spring Boot插件的执行 -->
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <!-- Docker Maven插件配置 -->
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker-maven-plugin.version}</version>
+                <configuration>
+                    <!-- 跳过Docker插件的执行 -->
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

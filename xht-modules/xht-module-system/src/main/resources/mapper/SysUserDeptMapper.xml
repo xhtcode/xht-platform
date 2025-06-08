@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xht.system.user.mapper.SysUserDeptMapper">
+
+    <resultMap id="BaseResultMap" type="com.xht.system.user.domain.vo.UserSimpleVo">
+        <id property="userId" column="user_id"/>
+        <id property="deptId" column="dept_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="avatarUrl" column="avatar_url"/>
+        <result property="userStatus" column="user_status"/>
+    </resultMap>
+    <resultMap id="SysDeptPostVoResultMap" type="com.xht.system.dept.domain.vo.SysDeptPostVo">
+        <id property="id" column="dept_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="deptCode" column="dept_code"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="deptLevel" column="dept_level"/>
+        <result property="deptStatus" column="dept_status"/>
+        <result property="deptSort" column="dept_sort"/>
+        <result property="ancestors" column="ancestors"/>
+        <result property="leaderUserId" column="leader_user_id"/>
+        <result property="leaderName" column="leader_name"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="remark" column="remark"/>
+        <result property="postId" column="post_id"/>
+        <result property="postCode" column="post_code"/>
+        <result property="postName" column="post_name"/>
+        <result property="postSort" column="post_sort"/>
+        <result property="postStatus" column="post_status"/>
+        <result property="postRemark" column="post_remark"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id
+        ,dept_id,create_time,create_by
+    </sql>
+    <select id="findUserSimpleVoByDeptId" resultMap="BaseResultMap">
+        SELECT sys_user.id as user_id, sys_user_dept.dept_id as dept_id, sys_user.user_name,sys_user.nick_name ,sys_user.avatar_url, sys_user.user_status
+        FROM sys_user
+        LEFT JOIN sys_user_dept ON sys_user.id = sys_user_dept.user_id
+        WHERE sys_user.is_del = 0
+        and sys_user.user_status = #{status}
+        <choose>
+            <when test="deptId!=null">
+                and (sys_user.dept_id = #{deptId} or sys_user_dept.dept_id is null)
+            </when>
+            <otherwise>
+                and sys_user_dept.dept_id is null
+            </otherwise>
+        </choose>
+        ORDER BY sys_user.dept_id desc
+    </select>
+    <select id="getDeptPostByUserId" resultType="com.xht.system.dept.domain.vo.SysDeptPostVo">
+        SELECT sys_dept.id          as dept_id,
+               sys_dept.parent_id,
+               sys_dept.dept_code,
+               sys_dept.dept_name,
+               sys_dept.dept_level,
+               sys_dept.dept_status,
+               sys_dept.dept_sort,
+               sys_dept.ancestors,
+               sys_dept.leader_user_id,
+               sys_dept.leader_name,
+               sys_dept.phone,
+               sys_dept.email,
+               sys_dept.remark      as dept_remark,
+               sys_dept_post.id     as post_id,
+               sys_dept_post.post_code,
+               sys_dept_post.post_name,
+               sys_dept_post.post_status,
+               sys_dept_post.post_sort,
+               sys_dept_post.remark as post_remark
+        FROM `sys_user_dept`
+                 LEFT JOIN sys_dept ON sys_dept.id = sys_user_dept.dept_id
+                 LEFT JOIN sys_dept_post ON sys_dept_post.id = sys_user_dept.post_id
+        WHERE   sys_dept.is_del = 0 AND sys_dept_post.is_del = 0
+          and sys_user_dept.user_id = #{userId}
+    </select>
+</mapper>
