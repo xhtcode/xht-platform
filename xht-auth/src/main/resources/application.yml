@@ -1,6 +1,8 @@
 server:
   port: 9000
 spring:
+  profiles:
+    active: dev
   application:
     name: xht-auth
   security:
@@ -20,13 +22,27 @@ spring:
                 - "authorization_code"
                 - "refresh_token"
               redirect-uris:
-                - "http://127.0.0.1:8080/login/oauth2/code/oidc-client"
+                - "http://127.0.0.1:3000/login"
               post-logout-redirect-uris:
                 - "http://127.0.0.1:8080/"
               scopes:
                 - "openid"
                 - "profile"
             require-authorization-consent: true
+            require-proof-key: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 10000
+      jedis:
+        pool:
+          enabled: true
+          max-active: 8
+          max-wait: -1ms
+          max-idle: 8
+          min-idle: 0
 springdoc:
   api-docs:
     enabled: true
