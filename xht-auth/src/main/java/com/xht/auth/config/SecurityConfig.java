@@ -7,11 +7,12 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.xht.auth.constant.CustomAuthorizationGrantType;
+import com.xht.auth.security.web.Http401UnauthorizedEntryPoint;
+import com.xht.auth.security.web.access.Http401AccessDeniedHandler;
 import com.xht.auth.utils.JwtUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -48,6 +49,10 @@ public class SecurityConfig {
                         .requestMatchers("/login/captcha").permitAll()
                         .anyRequest().authenticated()
                 )
+                .exceptionHandling(handlingConfigurer -> {
+                    handlingConfigurer.authenticationEntryPoint(new Http401UnauthorizedEntryPoint());//请求未认证的接口
+                    handlingConfigurer.accessDeniedHandler(new Http401AccessDeniedHandler());// 请求未授权的接口
+                })
                 .formLogin(Customizer.withDefaults());
 
         return http.build();

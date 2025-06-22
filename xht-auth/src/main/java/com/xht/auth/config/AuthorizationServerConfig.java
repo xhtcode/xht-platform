@@ -6,6 +6,8 @@ import com.xht.auth.authorization.password.PassWordAuthenticationConverter;
 import com.xht.auth.authorization.password.PassWordAuthenticationProvider;
 import com.xht.auth.authorization.token.TokenAuthenticationFailureHandler;
 import com.xht.auth.authorization.token.TokenAuthenticationSuccessHandler;
+import com.xht.auth.authorization.token.TokenRevocationAuthenticationFailureHandler;
+import com.xht.auth.authorization.token.TokenRevocationAuthenticationSuccessHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,6 +49,10 @@ public class AuthorizationServerConfig {
                                             tokenEndpoint.errorResponseHandler(new TokenAuthenticationFailureHandler());
                                         }
                                 )
+                                .tokenRevocationEndpoint(tokenEndpoint ->{
+                                    tokenEndpoint.revocationResponseHandler(new TokenRevocationAuthenticationSuccessHandler());
+                                    tokenEndpoint.errorResponseHandler(new TokenRevocationAuthenticationFailureHandler());
+                                })
                 )
                 .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
                 .exceptionHandling(

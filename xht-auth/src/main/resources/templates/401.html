@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>401 Unauthorized</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 背景装饰 */
+        .bg-decoration {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: pulse 1s infinite ease-in-out; /* 加快背景圆动画 */
+        }
+
+        .bg-circle:nth-child(1) {
+            top: 25%;
+            left: -10%;
+            width: 300px;
+            height: 300px;
+            background-color: rgba(22, 93, 255, 0.1);
+        }
+
+        .bg-circle:nth-child(2) {
+            bottom: 30%;
+            right: -15%;
+            width: 400px;
+            height: 400px;
+            background-color: rgba(54, 207, 201, 0.1);
+            animation-delay: 1.5s;
+        }
+
+        .bg-circle:nth-child(3) {
+            top: 50%;
+            left: 33%;
+            width: 200px;
+            height: 200px;
+            background-color: rgba(114, 46, 209, 0.1);
+            animation-delay: 3s;
+        }
+
+        /* 主内容 */
+        .content {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .error-code {
+            display: flex;
+            justify-content: center;
+            margin-bottom: clamp(1rem, 5vh, 2rem);
+        }
+
+        .error-code span {
+            font-size: clamp(5rem, 15vw, 10rem);
+            font-weight: bold;
+            color: rgba(22, 93, 255, 0.9);
+            opacity: 0;
+            position: relative;
+        }
+
+        .error-code span:nth-child(1) {
+            animation: fadeIn 0.6s ease-in-out 0.2s forwards;
+        }
+
+        .error-code span:nth-child(2) {
+            animation: fadeIn 0.6s ease-in-out 0.4s forwards;
+            margin: 0 clamp(0.5rem, 2vw, 1.5rem);
+        }
+
+        .error-code span:nth-child(3) {
+            animation: fadeIn 0.6s ease-in-out 0.6s forwards;
+        }
+
+        /* 装饰元素 */
+        .float-decoration {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(22, 93, 255, 0.2);
+            filter: blur(5px);
+            animation: float 2s ease-in-out infinite; /* 加快装饰元素动画 */
+        }
+
+        .float-decoration:nth-child(1) {
+            top: -15%;
+            right: -10%;
+            width: clamp(2rem, 5vw, 4rem);
+            height: clamp(2rem, 5vw, 4rem);
+        }
+
+        .float-decoration:nth-child(2) {
+            bottom: -15%;
+            left: -10%;
+            width: clamp(1.5rem, 4vw, 3rem);
+            height: clamp(1.5rem, 4vw, 3rem);
+            background-color: rgba(54, 207, 201, 0.2);
+            animation-delay: 0.7s;
+        }
+
+        .float-decoration:nth-child(3) {
+            top: 30%;
+            left: -5%;
+            width: clamp(1rem, 3vw, 2.5rem);
+            height: clamp(1rem, 3vw, 2.5rem);
+            background-color: rgba(114, 46, 209, 0.2);
+            animation-delay: 1.4s;
+        }
+
+        .lock-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: clamp(5rem, 12vw, 7.5rem);
+            height: clamp(5rem, 12vw, 7.5rem);
+            border-radius: 50%;
+            background-color: rgba(22, 93, 255, 0.1);
+            color: #165DFF;
+            margin-bottom: clamp(1.5rem, 4vh, 3rem);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.6s ease-out 0.8s forwards;
+        }
+
+        .lock-icon i {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+        }
+
+        .message {
+            margin-bottom: clamp(2rem, 5vh, 4rem);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.6s ease-out 1s forwards;
+        }
+
+        .message h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: bold;
+            color: #1F2937;
+            margin-bottom: clamp(0.75rem, 2vh, 1.5rem);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .message p {
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            color: #4B5563;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.75rem, 2vh, 1.5rem);
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.6s ease-out 1.2s forwards;
+        }
+
+        @media (min-width: 640px) {
+            .buttons {
+                flex-direction: row;
+            }
+        }
+
+        .btn {
+            padding: clamp(0.75rem, 2vh, 1rem) clamp(1.5rem, 4vw, 2rem);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        .btn-primary {
+            background-color: #165DFF;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .btn-primary:hover {
+            background-color: #0D47A1;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: #165DFF;
+            border: 1px solid rgba(22, 93, 255, 0.3);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        .btn-secondary:hover {
+            background-color: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer {
+            margin-top: clamp(2rem, 5vh, 4rem);
+            color: #6B7280;
+            font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+            opacity: 0;
+            animation: fadeIn 0.8s ease-in-out 1.5s forwards;
+        }
+
+        .bottom-gradient {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: clamp(3rem, 8vh, 6rem);
+            background: linear-gradient(to top, rgba(22, 93, 255, 0.05), transparent);
+            pointer-events: none;
+        }
+
+        /* 动画定义 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatVertical {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes floatHorizontal {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(15px); }
+        }
+
+        @keyframes floatDiagonal {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(12px, -12px); }
+        }
+
+        @keyframes floatEllipse {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(12px, -8px); }
+            50% { transform: translate(0, -15px); }
+            75% { transform: translate(-12px, -8px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* 粒子背景 */
+        .particle {
+            position: fixed;
+            border-radius: 50%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+<!-- 背景装饰 -->
+<div class="bg-decoration">
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+</div>
+
+<!-- 主内容 -->
+<div class="content">
+    <!-- 错误码 -->
+    <div class="error-code">
+        <span>4</span>
+        <span>0</span>
+        <span>1</span>
+    </div>
+
+    <!-- 图标 -->
+    <div class="lock-icon">
+        <i class="fa fa-lock"></i>
+    </div>
+
+    <!-- 消息 -->
+    <div class="message">
+        <h1>未授权访问</h1>
+        <p>你没有权限访问此页面或资源。请检查你的凭证或联系管理员获取帮助。</p>
+    </div>
+
+    <!-- 按钮 -->
+    <div class="buttons">
+        <a href="#" class="btn btn-primary">返回首页</a>
+    </div>
+
+    <!-- 页脚 -->
+    <div class="footer">
+        <p>© 2025 你的网站名称. 保留所有权利.</p>
+    </div>
+</div>
+
+<!-- 底部渐变 -->
+<div class="bottom-gradient"></div>
+
+<script>
+    // 创建粒子背景
+    function createParticleBackground() {
+        const body = document.body;
+        const particleCount = 100; // 增加粒子数量增强效果
+
+        // 定义多种动画类型
+        const animations = [
+            'floatVertical',
+            'floatHorizontal',
+            'floatDiagonal',
+            'floatEllipse'
+        ];
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+
+            // 随机大小
+            const size = Math.random() * 4 + 1; // 稍微减小粒子大小，使速度感更明显
+
+            // 随机颜色
+            const colors = [
+                'rgba(22, 93, 255, 0.3)',
+                'rgba(54, 207, 201, 0.3)',
+                'rgba(114, 46, 209, 0.3)'
+            ];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            // 设置粒子样式
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.backgroundColor = color;
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = `${Math.random() * 100}vh`;
+
+            // 随机选择动画类型和更短的持续时间（加快速度）
+            const animation = animations[Math.floor(Math.random() * animations.length)];
+            const duration = Math.random(); // 5-12秒之间的随机持续时间（比之前快约50%）
+
+            particle.style.animation = `${animation} ${duration}s ease-in-out infinite`;
+            particle.style.animationDelay = `${Math.random() * 5}s`; // 随机延迟
+
+            body.appendChild(particle);
+        }
+    }
+
+    // 页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', function() {
+        // 创建粒子背景
+        createParticleBackground();
+
+        // 增强按钮交互
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+            });
+
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '';
+            });
+        });
+    });
+</script>
+</body>
+</html>

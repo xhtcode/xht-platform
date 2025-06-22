@@ -17,19 +17,21 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import java.io.IOException;
 
 /**
- * Token认证失败处理器
+ * token 注销失败处理器
  *
  * @author xht
  **/
 @Slf4j
 @SuppressWarnings("all")
-public class TokenAuthenticationFailureHandler implements AuthenticationFailureHandler {
+public class TokenRevocationAuthenticationFailureHandler implements AuthenticationFailureHandler {
+
 
     private static final IConverter<OAuth2Error, OAuth2ErrorResponse> ERROR_CONVERTER = new OAuth2ErrorConvert();
 
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+        log.debug("Authentication failure");
         if (exception instanceof OAuth2AuthenticationException oAuth2AuthenticationException) {
             OAuth2Error error = oAuth2AuthenticationException.getError();
             OAuth2ErrorResponse errorResponse = ERROR_CONVERTER.convert(error);
@@ -40,5 +42,4 @@ public class TokenAuthenticationFailureHandler implements AuthenticationFailureH
                     + exception.getClass().getName());
         }
     }
-
 }

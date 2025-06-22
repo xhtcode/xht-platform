@@ -5,6 +5,22 @@ spring:
     active: dev
   application:
     name: xht-auth
+  cloud:
+    nacos:
+      discovery:
+        server-addr: @nacos.discovery.address@
+        username: @nacos.username@
+        password: @nacos.password@
+        namespace: @nacos.namespace@
+        group: @nacos.group@
+      config:
+        server-addr: @nacos.config.address@
+        username: @nacos.username@
+        password: @nacos.password@
+        namespace: @nacos.namespace@
+        group: @nacos.group@
+        file-extension: yml
+        prefix: ${spring.application.name} # 默认配置
   security:
     user:
       name: user
