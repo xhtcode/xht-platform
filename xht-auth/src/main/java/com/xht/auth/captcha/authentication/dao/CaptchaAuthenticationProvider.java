@@ -68,7 +68,7 @@ public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
             if (expire <= 0) {
                 throw new CaptchaException("验证码已过期！");
             }
-            String captchaCode = (String) stringRedisTemplate.opsForValue().get(captchaId);
+            String captchaCode = stringRedisTemplate.opsForValue().get(captchaId);
             if (!StringUtils.equalsIgnoreCase(captchaCode, captcha)) {
                 throw new CaptchaException("验证码错误！");
             }
