@@ -1,6 +1,7 @@
 package com.xht.gateway.handler;
 
 import com.xht.framework.core.domain.R;
+import com.xht.framework.core.exception.code.GlobalErrorStatusCode;
 import com.xht.gateway.utils.WebFluxUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -33,13 +34,13 @@ public class GatewayGlobalExceptionHandler implements ErrorWebExceptionHandler {
         }
         if (ex instanceof NotFoundException) {
             result = R.errorMsg("服务未找到或服务不可用");
-        } else if (ex instanceof ResponseStatusException responseStatusException) {
-            result = R.errorMsg(responseStatusException.getMessage());
+        } else if (ex instanceof ResponseStatusException) {
+            result = R.error(GlobalErrorStatusCode.NOT_FOUND);
         } else {
             //内部服务器错误
             result = R.errorMsg("内部服务器错误");
         }
-        log.debug("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), ex.getMessage());
+        log.debug("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), ex.getMessage(), ex);
         return WebFluxUtils.webFluxResponseWriter(response, result);
     }
 }

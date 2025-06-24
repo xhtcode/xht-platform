@@ -1,7 +1,6 @@
 package com.xht.gateway.config;
 
 import com.xht.gateway.config.properties.GatewayGlobalProperties;
-import com.xht.gateway.filter.GlobalRequestFilter;
 import com.xht.gateway.handler.GatewayGlobalExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,13 +27,4 @@ public class GateWayConfig {
         return new GatewayGlobalExceptionHandler();
     }
 
-    /**
-     * 全局请求拦截器
-     * @param gatewayGlobalProperties 网关全局配置
-     * @return GlobalRequestFilter
-     */
-    @Bean
-    public GlobalRequestFilter gatewayFilterRegistration(GatewayGlobalProperties gatewayGlobalProperties) {
-        return new GlobalRequestFilter(gatewayGlobalProperties);
-    }
 }

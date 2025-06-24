@@ -8,7 +8,6 @@ import com.xht.framework.web.utils.HttpServletUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -58,13 +57,13 @@ public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
         Map<String, Object> mapParameters = HttpServletUtils.getMapParameters(httpServletRequest);
         RequestUserBO requestUserBO = RequestUserBO.builderUser(mapParameters);
         requestUserBO.checkLoginType();//todo 验证码校验逻辑 requestUserBO.getLoginType()
-        if (Objects.equals(LoginTypeEnums.CODE, "123123")) {
+        if (Objects.equals(LoginTypeEnums.CODE, requestUserBO.getLoginType())) {
             String captcha = requestUserBO.getCaptcha();
             if (StringUtils.isEmpty(captcha)) {
                 throw new CaptchaException("请输入验证码！");
             }
             // 验证码校验逻辑
-            String captchaId = "captcha:"+httpServletRequest.getRequestedSessionId();
+            String captchaId = "captcha:" + httpServletRequest.getRequestedSessionId();
             Long expire = stringRedisTemplate.getExpire(captchaId, TimeUnit.SECONDS);
             if (expire <= 0) {
                 throw new CaptchaException("验证码已过期！");

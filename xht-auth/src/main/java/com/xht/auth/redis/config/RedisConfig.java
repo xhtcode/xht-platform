@@ -14,9 +14,11 @@ import com.xht.auth.redis.service.RedisOAuth2AuthorizationConsentService;
 import com.xht.auth.redis.service.RedisOAuth2AuthorizationService;
 import com.xht.auth.redis.service.RedisRegisteredClientRepository;
 import com.xht.framework.core.jackson.CustomJacksonModule;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -34,11 +36,6 @@ import static com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping.NON_FINA
 @EnableRedisRepositories("com.xht.auth.redis.repository")
 @Configuration(proxyBeanMethods = false)
 public class RedisConfig {
-
-    @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
-        return new JedisConnectionFactory();
-    }
 
     @Bean
     public RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
@@ -66,6 +63,7 @@ public class RedisConfig {
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
+
     private Jackson2JsonRedisSerializer<Object> getJsonRedisSerializer() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new CustomJacksonModule());
@@ -79,6 +77,7 @@ public class RedisConfig {
         objectMapper.findAndRegisterModules();
         return new Jackson2JsonRedisSerializer<>(objectMapper, Object.class);
     }
+
     @Bean
     public RedisCustomConversions redisCustomConversions() {
         return new RedisCustomConversions(Arrays.asList(new UsernamePasswordAuthenticationTokenToBytesConverter(),
