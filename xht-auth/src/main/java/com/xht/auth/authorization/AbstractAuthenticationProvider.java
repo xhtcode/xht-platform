@@ -1,5 +1,6 @@
 package com.xht.auth.authorization;
 
+import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.auth.domain.RequestUserBO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +28,9 @@ import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.xht.auth.constant.ErrorConstant.ERROR_MSG_CAPTCHA_AUTHENTICATION;
+import static com.xht.auth.constant.ErrorConstant.ERROR_MSG_PASSWORD_ERROR;
+
 /**
  * 描述 ：抽象认证处理器
  *
@@ -36,10 +40,15 @@ import java.util.stream.Collectors;
 public abstract class AbstractAuthenticationProvider implements AuthenticationProvider {
 
     protected static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
+
     protected static final OAuth2TokenType ID_TOKEN_TOKEN_TYPE = new OAuth2TokenType(OidcParameterNames.ID_TOKEN);
+
     protected final AuthorizationGrantType authorizationGrantType;
+
     protected final AuthenticationManager authenticationManager;
+
     protected final OAuth2AuthorizationService authorizationService;
+
     protected final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
 
     public AbstractAuthenticationProvider(AuthorizationGrantType authorizationGrantType, AuthenticationManager authenticationManager, OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
@@ -63,7 +72,16 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
         // 验证scope
         Set<String> authorizedScopes = getAuthorizedScopes(registeredClient, authenticationToken.getScopes());
         RequestUserBO requestUserBO = RequestUserBO.builderUser(authenticationToken.getAdditionalParameters());
-        Authentication authenticate = doAuthenticate(requestUserBO);
+        Authentication authenticate;
+        try {
+            authenticate = doAuthenticate(requestUserBO);
+        } catch (CaptchaException e) {
+            log.error("认证失败：验证码错误:{}", e.getMessage(), e);
+            throw new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.INVALID_REQUEST, ERROR_MSG_CAPTCHA_AUTHENTICATION, ERROR_URI));
+        } catch (Exception e) {
+            log.error("认证失败：账号或密码错误:{}", e.getMessage(), e);
+            throw new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.INVALID_REQUEST, ERROR_MSG_PASSWORD_ERROR, ERROR_URI));
+        }
         // @formatter:off
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .authorizedScopes(authorizedScopes)

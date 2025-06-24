@@ -60,6 +60,7 @@ public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
         if (Objects.equals(LoginTypeEnums.CODE, requestUserBO.getLoginType())) {
             String captcha = requestUserBO.getCaptcha();
             if (StringUtils.isEmpty(captcha)) {
+                log.error("Captcha is empty.");
                 throw new CaptchaException("请输入验证码！");
             }
             // 验证码校验逻辑
