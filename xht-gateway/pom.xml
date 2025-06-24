@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.xht</groupId>
         <artifactId>xht-platform</artifactId>
-        <version>1.0.0</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>xht-gateway</artifactId>
@@ -42,7 +42,7 @@
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-framework-core</artifactId>
+            <artifactId>xht-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 

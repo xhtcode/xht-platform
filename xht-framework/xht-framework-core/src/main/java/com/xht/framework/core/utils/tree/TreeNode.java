@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * 描述 ：树节点
  *
- * @author 小糊涂
+ * @author xht
  **/
 @SuppressWarnings("all")
 public class TreeNode<T> extends LinkedHashMap<String, Object> implements INode<T> {

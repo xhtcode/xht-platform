@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hongxin.notice.mapper.NoticeScheduleMapper">
+
+    <!-- 查询即将转正的员工 -->
+    <select id="selectProbationExpireUsers" resultType="map">
+        SELECT
+            u.user_id,
+            u.nick_name,
+            u.dept_id,
+            c.trial_time,
+            DATEDIFF(c.trial_time, CURDATE()) AS days_remaining
+        FROM hongxin_work_systeam.sys_user u
+                 LEFT JOIN hongxin_work_archive.hx_contract c ON u.user_id = c.user_id
+        WHERE u.employment_type = '2'
+          AND u.status = '0'
+          AND u.del_flag = '0'
+          AND c.trial_time IS NOT NULL
+          AND c.trial_time >= CURDATE()
+          AND c.trial_time <![CDATA[<=]]> DATE_ADD(CURDATE(), INTERVAL 14 DAY)
+        ORDER BY c.trial_time ASC
+    </select>
+
+    <!-- 查询即将到期的合同员工 -->
+    <select id="selectContractExpireUsers" resultType="map">
+        SELECT
+            u.user_id,
+            u.nick_name,
+            u.dept_id,
+            c.expire_time,
+            DATEDIFF(c.expire_time, CURDATE()) AS days_remaining
+        FROM hongxin_work_systeam.sys_user u
+                 LEFT JOIN hongxin_work_archive.hx_contract c ON u.user_id = c.user_id
+        WHERE u.status = '0'
+          AND u.del_flag = '0'
+          AND c.expire_time IS NOT NULL
+          AND c.expire_time >= CURDATE()
+          AND c.expire_time <![CDATA[<=]]> DATE_ADD(CURDATE(), INTERVAL 3 MONTH)
+          AND c.sign_time = (
+            SELECT MAX(c2.sign_time)
+            FROM hongxin_work_archive.hx_contract c2
+            WHERE c2.user_id = c.user_id
+        )
+        ORDER BY c.expire_time ASC
+    </select>
+
+    <!-- 查询即将到期的身份证员工 -->
+    <select id="selectIdCardExpireUsers" resultType="map">
+        SELECT
+            u.user_id,
+            u.nick_name,
+            u.dept_id,
+            u.id_card_end,
+            DATEDIFF(STR_TO_DATE(u.id_card_end, '%Y-%m-%d'), CURDATE()) AS days_remaining
+        FROM hongxin_work_systeam.sys_user u
+        WHERE u.status = '0'
+          AND u.del_flag = '0'
+          AND u.id_card_end IS NOT NULL
+          AND STR_TO_DATE(u.id_card_end, '%Y-%m-%d') >= CURDATE()
+          AND STR_TO_DATE(u.id_card_end, '%Y-%m-%d') <![CDATA[<=]]> DATE_ADD(CURDATE(), INTERVAL 6 MONTH)
+        ORDER BY STR_TO_DATE(u.id_card_end, '%Y-%m-%d') ASC
+    </select>
+
+    <!-- 查询今天生日的员工 -->
+    <select id="selectBirthdayUsers" resultType="map">
+        SELECT
+            u.user_id,
+            u.nick_name,
+            u.dept_id,
+            u.id_card,
+            DATE_FORMAT(STR_TO_DATE(SUBSTRING(u.id_card, 11, 4), '%m%d'), '%m-%d') AS birthday
+        FROM hongxin_work_systeam.sys_user u
+        WHERE u.status = '0'
+          AND u.del_flag = '0'
+          AND u.id_card IS NOT NULL
+          AND LENGTH(u.id_card) >= 14
+          AND DATE_FORMAT(STR_TO_DATE(SUBSTRING(u.id_card, 11, 4), '%m%d'), '%m-%d') = #{todayPattern}
+        ORDER BY u.nick_name ASC
+    </select>
+
+    <!-- 查询今天入职周年的员工 -->
+    <select id="selectSeniorityUsers" resultType="map">
+        SELECT
+            u.user_id,
+            u.nick_name,
+            u.dept_id,
+            u.hire_date,
+            YEAR(CURDATE()) - YEAR(u.hire_date) AS seniority_years
+        FROM hongxin_work_systeam.sys_user u
+        WHERE u.status = '0'
+          AND u.del_flag = '0'
+          AND u.hire_date IS NOT NULL
+          AND DATE_FORMAT(u.hire_date, '%m-%d') = #{todayPattern}
+          AND YEAR(CURDATE()) - YEAR(u.hire_date) > 0
+        ORDER BY u.hire_date ASC
+    </select>
+
+    <!-- 根据HR岗位职责查询HR用户 -->
+    <select id="selectHrUsersByClassification" resultType="long">
+        SELECT u.user_id
+        FROM hongxin_work_systeam.sys_user u
+        WHERE u.hr_job_classification = #{hrJobClassification}
+          AND u.status = '0'
+          AND u.del_flag = '0'
+        ORDER BY u.user_id ASC
+    </select>
+
+    <!-- 根据部门ID查询部门负责人 -->
+    <select id="selectDeptManagerByDeptId" resultType="long">
+        SELECT u.user_id
+        FROM hongxin_work_systeam.sys_dept d
+                 LEFT JOIN hongxin_work_systeam.sys_user u ON d.leader_id = u.user_id
+        WHERE d.dept_id = #{deptId}
+          AND d.status = '0'
+          AND d.del_flag = '0'
+          AND u.status = '0'
+          AND u.del_flag = '0'
+        LIMIT 1
+    </select>
+
+    <!-- 插入通知记录 -->
+    <insert id="insertNoticeRecord" parameterType="com.hongxin.notice.domain.HxNoticeRecord">
+        INSERT INTO hongxin_work_notice.hx_notice_record
+        (
+            id,
+            notice_id,
+            template_code,
+            target_employee_id,
+            recipient_employee_id,
+            company_id,
+            recipient_role,
+            notice_title,
+            status,
+            trigger_time,
+            expire_time,
+            tenant_id,
+            created_by,
+            created_time,
+            updated_by,
+            updated_time
+        )
+        VALUES
+            (
+                #{id},
+                #{noticeId},
+                #{templateCode},
+                #{targetEmployeeId},
+                #{recipientEmployeeId},
+                #{companyId},
+                #{recipientRole},
+                #{noticeTitle},
+                #{status},
+                #{triggerTime},
+                #{expireTime},
+                #{tenantId},
+                #{createdBy},
+                #{createdTime},
+                #{updatedBy},
+                #{updatedTime}
+            )
+    </insert>
+
+    <!-- 检查是否存在重复通知记录 -->
+    <select id="checkDuplicateNotice" resultType="int">
+        SELECT COUNT(1)
+        FROM hongxin_work_notice.hx_notice_record
+        WHERE target_employee_id = #{targetEmployeeId}
+          AND recipient_employee_id = #{recipientEmployeeId}
+          AND recipient_role = #{recipientRole}
+          AND template_code = #{templateCode}
+          AND DATE(trigger_time) = CURDATE()
+    </select>
+
+</mapper>

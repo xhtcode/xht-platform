@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 描述 ：Integer 转 IEnum枚举工厂
  *
- * @author 小糊涂
+ * @author xht
  **/
 public class IEnumsIntegerConverterFactory implements ConverterFactory<Integer, IEnum<Integer>> {
 

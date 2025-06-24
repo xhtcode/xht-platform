@@ -13,29 +13,5 @@ spring:
             - Path=/auth/**
           filters:
             - StripPrefix=1
-# spring doc 网关聚合配置
-knife4j:
-  gateway:
-    enabled: true
-    strategy: discover
-    discover:
-      version: openapi3
-      excluded-services:
-        - xht-cloud-gateway
-      service-config:
-        xht-cloud-system:
-          group-name: xht-cloud-system
-          context-path: admin
-          order: 1
-    routes:
-      - service-name: xht-cloud-system
-        name: xht-cloud-system(系统管理)
-        url: /admin/v3/api-docs/系统管理
-        context-path: /admin
-        order: 1
-      - service-name: xht-cloud-system
-        name: xht-cloud-system(oauth2)
-        url: /admin/v3/api-docs/oauth2
-        context-path: /admin
-        order: 2
+
 

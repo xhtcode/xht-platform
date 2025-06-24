@@ -17,7 +17,7 @@ import java.util.*;
 /**
  * 描述 ： 抽象 认证转换器
  *
- * @author 小糊涂
+ * @author xht
  **/
 public abstract class AbstractAuthenticationConverter implements AuthenticationConverter {
 

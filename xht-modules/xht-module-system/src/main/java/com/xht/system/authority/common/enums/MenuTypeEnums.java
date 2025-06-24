@@ -8,7 +8,7 @@ import lombok.Getter;
 /**
  * 描述 ：菜单类型
  *
- * @author 小糊涂
+ * @author xht
  * @version : 1.0
  **/
 @Getter

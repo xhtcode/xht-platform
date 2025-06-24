@@ -25,6 +25,12 @@
     <dependencyManagement>
         <!-- 管理项目的依赖版本，避免在各个子模块中重复定义 -->
         <dependencies>
+            <!-- spring-boot 启动器 -->
+            <dependency>
+                <groupId>com.xht</groupId>
+                <artifactId>xht-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!-- 核心模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
@@ -53,6 +59,12 @@
             <dependency>
                 <groupId>com.xht</groupId>
                 <artifactId>xht-framework-mybatis</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 安全模块依赖 -->
+            <dependency>
+                <groupId>com.xht</groupId>
+                <artifactId>xht-framework-security</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>

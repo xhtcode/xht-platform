@@ -3,7 +3,7 @@ package com.xht.auth.constant;
 /**
  * 描述 ： security 常量
  *
- * @author 小糊涂
+ * @author xht
  **/
 public interface SecurityConstant {
 

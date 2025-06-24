@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 /**
  * 描述 ：抽象认证处理器
  *
- * @author 小糊涂
+ * @author xht
  **/
 @Slf4j
 public abstract class AbstractAuthenticationProvider implements AuthenticationProvider {

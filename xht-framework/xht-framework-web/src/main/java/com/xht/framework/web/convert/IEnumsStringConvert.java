@@ -14,7 +14,7 @@ import java.util.Objects;
 /**
  * 描述 ：string 转 IEnum枚举
  *
- * @author 小糊涂
+ * @author xht
  **/
 @Slf4j
 public class IEnumsStringConvert implements Converter<String, IEnum<Serializable>> {

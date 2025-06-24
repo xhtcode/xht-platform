@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hongxin.notice.mapper.HxNoticeRecordMapper">
+
+    <!-- 分页查询办公通知列表 -->
+    <select id="selectNoticeListPage" resultType="com.hongxin.notice.domain.vo.NoticeListVo">
+        SELECT
+        hnr.id,
+        hnr.notice_id AS noticeId,
+        hnr.template_code AS templateCode,
+        hnr.target_employee_id AS targetEmployeeId,
+        su.nick_name AS targetEmployeeName,
+        hnr.recipient_employee_id AS recipientEmployeeId,
+        hnr.recipient_role AS recipientRole,
+        hnr.notice_title AS noticeTitle,
+        hnt.notice_type AS noticeType,
+        hnr.status,
+        hnr.trigger_time AS triggerTime,
+        hnr.expire_time AS expireTime,
+        hnr.created_time AS createdTime,
+        hnr.updated_time AS updatedTime
+        FROM hx_notice_record hnr
+        LEFT JOIN hx_notice_template hnt ON hnr.template_code = hnt.template_code
+        LEFT JOIN sys_user su ON hnr.target_employee_id = su.user_id
+        <where>
+            su.del_flag = '0'
+            <if test="dto.recipientEmployeeId != null">
+                AND hnr.recipient_employee_id = #{dto.recipientEmployeeId}
+            </if>
+            <if test="dto.noticeType != null">
+                AND hnt.notice_type = #{dto.noticeType}
+            </if>
+            <if test="dto.status != null">
+                AND hnr.status = #{dto.status}
+            </if>
+            <if test="dto.noticeTitle != null and dto.noticeTitle != ''">
+                AND hnr.notice_title LIKE CONCAT('%', #{dto.noticeTitle}, '%')
+            </if>
+        </where>
+        ORDER BY hnr.created_time DESC
+    </select>
+
+    <!-- 查询办公通知列表 -->
+    <select id="selectNoticeList" resultType="com.hongxin.notice.domain.vo.NoticeListVo">
+        SELECT
+        hnr.id,
+        hnr.notice_id AS noticeId,
+        hnr.template_code AS templateCode,
+        hnr.target_employee_id AS targetEmployeeId,
+        su.nick_name AS targetEmployeeName,
+        hnr.recipient_employee_id AS recipientEmployeeId,
+        hnr.recipient_role AS recipientRole,
+        hnr.notice_title AS noticeTitle,
+        hnt.notice_type AS noticeType,
+        hnr.status,
+        hnr.trigger_time AS triggerTime,
+        hnr.expire_time AS expireTime,
+        hnr.created_time AS createdTime,
+        hnr.updated_time AS updatedTime
+        FROM hx_notice_record hnr
+        LEFT JOIN hx_notice_template hnt ON hnr.template_code = hnt.template_code
+        LEFT JOIN sys_user su ON hnr.target_employee_id = su.user_id
+        <where>
+            su.del_flag = '0'
+            <if test="dto.recipientEmployeeId != null">
+                AND hnr.recipient_employee_id = #{dto.recipientEmployeeId}
+            </if>
+            <if test="dto.noticeType != null">
+                AND hnt.notice_type = #{dto.noticeType}
+            </if>
+            <if test="dto.status != null">
+                AND hnr.status = #{dto.status}
+            </if>
+            <if test="dto.noticeTitle != null and dto.noticeTitle != ''">
+                AND hnr.notice_title LIKE CONCAT('%', #{dto.noticeTitle}, '%')
+            </if>
+        </where>
+        ORDER BY hnr.created_time DESC
+    </select>
+
+    <!-- 查询未读通知数量统计 -->
+    <select id="selectUnreadCount" resultType="com.hongxin.notice.domain.vo.UnreadCountVo">
+        SELECT
+            COUNT(1) AS totalCount,
+            COUNT(CASE WHEN hnt.notice_type = 1 THEN 1 END) AS contractExpireCount,
+            COUNT(CASE WHEN hnt.notice_type = 2 THEN 1 END) AS idCardExpireCount,
+            COUNT(CASE WHEN hnt.notice_type = 3 THEN 1 END) AS birthdayBlessingCount,
+            COUNT(CASE WHEN hnt.notice_type = 4 THEN 1 END) AS seniorityBlessingCount,
+            COUNT(CASE WHEN hnt.notice_type = 5 THEN 1 END) AS probationExpireCount
+        FROM hx_notice_record hnr
+                 LEFT JOIN hx_notice_template hnt ON hnr.template_code = hnt.template_code
+        WHERE hnr.status = 0
+          AND hnr.recipient_employee_id = #{recipientEmployeeId}
+    </select>
+
+    <!-- 批量更新通知状态 -->
+    <update id="batchUpdateStatus">
+        UPDATE hx_notice_record
+        SET status = #{status}, updated_time = NOW()
+        WHERE id IN
+        <foreach collection="noticeIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND recipient_employee_id = #{recipientEmployeeId}
+    </update>
+
+</mapper>

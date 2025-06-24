@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 描述 ：树节点父类
  *
- * @author 小糊涂
+ * @author xht
  **/
 @SuppressWarnings("all")
 public interface INode<T> extends Comparable<INode<T>>, Serializable {

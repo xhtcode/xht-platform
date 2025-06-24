@@ -1,10 +1,9 @@
-package com.xht.framework.mybatis.handlers;
+package com.xht.boot.mybatisplus.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.xht.framework.mybatis.enums.DelFlagEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
-import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
 
@@ -14,17 +13,19 @@ import java.time.LocalDateTime;
  * @author xht
  **/
 @Slf4j
-@SuppressWarnings("all")
 public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
+
+    private static final String DEFAULT_USERNAME = "anonymity";
+
 
     @Override
     public void insertFill(MetaObject metaObject) {
         log.info("MybatisPlusMetaObjectHandler start insert fill....");
         LocalDateTime now = LocalDateTime.now();
         this.strictInsertFill(metaObject, "createTime", () -> now, LocalDateTime.class);
-        this.strictInsertFill(metaObject, "createBy", this::getUserName, String.class);
+        this.strictInsertFill(metaObject, "createBy", () -> DEFAULT_USERNAME, String.class);
         this.strictInsertFill(metaObject, "updateTime", () -> now, LocalDateTime.class);
-        this.strictInsertFill(metaObject, "updateBy", this::getUserName, String.class);
+        this.strictInsertFill(metaObject, "updateBy", () -> DEFAULT_USERNAME, String.class);
         // 删除标记自动填充
         this.strictInsertFill(metaObject, "isDel", () -> DelFlagEnum.NORMAL, DelFlagEnum.class);
     }
@@ -34,26 +35,7 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
         log.info("start update fill....");
         LocalDateTime now = LocalDateTime.now();
         this.strictUpdateFill(metaObject, "updateTime", () -> now, LocalDateTime.class);
-        this.strictUpdateFill(metaObject, "updateBy", this::getUserName, String.class);
+        this.strictUpdateFill(metaObject, "updateBy", () -> DEFAULT_USERNAME, String.class);
     }
 
-
-    /**
-     * 审计字段自动填充
-     *
-     * @return {@link MetaObjectHandler}
-     */
-    @Bean
-    public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {
-        return new MybatisPlusMetaObjectHandler();
-    }
-
-    /**
-     * 当前的用户名
-     *
-     * @return 当前用户名
-     */
-    private String getUserName() {
-        return "anonymity";
-    }
 }

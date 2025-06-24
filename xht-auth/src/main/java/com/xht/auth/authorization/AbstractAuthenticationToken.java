@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * 描述 ： 抽象  令牌
  *
- * @author 小糊涂
+ * @author xht
  **/
 @Getter
 public abstract class AbstractAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {

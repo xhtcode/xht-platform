@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * 描述 ：string 转 IEnum枚举工厂
  *
- * @author 小糊涂
+ * @author xht
  **/
 public class IEnumsStringConverterFactory implements ConverterFactory<String, IEnum<Serializable>> {
 

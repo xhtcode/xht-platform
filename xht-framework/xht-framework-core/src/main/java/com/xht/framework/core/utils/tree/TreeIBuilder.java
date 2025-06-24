@@ -14,7 +14,7 @@ import java.util.Objects;
 /**
  * 描述 ：树节点构建器
  *
- * @author 小糊涂
+ * @author xht
  **/
 public class TreeIBuilder<E> implements Serializable {
 

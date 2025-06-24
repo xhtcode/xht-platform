@@ -168,6 +168,18 @@ public class R<T> {
     }
 
     /**
+     * 静态方法，根据错误码对象返回错误的响应结果，并允许自定义错误信息
+     *
+     * @param errorCode 错误码对象
+     * @param msg       自定义错误信息
+     * @param <T>       返回数据的类型
+     * @return 错误的响应结果
+     */
+    public static <T> R<T> error(int errorCode, String msg) {
+        return new R<>(errorCode, false, msg, null);
+    }
+
+    /**
      * 静态方法，根据错误码对象返回错误的响应结果，并携带错误数据
      *
      * @param data 错误数据

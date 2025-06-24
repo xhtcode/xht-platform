@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * 描述 ：Integer 转 IEnum枚举
  *
- * @author 小糊涂
+ * @author xht
  **/
 @Slf4j
 public class IEnumsIntegerConvert implements Converter<Integer, IEnum<Integer>> {

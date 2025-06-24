@@ -19,6 +19,8 @@
         <module>xht-framework-web</module>
         <module>xht-framework-swagger</module>
         <module>xht-framework-mybatis</module>
+        <module>xht-spring-boot-starter</module>
+        <module>xht-framework-security</module>
     </modules>
 
 </project>
