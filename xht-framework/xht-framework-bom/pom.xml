@@ -67,6 +67,11 @@
                 <artifactId>xht-framework-security</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.xht</groupId>
+                <artifactId>xht-framework-resource-server</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!-- nacos模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>

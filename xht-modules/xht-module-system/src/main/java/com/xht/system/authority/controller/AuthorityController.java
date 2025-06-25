@@ -7,6 +7,7 @@ import com.xht.system.authority.service.IAuthorityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +32,7 @@ public class AuthorityController {
      * @return 用户信息
      */
     @Operation(summary = "获取用户信息")
-    @RequestMapping("/user/profile/info")
+    @GetMapping("/user/profile/info")
     public R<AuthorityUserVO> getUserProfileInfo() {
         return R.ok(authorityService.getUserProfileInfo());
     }
@@ -43,7 +44,7 @@ public class AuthorityController {
      * @return 路由信息
      */
     @Operation(summary = "获取路由信息")
-    @RequestMapping("/user/profile/getRouters")
+    @GetMapping("/user/profile/getRouters")
     public R<List<INode<Long>>> getRouters() {
         return R.ok(authorityService.getRouters());
     }

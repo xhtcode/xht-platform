@@ -22,6 +22,7 @@
         <module>xht-spring-boot-starter</module>
         <module>xht-framework-security</module>
         <module>xht-framework-nacos</module>
+        <module>xht-framework-resource-server</module>
     </modules>
 
 </project>
