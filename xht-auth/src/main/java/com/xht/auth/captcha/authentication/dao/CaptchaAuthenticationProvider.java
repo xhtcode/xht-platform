@@ -1,6 +1,7 @@
 package com.xht.auth.captcha.authentication.dao;
 
 import com.xht.auth.captcha.exception.CaptchaException;
+import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.constant.enums.LoginTypeEnums;
 import com.xht.auth.domain.RequestUserBO;
 import com.xht.framework.core.utils.StringUtils;
@@ -28,9 +29,11 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Component
 public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
-
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    private ICaptchaService iCaptchaService;
 
     /**
      * 利用构造方法在通过{@link Component}注解初始化时
@@ -59,21 +62,32 @@ public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
         requestUserBO.checkLoginType();//todo 验证码校验逻辑 requestUserBO.getLoginType()
         if (Objects.equals(LoginTypeEnums.CODE, requestUserBO.getLoginType())) {
             String captcha = requestUserBO.getCaptcha();
-            if (StringUtils.isEmpty(captcha)) {
-                log.error("Captcha is empty.");
-                throw new CaptchaException("请输入验证码！");
+            try {
+                if (StringUtils.isEmpty(captcha)) {
+                    throw new CaptchaException("请输入验证码.");
+                }
+                // 验证码校验逻辑
+                String captchaId = requestUserBO.getCaptchaKey();
+                if (StringUtils.isEmpty(captchaId)) {
+                    throw new CaptchaException("验证码已失效.");
+                }
+                captchaId = requestUserBO.generateCaptchaKey();
+                Long expire = stringRedisTemplate.getExpire(captchaId, TimeUnit.SECONDS);
+                if (expire <= 0) {
+                    throw new CaptchaException("验证码已过期.");
+                }
+                String captchaCode = stringRedisTemplate.opsForValue().get(captchaId);
+                if (!StringUtils.equalsIgnoreCase(captchaCode, captcha)) {
+                    throw new CaptchaException("验证码错误.");
+                }
+            } catch (CaptchaException e) {
+                throw new CaptchaException(e.getMessage());
+            } catch (Exception e) {
+                log.error("验证码认证失败.", e);
+                throw new CaptchaException("验证码认证失败.");
+            } finally {
+                iCaptchaService.removeCaptcha(requestUserBO.getCaptchaKey());
             }
-            // 验证码校验逻辑
-            String captchaId = "captcha:" + httpServletRequest.getRequestedSessionId();
-            Long expire = stringRedisTemplate.getExpire(captchaId, TimeUnit.SECONDS);
-            if (expire <= 0) {
-                throw new CaptchaException("验证码已过期！");
-            }
-            String captchaCode = stringRedisTemplate.opsForValue().get(captchaId);
-            if (!StringUtils.equalsIgnoreCase(captchaCode, captcha)) {
-                throw new CaptchaException("验证码错误！");
-            }
-            stringRedisTemplate.delete(captchaId);
             return super.authenticate(authentication);
         }
         return super.authenticate(authentication);

@@ -8,6 +8,8 @@ import org.springframework.security.core.AuthenticationException;
  * @author xht
  **/
 public class CaptchaException extends AuthenticationException {
+
+
     /**
      * Constructs an {@code AuthenticationException} with the specified message and no
      * root cause.
@@ -17,4 +19,6 @@ public class CaptchaException extends AuthenticationException {
     public CaptchaException(String msg) {
         super(msg);
     }
+
+
 }

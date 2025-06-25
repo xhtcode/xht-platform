@@ -21,6 +21,7 @@
         <module>xht-framework-mybatis</module>
         <module>xht-spring-boot-starter</module>
         <module>xht-framework-security</module>
+        <module>xht-framework-nacos</module>
     </modules>
 
 </project>

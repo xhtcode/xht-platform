@@ -1,12 +1,15 @@
 package com.xht.auth.captcha.controller;
 
 import com.xht.auth.captcha.service.ICaptchaService;
+import com.xht.auth.constant.SecurityConstant;
 import com.xht.auth.domain.response.CaptchaResponse;
 import com.xht.framework.core.domain.R;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.xht.auth.constant.SecurityConstant.REQUEST_CAPTCHA_CODE_KEY;
 
 /**
  * @author xht
@@ -20,11 +23,11 @@ public class CaptchaController {
     /**
      * 登录验证码接口
      *
-     * @param request 请求对象
+     * @param captchaKey 验证码唯一标识
      * @return 验证码图片
      */
     @GetMapping("/login/captcha")
-    public R<CaptchaResponse> getCaptcha(HttpServletRequest request) {
-        return R.ok(captchaService.generateCaptcha(request));
+    public R<CaptchaResponse> getCaptcha(@RequestParam(value = REQUEST_CAPTCHA_CODE_KEY, required = false) String captchaKey) {
+        return R.ok(captchaService.generateCaptcha(captchaKey));
     }
 }

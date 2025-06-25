@@ -13,5 +13,11 @@ spring:
             - Path=/auth/**
           filters:
             - StripPrefix=1
+        - id: xht-system
+          uri: lb://xht-system #此处需要使用lb协议
+          predicates:
+            - Path=/admin/**
+          filters:
+            - StripPrefix=1
 
-
+# xht-system

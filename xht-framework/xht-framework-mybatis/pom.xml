@@ -8,10 +8,10 @@
         <artifactId>xht-framework</artifactId>
         <version>${revision}</version>
     </parent>
-
+    <name>xht-framework-mybatis</name>
     <artifactId>xht-framework-mybatis</artifactId>
-
-
+    <packaging>jar</packaging>
+    <description>xht-framework-mybatis mybatis plus 模块</description>
     <dependencies>
         <dependency>
             <groupId>com.baomidou</groupId>

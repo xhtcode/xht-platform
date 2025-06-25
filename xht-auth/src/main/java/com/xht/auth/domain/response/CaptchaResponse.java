@@ -11,11 +11,14 @@ import lombok.Data;
 @Data
 public class CaptchaResponse implements IResponse {
 
-
-    private String id;
     /**
-     * 验证码信息
+     * 验证码key
      */
-    private String captcha;
+    private String key;
+
+    /**
+     * 验证码code
+     */
+    private String code;
 
 }

@@ -33,4 +33,15 @@ public interface SecurityConstant {
     String REQUEST_CAPTCHA_CODE = "captcha_code";
 
 
+    /**
+     * 验证码key
+     */
+    String REQUEST_CAPTCHA_CODE_KEY = "captchaKey";
+
+
+    /**
+     * 验证码 redis key 前缀
+     */
+    String REDIS_CAPTCHA_CODE_KEY_PREFIX = "captcha:code:";
+
 }

@@ -30,6 +30,10 @@
             <groupId>com.xht</groupId>
             <artifactId>xht-framework-mybatis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-nacos</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

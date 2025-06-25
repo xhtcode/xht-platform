@@ -1,7 +1,9 @@
 package com.xht.auth.authorization;
 
 import com.xht.auth.captcha.exception.CaptchaException;
+import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.domain.RequestUserBO;
+import com.xht.framework.core.utils.spring.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;

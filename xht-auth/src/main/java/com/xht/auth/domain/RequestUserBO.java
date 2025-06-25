@@ -54,6 +54,11 @@ public class RequestUserBO implements Serializable {
      */
     private final String captcha;
 
+    /**
+     * 验证码key
+     */
+    private final String captchaKey;
+
 
     /**
      * 根据请求信息构建 用户
@@ -67,7 +72,8 @@ public class RequestUserBO implements Serializable {
         String grantType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_OAUTH2_GRANT_TYPE);
         String loginType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_LOGIN_TYPE);
         String captchaCode = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CAPTCHA_CODE);
-        return new RequestUserBO(username, password, grantType, LoginTypeEnums.of(loginType),captchaCode);
+        String captchaKey = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CAPTCHA_CODE_KEY);
+        return new RequestUserBO(username, password, grantType, LoginTypeEnums.of(loginType), captchaCode, captchaKey);
     }
 
     /**
@@ -86,6 +92,11 @@ public class RequestUserBO implements Serializable {
      */
     public void checkLoginType() {
         ThrowUtils.notNull(this.loginType, "loginType must not be null");
+    }
+
+
+    public String generateCaptchaKey() {
+        return String.format("%s%s", SecurityConstant.REDIS_CAPTCHA_CODE_KEY_PREFIX, captchaKey);
     }
 
 }
