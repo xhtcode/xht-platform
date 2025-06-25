@@ -1,37 +1,64 @@
 # xht-platform
 
-#### 介绍
-🎉 基于SpringBoot的权限管理系统 易读易懂、界面简洁美观。 任何其它重度依赖。直接运行即可用RBAC 权限管理系统。 🔝 🔝 记得上边点个star 关注更新。 
+## 介绍
+这是一个基于Spring Cloud Alibaba的微服务架构平台，包含认证中心、网关、系统模块等功能。平台使用OAuth2进行认证和授权，并提供部门、角色、用户、菜单、字典等基础管理功能。
 
-#### 软件架构
-软件架构说明
+## 软件架构
+- Spring Boot
+- Spring Cloud Alibaba
+- OAuth2
+- MyBatis Plus
+- Redis
+- Nacos
 
+## 安装教程
+1. 下载项目代码。
+2. 配置数据库信息（MySQL）。
+3. 配置Nacos服务。
+4. 启动各个微服务模块。
 
-#### 安装教程
+## 使用说明
+### 认证中心 (xht-auth)
+- 提供基于OAuth2的认证和授权功能。
+- 支持多种授权方式，如密码模式、客户端凭证模式等。
+- 使用Redis存储授权信息。
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+### 网关 (xht-gateway)
+- 提供统一的API入口。
+- 实现跨域处理和请求跟踪。
 
-#### 使用说明
+### 系统模块 (xht-module-system)
+#### 部门管理
+- 创建、删除、更新部门信息。
+- 支持部门状态管理。
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+#### 角色管理
+- 创建、删除、更新角色信息。
+- 支持角色状态管理。
+- 角色与菜单绑定。
 
-#### 参与贡献
+#### 用户管理
+- 用户注册、删除、更新。
+- 支持密码重置和状态管理。
+- 用户与部门、角色绑定。
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+#### 菜单管理
+- 创建、删除、更新菜单信息。
+- 支持菜单状态管理。
+- 菜单与角色绑定。
 
+#### 字典管理
+- 创建、删除、更新字典类型和字典项。
 
-#### 特技
+## 参与贡献
+1. Fork项目。
+2. 创建新分支。
+3. 提交代码。
+4. 创建Pull Request。
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+## 特技
+- 使用Spring Security进行安全控制。
+- 使用MyBatis Plus进行数据库操作。
+- 使用Redis进行数据缓存。
+- 使用Nacos进行服务发现和配置管理。
+- 使用Swagger进行API文档管理。
