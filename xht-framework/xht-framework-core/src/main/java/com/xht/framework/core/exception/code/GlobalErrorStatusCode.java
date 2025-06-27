@@ -16,9 +16,9 @@ public enum GlobalErrorStatusCode implements ErrorCode {
 
     BAD_REQUEST(400, "错误的请求"),
 
-    UNAUTHORIZED(401, "认证失败"),
+    UNAUTHORIZED(401, "未授权的访问"),
 
-    FORBIDDEN(403, "权限不足"),
+    FORBIDDEN(403, "禁止访问"),
 
     NOT_FOUND(404, "您要找的资源不见啦，有可能被外星人抓走了..."),
 

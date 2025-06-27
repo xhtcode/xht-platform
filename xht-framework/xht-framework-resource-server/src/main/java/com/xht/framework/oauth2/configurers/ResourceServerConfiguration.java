@@ -12,6 +12,8 @@ import com.xht.framework.oauth2.introspection.ResourceOpaqueTokenIntrospector;
 import com.xht.framework.oauth2.utils.JwtUtils;
 import com.xht.framework.security.configurers.CustomAuthorizeHttpRequestsConfigurer;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
+import com.xht.framework.security.web.Http401UnauthorizedEntryPoint;
+import com.xht.framework.security.web.access.Http401AccessDeniedHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -80,9 +82,13 @@ public class ResourceServerConfiguration {
                 .authorizeHttpRequests(requestsConfigurer)
                 .csrf(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(configurer -> {
-                    configurer.opaqueToken((token)->token.introspector(resourceOpaqueTokenIntrospector));
+                    configurer.opaqueToken((token) -> token.introspector(resourceOpaqueTokenIntrospector));
                     configurer.authenticationEntryPoint(resourceAuthenticationEntryPoint);
                     configurer.bearerTokenResolver(resourceBearerTokenResolver);
+                })
+                .exceptionHandling(handlingConfigurer -> {
+                    handlingConfigurer.authenticationEntryPoint(new Http401UnauthorizedEntryPoint());//请求未认证的接口
+                    handlingConfigurer.accessDeniedHandler(new Http401AccessDeniedHandler());// 请求未授权的接口
                 })
         ;
         // @formatter:on

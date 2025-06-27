@@ -1,6 +1,8 @@
 package com.xht.framework.security.configurers;
 
 import com.xht.framework.security.properties.PermitAllUrlProperties;
+import com.xht.framework.security.web.Http401UnauthorizedEntryPoint;
+import com.xht.framework.security.web.access.Http401AccessDeniedHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -50,6 +52,10 @@ public class SecurityConfigurer {
                 .authorizeHttpRequests(requestsConfigurer)
                 .csrf(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(Customizer.withDefaults())
+                .exceptionHandling(handlingConfigurer -> {
+                    handlingConfigurer.authenticationEntryPoint(new Http401UnauthorizedEntryPoint());//请求未认证的接口
+                    handlingConfigurer.accessDeniedHandler(new Http401AccessDeniedHandler());// 请求未授权的接口
+                })
         ;
         // @formatter:on
         return http.build();
