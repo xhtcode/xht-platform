@@ -1,64 +1,99 @@
-# xht-platform
 
-## 介绍
-这是一个基于Spring Cloud Alibaba的微服务架构平台，包含认证中心、网关、系统模块等功能。平台使用OAuth2进行认证和授权，并提供部门、角色、用户、菜单、字典等基础管理功能。
+
+# xht-platform
+这是一个开源平台，提供认证中心、网关、系统模块等基础功能，适用于微服务架构。
+
+## 项目介绍
+xht-platform 是一个基于 Spring Cloud 的微服务基础平台，包含认证中心、网关和系统模块，系统模块又包括部门管理、角色管理、用户管理、菜单管理、字典管理等功能。该项目适用于快速搭建微服务架构的后端管理系统。
 
 ## 软件架构
-- Spring Boot
-- Spring Cloud Alibaba
-- OAuth2
-- MyBatis Plus
-- Redis
-- Nacos
+- 使用 Spring Cloud Alibaba Nacos 作为注册中心
+- Spring Cloud Gateway 作为 API 网关
+- Spring Authorization Server 实现认证中心
+- Spring Security + OAuth2 实现权限控制
+- 使用 MyBatis Plus 与 MySQL 数据库交互
+- 使用 Redis 存储授权信息
+- 使用 MapStruct 进行实体转换
 
 ## 安装教程
-1. 下载项目代码。
-2. 配置数据库信息（MySQL）。
-3. 配置Nacos服务。
-4. 启动各个微服务模块。
+1. 安装 JDK 17+
+2. 安装 Maven 3.8+
+3. 安装 Nacos 2.2+
+4. 安装 MySQL 8.0+
+5. 克隆项目：`git clone [项目地址]`
+6. 使用 Maven 构建：`mvn clean install`
 
 ## 使用说明
 ### 认证中心 (xht-auth)
-- 提供基于OAuth2的认证和授权功能。
-- 支持多种授权方式，如密码模式、客户端凭证模式等。
-- 使用Redis存储授权信息。
+认证中心基于 Spring Authorization Server 实现，提供以下功能：
+- 多种认证方式 (密码、验证码等)
+- JWT 令牌生成与验证
+- 提供登录接口和验证码接口
 
 ### 网关 (xht-gateway)
-- 提供统一的API入口。
-- 实现跨域处理和请求跟踪。
+网关基于 Spring Cloud Gateway 实现，提供：
+- 路由管理
+- 跨域处理
+- 全局异常处理
+- 请求链路追踪
 
 ### 系统模块 (xht-module-system)
+系统模块包含以下子功能：
+
 #### 部门管理
-- 创建、删除、更新部门信息。
-- 支持部门状态管理。
+- 创建、删除、更新部门
+- 查询部门树
+- �
+- 管理部门状态
+- 部门岗位管理
 
 #### 角色管理
-- 创建、删除、更新角色信息。
-- 支持角色状态管理。
-- 角色与菜单绑定。
+- 创建、删除、更新角色
+- 查询角色列表
+- �
 
 #### 用户管理
-- 用户注册、删除、更新。
-- 支持密码重置和状态管理。
-- 用户与部门、角色绑定。
+- 用户注册、删除、更新
+- 用户状态管理
+- 用户部门绑定
+- 用户角色绑定
+- 密码重置与修改
 
 #### 菜单管理
-- 创建、删除、更新菜单信息。
-- 支持菜单状态管理。
-- 菜单与角色绑定。
+- 创建、删除、更新菜单
+- 查询菜单树
+- �
 
 #### 字典管理
-- 创建、删除、更新字典类型和字典项。
+- 字典类型管理
+- 字典项管理
+- 根据字典编码查询
 
 ## 参与贡献
-1. Fork项目。
-2. 创建新分支。
-3. 提交代码。
-4. 创建Pull Request。
+1. Fork 项目
+2. 创建新分支
+3. 提交代码
+4. 创建 Pull Request
+
+## 技术栈
+- Spring Cloud Alibaba
+- Spring Authorization Server
+- Spring Security
+- OAuth2
+- Redis
+- MyBatis Plus
+- MapStruct
+- Lombok
+- Swagger
 
 ## 特技
-- 使用Spring Security进行安全控制。
-- 使用MyBatis Plus进行数据库操作。
-- 使用Redis进行数据缓存。
-- 使用Nacos进行服务发现和配置管理。
-- 使用Swagger进行API文档管理。
+- 提供统一的响应结构 R<T>
+- 自动填充创建人、更新人信息
+- 支持统一的异常处理
+- 支持链路追踪
+- 提供代码生成器
+- 支持自动注册服务
+- 提供统一的跨域处理
+- 支持请求参数校验
+- 提供代码生成工具
+- 提供树形结构处理工具
