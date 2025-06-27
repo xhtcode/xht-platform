@@ -23,6 +23,7 @@
         <module>xht-framework-security</module>
         <module>xht-framework-nacos</module>
         <module>xht-framework-resource-server</module>
+        <module>xht-framework-cache</module>
     </modules>
 
 </project>

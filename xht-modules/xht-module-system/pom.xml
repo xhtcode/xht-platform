@@ -34,6 +34,10 @@
             <groupId>com.xht</groupId>
             <artifactId>xht-framework-nacos</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-resource-server</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

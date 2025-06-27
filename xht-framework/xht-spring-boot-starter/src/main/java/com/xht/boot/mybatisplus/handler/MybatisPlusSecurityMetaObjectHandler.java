@@ -2,7 +2,7 @@ package com.xht.boot.mybatisplus.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.xht.framework.mybatis.enums.DelFlagEnum;
-import com.xht.framework.security.SecurityUtils;
+import com.xht.framework.security.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 

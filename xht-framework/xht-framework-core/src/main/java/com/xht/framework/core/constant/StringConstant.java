@@ -42,4 +42,9 @@ public interface StringConstant {
      * 全局通用 冒号
      */
     String COLON = ":";
+
+    /**
+     * 星号
+     */
+    String ASTERISK = "*";
 }

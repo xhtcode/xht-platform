@@ -25,13 +25,13 @@
     <dependencyManagement>
         <!-- 管理项目的依赖版本，避免在各个子模块中重复定义 -->
         <dependencies>
-            <!-- spring-boot 启动器 -->
+            <!-- cache缓存模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-spring-boot-starter</artifactId>
+                <artifactId>xht-framework-cache</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <!-- 核心模块依赖 -->
+            <!-- core核心模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
                 <artifactId>xht-framework-core</artifactId>
@@ -43,10 +43,28 @@
                 <artifactId>xht-framework-log</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <!-- 通信模块依赖 -->
+            <!-- mybatis模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-framework-web</artifactId>
+                <artifactId>xht-framework-mybatis</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- nacos模块依赖 -->
+            <dependency>
+                <groupId>com.xht</groupId>
+                <artifactId>xht-framework-nacos</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- resource-server资源服务器模块依赖 -->
+            <dependency>
+                <groupId>com.xht</groupId>
+                <artifactId>xht-framework-resource-server</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- security安全模块依赖 -->
+            <dependency>
+                <groupId>com.xht</groupId>
+                <artifactId>xht-framework-security</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- swagger模块依赖 -->
@@ -55,27 +73,16 @@
                 <artifactId>xht-framework-swagger</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <!-- mybatis模块依赖 -->
+            <!-- web通信模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-framework-mybatis</artifactId>
+                <artifactId>xht-framework-web</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <!-- 安全模块依赖 -->
+            <!-- spring-boot 启动器 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-framework-security</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.xht</groupId>
-                <artifactId>xht-framework-resource-server</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <!-- nacos模块依赖 -->
-            <dependency>
-                <groupId>com.xht</groupId>
-                <artifactId>xht-framework-nacos</artifactId>
+                <artifactId>xht-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>

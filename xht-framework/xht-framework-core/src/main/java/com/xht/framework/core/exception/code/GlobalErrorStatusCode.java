@@ -1,7 +1,7 @@
 package com.xht.framework.core.exception.code;
 
 
-import com.xht.framework.core.constant.basic.Constants;
+import com.xht.framework.core.constant.basic.RConstants;
 import lombok.Getter;
 
 /**
@@ -12,7 +12,7 @@ import lombok.Getter;
 @Getter
 public enum GlobalErrorStatusCode implements ErrorCode {
 
-    SUCCESS(Constants.SUCCESS, "成功"),
+    SUCCESS(RConstants.SUCCESS, "成功"),
 
     BAD_REQUEST(400, "错误的请求"),
 
@@ -24,7 +24,9 @@ public enum GlobalErrorStatusCode implements ErrorCode {
 
     PARAM_INVALID(415, "无效的请求参数"),
 
-    ERROR(Constants.FAIL, "服务器又在偷懒了，请稍后重试"),
+    FAILED_DEPENDENCY(424, "请求令牌已过期"),
+
+    ERROR(RConstants.FAIL, "服务器又在偷懒了，请稍后重试"),
     ;
 
 
@@ -37,7 +39,6 @@ public enum GlobalErrorStatusCode implements ErrorCode {
         this.code = code;
         this.msg = msg;
     }
-
 
 
 }
