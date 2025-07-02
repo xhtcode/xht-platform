@@ -7,12 +7,12 @@ import lombok.Data;
 import java.time.LocalDate;
 
 /**
- * 用户信息创建请求参数
+ * 用户信息表单请求参数
  *
  * @author xht
  **/
 @Data
-@Schema(description = "用户信息创建请求参数")
+@Schema(description = "用户信息表单请求参数")
 public class UserProfilesFormRequest extends FormRequest {
 
     /**

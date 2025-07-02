@@ -6,12 +6,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 系统菜单返回对象
+ * 系统菜单响应信息
  *
  * @author xht
  **/
 @Data
-@Schema(title = "系统菜单返回对象")
+@Schema(description = "系统菜单响应信息")
 public class SysMenuResponse extends BasicResponse {
     /**
      * 父菜单ID

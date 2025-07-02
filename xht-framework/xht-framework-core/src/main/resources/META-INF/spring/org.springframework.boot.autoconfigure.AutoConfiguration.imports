@@ -1,1 +1,2 @@
 com.xht.framework.core.utils.spring.SpringContextUtil
+com.xht.framework.core.properties.SecurityHeaderProperties

@@ -19,8 +19,4 @@ public @interface InnerAuth {
      */
     boolean isAnonymous() default true;
 
-    /**
-     * 是否校验用户信息
-     */
-    boolean isUser() default false;
 }

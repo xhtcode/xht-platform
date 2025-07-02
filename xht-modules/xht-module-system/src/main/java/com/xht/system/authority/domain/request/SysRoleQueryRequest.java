@@ -7,12 +7,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * 角色查询参数
+ * 角色分页查询参数
  *
  * @author xht
  **/
 @Data
-@Schema(description = "角色查询参数")
+@Schema(description = "角色分页查询参数")
 public class SysRoleQueryRequest extends PageQueryRequest {
 
     /**

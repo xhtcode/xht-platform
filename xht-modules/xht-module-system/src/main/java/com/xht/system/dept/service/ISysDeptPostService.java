@@ -17,7 +17,7 @@ public interface ISysDeptPostService {
     /**
      * 创建部门岗位
      *
-     * @param formRequest 部门岗位创建请求参数
+     * @param formRequest 部门岗位表单请求参数
      * @return 操作结果
      */
     Boolean create(SysDeptPostFormRequest formRequest);

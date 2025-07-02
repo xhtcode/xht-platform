@@ -8,12 +8,12 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 /**
- * 部门创建请求参数
+ * 部门表单请求参数
  *
  * @author xht
  */
 @Data
-@Schema(description = "部门创建请求参数")
+@Schema(description = "部门表单请求参数")
 public class SysDeptFormRequest extends FormRequest {
 
     /**

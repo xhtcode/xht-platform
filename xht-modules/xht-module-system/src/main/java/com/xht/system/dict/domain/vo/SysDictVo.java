@@ -8,10 +8,10 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 字典项视图对象
+ * 字典项视图对象响应信息
  */
 @Data
-@Schema(description = "字典项视图对象")
+@Schema(description = "字典项视图对象响应信息")
 public class SysDictVo extends SysDictResponse {
 
     @Schema(description = "字典项列表")

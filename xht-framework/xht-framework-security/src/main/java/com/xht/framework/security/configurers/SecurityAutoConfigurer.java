@@ -1,20 +1,15 @@
 package com.xht.framework.security.configurers;
 
-import cn.hutool.core.util.IdUtil;
+import com.xht.framework.core.properties.SecurityHeaderProperties;
+import com.xht.framework.security.aspect.InnerAuthAspect;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.crypto.password.BasicPasswordEncoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.security.KeyPair;
-import java.security.interfaces.RSAKey;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 
 /**
  * @author xht
@@ -44,5 +39,13 @@ public class SecurityAutoConfigurer {
         return new BasicUserDetailsService();
     }
 
-
+    /**
+     *
+     * @param securityHeaderProperties
+     * @return
+     */
+    @Bean
+    public InnerAuthAspect innerAuthAspect(SecurityHeaderProperties securityHeaderProperties) {
+        return new InnerAuthAspect(securityHeaderProperties);
+    }
 }

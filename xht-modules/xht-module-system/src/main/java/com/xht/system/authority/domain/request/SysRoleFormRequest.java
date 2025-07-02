@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 /**
- * 系统角色创建请求参数
+ * 系统角色表单请求参数
  *
  * @author xht
  **/

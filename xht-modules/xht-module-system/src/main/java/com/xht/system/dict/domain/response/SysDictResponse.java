@@ -6,10 +6,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 字典类型响应
+ * 字典类型响应信息
  */
 @Data
-@Schema(description = "字典类型响应")
+@Schema(description = "字典类型响应信息")
 public class SysDictResponse extends BasicResponse {
     /**
      * 字典ID

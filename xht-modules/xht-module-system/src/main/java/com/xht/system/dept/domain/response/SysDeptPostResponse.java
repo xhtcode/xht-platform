@@ -9,12 +9,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 部门岗位响应参数
+ * 部门岗位响应信息
  *
  * @author xht
  **/
 @Data
-@Schema(description = "部门岗位响应参数")
+@Schema(description = "部门岗位响应信息")
 public class SysDeptPostResponse extends BasicResponse {
     /**
      * 岗位ID

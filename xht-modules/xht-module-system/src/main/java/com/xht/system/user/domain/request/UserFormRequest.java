@@ -9,12 +9,12 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 /**
- * 用户创建请求参数
+ * 用户表单请求参数
  *
  * @author xht
  **/
 @Data
-@Schema(description = "用户创建请求参数")
+@Schema(description = "用户表单请求参数")
 public class UserFormRequest extends FormRequest {
 
     /**

@@ -9,6 +9,16 @@ package com.xht.framework.core.constant;
 public interface StringConstant {
 
     /**
+     * 未知字符串
+     */
+    String UNKNOWN = "unknown";
+
+    /**
+     * 分号
+     */
+    String SEMICOLON = ";";
+
+    /**
      * 全局通用分隔符
      */
     String SEPARATOR = ",";

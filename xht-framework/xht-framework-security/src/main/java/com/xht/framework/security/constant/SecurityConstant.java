@@ -17,5 +17,4 @@ public interface SecurityConstant {
      */
     String OAUTH2_CLIENT_ID = "clientId";
 
-
 }

@@ -1,4 +1,4 @@
-package com.xht.framework.web.utils;
+package com.xht.framework.core.utils;
 
 import com.xht.framework.core.jackson.JsonUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,17 +24,27 @@ import java.util.Optional;
 @Slf4j
 public final class HttpServletUtils {
 
+
     /**
      * 获取HttpServletRequest对象
      *
      * @return HttpServletRequest对象
      */
-    public static Optional<HttpServletRequest> getHttpServletRequest() {
+    public static Optional<HttpServletRequest> getOptHttpServletRequest() {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (!(requestAttributes instanceof ServletRequestAttributes)) {
             return Optional.empty();
         }
         return Optional.of(((ServletRequestAttributes) requestAttributes).getRequest());
+    }
+
+    /**
+     * 获取HttpServletRequest对象
+     *
+     * @return HttpServletRequest对象
+     */
+    public static HttpServletRequest getHttpServletRequest() {
+        return getOptHttpServletRequest().orElse(null);
     }
 
     /**

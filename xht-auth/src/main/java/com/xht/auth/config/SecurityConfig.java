@@ -40,25 +40,25 @@ public class SecurityConfig {
     //    return http.build();
     //}
 
-    @Bean
-    public RegisteredClientRepository registeredClientRepository() {
-        RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("oidc-client")
-                .clientSecret("{noop}secret")
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .authorizationGrantType(CustomAuthorizationGrantType.PASSWORD)
-                .redirectUri("http://127.0.0.1:3000/login")
-                .postLogoutRedirectUri("http://127.0.0.1:8080/")
-                .scope(OidcScopes.OPENID)
-                .scope(OidcScopes.PROFILE)
-                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).requireProofKey(true).build())
-                .build();
-
-        return new InMemoryRegisteredClientRepository(oidcClient);
-    }
+    //@Bean
+    //public RegisteredClientRepository registeredClientRepository() {
+    //    RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
+    //            .clientId("oidc-client")
+    //            .clientSecret("{noop}secret")
+    //            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+    //            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+    //            .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+    //            .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+    //            .authorizationGrantType(CustomAuthorizationGrantType.PASSWORD)
+    //            .redirectUri("http://127.0.0.1:3000/login")
+    //            .postLogoutRedirectUri("http://127.0.0.1:8080/")
+    //            .scope(OidcScopes.OPENID)
+    //            .scope(OidcScopes.PROFILE)
+    //            .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).requireProofKey(true).build())
+    //            .build();
+    //
+    //    return new InMemoryRegisteredClientRepository(oidcClient);
+    //}
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

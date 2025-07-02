@@ -20,7 +20,7 @@ public interface ISysMenuService {
     /**
      * 创建菜单
      *
-     * @param formRequest 菜单创建请求参数
+     * @param formRequest 菜单表单请求参数
      * @return 操作结果
      */
     Boolean create(SysMenuFormRequest formRequest);

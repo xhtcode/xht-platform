@@ -38,6 +38,10 @@
             <groupId>com.xht</groupId>
             <artifactId>xht-framework-resource-server</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-openfeign</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

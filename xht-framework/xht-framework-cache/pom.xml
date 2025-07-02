@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.xht</groupId>
         <artifactId>xht-framework</artifactId>
-        <version>1.0.0</version>
+        <version>${revision}</version>
     </parent>
 
     <name>xht-framework-cache</name>

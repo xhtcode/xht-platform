@@ -6,12 +6,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 查询字典项请求参数
+ * 查询字典项分页查询参数
  *
  * @author xht
  **/
 @Data
-@Schema(description = "查询字典项请求参数")
+@Schema(description = "查询字典项分页查询参数")
 public class SysDictItemQueryRequest extends PageQueryRequest {
 
     /**

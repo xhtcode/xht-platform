@@ -32,7 +32,7 @@ public class SysDeptPostController {
     /**
      * 创建部门岗位
      *
-     * @param formRequest 部门岗位创建请求参数
+     * @param formRequest 部门岗位表单请求参数
      * @return 操作结果
      */
     @Operation(summary = "创建部门岗位", description = "根据提供的请求参数创建一个新的部门岗位")

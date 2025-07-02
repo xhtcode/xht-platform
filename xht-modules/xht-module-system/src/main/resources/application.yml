@@ -40,7 +40,6 @@ xht:
   safety:
     xss:
       enable: true
-
 mybatis-plus:
   global-config:
     db-config:

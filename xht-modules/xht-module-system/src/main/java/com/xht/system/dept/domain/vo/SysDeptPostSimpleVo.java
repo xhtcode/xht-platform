@@ -6,12 +6,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 部门岗位简单信息
+ * 部门岗位简单响应信息
  *
  * @author xht
  **/
-@Schema(description = "部门岗位简单信息")
 @Data
+@Schema(description = "部门岗位简单响应信息")
 public class SysDeptPostSimpleVo implements IVO {
     /**
      * 岗位ID

@@ -38,7 +38,6 @@ public final class SecurityServletUtils {
         } catch (IOException ex) {
             log.error("写回错误信息失败", ex);
         }
-
     }
 
 }

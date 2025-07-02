@@ -7,11 +7,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 角色返回信息
+ * 角色响应信息
  *
  * @author xht
  **/
 @Data
+@Schema(description = "角色响应信息")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SysRoleResponse extends BasicResponse {
 

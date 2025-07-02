@@ -10,12 +10,12 @@ import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 /**
- * 系统菜单创建请求参数
+ * 系统菜单表单请求参数
  *
  * @author xht
  **/
 @Data
-@Schema(description = "系统菜单创建请求参数")
+@Schema(description = "系统菜单表单请求参数")
 public class SysMenuFormRequest extends FormRequest {
 
     /**

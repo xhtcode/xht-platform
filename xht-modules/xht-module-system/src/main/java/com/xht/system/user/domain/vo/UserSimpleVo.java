@@ -7,9 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
+ * 用户响应信息
  * @author xht
  **/
 @Data
+@Schema(description = "用户响应信息")
 @AllArgsConstructor
 public class UserSimpleVo implements IVO {
     /**

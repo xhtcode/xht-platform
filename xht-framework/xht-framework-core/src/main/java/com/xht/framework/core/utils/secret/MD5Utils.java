@@ -9,8 +9,19 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author xht
  **/
-public class MD5Utils {
+public final class MD5Utils {
+
     private static final char[] HEX_CHARS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+
+    private static final MessageDigest instance;
+
+    static {
+        try {
+            instance = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * 生成签名
@@ -29,9 +40,8 @@ public class MD5Utils {
 
     private static byte[] digest(byte[] bytes) {
         try {
-            MessageDigest instance = MessageDigest.getInstance("MD5");
             return instance.digest(bytes);
-        } catch (NoSuchAlgorithmException e) {
+        } catch (Exception e) {
             throw new IllegalStateException("Could not find MessageDigest with algorithm MD5", e);
         }
     }

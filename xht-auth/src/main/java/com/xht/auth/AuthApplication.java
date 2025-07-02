@@ -1,6 +1,7 @@
 package com.xht.auth;
 
 import com.xht.framework.oauth2.annotation.EnableResourceServer;
+import com.xht.framework.openfeign.annotation.EnableOpenFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -10,6 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *
  * @author xht
  **/
+@EnableOpenFeignClients
 @EnableResourceServer
 @EnableDiscoveryClient
 @SpringBootApplication

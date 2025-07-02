@@ -7,12 +7,12 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 用户权限信息
+ * 用户权限响应信息
  *
  * @author xht
  **/
 @Data
-@Schema(description = "用户权限信息")
+@Schema(description = "用户权限响应信息")
 public class AuthorityUserVO implements IVO, Serializable {
 
 

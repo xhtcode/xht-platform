@@ -9,11 +9,13 @@ import lombok.Data;
 import java.util.List;
 
 /**
+ * 部门树响应信息
+ *
  * @author xht
  **/
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@Schema(description = "部门树")
+@Schema(description = "部门树响应信息")
 public class SysDeptTreeVo extends SysDeptResponse implements IVO {
 
     /**

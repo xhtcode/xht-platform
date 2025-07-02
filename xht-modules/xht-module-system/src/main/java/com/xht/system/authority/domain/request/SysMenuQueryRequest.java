@@ -7,12 +7,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 系统菜单查询请求参数
+ * 系统菜单分页查询参数
  *
  * @author xht
  **/
 @Data
-@Schema(description = "系统菜单查询请求参数")
+@Schema(description = "系统菜单分页查询参数")
 public class SysMenuQueryRequest extends PageQueryRequest {
     /**
      * 父菜单ID
