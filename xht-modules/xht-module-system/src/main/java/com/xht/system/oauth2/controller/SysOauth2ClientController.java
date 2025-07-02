@@ -2,13 +2,13 @@ package com.xht.system.oauth2.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.web.validation.Groups;
 import com.xht.system.oauth2.domian.request.SysOauth2ClientFormRequest;
 import com.xht.system.oauth2.domian.request.SysOauth2ClientQueryRequest;
 import com.xht.system.oauth2.domian.response.SysOauth2ClientResponse;
 import com.xht.system.oauth2.service.ISysOauth2ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +36,7 @@ public class SysOauth2ClientController {
      */
     @Operation(summary = "创建OAuth2客户端")
     @PostMapping("/add")
-    public R<Boolean> create(@Valid @RequestBody SysOauth2ClientFormRequest formRequest) {
+    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysOauth2ClientFormRequest formRequest) {
         return R.ok(sysOauth2ClientService.create(formRequest));
     }
 
@@ -60,7 +60,7 @@ public class SysOauth2ClientController {
      */
     @Operation(summary = "修改OAuth2客户端")
     @PostMapping("/update")
-    public R<Boolean> updateById(@Validated @RequestBody SysOauth2ClientFormRequest formRequest) {
+     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysOauth2ClientFormRequest formRequest) {
         return R.ok(sysOauth2ClientService.updateById(formRequest));
     }
 

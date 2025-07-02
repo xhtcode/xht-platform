@@ -2,6 +2,7 @@ package com.xht.system.dict.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.web.validation.Groups;
 import com.xht.system.dict.domain.request.SysDictItemFormRequest;
 import com.xht.system.dict.domain.request.SysDictItemQueryRequest;
 import com.xht.system.dict.domain.response.SysDictItemResponse;
@@ -36,7 +37,7 @@ public class SysDictItemController {
      */
     @Operation(summary = "创建字典项")
     @PostMapping("/add")
-    public R<Boolean> create(@Validated @RequestBody SysDictItemFormRequest formRequest) {
+    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictItemFormRequest formRequest) {
         return R.ok(sysDictItemService.create(formRequest));
     }
 
@@ -60,7 +61,7 @@ public class SysDictItemController {
      */
     @Operation(summary = "修改字典项")
     @PostMapping("/update")
-    public R<Boolean> updateById(@Validated @RequestBody SysDictItemFormRequest formRequest) {
+     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictItemFormRequest formRequest) {
         return R.ok(sysDictItemService.updateById(formRequest));
     }
 

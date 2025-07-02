@@ -2,6 +2,7 @@ package com.xht.system.log.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.web.validation.Groups;
 import com.xht.system.log.domian.request.SysLogFormRequest;
 import com.xht.system.log.domian.request.SysLogQueryRequest;
 import com.xht.system.log.domian.response.SysLogResponse;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -33,7 +35,7 @@ public class SysLogController {
      */
     @PostMapping("/add")
     @Operation(summary = "创建系统日志")
-    public R<Boolean> create(@RequestBody SysLogFormRequest formRequest) {
+    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysLogFormRequest formRequest) {
         return R.ok(sysLogService.create(formRequest));
     }
 

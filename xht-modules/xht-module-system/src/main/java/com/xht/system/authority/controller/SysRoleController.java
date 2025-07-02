@@ -2,6 +2,7 @@ package com.xht.system.authority.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.web.validation.Groups;
 import com.xht.system.authority.common.enums.RoleStatusEnums;
 import com.xht.system.authority.domain.request.SysRoleFormRequest;
 import com.xht.system.authority.domain.request.SysRoleQueryRequest;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +40,7 @@ public class SysRoleController {
      */
     @Operation(summary = "创建角色", description = "根据提供的请求参数创建一个新的角色")
     @PostMapping("/add")
-    public R<Boolean> create(@RequestBody SysRoleFormRequest formRequest) {
+    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysRoleFormRequest formRequest) {
         return R.ok(sysRoleService.create(formRequest));
     }
 
@@ -74,7 +76,7 @@ public class SysRoleController {
      */
     @Operation(summary = "根据ID更新角色", description = "根据提供的角色更新请求参数更新角色")
     @PostMapping("/update")
-    public R<Boolean> updateById(@RequestBody SysRoleFormRequest formRequest) {
+     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysRoleFormRequest formRequest) {
         return R.ok(sysRoleService.updateById(formRequest));
     }
 

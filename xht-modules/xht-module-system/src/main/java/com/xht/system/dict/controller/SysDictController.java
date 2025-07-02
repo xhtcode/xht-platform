@@ -2,13 +2,13 @@ package com.xht.system.dict.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.web.validation.Groups;
 import com.xht.system.dict.domain.request.SysDictFormRequest;
 import com.xht.system.dict.domain.request.SysDictQueryRequest;
 import com.xht.system.dict.domain.response.SysDictResponse;
 import com.xht.system.dict.service.ISysDictService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +36,7 @@ public class SysDictController {
      */
     @Operation(summary = "创建字典类型")
     @PostMapping("/add")
-    public R<Boolean> create(@Valid @RequestBody SysDictFormRequest formRequest) {
+    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictFormRequest formRequest) {
         return R.ok(sysDictService.create(formRequest));
     }
 
@@ -60,7 +60,7 @@ public class SysDictController {
      */
     @Operation(summary = "修改字典类型")
     @PostMapping("/update")
-    public R<Boolean> updateById(@Validated @RequestBody SysDictFormRequest formRequest) {
+     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictFormRequest formRequest) {
         return R.ok(sysDictService.updateById(formRequest));
     }
 
