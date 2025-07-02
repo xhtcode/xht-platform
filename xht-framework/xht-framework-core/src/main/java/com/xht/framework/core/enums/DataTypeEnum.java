@@ -1,5 +1,6 @@
 package com.xht.framework.core.enums;
 
+import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,7 +11,7 @@ import lombok.Getter;
  **/
 @Getter
 @AllArgsConstructor
-public enum DataTypeEnum {
+public enum DataTypeEnum implements IEnum<Integer> {
 
     /**
      * 普通数据

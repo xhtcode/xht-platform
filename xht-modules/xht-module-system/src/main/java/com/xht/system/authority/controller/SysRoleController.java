@@ -33,7 +33,7 @@ public class SysRoleController {
     /**
      * 创建角色
      *
-     * @param formRequest 角色创建请求参数
+     * @param formRequest 角色表单请求参数
      * @return 操作结果
      */
     @Operation(summary = "创建角色", description = "根据提供的请求参数创建一个新的角色")

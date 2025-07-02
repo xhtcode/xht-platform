@@ -5,7 +5,7 @@ import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.constant.enums.LoginTypeEnums;
 import com.xht.auth.domain.RequestUserBO;
 import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.web.utils.HttpServletUtils;
+import com.xht.framework.core.utils.HttpServletUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +56,7 @@ public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
         if (requestAttributes == null) {
             throw new RuntimeException("Failed to get the current request.");
         }
-        HttpServletRequest httpServletRequest = HttpServletUtils.getHttpServletRequest().orElseThrow(() -> new RuntimeException("Failed to get the current request"));
+        HttpServletRequest httpServletRequest = HttpServletUtils.getOptHttpServletRequest().orElseThrow(() -> new RuntimeException("Failed to get the current request"));
         Map<String, Object> mapParameters = HttpServletUtils.getMapParameters(httpServletRequest);
         RequestUserBO requestUserBO = RequestUserBO.builderUser(mapParameters);
         requestUserBO.checkLoginType();//todo 验证码校验逻辑 requestUserBO.getLoginType()

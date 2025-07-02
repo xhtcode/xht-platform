@@ -1,0 +1,41 @@
+package com.xht.framework.core.properties;
+
+import com.xht.framework.core.constant.RequestConstant;
+import com.xht.framework.core.exception.utils.ThrowUtils;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+/**
+ * 描述 ：自定义 OpenFeign 配置
+ *
+ * @author 小糊涂
+ **/
+@Data
+@ConfigurationProperties(prefix = "xht.cloud.feign")
+public class SecurityHeaderProperties {
+
+    private Header header = new Header();
+
+    @Data
+    static class Header {
+
+        private String authKey = RequestConstant.HEADER_AUTH_KEY;
+
+        /**
+         * 授权请求头 值
+         */
+        private String authValue = "123456";
+
+    }
+
+    public String getAuthKey() {
+        ThrowUtils.notNull(header, "查询不到具体请求头配置");
+        return header.getAuthKey();
+    }
+
+    public String getAuthValue() {
+        ThrowUtils.notNull(header, "查询不到具体请求头配置");
+        return header.getAuthValue();
+    }
+
+}

@@ -46,7 +46,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
     /**
      * 根据创建请求创建系统字典项
      *
-     * @param formRequest 系统字典项创建请求参数
+     * @param formRequest 系统字典项表单请求参数
      * @return 创建的系统字典项实体
      */
     @Override

@@ -1,6 +1,6 @@
 package com.xht.framework.core.exception;
 
-import com.xht.framework.core.constant.basic.Constants;
+import com.xht.framework.core.constant.basic.RConstants;
 import com.xht.framework.core.exception.code.ErrorCode;
 import lombok.Getter;
 
@@ -19,7 +19,7 @@ public class BusinessException extends RuntimeException {
 
     public BusinessException(String message) {
         super(message);
-        this.code = Constants.FAIL;
+        this.code = RConstants.FAIL;
     }
 
     public BusinessException(int code, String message) {

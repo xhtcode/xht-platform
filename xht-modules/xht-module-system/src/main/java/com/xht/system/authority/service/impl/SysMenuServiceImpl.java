@@ -45,7 +45,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     /**
      * 创建菜单
      *
-     * @param formRequest 菜单创建请求参数
+     * @param formRequest 菜单表单请求参数
      * @return 操作结果
      */
     @Override
@@ -59,7 +59,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     /**
      * 检查上级菜单是否存在
      *
-     * @param formRequest 菜单创建请求参数
+     * @param formRequest 菜单表单请求参数
      */
     private void checkExitsParentMenu(SysMenuFormRequest formRequest) {
         if (Objects.equals(DEFAULT_PARENT_ID, formRequest.getParentId())) {

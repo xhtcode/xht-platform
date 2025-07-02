@@ -44,7 +44,7 @@ public final class MenuValidationFormat {
     /**
      * 菜单校验格式化
      *
-     * @param formRequest 菜单创建请求参数
+     * @param formRequest 菜单表单请求参数
      * @throws ValidationException 校验异常
      */
     public static void validationFormat(SysMenuFormRequest formRequest) {

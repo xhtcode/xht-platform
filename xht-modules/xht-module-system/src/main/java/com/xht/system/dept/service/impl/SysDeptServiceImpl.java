@@ -52,7 +52,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
     /**
      * 创建部门
      *
-     * @param formRequest 部门创建请求参数
+     * @param formRequest 部门表单请求参数
      * @return 操作结果
      */
     @Override

@@ -10,12 +10,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 用户信息视图对象
+ * 用户信息视图对象响应信息
  *
  * @author xht
  **/
 @Data
-@Schema(title = "用户信息视图对象")
+@Schema(description = "用户信息视图对象响应信息")
 public class SysUserVO extends SysUserResponse implements IVO {
 
     private SysUserProfilesResponse profile;

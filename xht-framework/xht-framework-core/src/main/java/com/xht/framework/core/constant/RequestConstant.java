@@ -9,13 +9,11 @@ public interface RequestConstant {
 
     // 请求头常量
     String HEADER_AUTHORIZATION = "Authorization";
-    String HEADER_TOKEN = "Token";
+    String HEADER_AUTH_KEY = "X-Auth-Key";
     String HEADER_USER_ID = "X-User-Id";
     String HEADER_USER_ACCOUNT = "X-User-Account";
     String HEADER_TRACE_ID = "X-Trace-Id";
     String HEADER_TENANT_ID = "X-Tenant-Id";
-    String HEADER_REQUEST_ID = "X-Request-Id";
-    String HEADER_CLIENT_IP = "X-Forwarded-For";
     String HEADER_USER_AGENT = "User-Agent";
     String HEADER_CONTENT_TYPE = "Content-Type";
     String HEADER_ACCEPT = "Accept";

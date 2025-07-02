@@ -9,7 +9,7 @@ import java.io.Serial;
  *
  * @author xht
  **/
-@Schema(title = "查询请求接口")
+@Schema(description = "查询参数")
 public abstract class QueryRequest implements IRequest {
 
 

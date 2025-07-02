@@ -8,18 +8,20 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 部门岗位Vo
+ * 部门岗位Vo响应信息
  *
  * @author xht
  **/
 @Data
-@Schema(title = "部门岗位信息")
+@Schema(description = "部门岗位响应信息")
 public class SysDeptPostVo extends SysDeptResponse implements IVO {
+
     /**
      * 岗位ID
      */
     @TableId(value = "岗位ID")
     private Long postId;
+
     /**
      * 岗位编码
      */
@@ -37,6 +39,7 @@ public class SysDeptPostVo extends SysDeptResponse implements IVO {
      */
     @Schema(description = "岗位排序")
     private Integer postSort;
+
     /**
      * 岗位状态（0正常 1停用）
      */

@@ -9,12 +9,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 /**
- * 用户查询请求对象
+ * 用户查询分页查询参数
  *
  * @author xht
  **/
 @Data
-@Schema(description = "用于分页查询用户信息的请求对象")
+@Schema(description = "用于分页查询用户信息的分页查询参数")
 public class UserQueryRequest extends PageQueryRequest {
 
     /**

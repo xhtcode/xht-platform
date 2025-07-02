@@ -18,7 +18,7 @@ public interface ISysRoleService {
     /**
      * 创建角色
      *
-     * @param formRequest 角色创建请求参数
+     * @param formRequest 角色表单请求参数
      * @return 操作结果
      */
     Boolean create(SysRoleFormRequest formRequest);

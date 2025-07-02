@@ -2,12 +2,6 @@ package com.xht.auth.convet;
 
 import com.xht.auth.domain.response.OAuth2ErrorResponse;
 import com.xht.framework.core.converter.IConverter;
-import com.xht.framework.core.domain.R;
-import com.xht.framework.web.utils.HttpServletUtils;
-import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.util.StringUtils;
 

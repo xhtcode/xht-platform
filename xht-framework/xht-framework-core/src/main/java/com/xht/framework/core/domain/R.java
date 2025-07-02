@@ -6,8 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import static com.xht.framework.core.constant.basic.Constants.SUCCESS;
-import static com.xht.framework.core.constant.basic.Constants.SUCCESS_MSG;
+import static com.xht.framework.core.constant.basic.RConstants.SUCCESS;
+import static com.xht.framework.core.constant.basic.RConstants.SUCCESS_MSG;
 import static com.xht.framework.core.exception.code.GlobalErrorStatusCode.ERROR;
 
 /**
@@ -201,4 +201,5 @@ public class R<T> {
     public static <T> R<T> errorData(ErrorCode errorCode, T data) {
         return new R<>(errorCode, false, null, data);
     }
+
 }

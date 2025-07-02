@@ -34,7 +34,7 @@ public class SysMenuController {
     /**
      * 创建菜单
      *
-     * @param formRequest 菜单创建请求参数
+     * @param formRequest 菜单表单请求参数
      * @return 操作结果
      */
     @Operation(summary = "创建菜单", description = "根据提供的请求参数创建一个新的菜单")

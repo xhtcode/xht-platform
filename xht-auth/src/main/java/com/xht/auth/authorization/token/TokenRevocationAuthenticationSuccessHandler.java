@@ -1,7 +1,7 @@
 package com.xht.auth.authorization.token;
 
 import com.xht.framework.core.domain.R;
-import com.xht.framework.web.utils.HttpServletUtils;
+import com.xht.framework.core.utils.HttpServletUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

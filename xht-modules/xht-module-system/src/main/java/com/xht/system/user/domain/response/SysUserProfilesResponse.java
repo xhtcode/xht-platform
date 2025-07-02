@@ -7,12 +7,12 @@ import lombok.Data;
 import java.time.LocalDate;
 
 /**
- * 用户详细信息
+ * 用户详细响应信息
  *
  * @author xht
  **/
 @Data
-@Schema(description = "用户详细信息")
+@Schema(description = "用户详细响应信息")
 public class SysUserProfilesResponse extends BasicResponse {
 
     /**
