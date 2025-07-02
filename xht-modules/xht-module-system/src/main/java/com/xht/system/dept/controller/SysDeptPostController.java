@@ -2,6 +2,7 @@ package com.xht.system.dept.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.web.validation.Groups;
 import com.xht.system.dept.domain.request.SysDeptPostFormRequest;
 import com.xht.system.dept.domain.request.SysDeptPostQueryRequest;
 import com.xht.system.dept.domain.response.SysDeptPostResponse;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,7 +39,7 @@ public class SysDeptPostController {
      */
     @Operation(summary = "创建部门岗位", description = "根据提供的请求参数创建一个新的部门岗位")
     @PostMapping("/add")
-    public R<Boolean> create(@Valid @RequestBody SysDeptPostFormRequest formRequest) {
+    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDeptPostFormRequest formRequest) {
         return R.ok(SysDeptPostService.create(formRequest));
     }
 
@@ -73,7 +75,7 @@ public class SysDeptPostController {
      */
     @Operation(summary = "根据ID更新部门岗位", description = "根据提供的部门岗位更新请求参数更新部门岗位")
     @PostMapping("/update")
-    public R<Boolean> updateById(@Valid @RequestBody SysDeptPostFormRequest formRequest) {
+    public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDeptPostFormRequest formRequest) {
         return R.ok(SysDeptPostService.updateById(formRequest));
     }
 

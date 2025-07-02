@@ -2,6 +2,7 @@ package com.xht.system.user.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.web.validation.Groups;
 import com.xht.system.user.common.enums.UserStatusEnums;
 import com.xht.system.user.domain.request.UpdatePwdRequest;
 import com.xht.system.user.domain.request.UserFormRequest;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -79,7 +81,7 @@ public class UserController {
      */
     @Operation(summary = "更新用户信息", description = "根据ID更新用户信息")
     @PostMapping("/update")
-    public R<Boolean> updateById(@Valid @RequestBody UserFormRequest formRequest) {
+     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody UserFormRequest formRequest) {
         return R.ok(userService.update(formRequest));
     }
 

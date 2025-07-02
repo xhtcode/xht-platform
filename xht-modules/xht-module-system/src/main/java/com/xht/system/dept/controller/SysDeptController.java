@@ -2,6 +2,7 @@ package com.xht.system.dept.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.tree.INode;
+import com.xht.framework.web.validation.Groups;
 import com.xht.system.dept.common.enums.DeptStatusEnums;
 import com.xht.system.dept.domain.request.SysDeptFormRequest;
 import com.xht.system.dept.domain.request.SysDeptQueryTreeRequest;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +38,7 @@ public class SysDeptController {
      */
     @PostMapping("/add")
     @Operation(summary = "创建部门")
-    public R<Boolean> create(@RequestBody SysDeptFormRequest formRequest) {
+    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDeptFormRequest formRequest) {
         return R.ok(sysDeptService.create(formRequest));
     }
 
@@ -61,7 +63,7 @@ public class SysDeptController {
      */
     @PostMapping("/update")
     @Operation(summary = "更新部门")
-    public R<Boolean> updateById(@RequestBody SysDeptFormRequest formRequest) {
+     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDeptFormRequest formRequest) {
         return R.ok(sysDeptService.updateById(formRequest));
     }
 

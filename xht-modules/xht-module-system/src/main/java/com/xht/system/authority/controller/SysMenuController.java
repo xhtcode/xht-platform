@@ -2,6 +2,7 @@ package com.xht.system.authority.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.tree.INode;
+import com.xht.framework.web.validation.Groups;
 import com.xht.system.authority.common.enums.MenuStatusEnums;
 import com.xht.system.authority.common.enums.MenuTypeEnums;
 import com.xht.system.authority.domain.request.SysMenuFormRequest;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +41,7 @@ public class SysMenuController {
      */
     @Operation(summary = "创建菜单", description = "根据提供的请求参数创建一个新的菜单")
     @PostMapping("/add")
-    public R<Boolean> create(@RequestBody SysMenuFormRequest formRequest) {
+    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysMenuFormRequest formRequest) {
         return R.ok(sysMenuService.create(formRequest));
     }
 
@@ -63,7 +65,7 @@ public class SysMenuController {
      */
     @Operation(summary = "根据ID更新菜单", description = "根据提供的菜单更新请求参数更新菜单")
     @PostMapping("/update")
-    public R<Boolean> updateById(@RequestBody SysMenuFormRequest formRequest) {
+     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysMenuFormRequest formRequest) {
         return R.ok(sysMenuService.updateById(formRequest));
     }
 
