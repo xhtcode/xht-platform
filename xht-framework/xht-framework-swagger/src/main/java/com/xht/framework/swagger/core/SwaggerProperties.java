@@ -1,5 +1,6 @@
 package com.xht.framework.swagger.core;
 
+import com.xht.framework.core.properties.IProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -9,8 +10,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author xht
  **/
 @Data
-@ConfigurationProperties(value = "xht.cloud.swagger")
-public class SwaggerProperties {
+@ConfigurationProperties(value = "xht.swagger")
+public class SwaggerProperties implements IProperties {
 
     /**
      * 标题

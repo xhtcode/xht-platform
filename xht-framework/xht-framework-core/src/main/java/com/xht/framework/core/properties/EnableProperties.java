@@ -1,4 +1,4 @@
-package com.xht.framework.core.domain.properties;
+package com.xht.framework.core.properties;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import lombok.Data;
  * @author xht
  **/
 @Data
-public abstract class CommonProperties {
+public abstract class EnableProperties implements IProperties {
 
     /**
      * 是否开启，默认为 true

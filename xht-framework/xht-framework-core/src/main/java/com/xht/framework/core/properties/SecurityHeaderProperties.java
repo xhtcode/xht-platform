@@ -12,7 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  **/
 @Data
 @ConfigurationProperties(prefix = "xht.cloud.feign")
-public class SecurityHeaderProperties {
+public class SecurityHeaderProperties implements IProperties {
 
     private Header header = new Header();
 

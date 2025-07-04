@@ -1,13 +1,11 @@
 package com.xht.framework.log.properties;
 
 import com.xht.framework.core.constant.ServiceNameConstant;
-import com.xht.framework.core.domain.properties.CommonProperties;
+import com.xht.framework.core.properties.EnableProperties;
 import com.xht.framework.core.properties.BasicFeignProperties;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ConfigurationProperties("xht.system.log")
-public final class BasicLogProperties extends CommonProperties {
+public final class BasicLogProperties extends EnableProperties {
 
     /**
      * 放行字段

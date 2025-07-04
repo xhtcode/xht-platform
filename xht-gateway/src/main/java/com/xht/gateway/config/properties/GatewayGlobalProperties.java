@@ -1,5 +1,6 @@
 package com.xht.gateway.config.properties;
 
+import com.xht.framework.core.properties.IProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -14,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RefreshScope
 @ConfigurationProperties(prefix = "xht.gateway.global")
-public class GatewayGlobalProperties {
+public class GatewayGlobalProperties implements IProperties {
 
     /**
      * 时间戳有效期（秒）

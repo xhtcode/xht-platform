@@ -1,6 +1,7 @@
 package com.xht.framework.security.web;
 
 import com.xht.framework.core.domain.R;
+import com.xht.framework.core.exception.code.GlobalErrorStatusCode;
 import com.xht.framework.security.utils.SecurityServletUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        SecurityServletUtils.writeString(response, HttpStatus.UNAUTHORIZED, R.errorMsgData("", authException.getMessage()));
+        log.error("请求未认证的接口 {} : {}", request.getRequestURI(), authException.getMessage());
+        SecurityServletUtils.writeString(response, HttpStatus.UNAUTHORIZED, R.errorData(GlobalErrorStatusCode.UNAUTHORIZED, authException.getMessage()));
     }
 }

@@ -1,2 +1,3 @@
 com.xht.framework.security.configurers.SecurityAutoConfigurer
 com.xht.framework.security.configurers.SecurityConfigurer
+com.xht.framework.security.properties.TokenProperties
