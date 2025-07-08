@@ -28,7 +28,7 @@ public class SysMenuManager extends BasicManager<SysMenuMapper, SysMenuEntity> {
      * @return 是否成功
      */
     @Transactional(rollbackFor = Exception.class)
-    public Boolean formRequest(SysMenuFormRequest formRequest) {
+    public Boolean updateFormRequest(SysMenuFormRequest formRequest) {
         LambdaUpdateWrapper<SysMenuEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper

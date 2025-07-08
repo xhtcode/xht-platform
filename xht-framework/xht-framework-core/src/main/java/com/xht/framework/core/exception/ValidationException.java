@@ -20,4 +20,9 @@ public class ValidationException extends RuntimeException {
         this.message = message;
     }
 
+    @Override
+    public String toString() {
+        String string = super.toString();
+        return string + "field:" + field;
+    }
 }

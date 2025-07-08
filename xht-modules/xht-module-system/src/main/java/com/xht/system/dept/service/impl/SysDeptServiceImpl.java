@@ -131,7 +131,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         entity.setDeptLevel(parentDept.getDeptLevel() + 1);
         entity.setAncestors(parentDept.getAncestors() + "," + parentDept.getId());
         entity.setLeaderName(leaderName);
-        return sysDeptManager.formRequest(entity, leaderUserId);
+        return sysDeptManager.updateFormRequest(entity, leaderUserId);
     }
 
     /**

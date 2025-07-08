@@ -28,7 +28,7 @@ public class SysDictItemManager extends BasicManager<SysDictItemMapper, SysDictI
      * @return 更新结果
      */
     @Transactional(rollbackFor = Exception.class)
-    public boolean formRequest(SysDictItemFormRequest formRequest) {
+    public boolean updateFormRequest(SysDictItemFormRequest formRequest) {
         // @formatter:off
         LambdaUpdateWrapper<SysDictItemEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.set(SysDictItemEntity::getDictId, formRequest.getDictId())

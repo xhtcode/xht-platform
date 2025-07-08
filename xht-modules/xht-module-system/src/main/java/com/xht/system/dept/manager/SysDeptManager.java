@@ -55,7 +55,7 @@ public class SysDeptManager extends BasicManager<SysDeptMapper, SysDeptEntity> {
      * @return true：成功；false：失败
      */
     @Transactional(rollbackFor = Exception.class)
-    public Boolean formRequest(SysDeptEntity formRequest, Long oldLeaderUserId) {
+    public Boolean updateFormRequest(SysDeptEntity formRequest, Long oldLeaderUserId) {
         LambdaUpdateWrapper<SysDeptEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper.set(SysDeptEntity::getDeptName, formRequest.getDeptName())

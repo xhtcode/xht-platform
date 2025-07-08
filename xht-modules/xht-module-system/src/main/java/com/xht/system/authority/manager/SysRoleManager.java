@@ -29,7 +29,7 @@ public class SysRoleManager extends BasicManager<SysRoleMapper, SysRoleEntity> {
      * @return 是否成功
      */
     @Transactional(rollbackFor = Exception.class)
-    public Boolean formRequest(SysRoleFormRequest formRequest) {
+    public Boolean updateFormRequest(SysRoleFormRequest formRequest) {
         LambdaUpdateWrapper<SysRoleEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(SysRoleEntity::getRoleCode, formRequest.getRoleCode());
         updateWrapper.set(SysRoleEntity::getRoleName, formRequest.getRoleName());

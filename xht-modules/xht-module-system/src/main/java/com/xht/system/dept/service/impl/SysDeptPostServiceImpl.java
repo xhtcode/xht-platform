@@ -101,7 +101,7 @@ public class SysDeptPostServiceImpl implements ISysDeptPostService {
         ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_NOT_EXIST, "部门不存在");
         Boolean postCodeExists = sysDeptPostManager.existsPostCode(formRequest.getDeptId(), formRequest.getPostCode(), formRequest.getId());
         ThrowUtils.throwIf(postCodeExists, BusinessErrorCode.DATA_NOT_EXIST, "岗位编码已存在");
-        return sysDeptPostManager.formRequest(formRequest);
+        return sysDeptPostManager.updateFormRequest(formRequest);
     }
 
     /**

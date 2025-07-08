@@ -1,5 +1,6 @@
 package com.xht.system.dept.domain.request;
 
+import com.xht.framework.core.constant.RegexConstant;
 import com.xht.framework.core.domain.request.FormRequest;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.dept.common.enums.DeptStatusEnums;
@@ -19,49 +20,49 @@ public class SysDeptFormRequest extends FormRequest {
     /**
      * 部门唯一标识
      */
-    @Null(message = "部门唯一标识不能为空", groups = {Groups.Create.class})
-    @NotNull(message = "部门唯一标识不能为空", groups = {Groups.Update.class})
-    @Positive(message = "部门唯一标识不合法")
+    @Null(message = "部门唯一标识必须为空", groups = {Groups.Create.class})
+    @NotNull(message = "部门唯一标识参数不合法", groups = {Groups.Update.class})
+    @Positive(message = "部门唯一标识参数不合法", groups = {Groups.Update.class})
     @Schema(description = "部门唯一标识", example = "101")
     private Long id;
 
     /**
      * 父部门id
      */
+    @NotNull(message = "父部门ID参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Digits(integer = 19, fraction = 0, message = "父部门ID必须为数字", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "父部门ID", example = "101")
-    @NotNull(message = "父部门ID不能为空")
-    @Digits(integer = 19, fraction = 0, message = "父部门ID必须为数字")
     private Long parentId;
 
     /**
      * 部门编码
      */
+    @NotBlank(message = "部门编码参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Pattern(regexp = RegexConstant.DEPT_CODE, message = "部门编码格式不正确，格式示例：DEPT001", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "部门编码", example = "DEPT001")
-    @NotBlank(message = "部门编码不能为空")
-    @Pattern(regexp = "^[A-Z]{2,5}\\d{3}$", message = "部门编码格式不正确，格式示例：DEPT001")
     private String deptCode;
 
     /**
      * 部门名称
      */
+    @NotBlank(message = "部门名称参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "部门名称", example = "技术部")
-    @NotBlank(message = "部门名称不能为空")
     private String deptName;
 
 
     /**
      * 状态（0正常 1停用）
      */
+    @NotNull(message = "部门状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "部门状态", example = "0")
-    @NotNull(message = "部门状态不能为空")
     private DeptStatusEnums deptStatus;
 
     /**
      * 显示顺序
      */
-    @Schema(description = "显示顺序", example = "1")
-    @NotNull(message = "显示顺序不能为空")
     @Min(value = 1, message = "显示顺序最小值为1")
+    @NotNull(message = "显示顺序参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "显示顺序", example = "1")
     private Integer deptSort;
 
 
@@ -74,17 +75,17 @@ public class SysDeptFormRequest extends FormRequest {
     /**
      * 联系电话
      */
+    @NotBlank(message = "联系电话参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Pattern(regexp = RegexConstant.MOBILE_PHONE, message = "联系电话格式不正确，格式示例：13800138000", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "联系电话", example = "13800138000")
-    @NotBlank(message = "联系电话不能为空")
-    @Pattern(regexp = "^1[3-9]\\d{9}$", message = "联系电话格式不正确，格式示例：13800138000")
     private String phone;
 
     /**
      * 邮箱
      */
+    @NotBlank(message = "邮箱参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Email(message = "邮箱格式不正确", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "邮箱", example = "zhangsan@example.com")
-    @NotBlank(message = "邮箱不能为空")
-    @Email(message = "邮箱格式不正确")
     private String email;
 
     /**

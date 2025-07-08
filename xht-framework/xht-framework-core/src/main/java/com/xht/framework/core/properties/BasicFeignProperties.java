@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BasicFeignProperties {
+public class BasicFeignProperties implements IProperties {
 
     /**
      * 服务名称唯一

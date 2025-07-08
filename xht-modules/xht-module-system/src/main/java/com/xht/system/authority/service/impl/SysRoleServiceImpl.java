@@ -90,7 +90,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
         Boolean roleExists = sysRoleManager.exists(SysRoleEntity::getId, formRequest.getId());
         ThrowUtils.throwIf(roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
-        return sysRoleManager.formRequest(formRequest);
+        return sysRoleManager.updateFormRequest(formRequest);
     }
 
     /**

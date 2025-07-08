@@ -1,6 +1,6 @@
 package com.xht.framework.web.xss;
 
-import com.xht.framework.core.domain.properties.CommonProperties;
+import com.xht.framework.core.properties.EnableProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -14,7 +14,7 @@ import java.util.List;
  **/
 @Data
 @ConfigurationProperties(prefix = "xht.safety.xss")
-public class XSSProperties extends CommonProperties {
+public class XSSProperties extends EnableProperties {
 
     /**
      * 需要排除的 URL，默认为空 白名单

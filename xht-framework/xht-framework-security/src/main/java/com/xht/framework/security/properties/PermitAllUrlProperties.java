@@ -1,6 +1,7 @@
 package com.xht.framework.security.properties;
 
 import cn.hutool.core.util.ReUtil;
+import com.xht.framework.core.properties.IProperties;
 import com.xht.framework.core.utils.spring.SpringContextUtil;
 import com.xht.framework.security.annotation.InnerAuth;
 import lombok.Data;
@@ -23,7 +24,7 @@ import java.util.regex.Pattern;
 @Slf4j
 @Data
 @ConfigurationProperties(prefix = "xht.security.ignore.whites")
-public class PermitAllUrlProperties implements InitializingBean {
+public class PermitAllUrlProperties implements InitializingBean, IProperties {
 
     /**
      * 正则表达式

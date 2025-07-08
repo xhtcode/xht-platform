@@ -1,21 +1,20 @@
 package com.xht.framework.log.properties;
 
 import com.xht.framework.core.constant.ServiceNameConstant;
-import com.xht.framework.core.domain.properties.CommonProperties;
-import com.xht.framework.core.properties.BasicFeignProperties;
+import com.xht.framework.core.properties.EnableProperties;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
-@ConfigurationProperties("xht.system.log")
-public final class BasicLogProperties extends CommonProperties {
+@ConfigurationProperties(prefix = "xht.system.log")
+public final class BasicLogProperties extends EnableProperties {
 
     /**
      * 放行字段
@@ -30,7 +29,8 @@ public final class BasicLogProperties extends CommonProperties {
     /**
      * 配置
      */
-    private BasicFeignProperties remote = new BasicFeignProperties("remoteLogClientService", ServiceNameConstant.SYSTEM_SERVICE, "/sys/log/save");
+    @NestedConfigurationProperty
+    private RemoteClientProperties remote;
 
     /**
      * @return 放行字段
@@ -46,4 +46,23 @@ public final class BasicLogProperties extends CommonProperties {
         excludeFields.add("email");
         return excludeFields;
     }
+
+    @Data
+    public static class RemoteClientProperties {
+        /**
+         * 服务名称唯一
+         */
+        private String contextId = "remoteLogClientService";
+
+        /**
+         * 服务名称
+         */
+        private String serviceName = ServiceNameConstant.SYSTEM_SERVICE;
+
+        /**
+         * 链接地址
+         */
+        private String url = "/sys/log/save";
+    }
+
 }

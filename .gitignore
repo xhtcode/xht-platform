@@ -41,7 +41,7 @@ target/
 .vscode
 
 ### logs ###
-/logs/
+/xht-logs/
 *.log
 
 ### temp ignore ###

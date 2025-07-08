@@ -3,6 +3,8 @@ package com.xht.system.oauth2.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.core.exception.code.BusinessErrorCode;
+import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.oauth2.converter.SysOauth2ClientConverter;
@@ -42,6 +44,8 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      */
     @Override
     public Boolean create(SysOauth2ClientFormRequest formRequest) {
+        Boolean exists = sysOauth2ClientManager.exists(SysOauth2ClientEntity::getClientId, formRequest.getClientId());
+        ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "客户端id已存在.");
         SysOauth2ClientEntity entity = sysOauth2ClientConverter.toEntity(formRequest);
         return sysOauth2ClientManager.saveTransactional(entity);
     }
@@ -66,8 +70,11 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      */
     @Override
     public Boolean updateById(SysOauth2ClientFormRequest formRequest) {
-        SysOauth2ClientEntity entity = sysOauth2ClientConverter.toEntity(formRequest);
-        return sysOauth2ClientManager.saveTransactional(entity);
+        Boolean deptExists = sysOauth2ClientManager.exists(SysOauth2ClientEntity::getId, formRequest.getId());
+        ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_NOT_EXIST, "客户端不存在");
+        Boolean exists = sysOauth2ClientManager.exists(SysOauth2ClientEntity::getClientId, formRequest.getClientId());
+        ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "客户端id已存在.");
+        return sysOauth2ClientManager.updateFormRequest(formRequest);
     }
 
     /**
@@ -107,5 +114,17 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
         // @formatter:on
         Page<SysOauth2ClientEntity> page = sysOauth2ClientManager.page(PageTool.getPage(queryRequest), queryWrapper);
         return sysOauth2ClientConverter.toResponse(page);
+    }
+
+    /**
+     * 根据clientId 获取客户端详情
+     *
+     * @param clientId 客户端id
+     * @return 客户端详情
+     */
+    @Override
+    public SysOauth2ClientResponse getClient(String clientId) {
+        SysOauth2ClientEntity sysOauth2ClientEntity = sysOauth2ClientManager.getOneOpt(SysOauth2ClientEntity::getClientId, clientId).orElse(null);
+        return sysOauth2ClientConverter.toResponse(sysOauth2ClientEntity);
     }
 }

@@ -24,6 +24,7 @@ public class Http401AccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+        log.error("请求未授权的接口处理器 {}: {}", request.getRequestURI(), accessDeniedException.getMessage());
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, accessDeniedException.getMessage());
         SecurityServletUtils.writeString(response, HttpStatus.UNAUTHORIZED, R.error(GlobalErrorStatusCode.UNAUTHORIZED, accessDeniedException.getMessage()));
     }

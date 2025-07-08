@@ -54,4 +54,11 @@ public interface ISysOauth2ClientService {
      * @return 分页结果
      */
     PageResponse<SysOauth2ClientResponse> findPage(SysOauth2ClientQueryRequest queryRequest);
+
+    /**
+     *  根据clientId 获取客户端详情
+     * @param clientId 客户端id
+     * @return 客户端详情
+     */
+    SysOauth2ClientResponse getClient(String clientId);
 }

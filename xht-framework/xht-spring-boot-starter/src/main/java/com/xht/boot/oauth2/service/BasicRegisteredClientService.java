@@ -2,8 +2,9 @@ package com.xht.boot.oauth2.service;
 
 import com.xht.boot.oauth2.domain.dto.OAuth2RegisteredClientDTO;
 import com.xht.boot.oauth2.feign.RemoteRegisteredClientService;
+import com.xht.boot.oauth2.function.OAuth2RegisteredClientFunction;
 import com.xht.framework.core.domain.R;
-import com.xht.framework.core.jackson.JsonUtils;
+import com.xht.framework.core.utils.ROptional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -43,9 +44,8 @@ public class BasicRegisteredClientService implements RegisteredClientRepository 
             return byClientId;
         }
         R<OAuth2RegisteredClientDTO> clientDetailsById = remoteRegisteredClientService.getClientDetailsById(clientId);
-        System.out.println(JsonUtils.toJsonString(clientDetailsById));
-        return null;
+        ROptional<OAuth2RegisteredClientDTO> rOptional = ROptional.of(clientDetailsById);
+        return rOptional.get().map(new OAuth2RegisteredClientFunction()).orElse(null);
     }
-
 
 }

@@ -90,7 +90,7 @@ public class SysDictServiceImpl implements ISysDictService {
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
         // 检查是否需要更新字典项状态和code
         boolean updateItemStatus = Objects.equals(exists.getStatus(), formRequest.getStatus()) && Objects.equals(exists.getDictCode(), formRequest.getDictCode());
-        return sysDictManager.formRequest(formRequest, !updateItemStatus);
+        return sysDictManager.updateRequest(formRequest, !updateItemStatus);
     }
 
     /**

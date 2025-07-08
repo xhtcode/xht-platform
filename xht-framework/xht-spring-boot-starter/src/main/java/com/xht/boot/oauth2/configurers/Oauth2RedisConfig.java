@@ -2,6 +2,7 @@ package com.xht.boot.oauth2.configurers;
 
 import com.xht.boot.oauth2.convert.*;
 import com.xht.boot.oauth2.feign.RemoteRegisteredClientService;
+import com.xht.boot.oauth2.feign.factory.RemoteRegisteredClientFallbackFactory;
 import com.xht.boot.oauth2.repository.OAuth2AuthorizationGrantAuthorizationRepository;
 import com.xht.boot.oauth2.repository.OAuth2RegisteredClientRepository;
 import com.xht.boot.oauth2.repository.OAuth2UserConsentRepository;
@@ -84,6 +85,12 @@ public class Oauth2RedisConfig {
     @ConditionalOnBean(value = {RemoteRegisteredClientService.class, RedisRegisteredClientRepository.class})
     public BasicRegisteredClientService basicRegisteredClientService(RemoteRegisteredClientService remoteRegisteredClientService, RedisRegisteredClientRepository redisRegisteredClientRepository) {
         return new BasicRegisteredClientService(redisRegisteredClientRepository, remoteRegisteredClientService);
+    }
+
+    @Bean
+    @ConditionalOnBean(value = {BasicRegisteredClientService.class})
+    public RemoteRegisteredClientFallbackFactory remoteRegisteredClientFallbackFactory() {
+        return new RemoteRegisteredClientFallbackFactory();
     }
 
     @Bean

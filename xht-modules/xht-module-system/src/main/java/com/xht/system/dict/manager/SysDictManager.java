@@ -60,7 +60,7 @@ public class SysDictManager extends BasicManager<SysDictMapper, SysDictEntity> {
      * @return 修改系统字典
      */
     @Transactional(rollbackFor = Exception.class)
-    public Boolean formRequest(SysDictFormRequest formRequest, boolean updateItemStatus) {
+    public Boolean updateRequest(SysDictFormRequest formRequest, boolean updateItemStatus) {
         LambdaUpdateWrapper<SysDictEntity> updateWrapper = new LambdaUpdateWrapper<>();
         //@formatter:off
         updateWrapper

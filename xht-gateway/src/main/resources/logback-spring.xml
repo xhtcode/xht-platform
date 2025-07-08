@@ -17,6 +17,7 @@
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${log.pattern}</pattern>
+<charset>UTF-8</charset>
         </encoder>
     </appender>
     <!-- 系统日志输出 -->
@@ -31,6 +32,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>${log.pattern}</pattern>
+<charset>UTF-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!-- 过滤的级别 -->
@@ -53,6 +55,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>${log.pattern}</pattern>
+<charset>UTF-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!-- 过滤的级别 -->
@@ -75,6 +78,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>${log.pattern}</pattern>
+<charset>UTF-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!-- 过滤的级别 -->
@@ -97,6 +101,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>${log.pattern}</pattern>
+<charset>UTF-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!-- 过滤的级别 -->
