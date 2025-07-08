@@ -1,5 +1,6 @@
 package com.xht.system.dept.domain.request;
 
+import com.xht.framework.core.constant.RegexConstant;
 import com.xht.framework.core.domain.request.FormRequest;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.dept.common.enums.DeptStatusEnums;
@@ -37,7 +38,7 @@ public class SysDeptFormRequest extends FormRequest {
      * 部门编码
      */
     @NotBlank(message = "部门编码参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Pattern(regexp = "^[A-Z]{2,5}\\d{3}$", message = "部门编码格式不正确，格式示例：DEPT001", groups = {Groups.Create.class, Groups.Update.class})
+    @Pattern(regexp = RegexConstant.DEPT_CODE, message = "部门编码格式不正确，格式示例：DEPT001", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "部门编码", example = "DEPT001")
     private String deptCode;
 
