@@ -50,7 +50,7 @@ public class SysDeptPostManager extends BasicManager<SysDeptPostMapper, SysDeptP
      * @return true：成功；false：失败
      */
     @Transactional(rollbackFor = Exception.class)
-    public Boolean formRequest(SysDeptPostFormRequest formRequest) {
+    public Boolean updateFormRequest(SysDeptPostFormRequest formRequest) {
         LambdaUpdateWrapper<SysDeptPostEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper.set(SysDeptPostEntity::getDeptId, formRequest.getDeptId())

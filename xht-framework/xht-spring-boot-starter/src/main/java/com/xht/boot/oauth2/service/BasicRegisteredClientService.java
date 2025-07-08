@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.util.Assert;
 
 import java.util.Objects;
-import java.util.function.Function;
 
 @Slf4j
 public class BasicRegisteredClientService implements RegisteredClientRepository {

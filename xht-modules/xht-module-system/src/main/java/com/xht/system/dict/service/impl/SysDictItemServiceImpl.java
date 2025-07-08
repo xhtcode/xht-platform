@@ -85,7 +85,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         // 校验字典项值 是否存在
         Boolean checkDictCode = sysDictItemManager.checkDictValue(id, formRequest.getDictId(), formRequest.getItemValue());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
-        return sysDictItemManager.formRequest(formRequest);
+        return sysDictItemManager.updateFormRequest(formRequest);
     }
 
     /**

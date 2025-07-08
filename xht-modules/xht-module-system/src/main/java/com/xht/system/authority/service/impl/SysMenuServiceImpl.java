@@ -99,7 +99,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
         checkExitsParentMenu(formRequest);
         Boolean menuExists = sysMenuManager.exists(SysMenuEntity::getId, formRequest.getId());
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "菜单不存在");
-        return sysMenuManager.formRequest(formRequest);
+        return sysMenuManager.updateFormRequest(formRequest);
     }
 
     /**

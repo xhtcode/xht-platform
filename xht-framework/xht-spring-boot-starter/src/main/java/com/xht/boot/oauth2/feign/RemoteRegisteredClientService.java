@@ -3,6 +3,7 @@ package com.xht.boot.oauth2.feign;
 import com.xht.boot.oauth2.domain.dto.OAuth2RegisteredClientDTO;
 import com.xht.boot.oauth2.feign.factory.RemoteRegisteredClientFallbackFactory;
 import com.xht.framework.core.domain.R;
+import com.xht.framework.openfeign.annotation.NoAuthentication;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
  *
  * @author xht
  **/
-@FeignClient(contextId = "${xht.security.oauth2.remote.client.context-id:remoteRegisteredClientService}", value = "${xht.security.oauth2.remote.client.service-name:xht-system}", fallbackFactory = RemoteRegisteredClientFallbackFactory.class)
+// @formatter:off
+@FeignClient(
+        contextId = "${xht.security.oauth2.remote.context-id:remoteRegisteredClientService}",
+        value = "${xht.security.oauth2.remote.service-name:xht-system}",
+        fallbackFactory = RemoteRegisteredClientFallbackFactory.class
+)
 public interface RemoteRegisteredClientService {
 
     /**
@@ -21,7 +27,9 @@ public interface RemoteRegisteredClientService {
      * @param clientId 用户名
      * @return R
      */
-    @GetMapping("${xht.security.oauth2.remote.client.url:/client/getClientDetailsById}/{clientId}")
+    @NoAuthentication
+    @GetMapping("${xht.security.oauth2.remote.url:/sys/oauth2/client/getClient}/{clientId}")
     R<OAuth2RegisteredClientDTO> getClientDetailsById(@PathVariable("clientId") String clientId);
 
 }
+// @formatter:on

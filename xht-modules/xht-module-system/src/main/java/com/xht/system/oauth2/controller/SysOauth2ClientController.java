@@ -2,6 +2,7 @@ package com.xht.system.oauth2.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.security.annotation.InnerAuth;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.oauth2.domian.request.SysOauth2ClientFormRequest;
 import com.xht.system.oauth2.domian.request.SysOauth2ClientQueryRequest;
@@ -22,7 +23,7 @@ import java.util.List;
  **/
 @Tag(name = "OAuth2客户端管理")
 @RestController
-@RequestMapping("/sys/oauth2")
+@RequestMapping("/sys/oauth2/client")
 @RequiredArgsConstructor
 public class SysOauth2ClientController {
 
@@ -86,6 +87,17 @@ public class SysOauth2ClientController {
     @GetMapping("/page")
     public R<PageResponse<SysOauth2ClientResponse>> findPage(SysOauth2ClientQueryRequest queryRequest) {
         return R.ok(sysOauth2ClientService.findPage(queryRequest));
+    }
+
+    /**
+     *  根据clientId 获取客户端详情
+     * @param clientId 客户端id
+     * @return 客户端详情
+     */
+    @InnerAuth
+    @GetMapping("/getClient/{clientId}")
+    public R<SysOauth2ClientResponse> getClient(@PathVariable("clientId") String clientId) {
+        return R.ok(sysOauth2ClientService.getClient(clientId));
     }
 
 }
