@@ -76,7 +76,7 @@ public class SysDeptFormRequest extends FormRequest {
      * 联系电话
      */
     @NotBlank(message = "联系电话参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Pattern(regexp = "^1[3-9]\\d{9}$", message = "联系电话格式不正确，格式示例：13800138000", groups = {Groups.Create.class, Groups.Update.class})
+    @Pattern(regexp = RegexConstant.MOBILE_PHONE, message = "联系电话格式不正确，格式示例：13800138000", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "联系电话", example = "13800138000")
     private String phone;
 

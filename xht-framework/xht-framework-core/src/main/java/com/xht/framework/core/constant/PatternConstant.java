@@ -8,6 +8,12 @@ import java.util.regex.Pattern;
  * @author xht
  **/
 public final class PatternConstant {
+
+    /**
+     * 手机号
+     */
+    public static final Pattern MOBILE_PHONE = Pattern.compile(RegexConstant.MOBILE_PHONE);
+
     /**
      * 身份证号(1代,15位数字)
      */
@@ -32,4 +38,5 @@ public final class PatternConstant {
      * 部门编码
      */
     public final static Pattern DEPT_CODE = Pattern.compile(RegexConstant.DEPT_CODE);
+
 }
