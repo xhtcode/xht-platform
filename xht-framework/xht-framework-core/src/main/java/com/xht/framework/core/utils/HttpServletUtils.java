@@ -1,5 +1,6 @@
 package com.xht.framework.core.utils;
 
+import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.jackson.JsonUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ import java.util.Optional;
  * @author xht
  **/
 @Slf4j
+@SuppressWarnings("all")
 public final class HttpServletUtils {
 
 
@@ -61,9 +63,9 @@ public final class HttpServletUtils {
     }
 
     /**
-     * @param request
-     * @param name
-     * @return
+     * @param request  HttpServletRequest
+     * @param name 请求参数key
+     * @return 请求参数value
      */
     public static String getParams(HttpServletRequest request, String name) {
         if (Objects.isNull(request)) return null;
@@ -95,8 +97,8 @@ public final class HttpServletUtils {
             response.setHeader("Access-Control-Allow-Origin", "*");
             // 允许自定义请求头token(允许head跨域)
             response.setHeader("Access-Control-Allow-Headers", "token, Accept, Origin, X-Requested-With, Content-Type, Last-Modified");
-            response.setContentType("application/json");
-            response.setCharacterEncoding("utf-8");
+            response.setContentType(HttpConstants.ContentType.APPLICATION_JSON_VALUE.getCode());
+            response.setCharacterEncoding(HttpConstants.Character.GBK.getCode());
             writer = response.getWriter();
             writer.print(JsonUtils.toJsonString(obj));
         } catch (IOException e) {

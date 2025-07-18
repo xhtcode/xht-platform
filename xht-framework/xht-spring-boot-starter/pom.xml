@@ -12,7 +12,7 @@
     <name>xht-spring-boot-starter</name>
     <artifactId>xht-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
-    <description>自定义springboot 启动器</description>
+    <description>自定义SpringBoot 启动器</description>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -60,12 +60,6 @@
         <dependency>
             <groupId>com.xht</groupId>
             <artifactId>xht-framework-resource-server</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!-- openfeign模块依赖 -->
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-framework-openfeign</artifactId>
             <optional>true</optional>
         </dependency>
     </dependencies>

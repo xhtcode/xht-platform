@@ -2,10 +2,10 @@ package com.xht.auth.captcha.authentication.dao;
 
 import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.auth.captcha.service.ICaptchaService;
-import com.xht.auth.constant.enums.LoginTypeEnums;
-import com.xht.auth.domain.RequestUserBO;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.HttpServletUtils;
+import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.security.constant.enums.LoginTypeEnums;
+import com.xht.framework.security.domain.RequestUserBO;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +60,7 @@ public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
         Map<String, Object> mapParameters = HttpServletUtils.getMapParameters(httpServletRequest);
         RequestUserBO requestUserBO = RequestUserBO.builderUser(mapParameters);
         requestUserBO.checkLoginType();//todo 验证码校验逻辑 requestUserBO.getLoginType()
-        if (Objects.equals(LoginTypeEnums.CODE, requestUserBO.getLoginType())) {
+        if (Objects.equals(LoginTypeEnums.PASSWORD, requestUserBO.getLoginType())) {
             String captcha = requestUserBO.getCaptcha();
             try {
                 if (StringUtils.isEmpty(captcha)) {

@@ -1,7 +1,6 @@
 package com.xht.auth.captcha.service;
 
-import com.xht.auth.domain.response.CaptchaResponse;
-import jakarta.servlet.http.HttpServletRequest;
+import com.xht.framework.security.domain.response.CaptchaResponse;
 
 /**
  * 验证码

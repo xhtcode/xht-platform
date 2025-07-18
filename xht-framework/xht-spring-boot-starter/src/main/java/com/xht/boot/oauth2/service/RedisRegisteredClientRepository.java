@@ -5,7 +5,6 @@ import com.xht.boot.oauth2.entity.OAuth2RegisteredClient;
 import com.xht.boot.oauth2.repository.OAuth2RegisteredClientRepository;
 import org.springframework.lang.Nullable;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.util.Assert;
 
 public class RedisRegisteredClientRepository  {

@@ -114,4 +114,10 @@ public class SysOauth2ClientFormRequest extends FormRequest {
      */
     @Schema(description = "是否自动放行")
     private String autoApprove;
+
+    /**
+     * 扩展信息
+     */
+    @Schema(description = "扩展信息")
+    private String additionalInformation;
 }

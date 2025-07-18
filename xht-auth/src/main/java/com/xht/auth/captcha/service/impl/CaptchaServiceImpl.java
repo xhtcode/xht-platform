@@ -5,7 +5,7 @@ import cn.hutool.captcha.ShearCaptcha;
 import cn.hutool.captcha.generator.MathGenerator;
 import cn.hutool.core.util.IdUtil;
 import com.xht.auth.captcha.service.ICaptchaService;
-import com.xht.auth.domain.response.CaptchaResponse;
+import com.xht.framework.security.domain.response.CaptchaResponse;
 import com.xht.framework.core.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
-import static com.xht.auth.constant.SecurityConstant.REDIS_CAPTCHA_CODE_KEY_PREFIX;
+import static com.xht.framework.security.constant.SecurityConstant.REDIS_CAPTCHA_CODE_KEY_PREFIX;
 
 /**
  * @author xht

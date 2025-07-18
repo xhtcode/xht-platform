@@ -1,8 +1,8 @@
 package com.xht.auth.authorization.password;
 
 import com.xht.auth.authorization.AbstractAuthenticationProvider;
-import com.xht.auth.constant.CustomAuthorizationGrantType;
-import com.xht.auth.domain.RequestUserBO;
+import com.xht.framework.oauth2.constant.CustomAuthorizationGrantType;
+import com.xht.framework.security.domain.RequestUserBO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
