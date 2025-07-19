@@ -5,6 +5,7 @@ import com.xht.boot.mybatisplus.handler.MybatisPlusMetaObjectHandler;
 import com.xht.boot.mybatisplus.handler.MybatisPlusSecurityMetaObjectHandler;
 import com.xht.framework.mybatis.MybatisAutoConfiguration;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * @author xht
  **/
 @Slf4j
+@AutoConfiguration
 @ConditionalOnClass(MybatisAutoConfiguration.class)
 public class MybatisPlusAutoMetaObjectAutoConfig {
 

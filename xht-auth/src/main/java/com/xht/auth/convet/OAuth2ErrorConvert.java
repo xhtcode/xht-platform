@@ -1,6 +1,6 @@
 package com.xht.auth.convet;
 
-import com.xht.auth.domain.response.OAuth2ErrorResponse;
+import com.xht.framework.oauth2.domain.response.OAuth2ErrorResponse;
 import com.xht.framework.core.converter.IConverter;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.util.StringUtils;

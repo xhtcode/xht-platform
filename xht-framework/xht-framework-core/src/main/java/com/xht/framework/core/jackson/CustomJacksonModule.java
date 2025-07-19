@@ -8,6 +8,8 @@ import com.fasterxml.jackson.datatype.jsr310.deser.*;
 import com.fasterxml.jackson.datatype.jsr310.deser.key.*;
 import com.fasterxml.jackson.datatype.jsr310.ser.*;
 import com.fasterxml.jackson.datatype.jsr310.ser.key.ZonedDateTimeKeySerializer;
+import com.xht.framework.core.jackson.databind.CustomInstantDeserializer;
+import com.xht.framework.core.jackson.databind.CustomInstantSerializer;
 
 import java.time.*;
 
@@ -23,7 +25,7 @@ public class CustomJacksonModule extends SimpleModule {
         super(PackageVersion.VERSION);
         // ======================= 序列化规则 ===============================
         addSerializer(Duration.class, DurationSerializer.INSTANCE);
-        addSerializer(Instant.class, InstantSerializer.INSTANCE);
+        addSerializer(Instant.class, new CustomInstantSerializer(DatePattern.NORM_DATETIME_MS_PATTERN));
         addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DatePattern.NORM_DATETIME_FORMATTER)); // yyyy-MM-dd HH:mm:ss
         addSerializer(LocalDate.class, new LocalDateSerializer(DatePattern.NORM_DATE_FORMATTER)); // yyyy-MM-dd
         addSerializer(LocalTime.class, new LocalTimeSerializer(DatePattern.NORM_TIME_FORMATTER));     // HH:mm:ss
@@ -52,7 +54,7 @@ public class CustomJacksonModule extends SimpleModule {
         addDeserializer(YearMonth.class, YearMonthDeserializer.INSTANCE);
         addDeserializer(ZoneId.class, JSR310StringParsableDeserializer.ZONE_ID);
         addDeserializer(ZoneOffset.class, JSR310StringParsableDeserializer.ZONE_OFFSET);
-        addDeserializer(Instant.class, InstantDeserializer.INSTANT);
+        addDeserializer(Instant.class, new CustomInstantDeserializer(DatePattern.NORM_DATETIME_MS_PATTERN));
         addDeserializer(OffsetDateTime.class, InstantDeserializer.OFFSET_DATE_TIME);
         addDeserializer(ZonedDateTime.class, InstantDeserializer.ZONED_DATE_TIME);
         // ======================= key序列化规则 ==============================

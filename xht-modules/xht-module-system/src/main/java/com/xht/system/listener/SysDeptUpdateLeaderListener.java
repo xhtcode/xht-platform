@@ -2,9 +2,9 @@ package com.xht.system.listener;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xht.system.event.SysDeptUpdateLeaderEvent;
-import com.xht.system.user.domain.entity.SysUserDeptEntity;
-import com.xht.system.user.manager.SysUserDeptManager;
-import com.xht.system.user.manager.SysUserManager;
+import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
+import com.xht.system.modules.user.dao.SysUserDeptDao;
+import com.xht.system.modules.user.dao.SysUserDao;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -24,9 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class SysDeptUpdateLeaderListener implements ApplicationListener<SysDeptUpdateLeaderEvent> {
 
-    private final SysUserDeptManager sysUserDeptManager;
+    private final SysUserDeptDao sysUserDeptManager;
 
-    private final SysUserManager sysUserManager;
+    private final SysUserDao sysUserManager;
 
     @Override
     @Transactional(rollbackFor = Exception.class)

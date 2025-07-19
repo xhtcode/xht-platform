@@ -54,7 +54,7 @@
             <!-- nacos模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-framework-nacos</artifactId>
+                <artifactId>xht-spring-cloud-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- openfeign模块依赖 -->

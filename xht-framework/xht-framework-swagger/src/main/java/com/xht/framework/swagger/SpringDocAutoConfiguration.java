@@ -39,7 +39,7 @@ public class SpringDocAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(OpenAPI.class)
-    public OpenAPI springShopOpenAPI() {
+    public OpenAPI getOpenAPI() {
         // @formatter:off
         Map<String, SecurityScheme> securitySchemas = buildSecuritySchemes();
         OpenAPI openAPI = new OpenAPI()

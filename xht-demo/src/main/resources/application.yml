@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: xht-demo
+  profiles:
+    active: dev
   datasource:
     password: 123456
     url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false

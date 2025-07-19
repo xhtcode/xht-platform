@@ -24,6 +24,7 @@
         <module>xht-modules</module>
         <module>xht-auth</module>
         <module>xht-gateway</module>
+        <module>xht-api</module>
     </modules>
 
     <!-- 定义项目属性 -->

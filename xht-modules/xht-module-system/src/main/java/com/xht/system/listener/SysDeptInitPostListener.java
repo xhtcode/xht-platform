@@ -1,14 +1,14 @@
 package com.xht.system.listener;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.xht.system.dept.domain.entity.SysDeptEntity;
-import com.xht.system.dept.domain.entity.SysDeptPostEntity;
-import com.xht.system.dept.manager.SysDeptManager;
-import com.xht.system.dept.manager.SysDeptPostManager;
+import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
+import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
+import com.xht.system.modules.dept.dao.SysDeptDao;
+import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.event.SysDeptInitPostEvent;
-import com.xht.system.user.domain.entity.SysUserDeptEntity;
-import com.xht.system.user.manager.SysUserDeptManager;
-import com.xht.system.user.manager.SysUserManager;
+import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
+import com.xht.system.modules.user.dao.SysUserDeptDao;
+import com.xht.system.modules.user.dao.SysUserDao;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -35,13 +35,13 @@ import static com.xht.framework.core.enums.SystemFlagEnums.YES;
 @AllArgsConstructor
 public class SysDeptInitPostListener implements ApplicationListener<SysDeptInitPostEvent> {
 
-    private final SysDeptPostManager sysDeptPostManager;
+    private final SysDeptPostDao sysDeptPostManager;
 
-    private final SysUserDeptManager sysUserDeptManager;
+    private final SysUserDeptDao sysUserDeptManager;
 
-    private final SysDeptManager sysDeptManager;
+    private final SysDeptDao sysDeptManager;
 
-    private final SysUserManager sysUserManager;
+    private final SysUserDao sysUserManager;
 
     @Override
     @Transactional(rollbackFor = Exception.class)

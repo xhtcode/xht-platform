@@ -26,5 +26,5 @@ public @interface EnableOpenFeignClients {
 
 
     @AliasFor(annotation = EnableFeignClients.class, attribute = "basePackages")
-    String[] basePackages() default {"com.xht"};
+    String[] basePackages() default {};
 }

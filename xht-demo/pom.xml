@@ -29,6 +29,10 @@
             <groupId>com.xht</groupId>
             <artifactId>xht-framework-mybatis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.xht</groupId>
+        <artifactId>xht-framework</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <name>xht-spring-cloud-starter</name>
+    <artifactId>xht-spring-cloud-starter</artifactId>
+    <packaging>jar</packaging>
+    <description>自定义SpringCloud 启动器</description>
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <!-- 核心模块依赖 -->
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-core</artifactId>
+        </dependency>
+        <!-- log日志记录模块依赖 -->
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-log</artifactId>
+        </dependency>
+        <!--注册中心客户端-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!--配置中心客户端-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-openfeign</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-spring-boot-starter</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-resource-server</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+</project>

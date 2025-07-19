@@ -19,12 +19,12 @@
         <module>xht-framework-web</module>
         <module>xht-framework-swagger</module>
         <module>xht-framework-mybatis</module>
-        <module>xht-spring-boot-starter</module>
         <module>xht-framework-security</module>
-        <module>xht-framework-nacos</module>
         <module>xht-framework-resource-server</module>
         <module>xht-framework-cache</module>
         <module>xht-framework-openfeign</module>
+        <module>xht-spring-boot-starter</module>
+        <module>xht-spring-cloud-starter</module>
     </modules>
 
 </project>

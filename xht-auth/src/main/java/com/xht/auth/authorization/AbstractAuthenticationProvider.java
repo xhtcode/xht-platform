@@ -1,9 +1,7 @@
 package com.xht.auth.authorization;
 
 import com.xht.auth.captcha.exception.CaptchaException;
-import com.xht.auth.captcha.service.ICaptchaService;
-import com.xht.auth.domain.RequestUserBO;
-import com.xht.framework.core.utils.spring.SpringContextUtil;
+import com.xht.framework.security.domain.RequestUserBO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -32,6 +30,7 @@ import java.util.stream.Collectors;
 
 import static com.xht.auth.constant.ErrorConstant.ERROR_MSG_CAPTCHA_AUTHENTICATION;
 import static com.xht.auth.constant.ErrorConstant.ERROR_MSG_PASSWORD_ERROR;
+
 
 /**
  * 描述 ：抽象认证处理器

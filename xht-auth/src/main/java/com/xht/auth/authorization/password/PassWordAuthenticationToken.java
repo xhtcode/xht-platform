@@ -1,7 +1,7 @@
 package com.xht.auth.authorization.password;
 
 import com.xht.auth.authorization.AbstractAuthenticationToken;
-import com.xht.auth.constant.CustomAuthorizationGrantType;
+import com.xht.framework.oauth2.constant.CustomAuthorizationGrantType;
 import org.springframework.security.core.Authentication;
 
 import java.util.Map;

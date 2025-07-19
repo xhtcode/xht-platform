@@ -1,7 +1,7 @@
 package com.xht.auth.captcha.controller;
 
 import com.xht.auth.captcha.service.ICaptchaService;
-import com.xht.auth.domain.response.CaptchaResponse;
+import com.xht.framework.security.domain.response.CaptchaResponse;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.security.annotation.InnerAuth;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.xht.auth.constant.SecurityConstant.REQUEST_CAPTCHA_CODE_KEY;
+import static com.xht.framework.security.constant.SecurityConstant.REQUEST_CAPTCHA_CODE_KEY;
 
 /**
  * @author xht

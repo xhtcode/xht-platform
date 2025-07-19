@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xht.system.dict.mapper.SysDictItemMapper">
+<mapper namespace="com.xht.system.modules.dict.mapper.SysDictItemMapper">
 
-    <resultMap id="BaseResultMap" type="com.xht.system.dict.domain.entity.SysDictItemEntity">
+    <resultMap id="BaseResultMap" type="com.xht.system.modules.dict.domain.entity.SysDictItemEntity">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="dictId" column="dict_id" jdbcType="BIGINT"/>
         <result property="dictCode" column="dict_code" jdbcType="VARCHAR"/>

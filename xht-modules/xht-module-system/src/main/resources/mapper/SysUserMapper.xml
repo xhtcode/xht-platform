@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xht.system.user.mapper.SysUserMapper">
+<mapper namespace="com.xht.system.modules.user.mapper.SysUserMapper">
 
-    <resultMap id="BaseResultMap" type="com.xht.system.user.domain.vo.SysUserVO">
+    <resultMap id="BaseResultMap" type="com.xht.system.modules.user.domain.vo.SysUserVO">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="userName" column="user_name" jdbcType="VARCHAR"/>
         <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
@@ -15,7 +15,7 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
         <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
-        <association property="profile" javaType="com.xht.system.user.domain.response.SysUserProfilesResponse">
+        <association property="profile" javaType="com.xht.system.modules.user.domain.response.SysUserProfilesResponse">
             <result property="realName" column="real_name" jdbcType="VARCHAR"/>
             <result property="idCardNumber" column="id_card_number" jdbcType="VARCHAR"/>
             <result property="gender" column="gender" jdbcType="TINYINT"/>
@@ -33,7 +33,7 @@
     </sql>
 
     <!-- 自定义查询 -->
-    <select id="findPage" resultMap="BaseResultMap" parameterType="com.xht.system.user.domain.request.UserQueryRequest">
+    <select id="queryPageRequest" resultMap="BaseResultMap" parameterType="com.xht.system.modules.user.domain.request.UserQueryRequest">
         SELECT
         t1.id
         , t1.user_name, t1.pass_word, t1.nick_name, t1.avatar_url, t1.user_status,
