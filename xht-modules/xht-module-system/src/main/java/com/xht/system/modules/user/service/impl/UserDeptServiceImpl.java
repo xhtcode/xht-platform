@@ -33,11 +33,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserDeptServiceImpl implements IUserDeptService {
 
-    private final SysUserDao sysUserManager;
+    private final SysUserDao sysUserDao;
 
-    private final SysDeptDao sysDeptManager;
+    private final SysDeptDao sysDeptDao;
 
-    private final SysUserDeptDao sysUserDeptManager;
+    private final SysUserDeptDao sysUserDeptDao;
 
 
     /**
@@ -49,13 +49,13 @@ public class UserDeptServiceImpl implements IUserDeptService {
      */
     @Override
     public Boolean userBindDept(Long deptId, List<Long> userIds) {
-        Boolean deptExists = sysDeptManager.exists(SysDeptEntity::getId, deptId);
+        Boolean deptExists = sysDeptDao.exists(SysDeptEntity::getId, deptId);
         ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_NOT_EXIST, "部门不存在");
         List<SysUserDeptEntity> userDeptEntities = new ArrayList<>();
         if (!CollectionUtils.isEmpty(userIds)) {
             LambdaQueryWrapper<SysUserEntity> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.in(SysUserEntity::getId, userIds);
-            boolean userExists = sysUserManager.exists(queryWrapper);
+            boolean userExists = sysUserDao.exists(queryWrapper);
             ThrowUtils.throwIf(!userExists, UserErrorCode.DATA_NOT_EXIST, "用户不存在");
             userIds.forEach(item -> {
                 SysUserDeptEntity entity = new SysUserDeptEntity();
@@ -64,7 +64,7 @@ public class UserDeptServiceImpl implements IUserDeptService {
                 userDeptEntities.add(entity);
             });
         }
-        return sysUserDeptManager.saveUserDept(deptId, userDeptEntities);
+        return sysUserDeptDao.saveUserDept(deptId, userDeptEntities);
     }
 
     /**
@@ -75,7 +75,7 @@ public class UserDeptServiceImpl implements IUserDeptService {
      */
     @Override
     public List<UserSimpleVo> getBindUserByDeptId(Long deptId) {
-        return sysUserDeptManager.findUserSimpleVoByDeptId(deptId);
+        return sysUserDeptDao.findUserSimpleVoByDeptId(deptId);
     }
 
     /**
@@ -89,6 +89,6 @@ public class UserDeptServiceImpl implements IUserDeptService {
         if (Objects.isNull(userId)) {
             return null;
         }
-        return Optional.ofNullable(sysUserDeptManager.getDeptPostByUserId(userId)).orElse(new SysDeptPostVo());
+        return Optional.ofNullable(sysUserDeptDao.getDeptPostByUserId(userId)).orElse(new SysDeptPostVo());
     }
 }

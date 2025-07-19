@@ -29,11 +29,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserRoleServiceImpl implements IUserRoleService {
 
-    private final SysUserDao sysUserManager;
+    private final SysUserDao sysUserDao;
 
-    private final SysRoleDao sysRoleManager;
+    private final SysRoleDao sysRoleDao;
 
-    private final SysUserRoleDao sysUserRoleManager;
+    private final SysUserRoleDao sysUserRoleDao;
 
 
     /**
@@ -45,13 +45,13 @@ public class UserRoleServiceImpl implements IUserRoleService {
      */
     @Override
     public Boolean userBindRole(Long userId, List<Long> roleIds) {
-        Boolean userExists = sysUserManager.exists(SysUserEntity::getId, userId);
+        Boolean userExists = sysUserDao.exists(SysUserEntity::getId, userId);
         ThrowUtils.throwIf(!userExists, UserErrorCode.DATA_NOT_EXIST);
         List<SysUserRoleEntity> sysUserRoleEntities = new ArrayList<>();
         if (!CollectionUtils.isEmpty(roleIds)) {
             LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.in(SysRoleEntity::getId, roleIds);
-            boolean roleExists = sysRoleManager.exists(queryWrapper);
+            boolean roleExists = sysRoleDao.exists(queryWrapper);
             ThrowUtils.throwIf(!roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
             roleIds.forEach(item -> {
                 SysUserRoleEntity sysUserRoleEntity = new SysUserRoleEntity();
@@ -60,7 +60,7 @@ public class UserRoleServiceImpl implements IUserRoleService {
                 sysUserRoleEntities.add(sysUserRoleEntity);
             });
         }
-        return sysUserRoleManager.saveUserRole(userId, sysUserRoleEntities);
+        return sysUserRoleDao.saveUserRole(userId, sysUserRoleEntities);
     }
 
     /**
@@ -72,6 +72,6 @@ public class UserRoleServiceImpl implements IUserRoleService {
     @Override
     public List<Long> selectRoleIdByUserId(String userId) {
         ThrowUtils.hasText(userId, "用户ID不能为空");
-        return sysUserRoleManager.getRoleId(userId);
+        return sysUserRoleDao.getRoleId(userId);
     }
 }

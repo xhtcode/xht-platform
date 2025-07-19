@@ -37,9 +37,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class SysDictItemServiceImpl implements ISysDictItemService {
 
-    private final SysDictDao sysDictManager;
+    private final SysDictDao sysDictDao;
 
-    private final SysDictItemDao sysDictItemManager;
+    private final SysDictItemDao sysDictItemDao;
 
     private final SysDictItemConverter sysDictItemConverter;
 
@@ -51,10 +51,10 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      */
     @Override
     public Boolean create(SysDictItemFormRequest formRequest) {
-        Boolean checkDictCode = sysDictItemManager.checkDictValue(null, formRequest.getDictId(), formRequest.getItemValue());
+        Boolean checkDictCode = sysDictItemDao.checkDictValue(null, formRequest.getDictId(), formRequest.getItemValue());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项值已存在");
         SysDictItemEntity entity = sysDictItemConverter.toEntity(formRequest);
-        return sysDictItemManager.saveTransactional(entity);
+        return sysDictItemDao.saveTransactional(entity);
     }
 
     /**
@@ -66,7 +66,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteById(List<Long> ids) {
-        return sysDictItemManager.removeByIds(ids);
+        return sysDictItemDao.removeByIds(ids);
     }
 
     /**
@@ -80,12 +80,12 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         Long id = formRequest.getId();
         ThrowUtils.notNull(id);
         // 校验数据是否存在
-        boolean exists = sysDictItemManager.exists(SysDictItemEntity::getId, id);
+        boolean exists = sysDictItemDao.exists(SysDictItemEntity::getId, id);
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "字典项不存在");
         // 校验字典项值 是否存在
-        Boolean checkDictCode = sysDictItemManager.checkDictValue(id, formRequest.getDictId(), formRequest.getItemValue());
+        Boolean checkDictCode = sysDictItemDao.checkDictValue(id, formRequest.getDictId(), formRequest.getItemValue());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
-        return sysDictItemManager.updateFormRequest(formRequest);
+        return sysDictItemDao.updateFormRequest(formRequest);
     }
 
     /**
@@ -96,7 +96,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      */
     @Override
     public SysDictItemResponse getById(Long id) {
-        return sysDictItemConverter.toResponse(sysDictItemManager.getById(id));
+        return sysDictItemConverter.toResponse(sysDictItemDao.getById(id));
     }
 
     /**
@@ -126,7 +126,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
                 .like(StringUtils.hasLength(queryRequest.getItemValue()), SysDictItemEntity::getItemValue, queryRequest.getItemValue())
                 .eq(Objects.nonNull(queryRequest.getStatus()), SysDictItemEntity::getStatus, queryRequest.getStatus());
         // @formatter:on
-        Page<SysDictItemEntity> page = sysDictItemManager.page(PageTool.getPage(queryRequest), queryWrapper);
+        Page<SysDictItemEntity> page = sysDictItemDao.page(PageTool.getPage(queryRequest), queryWrapper);
         return sysDictItemConverter.toResponse(page);
     }
 
@@ -139,7 +139,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      */
     @Override
     public SysDictVo getByDictCode(String dictCode) {
-        SysDictEntity sysDictEntity = sysDictManager.getOneOpt(SysDictEntity::getDictCode, dictCode).orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
+        SysDictEntity sysDictEntity = sysDictDao.getOneOpt(SysDictEntity::getDictCode, dictCode).orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
         SysDictVo sysDictVo = new SysDictVo();
         sysDictVo.setId(sysDictEntity.getId());
         sysDictVo.setDictCode(sysDictEntity.getDictCode());
@@ -149,7 +149,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         sysDictVo.setStatus(sysDictEntity.getStatus());
         LambdaQueryWrapper<SysDictItemEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysDictItemEntity::getDictId, sysDictEntity.getId());
-        List<SysDictItemEntity> sysDictItemEntities = sysDictItemManager.selectList(SysDictItemEntity::getDictId, sysDictEntity.getId());
+        List<SysDictItemEntity> sysDictItemEntities = sysDictItemDao.selectList(SysDictItemEntity::getDictId, sysDictEntity.getId());
         List<SysDictItemResponse> response = sysDictItemConverter.toResponse(sysDictItemEntities);
         sysDictVo.setItems(response);
         return sysDictVo;

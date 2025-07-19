@@ -33,7 +33,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class SysRoleServiceImpl implements ISysRoleService {
 
-    private final SysRoleDao sysRoleManager;
+    private final SysRoleDao sysRoleDao;
 
     private final SysRoleConverter sysRoleConverter;
 
@@ -45,12 +45,12 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public Boolean create(SysRoleFormRequest formRequest) {
-        Boolean exists = sysRoleManager.existsRoleCode(null, formRequest.getRoleCode());
+        Boolean exists = sysRoleDao.existsRoleCode(null, formRequest.getRoleCode());
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
         SysRoleEntity entity = sysRoleConverter.toEntity(formRequest);
         entity.setRoleStatus(RoleStatusEnums.NORMAL);
         entity.setDataScope(0);
-        return sysRoleManager.saveTransactional(entity);
+        return sysRoleDao.saveTransactional(entity);
     }
 
     /**
@@ -62,7 +62,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean removeById(Long id) {
-        return sysRoleManager.removeById(id);
+        return sysRoleDao.removeById(id);
     }
 
     /**
@@ -75,7 +75,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Transactional(rollbackFor = Exception.class)
     public Boolean removeByIds(List<Long> ids) {
         ThrowUtils.notNull(ids, BusinessErrorCode.PARAM_ERROR);
-        return sysRoleManager.removeByIds(ids);
+        return sysRoleDao.removeByIds(ids);
     }
 
     /**
@@ -86,11 +86,11 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public Boolean updateById(SysRoleFormRequest formRequest) {
-        Boolean exists = sysRoleManager.existsRoleCode(formRequest.getId(), formRequest.getRoleCode());
+        Boolean exists = sysRoleDao.existsRoleCode(formRequest.getId(), formRequest.getRoleCode());
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
-        Boolean roleExists = sysRoleManager.exists(SysRoleEntity::getId, formRequest.getId());
+        Boolean roleExists = sysRoleDao.exists(SysRoleEntity::getId, formRequest.getId());
         ThrowUtils.throwIf(roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
-        return sysRoleManager.updateFormRequest(formRequest);
+        return sysRoleDao.updateFormRequest(formRequest);
     }
 
     /**
@@ -102,9 +102,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public Boolean updateStatus(Long id, RoleStatusEnums status) {
-        Boolean exists = sysRoleManager.exists(SysRoleEntity::getId, id);
+        Boolean exists = sysRoleDao.exists(SysRoleEntity::getId, id);
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
-        return sysRoleManager.updateStatus(id, status);
+        return sysRoleDao.updateStatus(id, status);
     }
 
     /**
@@ -115,7 +115,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public SysRoleResponse getById(Long id) {
-        SysRoleEntity sysRoleEntity = sysRoleManager.getOptById(id).orElse(null);
+        SysRoleEntity sysRoleEntity = sysRoleDao.getOptById(id).orElse(null);
         return sysRoleConverter.toResponse(sysRoleEntity);
     }
 
@@ -140,7 +140,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
                 .eq(Objects.nonNull(queryRequest.getRoleStatus()), SysRoleEntity::getRoleStatus, queryRequest.getRoleStatus())
         ;
         // @formatter:on
-        Page<SysRoleEntity> page = sysRoleManager.page(PageTool.getPage(queryRequest), queryWrapper);
+        Page<SysRoleEntity> page = sysRoleDao.page(PageTool.getPage(queryRequest), queryWrapper);
         return sysRoleConverter.toResponse(page);
     }
 
@@ -154,7 +154,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         queryWrapper.select(SysRoleEntity::getId, SysRoleEntity::getRoleCode, SysRoleEntity::getRoleName)
                 .eq(SysRoleEntity::getRoleStatus, RoleStatusEnums.NORMAL)
                 .orderByDesc(SysRoleEntity::getRoleSort);
-        return sysRoleConverter.toResponse(sysRoleManager.list(queryWrapper));
+        return sysRoleConverter.toResponse(sysRoleDao.list(queryWrapper));
     }
 }
 

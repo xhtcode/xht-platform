@@ -37,10 +37,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AuthorityServiceImpl implements IAuthorityService {
 
-    private final SysUserDao sysUserManager;
+    private final SysUserDao sysUserDao;
 
-    private final SysUserDeptDao sysUserDeptManager;
-    private final SysMenuDao sysMenuManager;
+    private final SysMenuDao sysMenuDao;
 
     /**
      * 获取菜单元数据
@@ -69,7 +68,7 @@ public class AuthorityServiceImpl implements IAuthorityService {
      */
     @Override
     public AuthorityUserVO getUserProfileInfo() {
-        SysUserProfilesEntity userProfilesInfo = sysUserManager.findUserProfilesInfo(1L);
+        SysUserProfilesEntity userProfilesInfo = sysUserDao.findUserProfilesInfo(1L);
         return new AuthorityUserVO();
     }
 
@@ -82,7 +81,7 @@ public class AuthorityServiceImpl implements IAuthorityService {
     public List<INode<Long>> getRouters() {
         LambdaQueryWrapper<SysMenuEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.ne(SysMenuEntity::getMenuType, MenuTypeEnums.B);
-        List<SysMenuEntity> menus = sysMenuManager.list(queryWrapper);
+        List<SysMenuEntity> menus = sysMenuDao.list(queryWrapper);
         if (CollectionUtils.isEmpty(menus)) {
             return Collections.emptyList();
         }

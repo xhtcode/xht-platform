@@ -30,7 +30,7 @@ public class SysLogServiceImpl implements ISysLogService {
 
     private final SysLogConverter sysLogConverter;
 
-    private final SysLogDao sysLogManager;
+    private final SysLogDao sysLogDao;
 
     /**
      * 创建系统日志
@@ -41,7 +41,7 @@ public class SysLogServiceImpl implements ISysLogService {
     @Override
     public Boolean create(SysLogFormRequest formRequest) {
         SysLogEntity entity = sysLogConverter.toEntity(formRequest);
-        return sysLogManager.saveTransactional(entity);
+        return sysLogDao.saveTransactional(entity);
     }
 
     /**
@@ -52,7 +52,7 @@ public class SysLogServiceImpl implements ISysLogService {
      */
     @Override
     public SysLogResponse getById(Long id) {
-        SysLogEntity sysLogEntity = sysLogManager.getById(id);
+        SysLogEntity sysLogEntity = sysLogDao.getById(id);
         return sysLogConverter.toResponse(sysLogEntity);
     }
 
@@ -83,7 +83,7 @@ public class SysLogServiceImpl implements ISysLogService {
                 .eq(Objects.nonNull(queryRequest.getStatus()), SysLogEntity::getStatus, queryRequest.getStatus())
         ;
         // @formatter:on
-        Page<SysLogEntity> page = sysLogManager.page(PageTool.getPage(queryRequest), queryWrapper);
+        Page<SysLogEntity> page = sysLogDao.page(PageTool.getPage(queryRequest), queryWrapper);
         return sysLogConverter.toResponse(page);
     }
 }

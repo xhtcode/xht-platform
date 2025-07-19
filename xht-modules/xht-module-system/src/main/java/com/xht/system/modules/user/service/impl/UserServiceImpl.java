@@ -45,13 +45,13 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class UserServiceImpl implements IUserService {
 
-    private final SysUserDao sysUserManager;
+    private final SysUserDao sysUserDao;
 
-    private final SysUserDeptDao sysUserDeptManager;
+    private final SysUserDeptDao sysUserDeptDao;
 
-    private final SysDeptDao sysDeptManager;
+    private final SysDeptDao sysDeptDao;
 
-    private final SysDeptPostDao sysDeptPostManager;
+    private final SysDeptPostDao sysDeptPostDao;
 
     /**
      * 获取用户信息实体
@@ -87,7 +87,7 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public Boolean create(UserFormRequest formRequest) {
-        Boolean idCardNumberExists = sysUserManager.existsIdCardNumber(formRequest.getProfile().getIdCardNumber());
+        Boolean idCardNumberExists = sysUserDao.existsIdCardNumber(formRequest.getProfile().getIdCardNumber());
         ThrowUtils.throwIf(idCardNumberExists, BusinessErrorCode.DATA_EXIST, "身份证号码已存在");
         SysUserEntity sysUserEntity = new SysUserEntity();
         sysUserEntity.setUserName("admin");//todo 后期改为账号序列
@@ -96,13 +96,13 @@ public class UserServiceImpl implements IUserService {
         sysUserEntity.setNickName(formRequest.getNickName());
         sysUserEntity.setAvatarUrl("https://xht.com");
         sysUserEntity.setUserStatus(UserStatusEnums.NORMAL);
-        Boolean deptExists = sysDeptManager.exists(SysDeptEntity::getId, formRequest.getDeptId());
+        Boolean deptExists = sysDeptDao.exists(SysDeptEntity::getId, formRequest.getDeptId());
         ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_EXIST, "部门不存在");
-        SysDeptPostEntity postExists = sysDeptPostManager.findPostByDeptIdAndPostId(formRequest.getDeptId(), formRequest.getPostId());
+        SysDeptPostEntity postExists = sysDeptPostDao.findPostByDeptIdAndPostId(formRequest.getDeptId(), formRequest.getPostId());
         ThrowUtils.throwIf(Objects.isNull(postExists), BusinessErrorCode.DATA_EXIST, "部门暂无此岗位");
-        Boolean postLimit = sysDeptPostManager.validatePostLimit(formRequest.getPostId());
+        Boolean postLimit = sysDeptPostDao.validatePostLimit(formRequest.getPostId());
         ThrowUtils.throwIf(postLimit, BusinessErrorCode.DATA_EXIST, "岗位人数已满");
-        return sysUserManager.saveUserInfo(sysUserEntity, getSysUserProfilesEntity(formRequest), formRequest.getPostId());
+        return sysUserDao.saveUserInfo(sysUserEntity, getSysUserProfilesEntity(formRequest), formRequest.getPostId());
     }
 
     /**
@@ -113,9 +113,9 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public Boolean delete(Long id) {
-        Boolean exists = sysUserManager.exists(SysUserEntity::getId, id);
+        Boolean exists = sysUserDao.exists(SysUserEntity::getId, id);
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_NOT_EXIST, "用户不存在");
-        return sysUserManager.removeUserInfo(id);
+        return sysUserDao.removeUserInfo(id);
     }
 
     /**
@@ -127,7 +127,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Boolean removeByIds(List<Long> ids) {
         ThrowUtils.notNull(ids, BusinessErrorCode.PARAM_ERROR);
-        return sysUserManager.removeByIds(ids);
+        return sysUserDao.removeByIds(ids);
     }
 
     /**
@@ -139,13 +139,13 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Boolean update(UserFormRequest formRequest) {
         Long userId = formRequest.getId();
-        Boolean exists = sysUserManager.exists(SysUserEntity::getId, userId);
+        Boolean exists = sysUserDao.exists(SysUserEntity::getId, userId);
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "用户不存在");
-        Boolean deptExists = sysDeptManager.exists(SysDeptEntity::getId, formRequest.getDeptId());
+        Boolean deptExists = sysDeptDao.exists(SysDeptEntity::getId, formRequest.getDeptId());
         ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_EXIST, "部门不存在");
-        SysDeptPostEntity postExists = sysDeptPostManager.findPostByDeptIdAndPostId(formRequest.getDeptId(), formRequest.getPostId());
+        SysDeptPostEntity postExists = sysDeptPostDao.findPostByDeptIdAndPostId(formRequest.getDeptId(), formRequest.getPostId());
         ThrowUtils.throwIf(Objects.isNull(postExists), BusinessErrorCode.DATA_EXIST, "部门暂无此岗位");
-        SysUserDeptEntity oldUserDeptEntity = sysUserDeptManager.findOneByUserId(userId);
+        SysUserDeptEntity oldUserDeptEntity = sysUserDeptDao.findOneByUserId(userId);
         SysUserEntity sysUserEntity = new SysUserEntity();
         sysUserEntity.setId(userId);
         sysUserEntity.setNickName(formRequest.getNickName());
@@ -153,11 +153,11 @@ public class UserServiceImpl implements IUserService {
         sysUserEntity.setUserStatus(formRequest.getUserStatus());
         SysUserProfilesEntity sysUserProfilesEntity = getSysUserProfilesEntity(formRequest);
         sysUserProfilesEntity.setUserId(userId);
-        SysUserDeptEntity sysUserDeptEntity = sysUserDeptManager.getOneOpt(SysUserDeptEntity::getUserId, userId).orElseGet(SysUserDeptEntity::new);
+        SysUserDeptEntity sysUserDeptEntity = sysUserDeptDao.getOneOpt(SysUserDeptEntity::getUserId, userId).orElseGet(SysUserDeptEntity::new);
         sysUserDeptEntity.setUserId(userId);
         sysUserDeptEntity.setDeptId(formRequest.getDeptId());
         sysUserDeptEntity.setPostId(formRequest.getPostId());
-        Boolean postLimit = sysDeptPostManager.validatePostLimit(formRequest.getPostId());
+        Boolean postLimit = sysDeptPostDao.validatePostLimit(formRequest.getPostId());
         ThrowUtils.throwIf(postLimit, BusinessErrorCode.DATA_EXIST, "岗位人数已满");
         // todo 后期补充用户信息变更记录
         SysUserDeptUpdateEvent userDeptEntity = new SysUserDeptUpdateEvent(
@@ -165,7 +165,7 @@ public class UserServiceImpl implements IUserService {
                 Objects.isNull(oldUserDeptEntity) ? null : oldUserDeptEntity.getDeptId(), Objects.isNull(oldUserDeptEntity) ? null : oldUserDeptEntity.getPostId(),
                 formRequest.getDeptId(), formRequest.getPostId()
         );
-        return sysUserManager.updateUserInfo(sysUserEntity, sysUserProfilesEntity, userDeptEntity);
+        return sysUserDao.updateUserInfo(sysUserEntity, sysUserProfilesEntity, userDeptEntity);
     }
 
     /**
@@ -176,9 +176,9 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public SysUserVO findById(Long id) {
-        SysUserVO sysUserVO = sysUserManager.findInfoByUserId(id);
+        SysUserVO sysUserVO = sysUserDao.findInfoByUserId(id);
         ThrowUtils.throwIf(Objects.isNull(sysUserVO), UserErrorCode.DATA_NOT_EXIST, "用户不存在");
-        SysDeptPostVo deptPostVo = sysUserDeptManager.getDeptPostByUserId(id);
+        SysDeptPostVo deptPostVo = sysUserDeptDao.getDeptPostByUserId(id);
         if (Objects.nonNull(deptPostVo)) {
             sysUserVO.setPostId(deptPostVo.getPostId());
             sysUserVO.setPostCode(deptPostVo.getPostCode());
@@ -200,7 +200,7 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public PageResponse<SysUserVO> findPage(UserQueryRequest queryRequest) {
-        Page<SysUserVO> page = sysUserManager.findPage(PageTool.getPage(queryRequest), queryRequest);
+        Page<SysUserVO> page = sysUserDao.findPage(PageTool.getPage(queryRequest), queryRequest);
         return PageTool.getPageVo(page);
     }
 
@@ -213,7 +213,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean resetPassword(Long userId) {
-        return sysUserManager.updatePassword(userId, MD5Utils.generateSignature("123456"));
+        return sysUserDao.updatePassword(userId, MD5Utils.generateSignature("123456"));
     }
 
     /**
@@ -226,7 +226,7 @@ public class UserServiceImpl implements IUserService {
     public Boolean updatePassword(UpdatePwdRequest formRequest) {
         // todo 登录现在未实现用户id获取不到，先写死
         Long userId = 1L;
-        SysUserEntity sysUserEntity = sysUserManager.getOptById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST, "用户不存在"));
+        SysUserEntity sysUserEntity = sysUserDao.getOptById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST, "用户不存在"));
         // todo 后期补充用户状态判断
         String oldPassword = formRequest.getOldPassword();
         String newPassword = formRequest.getNewPassword();
@@ -238,7 +238,7 @@ public class UserServiceImpl implements IUserService {
         if (!StringUtils.equals(newPassword, confirmPassword)) {
             throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "两次密码输入不一致");
         }
-        return sysUserManager.updatePassword(userId, MD5Utils.generateSignature(formRequest.getNewPassword()));
+        return sysUserDao.updatePassword(userId, MD5Utils.generateSignature(formRequest.getNewPassword()));
     }
 
     /**
@@ -250,8 +250,8 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public Boolean updateStatus(Long userId, UserStatusEnums status) {
-        Boolean exists = sysUserManager.exists(SysUserEntity::getId, userId);
+        Boolean exists = sysUserDao.exists(SysUserEntity::getId, userId);
         ThrowUtils.throwIf(exists, UserErrorCode.DATA_NOT_EXIST, "用户不存在");
-        return sysUserManager.updateStatus(userId, status);
+        return sysUserDao.updateStatus(userId, status);
     }
 }

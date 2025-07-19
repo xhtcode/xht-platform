@@ -13,7 +13,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 /**
- * 角色菜单关系Manager
+ * 角色菜单关系Dao
  *
  * @author xht
  **/

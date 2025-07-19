@@ -36,9 +36,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class SysDeptPostServiceImpl implements ISysDeptPostService {
 
-    private final SysDeptDao sysDeptManager;
+    private final SysDeptDao sysDeptDao;
 
-    private final SysDeptPostDao sysDeptPostManager;
+    private final SysDeptPostDao sysDeptPostDao;
 
     private final SysDeptPostConverter sysDeptPostConverter;
 
@@ -50,12 +50,12 @@ public class SysDeptPostServiceImpl implements ISysDeptPostService {
      */
     @Override
     public Boolean create(SysDeptPostFormRequest formRequest) {
-        Boolean deptExists = sysDeptManager.exists(SysDeptEntity::getId, formRequest.getDeptId());
+        Boolean deptExists = sysDeptDao.exists(SysDeptEntity::getId, formRequest.getDeptId());
         ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_NOT_EXIST, "部门不存在");
-        Boolean postCodeExists = sysDeptPostManager.existsPostCode(formRequest.getDeptId(), formRequest.getPostCode(), null);
+        Boolean postCodeExists = sysDeptPostDao.existsPostCode(formRequest.getDeptId(), formRequest.getPostCode(), null);
         ThrowUtils.throwIf(postCodeExists, BusinessErrorCode.DATA_NOT_EXIST, "岗位编码已存在");
         SysDeptPostEntity sysDeptPostEntity = sysDeptPostConverter.toEntity(formRequest);
-        return sysDeptPostManager.saveTransactional(sysDeptPostEntity);
+        return sysDeptPostDao.saveTransactional(sysDeptPostEntity);
     }
 
     /**
@@ -67,9 +67,9 @@ public class SysDeptPostServiceImpl implements ISysDeptPostService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean removeById(Long id) {
-        Boolean systemFlag = sysDeptPostManager.validateSystemFlag(id, SystemFlagEnums.YES);
+        Boolean systemFlag = sysDeptPostDao.validateSystemFlag(id, SystemFlagEnums.YES);
         ThrowUtils.throwIf(systemFlag, BusinessErrorCode.DATA_TYPE_ERROR, "系统内置岗位，禁止删除");
-        return sysDeptPostManager.removeById(id);
+        return sysDeptPostDao.removeById(id);
     }
 
     /**
@@ -82,9 +82,9 @@ public class SysDeptPostServiceImpl implements ISysDeptPostService {
     @Transactional(rollbackFor = Exception.class)
     public Boolean removeByIds(List<Long> ids) {
         ThrowUtils.notNull(ids, BusinessErrorCode.PARAM_ERROR);
-        Boolean systemFlag = sysDeptPostManager.validateSystemFlag(ids, SystemFlagEnums.YES);
+        Boolean systemFlag = sysDeptPostDao.validateSystemFlag(ids, SystemFlagEnums.YES);
         ThrowUtils.throwIf(systemFlag, BusinessErrorCode.DATA_TYPE_ERROR, "选择得到的数据中存在系统内置岗位，禁止删除");
-        return sysDeptPostManager.removeByIds(ids);
+        return sysDeptPostDao.removeByIds(ids);
     }
 
     /**
@@ -95,13 +95,13 @@ public class SysDeptPostServiceImpl implements ISysDeptPostService {
      */
     @Override
     public Boolean updateById(SysDeptPostFormRequest formRequest) {
-        Boolean systemFlag = sysDeptPostManager.validateSystemFlag(formRequest.getId(), SystemFlagEnums.YES);
+        Boolean systemFlag = sysDeptPostDao.validateSystemFlag(formRequest.getId(), SystemFlagEnums.YES);
         ThrowUtils.throwIf(systemFlag, BusinessErrorCode.DATA_TYPE_ERROR, "系统内置岗位禁止修改");
-        Boolean deptExists = sysDeptManager.exists(SysDeptEntity::getId, formRequest.getDeptId());
+        Boolean deptExists = sysDeptDao.exists(SysDeptEntity::getId, formRequest.getDeptId());
         ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_NOT_EXIST, "部门不存在");
-        Boolean postCodeExists = sysDeptPostManager.existsPostCode(formRequest.getDeptId(), formRequest.getPostCode(), formRequest.getId());
+        Boolean postCodeExists = sysDeptPostDao.existsPostCode(formRequest.getDeptId(), formRequest.getPostCode(), formRequest.getId());
         ThrowUtils.throwIf(postCodeExists, BusinessErrorCode.DATA_NOT_EXIST, "岗位编码已存在");
-        return sysDeptPostManager.updateFormRequest(formRequest);
+        return sysDeptPostDao.updateFormRequest(formRequest);
     }
 
     /**
@@ -112,7 +112,7 @@ public class SysDeptPostServiceImpl implements ISysDeptPostService {
      */
     @Override
     public SysDeptPostResponse getById(Long id) {
-        SysDeptPostEntity sysDeptPostEntity = sysDeptPostManager.getOptById(id).orElse(null);
+        SysDeptPostEntity sysDeptPostEntity = sysDeptPostDao.getOptById(id).orElse(null);
         return sysDeptPostConverter.toResponse(sysDeptPostEntity);
     }
 
@@ -140,7 +140,7 @@ public class SysDeptPostServiceImpl implements ISysDeptPostService {
                 .eq(SysDeptPostEntity::getDeptId, queryRequest.getDeptId())
         ;
         // @formatter:on
-        Page<SysDeptPostEntity> page = sysDeptPostManager.page(PageTool.getPage(queryRequest), queryWrapper);
+        Page<SysDeptPostEntity> page = sysDeptPostDao.page(PageTool.getPage(queryRequest), queryWrapper);
         return sysDeptPostConverter.toResponse(page);
     }
 
@@ -155,7 +155,7 @@ public class SysDeptPostServiceImpl implements ISysDeptPostService {
         LambdaQueryWrapper<SysDeptPostEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(SysDeptPostEntity::getId, SysDeptPostEntity::getPostCode, SysDeptPostEntity::getPostName, SysDeptPostEntity::getPostStatus);
         queryWrapper.eq(SysDeptPostEntity::getDeptId, deptId);
-        List<SysDeptPostEntity> sysDeptPostEntities = sysDeptPostManager.list(queryWrapper);
+        List<SysDeptPostEntity> sysDeptPostEntities = sysDeptPostDao.list(queryWrapper);
         return sysDeptPostConverter.toSimpleVo(sysDeptPostEntities);
     }
 }

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Objects;
 
 /**
- * 部门管理Manager
+ * 部门管理Dao
  *
  * @author xht
  */

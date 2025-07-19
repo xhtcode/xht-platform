@@ -28,11 +28,11 @@ import java.util.List;
 public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
 
 
-    private final SysRoleMenuDao sysRoleMenuManager;
+    private final SysRoleMenuDao sysRoleMenuDao;
 
-    private final SysRoleDao sysRoleManager;
+    private final SysRoleDao sysRoleDao;
 
-    private final SysMenuDao sysMenuManager;
+    private final SysMenuDao sysMenuDao;
 
     /**
      * 角色绑定菜单
@@ -43,12 +43,12 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
     @Override
     public Boolean roleMenuBind(RoleMenuBindRequest bindRequest) {
         Long roleId = bindRequest.getRoleId();
-        Boolean roleExists = sysRoleManager.exists(SysRoleEntity::getId, roleId);
+        Boolean roleExists = sysRoleDao.exists(SysRoleEntity::getId, roleId);
         ThrowUtils.throwIf(!roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
         List<Long> menuIds = bindRequest.getMenuIds();
         List<SysRoleMenuEntity> roleMenuEntities = new ArrayList<>();
         if (CollectionUtils.isEmpty(menuIds)) {
-            Boolean menuExists = sysMenuManager.existsMenuIds(menuIds);
+            Boolean menuExists = sysMenuDao.existsMenuIds(menuIds);
             ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "菜单不存在");
             for (Long item : menuIds) {
                 SysRoleMenuEntity sysRoleMenuEntity = new SysRoleMenuEntity();
@@ -57,7 +57,7 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
                 roleMenuEntities.add(sysRoleMenuEntity);
             }
         }
-        return sysRoleMenuManager.roleMenuBind(roleId, roleMenuEntities);
+        return sysRoleMenuDao.roleMenuBind(roleId, roleMenuEntities);
     }
 
     /**
@@ -69,6 +69,6 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
     @Override
     public List<Long> selectMenuIdByRoleId(String roleId) {
         ThrowUtils.hasText(roleId, "角色ID不能为空");
-        return sysRoleMenuManager.getRoleId(roleId);
+        return sysRoleMenuDao.getRoleId(roleId);
     }
 }

@@ -33,9 +33,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class SysDictServiceImpl implements ISysDictService {
 
-    private final SysDictDao sysDictManager;
+    private final SysDictDao sysDictDao;
 
-    private final SysDictItemDao sysDictItemManager;
+    private final SysDictItemDao sysDictItemDao;
     private final SysDictConverter sysDictConverter;
 
     /**
@@ -46,10 +46,10 @@ public class SysDictServiceImpl implements ISysDictService {
      */
     @Override
     public Boolean create(SysDictFormRequest formRequest) {
-        Boolean checkDictCode = sysDictManager.checkDictCode(null, formRequest.getDictCode());
+        Boolean checkDictCode = sysDictDao.checkDictCode(null, formRequest.getDictCode());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
         SysDictEntity entity = sysDictConverter.toEntity(formRequest);
-        return sysDictManager.saveTransactional(entity);
+        return sysDictDao.saveTransactional(entity);
     }
 
     /**
@@ -62,9 +62,9 @@ public class SysDictServiceImpl implements ISysDictService {
     @Transactional(rollbackFor = Exception.class)
     public Boolean deleteById(List<Long> ids) {
         ThrowUtils.notEmpty(ids, "参数错误");
-        long dictItemCount = sysDictItemManager.selectCountIn(SysDictItemEntity::getDictId, ids);
+        long dictItemCount = sysDictItemDao.selectCountIn(SysDictItemEntity::getDictId, ids);
         ThrowUtils.throwIf(dictItemCount > 0, BusinessErrorCode.DATA_NOT_EXIST, "所选字典类型下有关联字典项，不能删除");
-        return sysDictManager.removeByIds(ids);
+        return sysDictDao.removeByIds(ids);
     }
 
     /**
@@ -79,16 +79,16 @@ public class SysDictServiceImpl implements ISysDictService {
         ThrowUtils.notNull(id);
         // 检查系统字典管理器中是否存在指定ID的字典项
         // @formatter:off
-        SysDictEntity exists = sysDictManager.getOneOpt(new LambdaQueryWrapper<SysDictEntity>()
+        SysDictEntity exists = sysDictDao.getOneOpt(new LambdaQueryWrapper<SysDictEntity>()
                 .select(SysDictEntity::getId, SysDictEntity::getDictCode, SysDictEntity::getStatus)
                 .eq(SysDictEntity::getId, id)).orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
         // @formatter:on
         // 检查字典项编码是否存在
-        Boolean checkDictCode = sysDictManager.checkDictCode(formRequest.getId(), formRequest.getDictCode());
+        Boolean checkDictCode = sysDictDao.checkDictCode(formRequest.getId(), formRequest.getDictCode());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
         // 检查是否需要更新字典项状态和code
         boolean updateItemStatus = Objects.equals(exists.getStatus(), formRequest.getStatus()) && Objects.equals(exists.getDictCode(), formRequest.getDictCode());
-        return sysDictManager.updateRequest(formRequest, !updateItemStatus);
+        return sysDictDao.updateRequest(formRequest, !updateItemStatus);
     }
 
     /**
@@ -99,7 +99,7 @@ public class SysDictServiceImpl implements ISysDictService {
      */
     @Override
     public SysDictResponse getById(Long id) {
-        return sysDictConverter.toResponse(sysDictManager.getById(id));
+        return sysDictConverter.toResponse(sysDictDao.getById(id));
     }
 
     /**
@@ -110,7 +110,7 @@ public class SysDictServiceImpl implements ISysDictService {
      */
     @Override
     public PageResponse<SysDictResponse> findPage(SysDictQueryRequest queryRequest) {
-        Page<SysDictEntity> page = sysDictManager.queryRequest(queryRequest);
+        Page<SysDictEntity> page = sysDictDao.queryRequest(queryRequest);
         return sysDictConverter.toResponse(page);
     }
 

@@ -15,7 +15,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 /**
- * 用户部门关系Manager
+ * 用户部门关系Dao
  *
  * @author xht
  **/

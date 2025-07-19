@@ -39,13 +39,13 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class SysDeptServiceImpl implements ISysDeptService {
 
-    private final SysDeptDao sysDeptManager;
+    private final SysDeptDao sysDeptDao;
 
-    private final SysDeptPostDao sysDeptPostManager;
+    private final SysDeptPostDao sysDeptPostDao;
 
-    private final SysUserDao sysUserManager;
+    private final SysUserDao sysUserDao;
 
-    private final SysUserDeptDao sysUserDeptManager;
+    private final SysUserDeptDao sysUserDeptDao;
 
     private final SysDeptConverter sysDeptConverter;
 
@@ -58,9 +58,9 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public Boolean create(SysDeptFormRequest formRequest) {
         String deptCode = formRequest.getDeptCode();
-        SysDeptEntity parentDept = sysDeptManager.getDefaultParentDeptByParentId(formRequest.getParentId());
+        SysDeptEntity parentDept = sysDeptDao.getDefaultParentDeptByParentId(formRequest.getParentId());
         ThrowUtils.throwIf(Objects.isNull(parentDept), BusinessErrorCode.DATA_NOT_EXIST, "父部门不存在");
-        Boolean deptCodeUnique = sysDeptManager.checkDeptCodeUnique(null, deptCode);
+        Boolean deptCodeUnique = sysDeptDao.checkDeptCodeUnique(null, deptCode);
         ThrowUtils.throwIf(deptCodeUnique, BusinessErrorCode.DATA_EXIST, "部门编码已存在");
         SysDeptEntity entity = sysDeptConverter.toEntity(formRequest);
         entity.setDeptLevel(parentDept.getDeptLevel() + 1);
@@ -71,12 +71,12 @@ public class SysDeptServiceImpl implements ISysDeptService {
             LambdaQueryWrapper<SysUserEntity> userQueryWrapper = new LambdaQueryWrapper<>();
             userQueryWrapper.select(SysUserEntity::getUserName, SysUserEntity::getUserStatus);
             userQueryWrapper.eq(SysUserEntity::getId, leaderUserId);
-            SysUserEntity userEntity = sysUserManager.getOne(userQueryWrapper);
+            SysUserEntity userEntity = sysUserDao.getOne(userQueryWrapper);
             ThrowUtils.throwIf(Objects.isNull(userEntity), UserErrorCode.DATA_NOT_EXIST, "未查找到用户信息");
             ThrowUtils.throwIf(!Objects.equals(UserStatusEnums.NORMAL, userEntity.getUserStatus()), UserErrorCode.DATA_NOT_EXIST, "用户状态异常");
             entity.setLeaderName(userEntity.getUserName());
         }
-        return sysDeptManager.saveDeptInitPost(entity);
+        return sysDeptDao.saveDeptInitPost(entity);
     }
 
     /**
@@ -87,9 +87,9 @@ public class SysDeptServiceImpl implements ISysDeptService {
      */
     @Override
     public Boolean removeById(Long id) {
-        Boolean existsDeptPost = sysDeptPostManager.existsDeptPost(id);
+        Boolean existsDeptPost = sysDeptPostDao.existsDeptPost(id);
         ThrowUtils.throwIf(existsDeptPost, BusinessErrorCode.DATA_NOT_EXIST, "该部门下已有岗位，不能删除");
-        return sysDeptManager.removeById(id);
+        return sysDeptDao.removeById(id);
     }
 
     /**
@@ -103,13 +103,13 @@ public class SysDeptServiceImpl implements ISysDeptService {
         // 1.校验部门是否存在
         LambdaQueryWrapper<SysDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysDeptEntity::getId, formRequest.getId());
-        SysDeptEntity dbDept = sysDeptManager.getOne(queryWrapper);
+        SysDeptEntity dbDept = sysDeptDao.getOne(queryWrapper);
         ThrowUtils.throwIf(Objects.isNull(dbDept), BusinessErrorCode.DATA_NOT_EXIST, "修改的部门不存在");
         // 2.校验部门编码是否唯一
         String deptCode = formRequest.getDeptCode();
-        ThrowUtils.throwIf(sysDeptManager.checkDeptCodeUnique(formRequest.getId(), deptCode), BusinessErrorCode.DATA_EXIST, "部门编码已存在");
+        ThrowUtils.throwIf(sysDeptDao.checkDeptCodeUnique(formRequest.getId(), deptCode), BusinessErrorCode.DATA_EXIST, "部门编码已存在");
         // 3.校验上级部门是否存在
-        SysDeptEntity parentDept = sysDeptManager.getDefaultParentDeptByParentId(formRequest.getParentId());
+        SysDeptEntity parentDept = sysDeptDao.getDefaultParentDeptByParentId(formRequest.getParentId());
         ThrowUtils.throwIf(Objects.isNull(parentDept), BusinessErrorCode.DATA_NOT_EXIST, "父部门不存在");
         // 4.校验部门主管是否修改
         Long leaderUserId = dbDept.getLeaderUserId();
@@ -120,7 +120,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
             LambdaQueryWrapper<SysUserEntity> userQueryWrapper = new LambdaQueryWrapper<>();
             userQueryWrapper.select(SysUserEntity::getUserName, SysUserEntity::getUserStatus);
             userQueryWrapper.eq(SysUserEntity::getId, formRequest.getLeaderUserId());
-            SysUserEntity userEntity = sysUserManager.getOne(userQueryWrapper);
+            SysUserEntity userEntity = sysUserDao.getOne(userQueryWrapper);
             ThrowUtils.throwIf(Objects.isNull(userEntity), UserErrorCode.DATA_NOT_EXIST, "未查找到用户信息");
             ThrowUtils.throwIf(!Objects.equals(UserStatusEnums.NORMAL, userEntity.getUserStatus()), UserErrorCode.DATA_NOT_EXIST, "用户状态异常");
             leaderName = userEntity.getUserName();
@@ -131,7 +131,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         entity.setDeptLevel(parentDept.getDeptLevel() + 1);
         entity.setAncestors(parentDept.getAncestors() + "," + parentDept.getId());
         entity.setLeaderName(leaderName);
-        return sysDeptManager.updateFormRequest(entity, leaderUserId);
+        return sysDeptDao.updateFormRequest(entity, leaderUserId);
     }
 
     /**
@@ -143,9 +143,9 @@ public class SysDeptServiceImpl implements ISysDeptService {
      */
     @Override
     public Boolean updateStatus(Long id, DeptStatusEnums status) {
-        Boolean exists = sysDeptManager.exists(SysDeptEntity::getId, id);
+        Boolean exists = sysDeptDao.exists(SysDeptEntity::getId, id);
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "部门不存在");
-        return sysDeptManager.updateStatus(id, status);
+        return sysDeptDao.updateStatus(id, status);
     }
 
     /**
@@ -156,7 +156,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      */
     @Override
     public SysDeptResponse getById(Long id) {
-        return sysDeptConverter.toResponse(sysDeptManager.getById(id));
+        return sysDeptConverter.toResponse(sysDeptDao.getById(id));
     }
 
     /**
@@ -189,7 +189,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
                 .like(StringUtils.hasText(queryRequest.getEmail()), SysDeptEntity::getPhone, queryRequest.getEmail())
         ;
         // @formatter:on
-        List<SysDeptEntity> list = sysDeptManager.list(queryWrapper);
+        List<SysDeptEntity> list = sysDeptDao.list(queryWrapper);
         List<INode<Long>> treeNodeList = new ArrayList<>();
         for (SysDeptEntity entity : list) {
             TreeNode<Long> node = new TreeNode<>(entity.getId(), entity.getParentId(), entity.getDeptSort());

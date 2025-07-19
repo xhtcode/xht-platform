@@ -37,7 +37,7 @@ import static com.xht.system.modules.authority.common.constant.MenuConstant.DEFA
 @RequiredArgsConstructor
 public class SysMenuServiceImpl implements ISysMenuService {
 
-    private final SysMenuDao sysMenuManager;
+    private final SysMenuDao sysMenuDao;
 
     private final SysMenuConverter sysMenuConverter;
 
@@ -53,7 +53,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
         MenuValidationFormat.validationFormat(formRequest);
         checkExitsParentMenu(formRequest);
         SysMenuEntity entity = sysMenuConverter.toEntity(formRequest);
-        return sysMenuManager.saveTransactional(entity);
+        return sysMenuDao.saveTransactional(entity);
     }
 
     /**
@@ -68,7 +68,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
             LambdaQueryWrapper<SysMenuEntity> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.select(SysMenuEntity::getMenuType);
             queryWrapper.eq(SysMenuEntity::getId, formRequest.getParentId());
-            SysMenuEntity parentMenu = sysMenuManager.getById(queryWrapper);
+            SysMenuEntity parentMenu = sysMenuDao.getById(queryWrapper);
             ThrowUtils.throwIf(Objects.isNull(parentMenu), BusinessErrorCode.DATA_NOT_EXIST, "上级菜单不存在");
             MenuValidationFormat.checkParentType(parentMenu.getMenuType(), formRequest.getMenuType());
         }
@@ -82,9 +82,9 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public Boolean removeById(Long id) {
-        Boolean exists = sysMenuManager.exists(SysMenuEntity::getParentId, id);
+        Boolean exists = sysMenuDao.exists(SysMenuEntity::getParentId, id);
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "菜单下存在子菜单，不能删除");
-        return sysMenuManager.removeByIdTransactional(id);
+        return sysMenuDao.removeByIdTransactional(id);
     }
 
     /**
@@ -97,9 +97,9 @@ public class SysMenuServiceImpl implements ISysMenuService {
     public Boolean updateById(SysMenuFormRequest formRequest) {
         MenuValidationFormat.validationFormat(formRequest);
         checkExitsParentMenu(formRequest);
-        Boolean menuExists = sysMenuManager.exists(SysMenuEntity::getId, formRequest.getId());
+        Boolean menuExists = sysMenuDao.exists(SysMenuEntity::getId, formRequest.getId());
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "菜单不存在");
-        return sysMenuManager.updateFormRequest(formRequest);
+        return sysMenuDao.updateFormRequest(formRequest);
     }
 
     /**
@@ -111,9 +111,9 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public Boolean updateStatus(Long id, MenuStatusEnums status) {
-        Boolean exists = sysMenuManager.exists(SysMenuEntity::getId, id);
+        Boolean exists = sysMenuDao.exists(SysMenuEntity::getId, id);
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "菜单不存在");
-        return sysMenuManager.updateStatus(id, status);
+        return sysMenuDao.updateStatus(id, status);
     }
 
     /**
@@ -124,7 +124,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public SysMenuResponse getById(Long id) {
-        return sysMenuConverter.toResponse(sysMenuManager.getById(id));
+        return sysMenuConverter.toResponse(sysMenuDao.getById(id));
     }
 
     /**
@@ -148,7 +148,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
                 .like(StringUtils.hasText(queryRequest.getMenuName()), SysMenuEntity::getMenuName, queryRequest.getMenuName())
                 .eq(Objects.nonNull(queryRequest.getMenuStatus()), SysMenuEntity::getMenuStatus, queryRequest.getMenuStatus());
         // @formatter:on
-        List<SysMenuEntity> list = sysMenuManager.list(lambdaQueryWrapper);
+        List<SysMenuEntity> list = sysMenuDao.list(lambdaQueryWrapper);
         List<INode<Long>> treeNodeList = new ArrayList<>();
         for (SysMenuEntity entity : list) {
             TreeNode<Long> node = new TreeNode<>(entity.getId(), entity.getParentId(), entity.getMenuSort());
@@ -180,7 +180,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
                 .ne(!Objects.equals(MenuTypeEnums.ALL,menuType), SysMenuEntity::getMenuType, MenuTypeEnums.B)
                 .eq(SysMenuEntity::getMenuStatus,MenuStatusEnums.NORMAL);
         // @formatter:on
-        List<SysMenuEntity> list = sysMenuManager.list(lambdaQueryWrapper);
+        List<SysMenuEntity> list = sysMenuDao.list(lambdaQueryWrapper);
         List<INode<Long>> treeNodeList = new ArrayList<>();
         for (SysMenuEntity entity : list) {
             TreeNode<Long> node = new TreeNode<>(entity.getId(), entity.getParentId(), entity.getMenuSort());
