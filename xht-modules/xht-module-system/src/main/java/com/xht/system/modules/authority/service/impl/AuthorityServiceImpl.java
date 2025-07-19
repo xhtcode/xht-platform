@@ -2,21 +2,19 @@ package com.xht.system.modules.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.core.utils.tree.TreeNode;
 import com.xht.framework.core.utils.tree.TreeUtils;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
+import com.xht.system.modules.authority.dao.SysMenuDao;
 import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
 import com.xht.system.modules.authority.domain.vo.AuthorityUserVO;
 import com.xht.system.modules.authority.domain.vo.MetaVo;
 import com.xht.system.modules.authority.domain.vo.RouterVo;
-import com.xht.system.modules.authority.dao.SysMenuDao;
 import com.xht.system.modules.authority.service.IAuthorityService;
-import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
-import com.xht.system.modules.user.dao.SysUserDeptDao;
 import com.xht.system.modules.user.dao.SysUserDao;
+import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -79,9 +77,7 @@ public class AuthorityServiceImpl implements IAuthorityService {
      */
     @Override
     public List<INode<Long>> getRouters() {
-        LambdaQueryWrapper<SysMenuEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.ne(SysMenuEntity::getMenuType, MenuTypeEnums.B);
-        List<SysMenuEntity> menus = sysMenuDao.list(queryWrapper);
+        List<SysMenuEntity> menus = sysMenuDao.getMenusExcludingType(MenuTypeEnums.B);
         if (CollectionUtils.isEmpty(menus)) {
             return Collections.emptyList();
         }

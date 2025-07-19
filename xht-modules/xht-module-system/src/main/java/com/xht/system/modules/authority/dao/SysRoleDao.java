@@ -2,15 +2,19 @@ package com.xht.system.modules.authority.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.dao.BasicDao;
 import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.authority.domain.request.SysRoleFormRequest;
+import com.xht.system.modules.authority.domain.request.SysRoleQueryRequest;
 import com.xht.system.modules.authority.mapper.SysRoleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -68,5 +72,58 @@ public class SysRoleDao extends BasicDao<SysRoleMapper, SysRoleEntity> {
         lambdaQueryWrapper.eq(SysRoleEntity::getRoleCode, roleCode)
                 .ne(Objects.nonNull(roleId), SysRoleEntity::getId, roleId);
         return dataExists(count(lambdaQueryWrapper));
+    }
+
+    /**
+     * 分页查询角色
+     *
+     * @param page         分页信息
+     * @param queryRequest 角色查询请求参数
+     * @return 角色分页信息
+     */
+    public Page<SysRoleEntity> queryPageRequest(Page<SysRoleEntity> page, SysRoleQueryRequest queryRequest) {
+        LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
+        // @formatter:off
+        queryWrapper.and(
+                        StringUtils.hasText(queryRequest.getKeyWord()), wrapper -> wrapper.or()
+                                .like(SysRoleEntity::getRoleCode, queryRequest.getKeyWord())
+                                .or()
+                                .like(SysRoleEntity::getRoleName, queryRequest.getKeyWord())
+                )
+                .like(StringUtils.hasText(queryRequest.getRoleCode()), SysRoleEntity::getRoleCode, queryRequest.getRoleCode())
+                .like(StringUtils.hasText(queryRequest.getRoleName()), SysRoleEntity::getRoleName, queryRequest.getRoleName())
+                .eq(Objects.nonNull(queryRequest.getRoleStatus()), SysRoleEntity::getRoleStatus, queryRequest.getRoleStatus())
+        ;
+        // @formatter:on
+        return page(page, queryWrapper);
+    }
+
+    /**
+     * 根据角色状态查询角色列表
+     *
+     * @param roleStatusEnums 角色状态
+     * @return 角色列表信息
+     */
+    public List<SysRoleEntity> queryRolesByStatus(RoleStatusEnums roleStatusEnums) {
+        // @formatter:off
+        LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper
+                .select(SysRoleEntity::getId, SysRoleEntity::getRoleCode, SysRoleEntity::getRoleName)
+                .eq(SysRoleEntity::getRoleStatus, RoleStatusEnums.NORMAL)
+                .orderByDesc(SysRoleEntity::getRoleSort);
+        // @formatter:on
+        return list(queryWrapper);
+    }
+
+    /**
+     * 根据角色ID查询角色信息
+     *
+     * @param roleIds 角色ID列表
+     * @return true：存在，false：不存在
+     */
+    public boolean existsByRoleId(List<Long> roleIds) {
+        LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(SysRoleEntity::getId, roleIds);
+        return count(queryWrapper) == roleIds.size();
     }
 }

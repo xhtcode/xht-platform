@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 系统日志管理 表单提交参数
+ * 系统日志 表单提交参数
  *
  * @author xht
  **/

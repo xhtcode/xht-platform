@@ -1,15 +1,12 @@
 package com.xht.system.modules.log.domian.response;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.xht.framework.core.domain.response.BasicResponse;
 import com.xht.framework.log.enums.LogStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 系统日志管理 响应信息
+ * 系统日志 响应信息
  *
  * @author xht
  **/

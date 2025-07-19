@@ -1,20 +1,18 @@
 package com.xht.system.modules.authority.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.core.utils.tree.TreeNode;
 import com.xht.framework.core.utils.tree.TreeUtils;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
 import com.xht.system.modules.authority.converter.SysMenuConverter;
+import com.xht.system.modules.authority.dao.SysMenuDao;
 import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
 import com.xht.system.modules.authority.domain.request.SysMenuFormRequest;
 import com.xht.system.modules.authority.domain.request.SysMenuQueryRequest;
 import com.xht.system.modules.authority.domain.response.SysMenuResponse;
-import com.xht.system.modules.authority.dao.SysMenuDao;
 import com.xht.system.modules.authority.service.ISysMenuService;
 import com.xht.system.modules.authority.utils.MenuValidationFormat;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +39,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
 
     private final SysMenuConverter sysMenuConverter;
 
-
     /**
      * 创建菜单
      *
@@ -65,12 +62,9 @@ public class SysMenuServiceImpl implements ISysMenuService {
         if (Objects.equals(DEFAULT_PARENT_ID, formRequest.getParentId())) {
             MenuValidationFormat.checkParentType(MenuTypeEnums.M, formRequest.getMenuType());
         } else {
-            LambdaQueryWrapper<SysMenuEntity> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.select(SysMenuEntity::getMenuType);
-            queryWrapper.eq(SysMenuEntity::getId, formRequest.getParentId());
-            SysMenuEntity parentMenu = sysMenuDao.getById(queryWrapper);
-            ThrowUtils.throwIf(Objects.isNull(parentMenu), BusinessErrorCode.DATA_NOT_EXIST, "上级菜单不存在");
-            MenuValidationFormat.checkParentType(parentMenu.getMenuType(), formRequest.getMenuType());
+            MenuTypeEnums parentMenuType = sysMenuDao.getMenuType(formRequest.getParentId());
+            ThrowUtils.throwIf(Objects.isNull(parentMenuType), BusinessErrorCode.DATA_NOT_EXIST, "上级菜单不存在");
+            MenuValidationFormat.checkParentType(parentMenuType, formRequest.getMenuType());
         }
     }
 
@@ -135,20 +129,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public List<INode<Long>> findTree(SysMenuQueryRequest queryRequest) {
-        // @formatter:off
-        LambdaQueryWrapper<SysMenuEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.and(StringUtils.hasText(queryRequest.getKeyWord()), wrapper ->
-                wrapper.like(SysMenuEntity::getMenuName, queryRequest.getKeyWord())
-                        .or()
-                        .like(SysMenuEntity::getMenuAuthority, queryRequest.getKeyWord())
-        );
-        lambdaQueryWrapper
-                .eq(Objects.nonNull(queryRequest.getParentId()), SysMenuEntity::getParentId, queryRequest.getParentId())
-                .eq(Objects.nonNull(queryRequest.getMenuType()), SysMenuEntity::getMenuType, queryRequest.getMenuType())
-                .like(StringUtils.hasText(queryRequest.getMenuName()), SysMenuEntity::getMenuName, queryRequest.getMenuName())
-                .eq(Objects.nonNull(queryRequest.getMenuStatus()), SysMenuEntity::getMenuStatus, queryRequest.getMenuStatus());
-        // @formatter:on
-        List<SysMenuEntity> list = sysMenuDao.list(lambdaQueryWrapper);
+        List<SysMenuEntity> list = sysMenuDao.getMenuList(queryRequest);
         List<INode<Long>> treeNodeList = new ArrayList<>();
         for (SysMenuEntity entity : list) {
             TreeNode<Long> node = new TreeNode<>(entity.getId(), entity.getParentId(), entity.getMenuSort());
@@ -166,21 +147,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public List<INode<Long>> findSystemTree(MenuTypeEnums menuType) {
-        // @formatter:off
-        LambdaQueryWrapper<SysMenuEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.select(
-                SysMenuEntity::getId,
-                SysMenuEntity::getParentId,
-                SysMenuEntity::getMenuType,
-                SysMenuEntity::getMenuName,
-                SysMenuEntity::getMenuIcon,
-                SysMenuEntity::getMenuSort
-        );
-        lambdaQueryWrapper
-                .ne(!Objects.equals(MenuTypeEnums.ALL,menuType), SysMenuEntity::getMenuType, MenuTypeEnums.B)
-                .eq(SysMenuEntity::getMenuStatus,MenuStatusEnums.NORMAL);
-        // @formatter:on
-        List<SysMenuEntity> list = sysMenuDao.list(lambdaQueryWrapper);
+        List<SysMenuEntity> list = sysMenuDao.listMenuTree(menuType);
         List<INode<Long>> treeNodeList = new ArrayList<>();
         for (SysMenuEntity entity : list) {
             TreeNode<Long> node = new TreeNode<>(entity.getId(), entity.getParentId(), entity.getMenuSort());

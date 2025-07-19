@@ -28,7 +28,7 @@ public interface ISysDictService {
      * @param ids ID列表
      * @return 是否成功
      */
-    Boolean deleteById(List<Long> ids);
+    Boolean removeById(List<Long> ids);
 
     /**
      * 修改字典类型
@@ -52,7 +52,7 @@ public interface ISysDictService {
      * @param queryRequest 系统字典查询参数
      * @return 分页结果
      */
-    PageResponse<SysDictResponse> findPage(SysDictQueryRequest queryRequest);
+    PageResponse<SysDictResponse> selectPage(SysDictQueryRequest queryRequest);
 
 
 }

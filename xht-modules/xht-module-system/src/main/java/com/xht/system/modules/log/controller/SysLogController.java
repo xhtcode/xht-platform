@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 系统日志管理
+ * 系统日志
  *
  * @author xht
  **/
@@ -57,8 +57,8 @@ public class SysLogController {
      */
     @Operation(summary = "分页查询系统日志岗位", description = "根据提供的查询请求参数分页查询系统日志岗位信息")
     @GetMapping("/page")
-    public R<PageResponse<SysLogResponse>> findPage(@Valid SysLogQueryRequest queryRequest) {
-        return R.ok(sysLogService.findPage(queryRequest));
+    public R<PageResponse<SysLogResponse>> selectPage(@Valid SysLogQueryRequest queryRequest) {
+        return R.ok(sysLogService.selectPage(queryRequest));
     }
 
 }

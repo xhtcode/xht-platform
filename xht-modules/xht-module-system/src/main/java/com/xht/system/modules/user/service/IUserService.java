@@ -62,7 +62,7 @@ public interface IUserService {
      * @param queryRequest 用户查询请求对象
      * @return 用户对象分页结果
      */
-    PageResponse<SysUserVO> findPage(UserQueryRequest queryRequest);
+    PageResponse<SysUserVO> selectPage(UserQueryRequest queryRequest);
 
     /**
      * 重置密码

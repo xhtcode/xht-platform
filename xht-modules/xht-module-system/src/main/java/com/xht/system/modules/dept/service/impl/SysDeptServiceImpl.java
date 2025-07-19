@@ -1,26 +1,23 @@
 package com.xht.system.modules.dept.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.code.UserErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.core.utils.tree.TreeNode;
 import com.xht.framework.core.utils.tree.TreeUtils;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import com.xht.system.modules.dept.converter.SysDeptConverter;
+import com.xht.system.modules.dept.dao.SysDeptDao;
+import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
 import com.xht.system.modules.dept.domain.request.SysDeptFormRequest;
 import com.xht.system.modules.dept.domain.request.SysDeptQueryTreeRequest;
 import com.xht.system.modules.dept.domain.response.SysDeptResponse;
-import com.xht.system.modules.dept.dao.SysDeptDao;
-import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.modules.dept.service.ISysDeptService;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
-import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.dao.SysUserDeptDao;
 import com.xht.system.modules.user.dao.SysUserDao;
+import com.xht.system.modules.user.domain.entity.SysUserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -45,8 +42,6 @@ public class SysDeptServiceImpl implements ISysDeptService {
 
     private final SysUserDao sysUserDao;
 
-    private final SysUserDeptDao sysUserDeptDao;
-
     private final SysDeptConverter sysDeptConverter;
 
     /**
@@ -68,10 +63,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         Long leaderUserId = formRequest.getLeaderUserId();
         if (Objects.nonNull(leaderUserId)) {
             entity.setLeaderUserId(leaderUserId);
-            LambdaQueryWrapper<SysUserEntity> userQueryWrapper = new LambdaQueryWrapper<>();
-            userQueryWrapper.select(SysUserEntity::getUserName, SysUserEntity::getUserStatus);
-            userQueryWrapper.eq(SysUserEntity::getId, leaderUserId);
-            SysUserEntity userEntity = sysUserDao.getOne(userQueryWrapper);
+            SysUserEntity userEntity = sysUserDao.getById(leaderUserId);
             ThrowUtils.throwIf(Objects.isNull(userEntity), UserErrorCode.DATA_NOT_EXIST, "未查找到用户信息");
             ThrowUtils.throwIf(!Objects.equals(UserStatusEnums.NORMAL, userEntity.getUserStatus()), UserErrorCode.DATA_NOT_EXIST, "用户状态异常");
             entity.setLeaderName(userEntity.getUserName());
@@ -101,9 +93,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public Boolean updateById(SysDeptFormRequest formRequest) {
         // 1.校验部门是否存在
-        LambdaQueryWrapper<SysDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysDeptEntity::getId, formRequest.getId());
-        SysDeptEntity dbDept = sysDeptDao.getOne(queryWrapper);
+        SysDeptEntity dbDept = sysDeptDao.getById(formRequest.getId());
         ThrowUtils.throwIf(Objects.isNull(dbDept), BusinessErrorCode.DATA_NOT_EXIST, "修改的部门不存在");
         // 2.校验部门编码是否唯一
         String deptCode = formRequest.getDeptCode();
@@ -117,10 +107,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         String leaderName = dbDept.getLeaderName();
         if (!Objects.equals(leaderUserId, updateLeaderUserId)) {
             //校验修改的部门主管用户是否存在
-            LambdaQueryWrapper<SysUserEntity> userQueryWrapper = new LambdaQueryWrapper<>();
-            userQueryWrapper.select(SysUserEntity::getUserName, SysUserEntity::getUserStatus);
-            userQueryWrapper.eq(SysUserEntity::getId, formRequest.getLeaderUserId());
-            SysUserEntity userEntity = sysUserDao.getOne(userQueryWrapper);
+            SysUserEntity userEntity = sysUserDao.getById(formRequest.getLeaderUserId());
             ThrowUtils.throwIf(Objects.isNull(userEntity), UserErrorCode.DATA_NOT_EXIST, "未查找到用户信息");
             ThrowUtils.throwIf(!Objects.equals(UserStatusEnums.NORMAL, userEntity.getUserStatus()), UserErrorCode.DATA_NOT_EXIST, "用户状态异常");
             leaderName = userEntity.getUserName();
@@ -167,29 +154,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      */
     @Override
     public List<INode<Long>> getDeptTree(SysDeptQueryTreeRequest queryRequest) {
-        // @formatter:off
-        LambdaQueryWrapper<SysDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.and(
-                        StringUtils.hasText(queryRequest.getKeyWord()), wrapper ->
-                                wrapper
-                                        .or()
-                                        .like(SysDeptEntity::getDeptName, queryRequest.getKeyWord())
-                                        .or()
-                                        .like(SysDeptEntity::getDeptCode, queryRequest.getKeyWord())
-                                        .or()
-                                        .like(SysDeptEntity::getPhone, queryRequest.getKeyWord())
-                                        .or()
-                                        .like(SysDeptEntity::getEmail, queryRequest.getKeyWord())
-                )
-                .eq(Objects.nonNull(queryRequest.getParentId()), SysDeptEntity::getParentId, queryRequest.getParentId())
-                .like(StringUtils.hasText(queryRequest.getDeptCode()), SysDeptEntity::getDeptCode, queryRequest.getDeptCode())
-                .like(StringUtils.hasText(queryRequest.getDeptName()), SysDeptEntity::getDeptName, queryRequest.getDeptName())
-                .eq(Objects.nonNull(queryRequest.getDeptStatus()), SysDeptEntity::getDeptStatus, queryRequest.getDeptStatus())
-                .like(StringUtils.hasText(queryRequest.getPhone()), SysDeptEntity::getPhone, queryRequest.getPhone())
-                .like(StringUtils.hasText(queryRequest.getEmail()), SysDeptEntity::getPhone, queryRequest.getEmail())
-        ;
-        // @formatter:on
-        List<SysDeptEntity> list = sysDeptDao.list(queryWrapper);
+        List<SysDeptEntity> list = sysDeptDao.queryListRequest(queryRequest);
         List<INode<Long>> treeNodeList = new ArrayList<>();
         for (SysDeptEntity entity : list) {
             TreeNode<Long> node = new TreeNode<>(entity.getId(), entity.getParentId(), entity.getDeptSort());

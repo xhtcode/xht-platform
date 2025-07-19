@@ -1,15 +1,13 @@
 package com.xht.system.modules.user.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.code.UserErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.authority.dao.SysRoleDao;
-import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.entity.SysUserRoleEntity;
 import com.xht.system.modules.user.dao.SysUserDao;
 import com.xht.system.modules.user.dao.SysUserRoleDao;
+import com.xht.system.modules.user.domain.entity.SysUserEntity;
+import com.xht.system.modules.user.domain.entity.SysUserRoleEntity;
 import com.xht.system.modules.user.service.IUserRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,9 +47,7 @@ public class UserRoleServiceImpl implements IUserRoleService {
         ThrowUtils.throwIf(!userExists, UserErrorCode.DATA_NOT_EXIST);
         List<SysUserRoleEntity> sysUserRoleEntities = new ArrayList<>();
         if (!CollectionUtils.isEmpty(roleIds)) {
-            LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.in(SysRoleEntity::getId, roleIds);
-            boolean roleExists = sysRoleDao.exists(queryWrapper);
+            boolean roleExists = sysRoleDao.existsByRoleId(roleIds);
             ThrowUtils.throwIf(!roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
             roleIds.forEach(item -> {
                 SysUserRoleEntity sysUserRoleEntity = new SysUserRoleEntity();

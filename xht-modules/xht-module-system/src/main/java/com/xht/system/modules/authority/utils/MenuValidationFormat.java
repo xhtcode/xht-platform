@@ -4,7 +4,7 @@ import com.xht.framework.core.exception.ValidationException;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.StringUtils;
-import com.xht.system.authority.common.enums.*;
+
 import com.xht.system.modules.authority.common.enums.*;
 import com.xht.system.modules.authority.domain.request.SysMenuFormRequest;
 

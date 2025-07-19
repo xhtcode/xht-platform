@@ -60,7 +60,7 @@ public interface ISysDeptPostService {
      * @param queryRequest 部门岗位查询请求参数
      * @return 部门岗位分页信息
      */
-    PageResponse<SysDeptPostResponse> findPage(SysDeptPostQueryRequest queryRequest);
+    PageResponse<SysDeptPostResponse> selectPage(SysDeptPostQueryRequest queryRequest);
 
     /**
      * 根据部门ID查询部门岗位

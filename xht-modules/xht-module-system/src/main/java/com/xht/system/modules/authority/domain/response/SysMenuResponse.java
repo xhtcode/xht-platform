@@ -1,7 +1,7 @@
 package com.xht.system.modules.authority.domain.response;
 
 import com.xht.framework.core.domain.response.BasicResponse;
-import com.xht.system.authority.common.enums.*;
+
 import com.xht.system.modules.authority.common.enums.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

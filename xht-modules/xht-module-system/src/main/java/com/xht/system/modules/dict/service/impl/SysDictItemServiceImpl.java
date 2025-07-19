@@ -1,23 +1,20 @@
 package com.xht.system.modules.dict.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.modules.dict.converter.SysDictItemConverter;
+import com.xht.system.modules.dict.dao.SysDictDao;
+import com.xht.system.modules.dict.dao.SysDictItemDao;
 import com.xht.system.modules.dict.domain.entity.SysDictEntity;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
 import com.xht.system.modules.dict.domain.request.SysDictItemFormRequest;
 import com.xht.system.modules.dict.domain.request.SysDictItemQueryRequest;
 import com.xht.system.modules.dict.domain.response.SysDictItemResponse;
 import com.xht.system.modules.dict.domain.vo.SysDictVo;
-import com.xht.system.modules.dict.dao.SysDictDao;
-import com.xht.system.modules.dict.dao.SysDictItemDao;
 import com.xht.system.modules.dict.service.ISysDictItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +62,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean deleteById(List<Long> ids) {
+    public boolean removeById(List<Long> ids) {
         return sysDictItemDao.removeByIds(ids);
     }
 
@@ -106,27 +103,11 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      * @return 分页响应结果，包含系统字典项响应信息
      */
     @Override
-    public PageResponse<SysDictItemResponse> page(SysDictItemQueryRequest queryRequest) {
+    public PageResponse<SysDictItemResponse> selectPage(SysDictItemQueryRequest queryRequest) {
         if (Objects.isNull(queryRequest.getDictId())) {
             return PageTool.empty();
         }
-        LambdaQueryWrapper<SysDictItemEntity> queryWrapper = Wrappers.lambdaQuery();
-        // @formatter:off
-        queryWrapper
-                .and(StringUtils.hasLength(queryRequest.getKeyWord()), wrapper -> wrapper
-                        .like(SysDictItemEntity::getDictCode, queryRequest.getKeyWord())
-                        .or()
-                        .like(SysDictItemEntity::getItemLabel, queryRequest.getKeyWord())
-                        .or()
-                        .like(SysDictItemEntity::getItemValue, queryRequest.getKeyWord())
-                )
-                .eq(Objects.nonNull(queryRequest.getDictId()), SysDictItemEntity::getDictId, queryRequest.getDictId())
-                .like(StringUtils.hasLength(queryRequest.getDictCode()), SysDictItemEntity::getDictCode, queryRequest.getDictCode())
-                .like(StringUtils.hasLength(queryRequest.getItemLabel()), SysDictItemEntity::getItemLabel, queryRequest.getItemLabel())
-                .like(StringUtils.hasLength(queryRequest.getItemValue()), SysDictItemEntity::getItemValue, queryRequest.getItemValue())
-                .eq(Objects.nonNull(queryRequest.getStatus()), SysDictItemEntity::getStatus, queryRequest.getStatus());
-        // @formatter:on
-        Page<SysDictItemEntity> page = sysDictItemDao.page(PageTool.getPage(queryRequest), queryWrapper);
+        Page<SysDictItemEntity> page = sysDictItemDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
         return sysDictItemConverter.toResponse(page);
     }
 
@@ -140,6 +121,17 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
     @Override
     public SysDictVo getByDictCode(String dictCode) {
         SysDictEntity sysDictEntity = sysDictDao.getOneOpt(SysDictEntity::getDictCode, dictCode).orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
+        SysDictVo sysDictVo = convertEntityToVo(sysDictEntity);
+        List<SysDictItemEntity> sysDictItemEntities = sysDictItemDao.selectByDictId(sysDictEntity.getId());
+        List<SysDictItemResponse> response = sysDictItemConverter.toResponse(sysDictItemEntities);
+        sysDictVo.setItems(response);
+        return sysDictVo;
+    }
+
+    /**
+     * 转换
+     */
+    private SysDictVo convertEntityToVo(SysDictEntity sysDictEntity) {
         SysDictVo sysDictVo = new SysDictVo();
         sysDictVo.setId(sysDictEntity.getId());
         sysDictVo.setDictCode(sysDictEntity.getDictCode());
@@ -147,11 +139,6 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         sysDictVo.setSortOrder(sysDictEntity.getSortOrder());
         sysDictVo.setRemark(sysDictEntity.getRemark());
         sysDictVo.setStatus(sysDictEntity.getStatus());
-        LambdaQueryWrapper<SysDictItemEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysDictItemEntity::getDictId, sysDictEntity.getId());
-        List<SysDictItemEntity> sysDictItemEntities = sysDictItemDao.selectList(SysDictItemEntity::getDictId, sysDictEntity.getId());
-        List<SysDictItemResponse> response = sysDictItemConverter.toResponse(sysDictItemEntities);
-        sysDictVo.setItems(response);
         return sysDictVo;
     }
 

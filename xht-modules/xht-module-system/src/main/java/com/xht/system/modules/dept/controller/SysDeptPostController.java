@@ -99,8 +99,8 @@ public class SysDeptPostController {
      */
     @Operation(summary = "分页查询部门岗位", description = "根据提供的查询请求参数分页查询部门岗位信息")
     @GetMapping("/page")
-    public R<PageResponse<SysDeptPostResponse>> findPage(@Valid SysDeptPostQueryRequest queryRequest) {
-        return R.ok(SysDeptPostService.findPage(queryRequest));
+    public R<PageResponse<SysDeptPostResponse>> selectPage(@Valid SysDeptPostQueryRequest queryRequest) {
+        return R.ok(SysDeptPostService.selectPage(queryRequest));
     }
 
     /**

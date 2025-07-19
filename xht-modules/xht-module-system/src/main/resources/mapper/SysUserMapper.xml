@@ -33,7 +33,7 @@
     </sql>
 
     <!-- 自定义查询 -->
-    <select id="findPage" resultMap="BaseResultMap" parameterType="com.xht.system.modules.user.domain.request.UserQueryRequest">
+    <select id="queryPageRequest" resultMap="BaseResultMap" parameterType="com.xht.system.modules.user.domain.request.UserQueryRequest">
         SELECT
         t1.id
         , t1.user_name, t1.pass_word, t1.nick_name, t1.avatar_url, t1.user_status,

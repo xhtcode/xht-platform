@@ -49,8 +49,8 @@ public class SysOauth2ClientController {
      */
     @Operation(summary = "删除OAuth2客户端")
     @PostMapping("/delete")
-    public R<Boolean> deleteById(@RequestBody List<Long> ids) {
-        return R.ok(sysOauth2ClientService.deleteById(ids));
+    public R<Boolean> removeById(@RequestBody List<Long> ids) {
+        return R.ok(sysOauth2ClientService.removeById(ids));
     }
 
     /**
@@ -80,13 +80,13 @@ public class SysOauth2ClientController {
     /**
      * 分页查询OAuth2客户端
      *
-     * @param queryRequest 查询条件
+     * @param queryRequest 查询请求参数
      * @return 分页结果
      */
     @Operation(summary = "分页查询OAuth2客户端")
     @GetMapping("/page")
-    public R<PageResponse<SysOauth2ClientResponse>> findPage(SysOauth2ClientQueryRequest queryRequest) {
-        return R.ok(sysOauth2ClientService.findPage(queryRequest));
+    public R<PageResponse<SysOauth2ClientResponse>> selectPage(SysOauth2ClientQueryRequest queryRequest) {
+        return R.ok(sysOauth2ClientService.selectPage(queryRequest));
     }
 
     /**

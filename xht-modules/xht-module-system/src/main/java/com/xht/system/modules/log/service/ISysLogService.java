@@ -6,7 +6,7 @@ import com.xht.system.modules.log.domian.request.SysLogQueryRequest;
 import com.xht.system.modules.log.domian.response.SysLogResponse;
 
 /**
- * 系统日志管理
+ * 系统日志
  *
  * @author xht
  **/
@@ -34,5 +34,5 @@ public interface ISysLogService {
      * @param queryRequest 系统日志岗位查询请求参数
      * @return 系统日志岗位分页信息
      */
-    PageResponse<SysLogResponse> findPage(SysLogQueryRequest queryRequest);
+    PageResponse<SysLogResponse> selectPage(SysLogQueryRequest queryRequest);
 }

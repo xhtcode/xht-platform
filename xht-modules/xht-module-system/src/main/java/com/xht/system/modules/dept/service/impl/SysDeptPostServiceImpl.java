@@ -1,22 +1,20 @@
 package com.xht.system.modules.dept.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.modules.dept.converter.SysDeptPostConverter;
+import com.xht.system.modules.dept.dao.SysDeptDao;
+import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
 import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
 import com.xht.system.modules.dept.domain.request.SysDeptPostFormRequest;
 import com.xht.system.modules.dept.domain.request.SysDeptPostQueryRequest;
 import com.xht.system.modules.dept.domain.response.SysDeptPostResponse;
 import com.xht.system.modules.dept.domain.vo.SysDeptPostSimpleVo;
-import com.xht.system.modules.dept.dao.SysDeptDao;
-import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.modules.dept.service.ISysDeptPostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -123,24 +121,11 @@ public class SysDeptPostServiceImpl implements ISysDeptPostService {
      * @return 部门岗位分页信息
      */
     @Override
-    public PageResponse<SysDeptPostResponse> findPage(SysDeptPostQueryRequest queryRequest) {
+    public PageResponse<SysDeptPostResponse> selectPage(SysDeptPostQueryRequest queryRequest) {
         if (Objects.isNull(queryRequest) || Objects.isNull(queryRequest.getDeptId())) {
             return PageTool.empty();
         }
-        LambdaQueryWrapper<SysDeptPostEntity> queryWrapper = new LambdaQueryWrapper<>();
-        // @formatter:off
-        queryWrapper.and(
-                        StringUtils.hasText(queryRequest.getKeyWord()), wrapper -> wrapper.or()
-                                .like(SysDeptPostEntity::getPostCode, queryRequest.getKeyWord())
-                                .or()
-                                .like(SysDeptPostEntity::getPostName, queryRequest.getKeyWord())
-                )
-                .like(StringUtils.hasText(queryRequest.getPostCode()), SysDeptPostEntity::getPostCode, queryRequest.getPostCode())
-                .like(StringUtils.hasText(queryRequest.getPostName()), SysDeptPostEntity::getPostName, queryRequest.getPostName())
-                .eq(SysDeptPostEntity::getDeptId, queryRequest.getDeptId())
-        ;
-        // @formatter:on
-        Page<SysDeptPostEntity> page = sysDeptPostDao.page(PageTool.getPage(queryRequest), queryWrapper);
+        Page<SysDeptPostEntity> page = sysDeptPostDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
         return sysDeptPostConverter.toResponse(page);
     }
 
@@ -152,10 +137,7 @@ public class SysDeptPostServiceImpl implements ISysDeptPostService {
      */
     @Override
     public List<SysDeptPostSimpleVo> findListByDeptId(String deptId) {
-        LambdaQueryWrapper<SysDeptPostEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(SysDeptPostEntity::getId, SysDeptPostEntity::getPostCode, SysDeptPostEntity::getPostName, SysDeptPostEntity::getPostStatus);
-        queryWrapper.eq(SysDeptPostEntity::getDeptId, deptId);
-        List<SysDeptPostEntity> sysDeptPostEntities = sysDeptPostDao.list(queryWrapper);
+        List<SysDeptPostEntity> sysDeptPostEntities = sysDeptPostDao.listByDeptId(deptId);
         return sysDeptPostConverter.toSimpleVo(sysDeptPostEntities);
     }
 }

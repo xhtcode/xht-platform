@@ -70,7 +70,7 @@ public interface ISysRoleService {
      * @param queryRequest 角色查询请求参数
      * @return 角色分页信息
      */
-    PageResponse<SysRoleResponse> findPage(SysRoleQueryRequest queryRequest);
+    PageResponse<SysRoleResponse> selectPage(SysRoleQueryRequest queryRequest);
 
     /***
      * 查询所有角色

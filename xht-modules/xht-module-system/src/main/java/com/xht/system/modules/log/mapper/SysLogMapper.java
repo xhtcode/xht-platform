@@ -5,7 +5,7 @@ import com.xht.system.modules.log.domian.entity.SysLogEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 系统日志管理
+ * 系统日志
  *
  * @author xht
  **/

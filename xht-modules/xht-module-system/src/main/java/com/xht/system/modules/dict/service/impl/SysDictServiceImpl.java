@@ -1,19 +1,19 @@
 package com.xht.system.modules.dict.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.modules.dict.converter.SysDictConverter;
+import com.xht.system.modules.dict.dao.SysDictDao;
+import com.xht.system.modules.dict.dao.SysDictItemDao;
 import com.xht.system.modules.dict.domain.entity.SysDictEntity;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
 import com.xht.system.modules.dict.domain.request.SysDictFormRequest;
 import com.xht.system.modules.dict.domain.request.SysDictQueryRequest;
 import com.xht.system.modules.dict.domain.response.SysDictResponse;
-import com.xht.system.modules.dict.dao.SysDictItemDao;
-import com.xht.system.modules.dict.dao.SysDictDao;
 import com.xht.system.modules.dict.service.ISysDictService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +60,7 @@ public class SysDictServiceImpl implements ISysDictService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean deleteById(List<Long> ids) {
+    public Boolean removeById(List<Long> ids) {
         ThrowUtils.notEmpty(ids, "参数错误");
         long dictItemCount = sysDictItemDao.selectCountIn(SysDictItemEntity::getDictId, ids);
         ThrowUtils.throwIf(dictItemCount > 0, BusinessErrorCode.DATA_NOT_EXIST, "所选字典类型下有关联字典项，不能删除");
@@ -79,9 +79,7 @@ public class SysDictServiceImpl implements ISysDictService {
         ThrowUtils.notNull(id);
         // 检查系统字典管理器中是否存在指定ID的字典项
         // @formatter:off
-        SysDictEntity exists = sysDictDao.getOneOpt(new LambdaQueryWrapper<SysDictEntity>()
-                .select(SysDictEntity::getId, SysDictEntity::getDictCode, SysDictEntity::getStatus)
-                .eq(SysDictEntity::getId, id)).orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
+        SysDictEntity exists = sysDictDao.getOptById(id).orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
         // @formatter:on
         // 检查字典项编码是否存在
         Boolean checkDictCode = sysDictDao.checkDictCode(formRequest.getId(), formRequest.getDictCode());
@@ -109,8 +107,8 @@ public class SysDictServiceImpl implements ISysDictService {
      * @return 分页结果
      */
     @Override
-    public PageResponse<SysDictResponse> findPage(SysDictQueryRequest queryRequest) {
-        Page<SysDictEntity> page = sysDictDao.queryRequest(queryRequest);
+    public PageResponse<SysDictResponse> selectPage(SysDictQueryRequest queryRequest) {
+        Page<SysDictEntity> page = sysDictDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
         return sysDictConverter.toResponse(page);
     }
 

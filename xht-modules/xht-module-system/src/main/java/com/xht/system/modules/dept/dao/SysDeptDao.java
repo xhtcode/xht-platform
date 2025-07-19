@@ -2,19 +2,20 @@ package com.xht.system.modules.dept.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.spring.SpringContextUtil;
 import com.xht.framework.mybatis.dao.BasicDao;
+import com.xht.system.event.SysDeptInitPostEvent;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
+import com.xht.system.modules.dept.domain.request.SysDeptQueryTreeRequest;
 import com.xht.system.modules.dept.mapper.SysDeptMapper;
-import com.xht.system.modules.dept.mapper.SysDeptPostMapper;
-import com.xht.system.event.SysDeptInitPostEvent;
-import com.xht.system.modules.user.mapper.SysUserDeptMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -26,10 +27,6 @@ import java.util.Objects;
 @Component
 @RequiredArgsConstructor
 public class SysDeptDao extends BasicDao<SysDeptMapper, SysDeptEntity> {
-
-    private final SysDeptPostMapper sysDeptPostMapper;
-
-    private final SysUserDeptMapper sysUserDeptMapper;
 
     /**
      * 保存部门初始化数据
@@ -148,4 +145,35 @@ public class SysDeptDao extends BasicDao<SysDeptMapper, SysDeptEntity> {
     }
 
 
+    /**
+     * 查询部门列表信息
+     *
+     * @param queryRequest 查询请求参数
+     * @return 部门列表
+     */
+    public List<SysDeptEntity> queryListRequest(SysDeptQueryTreeRequest queryRequest) {
+        // @formatter:off
+        LambdaQueryWrapper<SysDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.and(
+                        StringUtils.hasText(queryRequest.getKeyWord()), wrapper ->
+                                wrapper
+                                        .or()
+                                        .like(SysDeptEntity::getDeptName, queryRequest.getKeyWord())
+                                        .or()
+                                        .like(SysDeptEntity::getDeptCode, queryRequest.getKeyWord())
+                                        .or()
+                                        .like(SysDeptEntity::getPhone, queryRequest.getKeyWord())
+                                        .or()
+                                        .like(SysDeptEntity::getEmail, queryRequest.getKeyWord())
+                )
+                .eq(Objects.nonNull(queryRequest.getParentId()), SysDeptEntity::getParentId, queryRequest.getParentId())
+                .like(StringUtils.hasText(queryRequest.getDeptCode()), SysDeptEntity::getDeptCode, queryRequest.getDeptCode())
+                .like(StringUtils.hasText(queryRequest.getDeptName()), SysDeptEntity::getDeptName, queryRequest.getDeptName())
+                .eq(Objects.nonNull(queryRequest.getDeptStatus()), SysDeptEntity::getDeptStatus, queryRequest.getDeptStatus())
+                .like(StringUtils.hasText(queryRequest.getPhone()), SysDeptEntity::getPhone, queryRequest.getPhone())
+                .like(StringUtils.hasText(queryRequest.getEmail()), SysDeptEntity::getPhone, queryRequest.getEmail())
+        ;
+        // @formatter:on
+        return list(queryWrapper);
+    }
 }

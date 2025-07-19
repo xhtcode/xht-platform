@@ -11,6 +11,7 @@ import java.util.List;
  * @author xht
  **/
 public interface IUserDeptService {
+
     /**
      * 部门分配用户
      *

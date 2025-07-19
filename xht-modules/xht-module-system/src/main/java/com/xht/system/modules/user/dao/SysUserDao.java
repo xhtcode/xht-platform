@@ -19,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author xht
  **/
@@ -152,11 +154,11 @@ public class SysUserDao extends BasicDao<SysUserMapper, SysUserEntity> {
      * 分页查询用户信息
      *
      * @param page         分页信息
-     * @param queryRequest 查询条件
+     * @param queryRequest 查询请求参数
      * @return 分页查询结果
      */
-    public Page<SysUserVO> findPage(Page<SysUserEntity> page, UserQueryRequest queryRequest) {
-        return getBaseMapper().findPage(page, queryRequest);
+    public Page<SysUserVO> queryPageRequest(Page<SysUserEntity> page, UserQueryRequest queryRequest) {
+        return getBaseMapper().queryPageRequest(page, queryRequest);
     }
 
     /**
@@ -182,4 +184,17 @@ public class SysUserDao extends BasicDao<SysUserMapper, SysUserEntity> {
                 .eq(SysUserEntity::getId, leaderUserId);
         update(updateWrapper);
     }
+
+    /**
+     * 判断用户id是否存在
+     *
+     * @param userIds 用户id列表
+     * @return true：存在；false：不存在
+     */
+    public boolean existsByUserId(List<Long> userIds) {
+        LambdaQueryWrapper<SysUserEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(SysUserEntity::getId, userIds);
+        return count(queryWrapper) == userIds.size();
+    }
+
 }

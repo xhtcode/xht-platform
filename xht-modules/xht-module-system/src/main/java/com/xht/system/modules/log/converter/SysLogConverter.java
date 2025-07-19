@@ -9,7 +9,7 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
 /**
- * 系统日志管理
+ * 系统日志
  *
  * @author xht
  **/

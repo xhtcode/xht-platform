@@ -5,11 +5,11 @@ import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.modules.oauth2.converter.SysOauth2ClientConverter;
+import com.xht.system.modules.oauth2.dao.SysOauth2ClientDao;
 import com.xht.system.modules.oauth2.domian.entity.SysOauth2ClientEntity;
 import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientFormRequest;
 import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQueryRequest;
 import com.xht.system.modules.oauth2.domian.response.SysOauth2ClientResponse;
-import com.xht.system.modules.oauth2.dao.SysOauth2ClientDao;
 import com.xht.system.modules.oauth2.service.ISysOauth2ClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +55,7 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean deleteById(List<Long> ids) {
+    public Boolean removeById(List<Long> ids) {
         return sysOauth2ClientDao.removeByIds(ids);
     }
 
@@ -67,10 +67,10 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      */
     @Override
     public Boolean updateById(SysOauth2ClientFormRequest formRequest) {
-        //Boolean deptExists = sysOauth2ClientDao.exists(SysOauth2ClientEntity::getId, formRequest.getId());
-        //ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_NOT_EXIST, "客户端不存在");
-        //Boolean exists = sysOauth2ClientDao.existsByClientId(formRequest.getClientId(), formRequest.getId());
-        //ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "客户端id已存在.");
+        Boolean deptExists = sysOauth2ClientDao.exists(SysOauth2ClientEntity::getId, formRequest.getId());
+        ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_NOT_EXIST, "客户端不存在");
+        Boolean exists = sysOauth2ClientDao.existsByClientId(formRequest.getClientId(), formRequest.getId());
+        ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "客户端id已存在.");
         return sysOauth2ClientDao.updateFormRequest(formRequest);
     }
 
@@ -93,11 +93,11 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      * @return 分页结果
      */
     @Override
-    public PageResponse<SysOauth2ClientResponse> findPage(SysOauth2ClientQueryRequest queryRequest) {
+    public PageResponse<SysOauth2ClientResponse> selectPage(SysOauth2ClientQueryRequest queryRequest) {
         if (Objects.isNull(queryRequest)) {
             return PageTool.empty();
         }
-        return sysOauth2ClientConverter.toResponse(sysOauth2ClientDao.queryRequest(queryRequest));
+        return sysOauth2ClientConverter.toResponse(sysOauth2ClientDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest));
     }
 
     /**

@@ -28,7 +28,7 @@ public interface ISysOauth2ClientService {
      * @param ids OAuth2客户端ID集合
      * @return true成功、false失败
      */
-    Boolean deleteById(List<Long> ids);
+    Boolean removeById(List<Long> ids);
 
     /**
      * 修改OAuth2客户端
@@ -49,10 +49,10 @@ public interface ISysOauth2ClientService {
     /**
      * 分页查询OAuth2客户端
      *
-     * @param queryRequest 查询条件
+     * @param queryRequest 查询请求参数
      * @return 分页结果
      */
-    PageResponse<SysOauth2ClientResponse> findPage(SysOauth2ClientQueryRequest queryRequest);
+    PageResponse<SysOauth2ClientResponse> selectPage(SysOauth2ClientQueryRequest queryRequest);
 
     /**
      *  根据clientId 获取客户端详情

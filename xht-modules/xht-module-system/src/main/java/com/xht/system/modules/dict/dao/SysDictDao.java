@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.dao.BasicDao;
-import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.modules.dict.domain.entity.SysDictEntity;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
 import com.xht.system.modules.dict.domain.request.SysDictFormRequest;
@@ -85,7 +84,7 @@ public class SysDictDao extends BasicDao<SysDictMapper, SysDictEntity> {
      * @param queryRequest 系统字典查询参数
      * @return 系统字典列表
      */
-    public Page<SysDictEntity> queryRequest(SysDictQueryRequest queryRequest) {
+    public Page<SysDictEntity> queryPageRequest(Page<SysDictEntity> page, SysDictQueryRequest queryRequest) {
         LambdaQueryWrapper<SysDictEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.and(StringUtils.hasLength(queryRequest.getKeyWord()), wrapper -> wrapper
                 .like(SysDictEntity::getDictCode, queryRequest.getKeyWord())
@@ -95,6 +94,6 @@ public class SysDictDao extends BasicDao<SysDictMapper, SysDictEntity> {
         queryWrapper.like(StringUtils.hasLength(queryRequest.getDictCode()), SysDictEntity::getDictCode, queryRequest.getDictCode());
         queryWrapper.like(StringUtils.hasLength(queryRequest.getDictName()), SysDictEntity::getDictName, queryRequest.getDictName());
         queryWrapper.eq(Objects.nonNull(queryRequest.getStatus()), SysDictEntity::getStatus, queryRequest.getStatus());
-        return page(PageTool.getPage(queryRequest), queryWrapper);
+        return page(page, queryWrapper);
     }
 }

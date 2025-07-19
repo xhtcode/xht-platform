@@ -2,14 +2,19 @@ package com.xht.system.modules.dict.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.dao.BasicDao;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
 import com.xht.system.modules.dict.domain.request.SysDictItemFormRequest;
+import com.xht.system.modules.dict.domain.request.SysDictItemQueryRequest;
 import com.xht.system.modules.dict.mapper.SysDictItemMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -58,5 +63,42 @@ public class SysDictItemDao extends BasicDao<SysDictItemMapper, SysDictItemEntit
                 .ne(Objects.nonNull(id), SysDictItemEntity::getId, id)
         ;
         return dataExists(count(lambdaQueryWrapper));
+    }
+
+    /**
+     * 分页查询字典项列表
+     *
+     * @param page         分页信息
+     * @param queryRequest 字典项查询请求参数
+     * @return 分页字典项列表
+     */
+    public Page<SysDictItemEntity> queryPageRequest(Page<SysDictItemEntity> page, SysDictItemQueryRequest queryRequest) {
+        LambdaQueryWrapper<SysDictItemEntity> queryWrapper = Wrappers.lambdaQuery();
+        // @formatter:off
+        queryWrapper
+                .and(StringUtils.hasLength(queryRequest.getKeyWord()), wrapper -> wrapper
+                        .like(SysDictItemEntity::getDictCode, queryRequest.getKeyWord())
+                        .or()
+                        .like(SysDictItemEntity::getItemLabel, queryRequest.getKeyWord())
+                        .or()
+                        .like(SysDictItemEntity::getItemValue, queryRequest.getKeyWord())
+                )
+                .eq(Objects.nonNull(queryRequest.getDictId()), SysDictItemEntity::getDictId, queryRequest.getDictId())
+                .like(StringUtils.hasLength(queryRequest.getDictCode()), SysDictItemEntity::getDictCode, queryRequest.getDictCode())
+                .like(StringUtils.hasLength(queryRequest.getItemLabel()), SysDictItemEntity::getItemLabel, queryRequest.getItemLabel())
+                .like(StringUtils.hasLength(queryRequest.getItemValue()), SysDictItemEntity::getItemValue, queryRequest.getItemValue())
+                .eq(Objects.nonNull(queryRequest.getStatus()), SysDictItemEntity::getStatus, queryRequest.getStatus());
+        // @formatter:on
+        return page(page, queryWrapper);
+    }
+
+    /**
+     * 根据字典id查询字典项列表
+     *
+     * @param dictId 字典id
+     * @return 字典项列表
+     */
+    public List<SysDictItemEntity> selectByDictId(Long dictId) {
+        return selectList(SysDictItemEntity::getDictId, dictId);
     }
 }

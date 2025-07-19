@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.dao.BasicDao;
-import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.modules.oauth2.domian.entity.SysOauth2ClientEntity;
 import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientFormRequest;
 import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQueryRequest;
@@ -68,10 +67,11 @@ public class SysOauth2ClientDao extends BasicDao<SysOauth2ClientMapper, SysOauth
     /**
      * 分页查询OAuth2客户端
      *
+     * @param page         分页信息
      * @param queryRequest 查询参数
      * @return 分页结果
      */
-    public Page<SysOauth2ClientEntity> queryRequest(SysOauth2ClientQueryRequest queryRequest) {
+    public Page<SysOauth2ClientEntity> queryPageRequest(Page<SysOauth2ClientEntity> page, SysOauth2ClientQueryRequest queryRequest) {
         LambdaQueryWrapper<SysOauth2ClientEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(
@@ -84,6 +84,6 @@ public class SysOauth2ClientDao extends BasicDao<SysOauth2ClientMapper, SysOauth
                 .like(StringUtils.hasText(queryRequest.getClientName()), SysOauth2ClientEntity::getClientName, queryRequest.getClientName())
         ;
         // @formatter:on
-        return page(PageTool.getPage(queryRequest), queryWrapper);
+        return page(page, queryWrapper);
     }
 }

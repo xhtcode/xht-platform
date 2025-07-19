@@ -9,13 +9,15 @@ import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.secret.MD5Utils;
 import com.xht.framework.mybatis.utils.PageTool;
+import com.xht.system.event.SysUserDeptUpdateEvent;
+import com.xht.system.modules.dept.dao.SysDeptDao;
+import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
 import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
 import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
-import com.xht.system.modules.dept.dao.SysDeptDao;
-import com.xht.system.modules.dept.dao.SysDeptPostDao;
-import com.xht.system.event.SysUserDeptUpdateEvent;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
+import com.xht.system.modules.user.dao.SysUserDao;
+import com.xht.system.modules.user.dao.SysUserDeptDao;
 import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
 import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
@@ -24,8 +26,6 @@ import com.xht.system.modules.user.domain.request.UserFormRequest;
 import com.xht.system.modules.user.domain.request.UserProfilesFormRequest;
 import com.xht.system.modules.user.domain.request.UserQueryRequest;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
-import com.xht.system.modules.user.dao.SysUserDeptDao;
-import com.xht.system.modules.user.dao.SysUserDao;
 import com.xht.system.modules.user.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -70,13 +70,6 @@ public class UserServiceImpl implements IUserService {
         sysUserProfilesEntity.setAddress(profile.getAddress());
         sysUserProfilesEntity.setPostalCode(profile.getPostalCode());
         return sysUserProfilesEntity;
-    }
-
-    private static SysUserDeptEntity getSysUserDeptEntity(UserFormRequest formRequest) {
-        SysUserDeptEntity sysUserDeptEntity = new SysUserDeptEntity();
-        sysUserDeptEntity.setDeptId(formRequest.getDeptId());
-        sysUserDeptEntity.setPostId(formRequest.getPostId());
-        return sysUserDeptEntity;
     }
 
     /**
@@ -199,8 +192,8 @@ public class UserServiceImpl implements IUserService {
      * @return 用户对象分页结果
      */
     @Override
-    public PageResponse<SysUserVO> findPage(UserQueryRequest queryRequest) {
-        Page<SysUserVO> page = sysUserDao.findPage(PageTool.getPage(queryRequest), queryRequest);
+    public PageResponse<SysUserVO> selectPage(UserQueryRequest queryRequest) {
+        Page<SysUserVO> page = sysUserDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
         return PageTool.getPageVo(page);
     }
 

@@ -2,7 +2,7 @@ package com.xht.system.modules.authority.domain.request;
 
 import com.xht.framework.core.domain.request.FormRequest;
 import com.xht.framework.web.validation.Groups;
-import com.xht.system.authority.common.enums.*;
+
 import com.xht.system.modules.authority.common.enums.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;

@@ -49,8 +49,8 @@ public class SysDictItemController {
      */
     @Operation(summary = "删除字典项")
     @PostMapping("/delete")
-    public R<Boolean> deleteById(@RequestBody List<Long> ids) {
-        return R.ok(sysDictItemService.deleteById(ids));
+    public R<Boolean> removeById(@RequestBody List<Long> ids) {
+        return R.ok(sysDictItemService.removeById(ids));
     }
 
     /**
@@ -86,7 +86,7 @@ public class SysDictItemController {
     @Operation(summary = "分页查询字典项")
     @GetMapping("/page")
     public R<PageResponse<SysDictItemResponse>> page(SysDictItemQueryRequest queryRequest) {
-        return R.ok(sysDictItemService.page(queryRequest));
+        return R.ok(sysDictItemService.selectPage(queryRequest));
     }
 
     /**

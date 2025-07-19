@@ -54,7 +54,7 @@ public class UserController {
      */
     @Operation(summary = "删除用户", description = "根据ID删除用户")
     @PostMapping("/delete/{id}")
-    public R<Boolean> deleteById(@PathVariable Long id) {
+    public R<Boolean> removeById(@PathVariable Long id) {
         return R.ok(userService.delete(id));
     }
 
@@ -107,8 +107,8 @@ public class UserController {
      */
     @Operation(summary = "分页获取用户列表", description = "分页获取用户列表")
     @GetMapping("/page")
-    public R<PageResponse<SysUserVO>> findPage(UserQueryRequest queryRequest) {
-        return R.ok(userService.findPage(queryRequest));
+    public R<PageResponse<SysUserVO>> selectPage(UserQueryRequest queryRequest) {
+        return R.ok(userService.selectPage(queryRequest));
     }
 
     /**

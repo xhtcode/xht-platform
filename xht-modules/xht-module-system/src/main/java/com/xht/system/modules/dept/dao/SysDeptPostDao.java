@@ -2,12 +2,15 @@ package com.xht.system.modules.dept.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.framework.core.exception.BusinessException;
+import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.dao.BasicDao;
 import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
 import com.xht.system.modules.dept.domain.request.SysDeptPostFormRequest;
+import com.xht.system.modules.dept.domain.request.SysDeptPostQueryRequest;
 import com.xht.system.modules.dept.mapper.SysDeptPostMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -186,5 +189,49 @@ public class SysDeptPostDao extends BasicDao<SysDeptPostMapper, SysDeptPostEntit
             throw new BusinessException("岗位不存在");
         }
         return one.getPostHave() + 1 > one.getPostLimit();
+    }
+
+    /**
+     * 分页查询部门岗位信息
+     *
+     * @param page         分页信息
+     * @param queryRequest 查询请求参数
+     * @return 分页数据
+     */
+    public Page<SysDeptPostEntity> queryPageRequest(Page<SysDeptPostEntity> page, SysDeptPostQueryRequest queryRequest) {
+        LambdaQueryWrapper<SysDeptPostEntity> queryWrapper = new LambdaQueryWrapper<>();
+        // @formatter:off
+        queryWrapper.and(
+                        StringUtils.hasText(queryRequest.getKeyWord()), wrapper -> wrapper.or()
+                                .like(SysDeptPostEntity::getPostCode, queryRequest.getKeyWord())
+                                .or()
+                                .like(SysDeptPostEntity::getPostName, queryRequest.getKeyWord())
+                )
+                .like(StringUtils.hasText(queryRequest.getPostCode()), SysDeptPostEntity::getPostCode, queryRequest.getPostCode())
+                .like(StringUtils.hasText(queryRequest.getPostName()), SysDeptPostEntity::getPostName, queryRequest.getPostName())
+                .eq(SysDeptPostEntity::getDeptId, queryRequest.getDeptId())
+        ;
+        // @formatter:on
+        return page(page, queryWrapper);
+    }
+
+    /**
+     * 根据部门ID查询岗位信息
+     *
+     * @param deptId 部门ID
+     * @return 岗位信息
+     */
+    public List<SysDeptPostEntity> listByDeptId(String deptId) {
+        // @formatter:off
+        LambdaQueryWrapper<SysDeptPostEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(
+                SysDeptPostEntity::getId,
+                SysDeptPostEntity::getPostCode,
+                SysDeptPostEntity::getPostName,
+                SysDeptPostEntity::getPostStatus
+        );
+        queryWrapper.eq(SysDeptPostEntity::getDeptId, deptId);
+        // @formatter:on
+        return list(queryWrapper);
     }
 }

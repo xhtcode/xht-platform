@@ -28,7 +28,7 @@ public interface ISysDictItemService {
      * @param ids 系统字典项ID
      * @return 删除是否成功
      */
-    boolean deleteById(List<Long> ids);
+    boolean removeById(List<Long> ids);
 
     /**
      * 根据ID更新系统字典项
@@ -52,7 +52,7 @@ public interface ISysDictItemService {
      * @param queryRequest 系统字典项查询请求参数
      * @return 分页响应结果，包含系统字典项响应信息
      */
-    PageResponse<SysDictItemResponse> page(SysDictItemQueryRequest queryRequest);
+    PageResponse<SysDictItemResponse> selectPage(SysDictItemQueryRequest queryRequest);
 
     /**
      * 根据字典编码获取系统字典项列表

@@ -1,17 +1,15 @@
 package com.xht.system.modules.user.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.code.UserErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.system.modules.dept.dao.SysDeptDao;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
 import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
-import com.xht.system.modules.dept.dao.SysDeptDao;
-import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
-import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.vo.UserSimpleVo;
-import com.xht.system.modules.user.dao.SysUserDeptDao;
 import com.xht.system.modules.user.dao.SysUserDao;
+import com.xht.system.modules.user.dao.SysUserDeptDao;
+import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
+import com.xht.system.modules.user.domain.vo.UserSimpleVo;
 import com.xht.system.modules.user.service.IUserDeptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,10 +51,8 @@ public class UserDeptServiceImpl implements IUserDeptService {
         ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_NOT_EXIST, "部门不存在");
         List<SysUserDeptEntity> userDeptEntities = new ArrayList<>();
         if (!CollectionUtils.isEmpty(userIds)) {
-            LambdaQueryWrapper<SysUserEntity> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.in(SysUserEntity::getId, userIds);
-            boolean userExists = sysUserDao.exists(queryWrapper);
-            ThrowUtils.throwIf(!userExists, UserErrorCode.DATA_NOT_EXIST, "用户不存在");
+            boolean userExists = sysUserDao.existsByUserId(userIds);
+            ThrowUtils.throwIf(!userExists, UserErrorCode.DATA_NOT_EXIST, "所选用户不存在");
             userIds.forEach(item -> {
                 SysUserDeptEntity entity = new SysUserDeptEntity();
                 entity.setUserId(item);
