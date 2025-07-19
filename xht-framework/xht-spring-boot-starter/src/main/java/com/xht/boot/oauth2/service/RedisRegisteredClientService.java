@@ -7,11 +7,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.util.Assert;
 
-public class RedisRegisteredClientRepository  {
+public class RedisRegisteredClientService {
 
     private final OAuth2RegisteredClientRepository registeredClientRepository;
 
-    public RedisRegisteredClientRepository(OAuth2RegisteredClientRepository registeredClientRepository) {
+    public RedisRegisteredClientService(OAuth2RegisteredClientRepository registeredClientRepository) {
         Assert.notNull(registeredClientRepository, "registeredClientRepository cannot be null");
         this.registeredClientRepository = registeredClientRepository;
     }

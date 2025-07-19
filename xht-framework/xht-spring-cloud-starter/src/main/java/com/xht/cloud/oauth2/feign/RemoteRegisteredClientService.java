@@ -29,7 +29,7 @@ public interface RemoteRegisteredClientService {
      * @return R
      */
     @NoAuthentication
-    @GetMapping("/sys/oauth2/client/getClient}/{clientId}")
+    @GetMapping("/api/sys/oauth2/client/{clientId}")
     R<OAuth2RegisteredClientDTO> getClientDetailsById(@PathVariable("clientId") String clientId);
 
 }

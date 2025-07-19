@@ -24,6 +24,10 @@
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
+            <artifactId>xht-spring-cloud-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
             <artifactId>xht-framework-web</artifactId>
         </dependency>
         <dependency>
@@ -57,16 +61,6 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-        </dependency>
-        <!--注册中心客户端-->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-        <!--配置中心客户端-->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>

@@ -2,6 +2,7 @@ package com.xht.boot.oauth2.service;
 
 import com.xht.boot.oauth2.entity.OAuth2AuthorizationGrantAuthorization;
 import com.xht.boot.oauth2.repository.OAuth2AuthorizationGrantAuthorizationRepository;
+import com.xht.framework.core.utils.spring.SpringContextUtil;
 import org.springframework.lang.Nullable;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
@@ -16,16 +17,11 @@ import java.util.Optional;
 
 public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationService {
 
-    private final RegisteredClientRepository registeredClientRepository;
-
     private final OAuth2AuthorizationGrantAuthorizationRepository authorizationGrantAuthorizationRepository;
 
-    public RedisOAuth2AuthorizationService(RegisteredClientRepository registeredClientRepository,
-                                           OAuth2AuthorizationGrantAuthorizationRepository authorizationGrantAuthorizationRepository) {
-        Assert.notNull(registeredClientRepository, "registeredClientRepository cannot be null");
+    public RedisOAuth2AuthorizationService(OAuth2AuthorizationGrantAuthorizationRepository authorizationGrantAuthorizationRepository) {
         Assert.notNull(authorizationGrantAuthorizationRepository,
                 "authorizationGrantAuthorizationRepository cannot be null");
-        this.registeredClientRepository = registeredClientRepository;
         this.authorizationGrantAuthorizationRepository = authorizationGrantAuthorizationRepository;
     }
 
@@ -107,8 +103,8 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
 
     private OAuth2Authorization toOAuth2Authorization(
             OAuth2AuthorizationGrantAuthorization authorizationGrantAuthorization) {
-        RegisteredClient registeredClient = this.registeredClientRepository
-                .findById(authorizationGrantAuthorization.getRegisteredClientId());
+        RegisteredClient registeredClient = SpringContextUtil.getBean(RegisteredClientRepository.class)
+                .findByClientId(authorizationGrantAuthorization.getRegisteredClientId());
         assert registeredClient != null;
         OAuth2Authorization.Builder builder = OAuth2Authorization.withRegisteredClient(registeredClient);
         ModelMapper.mapOAuth2AuthorizationGrantAuthorization(authorizationGrantAuthorization, builder);
