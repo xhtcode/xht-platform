@@ -1,11 +1,11 @@
 package com.xht.system.listener;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.xht.system.dept.domain.entity.SysDeptPostEntity;
-import com.xht.system.dept.manager.SysDeptPostManager;
+import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
+import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.event.SysUserDeptUpdateEvent;
-import com.xht.system.user.domain.entity.SysUserDeptEntity;
-import com.xht.system.user.manager.SysUserDeptManager;
+import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
+import com.xht.system.modules.user.dao.SysUserDeptDao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -26,9 +26,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class SysUserDeptUpdateListener implements ApplicationListener<SysUserDeptUpdateEvent> {
 
-    private final SysUserDeptManager sysUserDeptManager;
+    private final SysUserDeptDao sysUserDeptManager;
 
-    private final SysDeptPostManager sysDeptPostManager;
+    private final SysDeptPostDao sysDeptPostManager;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
