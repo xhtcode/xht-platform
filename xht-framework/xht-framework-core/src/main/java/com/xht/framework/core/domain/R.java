@@ -36,6 +36,9 @@ public class R<T> {
     @Schema(description = "数据类型")
     private DataTypeEnum dataType;
 
+    public R() {
+    }
+
     /**
      * 构造函数，用于初始化响应结果对象
      *

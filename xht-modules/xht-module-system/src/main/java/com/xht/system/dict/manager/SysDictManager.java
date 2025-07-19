@@ -2,8 +2,10 @@ package com.xht.system.dict.manager;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.manager.BasicManager;
+import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.dict.domain.entity.SysDictEntity;
 import com.xht.system.dict.domain.entity.SysDictItemEntity;
 import com.xht.system.dict.domain.request.SysDictFormRequest;
@@ -28,28 +30,6 @@ public class SysDictManager extends BasicManager<SysDictMapper, SysDictEntity> {
 
     @Resource
     private SysDictItemMapper sysDictItemMapper;
-
-    /**
-     * 构建查询Wrapper
-     *
-     * @param queryRequest 系统字典查询参数
-     * @return 构建好的LambdaQueryWrapper
-     */
-    private LambdaQueryWrapper<SysDictEntity> buildQueryWrapper(SysDictQueryRequest queryRequest) {
-        boolean keyWordExists = StringUtils.hasLength(queryRequest.getKeyWord());
-        LambdaQueryWrapper<SysDictEntity> queryWrapper = new LambdaQueryWrapper<>();
-        if (keyWordExists) {
-            queryWrapper.and(wrapper -> wrapper
-                    .like(SysDictEntity::getDictCode, queryRequest.getKeyWord())
-                    .or()
-                    .like(SysDictEntity::getDictName, queryRequest.getKeyWord())
-            );
-        }
-        queryWrapper.like(StringUtils.hasLength(queryRequest.getDictCode()), SysDictEntity::getDictCode, queryRequest.getDictCode());
-        queryWrapper.like(StringUtils.hasLength(queryRequest.getDictName()), SysDictEntity::getDictName, queryRequest.getDictName());
-        queryWrapper.eq(Objects.nonNull(queryRequest.getStatus()), SysDictEntity::getStatus, queryRequest.getStatus());
-        return queryWrapper;
-    }
 
 
     /**
@@ -97,5 +77,24 @@ public class SysDictManager extends BasicManager<SysDictMapper, SysDictEntity> {
                 .ne(Objects.nonNull(dictId), SysDictEntity::getId, dictId);
         //@formatter:on
         return dataExists(count(lambdaQueryWrapper));
+    }
+
+    /**
+     * 查询系统字典列表
+     *
+     * @param queryRequest 系统字典查询参数
+     * @return 系统字典列表
+     */
+    public Page<SysDictEntity> queryRequest(SysDictQueryRequest queryRequest) {
+        LambdaQueryWrapper<SysDictEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.and(StringUtils.hasLength(queryRequest.getKeyWord()), wrapper -> wrapper
+                .like(SysDictEntity::getDictCode, queryRequest.getKeyWord())
+                .or()
+                .like(SysDictEntity::getDictName, queryRequest.getKeyWord())
+        );
+        queryWrapper.like(StringUtils.hasLength(queryRequest.getDictCode()), SysDictEntity::getDictCode, queryRequest.getDictCode());
+        queryWrapper.like(StringUtils.hasLength(queryRequest.getDictName()), SysDictEntity::getDictName, queryRequest.getDictName());
+        queryWrapper.eq(Objects.nonNull(queryRequest.getStatus()), SysDictEntity::getStatus, queryRequest.getStatus());
+        return page(PageTool.getPage(queryRequest), queryWrapper);
     }
 }

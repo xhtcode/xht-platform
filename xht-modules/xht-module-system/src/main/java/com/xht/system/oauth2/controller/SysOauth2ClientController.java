@@ -61,7 +61,7 @@ public class SysOauth2ClientController {
      */
     @Operation(summary = "修改OAuth2客户端")
     @PostMapping("/update")
-     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysOauth2ClientFormRequest formRequest) {
+    public R<Boolean> updateById(@RequestBody SysOauth2ClientFormRequest formRequest) {
         return R.ok(sysOauth2ClientService.updateById(formRequest));
     }
 
@@ -95,7 +95,7 @@ public class SysOauth2ClientController {
      * @return 客户端详情
      */
     @InnerAuth
-    @GetMapping("/getClient/{clientId}")
+    @GetMapping("/{clientId}")
     public R<SysOauth2ClientResponse> getClient(@PathVariable("clientId") String clientId) {
         return R.ok(sysOauth2ClientService.getClient(clientId));
     }

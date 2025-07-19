@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -17,7 +19,7 @@ import java.util.Set;
  * @author xht
  **/
 @Data
-@TableName(value = "sys_oauth2_client")
+@TableName(value = "sys_oauth2_client", autoResultMap = true)
 public class SysOauth2ClientEntity extends BasicEntity implements Serializable {
 
     /**
@@ -59,19 +61,19 @@ public class SysOauth2ClientEntity extends BasicEntity implements Serializable {
     /**
      * 客户端授权类型
      */
-    @TableField(value = "authorization_grant_types")
+    @TableField(value = "authorization_grant_types", typeHandler = JacksonTypeHandler.class)
     private Set<String> authorizationGrantTypes;
 
     /**
      * 客户端作用域
      */
-    @TableField(value = "scopes")
+    @TableField(value = "scopes", typeHandler = JacksonTypeHandler.class)
     private Set<String> scopes;
 
     /**
      * 回调地址
      */
-    @TableField(value = "redirect_uris")
+    @TableField(value = "redirect_uris", typeHandler = JacksonTypeHandler.class)
     private Set<String> redirectUris;
 
     /**
@@ -89,13 +91,19 @@ public class SysOauth2ClientEntity extends BasicEntity implements Serializable {
     /**
      * 扩展信息
      */
-    @TableField(value = "additional_information")
-    private String additionalInformation;
+    @TableField(value = "additional_information", typeHandler = JacksonTypeHandler.class)
+    private Map<String, Object> additionalInformation;
 
     /**
      * 是否自动放行
      */
     @TableField(value = "auto_approve")
     private String autoApprove;
+
+    /**
+     * 备注
+     */
+    @TableField(value = "remark")
+    private String remark;
 
 }

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -20,7 +21,7 @@ public final class OAuth2RegisteredClientDTO implements IDto {
      * id
      */
     @Schema(description = "id")
-    private String id;
+    private Long id;
 
     /**
      * 客户端ID
@@ -45,13 +46,13 @@ public final class OAuth2RegisteredClientDTO implements IDto {
      * 客户端发布时间
      */
     @Schema(description = "客户端发布时间")
-    private Instant clientIdIssuedAt;
+    private String clientIdIssuedAt;
 
     /**
      * 客户端过期时间
      */
     @Schema(description = "客户端过期时间")
-    private Instant clientSecretExpiresAt;
+    private String clientSecretExpiresAt;
 
     /**
      * 客户端授权类型
@@ -87,7 +88,7 @@ public final class OAuth2RegisteredClientDTO implements IDto {
      * 扩展信息
      */
     @Schema(description = "扩展信息")
-    private String additionalInformation;
+    private Map<String, Object> additionalInformation;
 
     /**
      * 是否自动放行

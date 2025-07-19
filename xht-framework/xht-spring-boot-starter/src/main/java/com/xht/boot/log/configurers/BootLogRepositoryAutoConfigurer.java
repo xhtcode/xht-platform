@@ -5,10 +5,9 @@ import com.xht.framework.log.repository.LogRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
@@ -28,10 +27,10 @@ public class BootLogRepositoryAutoConfigurer {
      * @return LogRepository
      */
     @Bean
-    @ConditionalOnBean(JdbcTemplate.class)
+    @ConditionalOnClass(JdbcTemplate.class)
     @ConditionalOnMissingBean(LogRepository.class)
-    public LogRepository defaultLogRepository(JdbcTemplate jdbcTemplate) {
-        return new JdbcLogRepositoryImpl(jdbcTemplate);
+    public LogRepository defaultLogRepository() {
+        return new JdbcLogRepositoryImpl();
     }
 
 }

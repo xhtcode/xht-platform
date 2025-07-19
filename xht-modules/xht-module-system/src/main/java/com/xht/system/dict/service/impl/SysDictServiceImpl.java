@@ -6,8 +6,6 @@ import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.dict.converter.SysDictConverter;
 import com.xht.system.dict.domain.entity.SysDictEntity;
 import com.xht.system.dict.domain.entity.SysDictItemEntity;
@@ -107,23 +105,13 @@ public class SysDictServiceImpl implements ISysDictService {
     /**
      * 分页查询字典类型
      *
-     * @param queryRequest 查询请求
+     * @param queryRequest 系统字典查询参数
      * @return 分页结果
      */
     @Override
     public PageResponse<SysDictResponse> findPage(SysDictQueryRequest queryRequest) {
-        LambdaQueryWrapper<SysDictEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.and(StringUtils.hasLength(queryRequest.getKeyWord()), wrapper -> wrapper
-                .like(SysDictEntity::getDictCode, queryRequest.getKeyWord())
-                .or()
-                .like(SysDictEntity::getDictName, queryRequest.getKeyWord())
-        );
-        queryWrapper.like(StringUtils.hasLength(queryRequest.getDictCode()), SysDictEntity::getDictCode, queryRequest.getDictCode());
-        queryWrapper.like(StringUtils.hasLength(queryRequest.getDictName()), SysDictEntity::getDictName, queryRequest.getDictName());
-        queryWrapper.eq(Objects.nonNull(queryRequest.getStatus()), SysDictEntity::getStatus, queryRequest.getStatus());
-        // 这里可以继续其他业务逻辑，比如调用mapper进行数据库查询
-        Page<SysDictEntity> entityPage = sysDictManager.page(PageTool.getPage(queryRequest), queryWrapper);
-        return sysDictConverter.toResponse(entityPage);
+        Page<SysDictEntity> page = sysDictManager.queryRequest(queryRequest);
+        return sysDictConverter.toResponse(page);
     }
 
 

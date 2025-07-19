@@ -40,7 +40,7 @@ import static com.xht.framework.security.constant.SecurityConstant.RESOURCE_SERV
  **/
 @Slf4j
 @Configuration(value = RESOURCE_SERVER_BEAN_NAME)
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @EnableMethodSecurity
 @EnableConfigurationProperties(PermitAllUrlProperties.class)
 public class ResourceServerConfiguration {

@@ -79,7 +79,7 @@ public class SysDictController {
     /**
      * 分页查询字典类型
      *
-     * @param queryRequest 查询条件
+     * @param queryRequest 系统字典查询参数
      * @return 分页结果
      */
     @Operation(summary = "分页查询字典类型")

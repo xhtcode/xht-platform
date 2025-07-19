@@ -14,7 +14,7 @@ public class RemoteRegisteredClientFallbackFactory implements FallbackFactory<Re
 
     @Override
     public RemoteRegisteredClientService create(Throwable cause) {
-        log.error("客户端认证服务调用失败:", cause);
+        log.error("客户端认证服务调用失败: {}", cause.getMessage(), cause);
         return clientId -> R.errorMsg("客户端认证服务调用失败:");
     }
 }

@@ -2,7 +2,7 @@ package com.xht.boot.log.repository;
 
 import com.xht.framework.log.domain.dto.LogDTO;
 import com.xht.framework.log.repository.LogRepository;
-import lombok.RequiredArgsConstructor;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -12,10 +12,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author xht
  **/
 @Slf4j
-@RequiredArgsConstructor
 public class JdbcLogRepositoryImpl implements LogRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    @Resource
+    private JdbcTemplate jdbcTemplate;
 
     /**
      * 存储日志

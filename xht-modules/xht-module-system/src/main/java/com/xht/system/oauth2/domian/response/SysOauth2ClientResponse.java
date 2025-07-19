@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -44,6 +45,7 @@ public class SysOauth2ClientResponse extends BasicResponse {
      * 客户端发布时间
      */
     @Schema(description = "客户端发布时间")
+
     private Instant clientIdIssuedAt;
 
     /**
@@ -86,7 +88,7 @@ public class SysOauth2ClientResponse extends BasicResponse {
      * 扩展信息
      */
     @Schema(description = "扩展信息")
-    private String additionalInformation;
+    private Map<String, Object> additionalInformation;
 
     /**
      * 是否自动放行
@@ -94,4 +96,9 @@ public class SysOauth2ClientResponse extends BasicResponse {
     @Schema(description = "是否自动放行")
     private String autoApprove;
 
+    /**
+     * 备注
+     */
+    @Schema(description = "备注")
+    private String remark;
 }

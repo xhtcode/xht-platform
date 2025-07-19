@@ -8,6 +8,7 @@ import com.xht.framework.openfeign.annotation.NoAuthentication;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 远程客户端详情服务接口
@@ -29,7 +30,8 @@ public interface RemoteRegisteredClientService {
      * @return R
      */
     @NoAuthentication
-    @GetMapping("/api/sys/oauth2/client/{clientId}")
+    @ResponseBody()
+    @GetMapping("/sys/oauth2/client/{clientId}")
     R<OAuth2RegisteredClientDTO> getClientDetailsById(@PathVariable("clientId") String clientId);
 
 }

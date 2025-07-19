@@ -7,6 +7,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -119,5 +120,12 @@ public class SysOauth2ClientFormRequest extends FormRequest {
      * 扩展信息
      */
     @Schema(description = "扩展信息")
-    private String additionalInformation;
+    private Map<String, Object> additionalInformation;
+
+    /**
+     * 备注
+     */
+    @Schema(description = "备注")
+    private String remark;
+
 }

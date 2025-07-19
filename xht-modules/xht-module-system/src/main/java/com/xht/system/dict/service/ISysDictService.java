@@ -49,7 +49,7 @@ public interface ISysDictService {
     /**
      * 分页查询字典类型
      *
-     * @param queryRequest 查询请求
+     * @param queryRequest 系统字典查询参数
      * @return 分页结果
      */
     PageResponse<SysDictResponse> findPage(SysDictQueryRequest queryRequest);

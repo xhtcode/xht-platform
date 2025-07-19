@@ -1,11 +1,8 @@
 package com.xht.system.oauth2.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.oauth2.converter.SysOauth2ClientConverter;
 import com.xht.system.oauth2.domian.entity.SysOauth2ClientEntity;
@@ -44,7 +41,7 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      */
     @Override
     public Boolean create(SysOauth2ClientFormRequest formRequest) {
-        Boolean exists = sysOauth2ClientManager.exists(SysOauth2ClientEntity::getClientId, formRequest.getClientId());
+        Boolean exists = sysOauth2ClientManager.existsByClientId(formRequest.getClientId(), null);
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "客户端id已存在.");
         SysOauth2ClientEntity entity = sysOauth2ClientConverter.toEntity(formRequest);
         return sysOauth2ClientManager.saveTransactional(entity);
@@ -70,10 +67,10 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      */
     @Override
     public Boolean updateById(SysOauth2ClientFormRequest formRequest) {
-        Boolean deptExists = sysOauth2ClientManager.exists(SysOauth2ClientEntity::getId, formRequest.getId());
-        ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_NOT_EXIST, "客户端不存在");
-        Boolean exists = sysOauth2ClientManager.exists(SysOauth2ClientEntity::getClientId, formRequest.getClientId());
-        ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "客户端id已存在.");
+        //Boolean deptExists = sysOauth2ClientManager.exists(SysOauth2ClientEntity::getId, formRequest.getId());
+        //ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_NOT_EXIST, "客户端不存在");
+        //Boolean exists = sysOauth2ClientManager.existsByClientId(formRequest.getClientId(), formRequest.getId());
+        //ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "客户端id已存在.");
         return sysOauth2ClientManager.updateFormRequest(formRequest);
     }
 
@@ -92,7 +89,7 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
     /**
      * 分页查询OAuth2客户端
      *
-     * @param queryRequest 查询条件
+     * @param queryRequest 查询参数
      * @return 分页结果
      */
     @Override
@@ -100,20 +97,7 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
         if (Objects.isNull(queryRequest)) {
             return PageTool.empty();
         }
-        LambdaQueryWrapper<SysOauth2ClientEntity> queryWrapper = new LambdaQueryWrapper<>();
-        // @formatter:off
-        queryWrapper.and(
-                        StringUtils.hasText(queryRequest.getKeyWord()), wrapper -> wrapper.or()
-                                .like(SysOauth2ClientEntity::getClientId, queryRequest.getKeyWord())
-                                .or()
-                                .like(SysOauth2ClientEntity::getClientName, queryRequest.getKeyWord())
-                )
-                .like(StringUtils.hasText(queryRequest.getClientId()), SysOauth2ClientEntity::getClientId, queryRequest.getClientId())
-                .like(StringUtils.hasText(queryRequest.getClientName()), SysOauth2ClientEntity::getClientName, queryRequest.getClientName())
-        ;
-        // @formatter:on
-        Page<SysOauth2ClientEntity> page = sysOauth2ClientManager.page(PageTool.getPage(queryRequest), queryWrapper);
-        return sysOauth2ClientConverter.toResponse(page);
+        return sysOauth2ClientConverter.toResponse(sysOauth2ClientManager.queryRequest(queryRequest));
     }
 
     /**
