@@ -68,6 +68,10 @@ public abstract class OAuth2AuthorizationGrantAuthorization {
             this.claims = claims;
         }
 
+        public ClaimsHolder add(String key, Object value) {
+            claims.put(key, value);
+            return this;
+        }
     }
 
     @Getter

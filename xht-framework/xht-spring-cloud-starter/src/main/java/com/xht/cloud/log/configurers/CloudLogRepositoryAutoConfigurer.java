@@ -30,8 +30,8 @@ public class CloudLogRepositoryAutoConfigurer {
      * @return FeignLogRepositoryImpl 实现类
      */
     @Bean
-    public LogRepository feignLogRepositoryImpl() {
-        return new FeignLogRepositoryImpl();
+    public LogRepository feignLogRepositoryImpl(LogRepository logRepository) {
+        return new FeignLogRepositoryImpl(logRepository);
     }
 
     /**

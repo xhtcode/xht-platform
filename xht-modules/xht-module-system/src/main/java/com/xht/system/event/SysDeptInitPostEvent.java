@@ -13,6 +13,7 @@ import java.io.Serial;
  **/
 @Getter
 public class SysDeptInitPostEvent extends ApplicationEvent {
+
     @Serial
     private static final long serialVersionUID = 1L;
 

@@ -92,7 +92,7 @@ public class RSAUtils {
         Signature signature = Signature.getInstance(algorithm);
         signature.initSign(key);
         byte[] buffer = new byte[4096];
-        int len = 0;
+        int len;
         while ((len = in.read(buffer)) != -1) {
             signature.update(buffer, 0, len);
         }
@@ -107,7 +107,7 @@ public class RSAUtils {
         Signature signature = Signature.getInstance(algorithm);
         signature.initVerify(key);
         byte[] buffer = new byte[4096];
-        int len = 0;
+        int len;
         while ((len = in.read(buffer)) != -1) {
             signature.update(buffer, 0, len);
         }

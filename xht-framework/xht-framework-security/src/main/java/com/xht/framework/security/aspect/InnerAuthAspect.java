@@ -41,7 +41,7 @@ public class InnerAuthAspect implements Ordered {
     /**
      * 内部认证校验
      *
-     * @param point
+     * @param point 切点
      * @return object
      */
     @SneakyThrows

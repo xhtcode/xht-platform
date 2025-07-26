@@ -37,6 +37,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
      * @return 验证码图片
      */
     @Override
+    @SuppressWarnings("all")
     public CaptchaResponse generateCaptcha(String captchaKey) {
         if (StringUtils.hasText(captchaKey)) {
             removeCaptcha(captchaKey);

@@ -20,6 +20,7 @@ import java.io.IOException;
  * @author xht
  **/
 @Slf4j
+@SuppressWarnings("all")
 public class Http401AccessDeniedHandler implements AccessDeniedHandler {
 
     @Override

@@ -2,6 +2,7 @@ package com.xht.system.modules.log.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.openfeign.annotation.NoAuthentication;
 import com.xht.system.modules.log.domian.request.SysLogFormRequest;
 import com.xht.system.modules.log.domian.request.SysLogQueryRequest;
 import com.xht.system.modules.log.domian.response.SysLogResponse;
@@ -25,17 +26,6 @@ public class SysLogController {
 
     private final ISysLogService sysLogService;
 
-    /**
-     * 创建系统日志
-     *
-     * @param formRequest 系统日志表单请求参数
-     * @return 操作结果
-     */
-    @PostMapping("/add")
-    @Operation(summary = "创建系统日志")
-    public R<Boolean> create(@RequestBody SysLogFormRequest formRequest) {
-        return R.ok(sysLogService.create(formRequest));
-    }
 
     /**
      * 获取系统日志详情

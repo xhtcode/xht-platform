@@ -8,9 +8,7 @@ import lombok.Data;
 import java.io.Serial;
 import java.io.Serializable;
 
-/**
- * @TableName users
- */
+
 @TableName(value = "users")
 @Data
 public class Users implements Serializable {

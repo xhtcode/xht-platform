@@ -4,7 +4,7 @@ import com.xht.cloud.log.feign.factory.RemoteLogClientFallbackFactory;
 import com.xht.framework.core.constant.ServiceNameConstant;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.log.domain.dto.LogDTO;
-import com.xht.framework.openfeign.annotation.NoAuthentication;
+import com.xht.framework.security.annotation.InnerAuth;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +27,7 @@ public interface RemoteLogClientService {
      * @param logDTO 日志保存信息
      * @return 保存结果
      */
-    @NoAuthentication
+    @InnerAuth
     @PostMapping("/api/sys/log/save")
     R<Boolean> saveLog(@RequestBody LogDTO logDTO);
 }

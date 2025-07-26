@@ -9,7 +9,6 @@ import org.springframework.cloud.openfeign.FallbackFactory;
  * @author xht
  **/
 @Slf4j
-@SuppressWarnings("unused")
 public class RemoteRegisteredClientFallbackFactory implements FallbackFactory<RemoteRegisteredClientService> {
 
     @Override

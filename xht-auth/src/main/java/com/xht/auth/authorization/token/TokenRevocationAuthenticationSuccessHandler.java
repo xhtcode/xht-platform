@@ -5,6 +5,7 @@ import com.xht.framework.core.utils.HttpServletUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -15,6 +16,8 @@ import java.io.IOException;
  *
  * @author xht
  **/
+@Slf4j
+@SuppressWarnings("all")
 public class TokenRevocationAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     /**
      * Called when a user has been successfully authenticated.

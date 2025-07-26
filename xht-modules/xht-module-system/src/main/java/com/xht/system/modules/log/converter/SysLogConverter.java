@@ -1,5 +1,6 @@
 package com.xht.system.modules.log.converter;
 
+import com.xht.framework.log.domain.dto.LogDTO;
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.system.modules.log.domian.entity.SysLogEntity;
 import com.xht.system.modules.log.domian.request.SysLogFormRequest;
@@ -15,4 +16,6 @@ import org.mapstruct.ReportingPolicy;
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysLogConverter extends BasicConverter<SysLogEntity, SysLogFormRequest, SysLogResponse> {
+
+    SysLogEntity toEntity(LogDTO logDTO);
 }

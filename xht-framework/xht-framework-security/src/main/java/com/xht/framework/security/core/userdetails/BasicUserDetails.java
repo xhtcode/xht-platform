@@ -1,6 +1,8 @@
 package com.xht.framework.security.core.userdetails;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -33,6 +35,11 @@ public class BasicUserDetails implements UserDetails {
     private String password;
 
     /**
+     * 密码盐值
+     */
+    private String salt;
+
+    /**
      * 用户权限
      */
     private Collection<? extends GrantedAuthority> authorities;
@@ -50,13 +57,6 @@ public class BasicUserDetails implements UserDetails {
      */
     public void addAttribute(String key, Object value) {
         attributes.put(key, value);
-    }
-
-    /**
-     * 获取扩展属性
-     */
-    public Object getAttribute(String key) {
-        return attributes.get(key);
     }
 
 }

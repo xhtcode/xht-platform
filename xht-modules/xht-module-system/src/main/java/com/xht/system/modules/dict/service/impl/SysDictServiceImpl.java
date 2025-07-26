@@ -36,6 +36,7 @@ public class SysDictServiceImpl implements ISysDictService {
     private final SysDictDao sysDictDao;
 
     private final SysDictItemDao sysDictItemDao;
+
     private final SysDictConverter sysDictConverter;
 
     /**
@@ -62,9 +63,9 @@ public class SysDictServiceImpl implements ISysDictService {
     @Transactional(rollbackFor = Exception.class)
     public Boolean removeById(List<Long> ids) {
         ThrowUtils.notEmpty(ids, "参数错误");
-        long dictItemCount = sysDictItemDao.selectCountIn(SysDictItemEntity::getDictId, ids);
+        long dictItemCount = sysDictItemDao.count(SysDictItemEntity::getDictId, ids);
         ThrowUtils.throwIf(dictItemCount > 0, BusinessErrorCode.DATA_NOT_EXIST, "所选字典类型下有关联字典项，不能删除");
-        return sysDictDao.removeByIds(ids);
+        return sysDictDao.deleteAllById(ids);
     }
 
     /**
@@ -79,7 +80,7 @@ public class SysDictServiceImpl implements ISysDictService {
         ThrowUtils.notNull(id);
         // 检查系统字典管理器中是否存在指定ID的字典项
         // @formatter:off
-        SysDictEntity exists = sysDictDao.getOptById(id).orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
+        SysDictEntity exists = sysDictDao.findOptionalById(id).orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
         // @formatter:on
         // 检查字典项编码是否存在
         Boolean checkDictCode = sysDictDao.checkDictCode(formRequest.getId(), formRequest.getDictCode());
@@ -97,7 +98,7 @@ public class SysDictServiceImpl implements ISysDictService {
      */
     @Override
     public SysDictResponse getById(Long id) {
-        return sysDictConverter.toResponse(sysDictDao.getById(id));
+        return sysDictConverter.toResponse(sysDictDao.findById(id));
     }
 
     /**

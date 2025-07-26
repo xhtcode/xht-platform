@@ -27,10 +27,28 @@ public class SysUserResponse extends BasicResponse {
     private String userName;
 
     /**
+     * 密码
+     */
+    @Schema(description = "密码")
+    private String passWord;
+
+    /**
+     * 密码盐值
+     */
+    @Schema(description = "密码盐值")
+    private String salt;
+
+    /**
      * 用户昵称
      */
     @Schema(description = "用户昵称")
     private String nickName;
+
+    /**
+     * 手机号
+     */
+    @Schema(description = "手机号")
+    private String mobile;
 
     /**
      * 头像地址

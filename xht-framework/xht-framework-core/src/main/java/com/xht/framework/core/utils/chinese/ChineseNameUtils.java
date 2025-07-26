@@ -12,9 +12,10 @@ import java.util.Set;
  *
  * @author xht
  **/
+@SuppressWarnings("unused")
 public final class ChineseNameUtils {
 
-    public static Set<String> DOUBLE_SURNAME = new HashSet<>();
+    public final static Set<String> DOUBLE_SURNAME = new HashSet<>();
 
     static {
         DOUBLE_SURNAME.add("欧阳");
