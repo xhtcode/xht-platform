@@ -1,64 +1,64 @@
 # xht-platform
 
-## 介绍
-这是一个基于Spring Cloud Alibaba的微服务架构平台，包含认证中心、网关、系统模块等功能。平台使用OAuth2进行认证和授权，并提供部门、角色、用户、菜单、字典等基础管理功能。
+![项目logo]()
+
+## 项目介绍
+xht-platform 是一个基于 Spring Cloud Alibaba 的微服务架构平台，专为企业级应用开发设计。平台提供完整的认证授权体系、网关路由、系统管理等核心功能，帮助开发团队快速构建安全、可靠、可扩展的微服务应用。
+
+## 核心优势
+- 基于 Spring Cloud Alibaba 生态，兼容主流微服务技术栈
+- 完整的认证授权体系，基于 OAuth2 和 JWT
+- 模块化设计，支持按需集成
+- 丰富的基础管理功能，包括部门、角色、用户、菜单等
+- 内置缓存、日志、异常处理等通用组件
+- 完善的文档和示例
 
 ## 软件架构
-- Spring Boot
-- Spring Cloud Alibaba
-- OAuth2
-- MyBatis Plus
-- Redis
-- Nacos
+![架构图]()
 
-## 安装教程
-1. 下载项目代码。
-2. 配置数据库信息（MySQL）。
-3. 配置Nacos服务。
-4. 启动各个微服务模块。
+### 技术栈
+- **核心框架**：Spring Boot 2.7.x、Spring Cloud Alibaba 2021.x
+- **认证授权**：OAuth2、Spring Security
+- **数据访问**：MyBatis Plus、MySQL
+- **缓存存储**：Redis
+- **服务发现与配置**：Nacos
+- **API 网关**：Spring Cloud Gateway
+- **负载均衡**：Ribbon
+- **服务调用**：OpenFeign
+- **消息队列**：RabbitMQ
+- **日志管理**：SLF4J、Logback
+- **API 文档**：Swagger/OpenAPI
+- **前端技术**：Vue 3、Element Plus
 
-## 使用说明
-### 认证中心 (xht-auth)
-- 提供基于OAuth2的认证和授权功能。
-- 支持多种授权方式，如密码模式、客户端凭证模式等。
-- 使用Redis存储授权信息。
+## 项目结构
 
-### 网关 (xht-gateway)
-- 提供统一的API入口。
-- 实现跨域处理和请求跟踪。
-
-### 系统模块 (xht-module-system)
-#### 部门管理
-- 创建、删除、更新部门信息。
-- 支持部门状态管理。
-
-#### 角色管理
-- 创建、删除、更新角色信息。
-- 支持角色状态管理。
-- 角色与菜单绑定。
-
-#### 用户管理
-- 用户注册、删除、更新。
-- 支持密码重置和状态管理。
-- 用户与部门、角色绑定。
-
-#### 菜单管理
-- 创建、删除、更新菜单信息。
-- 支持菜单状态管理。
-- 菜单与角色绑定。
-
-#### 字典管理
-- 创建、删除、更新字典类型和字典项。
-
-## 参与贡献
-1. Fork项目。
-2. 创建新分支。
-3. 提交代码。
-4. 创建Pull Request。
-
-## 特技
-- 使用Spring Security进行安全控制。
-- 使用MyBatis Plus进行数据库操作。
-- 使用Redis进行数据缓存。
-- 使用Nacos进行服务发现和配置管理。
-- 使用Swagger进行API文档管理。
+```txt
+xht-platform
+├── .gitignore
+├── LICENSE
+├── README.md
+├── doc                  # 文档目录
+│   ├── sql              # SQL脚本
+│   └── 开发需求.md       # 开发需求文档
+├── lombok.config
+├── pom.xml
+├── xht-api              # API 定义
+├── xht-auth             # 认证中心
+├── xht-demo             # 示例模块
+├── xht-framework        # 框架核心
+│   ├── xht-framework-bom               # BOM管理
+│   ├── xht-framework-cache             # 缓存模块
+│   ├── xht-framework-core              # 核心模块
+│   ├── xht-framework-log               # 日志模块
+│   ├── xht-framework-mybatis           # MyBatis扩展
+│   ├── xht-framework-openfeign         # OpenFeign扩展
+│   ├── xht-framework-resource-server   # 资源服务器
+│   ├── xht-framework-security          # 安全模块
+│   ├── xht-framework-swagger           # Swagger扩展
+│   ├── xht-framework-web               # Web扩展
+│   ├── xht-spring-boot-starter         # Spring Boot启动器
+│   └── xht-spring-cloud-starter        # Spring Cloud启动器
+├── xht-gateway          # 网关服务
+└── xht-modules          # 业务模块
+    └── xht-module-system               # 系统管理模块
+```

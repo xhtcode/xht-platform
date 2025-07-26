@@ -29,6 +29,10 @@ public final class MenuValidationFormat {
      */
     public static void checkParentType(MenuTypeEnums parentType, MenuTypeEnums menuType) {
         switch (parentType) {
+            case ALL:
+                // 可根据实际业务需求添加ALL类型的校验逻辑，这里暂时使用与按钮类型相同的逻辑
+                ThrowUtils.throwIf(BusinessErrorCode.PARAM_ERROR, "ALL类型下不能添加子菜单、目录、按钮");
+                break;
             case M:
                 ThrowUtils.throwIf(Objects.equals(menuType, MenuTypeEnums.B), () -> ex("menuType", "目录类型下不能添加按钮"));
                 break;

@@ -7,7 +7,6 @@ import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.modules.log.converter.SysLogConverter;
 import com.xht.system.modules.log.dao.SysLogDao;
 import com.xht.system.modules.log.domian.entity.SysLogEntity;
-import com.xht.system.modules.log.domian.request.SysLogFormRequest;
 import com.xht.system.modules.log.domian.request.SysLogQueryRequest;
 import com.xht.system.modules.log.domian.response.SysLogResponse;
 import com.xht.system.modules.log.service.ISysLogService;

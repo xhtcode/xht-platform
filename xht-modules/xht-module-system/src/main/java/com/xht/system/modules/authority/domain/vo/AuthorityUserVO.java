@@ -13,7 +13,7 @@ import java.io.Serializable;
  **/
 @Data
 @Schema(description = "用户权限响应信息")
-public class AuthorityUserVO implements IVO, Serializable {
+public class AuthorityUserVO implements IVO {
 
 
 }
