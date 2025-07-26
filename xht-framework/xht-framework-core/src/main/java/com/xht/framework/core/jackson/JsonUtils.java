@@ -83,7 +83,7 @@ public final class JsonUtils {
                 if (typeReference.getType().equals(String.class)) {
                     return (T) json;
                 }
-                return (T) objectMapper.readValue(json, typeReference);
+                return objectMapper.readValue(json, typeReference);
             } catch (Exception e) {
                 throw new UtilException("json 序列化有问题!", e);
             }

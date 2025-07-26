@@ -1,12 +1,9 @@
 package com.xht.framework.mybatis.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.baomidou.mybatisplus.extension.toolkit.Db;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;

@@ -1,11 +1,10 @@
 package com.xht.system.listener;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
-import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.event.SysUserDeptUpdateEvent;
-import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
+import com.xht.system.modules.dept.dao.SysDeptPostDao;
+import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
 import com.xht.system.modules.user.dao.SysUserDeptDao;
+import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -44,19 +43,12 @@ public class SysUserDeptUpdateListener implements ApplicationListener<SysUserDep
             log.info("用户部门信息未修改，不执行监听器");
             return;
         }
-        Boolean oldResult = true;
+        Boolean oldResult;
         // 删除旧的部门信息  没有之前的部门信息，不执行删除操作
-        if (Objects.isNull(oldDeptId) && Objects.isNull(oldPostId)) {
-            LambdaQueryWrapper<SysUserDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper
-                    .eq(SysUserDeptEntity::getDeptId, oldDeptId)
-                    .eq(SysUserDeptEntity::getUserId, userId)
-                    .eq(SysUserDeptEntity::getPostId, oldPostId);
-            sysUserDeptManager.remove(queryWrapper);
+        sysUserDeptManager.deleteBy(oldDeptId, userId, oldPostId);
             //更改旧的岗位已分配的人员人数
-            SysDeptPostEntity oldDeptPostEntity = sysDeptPostManager.forUpdateById(oldPostId);
-            oldResult = sysDeptPostManager.updatePostHave(oldPostId, oldDeptPostEntity.getPostHave() - 1);
-        }
+        SysDeptPostEntity oldDeptPostEntity = sysDeptPostManager.forUpdateById(oldPostId);
+        oldResult = sysDeptPostManager.updatePostHave(oldPostId, oldDeptPostEntity.getPostHave() - 1);
         // 保存新的部门信息
         SysUserDeptEntity userDeptEntity = new SysUserDeptEntity();
         userDeptEntity.setUserId(userId);

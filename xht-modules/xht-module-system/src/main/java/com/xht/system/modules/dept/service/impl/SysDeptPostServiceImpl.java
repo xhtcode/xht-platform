@@ -67,7 +67,7 @@ public class SysDeptPostServiceImpl implements ISysDeptPostService {
     public Boolean removeById(Long id) {
         Boolean systemFlag = sysDeptPostDao.validateSystemFlag(id, SystemFlagEnums.YES);
         ThrowUtils.throwIf(systemFlag, BusinessErrorCode.DATA_TYPE_ERROR, "系统内置岗位，禁止删除");
-        return sysDeptPostDao.removeById(id);
+        return sysDeptPostDao.deleteById(id);
     }
 
     /**
@@ -82,7 +82,7 @@ public class SysDeptPostServiceImpl implements ISysDeptPostService {
         ThrowUtils.notNull(ids, BusinessErrorCode.PARAM_ERROR);
         Boolean systemFlag = sysDeptPostDao.validateSystemFlag(ids, SystemFlagEnums.YES);
         ThrowUtils.throwIf(systemFlag, BusinessErrorCode.DATA_TYPE_ERROR, "选择得到的数据中存在系统内置岗位，禁止删除");
-        return sysDeptPostDao.removeByIds(ids);
+        return sysDeptPostDao.deleteAllById(ids);
     }
 
     /**
@@ -110,7 +110,7 @@ public class SysDeptPostServiceImpl implements ISysDeptPostService {
      */
     @Override
     public SysDeptPostResponse getById(Long id) {
-        SysDeptPostEntity sysDeptPostEntity = sysDeptPostDao.getOptById(id).orElse(null);
+        SysDeptPostEntity sysDeptPostEntity = sysDeptPostDao.findOptionalById(id).orElse(null);
         return sysDeptPostConverter.toResponse(sysDeptPostEntity);
     }
 

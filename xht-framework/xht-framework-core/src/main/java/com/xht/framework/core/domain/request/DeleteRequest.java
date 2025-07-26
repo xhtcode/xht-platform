@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serial;
-import java.io.Serializable;
 
 /**
  * 通用的删除请求类

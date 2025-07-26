@@ -1,6 +1,5 @@
 package com.xht.gateway.config;
 
-import com.xht.gateway.config.properties.GatewayGlobalProperties;
 import com.xht.gateway.handler.GatewayGlobalExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

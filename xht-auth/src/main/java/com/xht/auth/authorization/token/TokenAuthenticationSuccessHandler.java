@@ -23,6 +23,7 @@ import java.util.Objects;
  * @author xht
  **/
 @Slf4j
+@SuppressWarnings("all")
 public class TokenAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override

@@ -1,18 +1,4 @@
-/*
- * Copyright 2020-2024 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package com.xht.boot.oauth2.service;
 
 import com.xht.boot.oauth2.entity.*;
@@ -33,6 +19,7 @@ import org.springframework.util.StringUtils;
 
 import java.security.Principal;
 
+@SuppressWarnings("all")
 final class ModelMapper {
 
     static OAuth2RegisteredClient convertOAuth2RegisteredClient(RegisteredClient registeredClient) {
@@ -69,6 +56,7 @@ final class ModelMapper {
                 authorizationConsent.getPrincipalName(), authorizationConsent.getAuthorities());
     }
 
+    @SuppressWarnings("all")
     static OAuth2AuthorizationGrantAuthorization convertOAuth2AuthorizationGrantAuthorization(
             OAuth2Authorization authorization) {
         if (AuthorizationGrantType.AUTHORIZATION_CODE.equals(authorization.getAuthorizationGrantType())) {

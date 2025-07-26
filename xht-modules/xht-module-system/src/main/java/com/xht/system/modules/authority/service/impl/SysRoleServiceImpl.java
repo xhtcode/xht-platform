@@ -59,7 +59,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean removeById(Long id) {
-        return sysRoleDao.removeById(id);
+        return sysRoleDao.deleteById(id);
     }
 
     /**
@@ -72,7 +72,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Transactional(rollbackFor = Exception.class)
     public Boolean removeByIds(List<Long> ids) {
         ThrowUtils.notNull(ids, BusinessErrorCode.PARAM_ERROR);
-        return sysRoleDao.removeByIds(ids);
+        return sysRoleDao.deleteAllById(ids);
     }
 
     /**
@@ -112,7 +112,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public SysRoleResponse getById(Long id) {
-        SysRoleEntity sysRoleEntity = sysRoleDao.getOptById(id).orElse(null);
+        SysRoleEntity sysRoleEntity = sysRoleDao.findOptionalById(id).orElse(null);
         return sysRoleConverter.toResponse(sysRoleEntity);
     }
 

@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  *
  * @author xht
  **/
-@SuppressWarnings("unused")
+@SuppressWarnings("all")
 public final class PageTool {
 
     private final static String[] KEYWORDS = {"master", "truncate", "insert", "select", "delete", "update", "declare", "alter", "drop", "sleep", "extractvalue", "concat"};

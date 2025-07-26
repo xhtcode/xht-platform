@@ -52,11 +52,13 @@ public class BasicUserDetails implements UserDetails {
         attributes.put(key, value);
     }
 
-    /**
-     * 获取扩展属性
-     */
-    public Object getAttribute(String key) {
-        return attributes.get(key);
-    }
+// --Commented out by Inspection START (2025/7/26 16:10):
+//    /**
+//     * 获取扩展属性
+//     */
+//    public Object getAttribute(String key) {
+//        return attributes.get(key);
+//    }
+// --Commented out by Inspection STOP (2025/7/26 16:10)
 
 }

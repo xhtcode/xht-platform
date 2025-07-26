@@ -63,7 +63,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         Long leaderUserId = formRequest.getLeaderUserId();
         if (Objects.nonNull(leaderUserId)) {
             entity.setLeaderUserId(leaderUserId);
-            SysUserEntity userEntity = sysUserDao.getById(leaderUserId);
+            SysUserEntity userEntity = sysUserDao.findById(leaderUserId);
             ThrowUtils.throwIf(Objects.isNull(userEntity), UserErrorCode.DATA_NOT_EXIST, "未查找到用户信息");
             ThrowUtils.throwIf(!Objects.equals(UserStatusEnums.NORMAL, userEntity.getUserStatus()), UserErrorCode.DATA_NOT_EXIST, "用户状态异常");
             entity.setLeaderName(userEntity.getUserName());
@@ -81,7 +81,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
     public Boolean removeById(Long id) {
         Boolean existsDeptPost = sysDeptPostDao.existsDeptPost(id);
         ThrowUtils.throwIf(existsDeptPost, BusinessErrorCode.DATA_NOT_EXIST, "该部门下已有岗位，不能删除");
-        return sysDeptDao.removeById(id);
+        return sysDeptDao.deleteById(id);
     }
 
     /**
@@ -93,7 +93,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public Boolean updateById(SysDeptFormRequest formRequest) {
         // 1.校验部门是否存在
-        SysDeptEntity dbDept = sysDeptDao.getById(formRequest.getId());
+        SysDeptEntity dbDept = sysDeptDao.findById(formRequest.getId());
         ThrowUtils.throwIf(Objects.isNull(dbDept), BusinessErrorCode.DATA_NOT_EXIST, "修改的部门不存在");
         // 2.校验部门编码是否唯一
         String deptCode = formRequest.getDeptCode();
@@ -107,7 +107,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         String leaderName = dbDept.getLeaderName();
         if (!Objects.equals(leaderUserId, updateLeaderUserId)) {
             //校验修改的部门主管用户是否存在
-            SysUserEntity userEntity = sysUserDao.getById(formRequest.getLeaderUserId());
+            SysUserEntity userEntity = sysUserDao.findById(formRequest.getLeaderUserId());
             ThrowUtils.throwIf(Objects.isNull(userEntity), UserErrorCode.DATA_NOT_EXIST, "未查找到用户信息");
             ThrowUtils.throwIf(!Objects.equals(UserStatusEnums.NORMAL, userEntity.getUserStatus()), UserErrorCode.DATA_NOT_EXIST, "用户状态异常");
             leaderName = userEntity.getUserName();
@@ -143,7 +143,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      */
     @Override
     public SysDeptResponse getById(Long id) {
-        return sysDeptConverter.toResponse(sysDeptDao.getById(id));
+        return sysDeptConverter.toResponse(sysDeptDao.findById(id));
     }
 
     /**

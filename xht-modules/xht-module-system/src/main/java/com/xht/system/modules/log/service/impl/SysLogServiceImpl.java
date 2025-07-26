@@ -50,7 +50,7 @@ public class SysLogServiceImpl implements ISysLogService {
      */
     @Override
     public SysLogResponse getById(Long id) {
-        SysLogEntity sysLogEntity = sysLogDao.getById(id);
+        SysLogEntity sysLogEntity = sysLogDao.findById(id);
         return sysLogConverter.toResponse(sysLogEntity);
     }
 

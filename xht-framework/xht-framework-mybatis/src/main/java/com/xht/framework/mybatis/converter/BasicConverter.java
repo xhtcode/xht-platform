@@ -5,9 +5,6 @@ import com.xht.framework.core.domain.request.FormRequest;
 import com.xht.framework.core.domain.response.IResponse;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.mybatis.domain.entity.Entity;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Mappings;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
