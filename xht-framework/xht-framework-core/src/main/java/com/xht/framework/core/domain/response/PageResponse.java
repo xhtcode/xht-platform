@@ -1,7 +1,6 @@
 package com.xht.framework.core.domain.response;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.NumberSerializers;
 import com.xht.framework.core.jackson.databind.CustomLongSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

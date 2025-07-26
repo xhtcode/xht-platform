@@ -3,10 +3,8 @@ package com.xht.framework.mybatis.repository.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.repository.CrudRepository;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.xht.framework.core.domain.request.PageQueryRequest;
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +30,14 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
         return DEFAULT_BATCH_SIZE;
     }
 
-    protected abstract SFunction<T, ?> getFieldId();
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    protected SFunction<T, ?> getFieldId() {
+        throw new UnsupportedOperationException("getFieldId() method not implemented");
+    }
 
 
     /**
@@ -53,7 +58,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return true：成功，false：失败
      */
     @Transactional(rollbackFor = Exception.class)
-    public Boolean saveTransactional(T entity) {
+    public boolean saveTransactional(T entity) {
         return SqlHelper.retBool(getBaseMapper().insert(entity));
     }
 
@@ -67,6 +72,28 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
     public boolean saveAll(Collection<T> entityList) {
         return super.saveBatch(entityList, getDefaultBatchSize());
     }
+
+
+    /**
+     * 批量修改插入
+     *
+     * @param entityList 实体对象集合
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean saveOrUpdateBatch(Collection<T> entityList) {
+        return saveOrUpdateBatch(entityList, DEFAULT_BATCH_SIZE);
+    }
+
+    /**
+     * 根据ID 批量更新
+     *
+     * @param entityList 实体对象集合
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateBatchById(Collection<T> entityList) {
+        return updateBatchById(entityList, DEFAULT_BATCH_SIZE);
+    }
+
 
     /**
      * 根据ID删除实体

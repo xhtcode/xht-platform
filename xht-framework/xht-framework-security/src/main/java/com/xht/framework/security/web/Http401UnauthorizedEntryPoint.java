@@ -19,6 +19,7 @@ import java.io.IOException;
  * @author xht
  **/
 @Slf4j
+@SuppressWarnings("all")
 public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
 
     @Override

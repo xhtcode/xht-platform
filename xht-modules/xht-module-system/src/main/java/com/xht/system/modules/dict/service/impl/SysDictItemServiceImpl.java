@@ -63,7 +63,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeById(List<Long> ids) {
-        return sysDictItemDao.removeByIds(ids);
+        return sysDictItemDao.deleteAllById(ids);
     }
 
     /**
@@ -93,7 +93,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      */
     @Override
     public SysDictItemResponse getById(Long id) {
-        return sysDictItemConverter.toResponse(sysDictItemDao.getById(id));
+        return sysDictItemConverter.toResponse(sysDictItemDao.findById(id));
     }
 
     /**
@@ -120,7 +120,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      */
     @Override
     public SysDictVo getByDictCode(String dictCode) {
-        SysDictEntity sysDictEntity = sysDictDao.getOneOpt(SysDictEntity::getDictCode, dictCode).orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
+        SysDictEntity sysDictEntity = sysDictDao.findOneOptional(SysDictEntity::getDictCode, dictCode).orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
         SysDictVo sysDictVo = convertEntityToVo(sysDictEntity);
         List<SysDictItemEntity> sysDictItemEntities = sysDictItemDao.selectByDictId(sysDictEntity.getId());
         List<SysDictItemResponse> response = sysDictItemConverter.toResponse(sysDictItemEntities);

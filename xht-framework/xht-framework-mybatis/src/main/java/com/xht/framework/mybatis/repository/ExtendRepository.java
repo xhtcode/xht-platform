@@ -9,7 +9,7 @@ import com.xht.framework.core.domain.request.PageQueryRequest;
  *
  * @author xht
  **/
-public interface ExpansionRepository<T, queryRequest extends PageQueryRequest, formRequest extends FormRequest> {
+public interface ExtendRepository<T, queryRequest extends PageQueryRequest, formRequest extends FormRequest> {
 
     /**
      * 分页查询列表

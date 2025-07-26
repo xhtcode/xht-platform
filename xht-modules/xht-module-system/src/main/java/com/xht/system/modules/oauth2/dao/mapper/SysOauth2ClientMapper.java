@@ -1,4 +1,4 @@
-package com.xht.system.modules.oauth2.mapper;
+package com.xht.system.modules.oauth2.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.system.modules.oauth2.domian.entity.SysOauth2ClientEntity;

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xht.system.modules.authority.mapper.SysRoleMenuMapper">
+<mapper namespace="com.xht.system.modules.authority.dao.mapper.SysRoleMenuMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.system.modules.authority.domain.entity.SysRoleMenuEntity">
         <id property="roleId" column="role_id" jdbcType="BIGINT"/>

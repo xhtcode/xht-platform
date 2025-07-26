@@ -120,7 +120,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Boolean removeByIds(List<Long> ids) {
         ThrowUtils.notNull(ids, BusinessErrorCode.PARAM_ERROR);
-        return sysUserDao.removeByIds(ids);
+        return sysUserDao.deleteAllById(ids);
     }
 
     /**
@@ -146,7 +146,7 @@ public class UserServiceImpl implements IUserService {
         sysUserEntity.setUserStatus(formRequest.getUserStatus());
         SysUserProfilesEntity sysUserProfilesEntity = getSysUserProfilesEntity(formRequest);
         sysUserProfilesEntity.setUserId(userId);
-        SysUserDeptEntity sysUserDeptEntity = sysUserDeptDao.getOneOpt(SysUserDeptEntity::getUserId, userId).orElseGet(SysUserDeptEntity::new);
+        SysUserDeptEntity sysUserDeptEntity = sysUserDeptDao.findOneOptional(SysUserDeptEntity::getUserId, userId).orElseGet(SysUserDeptEntity::new);
         sysUserDeptEntity.setUserId(userId);
         sysUserDeptEntity.setDeptId(formRequest.getDeptId());
         sysUserDeptEntity.setPostId(formRequest.getPostId());
@@ -219,7 +219,7 @@ public class UserServiceImpl implements IUserService {
     public Boolean updatePassword(UpdatePwdRequest formRequest) {
         // todo 登录现在未实现用户id获取不到，先写死
         Long userId = 1L;
-        SysUserEntity sysUserEntity = sysUserDao.getOptById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST, "用户不存在"));
+        SysUserEntity sysUserEntity = sysUserDao.findOptionalById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST, "用户不存在"));
         // todo 后期补充用户状态判断
         String oldPassword = formRequest.getOldPassword();
         String newPassword = formRequest.getNewPassword();

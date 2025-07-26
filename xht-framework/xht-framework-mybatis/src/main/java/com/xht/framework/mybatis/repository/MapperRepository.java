@@ -1,5 +1,7 @@
 package com.xht.framework.mybatis.repository;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.core.repository.CrudRepository;
 
@@ -17,13 +19,25 @@ import java.util.Optional;
 public interface MapperRepository<T> extends CrudRepository<T> {
 
     /**
+     * 默认批次提交数量
+     */
+    int DEFAULT_BATCH_SIZE = Constants.DEFAULT_BATCH_SIZE;
+
+    /**
      * 保存数据（事务）
      *
      * @param entity 实体
      * @return true：成功，false：失败
      */
-    Boolean saveTransactional(T entity);
+    boolean saveTransactional(T entity);
 
+    /**
+     * 批量保存或修改数据（事务）
+     *
+     * @param entityList 实体列表
+     * @return true：成功，false：失败
+     */
+    boolean saveOrUpdateBatch(Collection<T> entityList);
     /**
      * 根据 ID 删除
      *
@@ -84,5 +98,12 @@ public interface MapperRepository<T> extends CrudRepository<T> {
      */
     long count(SFunction<T, ?> field, Collection<?> value);
 
-
+    /**
+     * 获取 LambdaUpdateWrapper
+     *
+     * @return LambdaUpdateWrapper
+     */
+    default LambdaUpdateWrapper<T> lambdaUpdateWrapper() {
+        return new LambdaUpdateWrapper<>();
+    }
 }

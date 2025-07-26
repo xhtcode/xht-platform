@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xht.system.modules.dept.mapper.SysDeptPostMapper">
+<mapper namespace="com.xht.system.modules.dept.dao.mapper.SysDeptPostMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.system.modules.dept.domain.entity.SysDeptPostEntity">
         <id property="id" column="id" jdbcType="BIGINT"/>

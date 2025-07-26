@@ -2,11 +2,9 @@ package com.xht.framework.core.jackson.databind;
 
 import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
 import com.xht.framework.core.utils.StringUtils;
 
@@ -16,6 +14,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+@SuppressWarnings("unused")
 public class CustomInstantDeserializer extends JsonDeserializer<Instant> implements ContextualDeserializer {
 
     private final DateTimeFormatter fmt;
@@ -30,13 +29,13 @@ public class CustomInstantDeserializer extends JsonDeserializer<Instant> impleme
 
 
     @Override
-    public Instant deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Instant deserialize(JsonParser p, DeserializationContext deserializationContext) throws IOException {
         return Instant.from(fmt.parse(p.getText()));
     }
 
 
     @Override
-    public JsonDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) throws JsonMappingException {
+    public JsonDeserializer<?> createContextual(DeserializationContext deserializationContext, BeanProperty property) {
         return null;
     }
 }

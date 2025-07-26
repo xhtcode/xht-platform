@@ -1,14 +1,12 @@
 package com.xht.system.listener;
 
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
-import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
+import com.xht.system.event.SysDeptInitPostEvent;
 import com.xht.system.modules.dept.dao.SysDeptDao;
 import com.xht.system.modules.dept.dao.SysDeptPostDao;
-import com.xht.system.event.SysDeptInitPostEvent;
-import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
-import com.xht.system.modules.user.dao.SysUserDeptDao;
+import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
 import com.xht.system.modules.user.dao.SysUserDao;
+import com.xht.system.modules.user.dao.SysUserDeptDao;
+import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -35,13 +33,13 @@ import static com.xht.framework.core.enums.SystemFlagEnums.YES;
 @AllArgsConstructor
 public class SysDeptInitPostListener implements ApplicationListener<SysDeptInitPostEvent> {
 
-    private final SysDeptPostDao sysDeptPostManager;
+    private final SysDeptPostDao sysDeptPostDao;
 
-    private final SysUserDeptDao sysUserDeptManager;
+    private final SysUserDeptDao sysUserDeptDao;
 
-    private final SysDeptDao sysDeptManager;
+    private final SysDeptDao sysDeptDao;
 
-    private final SysUserDao sysUserManager;
+    private final SysUserDao sysUserDao;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -53,12 +51,9 @@ public class SysDeptInitPostListener implements ApplicationListener<SysDeptInitP
         sysDeptPostEntity.setPostHave(1);
         deptPost.add(sysDeptPostEntity);
         deptPost.add(new SysDeptPostEntity(deptId, "Employee", "员工", 1, "部门员工", 99, NO));
-        sysDeptPostManager.saveBatch(deptPost);
+        sysDeptPostDao.saveAll(deptPost);
         Long initPostId = sysDeptPostEntity.getId();
-        LambdaUpdateWrapper<SysDeptEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(SysDeptEntity::getLeaderPostId, initPostId)
-                .eq(SysDeptEntity::getId, deptId);
-        sysDeptManager.update(updateWrapper);
+        sysDeptDao.updateLeaderPostId(deptId, initPostId);
         //如果这里就设置了主管的用户id那么直接添加部门主管映射表
         Long leaderUserId = event.getLeaderUserId();
         if (Objects.nonNull(leaderUserId)) {
@@ -66,8 +61,8 @@ public class SysDeptInitPostListener implements ApplicationListener<SysDeptInitP
             userDeptEntity.setUserId(leaderUserId);
             userDeptEntity.setDeptId(deptId);
             userDeptEntity.setPostId(initPostId);
-            sysUserDeptManager.save(userDeptEntity);
-            sysUserManager.updateDept(leaderUserId, deptId);
+            sysUserDeptDao.save(userDeptEntity);
+            sysUserDao.updateDept(leaderUserId, deptId);
         }
         log.info("岗位及员工分配事件监听器结束处理");
     }

@@ -56,7 +56,7 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean removeById(List<Long> ids) {
-        return sysOauth2ClientDao.removeByIds(ids);
+        return sysOauth2ClientDao.deleteAllById(ids);
     }
 
     /**
@@ -82,7 +82,7 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      */
     @Override
     public SysOauth2ClientResponse getById(Long id) {
-        SysOauth2ClientEntity sysOauth2ClientEntity = sysOauth2ClientDao.getById(id);
+        SysOauth2ClientEntity sysOauth2ClientEntity = sysOauth2ClientDao.findById(id);
         return sysOauth2ClientConverter.toResponse(sysOauth2ClientEntity);
     }
 
@@ -108,7 +108,7 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      */
     @Override
     public SysOauth2ClientResponse getClient(String clientId) {
-        SysOauth2ClientEntity sysOauth2ClientEntity = sysOauth2ClientDao.getOneOpt(SysOauth2ClientEntity::getClientId, clientId).orElse(null);
+        SysOauth2ClientEntity sysOauth2ClientEntity = sysOauth2ClientDao.findOneOptional(SysOauth2ClientEntity::getClientId, clientId).orElse(null);
         return sysOauth2ClientConverter.toResponse(sysOauth2ClientEntity);
     }
 }

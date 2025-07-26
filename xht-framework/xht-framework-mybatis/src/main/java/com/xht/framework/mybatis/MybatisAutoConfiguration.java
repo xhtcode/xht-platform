@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Bean;
  * @author xht
  **/
 @Slf4j
+@SuppressWarnings("all")
 @AutoConfiguration
 @RequiredArgsConstructor
 public class MybatisAutoConfiguration implements CommandLineRunner {

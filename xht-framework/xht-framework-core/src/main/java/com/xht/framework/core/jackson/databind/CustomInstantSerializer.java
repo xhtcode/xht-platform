@@ -2,7 +2,6 @@ package com.xht.framework.core.jackson.databind;
 
 import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.xht.framework.core.utils.StringUtils;
@@ -13,6 +12,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+@SuppressWarnings("unused")
 public class CustomInstantSerializer extends JsonSerializer<Instant> {
 
     private final DateTimeFormatter fmt;
@@ -26,7 +26,7 @@ public class CustomInstantSerializer extends JsonSerializer<Instant> {
     }
 
     @Override
-    public void serialize(Instant value, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
+    public void serialize(Instant value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         String str = fmt.format(value);
         gen.writeString(str);
     }

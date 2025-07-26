@@ -1,4 +1,4 @@
-package com.xht.system.modules.dept.mapper;
+package com.xht.system.modules.dept.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;

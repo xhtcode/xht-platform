@@ -1,4 +1,4 @@
-package com.xht.system.modules.authority.mapper;
+package com.xht.system.modules.authority.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.system.modules.authority.domain.entity.SysMenuEntity;

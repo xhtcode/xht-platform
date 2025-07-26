@@ -1,4 +1,4 @@
-package com.xht.system.modules.dict.mapper;
+package com.xht.system.modules.dict.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;

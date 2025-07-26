@@ -1,30 +1,20 @@
 package com.xht.system.modules.authority.dao;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.mybatis.dao.BasicDao;
+import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.authority.domain.request.SysRoleFormRequest;
 import com.xht.system.modules.authority.domain.request.SysRoleQueryRequest;
-import com.xht.system.modules.authority.mapper.SysRoleMapper;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
- * 系统角色管理
+ * 系统角色管理 Dao
  *
  * @author xht
  **/
-@Slf4j
-@Component
-public class SysRoleDao extends BasicDao<SysRoleMapper, SysRoleEntity> {
+public interface SysRoleDao extends MapperRepository<SysRoleEntity> {
 
     /**
      * 更新角色信息
@@ -32,19 +22,7 @@ public class SysRoleDao extends BasicDao<SysRoleMapper, SysRoleEntity> {
      * @param formRequest 角色信息
      * @return 是否成功
      */
-    @Transactional(rollbackFor = Exception.class)
-    public Boolean updateFormRequest(SysRoleFormRequest formRequest) {
-        LambdaUpdateWrapper<SysRoleEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(SysRoleEntity::getRoleCode, formRequest.getRoleCode());
-        updateWrapper.set(SysRoleEntity::getRoleName, formRequest.getRoleName());
-        updateWrapper.set(SysRoleEntity::getDataScope, formRequest.getDataScope());
-        updateWrapper.set(SysRoleEntity::getRoleStatus, formRequest.getRoleStatus());
-        updateWrapper.set(SysRoleEntity::getRoleSort, formRequest.getRoleSort());
-        updateWrapper.set(SysRoleEntity::getRemark, formRequest.getRemark());
-        updateWrapper.eq(SysRoleEntity::getId, formRequest.getId());
-        return update(updateWrapper);
-    }
-
+    Boolean updateFormRequest(SysRoleFormRequest formRequest);
     /**
      * 更新角色状态
      *
@@ -52,13 +30,7 @@ public class SysRoleDao extends BasicDao<SysRoleMapper, SysRoleEntity> {
      * @param status 角色状态
      * @return 是否成功
      */
-    @Transactional(rollbackFor = Exception.class)
-    public Boolean updateStatus(Long id, RoleStatusEnums status) {
-        LambdaUpdateWrapper<SysRoleEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(SysRoleEntity::getRoleStatus, status);
-        updateWrapper.eq(SysRoleEntity::getId, id);
-        return update(updateWrapper);
-    }
+    Boolean updateStatus(Long id, RoleStatusEnums status);
 
     /**
      * 角色编码是否存在
@@ -67,12 +39,7 @@ public class SysRoleDao extends BasicDao<SysRoleMapper, SysRoleEntity> {
      * @param roleCode 角色编码
      * @return 是否存在
      */
-    public Boolean existsRoleCode(Long roleId, String roleCode) {
-        LambdaQueryWrapper<SysRoleEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(SysRoleEntity::getRoleCode, roleCode)
-                .ne(Objects.nonNull(roleId), SysRoleEntity::getId, roleId);
-        return dataExists(count(lambdaQueryWrapper));
-    }
+    Boolean existsRoleCode(Long roleId, String roleCode);
 
     /**
      * 分页查询角色
@@ -81,22 +48,7 @@ public class SysRoleDao extends BasicDao<SysRoleMapper, SysRoleEntity> {
      * @param queryRequest 角色查询请求参数
      * @return 角色分页信息
      */
-    public Page<SysRoleEntity> queryPageRequest(Page<SysRoleEntity> page, SysRoleQueryRequest queryRequest) {
-        LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
-        // @formatter:off
-        queryWrapper.and(
-                        StringUtils.hasText(queryRequest.getKeyWord()), wrapper -> wrapper.or()
-                                .like(SysRoleEntity::getRoleCode, queryRequest.getKeyWord())
-                                .or()
-                                .like(SysRoleEntity::getRoleName, queryRequest.getKeyWord())
-                )
-                .like(StringUtils.hasText(queryRequest.getRoleCode()), SysRoleEntity::getRoleCode, queryRequest.getRoleCode())
-                .like(StringUtils.hasText(queryRequest.getRoleName()), SysRoleEntity::getRoleName, queryRequest.getRoleName())
-                .eq(Objects.nonNull(queryRequest.getRoleStatus()), SysRoleEntity::getRoleStatus, queryRequest.getRoleStatus())
-        ;
-        // @formatter:on
-        return page(page, queryWrapper);
-    }
+    Page<SysRoleEntity> queryPageRequest(Page<SysRoleEntity> page, SysRoleQueryRequest queryRequest);
 
     /**
      * 根据角色状态查询角色列表
@@ -104,16 +56,7 @@ public class SysRoleDao extends BasicDao<SysRoleMapper, SysRoleEntity> {
      * @param roleStatusEnums 角色状态
      * @return 角色列表信息
      */
-    public List<SysRoleEntity> queryRolesByStatus(RoleStatusEnums roleStatusEnums) {
-        // @formatter:off
-        LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper
-                .select(SysRoleEntity::getId, SysRoleEntity::getRoleCode, SysRoleEntity::getRoleName)
-                .eq(SysRoleEntity::getRoleStatus, RoleStatusEnums.NORMAL)
-                .orderByDesc(SysRoleEntity::getRoleSort);
-        // @formatter:on
-        return list(queryWrapper);
-    }
+    List<SysRoleEntity> queryRolesByStatus(RoleStatusEnums roleStatusEnums);
 
     /**
      * 根据角色ID查询角色信息
@@ -121,9 +64,6 @@ public class SysRoleDao extends BasicDao<SysRoleMapper, SysRoleEntity> {
      * @param roleIds 角色ID列表
      * @return true：存在，false：不存在
      */
-    public boolean existsByRoleId(List<Long> roleIds) {
-        LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.in(SysRoleEntity::getId, roleIds);
-        return count(queryWrapper) == roleIds.size();
-    }
+    boolean existsByRoleId(List<Long> roleIds);
+
 }

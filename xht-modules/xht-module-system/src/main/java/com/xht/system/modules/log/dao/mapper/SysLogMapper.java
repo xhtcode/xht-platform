@@ -1,4 +1,4 @@
-package com.xht.system.modules.log.mapper;
+package com.xht.system.modules.log.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.system.modules.log.domian.entity.SysLogEntity;

@@ -23,7 +23,6 @@ public class BootLogRepositoryAutoConfigurer {
     /**
      * JdbcLogRepositoryImpl 实例化
      *
-     * @param jdbcTemplate JdbcTemplate
      * @return LogRepository
      */
     @Bean

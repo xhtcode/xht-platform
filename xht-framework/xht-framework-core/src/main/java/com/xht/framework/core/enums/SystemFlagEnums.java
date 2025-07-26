@@ -22,7 +22,7 @@ public enum SystemFlagEnums implements IEnum<Integer> {
     /**
      * 否
      */
-    NO(1);;
+    NO(1);
 
     @JsonValue
     private final Integer value;

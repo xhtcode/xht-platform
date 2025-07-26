@@ -9,7 +9,6 @@ import org.springframework.core.convert.converter.Converter;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 描述 ：string 转 IEnum枚举
@@ -38,7 +37,6 @@ public class IEnumsStringConvert implements Converter<String, IEnum<Serializable
 
     @Override
     public IEnum<Serializable> convert(String source) {
-        IEnum<Serializable> serializableIEnum = ENUM_MAP.get(source);
-        return Objects.nonNull(serializableIEnum) ? serializableIEnum : null;
+        return ENUM_MAP.get(source);
     }
 }

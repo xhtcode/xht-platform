@@ -8,6 +8,7 @@ import com.xht.framework.core.constant.StringConstant;
  *
  * @author xht
  **/
+@SuppressWarnings("unused")
 public final class StringUtils extends org.springframework.util.StringUtils {
 
     private static final String regex = "[\\u4e00-\\u9fff]+"; // 匹配一个或多个汉字

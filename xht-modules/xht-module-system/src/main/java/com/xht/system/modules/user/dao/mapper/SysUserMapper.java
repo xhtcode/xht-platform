@@ -1,4 +1,4 @@
-package com.xht.system.modules.user.mapper;
+package com.xht.system.modules.user.dao.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.mapper.BaseMapperX;
