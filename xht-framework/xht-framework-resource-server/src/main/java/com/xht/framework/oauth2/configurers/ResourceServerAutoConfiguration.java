@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 /**
  * @author xht
  **/
-@RequiredArgsConstructor
 public class ResourceServerAutoConfiguration {
 
     /**

@@ -7,8 +7,10 @@ import com.xht.cloud.log.repository.FeignLogRepositoryImpl;
 import com.xht.framework.log.repository.LogRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.openfeign.FeignAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Slf4j
 @Configuration
+@ConditionalOnClass(FeignAutoConfiguration.class)
 @AutoConfigureAfter(BootLogRepositoryAutoConfigurer.class)
 @EnableFeignClients(clients = RemoteLogClientService.class)
 @ConditionalOnMissingBean(LogRepository.class)

@@ -15,7 +15,6 @@ import com.xht.framework.security.properties.PermitAllUrlProperties;
 import com.xht.framework.security.web.Http401UnauthorizedEntryPoint;
 import com.xht.framework.security.web.access.Http401AccessDeniedHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -42,7 +41,6 @@ import static com.xht.framework.security.constant.SecurityConstant.RESOURCE_SERV
 @Configuration(value = RESOURCE_SERVER_BEAN_NAME)
 @EnableWebSecurity
 @EnableMethodSecurity
-@EnableConfigurationProperties(PermitAllUrlProperties.class)
 public class ResourceServerConfiguration {
 
 

@@ -49,7 +49,18 @@ public class SysRoleMenuDaoImpl extends MapperRepositoryImpl<SysRoleMenuMapper, 
      */
     @Override
     public List<Long> getRoleId(String roleId) {
-        return this.getBaseMapper().selectMenuIdByRoleId(MenuStatusEnums.NORMAL, roleId);
+        return baseMapper.selectMenuIdByRoleId(MenuStatusEnums.NORMAL, roleId);
+    }
+
+    /**
+     * 用户id获取菜单集合
+     *
+     * @param userId 用户id
+     * @return 菜单集合
+     */
+    @Override
+    public List<String> findPermissionCodeByUserId(Long userId) {
+        return baseMapper.findPermissionCodeByUserId(userId);
     }
 
     /**

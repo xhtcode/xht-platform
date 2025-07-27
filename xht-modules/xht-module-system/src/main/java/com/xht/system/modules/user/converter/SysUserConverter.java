@@ -1,5 +1,6 @@
 package com.xht.system.modules.user.converter;
 
+import com.xht.cloud.oauth2.dto.UserInfoDTO;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
 import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
 import com.xht.system.modules.user.domain.response.SysUserProfilesResponse;
@@ -46,5 +47,7 @@ public interface SysUserConverter {
      * @return 包含用户配置文件基本信息的SysUserProfilesResponse对象
      */
     SysUserProfilesResponse toResponse(SysUserProfilesEntity profilesEntity);
+
+    UserInfoDTO convertToDto(SysUserVO sysUserVO);
 
 }

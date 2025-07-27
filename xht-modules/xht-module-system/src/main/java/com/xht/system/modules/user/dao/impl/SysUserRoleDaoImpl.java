@@ -51,7 +51,7 @@ public class SysUserRoleDaoImpl extends MapperRepositoryImpl<SysUserRoleMapper, 
      */
     @Override
     public List<String> getRoleCodes(Long userId) {
-        return getBaseMapper().getRoleCodes(userId);
+        return baseMapper.getRoleCodes(userId);
     }
 
     /**
@@ -62,7 +62,7 @@ public class SysUserRoleDaoImpl extends MapperRepositoryImpl<SysUserRoleMapper, 
      */
     @Override
     public List<Long> getRoleId(String userId) {
-        return this.getBaseMapper().selectRoleIdByUserId(RoleStatusEnums.NORMAL, userId);
+        return baseMapper.selectRoleIdByUserId(RoleStatusEnums.NORMAL, userId);
     }
 
     /**
@@ -73,7 +73,7 @@ public class SysUserRoleDaoImpl extends MapperRepositoryImpl<SysUserRoleMapper, 
      */
     @Override
     public List<SysRoleEntity> findRoleListByUserId(Long userId) {
-        return this.getBaseMapper().findRoleListByUserId(userId);
+        return baseMapper.findRoleListByUserId(userId);
     }
 
     /**

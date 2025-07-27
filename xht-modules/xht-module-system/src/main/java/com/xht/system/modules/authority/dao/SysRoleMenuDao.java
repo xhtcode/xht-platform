@@ -27,4 +27,11 @@ public interface SysRoleMenuDao extends MapperRepository<SysRoleMenuEntity> {
      * @return 菜单ID集合
      */
     List<Long> getRoleId(String roleId);
+
+    /**
+     * 用户id获取菜单集合
+     * @param userId 用户id
+     * @return 菜单集合
+     */
+    List<String> findPermissionCodeByUserId(Long userId);
 }

@@ -60,7 +60,7 @@ public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
         Map<String, Object> mapParameters = HttpServletUtils.getMapParameters(httpServletRequest);
         RequestUserBO requestUserBO = RequestUserBO.builderUser(mapParameters);
         requestUserBO.checkLoginType();//todo 验证码校验逻辑 requestUserBO.getLoginType()
-        if (Objects.equals(LoginTypeEnums.PASSWORD, requestUserBO.getLoginType())) {
+        if (Objects.equals(LoginTypeEnums.QQ, requestUserBO.getLoginType())) {
             String captcha = requestUserBO.getCaptcha();
             try {
                 if (StringUtils.isEmpty(captcha)) {

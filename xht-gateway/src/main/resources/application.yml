@@ -19,5 +19,7 @@ spring:
             - Path=/admin/**
           filters:
             - StripPrefix=1
-
-# xht-system
+xht:
+  gateway:
+    global:
+      timestamp-valid-period: 120 # 时间戳有效期，单位秒

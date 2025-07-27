@@ -167,7 +167,7 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
      */
     @Override
     public SysDeptPostEntity forUpdateById(Long id) {
-        return getBaseMapper().forUpdateById(id);
+        return baseMapper.forUpdateById(id);
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.xht.framework.web;
 
-import com.xht.framework.web.convert.IEnumsIntegerConverterFactory;
-import com.xht.framework.web.convert.IEnumsStringConverterFactory;
+import com.xht.framework.web.convert.IEnumsSerializableConverterFactory;
 import com.xht.framework.web.handler.DefaultGlobalExceptionHandler;
 import com.xht.framework.web.xss.XSSProperties;
 import com.xht.framework.web.xss.filter.XSSFilter;
@@ -40,8 +39,7 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverterFactory(new IEnumsStringConverterFactory());
-        registry.addConverterFactory(new IEnumsIntegerConverterFactory());
+        registry.addConverterFactory(new IEnumsSerializableConverterFactory());
     }
 
     /**
