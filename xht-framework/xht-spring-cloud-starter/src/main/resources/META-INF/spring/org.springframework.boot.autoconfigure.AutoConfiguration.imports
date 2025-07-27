@@ -1,2 +1,3 @@
 com.xht.cloud.log.configurers.CloudLogRepositoryAutoConfigurer
 com.xht.cloud.oauth2.configurers.CloudRegisteredClientAutoConfig
+com.xht.cloud.security.configurers.CloudSecurityAutoConfig

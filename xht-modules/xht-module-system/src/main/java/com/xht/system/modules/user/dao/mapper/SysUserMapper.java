@@ -36,11 +36,11 @@ public interface SysUserMapper extends BaseMapperX<SysUserEntity> {
     /**
      * 根据用户名和登录类型查询用户信息
      *
-     * @param username  用户名
+     * @param userName  用户名
      * @param loginType 登录类型
      * @return 用户信息
      */
-    SysUserVO findByUsernameAndLoginType(String username, LoginTypeEnums loginType);
+    SysUserVO findByUsernameAndLoginType(@Param("userName") String userName, @Param("loginType") LoginTypeEnums loginType);
 }
 
 

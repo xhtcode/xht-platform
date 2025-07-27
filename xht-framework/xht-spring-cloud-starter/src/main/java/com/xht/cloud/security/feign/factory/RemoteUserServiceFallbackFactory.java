@@ -1,5 +1,6 @@
 package com.xht.cloud.security.feign.factory;
 
+import com.xht.cloud.oauth2.dto.UserInfoDTO;
 import com.xht.cloud.security.feign.RemoteUserService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
@@ -27,7 +28,7 @@ public class RemoteUserServiceFallbackFactory implements FallbackFactory<RemoteU
              * @return 用户信息
              */
             @Override
-            public R<BasicUserDetails> loadUserByUsername(String username, LoginTypeEnums loginType) {
+            public R<UserInfoDTO> loadUserByUsername(String username, LoginTypeEnums loginType) {
                 log.error("客户端认证服务调用失败: {}", cause.getMessage(), cause);
                 return R.errorMsg("客户端认证服务调用失败:");
             }

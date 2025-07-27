@@ -48,7 +48,7 @@ public class SysUserDeptDaoImpl extends MapperRepositoryImpl<SysUserDeptMapper, 
      */
     @Override
     public List<UserSimpleVo> findUserSimpleVoByDeptId(Long deptId) {
-        return getBaseMapper().findUserSimpleVoByDeptId(deptId, UserStatusEnums.NORMAL);
+        return baseMapper.findUserSimpleVoByDeptId(deptId, UserStatusEnums.NORMAL);
     }
 
     /**
@@ -59,7 +59,7 @@ public class SysUserDeptDaoImpl extends MapperRepositoryImpl<SysUserDeptMapper, 
      */
     @Override
     public SysDeptPostVo getDeptPostByUserId(Long userId) {
-        return getBaseMapper().getDeptPostByUserId(userId);
+        return baseMapper.getDeptPostByUserId(userId);
     }
 
     /**

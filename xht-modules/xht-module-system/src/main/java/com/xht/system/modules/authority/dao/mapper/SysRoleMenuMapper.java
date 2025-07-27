@@ -4,6 +4,7 @@ import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.domain.entity.SysRoleMenuEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,6 +24,14 @@ public interface SysRoleMenuMapper extends BaseMapperX<SysRoleMenuEntity> {
      * @return 菜单ID集合
      */
     List<Long> selectMenuIdByRoleId(MenuStatusEnums menuStatus, String roleId);
+
+    /**
+     * 用户id获取菜单集合
+     *
+     * @param userId 用户id
+     * @return 菜单集合
+     */
+    List<String> findPermissionCodeByUserId(@Param("userId") Long userId);
 }
 
 

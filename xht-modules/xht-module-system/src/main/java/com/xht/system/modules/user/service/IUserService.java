@@ -1,5 +1,6 @@
 package com.xht.system.modules.user.service;
 
+import com.xht.cloud.oauth2.dto.UserInfoDTO;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
@@ -98,5 +99,5 @@ public interface IUserService {
      * @param loginType 登录类型
      * @return 用户信息
      */
-    BasicUserDetails loadUserByUsername(String username, LoginTypeEnums loginType);
+    UserInfoDTO loadUserByUsername(String username, LoginTypeEnums loginType);
 }

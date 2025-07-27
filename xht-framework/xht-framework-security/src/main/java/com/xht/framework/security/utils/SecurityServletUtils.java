@@ -5,7 +5,6 @@ import com.xht.framework.core.jackson.JsonUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 import java.io.IOException;
 
@@ -32,7 +31,7 @@ public final class SecurityServletUtils {
         response.setHeader("Access-Control-Allow-Headers", "token, Accept, Origin, X-Requested-With, Content-Type, Last-Modified");
         response.setCharacterEncoding(HttpConstants.Character.UTF8.getCode());
         try {
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setContentType(HttpConstants.ContentType.APPLICATION_JSON_UTF8_VALUE.getCode());
             response.getWriter().write(JsonUtils.toJsonString(data));
             response.getWriter().flush();
         } catch (IOException ex) {

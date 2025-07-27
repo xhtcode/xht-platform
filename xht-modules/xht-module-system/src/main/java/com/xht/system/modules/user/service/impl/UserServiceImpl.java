@@ -1,6 +1,7 @@
 package com.xht.system.modules.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.cloud.oauth2.dto.UserInfoDTO;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
@@ -10,8 +11,8 @@ import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.secret.MD5Utils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
-import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.system.event.SysUserDeptUpdateEvent;
+import com.xht.system.modules.authority.dao.SysRoleMenuDao;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.dept.dao.SysDeptDao;
 import com.xht.system.modules.dept.dao.SysDeptPostDao;
@@ -19,6 +20,7 @@ import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
 import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
 import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
+import com.xht.system.modules.user.converter.SysUserConverter;
 import com.xht.system.modules.user.dao.SysUserDao;
 import com.xht.system.modules.user.dao.SysUserDeptDao;
 import com.xht.system.modules.user.dao.SysUserRoleDao;
@@ -35,10 +37,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 用户Service实现类
@@ -59,6 +62,10 @@ public class UserServiceImpl implements IUserService {
     private final SysDeptPostDao sysDeptPostDao;
 
     private final SysUserRoleDao sysUserRoleDao;
+
+    private final SysRoleMenuDao sysRoleMenuDao;
+
+    private final SysUserConverter sysUserConverter;
 
     /**
      * 获取用户信息实体
@@ -263,7 +270,7 @@ public class UserServiceImpl implements IUserService {
      * @return 用户信息
      */
     @Override
-    public BasicUserDetails loadUserByUsername(String username, LoginTypeEnums loginType) {
+    public UserInfoDTO loadUserByUsername(String username, LoginTypeEnums loginType) {
         if (Objects.isNull(loginType) || Objects.equals(loginType, LoginTypeEnums.WECHAT) || Objects.equals(loginType, LoginTypeEnums.QQ)) {
             return null;
         }
@@ -272,11 +279,14 @@ public class UserServiceImpl implements IUserService {
             return null;
         }
         List<SysRoleEntity> roles = sysUserRoleDao.findRoleListByUserId(sysUserVO.getId());
-        BasicUserDetails basicUserDetails = new BasicUserDetails();
-        basicUserDetails.setUsername(sysUserVO.getUserName());
-        basicUserDetails.setPassword(sysUserVO.getPassWord());
-        basicUserDetails.setSalt(sysUserVO.getSalt());
-        basicUserDetails.setAuthorities(Collections.emptyList());
-        return basicUserDetails;
+        List<String> permissionCodes = sysRoleMenuDao.findPermissionCodeByUserId(sysUserVO.getId());
+        UserInfoDTO userInfoDTO = sysUserConverter.convertToDto(sysUserVO);
+        if (!CollectionUtils.isEmpty(roles)) {
+            userInfoDTO.setRoleCodes(roles.stream().map(SysRoleEntity::getRoleCode).collect(Collectors.toList()));
+        }
+        if (!CollectionUtils.isEmpty(permissionCodes)) {
+            userInfoDTO.setPermissionCodes(permissionCodes);
+        }
+        return userInfoDTO;
     }
 }

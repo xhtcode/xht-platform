@@ -1,11 +1,11 @@
 package com.xht.cloud.security.feign;
 
+import com.xht.cloud.oauth2.dto.UserInfoDTO;
 import com.xht.cloud.security.feign.factory.RemoteUserServiceFallbackFactory;
 import com.xht.framework.core.constant.ServiceNameConstant;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.openfeign.annotation.NoAuthentication;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
-import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +33,6 @@ public interface RemoteUserService {
     @NoAuthentication
     @ResponseBody
     @GetMapping("/api/sys/user/{username}/{loginType}")
-    R<BasicUserDetails> loadUserByUsername(@PathVariable("username") String username, @PathVariable("loginType") LoginTypeEnums loginType);
+    R<UserInfoDTO> loadUserByUsername(@PathVariable("username") String username, @PathVariable("loginType") LoginTypeEnums loginType);
 
 }

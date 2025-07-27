@@ -169,7 +169,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      */
     @Override
     public Page<SysUserVO> queryPageRequest(Page<SysUserEntity> page, UserQueryRequest queryRequest) {
-        return getBaseMapper().queryPageRequest(page, queryRequest);
+        return baseMapper.queryPageRequest(page, queryRequest);
     }
 
     /**
@@ -180,7 +180,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      */
     @Override
     public SysUserVO findInfoByUserId(Long userId) {
-        return getBaseMapper().findInfoByUserId(userId);
+        return baseMapper.findInfoByUserId(userId);
     }
 
     /**
@@ -220,7 +220,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      */
     @Override
     public SysUserVO findByUsernameAndLoginType(String username, LoginTypeEnums loginType) {
-        return getBaseMapper().findByUsernameAndLoginType(username, loginType);
+        return baseMapper.findByUsernameAndLoginType(username, loginType);
     }
 
     /**

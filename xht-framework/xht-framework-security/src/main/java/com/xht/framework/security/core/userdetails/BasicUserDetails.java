@@ -1,9 +1,10 @@
 package com.xht.framework.security.core.userdetails;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
@@ -16,38 +17,60 @@ import java.util.Map;
  *
  * @author xht
  **/
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class BasicUserDetails implements UserDetails {
+public class BasicUserDetails extends User implements UserDetails {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户账号
-     */
-    private String username;
-
-    /**
-     * 用户密码
-     */
-    private String password;
-
-    /**
-     * 密码盐值
-     */
-    private String salt;
-
-    /**
-     * 用户权限
-     */
-    private Collection<? extends GrantedAuthority> authorities;
-
-    /**
      * 扩展属性，方便存放oauth 上下文相关信息
      */
+    @Getter
     private final Map<String, Object> attributes = new HashMap<>();
+
+    /**
+     * 用户ID
+     */
+    @Getter
+    @JsonSerialize(using = ToStringSerializer.class)
+    private final Long userId;
+
+    /**
+     * 部门ID
+     */
+    @Getter
+    @JsonSerialize(using = ToStringSerializer.class)
+    private final Long deptId;
+
+    /**
+     * 手机号
+     */
+    @Getter
+    private final String mobile;
+
+    /**
+     * 构造器
+     *
+     * @param userId           用户ID
+     * @param deptId           部门ID
+     * @param username         用户名
+     * @param password         密码
+     * @param mobile           手机号
+     * @param accountNonLocked 账户是否未锁定
+     * @param authorities      权限列表
+     */
+    public BasicUserDetails(Long userId,
+                            Long deptId,
+                            String username,
+                            String password,
+                            String mobile,
+                            boolean accountNonLocked,
+                            Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, true, true, true, accountNonLocked, authorities);
+        this.userId = userId;
+        this.deptId = deptId;
+        this.mobile = mobile;
+    }
 
     /**
      * 添加扩展属性

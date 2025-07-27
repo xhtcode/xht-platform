@@ -43,7 +43,6 @@ public enum LoginTypeEnums implements IEnum<String>, Serializable {
      * @param code 登录类型编码
      * @return 登录类型枚举类 默认是验证码登录类型
      */
-    @JsonCreator
     public static LoginTypeEnums of(String code) {
         if (StringUtils.isEmpty(code)) {
             return LoginTypeEnums.PASSWORD;

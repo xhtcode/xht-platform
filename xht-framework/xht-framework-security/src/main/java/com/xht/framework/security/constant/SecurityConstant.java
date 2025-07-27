@@ -54,4 +54,8 @@ public interface SecurityConstant {
      */
     String REDIS_CAPTCHA_CODE_KEY_PREFIX = "captcha:code:";
 
+    /**
+     * 角色前缀
+     */
+    String ROLE_PREFIX = "ROLE_";
 }

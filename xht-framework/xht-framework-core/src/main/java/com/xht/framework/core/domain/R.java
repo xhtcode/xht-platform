@@ -2,9 +2,9 @@ package com.xht.framework.core.domain;
 
 import com.xht.framework.core.enums.DataTypeEnum;
 import com.xht.framework.core.exception.code.ErrorCode;
+import com.xht.framework.core.utils.StringUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 import static com.xht.framework.core.constant.basic.RConstants.SUCCESS;
 import static com.xht.framework.core.constant.basic.RConstants.SUCCESS_MSG;
@@ -79,7 +79,7 @@ public class R<T> {
     public R(ErrorCode errorCode, boolean ok, String msg, T data) {
         this.code = errorCode.getCode();
         this.ok = ok;
-        if (StringUtils.isNotBlank(msg)) {
+        if (StringUtils.hasText(msg)) {
             this.msg = msg;
         } else {
             this.msg = errorCode.getMsg();
