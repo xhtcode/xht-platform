@@ -2,15 +2,16 @@ package com.xht.system.modules.oauth2.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.oauth2.dao.SysOauth2ClientDao;
+import com.xht.system.modules.oauth2.dao.mapper.SysOauth2ClientMapper;
 import com.xht.system.modules.oauth2.domian.entity.SysOauth2ClientEntity;
 import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientFormRequest;
 import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQueryRequest;
-import com.xht.system.modules.oauth2.dao.mapper.SysOauth2ClientMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +34,7 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
      * @param formRequest OAuth2客户端修改信息
      * @return 是否成功
      */
+    @Override
     public Boolean updateFormRequest(SysOauth2ClientFormRequest formRequest) {
         LambdaUpdateWrapper<SysOauth2ClientEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
@@ -61,6 +63,7 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
      * @param id       客户端ID
      * @return 是否存在 true：存在 false：不存在
      */
+    @Override
     public Boolean existsByClientId(String clientId, Long id) {
         LambdaQueryWrapper<SysOauth2ClientEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysOauth2ClientEntity::getClientId, clientId);
@@ -75,6 +78,7 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
      * @param queryRequest 查询参数
      * @return 分页结果
      */
+    @Override
     public Page<SysOauth2ClientEntity> queryPageRequest(Page<SysOauth2ClientEntity> page, SysOauth2ClientQueryRequest queryRequest) {
         LambdaQueryWrapper<SysOauth2ClientEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
@@ -89,5 +93,15 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
         ;
         // @formatter:on
         return page(page, queryWrapper);
+    }
+
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    @Override
+    protected SFunction<SysOauth2ClientEntity, ?> getFieldId() {
+        return SysOauth2ClientEntity::getId;
     }
 }

@@ -128,7 +128,6 @@ public final class SpringContextUtil implements ApplicationContextAware, BeanFac
      * @param <T>       Bean类型
      * @return 带泛型参数的Bean
      */
-    @SuppressWarnings("unchecked")
     public static <T> T getBean(TypeReference<T> reference) {
         final ParameterizedType parameterizedType = (ParameterizedType) reference.getType();
         final Class<T> rawType = (Class<T>) parameterizedType.getRawType();

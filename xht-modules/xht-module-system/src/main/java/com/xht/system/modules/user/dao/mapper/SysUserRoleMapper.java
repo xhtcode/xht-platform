@@ -2,6 +2,7 @@ package com.xht.system.modules.user.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
+import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.user.domain.entity.SysUserRoleEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -32,6 +33,14 @@ public interface SysUserRoleMapper extends BaseMapperX<SysUserRoleEntity> {
      * @return 角色ID列表
      */
     List<Long> selectRoleIdByUserId(RoleStatusEnums roleStatus, String userId);
+
+    /**
+     * 根据用户ID查询角色列表
+     *
+     * @param userId 用户ID
+     * @return 角色列表
+     */
+    List<SysRoleEntity> findRoleListByUserId(Long userId);
 }
 
 

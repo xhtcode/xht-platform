@@ -1,5 +1,6 @@
 package com.xht.framework.mybatis.repository;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
@@ -105,5 +106,14 @@ public interface MapperRepository<T> extends CrudRepository<T> {
      */
     default LambdaUpdateWrapper<T> lambdaUpdateWrapper() {
         return new LambdaUpdateWrapper<>();
+    }
+
+    /**
+     * 获取 LambdaQueryWrapper
+     *
+     * @return LambdaQueryWrapper
+     */
+    default LambdaQueryWrapper<T> lambdaQueryWrapper() {
+        return new LambdaQueryWrapper<>();
     }
 }

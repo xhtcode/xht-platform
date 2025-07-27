@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.log.dao.SysLogDao;
+import com.xht.system.modules.log.dao.mapper.SysLogMapper;
 import com.xht.system.modules.log.domian.entity.SysLogEntity;
 import com.xht.system.modules.log.domian.request.SysLogQueryRequest;
-import com.xht.system.modules.log.dao.mapper.SysLogMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +30,7 @@ public class SysLogDaoImpl extends MapperRepositoryImpl<SysLogMapper, SysLogEnti
      * @param queryRequest 系统日志管理查询请求参数
      * @return 分页查询系统日志
      */
+    @Override
     public Page<SysLogEntity> queryPageRequest(Page<SysLogEntity> page, SysLogQueryRequest queryRequest) {
         LambdaQueryWrapper<SysLogEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off

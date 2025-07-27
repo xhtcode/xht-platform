@@ -2,15 +2,16 @@ package com.xht.system.modules.authority.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
 import com.xht.system.modules.authority.dao.SysMenuDao;
+import com.xht.system.modules.authority.dao.mapper.SysMenuMapper;
 import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
 import com.xht.system.modules.authority.domain.request.SysMenuFormRequest;
 import com.xht.system.modules.authority.domain.request.SysMenuQueryRequest;
-import com.xht.system.modules.authority.dao.mapper.SysMenuMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,7 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
      * @param formRequest 菜单信息
      * @return 是否成功
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateFormRequest(SysMenuFormRequest formRequest) {
         LambdaUpdateWrapper<SysMenuEntity> updateWrapper = new LambdaUpdateWrapper<>();
@@ -64,6 +66,7 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
      * @param status 菜单状态
      * @return 是否成功
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateStatus(Long id, MenuStatusEnums status) {
         LambdaUpdateWrapper<SysMenuEntity> updateWrapper = new LambdaUpdateWrapper<>();
@@ -78,6 +81,7 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
      * @param menuIds 菜单ID列表
      * @return 是否存在
      */
+    @Override
     public Boolean existsMenuIds(List<Long> menuIds) {
         LambdaQueryWrapper<SysMenuEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(SysMenuEntity::getId, menuIds);
@@ -90,6 +94,7 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
      * @param excludedType 需要排除的菜单类型
      * @return 菜单列表
      */
+    @Override
     public List<SysMenuEntity> getMenusExcludingType(MenuTypeEnums excludedType) {
         LambdaQueryWrapper<SysMenuEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.ne(SysMenuEntity::getMenuType, excludedType);
@@ -102,6 +107,7 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
      * @param menuId 菜单ID
      * @return 只返回菜单类型
      */
+    @Override
     public MenuTypeEnums getMenuType(Long menuId) {
         LambdaQueryWrapper<SysMenuEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(SysMenuEntity::getMenuType);
@@ -115,6 +121,7 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
      * @param queryRequest 查询请求参数
      * @return LambdaQueryWrapper<SysMenuEntity>
      */
+    @Override
     public List<SysMenuEntity> getMenuList(SysMenuQueryRequest queryRequest) {
         // @formatter:off
         LambdaQueryWrapper<SysMenuEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -138,6 +145,7 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
      * @param menuType 菜单类型过滤条件
      * @return 菜单树结构
      */
+    @Override
     public List<SysMenuEntity> listMenuTree(MenuTypeEnums menuType) {
         // @formatter:off
         LambdaQueryWrapper<SysMenuEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -156,4 +164,13 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
         return list(lambdaQueryWrapper);
     }
 
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    @Override
+    protected SFunction<SysMenuEntity, ?> getFieldId() {
+        return SysMenuEntity::getId;
+    }
 }

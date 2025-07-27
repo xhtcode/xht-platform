@@ -1,5 +1,8 @@
 package com.xht.framework.security.constant.enums;
 
+import com.baomidou.mybatisplus.annotation.IEnum;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.xht.framework.core.utils.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +16,7 @@ import java.io.Serializable;
  **/
 @Getter
 @AllArgsConstructor
-public enum LoginTypeEnums implements Serializable {
+public enum LoginTypeEnums implements IEnum<String>, Serializable {
 
     //验证码
     PASSWORD("password"),
@@ -31,7 +34,8 @@ public enum LoginTypeEnums implements Serializable {
     /**
      * 登录类型编码
      */
-    private final String code;
+    @JsonValue
+    private final String value;
 
     /**
      * 根据登录类型编码获取登录类型枚举类
@@ -39,12 +43,13 @@ public enum LoginTypeEnums implements Serializable {
      * @param code 登录类型编码
      * @return 登录类型枚举类 默认是验证码登录类型
      */
+    @JsonCreator
     public static LoginTypeEnums of(String code) {
         if (StringUtils.isEmpty(code)) {
             return LoginTypeEnums.PASSWORD;
         }
         for (LoginTypeEnums e : LoginTypeEnums.values()) {
-            if (e.getCode().equals(code)) {
+            if (e.getValue().equals(code)) {
                 return e;
             }
         }

@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 public class Oauth2UserDetails extends BasicUserDetails implements OAuth2AuthenticatedPrincipal {
 
     public Oauth2UserDetails(BasicUserDetails basicUserDetails) {
-        super(basicUserDetails.getUsername(), basicUserDetails.getPassword(), basicUserDetails.getAuthorities());
         this.getAttributes().putAll(basicUserDetails.getAttributes());
     }
 

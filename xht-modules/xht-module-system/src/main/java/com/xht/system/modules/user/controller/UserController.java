@@ -95,7 +95,7 @@ public class UserController {
     @Operation(summary = "获取用户详情", description = "根据ID获取用户详情")
     @GetMapping("/get/{id}")
     public R<SysUserVO> findById(@PathVariable Long id) {
-        return R.ok(userService.findById(id));
+        return R.ok(userService.findByUserId(id));
     }
 
     /**

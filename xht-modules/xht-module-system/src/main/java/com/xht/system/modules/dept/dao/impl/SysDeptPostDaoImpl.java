@@ -2,6 +2,7 @@ package com.xht.system.modules.dept.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.core.enums.SystemFlagEnums;
@@ -9,10 +10,10 @@ import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.dept.dao.SysDeptPostDao;
+import com.xht.system.modules.dept.dao.mapper.SysDeptPostMapper;
 import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
 import com.xht.system.modules.dept.domain.request.SysDeptPostFormRequest;
 import com.xht.system.modules.dept.domain.request.SysDeptPostQueryRequest;
-import com.xht.system.modules.dept.dao.mapper.SysDeptPostMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -39,6 +40,7 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
      * @param postId   岗位ID
      * @return true：存在；false：不存在
      */
+    @Override
     public Boolean existsPostCode(Long deptId, String postCode, Long postId) {
         LambdaQueryWrapper<SysDeptPostEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(SysDeptPostEntity::getPostCode, postCode)
@@ -53,6 +55,7 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
      * @param formRequest 岗位信息
      * @return true：成功；false：失败
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateFormRequest(SysDeptPostFormRequest formRequest) {
         LambdaUpdateWrapper<SysDeptPostEntity> updateWrapper = new LambdaUpdateWrapper<>();
@@ -75,6 +78,7 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
      * @param systemFlag 系统内置标识
      * @return 系统内置标识
      */
+    @Override
     public Boolean validateSystemFlag(Long deptPostId, SystemFlagEnums systemFlag) {
         LambdaQueryWrapper<SysDeptPostEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.select(SysDeptPostEntity::getSystemFlag);
@@ -90,6 +94,7 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
      * @param systemFlag  系统内置标识
      * @return 系统内置标识
      */
+    @Override
     public Boolean validateSystemFlag(List<Long> deptPostIds, SystemFlagEnums systemFlag) {
         LambdaQueryWrapper<SysDeptPostEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.select(SysDeptPostEntity::getSystemFlag);
@@ -104,6 +109,7 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
      * @param deptId 部门ID
      * @return true：存在；false：不存在
      */
+    @Override
     public Boolean existsDeptPost(Long deptId) {
         LambdaQueryWrapper<SysDeptPostEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(SysDeptPostEntity::getDeptId, deptId);
@@ -118,6 +124,7 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
      * @param postId 岗位ID
      * @return true：存在；false：不存在
      */
+    @Override
     public Boolean existsDeptPost(Long deptId, Long postId) {
         LambdaQueryWrapper<SysDeptPostEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(SysDeptPostEntity::getDeptId, deptId);
@@ -132,6 +139,7 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
      * @param postId 岗位ID
      * @return 岗位信息
      */
+    @Override
     public SysDeptPostEntity findPostByDeptIdAndPostId(Long deptId, Long postId) {
         LambdaQueryWrapper<SysDeptPostEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
@@ -157,6 +165,7 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
      * @param id 岗位id
      * @return 部门岗位信息
      */
+    @Override
     public SysDeptPostEntity forUpdateById(Long id) {
         return getBaseMapper().forUpdateById(id);
     }
@@ -168,6 +177,7 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
      * @param postHave 新的岗位拥有人数
      * @return true：成功；false：失败
      */
+    @Override
     public Boolean updatePostHave(Long postId, int postHave) {
         LambdaUpdateWrapper<SysDeptPostEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(SysDeptPostEntity::getPostHave, postHave)
@@ -181,6 +191,7 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
      * @param postId 岗位id
      * @return true：超过限制；false：未超过限制
      */
+    @Override
     public Boolean validatePostLimit(Long postId) {
         LambdaQueryWrapper<SysDeptPostEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.select(SysDeptPostEntity::getPostLimit, SysDeptPostEntity::getPostHave);
@@ -199,6 +210,7 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
      * @param queryRequest 查询请求参数
      * @return 分页数据
      */
+    @Override
     public Page<SysDeptPostEntity> queryPageRequest(Page<SysDeptPostEntity> page, SysDeptPostQueryRequest queryRequest) {
         LambdaQueryWrapper<SysDeptPostEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
@@ -222,6 +234,7 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
      * @param deptId 部门ID
      * @return 岗位信息
      */
+    @Override
     public List<SysDeptPostEntity> listByDeptId(String deptId) {
         // @formatter:off
         LambdaQueryWrapper<SysDeptPostEntity> queryWrapper = new LambdaQueryWrapper<>();
@@ -234,5 +247,15 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
         queryWrapper.eq(SysDeptPostEntity::getDeptId, deptId);
         // @formatter:on
         return list(queryWrapper);
+    }
+
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    @Override
+    protected SFunction<SysDeptPostEntity, ?> getFieldId() {
+        return SysDeptPostEntity::getId;
     }
 }

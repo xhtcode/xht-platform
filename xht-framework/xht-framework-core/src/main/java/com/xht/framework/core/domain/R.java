@@ -18,7 +18,6 @@ import static com.xht.framework.core.exception.code.GlobalErrorStatusCode.ERROR;
  **/
 @Data
 @Schema(description = "响应结果")
-@SuppressWarnings("unused")
 public class R<T> {
 
     @Schema(description = "返回码")

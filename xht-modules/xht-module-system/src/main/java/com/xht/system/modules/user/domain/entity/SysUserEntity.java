@@ -23,26 +23,43 @@ public class SysUserEntity extends BasicEntity implements Serializable {
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
+
     /**
      * 用户名
      */
     @TableField(value = "user_name")
     private String userName;
+
     /**
      * 密码
      */
     @TableField(value = "pass_word")
     private String passWord;
+
+    /**
+     * 密码盐值
+     */
+    @TableField(value = "salt")
+    private String salt;
+
     /**
      * 用户昵称
      */
     @TableField(value = "nick_name")
     private String nickName;
+
+    /**
+     * 手机号
+     */
+    @TableField(value = "mobile")
+    private String mobile;
+
     /**
      * 头像地址
      */
     @TableField(value = "avatar_url")
     private String avatarUrl;
+
     /**
      * 账号状态(1-正常,2-锁定,3-禁用,4-过期)
      */

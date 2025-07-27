@@ -2,19 +2,21 @@ package com.xht.system.modules.user.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.core.utils.spring.SpringContextUtil;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
+import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import com.xht.system.event.SysUserDeptUpdateEvent;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.dao.SysUserDao;
+import com.xht.system.modules.user.dao.mapper.SysUserMapper;
+import com.xht.system.modules.user.dao.mapper.SysUserProfilesMapper;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
 import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
 import com.xht.system.modules.user.domain.request.UserQueryRequest;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
-import com.xht.system.modules.user.dao.mapper.SysUserMapper;
-import com.xht.system.modules.user.dao.mapper.SysUserProfilesMapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -40,6 +42,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @param sysUserProfilesEntity 用户详细信息
      * @return true：保存成功；false：保存失败
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean saveUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity, Long postId) {
         boolean save = save(sysUserEntity);
@@ -57,6 +60,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @param userId 用户ID
      * @return true：删除成功；false：删除失败
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean removeUserInfo(Long userId) {
         LambdaQueryWrapper<SysUserProfilesEntity> queryWrapper = new LambdaQueryWrapper<>();
@@ -73,6 +77,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @param updateEvent           用户部门更新事件
      * @return true：更新成功；false：更新失败
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity, SysUserDeptUpdateEvent updateEvent) {
         //@formatter:off
@@ -106,6 +111,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @param newPassword 新密码
      * @return true：更新成功；false：更新失败
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean updatePassword(Long userId, String newPassword) {
         LambdaUpdateWrapper<SysUserEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
@@ -121,6 +127,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @param status 状态
      * @return true：更新成功；false：更新失败
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateStatus(Long userId, UserStatusEnums status) {
         LambdaUpdateWrapper<SysUserEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
@@ -135,6 +142,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @param idCardNumber 身份号
      * @return true：存在；false：不存在
      */
+    @Override
     public Boolean existsIdCardNumber(String idCardNumber) {
         LambdaQueryWrapper<SysUserProfilesEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUserProfilesEntity::getIdCardNumber, idCardNumber);
@@ -147,6 +155,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @param userId 用户ID
      * @return 用户详细信息
      */
+    @Override
     public SysUserProfilesEntity findUserProfilesInfo(Long userId) {
         return userProfilesMapper.selectOne(SysUserProfilesEntity::getUserId, userId).orElse(null);
     }
@@ -158,6 +167,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @param queryRequest 查询请求参数
      * @return 分页查询结果
      */
+    @Override
     public Page<SysUserVO> queryPageRequest(Page<SysUserEntity> page, UserQueryRequest queryRequest) {
         return getBaseMapper().queryPageRequest(page, queryRequest);
     }
@@ -168,6 +178,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @param userId 用户ID
      * @return 用户信息
      */
+    @Override
     public SysUserVO findInfoByUserId(Long userId) {
         return getBaseMapper().findInfoByUserId(userId);
     }
@@ -178,6 +189,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @param leaderUserId 部门领导ID
      * @param deptId       部门ID
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateDept(Long leaderUserId, Long deptId) {
         LambdaUpdateWrapper<SysUserEntity> updateWrapper = new LambdaUpdateWrapper<>();
@@ -192,10 +204,32 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @param userIds 用户id列表
      * @return true：存在；false：不存在
      */
+    @Override
     public boolean existsByUserId(List<Long> userIds) {
         LambdaQueryWrapper<SysUserEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(SysUserEntity::getId, userIds);
         return count(queryWrapper) == userIds.size();
     }
 
+    /**
+     * 根据用户名和登录类型查询用户信息
+     *
+     * @param username  用户名
+     * @param loginType 登录类型
+     * @return 用户信息
+     */
+    @Override
+    public SysUserVO findByUsernameAndLoginType(String username, LoginTypeEnums loginType) {
+        return getBaseMapper().findByUsernameAndLoginType(username, loginType);
+    }
+
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    @Override
+    protected SFunction<SysUserEntity, ?> getFieldId() {
+        return SysUserEntity::getId;
+    }
 }

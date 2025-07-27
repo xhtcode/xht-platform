@@ -26,7 +26,6 @@ import static com.xht.framework.security.constant.SecurityConstant.RESOURCE_SERV
 @EnableWebSecurity
 @EnableMethodSecurity
 @ConditionalOnMissingBean(name = RESOURCE_SERVER_BEAN_NAME)
-@EnableConfigurationProperties(PermitAllUrlProperties.class)
 public class SecurityConfigurer {
 
     private final PermitAllUrlProperties permitAllUrlProperties;

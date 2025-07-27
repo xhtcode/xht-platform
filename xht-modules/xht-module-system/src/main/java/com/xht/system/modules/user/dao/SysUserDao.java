@@ -2,6 +2,7 @@ package com.xht.system.modules.user.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
+import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import com.xht.system.event.SysUserDeptUpdateEvent;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
@@ -109,4 +110,12 @@ public interface SysUserDao extends MapperRepository<SysUserEntity> {
      */
     boolean existsByUserId(List<Long> userIds);
 
+    /**
+     * 根据用户名和登录类型查询用户信息
+     *
+     * @param username  用户名
+     * @param loginType 登录类型
+     * @return 用户信息
+     */
+    SysUserVO findByUsernameAndLoginType(String username, LoginTypeEnums loginType);
 }

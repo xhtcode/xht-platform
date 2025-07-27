@@ -2,6 +2,7 @@ package com.xht.system.modules.dept.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.spring.SpringContextUtil;
@@ -9,9 +10,9 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.event.SysDeptInitPostEvent;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import com.xht.system.modules.dept.dao.SysDeptDao;
+import com.xht.system.modules.dept.dao.mapper.SysDeptMapper;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
 import com.xht.system.modules.dept.domain.request.SysDeptQueryTreeRequest;
-import com.xht.system.modules.dept.dao.mapper.SysDeptMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,7 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
      * @param entity 部门实体
      * @return true：成功；false：失败
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean saveDeptInitPost(SysDeptEntity entity) {
         boolean save = save(entity);
@@ -51,6 +53,7 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
      * @param oldLeaderUserId 旧的主管用户id
      * @return true：成功；false：失败
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateFormRequest(SysDeptEntity formRequest, Long oldLeaderUserId) {
         LambdaUpdateWrapper<SysDeptEntity> updateWrapper = new LambdaUpdateWrapper<>();
@@ -81,6 +84,7 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
      * @param status 部门状态
      * @return true：成功；false：失败
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateStatus(Long id, DeptStatusEnums status) {
         LambdaUpdateWrapper<SysDeptEntity> updateWrapper = new LambdaUpdateWrapper<>();
@@ -99,6 +103,7 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
      * @param deptCode 部门编码
      * @return true：唯一；false：不唯一
      */
+    @Override
     public Boolean checkDeptCodeUnique(Long deptId, String deptCode) {
         //@formatter:off
         LambdaQueryWrapper<SysDeptEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -115,6 +120,7 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
      * @param parentId 父部门id
      * @return 父部门
      */
+    @Override
     public SysDeptEntity getDefaultParentDeptByParentId(Long parentId) {
         if (Objects.equals(parentId, 0L)) {
             SysDeptEntity sysDeptEntity = new SysDeptEntity();
@@ -147,6 +153,7 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
      * @param queryRequest 查询请求参数
      * @return 部门列表
      */
+    @Override
     public List<SysDeptEntity> queryListRequest(SysDeptQueryTreeRequest queryRequest) {
         // @formatter:off
         LambdaQueryWrapper<SysDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
@@ -188,5 +195,15 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
                 .eq(SysDeptEntity::getId, deptId);
         // @formatter:on
         update(updateWrapper);
+    }
+
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    @Override
+    protected SFunction<SysDeptEntity, ?> getFieldId() {
+        return SysDeptEntity::getId;
     }
 }

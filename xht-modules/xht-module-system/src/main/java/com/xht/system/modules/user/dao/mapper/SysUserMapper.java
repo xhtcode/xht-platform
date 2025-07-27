@@ -2,6 +2,7 @@ package com.xht.system.modules.user.dao.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.mapper.BaseMapperX;
+import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
 import com.xht.system.modules.user.domain.request.UserQueryRequest;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
@@ -31,6 +32,15 @@ public interface SysUserMapper extends BaseMapperX<SysUserEntity> {
      * @return 用户信息
      */
     SysUserVO findInfoByUserId(Long userId);
+
+    /**
+     * 根据用户名和登录类型查询用户信息
+     *
+     * @param username  用户名
+     * @param loginType 登录类型
+     * @return 用户信息
+     */
+    SysUserVO findByUsernameAndLoginType(String username, LoginTypeEnums loginType);
 }
 
 

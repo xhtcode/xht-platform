@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName(value = "sys_user_role")
-public class SysUserRoleEntity extends Entity implements Serializable {
+public class SysUserRoleEntity extends Entity {
 
     /**
      * 用户id

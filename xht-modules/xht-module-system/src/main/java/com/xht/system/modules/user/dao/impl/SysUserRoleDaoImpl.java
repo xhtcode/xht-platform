@@ -1,11 +1,13 @@
 package com.xht.system.modules.user.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
+import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.user.dao.SysUserRoleDao;
-import com.xht.system.modules.user.domain.entity.SysUserRoleEntity;
 import com.xht.system.modules.user.dao.mapper.SysUserRoleMapper;
+import com.xht.system.modules.user.domain.entity.SysUserRoleEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,7 @@ public class SysUserRoleDaoImpl extends MapperRepositoryImpl<SysUserRoleMapper, 
      * @param sysUserRoleEntities 角色列表
      * @return Boolean
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean saveUserRole(Long userId, List<SysUserRoleEntity> sysUserRoleEntities) {
         LambdaQueryWrapper<SysUserRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
@@ -46,6 +49,7 @@ public class SysUserRoleDaoImpl extends MapperRepositoryImpl<SysUserRoleMapper, 
      * @param userId 用户ID
      * @return 角色编码列表
      */
+    @Override
     public List<String> getRoleCodes(Long userId) {
         return getBaseMapper().getRoleCodes(userId);
     }
@@ -56,8 +60,29 @@ public class SysUserRoleDaoImpl extends MapperRepositoryImpl<SysUserRoleMapper, 
      * @param userId 用户ID
      * @return 角色ID列表
      */
+    @Override
     public List<Long> getRoleId(String userId) {
         return this.getBaseMapper().selectRoleIdByUserId(RoleStatusEnums.NORMAL, userId);
     }
 
+    /**
+     * 根据用户ID查询角色列表
+     *
+     * @param userId 用户ID
+     * @return 角色列表
+     */
+    @Override
+    public List<SysRoleEntity> findRoleListByUserId(Long userId) {
+        return this.getBaseMapper().findRoleListByUserId(userId);
+    }
+
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    @Override
+    protected SFunction<SysUserRoleEntity, ?> getFieldId() {
+        return SysUserRoleEntity::getUserId;
+    }
 }

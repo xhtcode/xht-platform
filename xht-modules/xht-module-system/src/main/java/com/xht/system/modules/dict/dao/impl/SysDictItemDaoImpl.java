@@ -9,10 +9,10 @@ import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.dict.dao.SysDictItemDao;
+import com.xht.system.modules.dict.dao.mapper.SysDictItemMapper;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
 import com.xht.system.modules.dict.domain.request.SysDictItemFormRequest;
 import com.xht.system.modules.dict.domain.request.SysDictItemQueryRequest;
-import com.xht.system.modules.dict.dao.mapper.SysDictItemMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +35,7 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
      * @param formRequest 更新请求
      * @return 更新结果
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean updateFormRequest(SysDictItemFormRequest formRequest) {
         // @formatter:off
@@ -59,6 +60,7 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
      * @param itemValue 字典项值
      * @return 存在相同的字典项编码返回true，否则返回false
      */
+    @Override
     public Boolean checkDictValue(Long id, Long dictId, String itemValue) {
         LambdaQueryWrapper<SysDictItemEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(SysDictItemEntity::getItemValue, itemValue)
@@ -75,6 +77,7 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
      * @param queryRequest 字典项查询请求参数
      * @return 分页字典项列表
      */
+    @Override
     public Page<SysDictItemEntity> queryPageRequest(Page<SysDictItemEntity> page, SysDictItemQueryRequest queryRequest) {
         LambdaQueryWrapper<SysDictItemEntity> queryWrapper = Wrappers.lambdaQuery();
         // @formatter:off
@@ -101,6 +104,7 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
      * @param dictId 字典id
      * @return 字典项列表
      */
+    @Override
     public List<SysDictItemEntity> selectByDictId(Long dictId) {
         return findList(SysDictItemEntity::getDictId, dictId);
     }

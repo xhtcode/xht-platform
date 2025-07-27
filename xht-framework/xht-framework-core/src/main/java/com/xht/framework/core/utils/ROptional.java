@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -53,8 +54,10 @@ public final class ROptional<T> {
     }
 
     // ---------- 值存在性检查 ----------
-    public Optional<Boolean> isPresent() {
-        return Optional.of(value != null && value.getData() != null);
+    public void ifPresent(Consumer<T> consumer) {
+        if (isSuccess() && Objects.nonNull(this.data)) {
+            consumer.accept(data);
+        }
     }
 
     // ---------- 安全获取值 ----------

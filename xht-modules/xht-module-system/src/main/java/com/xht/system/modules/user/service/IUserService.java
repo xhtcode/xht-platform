@@ -1,6 +1,8 @@
 package com.xht.system.modules.user.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.security.constant.enums.LoginTypeEnums;
+import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.domain.request.UpdatePwdRequest;
 import com.xht.system.modules.user.domain.request.UserFormRequest;
@@ -51,10 +53,10 @@ public interface IUserService {
     /**
      * 根据ID查找用户
      *
-     * @param id 用户ID
+     * @param userId 用户ID
      * @return 找到的用户对象，不存在时返回null
      */
-    SysUserVO findById(Long id);
+    SysUserVO findByUserId(Long userId);
 
     /**
      * 根据查询条件分页查找用户
@@ -89,4 +91,12 @@ public interface IUserService {
      */
     Boolean updateStatus(Long userId, UserStatusEnums status);
 
+    /**
+     * 根据用户名和登录类型获取用户信息
+     *
+     * @param username  用户名
+     * @param loginType 登录类型
+     * @return 用户信息
+     */
+    BasicUserDetails loadUserByUsername(String username, LoginTypeEnums loginType);
 }

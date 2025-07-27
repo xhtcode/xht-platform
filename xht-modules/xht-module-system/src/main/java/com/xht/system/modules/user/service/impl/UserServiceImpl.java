@@ -9,7 +9,10 @@ import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.secret.MD5Utils;
 import com.xht.framework.mybatis.utils.PageTool;
+import com.xht.framework.security.constant.enums.LoginTypeEnums;
+import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.system.event.SysUserDeptUpdateEvent;
+import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.dept.dao.SysDeptDao;
 import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
@@ -18,6 +21,7 @@ import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.dao.SysUserDao;
 import com.xht.system.modules.user.dao.SysUserDeptDao;
+import com.xht.system.modules.user.dao.SysUserRoleDao;
 import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
 import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
@@ -32,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -52,6 +57,8 @@ public class UserServiceImpl implements IUserService {
     private final SysDeptDao sysDeptDao;
 
     private final SysDeptPostDao sysDeptPostDao;
+
+    private final SysUserRoleDao sysUserRoleDao;
 
     /**
      * 获取用户信息实体
@@ -164,14 +171,14 @@ public class UserServiceImpl implements IUserService {
     /**
      * 根据ID查找用户
      *
-     * @param id 用户ID
+     * @param userId 用户ID
      * @return 找到的用户对象，不存在时返回null
      */
     @Override
-    public SysUserVO findById(Long id) {
-        SysUserVO sysUserVO = sysUserDao.findInfoByUserId(id);
+    public SysUserVO findByUserId(Long userId) {
+        SysUserVO sysUserVO = sysUserDao.findInfoByUserId(userId);
         ThrowUtils.throwIf(Objects.isNull(sysUserVO), UserErrorCode.DATA_NOT_EXIST, "用户不存在");
-        SysDeptPostVo deptPostVo = sysUserDeptDao.getDeptPostByUserId(id);
+        SysDeptPostVo deptPostVo = sysUserDeptDao.getDeptPostByUserId(userId);
         if (Objects.nonNull(deptPostVo)) {
             sysUserVO.setPostId(deptPostVo.getPostId());
             sysUserVO.setPostCode(deptPostVo.getPostCode());
@@ -246,5 +253,30 @@ public class UserServiceImpl implements IUserService {
         Boolean exists = sysUserDao.exists(SysUserEntity::getId, userId);
         ThrowUtils.throwIf(exists, UserErrorCode.DATA_NOT_EXIST, "用户不存在");
         return sysUserDao.updateStatus(userId, status);
+    }
+
+    /**
+     * 根据用户名和登录类型获取用户信息
+     *
+     * @param username  用户名
+     * @param loginType 登录类型
+     * @return 用户信息
+     */
+    @Override
+    public BasicUserDetails loadUserByUsername(String username, LoginTypeEnums loginType) {
+        if (Objects.isNull(loginType) || Objects.equals(loginType, LoginTypeEnums.WECHAT) || Objects.equals(loginType, LoginTypeEnums.QQ)) {
+            return null;
+        }
+        SysUserVO sysUserVO = sysUserDao.findByUsernameAndLoginType(username, loginType);
+        if (Objects.isNull(sysUserVO)) {
+            return null;
+        }
+        List<SysRoleEntity> roles = sysUserRoleDao.findRoleListByUserId(sysUserVO.getId());
+        BasicUserDetails basicUserDetails = new BasicUserDetails();
+        basicUserDetails.setUsername(sysUserVO.getUserName());
+        basicUserDetails.setPassword(sysUserVO.getPassWord());
+        basicUserDetails.setSalt(sysUserVO.getSalt());
+        basicUserDetails.setAuthorities(Collections.emptyList());
+        return basicUserDetails;
     }
 }

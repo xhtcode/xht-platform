@@ -1,5 +1,6 @@
 package com.xht.system.modules.oauth2.service;
 
+import com.xht.boot.oauth2.domain.dto.OAuth2RegisteredClientDTO;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientFormRequest;
 import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQueryRequest;
@@ -59,5 +60,5 @@ public interface ISysOauth2ClientService {
      * @param clientId 客户端id
      * @return 客户端详情
      */
-    SysOauth2ClientResponse getClient(String clientId);
+    OAuth2RegisteredClientDTO getClient(String clientId);
 }

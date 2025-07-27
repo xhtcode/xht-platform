@@ -1,13 +1,14 @@
 package com.xht.system.modules.user.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.dao.SysUserDeptDao;
+import com.xht.system.modules.user.dao.mapper.SysUserDeptMapper;
 import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
 import com.xht.system.modules.user.domain.vo.UserSimpleVo;
-import com.xht.system.modules.user.dao.mapper.SysUserDeptMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ public class SysUserDeptDaoImpl extends MapperRepositoryImpl<SysUserDeptMapper, 
     /**
      * 保存用户和部门关系
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean saveUserDept(Long deptId, List<SysUserDeptEntity> userDeptEntities) {
         LambdaQueryWrapper<SysUserDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
@@ -44,6 +46,7 @@ public class SysUserDeptDaoImpl extends MapperRepositoryImpl<SysUserDeptMapper, 
      * @param deptId 部门ID
      * @return 用户简要信息列表
      */
+    @Override
     public List<UserSimpleVo> findUserSimpleVoByDeptId(Long deptId) {
         return getBaseMapper().findUserSimpleVoByDeptId(deptId, UserStatusEnums.NORMAL);
     }
@@ -54,6 +57,7 @@ public class SysUserDeptDaoImpl extends MapperRepositoryImpl<SysUserDeptMapper, 
      * @param userId 用户ID
      * @return 部门信息
      */
+    @Override
     public SysDeptPostVo getDeptPostByUserId(Long userId) {
         return getBaseMapper().getDeptPostByUserId(userId);
     }
@@ -64,6 +68,7 @@ public class SysUserDeptDaoImpl extends MapperRepositoryImpl<SysUserDeptMapper, 
      * @param userId 用户ID
      * @return 部门信息
      */
+    @Override
     public SysUserDeptEntity findOneByUserId(Long userId) {
         LambdaQueryWrapper<SysUserDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUserDeptEntity::getUserId, userId);
@@ -78,6 +83,7 @@ public class SysUserDeptDaoImpl extends MapperRepositoryImpl<SysUserDeptMapper, 
      * @param postId 岗位id
      * @return true：存在，false：不存在
      */
+    @Override
     public boolean existsUserDept(Long userId, Long deptId, Long postId) {
         LambdaQueryWrapper<SysUserDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUserDeptEntity::getUserId, userId);
@@ -104,4 +110,15 @@ public class SysUserDeptDaoImpl extends MapperRepositoryImpl<SysUserDeptMapper, 
         // @formatter:on
         remove(queryWrapper);
     }
+
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    @Override
+    protected SFunction<SysUserDeptEntity, ?> getFieldId() {
+        return SysUserDeptEntity::getUserId;
+    }
+
 }

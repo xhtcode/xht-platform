@@ -2,11 +2,11 @@ package com.xht.system.modules.log.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.log.domain.dto.LogDTO;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.modules.log.converter.SysLogConverter;
 import com.xht.system.modules.log.dao.SysLogDao;
 import com.xht.system.modules.log.domian.entity.SysLogEntity;
-import com.xht.system.modules.log.domian.request.SysLogFormRequest;
 import com.xht.system.modules.log.domian.request.SysLogQueryRequest;
 import com.xht.system.modules.log.domian.response.SysLogResponse;
 import com.xht.system.modules.log.service.ISysLogService;
@@ -33,12 +33,12 @@ public class SysLogServiceImpl implements ISysLogService {
     /**
      * 创建系统日志
      *
-     * @param formRequest 系统日志表单请求参数
+     * @param logDTO 系统日志表单请求参数
      * @return 操作结果
      */
     @Override
-    public Boolean create(SysLogFormRequest formRequest) {
-        SysLogEntity entity = sysLogConverter.toEntity(formRequest);
+    public Boolean create(LogDTO logDTO) {
+        SysLogEntity entity = sysLogConverter.toEntity(logDTO);
         return sysLogDao.saveTransactional(entity);
     }
 

@@ -89,15 +89,5 @@ public class SysOauth2ClientController {
         return R.ok(sysOauth2ClientService.selectPage(queryRequest));
     }
 
-    /**
-     *  根据clientId 获取客户端详情
-     * @param clientId 客户端id
-     * @return 客户端详情
-     */
-    @InnerAuth
-    @GetMapping("/{clientId}")
-    public R<SysOauth2ClientResponse> getClient(@PathVariable("clientId") String clientId) {
-        return R.ok(sysOauth2ClientService.getClient(clientId));
-    }
 
 }
