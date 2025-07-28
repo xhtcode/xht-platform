@@ -1,5 +1,6 @@
 package com.xht.framework.core.constant;
 
+import com.xht.framework.core.exception.UtilException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -16,7 +17,7 @@ public final class HttpConstants {
      * 私有构造方法，防止工具类被实例化
      */
     private HttpConstants() {
-        throw new AssertionError("禁止实例化此类");
+        throw new UtilException("禁止实例化此类");
     }
 
     /**

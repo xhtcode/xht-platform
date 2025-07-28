@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * 描述 ：日志 trace 工具类
  *
- * @author 小糊涂
+ * @author xht
  **/
 public final class TraceIdUtils {
     /**

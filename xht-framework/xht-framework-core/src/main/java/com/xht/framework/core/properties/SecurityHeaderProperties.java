@@ -9,7 +9,7 @@ import static com.xht.framework.core.constant.HttpConstants.Header.AUTH_KEY;
 /**
  * 描述 ：自定义 OpenFeign 配置
  *
- * @author 小糊涂
+ * @author xht
  **/
 @Data
 @ConfigurationProperties(prefix = "xht.cloud.feign")

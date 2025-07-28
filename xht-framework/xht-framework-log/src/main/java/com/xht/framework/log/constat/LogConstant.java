@@ -5,7 +5,7 @@ import com.xht.framework.core.constant.HttpConstants;
 /**
  * 描述 ：日志常量
  *
- * @author 小糊涂
+ * @author xht
  **/
 public interface LogConstant {
 
