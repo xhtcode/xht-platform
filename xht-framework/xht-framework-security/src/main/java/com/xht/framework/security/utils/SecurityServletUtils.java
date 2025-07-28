@@ -29,9 +29,9 @@ public final class SecurityServletUtils {
         response.setHeader("Access-Control-Allow-Origin", "*");
         // 允许自定义请求头token(允许head跨域)
         response.setHeader("Access-Control-Allow-Headers", "token, Accept, Origin, X-Requested-With, Content-Type, Last-Modified");
-        response.setCharacterEncoding(HttpConstants.Character.UTF8.getCode());
+        response.setCharacterEncoding(HttpConstants.Character.UTF8.getValue());
         try {
-            response.setContentType(HttpConstants.ContentType.APPLICATION_JSON_UTF8_VALUE.getCode());
+            response.setContentType(HttpConstants.ContentType.APPLICATION_JSON_UTF8_VALUE.getValue());
             response.getWriter().write(JsonUtils.toJsonString(data));
             response.getWriter().flush();
         } catch (IOException ex) {

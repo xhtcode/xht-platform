@@ -1,11 +1,11 @@
 package com.xht.framework.log.constat;
 
-import com.xht.framework.core.constant.RequestConstant;
+import com.xht.framework.core.constant.HttpConstants;
 
 /**
  * 描述 ：日志常量
  *
- * @author 小糊涂
+ * @author xht
  **/
 public interface LogConstant {
 
@@ -17,18 +17,18 @@ public interface LogConstant {
     /**
      * 分布式链路ID
      */
-    String REQUEST_TRACE_ID = RequestConstant.HEADER_TRACE_ID;
+    String REQUEST_TRACE_ID = HttpConstants.Header.TRACE_ID.getValue();
 
 
     /**
      * 用户账号
      */
-    String REQUEST_USER_ACCOUNT = RequestConstant.HEADER_USER_ACCOUNT;
+    String REQUEST_USER_ACCOUNT = HttpConstants.Header.USER_ACCOUNT.getValue();
 
     /**
      * 用户ID
      */
-    String REQUEST_USER_ID = RequestConstant.HEADER_USER_ID;
+    String REQUEST_USER_ID = HttpConstants.Header.USER_ID.getValue();
 
 
 }

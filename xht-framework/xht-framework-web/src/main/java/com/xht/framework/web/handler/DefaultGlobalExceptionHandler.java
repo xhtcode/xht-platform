@@ -110,7 +110,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     public R<String> handle(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
         log.debug(" {} 请求方法不支持: {}", request.getRequestURI(), e.getMessage(), e);
-        return R.error(GlobalErrorStatusCode.NOT_FOUND);
+        return R.error(GlobalErrorStatusCode.METHOD_NOT_ALLOWED);
     }
 
     /**

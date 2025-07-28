@@ -18,7 +18,7 @@ import java.util.Objects;
 /**
  * 描述 ：openFeign traceId 拦截器配置
  *
- * @author 小糊涂
+ * @author xht
  **/
 @Slf4j
 public class FeignTraceLogInterceptor implements RequestInterceptor {

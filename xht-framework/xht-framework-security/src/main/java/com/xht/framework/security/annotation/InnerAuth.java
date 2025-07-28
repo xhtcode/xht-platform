@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 /**
  * 内部接口权限注解
  *
- * @author 小糊涂
+ * @author xht
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

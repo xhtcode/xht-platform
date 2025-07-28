@@ -4,7 +4,7 @@ import com.xht.cloud.oauth2.dto.UserInfoDTO;
 import com.xht.cloud.security.feign.factory.RemoteUserServiceFallbackFactory;
 import com.xht.framework.core.constant.ServiceNameConstant;
 import com.xht.framework.core.domain.R;
-import com.xht.framework.openfeign.annotation.NoAuthentication;
+import com.xht.framework.security.annotation.InnerAuth;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +30,7 @@ public interface RemoteUserService {
      * @param loginType 登录类型
      * @return 用户信息
      */
-    @NoAuthentication
+    @InnerAuth
     @ResponseBody
     @GetMapping("/api/sys/user/{username}/{loginType}")
     R<UserInfoDTO> loadUserByUsername(@PathVariable("username") String username, @PathVariable("loginType") LoginTypeEnums loginType);

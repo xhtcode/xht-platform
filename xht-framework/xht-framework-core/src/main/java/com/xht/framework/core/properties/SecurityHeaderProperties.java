@@ -1,14 +1,15 @@
 package com.xht.framework.core.properties;
 
-import com.xht.framework.core.constant.RequestConstant;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import static com.xht.framework.core.constant.HttpConstants.Header.AUTH_KEY;
+
 /**
  * 描述 ：自定义 OpenFeign 配置
  *
- * @author 小糊涂
+ * @author xht
  **/
 @Data
 @ConfigurationProperties(prefix = "xht.cloud.feign")
@@ -19,7 +20,7 @@ public class SecurityHeaderProperties implements IProperties {
     @Data
     static class Header {
 
-        private String authKey = RequestConstant.HEADER_AUTH_KEY;
+        private String authKey = AUTH_KEY.getValue();
 
         /**
          * 授权请求头 值

@@ -23,6 +23,10 @@
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
+            <artifactId>xht-framework-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
             <artifactId>xht-framework-swagger</artifactId>
         </dependency>
         <dependency>

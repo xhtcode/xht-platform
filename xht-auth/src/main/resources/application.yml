@@ -65,7 +65,7 @@ spring:
           max-wait: -1ms
           max-idle: 8
           min-idle: 0
-      password: 123456
+      password:
 springdoc:
   api-docs:
     enabled: true
