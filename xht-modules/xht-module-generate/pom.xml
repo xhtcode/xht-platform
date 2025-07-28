@@ -9,15 +9,17 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>xht-module-system</artifactId>
+    <groupId>com.xht.modules.generate</groupId>
+    <artifactId>xht-module-generate</artifactId>
     <packaging>jar</packaging>
-    <description>xht-module-system系统模块</description>
+    <description>xht-module-system 代码生成模块</description>
 
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <dependencies>
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-spring-boot-starter</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.xht</groupId>
             <artifactId>xht-spring-cloud-starter</artifactId>
@@ -35,37 +37,9 @@
             <artifactId>xht-framework-mybatis</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-framework-resource-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-framework-openfeign</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <skip>false</skip>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <configuration>
-                    <skip>false</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

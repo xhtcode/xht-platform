@@ -15,6 +15,7 @@
     <description>xht-modules业务模块</description>
     <modules>
         <module>xht-module-system</module>
+        <module>xht-module-generate</module>
     </modules>
 
 
