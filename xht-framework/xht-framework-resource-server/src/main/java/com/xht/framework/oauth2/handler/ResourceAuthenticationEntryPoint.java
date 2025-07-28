@@ -44,7 +44,7 @@ public class ResourceAuthenticationEntryPoint implements AuthenticationEntryPoin
         // 针对令牌过期返回特殊的 424
         if (authException instanceof InvalidBearerTokenException
                 || authException instanceof InsufficientAuthenticationException) {
-            response.setStatus(GlobalErrorStatusCode.FAILED_DEPENDENCY.getCode());
+            response.setStatus(GlobalErrorStatusCode.TOKEN_EXPIRED.getCode());
             result.setMsg("请求令牌已过期");
         }
         PrintWriter printWriter = response.getWriter();
