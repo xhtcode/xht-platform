@@ -33,7 +33,7 @@ public class ResourceAuthenticationEntryPoint implements AuthenticationEntryPoin
     @Override
     @SuppressWarnings("all")
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.setCharacterEncoding(HttpConstants.Character.UTF8.getCode());
+        response.setCharacterEncoding(HttpConstants.Character.UTF8.getValue());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         R<String> result = R.error(GlobalErrorStatusCode.UNAUTHORIZED);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());

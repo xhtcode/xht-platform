@@ -2,7 +2,6 @@ package com.xht.framework.openfeign.interceptor;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.xht.framework.core.constant.RequestConstant;
 import com.xht.framework.core.properties.SecurityHeaderProperties;
 import com.xht.framework.core.utils.HttpServletUtils;
 import feign.RequestInterceptor;
@@ -13,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
 import java.util.Optional;
+
+import static com.xht.framework.core.constant.HttpConstants.Header.AUTHORIZATION;
 
 /**
  * feign token拦截器
@@ -40,12 +41,12 @@ public class FeignTokenInterceptor implements RequestInterceptor {
             return;
         }
         HttpServletRequest request = optRequest.get();
-        String token = request.getHeader(RequestConstant.HEADER_AUTHORIZATION);
+        String token = request.getHeader(AUTHORIZATION.getValue());
         if (StrUtil.isBlank(token)) {
             log.debug("请求头中未包含认证信息, 跳过token拦截器");
             return;
         }
         log.debug("获取token 成功,  token: {}", token);
-        requestTemplate.header(RequestConstant.HEADER_AUTHORIZATION, token);
+        requestTemplate.header(AUTHORIZATION.getValue(), token);
     }
 }

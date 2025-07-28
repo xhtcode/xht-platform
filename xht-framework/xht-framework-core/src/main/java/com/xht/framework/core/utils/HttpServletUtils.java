@@ -97,8 +97,8 @@ public final class HttpServletUtils {
             response.setHeader("Access-Control-Allow-Origin", "*");
             // 允许自定义请求头token(允许head跨域)
             response.setHeader("Access-Control-Allow-Headers", "token, Accept, Origin, X-Requested-With, Content-Type, Last-Modified");
-            response.setContentType(HttpConstants.ContentType.APPLICATION_JSON_VALUE.getCode());
-            response.setCharacterEncoding(HttpConstants.Character.GBK.getCode());
+            response.setContentType(HttpConstants.ContentType.APPLICATION_JSON_UTF8_VALUE.getValue());
+            response.setCharacterEncoding(HttpConstants.Character.UTF8.getValue());
             writer = response.getWriter();
             writer.print(JsonUtils.toJsonString(obj));
         } catch (IOException e) {

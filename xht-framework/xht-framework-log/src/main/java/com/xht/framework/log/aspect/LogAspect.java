@@ -3,7 +3,7 @@ package com.xht.framework.log.aspect;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import com.xht.framework.core.constant.RequestConstant;
+import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.jackson.JsonUtils;
 import com.xht.framework.core.utils.HttpServletUtils;
 import com.xht.framework.core.utils.spring.SpringContextUtil;
@@ -57,7 +57,7 @@ public class LogAspect {
         Optional<HttpServletRequest> optHttpServletRequest = HttpServletUtils.getOptHttpServletRequest();
         optHttpServletRequest.ifPresent(request -> {
             logDTO.setRemoteAddr(JakartaServletUtil.getClientIP(request));
-            logDTO.setUserAgent(request.getHeader(RequestConstant.HEADER_USER_AGENT));
+            logDTO.setUserAgent(request.getHeader(HttpConstants.Header.USER_AGENT.getValue()));
             logDTO.setRequestUri(URLUtil.getPath(request.getRequestURI()));
             logDTO.setMethod(request.getMethod());
             logDTO.setParams(request.getRequestURI());
