@@ -1,0 +1,14 @@
+server:
+  port: 1314
+
+spring:
+  application:
+    name: xht-module-generate
+  profiles:
+    active: dev
+  # 数据源配置
+  datasource:
+    password: 123456
+    url: jdbc:mysql://localhost:3306/xht_platform?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver

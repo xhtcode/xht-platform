@@ -25,10 +25,6 @@
             <groupId>com.xht</groupId>
             <artifactId>xht-framework-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-        </dependency>
     </dependencies>
 
 </project>
