@@ -1,5 +1,6 @@
 package com.xht.cloud.log.repository;
 
+import com.xht.cloud.log.feign.RemoteLogClientService;
 import com.xht.framework.log.domain.dto.LogDTO;
 import com.xht.framework.log.repository.LogRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ import org.springframework.scheduling.annotation.Async;
 @RequiredArgsConstructor
 public class FeignLogRepositoryImpl implements LogRepository {
 
-    private final LogRepository logRepository;
+    private final RemoteLogClientService remoteLogClientService;
 
     /**
      * 存储日志
@@ -25,6 +26,6 @@ public class FeignLogRepositoryImpl implements LogRepository {
     @Async
     @Override
     public void save(LogDTO dto) {
-        logRepository.save(dto);
+        remoteLogClientService.saveLog(dto);
     }
 }

@@ -1,3 +1,2 @@
-com.xht.boot.log.configurers.BootLogRepositoryAutoConfigurer
 com.xht.boot.mybatisplus.configurers.MybatisPlusAutoMetaObjectAutoConfig
 com.xht.boot.oauth2.configurers.BootOauth2RedisAutoConfig
