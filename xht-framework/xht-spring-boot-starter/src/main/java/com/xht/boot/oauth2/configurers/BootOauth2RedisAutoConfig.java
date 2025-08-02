@@ -1,9 +1,9 @@
 package com.xht.boot.oauth2.configurers;
 
 import com.xht.boot.oauth2.convert.*;
-import com.xht.boot.oauth2.repository.OAuth2AuthorizationGrantAuthorizationRepository;
 import com.xht.boot.oauth2.repository.OAuth2RegisteredClientRepository;
 import com.xht.boot.oauth2.repository.OAuth2UserConsentRepository;
+import com.xht.boot.oauth2.repository.RedisOAuth2AuthorizationRepository;
 import com.xht.boot.oauth2.service.RedisOAuth2AuthorizationConsentService;
 import com.xht.boot.oauth2.service.RedisOAuth2AuthorizationService;
 import com.xht.boot.oauth2.service.RedisRegisteredClientService;
@@ -15,6 +15,8 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.convert.RedisCustomConversions;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 
 import java.util.Arrays;
@@ -28,7 +30,7 @@ import java.util.Arrays;
 @SuppressWarnings("all")
 @AutoConfiguration
 @ConditionalOnClass(value = {RedisConnectionFactory.class, OAuth2AuthorizationServerConfigurer.class})
-@EnableRedisRepositories("com.xht.boot.oauth2.repository")
+@EnableRedisRepositories(value = "com.xht.boot.oauth2.repository", redisTemplateRef = "oauth2RedisTemplate")
 public class BootOauth2RedisAutoConfig {
 
     public BootOauth2RedisAutoConfig() {
@@ -42,8 +44,12 @@ public class BootOauth2RedisAutoConfig {
      * @return redisTemplate
      */
     @Bean(name = "oauth2RedisTemplate")
-    public RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setKeySerializer(RedisSerializer.string());
+        redisTemplate.setHashKeySerializer(RedisSerializer.string());
+        redisTemplate.setValueSerializer(RedisSerializer.java());
+        redisTemplate.setHashValueSerializer(RedisSerializer.java());
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         return redisTemplate;
     }
@@ -63,8 +69,8 @@ public class BootOauth2RedisAutoConfig {
 
 
     @Bean
-    public RedisOAuth2AuthorizationService authorizationService(OAuth2AuthorizationGrantAuthorizationRepository authorizationGrantAuthorizationRepository) {
-        return new RedisOAuth2AuthorizationService(authorizationGrantAuthorizationRepository);
+    public RedisOAuth2AuthorizationService authorizationService(RegisteredClientRepository registeredClientRepository, RedisOAuth2AuthorizationRepository redisOAuth2AuthorizationRepository) {
+        return new RedisOAuth2AuthorizationService(registeredClientRepository, redisOAuth2AuthorizationRepository);
     }
 
     @Bean

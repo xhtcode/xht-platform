@@ -7,6 +7,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Set;
 
@@ -58,7 +59,7 @@ public class SysOauth2ClientFormRequest extends FormRequest {
      */
     @NotNull(message = "客户端发布时间参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "客户端发布时间")
-    private Instant clientIdIssuedAt;
+    private LocalDateTime clientIdIssuedAt;
 
     /**
      * 客户端过期时间
@@ -66,7 +67,7 @@ public class SysOauth2ClientFormRequest extends FormRequest {
      */
     @NotNull(message = "客户端过期时间参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "客户端过期时间")
-    private Instant clientSecretExpiresAt;
+    private LocalDateTime clientSecretExpiresAt;
 
     /**
      * 客户端授权类型

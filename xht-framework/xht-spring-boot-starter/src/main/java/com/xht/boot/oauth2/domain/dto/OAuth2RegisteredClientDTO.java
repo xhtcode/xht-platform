@@ -4,6 +4,8 @@ import com.xht.framework.core.domain.dto.IDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Set;
 
@@ -45,13 +47,13 @@ public final class OAuth2RegisteredClientDTO implements IDto {
      * 客户端发布时间
      */
     @Schema(description = "客户端发布时间")
-    private String clientIdIssuedAt;
+    private LocalDateTime clientIdIssuedAt;
 
     /**
      * 客户端过期时间
      */
     @Schema(description = "客户端过期时间")
-    private String clientSecretExpiresAt;
+    private LocalDateTime clientSecretExpiresAt;
 
     /**
      * 客户端授权类型

@@ -18,6 +18,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.security.Principal;
+import java.util.Objects;
 
 @SuppressWarnings("all")
 final class ModelMapper {
@@ -320,6 +321,23 @@ final class ModelMapper {
         } else if (authorizationGrantAuthorization instanceof OAuth2TokenExchangeGrantAuthorization authorizationGrant) {
             mapOAuth2TokenExchangeGrantAuthorization(authorizationGrant, builder);
         }
+        builder.id(authorizationGrantAuthorization.getId())
+                .principalName(authorizationGrantAuthorization.getPrincipalName())
+                .authorizationGrantType(AuthorizationGrantType.TOKEN_EXCHANGE)
+                .authorizedScopes(authorizationGrantAuthorization.getAuthorizedScopes());
+        OAuth2AuthorizationGrantAuthorization.AccessToken accessToken = authorizationGrantAuthorization.getAccessToken();
+        if (accessToken != null) {
+            OAuth2AccessToken oauth2AccessToken = new OAuth2AccessToken(accessToken.getTokenType(),
+                    accessToken.getTokenValue(), accessToken.getIssuedAt(), accessToken.getExpiresAt(),
+                    accessToken.getScopes());
+            builder.token(oauth2AccessToken, (metadata) -> {
+                metadata.put(OAuth2Authorization.Token.INVALIDATED_METADATA_NAME, accessToken.isInvalidated());
+                metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, accessToken.getClaims().getClaims());
+                if (Objects.nonNull(accessToken.getTokenFormat())) {
+                    metadata.put(OAuth2TokenFormat.class.getName(), accessToken.getTokenFormat().getValue());
+                }
+            });
+        }
     }
 
     static void mapOidcAuthorizationCodeGrantAuthorization(
@@ -346,7 +364,6 @@ final class ModelMapper {
         }
 
         mapAuthorizationCode(authorizationCodeGrantAuthorization.getAuthorizationCode(), builder);
-        mapAccessToken(authorizationCodeGrantAuthorization.getAccessToken(), builder);
         mapRefreshToken(authorizationCodeGrantAuthorization.getRefreshToken(), builder);
     }
 
@@ -359,7 +376,6 @@ final class ModelMapper {
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .authorizedScopes(clientCredentialsGrantAuthorization.getAuthorizedScopes());
 
-        mapAccessToken(clientCredentialsGrantAuthorization.getAccessToken(), builder);
     }
 
     static void mapOAuth2DeviceCodeGrantAuthorization(OAuth2DeviceCodeGrantAuthorization deviceCodeGrantAuthorization,
@@ -379,7 +395,6 @@ final class ModelMapper {
             builder.attribute(OAuth2ParameterNames.STATE, deviceCodeGrantAuthorization.getDeviceState());
         }
 
-        mapAccessToken(deviceCodeGrantAuthorization.getAccessToken(), builder);
         mapRefreshToken(deviceCodeGrantAuthorization.getRefreshToken(), builder);
         mapDeviceCode(deviceCodeGrantAuthorization.getDeviceCode(), builder);
         mapUserCode(deviceCodeGrantAuthorization.getUserCode(), builder);
@@ -394,7 +409,6 @@ final class ModelMapper {
                 .authorizationGrantType(AuthorizationGrantType.TOKEN_EXCHANGE)
                 .authorizedScopes(tokenExchangeGrantAuthorization.getAuthorizedScopes());
 
-        mapAccessToken(tokenExchangeGrantAuthorization.getAccessToken(), builder);
     }
 
     static void mapAuthorizationCode(OAuth2AuthorizationCodeGrantAuthorization.AuthorizationCode authorizationCode,
@@ -408,20 +422,6 @@ final class ModelMapper {
                 .put(OAuth2Authorization.Token.INVALIDATED_METADATA_NAME, authorizationCode.isInvalidated()));
     }
 
-    static void mapAccessToken(OAuth2AuthorizationGrantAuthorization.AccessToken accessToken,
-                               OAuth2Authorization.Builder builder) {
-        if (accessToken == null) {
-            return;
-        }
-        OAuth2AccessToken oauth2AccessToken = new OAuth2AccessToken(accessToken.getTokenType(),
-                accessToken.getTokenValue(), accessToken.getIssuedAt(), accessToken.getExpiresAt(),
-                accessToken.getScopes());
-        builder.token(oauth2AccessToken, (metadata) -> {
-            metadata.put(OAuth2Authorization.Token.INVALIDATED_METADATA_NAME, accessToken.isInvalidated());
-            metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, accessToken.getClaims().getClaims());
-            metadata.put(OAuth2TokenFormat.class.getName(), accessToken.getTokenFormat().getValue());
-        });
-    }
 
     static void mapRefreshToken(OAuth2AuthorizationGrantAuthorization.RefreshToken refreshToken,
                                 OAuth2Authorization.Builder builder) {

@@ -13,11 +13,6 @@
     <packaging>jar</packaging>
     <description>xht-framework-swagger 接口管理</description>
     <dependencies>
-        <!-- SpringBoot Web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         <!-- Swagger-Knife4j Webmvc -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>

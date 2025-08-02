@@ -6,8 +6,10 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
 import java.io.Serial;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +19,8 @@ import java.util.Map;
  *
  * @author xht
  **/
-public class BasicUserDetails extends User implements UserDetails {
+@Getter
+public class BasicUserDetails extends User implements UserDetails, Principal, OAuth2AuthenticatedPrincipal {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -25,27 +28,23 @@ public class BasicUserDetails extends User implements UserDetails {
     /**
      * 扩展属性，方便存放oauth 上下文相关信息
      */
-    @Getter
     private final Map<String, Object> attributes = new HashMap<>();
 
     /**
      * 用户ID
      */
-    @Getter
     @JsonSerialize(using = ToStringSerializer.class)
     private final Long userId;
 
     /**
      * 部门ID
      */
-    @Getter
     @JsonSerialize(using = ToStringSerializer.class)
     private final Long deptId;
 
     /**
      * 手机号
      */
-    @Getter
     private final String mobile;
 
     /**
@@ -82,4 +81,13 @@ public class BasicUserDetails extends User implements UserDetails {
         attributes.put(key, value);
     }
 
+    /**
+     * Returns the name of this principal.
+     *
+     * @return the name of this principal.
+     */
+    @Override
+    public String getName() {
+        return this.getUsername();
+    }
 }
