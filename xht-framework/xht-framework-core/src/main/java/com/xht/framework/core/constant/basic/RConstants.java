@@ -15,7 +15,7 @@ public class RConstants {
     /**
      * 成功消息
      */
-    public static final String SUCCESS_MSG = "一切顺利，就像刚出门就捡到了一块钱~";
+    public static final String SUCCESS_MSG = "成功！";
 
     /**
      * 失败标记
