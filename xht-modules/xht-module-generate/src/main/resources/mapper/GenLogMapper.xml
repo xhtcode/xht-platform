@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xht.generate.dao.mapper.GenLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.xht.generate.domain.entity.GenLogEntity">
+            <id property="id" column="id" />
+            <result property="projectId" column="project_id" />
+            <result property="batchNo" column="batch_no" />
+            <result property="generateTime" column="generate_time" />
+            <result property="fileCount" column="file_count" />
+            <result property="generatePath" column="generate_path" />
+            <result property="templateIds" column="template_ids" />
+            <result property="tableIds" column="table_ids" />
+            <result property="status" column="status" />
+            <result property="errorMsg" column="error_msg" />
+            <result property="createBy" column="create_by" />
+            <result property="createTime" column="create_time" />
+            <result property="updateBy" column="update_by" />
+            <result property="updateTime" column="update_time" />
+            <result property="isDel" column="is_del" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,project_id,batch_no,generate_time,file_count,generate_path,
+        template_ids,table_ids,status,error_msg,create_by,
+        create_time,update_by,update_time,is_del
+    </sql>
+</mapper>
