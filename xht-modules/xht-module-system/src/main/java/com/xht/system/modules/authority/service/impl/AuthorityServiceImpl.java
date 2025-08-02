@@ -6,15 +6,20 @@ import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.core.utils.tree.TreeNode;
 import com.xht.framework.core.utils.tree.TreeUtils;
+import com.xht.framework.security.core.userdetails.BasicUserDetails;
+import com.xht.framework.security.utils.SecurityUtils;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
 import com.xht.system.modules.authority.dao.SysMenuDao;
+import com.xht.system.modules.authority.dao.SysRoleMenuDao;
 import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
+import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.authority.domain.vo.AuthorityUserVO;
 import com.xht.system.modules.authority.domain.vo.MetaVo;
 import com.xht.system.modules.authority.domain.vo.RouterVo;
 import com.xht.system.modules.authority.service.IAuthorityService;
 import com.xht.system.modules.user.dao.SysUserDao;
-import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
+import com.xht.system.modules.user.dao.SysUserDeptDao;
+import com.xht.system.modules.user.dao.SysUserRoleDao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 权限Service实现类
@@ -36,6 +42,12 @@ import java.util.Objects;
 public class AuthorityServiceImpl implements IAuthorityService {
 
     private final SysUserDao sysUserDao;
+
+    private final SysUserDeptDao sysUserDeptDao;
+
+    private final SysUserRoleDao sysUserRoleDao;
+
+    private final SysRoleMenuDao sysRoleMenuDao;
 
     private final SysMenuDao sysMenuDao;
 
@@ -66,8 +78,16 @@ public class AuthorityServiceImpl implements IAuthorityService {
      */
     @Override
     public AuthorityUserVO getUserProfileInfo() {
-        SysUserProfilesEntity userProfilesInfo = sysUserDao.findUserProfilesInfo(1L);
-        return new AuthorityUserVO();
+        BasicUserDetails user = SecurityUtils.getUser();
+        AuthorityUserVO vo = new AuthorityUserVO();
+        vo.setUser(sysUserDao.findInfoByUserId(user.getUserId()));
+        vo.setDeptPostVo(sysUserDeptDao.getDeptPostByUserId(user.getUserId()));
+        List<SysRoleEntity> roles = sysUserRoleDao.findRoleListByUserId(user.getUserId());
+        List<String> permissionCodes = sysRoleMenuDao.findPermissionCodeByUserId(user.getUserId());
+        vo.setRoleCodes(roles.stream().map(SysRoleEntity::getRoleCode).collect(Collectors.toList()));
+        vo.setPermissionCodes(permissionCodes);
+        vo.setDataScope(0);
+        return vo;
     }
 
     /**

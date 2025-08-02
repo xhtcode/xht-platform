@@ -18,7 +18,10 @@ import lombok.Data;
 @Schema(description = "用户信息视图对象响应信息")
 public class SysUserVO extends SysUserResponse implements IVO {
 
+    @Schema(description = "用户信息")
     private SysUserProfilesResponse profile;
+
+
     /**
      * 岗位ID
      */

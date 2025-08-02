@@ -1,6 +1,8 @@
 package com.xht.framework.security.utils;
 
 import com.xht.framework.core.exception.UtilException;
+import com.xht.framework.security.core.userdetails.BasicUserDetails;
+import com.xht.framework.security.exception.BasicAuthenticationException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,4 +58,13 @@ public final class SecurityUtils {
         }
         return null;
     }
+
+
+    /**
+     * 获取 spring security 当前的用户
+     */
+    public static BasicUserDetails getUser() {
+        return getOptAuthentication().map(authentication -> (BasicUserDetails) authentication.getPrincipal()).orElseThrow(() -> new BasicAuthenticationException("用户认证信息不存在"));
+    }
+
 }
