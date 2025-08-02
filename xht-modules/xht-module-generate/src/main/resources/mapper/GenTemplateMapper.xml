@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xht.generate.dao.mapper.GenTemplateMapper">
+
+    <resultMap id="BaseResultMap" type="com.xht.generate.domain.entity.GenTemplateEntity">
+            <id property="id" column="id" />
+            <result property="name" column="name" />
+            <result property="content" column="content" />
+            <result property="fileType" column="file_type" />
+            <result property="filePathTemplate" column="file_path_template" />
+            <result property="fileNameTemplate" column="file_name_template" />
+            <result property="createBy" column="create_by" />
+            <result property="createTime" column="create_time" />
+            <result property="updateBy" column="update_by" />
+            <result property="updateTime" column="update_time" />
+            <result property="isDel" column="is_del" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,content,file_type,file_path_template,file_name_template,
+        create_by,create_time,update_by,update_time,is_del
+    </sql>
+</mapper>

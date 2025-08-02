@@ -3,4 +3,4 @@
  *
  * @author xht
  **/
-package com.xht.modules.generate;
+package com.xht.generate;

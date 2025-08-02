@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xht.generate.dao.mapper.GenTypeMappingMapper">
+
+    <resultMap id="BaseResultMap" type="com.xht.generate.domain.entity.GenTypeMappingEntity">
+            <id property="id" column="id" />
+            <result property="dbType" column="db_type" />
+            <result property="dbDataType" column="db_data_type" />
+            <result property="targetLanguage" column="target_language" />
+            <result property="targetDataType" column="target_data_type" />
+            <result property="importPackage" column="import_package" />
+            <result property="createBy" column="create_by" />
+            <result property="createTime" column="create_time" />
+            <result property="updateBy" column="update_by" />
+            <result property="updateTime" column="update_time" />
+            <result property="isDel" column="is_del" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,db_type,db_data_type,target_language,target_data_type,import_package,
+        create_by,create_time,update_by,update_time,is_del
+    </sql>
+</mapper>
