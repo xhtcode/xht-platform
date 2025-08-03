@@ -10,6 +10,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Set;
 
@@ -50,13 +51,13 @@ public class SysOauth2ClientEntity extends BasicEntity implements Serializable {
      * 客户端发布时间
      */
     @TableField(value = "client_id_issued_at")
-    private Instant clientIdIssuedAt;
+    private LocalDateTime clientIdIssuedAt;
 
     /**
      * 客户端过期时间
      */
     @TableField(value = "client_secret_expires_at")
-    private Instant clientSecretExpiresAt;
+    private LocalDateTime clientSecretExpiresAt;
 
     /**
      * 客户端授权类型

@@ -1,12 +1,10 @@
 package com.xht.system.modules.user.domain.request;
 
 import com.xht.framework.core.domain.request.FormRequest;
-import com.xht.framework.web.validation.Groups;
-import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
 import lombok.Data;
+
+import java.io.Serial;
 
 /**
  * 用户表单请求参数
@@ -17,46 +15,43 @@ import lombok.Data;
 @Schema(description = "用户表单请求参数")
 public class UserFormRequest extends FormRequest {
 
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /**
-     * 用户唯一标识
+     * 用户ID
      */
-    @Null(message = "用户唯一标识必须为空", groups = {Groups.Create.class})
-    @NotNull(message = "用户唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "用户唯一标识参数不合法", groups = {Groups.Update.class})
-    @Schema(description = "用户唯一标识", example = "101")
+    @Schema(description = "用户唯一标识符", example = "12345")
     private Long id;
+
+    /**
+     * 用户类型
+     */
+    @Schema(description = "用户类型，例如：1-管理员，2-普通用户", example = "1")
+    private Integer userType;
 
     /**
      * 用户昵称
      */
-    @NotBlank(message = "用户昵称参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Size(min = 2, max = 50, message = "用户昵称长度应在2到50之间")
-    @Schema(description = "用户昵称", example = "星辰")
-    private String nickName;
+    @Schema(description = "用户的昵称，用于显示", example = "星月")
+    private String userName;
 
     /**
-     * 账号状态(1-正常,2-锁定,3-禁用,4-过期)
+     * 手机号码
      */
-    @NotNull(message = "账号状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "账号状态(1-正常,2-锁定,3-禁用,4-过期)")
-    private UserStatusEnums userStatus;
+    @Schema(description = "用户的手机号码", example = "13800138000")
+    private String phoneNumber;
 
     /**
-     * 部门id
+     * 账号状态
      */
-    @NotNull(message = "部门id参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "部门id")
-    private Long deptId;
+    @Schema(description = "账号状态，例如：0-禁用，1-启用", example = "1")
+    private Integer userStatus;
 
     /**
-     * 岗位id
+     * 用户详细信息
      */
-    @NotNull(message = "岗位信息参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "岗位id")
-    private Long postId;
-
-    @Valid
     @Schema(description = "用户详细信息")
-    private UserProfilesFormRequest profile;
+    private UserProfileFormRequest userProfile;
 
 }

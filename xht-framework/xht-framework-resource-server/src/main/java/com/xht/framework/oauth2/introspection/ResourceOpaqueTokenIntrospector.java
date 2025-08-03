@@ -1,13 +1,10 @@
 package com.xht.framework.oauth2.introspection;
 
-import com.xht.framework.oauth2.security.core.userdetails.Oauth2UserDetails;
-import com.xht.framework.security.constant.SecurityConstant;
-import com.xht.framework.security.core.userdetails.BasicUserDetails;
+import com.xht.framework.core.exception.BusinessException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -21,6 +18,7 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
 
 import java.security.Principal;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 资源服务器Opaque Token Introspector
@@ -51,23 +49,18 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
                     Objects.requireNonNull(oldAuthorization.getAccessToken().getClaims()), AuthorityUtils.NO_AUTHORITIES);
         }
 
-        UserDetails userDetails = null;
         try {
-            Object principal = Objects.requireNonNull(oldAuthorization).getAttributes().get(Principal.class.getName());
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) principal;
-            BasicUserDetails basicUserDetails = (BasicUserDetails) usernamePasswordAuthenticationToken.getPrincipal();
-            userDetails = userDetailsService.loadUserByUsername(basicUserDetails.getUsername());
+            return Optional.of(oldAuthorization)
+                    .map(item -> (UsernamePasswordAuthenticationToken) item.getAttributes().get(Principal.class.getName()))
+                    .map(item -> (OAuth2AuthenticatedPrincipal) item.getPrincipal())
+                    .orElseThrow(() -> new UsernameNotFoundException(oldAuthorization.getPrincipalName()));
         } catch (UsernameNotFoundException notFoundException) {
             log.warn("用户不不存在 {}", notFoundException.getLocalizedMessage());
             throw notFoundException;
         } catch (Exception ex) {
             log.error("资源服务器 introspect Token error {}", ex.getLocalizedMessage());
         }
-        // 注入客户端信息，方便上下文中获取
-        BasicUserDetails basicUserDetails = (BasicUserDetails) userDetails;
-        Objects.requireNonNull(basicUserDetails)
-                .addAttribute(SecurityConstant.OAUTH2_CLIENT_ID, oldAuthorization.getRegisteredClientId());
-        return new Oauth2UserDetails(basicUserDetails);
+        throw new BusinessException("用户不存在");
     }
 
 

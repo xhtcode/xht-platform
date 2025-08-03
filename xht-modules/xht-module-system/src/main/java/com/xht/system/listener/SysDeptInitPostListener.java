@@ -5,8 +5,8 @@ import com.xht.system.modules.dept.dao.SysDeptDao;
 import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
 import com.xht.system.modules.user.dao.SysUserDao;
-import com.xht.system.modules.user.dao.SysUserDeptDao;
-import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
+import com.xht.system.modules.user.dao.SysUserDeptPostDao;
+import com.xht.system.modules.user.domain.entity.SysUserDeptPostEntity;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -35,7 +35,7 @@ public class SysDeptInitPostListener implements ApplicationListener<SysDeptInitP
 
     private final SysDeptPostDao sysDeptPostDao;
 
-    private final SysUserDeptDao sysUserDeptDao;
+    private final SysUserDeptPostDao sysUserDeptPostDao;
 
     private final SysDeptDao sysDeptDao;
 
@@ -57,11 +57,11 @@ public class SysDeptInitPostListener implements ApplicationListener<SysDeptInitP
         //如果这里就设置了主管的用户id那么直接添加部门主管映射表
         Long leaderUserId = event.getLeaderUserId();
         if (Objects.nonNull(leaderUserId)) {
-            SysUserDeptEntity userDeptEntity = new SysUserDeptEntity();
+            SysUserDeptPostEntity userDeptEntity = new SysUserDeptPostEntity();
             userDeptEntity.setUserId(leaderUserId);
             userDeptEntity.setDeptId(deptId);
             userDeptEntity.setPostId(initPostId);
-            sysUserDeptDao.save(userDeptEntity);
+            sysUserDeptPostDao.save(userDeptEntity);
             sysUserDao.updateDept(leaderUserId, deptId);
         }
         log.info("岗位及员工分配事件监听器结束处理");

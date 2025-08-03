@@ -88,7 +88,7 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
                 .authorizedScopes(authorizedScopes)
                 .principalName(authenticate.getName())
                 .authorizationGrantType(authorizationGrantType)
-                .attribute(Principal.class.getName(), authenticate.getPrincipal())
+                .attribute(Principal.class.getName(), authenticate)
                 ;
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .registeredClient(registeredClient)

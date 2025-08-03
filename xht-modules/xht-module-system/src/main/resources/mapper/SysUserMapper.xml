@@ -5,19 +5,21 @@
 <mapper namespace="com.xht.system.modules.user.dao.mapper.SysUserMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.system.modules.user.domain.vo.SysUserVO">
-        <id property="id" column="id" jdbcType="BIGINT"/>
-        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
-        <result property="passWord" column="pass_word" jdbcType="VARCHAR"/>
-        <result property="salt" column="salt" jdbcType="VARCHAR"/>
-        <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
-        <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
-        <result property="avatarUrl" column="avatar_url" jdbcType="VARCHAR"/>
-        <result property="userStatus" column="user_status" jdbcType="TINYINT"/>
-        <result property="deptId" column="dept_id" jdbcType="BIGINT"/>
-        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
-        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <id property="id" column="id"/>
+        <result property="userType" column="user_type"/>
+        <result property="userAccount" column="user_account"/>
+        <result property="userName" column="user_name"/>
+        <result property="passWord" column="pass_word"/>
+        <result property="passWordSalt" column="pass_word_salt"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="avatarUrl" column="avatar_url"/>
+        <result property="userStatus" column="user_status"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="postId" column="post_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
         <association property="profile" javaType="com.xht.system.modules.user.domain.response.SysUserProfilesResponse">
             <result property="realName" column="real_name" jdbcType="VARCHAR"/>
             <result property="idCardNumber" column="id_card_number" jdbcType="VARCHAR"/>
@@ -28,24 +30,48 @@
             <result property="postalCode" column="postal_code" jdbcType="VARCHAR"/>
         </association>
     </resultMap>
-
-    <sql id="Base_Column_List">
-        id
-        ,user_name,pass_word,nick_name,avatar_url,user_status,
-        create_time,update_time,create_by,update_by,is_del
+    <sql id="BaseQuerySQL">
+        SELECT t1.id,
+               t1.user_type,
+               t1.user_account,
+               t1.user_name,
+               t1.pass_word,
+               t1.pass_word_salt,
+               t1.phone_number,
+               t1.avatar_url,
+               t1.user_status,
+               t1.dept_id,
+               t1.post_id,
+               t1.create_time,
+               t1.update_time,
+               t1.create_by,
+               t1.update_by,
+               t2.real_name,
+               t2.id_card_number,
+               t2.gender,
+               t2.birth_date,
+               t2.age,
+               t2.address,
+               t2.postal_code
+        FROM sys_user t1
+                 LEFT JOIN sys_user_profiles t2 ON t1.id = t2.user_id
+        WHERE t1.is_del = 0
     </sql>
+    <!-- 根据手机号和身份证号校验用户是否重复 -->
+    <select id="checkUserRepeat" resultType="java.lang.Integer">
+        select count(1)
+        from sys_user t1
+        left join sys_user_profiles t2 on t1.id = t2.user_id
+        where t1.is_del = 0
+        <if test="neUserId!= null">
+            and t1.id != #{neUserId}
+        </if>
+        and (t1.mobile = #{phoneNumber} or t2.id_card_number = #{idCardNumber})
+    </select>
 
     <!-- 自定义查询 -->
     <select id="queryPageRequest" resultMap="BaseResultMap" parameterType="com.xht.system.modules.user.domain.request.UserQueryRequest">
-        SELECT
-        t1.id
-        , t1.user_name, t1.pass_word, t1.nick_name, t1.avatar_url, t1.user_status,
-        t1.create_time, t1.update_time, t1.create_by, t1.update_by,
-        t2.real_name,t2.id_card_number,t2.gender,t2.birth_date,
-        t2.age,t2.address,t2.postal_code
-        FROM sys_user t1
-        LEFT JOIN sys_user_profiles t2 ON t1.id = t2.user_id
-        WHERE t1.is_del = 0
+        <include refid="BaseQuerySQL"/>
         <if test="queryRequest. keyWord != null and queryRequest.keyWord != ''">
             AND (t1.user_name LIKE CONCAT('%', #{queryRequest.keyWord}, '%') OR t1.nick_name LIKE CONCAT('%',
             #{queryRequest.keyWord}, '%') OR
@@ -58,8 +84,8 @@
         <if test="queryRequest.userName != null and queryRequest.userName != ''">
             AND t1.user_name LIKE CONCAT('%', #{queryRequest.userName}, '%')
         </if>
-        <if test="queryRequest.nickName != null and queryRequest.nickName != ''">
-            AND t1.nick_name LIKE CONCAT('%', #{queryRequest.nickName}, '%')
+        <if test="queryRequest.userAccount != null and queryRequest.userAccount != ''">
+            AND t1.user_account LIKE CONCAT('%', #{userAccount}, '%')
         </if>
         <if test="queryRequest.realName != null and queryRequest.realName != ''">
             AND t2.real_name LIKE CONCAT('%', #{queryRequest.realName}, '%')
@@ -88,58 +114,20 @@
     </select>
 
     <select id="findInfoByUserId" resultMap="BaseResultMap">
-        SELECT t1.id,
-               t1.user_name,
-               t1.pass_word,
-               t1.salt,
-               t1.nick_name,
-               t1.mobile,
-               t1.avatar_url,
-               t1.user_status,
-               t1.dept_id,
-               t1.create_time,
-               t1.update_time,
-               t1.create_by,
-               t1.update_by,
-               t2.real_name,
-               t2.id_card_number,
-               t2.gender,
-               t2.birth_date,
-               t2.age,
-               t2.address,
-               t2.postal_code
-        FROM sys_user t1
-                 LEFT JOIN sys_user_profiles t2 ON t1.id = t2.user_id
-                 LEFT JOIN sys_user_dept t3 ON t1.id = t3.user_id
-        WHERE t1.is_del = 0
-          and t1.id = #{userId}
+        <include refid="BaseQuerySQL"/>
+        and t1.id = #{userId}
     </select>
 
     <select id="findByUsernameAndLoginType" resultType="com.xht.system.modules.user.domain.vo.SysUserVO">
-        SELECT t1.id,
-               t1.user_name,
-               t1.pass_word,
-               t1.salt,
-               t1.nick_name,
-               t1.mobile,
-               t1.avatar_url,
-               t1.user_status,
-               t1.dept_id,
-               t1.create_time,
-               t1.update_time,
-               t1.create_by,
-               t1.update_by,
-               t2.real_name,
-               t2.id_card_number,
-               t2.gender,
-               t2.birth_date,
-               t2.age,
-               t2.address,
-               t2.postal_code
-        FROM sys_user t1
-                 LEFT JOIN sys_user_profiles t2 ON t1.id = t2.user_id
-                 LEFT JOIN sys_user_dept t3 ON t1.id = t3.user_id
-        WHERE t1.is_del = 0
-          and t1.user_name = #{userName}
+        <include refid="BaseQuerySQL"/>
+        <if test="loginType == 'password'">
+            and t1.user_account = #{userName}
+        </if>
+        <if test="loginType == 'email'">
+            AND t1.email = #{username}
+        </if>
+        <if test="loginType == 'phone'">
+            AND t1.mobile = #{username}
+        </if>
     </select>
 </mapper>

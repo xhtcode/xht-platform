@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,13 +47,13 @@ public class SysOauth2ClientResponse extends BasicResponse {
      */
     @Schema(description = "客户端发布时间")
 
-    private Instant clientIdIssuedAt;
+    private LocalDateTime clientIdIssuedAt;
 
     /**
      * 客户端过期时间
      */
     @Schema(description = "客户端过期时间")
-    private Instant clientSecretExpiresAt;
+    private LocalDateTime clientSecretExpiresAt;
 
     /**
      * 客户端授权类型

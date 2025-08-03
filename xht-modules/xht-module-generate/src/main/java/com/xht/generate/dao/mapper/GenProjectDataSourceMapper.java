@@ -2,6 +2,7 @@ package com.xht.generate.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.generate.domain.entity.GenProjectDataSourceEntity;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @author xht
@@ -9,6 +10,7 @@ import com.xht.generate.domain.entity.GenProjectDataSourceEntity;
  * @createDate 2025-08-02 13:52:52
  * @Entity com.xht.generate.domain.entity.GenProjectDataSourceEntity
  */
+@Mapper
 public interface GenProjectDataSourceMapper extends BaseMapperX<GenProjectDataSourceEntity> {
 
 }

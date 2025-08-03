@@ -19,6 +19,8 @@ import java.util.*;
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysDeptConverter extends BasicConverter<SysDeptEntity, SysDeptFormRequest, SysDeptResponse> {
+
+
     /**
      * 将创建请求对象转换为实体对象。
      *

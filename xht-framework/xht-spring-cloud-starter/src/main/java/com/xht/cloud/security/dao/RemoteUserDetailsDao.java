@@ -51,7 +51,7 @@ public class RemoteUserDetailsDao implements UserDetailsDao {
         // 构建权限集合
         Set<String> authoritiesSet = buildAuthoritiesSet(userInfo);
         // 转换为Spring Security所需的权限对象
-        Collection<GrantedAuthority> authorities = createAuthorityList(authoritiesSet);
+        Collection<SimpleGrantedAuthority> authorities = createAuthorityList(authoritiesSet);
         // 构建并返回用户详情对象
         return new BasicUserDetails(
                 userInfo.getId(),
@@ -71,7 +71,7 @@ public class RemoteUserDetailsDao implements UserDetailsDao {
      * @param authorities 权限字符串集合，可为null或空集合
      * @return 转换后的GrantedAuthority列表，若输入为null则返回空列表
      */
-    public List<GrantedAuthority> createAuthorityList(Set<String> authorities) {
+    public List<SimpleGrantedAuthority> createAuthorityList(Set<String> authorities) {
         // @formatter:off
         if (authorities == null) {
             return Collections.emptyList();

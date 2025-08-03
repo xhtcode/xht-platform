@@ -1,5 +1,6 @@
 package com.xht.system.modules.user.domain.request;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.xht.framework.core.domain.request.PageQueryRequest;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,11 +18,13 @@ import java.time.LocalDate;
 @Schema(description = "用于分页查询用户信息的分页查询参数")
 public class UserQueryRequest extends PageQueryRequest {
 
+
     /**
-     * 用户名
+     * 用户账号
      */
-    @Schema(description = "用户名")
-    private String userName;
+    @Schema(description = "用户账号")
+    private String userAccount;
+
 
     /**
      * 账号状态(1-正常,2-锁定,3-禁用,4-过期)
@@ -32,8 +35,8 @@ public class UserQueryRequest extends PageQueryRequest {
     /**
      * 用户昵称
      */
-    @Schema(description = "用户昵称", example = "星辰")
-    private String nickName;
+    @Schema(description = "用户的昵称，用于显示", example = "星月")
+    private String userName;
 
     /**
      * 真实姓名

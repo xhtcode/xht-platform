@@ -13,7 +13,7 @@ import java.util.List;
 public interface IAuthorityService {
 
     /**
-     * 获取用户信息
+     * 获取当前登录的用户信息
      *
      * @return 用户信息
      */

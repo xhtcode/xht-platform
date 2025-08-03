@@ -31,7 +31,7 @@ public class RemoteRegisteredClientServiceImpl implements RemoteRegisteredClient
      * @return R
      */
     @Override
-    @GetMapping("/sys/oauth2/client/{clientId}")
+    @GetMapping("/api/sys/oauth2/client/{clientId}")
     @NoAuthentication
     public R<OAuth2RegisteredClientDTO> getClientDetailsById(@PathVariable("clientId") String clientId) {
         return R.ok(sysOauth2ClientService.getClient(clientId));

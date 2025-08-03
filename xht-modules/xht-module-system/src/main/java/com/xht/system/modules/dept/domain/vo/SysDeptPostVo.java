@@ -1,9 +1,10 @@
 package com.xht.system.modules.dept.domain.vo;
 
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xht.framework.core.domain.vo.IVO;
-import com.xht.system.modules.dept.common.enums.DeptPostStatusEnums;
+import com.xht.system.modules.dept.domain.response.SysDeptPostResponse;
 import com.xht.system.modules.dept.domain.response.SysDeptResponse;
+import com.xht.system.modules.user.common.enums.PositionNatureEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -14,43 +15,31 @@ import lombok.Data;
  **/
 @Data
 @Schema(description = "部门岗位响应信息")
-public class SysDeptPostVo extends SysDeptResponse implements IVO {
+public class SysDeptPostVo implements IVO {
 
     /**
-     * 岗位ID
+     * index
      */
-    @TableId(value = "岗位ID")
-    private Long postId;
+    @JsonIgnore
+    @Schema(description = "序号")
+    private Long index;
 
     /**
-     * 岗位编码
+     * 职位性质
      */
-    @Schema(description = "岗位编码")
-    private String postCode;
+    @Schema(description = "职位性质")
+    private PositionNatureEnums positionNature;
 
     /**
-     * 岗位名称
+     * 部门信息
      */
-    @Schema(description = "岗位名称")
-    private String postName;
+    @Schema(description = "部门信息")
+    private SysDeptResponse dept;
 
     /**
-     * 岗位排序
+     * 岗位信息
      */
-    @Schema(description = "岗位排序")
-    private Integer postSort;
-
-    /**
-     * 岗位状态（0正常 1停用）
-     */
-    @Schema(description = "岗位状态")
-    private DeptPostStatusEnums postStatus;
-
-
-    /**
-     * 岗位描述
-     */
-    @Schema(description = "岗位描述")
-    private String postRemark;
+    @Schema(description = "岗位信息")
+    private SysDeptPostResponse post;
 
 }

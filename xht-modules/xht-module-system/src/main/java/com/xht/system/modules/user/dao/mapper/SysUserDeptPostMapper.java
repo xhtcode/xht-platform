@@ -3,7 +3,7 @@ package com.xht.system.modules.user.dao.mapper;
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
-import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
+import com.xht.system.modules.user.domain.entity.SysUserDeptPostEntity;
 import com.xht.system.modules.user.domain.vo.UserSimpleVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @author xht
  */
 @Mapper
-public interface SysUserDeptMapper extends BaseMapperX<SysUserDeptEntity> {
+public interface SysUserDeptPostMapper extends BaseMapperX<SysUserDeptPostEntity> {
 
     /**
      * 根据部门ID查询用户简要信息

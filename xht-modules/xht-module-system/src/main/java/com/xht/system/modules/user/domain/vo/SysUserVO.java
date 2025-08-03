@@ -1,9 +1,12 @@
 package com.xht.system.modules.user.domain.vo;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.xht.framework.core.domain.vo.IVO;
 import com.xht.system.modules.dept.common.enums.DeptPostStatusEnums;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
+import com.xht.system.modules.dept.domain.response.SysDeptPostResponse;
+import com.xht.system.modules.dept.domain.response.SysDeptResponse;
+import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
+import com.xht.system.modules.user.common.enums.PositionNatureEnums;
 import com.xht.system.modules.user.domain.response.SysUserProfilesResponse;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,52 +21,25 @@ import lombok.Data;
 @Schema(description = "用户信息视图对象响应信息")
 public class SysUserVO extends SysUserResponse implements IVO {
 
+    @Schema(description = "用户信息")
     private SysUserProfilesResponse profile;
-    /**
-     * 岗位ID
-     */
-    @TableId(value = "岗位ID")
-    private Long postId;
 
     /**
-     * 岗位编码
+     * 职位性质
      */
-    @Schema(description = "岗位编码")
-    private String postCode;
+    @Schema(description = "职位性质")
+    private PositionNatureEnums positionNature;
 
     /**
-     * 岗位名称
+     * 用户所在的部门信息
      */
-    @Schema(description = "岗位名称")
-    private String postName;
+    @Schema(description = "用户所在的部门信息")
+    private SysDeptResponse dept;
 
     /**
-     * 岗位状态（0正常 1停用）
+     * 用户所在的岗位信息
      */
-    @Schema(description = "岗位状态")
-    private DeptPostStatusEnums postStatus;
+    @Schema(description = "用户所在的岗位信息")
+    private SysDeptPostResponse post;
 
-    /**
-     * 父部门id
-     */
-    @Schema(description = "父部门ID", example = "101")
-    private Long deptParentId;
-
-    /**
-     * 部门编码
-     */
-    @Schema(description = "部门编码", example = "DEPT001")
-    private String deptCode;
-
-    /**
-     * 部门名称
-     */
-    @Schema(description = "部门名称", example = "技术部")
-    private String deptName;
-
-    /**
-     * 状态（0正常 1停用）
-     */
-    @Schema(description = "部门状态", example = "0")
-    private DeptStatusEnums deptStatus;
 }

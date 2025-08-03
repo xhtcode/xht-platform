@@ -10,9 +10,7 @@ import org.springframework.security.oauth2.server.authorization.settings.ClientS
 import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
@@ -32,10 +30,10 @@ public class OAuth2RegisteredClientFunction implements Function<OAuth2Registered
 
     @Override
     public RegisteredClient apply(OAuth2RegisteredClientDTO clientDTO) {
-        RegisteredClient.Builder registeredClientBuilder = RegisteredClient.withId(String.valueOf(clientDTO.getId()))
+        RegisteredClient.Builder registeredClientBuilder = RegisteredClient.withId(String.valueOf(clientDTO.getClientId()))
                 .clientId(clientDTO.getClientId()).clientSecret(clientDTO.getClientSecret())
-                .clientIdIssuedAt(Instant.from(fmt.parse(clientDTO.getClientIdIssuedAt())))
-                .clientSecretExpiresAt(Instant.from(fmt.parse(clientDTO.getClientSecretExpiresAt())))
+                .clientIdIssuedAt(convertToInstant(clientDTO.getClientIdIssuedAt()))
+                .clientSecretExpiresAt(convertToInstant(clientDTO.getClientSecretExpiresAt()))
                 .clientName(clientDTO.getClientName())
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .scopes(item -> item.addAll(clientDTO.getScopes()))
@@ -49,7 +47,12 @@ public class OAuth2RegisteredClientFunction implements Function<OAuth2Registered
         return registeredClientBuilder.build();
     }
 
-
+    private Instant convertToInstant(LocalDateTime localDateTime) {
+        if (Objects.isNull(localDateTime)) {
+            return null;
+        }
+        return localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+    }
     private TokenSettings tokenSettings(OAuth2RegisteredClientDTO clientDTO) {
         return TokenSettings.builder()
                 .accessTokenFormat(OAuth2TokenFormat.REFERENCE)

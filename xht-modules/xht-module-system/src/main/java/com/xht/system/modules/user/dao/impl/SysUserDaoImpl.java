@@ -4,11 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.xht.framework.core.utils.spring.SpringContextUtil;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
-import com.xht.system.event.SysUserDeptUpdateEvent;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.dao.SysUserDao;
 import com.xht.system.modules.user.dao.mapper.SysUserMapper;
@@ -21,8 +18,6 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * @author xht
@@ -44,14 +39,11 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean saveUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity, Long postId) {
-        boolean save = save(sysUserEntity);
-        if (save) {
-            SpringContextUtil.publishEvent(new SysUserDeptUpdateEvent(sysUserEntity.getId(), null, null,
-                    sysUserEntity.getDeptId(), postId));
-        }
+    public Boolean saveUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity) {
+        save(sysUserEntity);
         sysUserProfilesEntity.setUserId(sysUserEntity.getId());
-        return SqlHelper.retBool(userProfilesMapper.insert(sysUserProfilesEntity)) && save;
+        userProfilesMapper.insert(sysUserProfilesEntity);
+        return Boolean.TRUE;
     }
 
     /**
@@ -74,18 +66,17 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      *
      * @param sysUserEntity         用户信息
      * @param sysUserProfilesEntity 用户详细信息
-     * @param updateEvent           用户部门更新事件
      * @return true：更新成功；false：更新失败
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity, SysUserDeptUpdateEvent updateEvent) {
+    public Boolean updateUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity) {
         //@formatter:off
         LambdaUpdateWrapper<SysUserEntity> userUpdateWrapper = new LambdaUpdateWrapper<>();
         userUpdateWrapper
-                .set(SysUserEntity::getNickName, sysUserEntity.getNickName())
+                .set(SysUserEntity::getUserType, sysUserEntity.getUserType())
+                .set(SysUserEntity::getPhoneNumber, sysUserEntity.getPhoneNumber())
                 .set(SysUserEntity::getUserStatus, sysUserEntity.getUserStatus())
-                .set(SysUserEntity::getDeptId, sysUserEntity.getDeptId())
                 .eq(SysUserEntity::getId, sysUserEntity.getId());
         LambdaUpdateWrapper<SysUserProfilesEntity> userProfilesUpdateWrapper = new LambdaUpdateWrapper<>();
         userProfilesUpdateWrapper
@@ -98,9 +89,8 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
                 .set(SysUserProfilesEntity::getPostalCode, sysUserProfilesEntity.getPostalCode())
                 .eq(SysUserProfilesEntity::getUserId, sysUserEntity.getId());
         //@formatter:on
-        this.update(userUpdateWrapper);
+        update(userUpdateWrapper);
         userProfilesMapper.update(userProfilesUpdateWrapper);
-        SpringContextUtil.publishEvent(updateEvent);
         return true;
     }
 
@@ -136,29 +126,6 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
         return update(lambdaUpdateWrapper);
     }
 
-    /**
-     * 判断身份号是否存在
-     *
-     * @param idCardNumber 身份号
-     * @return true：存在；false：不存在
-     */
-    @Override
-    public Boolean existsIdCardNumber(String idCardNumber) {
-        LambdaQueryWrapper<SysUserProfilesEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysUserProfilesEntity::getIdCardNumber, idCardNumber);
-        return userProfilesMapper.exists(queryWrapper);
-    }
-
-    /**
-     * 根据用户ID查询用户详细信息
-     *
-     * @param userId 用户ID
-     * @return 用户详细信息
-     */
-    @Override
-    public SysUserProfilesEntity findUserProfilesInfo(Long userId) {
-        return userProfilesMapper.selectOne(SysUserProfilesEntity::getUserId, userId).orElse(null);
-    }
 
     /**
      * 分页查询用户信息
@@ -199,19 +166,6 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
     }
 
     /**
-     * 判断用户id是否存在
-     *
-     * @param userIds 用户id列表
-     * @return true：存在；false：不存在
-     */
-    @Override
-    public boolean existsByUserId(List<Long> userIds) {
-        LambdaQueryWrapper<SysUserEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.in(SysUserEntity::getId, userIds);
-        return count(queryWrapper) == userIds.size();
-    }
-
-    /**
      * 根据用户名和登录类型查询用户信息
      *
      * @param username  用户名
@@ -220,7 +174,20 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      */
     @Override
     public SysUserVO findByUsernameAndLoginType(String username, LoginTypeEnums loginType) {
-        return baseMapper.findByUsernameAndLoginType(username, loginType);
+        return baseMapper.findByUsernameAndLoginType(username, loginType.getValue());
+    }
+
+    /**
+     * 根据手机号和身份证号校验用户是否重复
+     *
+     * @param neUserId     不包括的用户ID
+     * @param phoneNumber  手机号
+     * @param idCardNumber 身份证号
+     * @return true：存在；false：不存在
+     */
+    @Override
+    public Boolean checkUserRepeat(Long neUserId, String phoneNumber, String idCardNumber) {
+        return baseMapper.checkUserRepeat(neUserId, phoneNumber, idCardNumber) > 0;
     }
 
     /**

@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
-import com.xht.system.modules.user.dao.SysUserDeptDao;
-import com.xht.system.modules.user.dao.mapper.SysUserDeptMapper;
-import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
+import com.xht.system.modules.user.dao.SysUserDeptPostDao;
+import com.xht.system.modules.user.dao.mapper.SysUserDeptPostMapper;
+import com.xht.system.modules.user.domain.entity.SysUserDeptPostEntity;
 import com.xht.system.modules.user.domain.vo.UserSimpleVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -23,16 +23,16 @@ import java.util.List;
  **/
 @Slf4j
 @Component
-public class SysUserDeptDaoImpl extends MapperRepositoryImpl<SysUserDeptMapper, SysUserDeptEntity> implements SysUserDeptDao {
+public class SysUserDeptPostPostDaoImpl extends MapperRepositoryImpl<SysUserDeptPostMapper, SysUserDeptPostEntity> implements SysUserDeptPostDao {
 
     /**
      * 保存用户和部门关系
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean saveUserDept(Long deptId, List<SysUserDeptEntity> userDeptEntities) {
-        LambdaQueryWrapper<SysUserDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysUserDeptEntity::getDeptId, deptId);
+    public boolean saveUserDept(Long deptId, List<SysUserDeptPostEntity> userDeptEntities) {
+        LambdaQueryWrapper<SysUserDeptPostEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUserDeptPostEntity::getDeptId, deptId);
         remove(queryWrapper);
         if (CollectionUtils.isEmpty(userDeptEntities)) {
             return true;
@@ -69,9 +69,9 @@ public class SysUserDeptDaoImpl extends MapperRepositoryImpl<SysUserDeptMapper, 
      * @return 部门信息
      */
     @Override
-    public SysUserDeptEntity findOneByUserId(Long userId) {
-        LambdaQueryWrapper<SysUserDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysUserDeptEntity::getUserId, userId);
+    public SysUserDeptPostEntity findOneByUserId(Long userId) {
+        LambdaQueryWrapper<SysUserDeptPostEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUserDeptPostEntity::getUserId, userId);
         return getOne(queryWrapper);
     }
 
@@ -85,10 +85,10 @@ public class SysUserDeptDaoImpl extends MapperRepositoryImpl<SysUserDeptMapper, 
      */
     @Override
     public boolean existsUserDept(Long userId, Long deptId, Long postId) {
-        LambdaQueryWrapper<SysUserDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysUserDeptEntity::getUserId, userId);
-        queryWrapper.eq(SysUserDeptEntity::getDeptId, deptId);
-        queryWrapper.eq(SysUserDeptEntity::getPostId, postId);
+        LambdaQueryWrapper<SysUserDeptPostEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUserDeptPostEntity::getUserId, userId);
+        queryWrapper.eq(SysUserDeptPostEntity::getDeptId, deptId);
+        queryWrapper.eq(SysUserDeptPostEntity::getPostId, postId);
         return exists(queryWrapper);
     }
 
@@ -102,11 +102,11 @@ public class SysUserDeptDaoImpl extends MapperRepositoryImpl<SysUserDeptMapper, 
     @Override
     public void deleteBy(Long deptId, Long oldLeaderUserId, Long leaderPostId) {
         // @formatter:off
-        LambdaQueryWrapper<SysUserDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<SysUserDeptPostEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper
-                .eq(SysUserDeptEntity::getDeptId, deptId)
-                .eq(SysUserDeptEntity::getUserId, oldLeaderUserId)
-                .eq(SysUserDeptEntity::getPostId, leaderPostId);
+                .eq(SysUserDeptPostEntity::getDeptId, deptId)
+                .eq(SysUserDeptPostEntity::getUserId, oldLeaderUserId)
+                .eq(SysUserDeptPostEntity::getPostId, leaderPostId);
         // @formatter:on
         remove(queryWrapper);
     }
@@ -117,8 +117,8 @@ public class SysUserDeptDaoImpl extends MapperRepositoryImpl<SysUserDeptMapper, 
      * @return 主键字段名
      */
     @Override
-    protected SFunction<SysUserDeptEntity, ?> getFieldId() {
-        return SysUserDeptEntity::getUserId;
+    protected SFunction<SysUserDeptPostEntity, ?> getFieldId() {
+        return SysUserDeptPostEntity::getUserId;
     }
 
 }

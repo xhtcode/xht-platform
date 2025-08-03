@@ -82,6 +82,15 @@ public interface MapperRepository<T> extends CrudRepository<T> {
     Boolean exists(SFunction<T, ?> field, Object value);
 
     /**
+     * 判断是否存在
+     *
+     * @param field 字段
+     * @param value 字段值
+     * @return true：存在，false：不存在
+     */
+    Boolean existsIn(SFunction<T, ?> field, Collection<?> value);
+
+    /**
      * 查询数量
      *
      * @param field 字段

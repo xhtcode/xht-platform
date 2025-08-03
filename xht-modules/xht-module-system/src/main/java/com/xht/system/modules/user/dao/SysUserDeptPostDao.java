@@ -2,7 +2,7 @@ package com.xht.system.modules.user.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
-import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
+import com.xht.system.modules.user.domain.entity.SysUserDeptPostEntity;
 import com.xht.system.modules.user.domain.vo.UserSimpleVo;
 
 import java.util.List;
@@ -12,12 +12,12 @@ import java.util.List;
  *
  * @author xht
  **/
-public interface SysUserDeptDao extends MapperRepository<SysUserDeptEntity> {
+public interface SysUserDeptPostDao extends MapperRepository<SysUserDeptPostEntity> {
 
     /**
      * 保存用户和部门关系
      */
-    boolean saveUserDept(Long deptId, List<SysUserDeptEntity> userDeptEntities);
+    boolean saveUserDept(Long deptId, List<SysUserDeptPostEntity> userDeptEntities);
 
     /**
      * 根据部门ID查询用户简要信息
@@ -41,7 +41,7 @@ public interface SysUserDeptDao extends MapperRepository<SysUserDeptEntity> {
      * @param userId 用户ID
      * @return 部门信息
      */
-    SysUserDeptEntity findOneByUserId(Long userId);
+    SysUserDeptPostEntity findOneByUserId(Long userId);
 
     /**
      * 根据用户ID、部门ID、岗位ID判断用户部门关系是否存在

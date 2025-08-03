@@ -18,6 +18,7 @@ import java.time.LocalDate;
 @Data
 @TableName(value = "sys_user_profiles")
 public class SysUserProfilesEntity extends BasicEntity implements Serializable {
+
     /**
      * 信息ID
      */
