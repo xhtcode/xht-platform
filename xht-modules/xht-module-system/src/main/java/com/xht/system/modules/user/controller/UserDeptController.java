@@ -1,7 +1,6 @@
 package com.xht.system.modules.user.controller;
 
 import com.xht.framework.core.domain.R;
-import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
 import com.xht.system.modules.user.domain.request.UserBindDeptPostRequest;
 import com.xht.system.modules.user.domain.vo.UserSimpleVo;
 import com.xht.system.modules.user.service.IUserDeptService;
@@ -35,7 +34,7 @@ public class UserDeptController {
      */
     @Operation(description = "用户绑定部门岗位信息", summary = "用户绑定部门岗位信息")
     @PostMapping("/bind")
-    public R<Boolean> deptBindUser(@RequestBody List<UserBindDeptPostRequest> bindRequest) {
+    public R<Boolean> deptBindUser(@RequestBody UserBindDeptPostRequest bindRequest) {
         return R.ok(userDeptService.userBindDept(bindRequest));
     }
 
@@ -48,12 +47,4 @@ public class UserDeptController {
         return R.ok(userDeptService.getBindUserByDeptId(deptId));
     }
 
-    /**
-     * 根据用户id获取部门信息
-     */
-    @Operation(description = "根据用户id获取部门信息", summary = "根据用户id获取部门信息")
-    @PostMapping("/getDeptByUserId/{userId}")
-    public R<SysDeptPostVo> getDeptByUserId(@PathVariable("userId") Long userId) {
-        return R.ok(userDeptService.getDeptByUserId(userId));
-    }
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.xht.framework.core.domain.response.BasicResponse;
 import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.system.modules.dept.common.enums.DeptPostStatusEnums;
+import com.xht.system.modules.user.common.enums.PositionNatureEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -74,4 +75,5 @@ public class SysDeptPostResponse extends BasicResponse {
      */
     @Schema(description = "岗位描述")
     private String remark;
+
 }

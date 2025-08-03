@@ -13,71 +13,103 @@
         <result property="userStatus" column="user_status"/>
     </resultMap>
     <resultMap id="SysDeptPostVoResultMap" type="com.xht.system.modules.dept.domain.vo.SysDeptPostVo">
-        <id property="id" column="dept_id"/>
-        <result property="parentId" column="parent_id"/>
-        <result property="deptCode" column="dept_code"/>
-        <result property="deptName" column="dept_name"/>
-        <result property="deptLevel" column="dept_level"/>
-        <result property="deptStatus" column="dept_status"/>
-        <result property="deptSort" column="dept_sort"/>
-        <result property="ancestors" column="ancestors"/>
-        <result property="leaderUserId" column="leader_user_id"/>
-        <result property="leaderName" column="leader_name"/>
-        <result property="phone" column="phone"/>
-        <result property="email" column="email"/>
-        <result property="remark" column="remark"/>
-        <result property="postId" column="post_id"/>
-        <result property="postCode" column="post_code"/>
-        <result property="postName" column="post_name"/>
-        <result property="postSort" column="post_sort"/>
-        <result property="postStatus" column="post_status"/>
-        <result property="postRemark" column="post_remark"/>
+        <id property="index" column="t1_id"/>
+        <result property="positionNature" column="t1_position_nature"/>
+        <association property="dept" javaType="com.xht.system.modules.dept.domain.response.SysDeptResponse">
+            <id property="id" column="t2_id"/>
+            <result property="parentId" column="t2_parent_id"/>
+            <result property="deptCode" column="t2_dept_code"/>
+            <result property="deptName" column="t2_dept_name"/>
+            <result property="deptLevel" column="t2_dept_level"/>
+            <result property="deptStatus" column="t2_dept_status"/>
+            <result property="deptSort" column="t2_dept_sort"/>
+            <result property="ancestors" column="t2_ancestors"/>
+            <result property="leaderUserId" column="t2_leader_user_id"/>
+            <result property="leaderName" column="t2_leader_name"/>
+            <result property="leaderPostId" column="t2_leader_post_id"/>
+            <result property="phone" column="t2_phone"/>
+            <result property="email" column="t2_email"/>
+            <result property="remark" column="t2_remark"/>
+            <result property="createBy" column="t2_create_by"/>
+            <result property="createTime" column="t2_create_time"/>
+            <result property="updateBy" column="t2_update_by"/>
+            <result property="updateTime" column="t2_update_time"/>
+        </association>
+        <association property="post" javaType="com.xht.system.modules.dept.domain.response.SysDeptPostResponse">
+            <id property="id" column="t3_id"/>
+            <result property="deptId" column="t3_dept_id"/>
+            <result property="postCode" column="t3_post_code"/>
+            <result property="postName" column="t3_post_name"/>
+            <result property="postSort" column="t3_post_sort"/>
+            <result property="postStatus" column="t3_post_status"/>
+            <result property="postLimit" column="t3_post_limit"/>
+            <result property="postHave" column="t3_post_have"/>
+            <result property="systemFlag" column="t3_system_flag"/>
+            <result property="remark" column="t3_remark"/>
+            <result property="createTime" column="t3_create_time"/>
+            <result property="createBy" column="t3_create_by"/>
+            <result property="updateTime" column="t3_update_time"/>
+            <result property="updateBy" column="t3_update_by"/>
+        </association>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        user_id
-        ,dept_id,create_time,create_by
-    </sql>
     <select id="findUserSimpleVoByDeptId" resultMap="BaseResultMap">
-        SELECT sys_user.id as user_id, sys_user_dept.dept_id as dept_id, sys_user.user_name,sys_user.nick_name ,sys_user.avatar_url, sys_user.user_status
+        SELECT sys_user.id as user_id, sys_user_dept_post.dept_id as dept_id, sys_user.user_name,sys_user.nick_name
+        ,sys_user.avatar_url, sys_user.user_status
         FROM sys_user
-        LEFT JOIN sys_user_dept ON sys_user.id = sys_user_dept.user_id
+        LEFT JOIN sys_user_dept_post ON sys_user.id = sys_user_dept_post.user_id
         WHERE sys_user.is_del = 0
         and sys_user.user_status = #{status}
         <choose>
             <when test="deptId!=null">
-                and (sys_user.dept_id = #{deptId} or sys_user_dept.dept_id is null)
+                and (sys_user.dept_id = #{deptId} or sys_user_dept_post.dept_id is null)
             </when>
             <otherwise>
-                and sys_user_dept.dept_id is null
+                and sys_user_dept_post.dept_id is null
             </otherwise>
         </choose>
         ORDER BY sys_user.dept_id desc
     </select>
-    <select id="getDeptPostByUserId" resultType="com.xht.system.modules.dept.domain.vo.SysDeptPostVo">
-        SELECT sys_dept.id          as dept_id,
-               sys_dept.parent_id,
-               sys_dept.dept_code,
-               sys_dept.dept_name,
-               sys_dept.dept_level,
-               sys_dept.dept_status,
-               sys_dept.dept_sort,
-               sys_dept.ancestors,
-               sys_dept.leader_user_id,
-               sys_dept.leader_name,
-               sys_dept.phone,
-               sys_dept.email,
-               sys_dept.remark      as dept_remark,
-               sys_dept_post.id     as post_id,
-               sys_dept_post.post_code,
-               sys_dept_post.post_name,
-               sys_dept_post.post_status,
-               sys_dept_post.post_sort,
-               sys_dept_post.remark as post_remark
-        FROM `sys_user_dept`
-                 LEFT JOIN sys_dept ON sys_dept.id = sys_user_dept.dept_id
-                 LEFT JOIN sys_dept_post ON sys_dept_post.id = sys_user_dept.post_id
-        WHERE   sys_dept.is_del = 0 AND sys_dept_post.is_del = 0
-          and sys_user_dept.user_id = #{userId}
+    <select id="getDeptPostByUserId" resultMap="SysDeptPostVoResultMap">
+        SELECT t1.id              as t1_id,
+               t1.position_nature as t1_position_nature,
+               t2.id              as t2_id,
+               t2.parent_id       as t2_parent_id,
+               t2.dept_code       as t2_dept_code,
+               t2.dept_name       as t2_dept_name,
+               t2.dept_level      as t2_dept_level,
+               t2.dept_status     as t2_dept_status,
+               t2.dept_sort       as t2_dept_sort,
+               t2.ancestors       as t2_ancestors,
+               t2.leader_user_id  as t2_leader_user_id,
+               t2.leader_name     as t2_leader_name,
+               t2.leader_post_id  as t2_leader_post_id,
+               t2.phone           as t2_phone,
+               t2.email           as t2_email,
+               t2.remark          as t2_remark,
+               t2.create_by       as t2_create_by,
+               t2.create_time     as t2_create_time,
+               t2.update_by       as t2_update_by,
+               t2.update_time     as t2_update_time,
+               t3.id              as t3_id,
+               t3.dept_id         as t3_dept_id,
+               t3.post_code       as t3_post_code,
+               t3.post_name       as t3_post_name,
+               t3.post_sort       as t3_post_sort,
+               t3.post_status     as t3_post_status,
+               t3.post_limit      as t3_post_limit,
+               t3.post_have       as t3_post_have,
+               t3.system_flag     as t3_system_flag,
+               t3.remark          as t3_remark,
+               t3.create_time     as t3_create_time,
+               t3.create_by       as t3_create_by,
+               t3.update_time     as t3_update_time,
+               t3.update_by       as t3_update_by
+        FROM sys_user_dept_post t1
+                 LEFT JOIN sys_dept t2 ON t2.id = t1.dept_id
+                 LEFT JOIN sys_dept_post t3 ON t3.id = t1.post_id
+        WHERE t2.is_del = 0
+          AND t3.is_del = 0
+          and t1.user_id = #{userId}
     </select>
 </mapper>

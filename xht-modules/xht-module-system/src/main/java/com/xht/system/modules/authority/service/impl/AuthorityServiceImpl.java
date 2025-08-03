@@ -20,6 +20,7 @@ import com.xht.system.modules.authority.service.IAuthorityService;
 import com.xht.system.modules.user.dao.SysUserDao;
 import com.xht.system.modules.user.dao.SysUserDeptPostDao;
 import com.xht.system.modules.user.dao.SysUserRoleDao;
+import com.xht.system.modules.user.domain.vo.SysUserVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -80,8 +81,10 @@ public class AuthorityServiceImpl implements IAuthorityService {
     public AuthorityUserVO getUserProfileInfo() {
         BasicUserDetails user = SecurityUtils.getUser();
         AuthorityUserVO vo = new AuthorityUserVO();
-        vo.setUser(sysUserDao.findInfoByUserId(user.getUserId()));
-        vo.setDeptPostVo(sysUserDeptPostDao.getDeptPostByUserId(user.getUserId()));
+        SysUserVO sysUserVO = sysUserDao.findInfoByUserId(user.getUserId());
+        sysUserVO.setPassWord(null);
+        sysUserVO.setPassWordSalt(null);
+        vo.setUserInfo(sysUserVO);
         List<SysRoleEntity> roles = sysUserRoleDao.findRoleListByUserId(user.getUserId());
         List<String> permissionCodes = sysRoleMenuDao.findPermissionCodeByUserId(user.getUserId());
         vo.setRoleCodes(roles.stream().map(SysRoleEntity::getRoleCode).collect(Collectors.toList()));

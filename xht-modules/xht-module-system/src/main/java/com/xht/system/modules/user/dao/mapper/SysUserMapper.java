@@ -2,7 +2,6 @@ package com.xht.system.modules.user.dao.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.mapper.BaseMapperX;
-import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
 import com.xht.system.modules.user.domain.request.UserQueryRequest;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
@@ -16,6 +15,7 @@ import org.apache.ibatis.annotations.Param;
  */
 @Mapper
 public interface SysUserMapper extends BaseMapperX<SysUserEntity> {
+
     /**
      * 分页查询用户信息
      *
@@ -41,6 +41,16 @@ public interface SysUserMapper extends BaseMapperX<SysUserEntity> {
      * @return 用户信息
      */
     SysUserVO findByUsernameAndLoginType(@Param("userName") String userName, @Param("loginType") String loginType);
+
+    /**
+     * 根据手机号和身份证号校验用户是否重复
+     *
+     * @param neUserId     不包括的用户ID
+     * @param phoneNumber  手机号
+     * @param idCardNumber 身份证号
+     * @return true：存在；false：不存在
+     */
+    Integer checkUserRepeat(@Param("neUserId") Long neUserId, @Param("phoneNumber") String phoneNumber, @Param("idCardNumber") String idCardNumber);
 }
 
 

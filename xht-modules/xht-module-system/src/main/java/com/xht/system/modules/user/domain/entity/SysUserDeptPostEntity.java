@@ -14,14 +14,13 @@ import java.time.LocalDateTime;
  * @author xht
  */
 @Data
-@TableName(value = "sys_user_dept_post")
+@TableName(value = "sys_user_dept_post_post")
 public class SysUserDeptPostEntity extends Entity implements Serializable {
     /**
      * 用户ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-
 
     /**
      * 职位性质
@@ -40,11 +39,13 @@ public class SysUserDeptPostEntity extends Entity implements Serializable {
      */
     @TableField(value = "dept_id")
     private Long deptId;
+
     /**
      * 岗位id
      */
     @TableField(value = "post_id")
     private Long postId;
+
     /**
      * 创建时间
      */

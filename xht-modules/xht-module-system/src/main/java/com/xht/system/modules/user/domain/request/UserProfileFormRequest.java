@@ -1,12 +1,10 @@
 package com.xht.system.modules.user.domain.request;
 
-import com.xht.framework.core.constant.RegexConstant;
 import com.xht.framework.core.domain.request.FormRequest;
 import com.xht.framework.web.validation.Groups;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -19,7 +17,7 @@ import java.time.LocalDate;
  **/
 @Data
 @Schema(description = "用户信息表单请求参数")
-public class UserProfilesFormRequest extends FormRequest {
+public class UserProfileFormRequest extends FormRequest {
 
     /**
      * 真实姓名
@@ -33,7 +31,6 @@ public class UserProfilesFormRequest extends FormRequest {
      * 身份证号
      */
     @NotBlank(message = "身份证号参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Pattern(regexp = RegexConstant.ID_CARD, message = "身份证号格式不正确", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "身份证号")
     private String idCardNumber;
 
@@ -43,6 +40,13 @@ public class UserProfilesFormRequest extends FormRequest {
     @NotNull(message = "性别参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "性别，1：男，2：女，3：其他")
     private Integer gender;
+
+    /**
+     * 邮政编码
+     */
+    @NotBlank(message = "邮政编码参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "邮政编码")
+    private String postalCode;
 
     /**
      * 出生日期
@@ -66,11 +70,4 @@ public class UserProfilesFormRequest extends FormRequest {
     @Schema(description = "地址")
     private String address;
 
-    /**
-     * 邮政编码
-     */
-    @NotBlank(message = "邮政编码参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Pattern(regexp = RegexConstant.POSTAL_CODE, message = "邮政编码必须参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "邮政编码")
-    private String postalCode;
 }

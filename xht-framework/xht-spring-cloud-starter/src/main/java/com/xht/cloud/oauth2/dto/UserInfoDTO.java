@@ -75,6 +75,12 @@ public class UserInfoDTO implements IDto {
     private Long deptId;
 
     /**
+     * 岗位id
+     */
+    @Schema(description = "岗位id")
+    private Long postId;
+
+    /**
      * 角色列表
      */
     @Schema(description = "角色列表")

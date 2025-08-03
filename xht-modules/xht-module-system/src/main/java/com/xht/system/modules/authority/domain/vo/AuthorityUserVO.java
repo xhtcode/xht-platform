@@ -1,9 +1,6 @@
 package com.xht.system.modules.authority.domain.vo;
 
 import com.xht.framework.core.domain.vo.IVO;
-import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
-import com.xht.system.modules.user.domain.response.SysUserProfilesResponse;
-import com.xht.system.modules.user.domain.response.SysUserResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -20,11 +17,11 @@ import java.util.List;
 @Schema(description = "用户权限响应信息")
 public class AuthorityUserVO implements IVO {
 
+    /**
+     * 用户信息
+     */
     @Schema(description = "用户信息")
-    private SysUserVO user;
-
-    @Schema(description = "部门岗位信息")
-    private SysDeptPostVo deptPostVo;
+    private SysUserVO userInfo;
 
     /**
      * 角色列表

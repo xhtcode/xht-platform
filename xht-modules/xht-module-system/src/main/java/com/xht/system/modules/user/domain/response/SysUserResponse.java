@@ -1,7 +1,7 @@
 package com.xht.system.modules.user.domain.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xht.framework.core.domain.response.BasicResponse;
-import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -21,34 +21,42 @@ public class SysUserResponse extends BasicResponse {
     private Long id;
 
     /**
-     * 用户名
+     * 用户类型
      */
-    @Schema(description = "用户名")
-    private String userName;
+    @Schema(description = "用户类型")
+    private Integer userType;
 
     /**
-     * 密码
+     * 用户账号
      */
-    @Schema(description = "密码")
-    private String passWord;
-
-    /**
-     * 密码盐值
-     */
-    @Schema(description = "密码盐值")
-    private String salt;
+    @Schema(description = "用户账号")
+    private String userAccount;
 
     /**
      * 用户昵称
      */
     @Schema(description = "用户昵称")
-    private String nickName;
+    private String userName;
 
     /**
-     * 手机号
+     * 用户密码
      */
-    @Schema(description = "手机号")
-    private String mobile;
+    @JsonIgnore
+    @Schema(description = "用户密码")
+    private String passWord;
+
+    /**
+     * 密码盐值
+     */
+    @JsonIgnore
+    @Schema(description = "密码盐值")
+    private String passWordSalt;
+
+    /**
+     * 手机号码
+     */
+    @Schema(description = "手机号码")
+    private String phoneNumber;
 
     /**
      * 头像地址
@@ -57,15 +65,20 @@ public class SysUserResponse extends BasicResponse {
     private String avatarUrl;
 
     /**
-     * 账号状态(1-正常,2-锁定,3-禁用,4-过期)
+     * 账号状态
      */
-    @Schema(description = "账号状态(1-正常,2-锁定,3-禁用,4-过期)")
-    private UserStatusEnums userStatus;
+    @Schema(description = "账号状态")
+    private Integer userStatus;
 
     /**
      * 部门id
      */
-    @Schema(description = "部门id")
+    @Schema(description = "部门ID")
     private Long deptId;
 
+    /**
+     * 岗位id
+     */
+    @Schema(description = "岗位ID")
+    private Long postId;
 }
