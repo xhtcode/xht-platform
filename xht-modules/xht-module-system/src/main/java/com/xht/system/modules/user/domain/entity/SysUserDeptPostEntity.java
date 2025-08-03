@@ -2,6 +2,7 @@ package com.xht.system.modules.user.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.xht.framework.mybatis.domain.entity.Entity;
+import com.xht.system.modules.user.common.enums.PositionNatureEnums;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,14 +13,21 @@ import java.time.LocalDateTime;
  *
  * @author xht
  */
-@TableName(value = "sys_user_dept")
 @Data
-public class SysUserDeptEntity extends Entity implements Serializable {
+@TableName(value = "sys_user_dept_post")
+public class SysUserDeptPostEntity extends Entity implements Serializable {
     /**
      * 用户ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
+
+
+    /**
+     * 职位性质
+     */
+    @TableField(value = "position_nature")
+    private PositionNatureEnums positionNature;
 
     /**
      * 用户id

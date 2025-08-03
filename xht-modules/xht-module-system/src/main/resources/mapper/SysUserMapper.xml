@@ -140,6 +140,14 @@
                  LEFT JOIN sys_user_profiles t2 ON t1.id = t2.user_id
                  LEFT JOIN sys_user_dept t3 ON t1.id = t3.user_id
         WHERE t1.is_del = 0
-          and t1.user_name = #{userName}
+          <if test="loginType == 'password'">
+              and t1.user_name = #{userName}
+          </if>
+          <if test="loginType == 'email'">
+              AND t1.email = #{username}
+          </if>
+          <if test="loginType == 'phone'">
+              AND t1.mobile = #{username}
+          </if>
     </select>
 </mapper>

@@ -47,7 +47,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否保存成功 true:成功 false:失败
      */
     @Override
-    public boolean save(T entity) {
+    public final boolean save(T entity) {
         return SqlHelper.retBool(baseMapper.insert(entity));
     }
 
@@ -57,6 +57,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @param entity 实体
      * @return true：成功，false：失败
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean saveTransactional(T entity) {
         return SqlHelper.retBool(baseMapper.insert(entity));
@@ -69,7 +70,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否保存成功 true:成功 false:失败
      */
     @Override
-    public boolean saveAll(Collection<T> entityList) {
+    public final boolean saveAll(Collection<T> entityList) {
         return super.saveBatch(entityList, getDefaultBatchSize());
     }
 
@@ -80,6 +81,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @param entityList 实体对象集合
      */
     @Transactional(rollbackFor = Exception.class)
+    @Override
     public boolean saveOrUpdateBatch(Collection<T> entityList) {
         return saveOrUpdateBatch(entityList, DEFAULT_BATCH_SIZE);
     }
@@ -102,7 +104,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否删除成功 true:成功 false:失败
      */
     @Override
-    public boolean deleteById(Serializable id) {
+    public final boolean deleteById(Serializable id) {
         return removeById(id);
     }
 
@@ -111,6 +113,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      *
      * @param id 主键ID
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeByIdTransactional(Serializable id) {
         return removeById(id);
@@ -123,7 +126,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否删除成功 true:成功 false:失败
      */
     @Override
-    public boolean deleteAllById(Collection<? extends Serializable> idList) {
+    public final boolean deleteAllById(Collection<? extends Serializable> idList) {
         return removeByIds(idList);
     }
 
@@ -134,7 +137,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否删除成功 true:成功 false:失败
      */
     @Override
-    public boolean deleteAll(Collection<T> entityList) {
+    public final boolean deleteAll(Collection<T> entityList) {
         return removeByIds(entityList);
     }
 
@@ -145,7 +148,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否更新成功 true:成功 false:失败
      */
     @Override
-    public boolean updateById(T entity) {
+    public final boolean updateById(T entity) {
         return SqlHelper.retBool(baseMapper.updateById(entity));
     }
 
@@ -156,7 +159,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 实体
      */
     @Override
-    public T findById(Serializable id) {
+    public final T findById(Serializable id) {
         return getById(id);
     }
 
@@ -167,7 +170,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否存在 true:存在 false:不存在
      */
     @Override
-    public boolean existsById(Serializable id) {
+    public final boolean existsById(Serializable id) {
         return SqlHelper.retBool(baseMapper.selectCount(getFieldId(), id));
     }
 
@@ -178,7 +181,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 实体列表
      */
     @Override
-    public List<T> findAllById(Collection<? extends Serializable> idList) {
+    public final List<T> findAllById(Collection<? extends Serializable> idList) {
         return baseMapper.selectList(getFieldId(), idList);
     }
 
@@ -188,7 +191,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 实体列表
      */
     @Override
-    public List<T> findAll() {
+    public final List<T> findAll() {
         return list(Wrappers.emptyWrapper());
     }
 
@@ -198,7 +201,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 实体总数
      */
     @Override
-    public long count() {
+    public final long count() {
         return count(Wrappers.emptyWrapper());
     }
 
@@ -209,7 +212,8 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @param field 字段name
      * @param value 字段value
      */
-    public Optional<T> findOneOptional(SFunction<T, ?> field, Object value) {
+    @Override
+    public final Optional<T> findOneOptional(SFunction<T, ?> field, Object value) {
         return getOneOpt(new LambdaQueryWrapper<T>().eq(field, value));
     }
 
@@ -219,7 +223,8 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @param field 字段name
      * @param value 字段value
      */
-    public List<T> findList(SFunction<T, ?> field, Object value) {
+    @Override
+    public final List<T> findList(SFunction<T, ?> field, Object value) {
         return list(new LambdaQueryWrapper<T>().eq(field, value));
     }
 
@@ -230,7 +235,8 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @param field 字段name
      * @param value 字段value
      */
-    public List<T> findListIn(SFunction<T, ?> field, Collection<?> value) {
+    @Override
+    public final List<T> findListIn(SFunction<T, ?> field, Collection<?> value) {
         return list(new LambdaQueryWrapper<T>().in(field, value));
     }
 
@@ -242,10 +248,22 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @param value 字段值
      * @return true：存在，false：不存在
      */
-    public Boolean exists(SFunction<T, ?> field, Object value) {
+    @Override
+    public final Boolean exists(SFunction<T, ?> field, Object value) {
         return SqlHelper.retBool(count(field, value));
     }
 
+    /**
+     * 判断是否存在
+     *
+     * @param field 字段
+     * @param value 字段值
+     * @return true：存在，false：不存在
+     */
+    @Override
+    public final Boolean existsIn(SFunction<T, ?> field, Collection<?> value) {
+        return count(field, value) == value.size();
+    }
     /**
      * 查询数量
      *
@@ -253,7 +271,8 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @param value 字段值
      * @return 数量
      */
-    public long count(SFunction<T, ?> field, Object value) {
+    @Override
+    public final long count(SFunction<T, ?> field, Object value) {
         return count(new LambdaQueryWrapper<T>().eq(field, value));
     }
 
@@ -264,7 +283,8 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @param value 字段值
      * @return 数量
      */
-    public long count(SFunction<T, ?> field, Collection<?> value) {
+    @Override
+    public final long count(SFunction<T, ?> field, Collection<?> value) {
         return count(new LambdaQueryWrapper<T>().in(field, value));
     }
 

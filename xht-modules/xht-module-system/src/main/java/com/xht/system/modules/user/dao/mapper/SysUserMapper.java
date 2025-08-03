@@ -23,7 +23,7 @@ public interface SysUserMapper extends BaseMapperX<SysUserEntity> {
      * @param queryRequest 查询请求参数
      * @return 分页查询结果
      */
-    Page<SysUserVO> queryPageRequest(Page<SysUserEntity> page, @Param("queryPageRequest") UserQueryRequest queryRequest);
+    Page<SysUserVO> queryPageRequest(Page<SysUserEntity> page, @Param("queryRequest") UserQueryRequest queryRequest);
 
     /**
      * 根据用户ID查询用户信息
@@ -40,7 +40,7 @@ public interface SysUserMapper extends BaseMapperX<SysUserEntity> {
      * @param loginType 登录类型
      * @return 用户信息
      */
-    SysUserVO findByUsernameAndLoginType(@Param("userName") String userName, @Param("loginType") LoginTypeEnums loginType);
+    SysUserVO findByUsernameAndLoginType(@Param("userName") String userName, @Param("loginType") String loginType);
 }
 
 

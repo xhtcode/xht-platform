@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationEvent;
  * @author xht
  **/
 @Getter
-public class SysUserDeptUpdateEvent extends ApplicationEvent {
+public class SysUserDeptPostUpdateEvent extends ApplicationEvent {
 
     /**
      * 用户id
@@ -38,7 +38,7 @@ public class SysUserDeptUpdateEvent extends ApplicationEvent {
     private final Long newPostId;
 
 
-    public SysUserDeptUpdateEvent(Long userId, Long oldDeptId, Long oldPostId, Long newDeptId, Long newPostId) {
+    public SysUserDeptPostUpdateEvent(Long userId, Long oldDeptId, Long oldPostId, Long newDeptId, Long newPostId) {
         super(userId);
         ThrowUtils.notNull(userId, "用户id 不能为空");
         ThrowUtils.notNull(newDeptId, "新的部门id 不能为空");

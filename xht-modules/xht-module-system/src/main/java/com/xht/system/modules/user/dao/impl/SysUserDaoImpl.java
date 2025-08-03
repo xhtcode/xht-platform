@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.core.utils.spring.SpringContextUtil;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
-import com.xht.system.event.SysUserDeptUpdateEvent;
+import com.xht.system.event.SysUserDeptPostUpdateEvent;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.dao.SysUserDao;
 import com.xht.system.modules.user.dao.mapper.SysUserMapper;
@@ -47,7 +47,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
     public Boolean saveUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity, Long postId) {
         boolean save = save(sysUserEntity);
         if (save) {
-            SpringContextUtil.publishEvent(new SysUserDeptUpdateEvent(sysUserEntity.getId(), null, null,
+            SpringContextUtil.publishEvent(new SysUserDeptPostUpdateEvent(sysUserEntity.getId(), null, null,
                     sysUserEntity.getDeptId(), postId));
         }
         sysUserProfilesEntity.setUserId(sysUserEntity.getId());
@@ -79,7 +79,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity, SysUserDeptUpdateEvent updateEvent) {
+    public Boolean updateUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity, SysUserDeptPostUpdateEvent updateEvent) {
         //@formatter:off
         LambdaUpdateWrapper<SysUserEntity> userUpdateWrapper = new LambdaUpdateWrapper<>();
         userUpdateWrapper
@@ -220,7 +220,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      */
     @Override
     public SysUserVO findByUsernameAndLoginType(String username, LoginTypeEnums loginType) {
-        return baseMapper.findByUsernameAndLoginType(username, loginType);
+        return baseMapper.findByUsernameAndLoginType(username, loginType.getValue());
     }
 
     /**

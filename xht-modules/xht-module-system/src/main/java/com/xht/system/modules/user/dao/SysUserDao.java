@@ -3,7 +3,7 @@ package com.xht.system.modules.user.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
-import com.xht.system.event.SysUserDeptUpdateEvent;
+import com.xht.system.event.SysUserDeptPostUpdateEvent;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
 import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
@@ -42,7 +42,7 @@ public interface SysUserDao extends MapperRepository<SysUserEntity> {
      * @param updateEvent           用户部门更新事件
      * @return true：更新成功；false：更新失败
      */
-    Boolean updateUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity, SysUserDeptUpdateEvent updateEvent);
+    Boolean updateUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity, SysUserDeptPostUpdateEvent updateEvent);
 
     /**
      * 更新密码

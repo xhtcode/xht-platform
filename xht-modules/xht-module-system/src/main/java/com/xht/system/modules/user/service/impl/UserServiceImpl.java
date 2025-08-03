@@ -11,7 +11,7 @@ import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.secret.MD5Utils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
-import com.xht.system.event.SysUserDeptUpdateEvent;
+import com.xht.system.event.SysUserDeptPostUpdateEvent;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.dept.dao.SysDeptDao;
@@ -22,9 +22,9 @@ import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.converter.SysUserConverter;
 import com.xht.system.modules.user.dao.SysUserDao;
-import com.xht.system.modules.user.dao.SysUserDeptDao;
+import com.xht.system.modules.user.dao.SysUserDeptPostDao;
 import com.xht.system.modules.user.dao.SysUserRoleDao;
-import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
+import com.xht.system.modules.user.domain.entity.SysUserDeptPostEntity;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
 import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
 import com.xht.system.modules.user.domain.request.UpdatePwdRequest;
@@ -55,7 +55,7 @@ public class UserServiceImpl implements IUserService {
 
     private final SysUserDao sysUserDao;
 
-    private final SysUserDeptDao sysUserDeptDao;
+    private final SysUserDeptPostDao sysUserDeptPostDao;
 
     private final SysDeptDao sysDeptDao;
 
@@ -152,7 +152,7 @@ public class UserServiceImpl implements IUserService {
         ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_EXIST, "部门不存在");
         SysDeptPostEntity postExists = sysDeptPostDao.findPostByDeptIdAndPostId(formRequest.getDeptId(), formRequest.getPostId());
         ThrowUtils.throwIf(Objects.isNull(postExists), BusinessErrorCode.DATA_EXIST, "部门暂无此岗位");
-        SysUserDeptEntity oldUserDeptEntity = sysUserDeptDao.findOneByUserId(userId);
+        SysUserDeptPostEntity oldUserDeptEntity = sysUserDeptPostDao.findOneByUserId(userId);
         SysUserEntity sysUserEntity = new SysUserEntity();
         sysUserEntity.setId(userId);
         sysUserEntity.setNickName(formRequest.getNickName());
@@ -160,14 +160,14 @@ public class UserServiceImpl implements IUserService {
         sysUserEntity.setUserStatus(formRequest.getUserStatus());
         SysUserProfilesEntity sysUserProfilesEntity = getSysUserProfilesEntity(formRequest);
         sysUserProfilesEntity.setUserId(userId);
-        SysUserDeptEntity sysUserDeptEntity = sysUserDeptDao.findOneOptional(SysUserDeptEntity::getUserId, userId).orElseGet(SysUserDeptEntity::new);
-        sysUserDeptEntity.setUserId(userId);
-        sysUserDeptEntity.setDeptId(formRequest.getDeptId());
-        sysUserDeptEntity.setPostId(formRequest.getPostId());
+        SysUserDeptPostEntity sysUserDeptPostEntity = sysUserDeptPostDao.findOneOptional(SysUserDeptPostEntity::getUserId, userId).orElseGet(SysUserDeptPostEntity::new);
+        sysUserDeptPostEntity.setUserId(userId);
+        sysUserDeptPostEntity.setDeptId(formRequest.getDeptId());
+        sysUserDeptPostEntity.setPostId(formRequest.getPostId());
         Boolean postLimit = sysDeptPostDao.validatePostLimit(formRequest.getPostId());
         ThrowUtils.throwIf(postLimit, BusinessErrorCode.DATA_EXIST, "岗位人数已满");
         // todo 后期补充用户信息变更记录
-        SysUserDeptUpdateEvent userDeptEntity = new SysUserDeptUpdateEvent(
+        SysUserDeptPostUpdateEvent userDeptEntity = new SysUserDeptPostUpdateEvent(
                 userId,
                 Objects.isNull(oldUserDeptEntity) ? null : oldUserDeptEntity.getDeptId(), Objects.isNull(oldUserDeptEntity) ? null : oldUserDeptEntity.getPostId(),
                 formRequest.getDeptId(), formRequest.getPostId()
@@ -185,7 +185,7 @@ public class UserServiceImpl implements IUserService {
     public SysUserVO findByUserId(Long userId) {
         SysUserVO sysUserVO = sysUserDao.findInfoByUserId(userId);
         ThrowUtils.throwIf(Objects.isNull(sysUserVO), UserErrorCode.DATA_NOT_EXIST, "用户不存在");
-        SysDeptPostVo deptPostVo = sysUserDeptDao.getDeptPostByUserId(userId);
+        SysDeptPostVo deptPostVo = sysUserDeptPostDao.getDeptPostByUserId(userId);
         if (Objects.nonNull(deptPostVo)) {
             sysUserVO.setPostId(deptPostVo.getPostId());
             sysUserVO.setPostCode(deptPostVo.getPostCode());

@@ -1,10 +1,10 @@
 package com.xht.system.listener;
 
-import com.xht.system.event.SysUserDeptUpdateEvent;
+import com.xht.system.event.SysUserDeptPostUpdateEvent;
 import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
-import com.xht.system.modules.user.dao.SysUserDeptDao;
-import com.xht.system.modules.user.domain.entity.SysUserDeptEntity;
+import com.xht.system.modules.user.dao.SysUserDeptPostDao;
+import com.xht.system.modules.user.domain.entity.SysUserDeptPostEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -23,15 +23,15 @@ import java.util.Objects;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SysUserDeptUpdateListener implements ApplicationListener<SysUserDeptUpdateEvent> {
+public class SysUserDeptPostUpdateListener implements ApplicationListener<SysUserDeptPostUpdateEvent> {
 
-    private final SysUserDeptDao sysUserDeptManager;
+    private final SysUserDeptPostDao sysUserDeptManager;
 
     private final SysDeptPostDao sysDeptPostManager;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void onApplicationEvent(SysUserDeptUpdateEvent event) {
+    public void onApplicationEvent(SysUserDeptPostUpdateEvent event) {
         Long userId = event.getUserId();
         Long oldDeptId = event.getOldDeptId();
         Long oldPostId = event.getOldPostId();
@@ -50,7 +50,7 @@ public class SysUserDeptUpdateListener implements ApplicationListener<SysUserDep
         SysDeptPostEntity oldDeptPostEntity = sysDeptPostManager.forUpdateById(oldPostId);
         oldResult = sysDeptPostManager.updatePostHave(oldPostId, oldDeptPostEntity.getPostHave() - 1);
         // 保存新的部门信息
-        SysUserDeptEntity userDeptEntity = new SysUserDeptEntity();
+        SysUserDeptPostEntity userDeptEntity = new SysUserDeptPostEntity();
         userDeptEntity.setUserId(userId);
         userDeptEntity.setDeptId(newDeptId);
         userDeptEntity.setPostId(newPostId);

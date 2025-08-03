@@ -18,7 +18,7 @@ import com.xht.system.modules.authority.domain.vo.MetaVo;
 import com.xht.system.modules.authority.domain.vo.RouterVo;
 import com.xht.system.modules.authority.service.IAuthorityService;
 import com.xht.system.modules.user.dao.SysUserDao;
-import com.xht.system.modules.user.dao.SysUserDeptDao;
+import com.xht.system.modules.user.dao.SysUserDeptPostDao;
 import com.xht.system.modules.user.dao.SysUserRoleDao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +43,7 @@ public class AuthorityServiceImpl implements IAuthorityService {
 
     private final SysUserDao sysUserDao;
 
-    private final SysUserDeptDao sysUserDeptDao;
+    private final SysUserDeptPostDao sysUserDeptPostDao;
 
     private final SysUserRoleDao sysUserRoleDao;
 
@@ -72,7 +72,7 @@ public class AuthorityServiceImpl implements IAuthorityService {
     }
 
     /**
-     * 获取用户信息
+     * 获取当前登录的用户信息
      *
      * @return 用户信息
      */
@@ -81,7 +81,7 @@ public class AuthorityServiceImpl implements IAuthorityService {
         BasicUserDetails user = SecurityUtils.getUser();
         AuthorityUserVO vo = new AuthorityUserVO();
         vo.setUser(sysUserDao.findInfoByUserId(user.getUserId()));
-        vo.setDeptPostVo(sysUserDeptDao.getDeptPostByUserId(user.getUserId()));
+        vo.setDeptPostVo(sysUserDeptPostDao.getDeptPostByUserId(user.getUserId()));
         List<SysRoleEntity> roles = sysUserRoleDao.findRoleListByUserId(user.getUserId());
         List<String> permissionCodes = sysRoleMenuDao.findPermissionCodeByUserId(user.getUserId());
         vo.setRoleCodes(roles.stream().map(SysRoleEntity::getRoleCode).collect(Collectors.toList()));

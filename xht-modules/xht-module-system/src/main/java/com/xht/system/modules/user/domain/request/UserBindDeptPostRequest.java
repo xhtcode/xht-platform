@@ -5,15 +5,22 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.util.List;
+import java.util.Objects;
 
 /**
- * 部门绑定用户请求参数
+ * 用户绑定部门岗位请求参数
  *
  * @author xht
  **/
 @Data
-public class DeptBindUserRequest extends FormRequest {
+@Schema(description = "用户绑定部门岗位请求参数")
+public class UserBindDeptPostRequest extends FormRequest {
+
+    /**
+     * 用户ID
+     */
+    @Schema(description = "用户ID")
+    private Long userId;
 
     /**
      * 部门ID
@@ -22,11 +29,12 @@ public class DeptBindUserRequest extends FormRequest {
     @Schema(description = "部门ID")
     private Long deptId;
 
+
     /**
-     * 用户ID列表
+     * 岗位ID
      */
-    @Schema(description = "用户ID列表")
-    private List<Long> userIds;
+    @Schema(description = "岗位ID")
+    private Long postId;
 
 
 }
