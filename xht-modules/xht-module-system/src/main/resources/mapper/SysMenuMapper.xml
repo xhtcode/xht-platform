@@ -26,10 +26,4 @@
             <result property="isDel" column="is_del" jdbcType="TINYINT"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,parent_id,menu_type,menu_name,menu_icon,menu_path,
-        menu_hidden,menu_cache,menu_status,menu_authority,menu_sort,
-        view_name,view_path,frame_flag,frame_url,create_by,
-        create_time,update_by,update_time,is_del
-    </sql>
 </mapper>

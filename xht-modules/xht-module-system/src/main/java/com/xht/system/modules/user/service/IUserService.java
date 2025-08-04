@@ -3,7 +3,6 @@ package com.xht.system.modules.user.service;
 import com.xht.cloud.oauth2.dto.UserInfoDTO;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
-import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.domain.request.UpdatePwdRequest;
 import com.xht.system.modules.user.domain.request.UserFormRequest;

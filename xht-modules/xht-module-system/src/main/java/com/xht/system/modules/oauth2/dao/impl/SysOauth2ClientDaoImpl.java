@@ -13,7 +13,7 @@ import com.xht.system.modules.oauth2.domian.entity.SysOauth2ClientEntity;
 import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientFormRequest;
 import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQueryRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
 
@@ -25,7 +25,7 @@ import static com.xht.framework.mybatis.constant.MapperConstant.JACKSON_TYPE_HAN
  * @author xht
  **/
 @Slf4j
-@Component
+@Repository
 public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2ClientMapper, SysOauth2ClientEntity> implements SysOauth2ClientDao {
 
     /**

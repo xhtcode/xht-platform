@@ -12,7 +12,6 @@ import lombok.Data;
 
 /**
  * 代码生成器-数据源配置表
- * @TableName gen_data_source
  */
 @TableName(value ="gen_data_source")
 @Data
@@ -70,6 +69,5 @@ public class GenDataSourceEntity extends BasicEntity implements Serializable {
 
 
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
+
 }

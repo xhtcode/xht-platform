@@ -64,13 +64,6 @@ public class SysDeptPostFormRequest extends FormRequest {
     private DeptPostStatusEnums postStatus;
 
     /**
-     * 岗位限制人数
-     */
-    @Min(value = 1, message = "岗位限制人数必须大于等于1", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "岗位限制人数")
-    private Integer postLimit;
-
-    /**
      * 岗位描述，可以为空但不超过255个字符
      */
     @NotEmpty(message = "岗位描述参数不合法", groups = {Groups.Create.class, Groups.Update.class})

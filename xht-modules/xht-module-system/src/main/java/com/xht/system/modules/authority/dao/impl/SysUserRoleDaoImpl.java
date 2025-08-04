@@ -1,13 +1,13 @@
-package com.xht.system.modules.user.dao.impl;
+package com.xht.system.modules.authority.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
+import com.xht.system.modules.authority.dao.SysUserRoleDao;
+import com.xht.system.modules.authority.dao.mapper.SysUserRoleMapper;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
-import com.xht.system.modules.user.dao.SysUserRoleDao;
-import com.xht.system.modules.user.dao.mapper.SysUserRoleMapper;
-import com.xht.system.modules.user.domain.entity.SysUserRoleEntity;
+import com.xht.system.modules.authority.domain.entity.SysUserRoleEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,17 +41,6 @@ public class SysUserRoleDaoImpl extends MapperRepositoryImpl<SysUserRoleMapper, 
             return true;
         }
         return saveBatch(sysUserRoleEntities,500);
-    }
-
-    /**
-     * 根据用户ID获取角色编码列表
-     *
-     * @param userId 用户ID
-     * @return 角色编码列表
-     */
-    @Override
-    public List<String> getRoleCodes(Long userId) {
-        return baseMapper.getRoleCodes(userId);
     }
 
     /**

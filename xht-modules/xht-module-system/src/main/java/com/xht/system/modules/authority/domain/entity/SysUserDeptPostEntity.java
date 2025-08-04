@@ -1,4 +1,4 @@
-package com.xht.system.modules.user.domain.entity;
+package com.xht.system.modules.authority.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.xht.framework.mybatis.domain.entity.Entity;

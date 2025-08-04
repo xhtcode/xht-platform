@@ -25,10 +25,4 @@
             <result property="isDel" column="is_del" />
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,table_id,column_name,db_data_type,column_comment,ext_config,
-        default_value,is_required,is_primary,is_foreign,foreign_table,
-        foreign_column,sort_order,create_by,create_time,update_by,
-        update_time,is_del
-    </sql>
 </mapper>

@@ -11,7 +11,6 @@ import lombok.Data;
 
 /**
  * 代码生成器-项目与模板关联表
- * @TableName gen_project_template
  */
 @TableName(value ="gen_project_template")
 @Data
@@ -37,6 +36,5 @@ public class GenProjectTemplateEntity extends BasicEntity implements Serializabl
      */
     private Integer sort;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
+
 }

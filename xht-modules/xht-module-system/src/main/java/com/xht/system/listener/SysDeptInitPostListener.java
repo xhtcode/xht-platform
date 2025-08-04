@@ -1,12 +1,14 @@
 package com.xht.system.listener;
 
 import com.xht.system.event.SysDeptInitPostEvent;
+import com.xht.system.modules.authority.dao.SysUserDeptPostDao;
+import com.xht.system.modules.authority.domain.entity.SysUserDeptPostEntity;
+import com.xht.system.modules.dept.common.DeptPostConstant;
 import com.xht.system.modules.dept.dao.SysDeptDao;
 import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
+import com.xht.system.modules.user.common.enums.PositionNatureEnums;
 import com.xht.system.modules.user.dao.SysUserDao;
-import com.xht.system.modules.user.dao.SysUserDeptPostDao;
-import com.xht.system.modules.user.domain.entity.SysUserDeptPostEntity;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -47,10 +49,9 @@ public class SysDeptInitPostListener implements ApplicationListener<SysDeptInitP
         log.info("岗位及员工分配事件监听器开始处理 部门id：`{}` 负责人id：`{}`", event.getDeptId(), event.getLeaderUserId());
         Long deptId = event.getDeptId();
         List<SysDeptPostEntity> deptPost = new ArrayList<>();
-        SysDeptPostEntity sysDeptPostEntity = new SysDeptPostEntity(deptId, "Supervisor", "主管", 0, "主要负责人", 1, YES);
-        sysDeptPostEntity.setPostHave(1);
+        SysDeptPostEntity sysDeptPostEntity = new SysDeptPostEntity(deptId, DeptPostConstant.SUPERVISOR, "主管", 0, "主要负责人", YES);
         deptPost.add(sysDeptPostEntity);
-        deptPost.add(new SysDeptPostEntity(deptId, "Employee", "员工", 1, "部门员工", 99, NO));
+        deptPost.add(new SysDeptPostEntity(deptId, DeptPostConstant.EMPLOYEE, "员工", 1, "部门员工", NO));
         sysDeptPostDao.saveAll(deptPost);
         Long initPostId = sysDeptPostEntity.getId();
         sysDeptDao.updateLeaderPostId(deptId, initPostId);
@@ -58,6 +59,7 @@ public class SysDeptInitPostListener implements ApplicationListener<SysDeptInitP
         Long leaderUserId = event.getLeaderUserId();
         if (Objects.nonNull(leaderUserId)) {
             SysUserDeptPostEntity userDeptEntity = new SysUserDeptPostEntity();
+            userDeptEntity.setPositionNature(PositionNatureEnums.FORMAL);
             userDeptEntity.setUserId(leaderUserId);
             userDeptEntity.setDeptId(deptId);
             userDeptEntity.setPostId(initPostId);

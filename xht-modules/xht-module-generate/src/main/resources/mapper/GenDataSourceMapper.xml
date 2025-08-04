@@ -22,9 +22,4 @@
             <result property="isDel" column="is_del" />
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,name,db_type,host,port,database_name,
-        username,password,test_result,last_test_time,create_by,
-        create_time,update_by,update_time,is_del
-    </sql>
 </mapper>

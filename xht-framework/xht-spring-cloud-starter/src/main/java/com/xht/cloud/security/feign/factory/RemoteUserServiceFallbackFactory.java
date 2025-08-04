@@ -4,7 +4,6 @@ import com.xht.cloud.oauth2.dto.UserInfoDTO;
 import com.xht.cloud.security.feign.RemoteUserService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
-import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
 

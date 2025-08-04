@@ -21,9 +21,4 @@
             <result property="isDel" column="is_del" jdbcType="TINYINT"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,user_id,real_name,id_card_number,gender,birth_date,
-        age,address,postal_code,create_time,update_time,
-        create_by,update_by,is_del
-    </sql>
 </mapper>

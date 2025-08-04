@@ -11,7 +11,6 @@ import lombok.Data;
 
 /**
  * 代码生成器-项目与数据源关联表
- * @TableName gen_project_data_source
  */
 @TableName(value ="gen_project_data_source")
 @Data
@@ -37,6 +36,5 @@ public class GenProjectDataSourceEntity extends BasicEntity implements Serializa
      */
     private Integer isDefault;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
+
 }

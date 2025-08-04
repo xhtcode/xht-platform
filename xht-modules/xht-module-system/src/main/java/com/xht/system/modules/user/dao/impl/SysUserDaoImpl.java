@@ -16,14 +16,14 @@ import com.xht.system.modules.user.domain.request.UserQueryRequest;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author xht
  **/
 @Slf4j
-@Component
+@Repository
 public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserEntity> implements SysUserDao {
 
     @Resource

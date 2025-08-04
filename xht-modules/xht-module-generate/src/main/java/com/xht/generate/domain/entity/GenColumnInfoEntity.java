@@ -1,18 +1,15 @@
 package com.xht.generate.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 代码生成器-表字段信息表（支持扩展配置）
- * @TableName gen_column_info
  */
 @TableName(value ="gen_column_info")
 @Data
@@ -84,6 +81,4 @@ public class GenColumnInfoEntity extends BasicEntity implements Serializable {
     private Integer sortOrder;
 
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

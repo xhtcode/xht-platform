@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.core.enums.SystemFlagEnums;
-import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.dept.dao.SysDeptPostDao;
@@ -14,9 +13,8 @@ import com.xht.system.modules.dept.dao.mapper.SysDeptPostMapper;
 import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
 import com.xht.system.modules.dept.domain.request.SysDeptPostFormRequest;
 import com.xht.system.modules.dept.domain.request.SysDeptPostQueryRequest;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -28,8 +26,7 @@ import java.util.Objects;
  * @author xht
  **/
 @Slf4j
-@Component
-@RequiredArgsConstructor
+@Repository
 public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, SysDeptPostEntity> implements SysDeptPostDao {
 
     /**
@@ -118,21 +115,6 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
     }
 
     /**
-     * 判断部门岗位是否存在
-     *
-     * @param deptId 部门ID
-     * @param postId 岗位ID
-     * @return true：存在；false：不存在
-     */
-    @Override
-    public Boolean existsDeptPost(Long deptId, Long postId) {
-        LambdaQueryWrapper<SysDeptPostEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(SysDeptPostEntity::getDeptId, deptId);
-        lambdaQueryWrapper.eq(SysDeptPostEntity::getId, postId);
-        return exists(lambdaQueryWrapper);
-    }
-
-    /**
      * 根据部门ID和岗位编码查询岗位信息
      *
      * @param deptId 部门ID
@@ -149,58 +131,12 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
                 SysDeptPostEntity::getPostName,
                 SysDeptPostEntity::getPostSort,
                 SysDeptPostEntity::getPostStatus,
-                SysDeptPostEntity::getPostLimit,
-                SysDeptPostEntity::getPostHave,
                 SysDeptPostEntity::getSystemFlag
         );
         // @formatter:on
         lambdaQueryWrapper.eq(SysDeptPostEntity::getDeptId, deptId)
                 .eq(SysDeptPostEntity::getId, postId);
         return getOne(lambdaQueryWrapper);
-    }
-
-    /**
-     * 根据岗位id查询部门岗位信息
-     *
-     * @param id 岗位id
-     * @return 部门岗位信息
-     */
-    @Override
-    public SysDeptPostEntity forUpdateById(Long id) {
-        return baseMapper.forUpdateById(id);
-    }
-
-    /**
-     * 更新岗位拥有人数
-     *
-     * @param postId   岗位id
-     * @param postHave 新的岗位拥有人数
-     * @return true：成功；false：失败
-     */
-    @Override
-    public Boolean updatePostHave(Long postId, int postHave) {
-        LambdaUpdateWrapper<SysDeptPostEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(SysDeptPostEntity::getPostHave, postHave)
-                .eq(SysDeptPostEntity::getId, postId);
-        return update(updateWrapper);
-    }
-
-    /**
-     * 查询当前岗位人数是否超过限制
-     *
-     * @param postId 岗位id
-     * @return true：超过限制；false：未超过限制
-     */
-    @Override
-    public Boolean validatePostLimit(Long postId) {
-        LambdaQueryWrapper<SysDeptPostEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.select(SysDeptPostEntity::getPostLimit, SysDeptPostEntity::getPostHave);
-        lambdaQueryWrapper.eq(SysDeptPostEntity::getId, postId);
-        SysDeptPostEntity one = getOne(lambdaQueryWrapper);
-        if (Objects.isNull(one)) {
-            throw new BusinessException("岗位不存在");
-        }
-        return one.getPostHave() + 1 > one.getPostLimit();
     }
 
     /**

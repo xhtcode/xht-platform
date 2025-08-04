@@ -1,11 +1,9 @@
 package com.xht.system.modules.dept.domain.response;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.xht.framework.core.domain.response.BasicResponse;
 import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.system.modules.dept.common.enums.DeptPostStatusEnums;
-import com.xht.system.modules.user.common.enums.PositionNatureEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -53,17 +51,6 @@ public class SysDeptPostResponse extends BasicResponse {
     @Schema(description = "岗位状态")
     private DeptPostStatusEnums postStatus;
 
-    /**
-     * 岗位限制人数
-     */
-    @Schema(description = "岗位限制人数")
-    private Integer postLimit;
-
-    /**
-     * 岗位已分配人数
-     */
-    @TableField(value = "post_have")
-    private Integer postHave;
 
     /**
      * 系统内置

@@ -4,15 +4,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 代码生成器-代码生成模板表（区分文件类型）
- * @TableName gen_template
  */
 @TableName(value ="gen_template")
 @Data
@@ -50,6 +48,5 @@ public class GenTemplateEntity extends BasicEntity implements Serializable {
 
 
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
+
 }

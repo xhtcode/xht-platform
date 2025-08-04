@@ -4,7 +4,6 @@ import com.xht.framework.core.exception.ValidationException;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.StringUtils;
-
 import com.xht.system.modules.authority.common.enums.*;
 import com.xht.system.modules.authority.domain.request.SysMenuFormRequest;
 
@@ -31,7 +30,7 @@ public final class MenuValidationFormat {
         switch (parentType) {
             case ALL:
                 // 可根据实际业务需求添加ALL类型的校验逻辑，这里暂时使用与按钮类型相同的逻辑
-                ThrowUtils.throwIf(BusinessErrorCode.PARAM_ERROR, "ALL类型下不能添加子菜单、目录、按钮");
+                ThrowUtils.throwDirect(BusinessErrorCode.PARAM_ERROR, "ALL类型下不能添加子菜单、目录、按钮");
                 break;
             case M:
                 ThrowUtils.throwIf(Objects.equals(menuType, MenuTypeEnums.B), () -> ex("menuType", "目录类型下不能添加按钮"));
@@ -41,7 +40,7 @@ public final class MenuValidationFormat {
                 ThrowUtils.throwIf(Objects.equals(menuType, MenuTypeEnums.C), () -> ex("menuType", "菜单类型下不能添加菜单"));
                 break;
             case B:
-                ThrowUtils.throwIf(BusinessErrorCode.PARAM_ERROR, "按钮类型下不能添加子菜单、目录、按钮");
+                ThrowUtils.throwDirect(BusinessErrorCode.PARAM_ERROR, "按钮类型下不能添加子菜单、目录、按钮");
                 break;
         }
     }

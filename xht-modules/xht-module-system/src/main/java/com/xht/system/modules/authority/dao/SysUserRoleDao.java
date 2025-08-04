@@ -1,8 +1,8 @@
-package com.xht.system.modules.user.dao;
+package com.xht.system.modules.authority.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
-import com.xht.system.modules.user.domain.entity.SysUserRoleEntity;
+import com.xht.system.modules.authority.domain.entity.SysUserRoleEntity;
 
 import java.util.List;
 
@@ -21,14 +21,6 @@ public interface SysUserRoleDao extends MapperRepository<SysUserRoleEntity> {
      * @return Boolean
      */
     Boolean saveUserRole(Long userId, List<SysUserRoleEntity> sysUserRoleEntities);
-
-    /**
-     * 根据用户ID获取角色编码列表
-     *
-     * @param userId 用户ID
-     * @return 角色编码列表
-     */
-    List<String> getRoleCodes(Long userId);
 
     /**
      * 根据用户ID查询角色ID列表

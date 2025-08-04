@@ -10,11 +10,11 @@ import com.xht.framework.core.exception.code.UserErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.secret.MD5Utils;
-import com.xht.framework.core.utils.spring.SpringContextUtil;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
-import com.xht.system.event.SysUserDeptPostUpdateEvent;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
+import com.xht.system.modules.authority.dao.SysUserDeptPostDao;
+import com.xht.system.modules.authority.dao.SysUserRoleDao;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.dept.domain.response.SysDeptPostResponse;
 import com.xht.system.modules.dept.domain.response.SysDeptResponse;
@@ -23,8 +23,6 @@ import com.xht.system.modules.user.common.enums.PositionNatureEnums;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.converter.SysUserConverter;
 import com.xht.system.modules.user.dao.SysUserDao;
-import com.xht.system.modules.user.dao.SysUserDeptPostDao;
-import com.xht.system.modules.user.dao.SysUserRoleDao;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
 import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
 import com.xht.system.modules.user.domain.request.UpdatePwdRequest;
@@ -114,10 +112,7 @@ public class UserServiceImpl implements IUserService {
         SysUserProfilesEntity userProfiles = getSysUserProfilesEntity(formRequest);
         Boolean checkUserRepeat = sysUserDao.checkUserRepeat(null, sysUser.getPhoneNumber(), userProfiles.getIdCardNumber());
         ThrowUtils.throwIf(checkUserRepeat, BusinessErrorCode.DATA_EXIST, "手机号或身份证号码已存在");
-        if (sysUserDao.saveUserInfo(sysUser, userProfiles)) {
-            SysUserDeptPostUpdateEvent event = new SysUserDeptPostUpdateEvent(sysUser.getId(), null, null, sysUser.getDeptId(), sysUser.getPostId());
-            SpringContextUtil.publishEvent(event);
-        }
+        sysUserDao.saveUserInfo(sysUser, userProfiles);
         return Boolean.TRUE;
     }
 

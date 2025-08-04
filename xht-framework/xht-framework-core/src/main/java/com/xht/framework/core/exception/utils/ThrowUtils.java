@@ -21,7 +21,7 @@ public final class ThrowUtils {
      *
      * @param errorCode 错误码
      */
-    public static void throwIf(ErrorCode errorCode) {
+    public static void throwDirect(ErrorCode errorCode) {
         throw new BusinessException(errorCode);
     }
 
@@ -31,7 +31,7 @@ public final class ThrowUtils {
      * @param errorCode 错误码
      * @param message   错误信息
      */
-    public static void throwIf(ErrorCode errorCode, String message) {
+    public static void throwDirect(ErrorCode errorCode, String message) {
         throw new BusinessException(errorCode, message);
     }
 

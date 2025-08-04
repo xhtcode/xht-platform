@@ -2,7 +2,6 @@ package com.xht.system.modules.oauth2.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.security.annotation.InnerAuth;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientFormRequest;
 import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQueryRequest;

@@ -18,8 +18,4 @@
             <result property="isDel" column="is_del" />
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,db_type,db_data_type,target_language,target_data_type,import_package,
-        create_by,create_time,update_by,update_time,is_del
-    </sql>
 </mapper>
