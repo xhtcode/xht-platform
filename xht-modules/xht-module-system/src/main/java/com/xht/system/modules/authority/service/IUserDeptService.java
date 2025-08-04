@@ -21,10 +21,10 @@ public interface IUserDeptService {
     Boolean userBindDept(UserBindDeptPostRequest bindRequest);
 
     /**
-     * 根据部门ID获取已绑定用户ID列表
+     * 获取已绑定的用户信息
      *
-     * @param deptId 部门ID
-     * @return 已绑定用户ID列表
+     * @param deptId 部门ID，可选参数，用于筛选指定部门下的已绑定用户
+     * @return 返回部门下已绑定的用户信息列表，封装在R对象中
      */
     List<UserSimpleVo> getBindUserByDeptId(Long deptId);
 

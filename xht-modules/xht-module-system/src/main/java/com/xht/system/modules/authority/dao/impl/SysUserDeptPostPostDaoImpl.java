@@ -93,21 +93,14 @@ public class SysUserDeptPostPostDaoImpl extends MapperRepositoryImpl<SysUserDept
     }
 
     /**
-     * 根据部门ID、旧领导用户ID、新领导岗位ID删除用户部门关系
+     * 根据用户ID删除用户部门关系
      *
-     * @param deptId          部门ID
-     * @param oldLeaderUserId 旧领导用户ID
-     * @param leaderPostId    新领导岗位ID
+     * @param userId          用户ID
      */
     @Override
-    public void deleteBy(Long deptId, Long oldLeaderUserId, Long leaderPostId) {
-        // @formatter:off
+    public void removeByUserId(Long userId) {
         LambdaQueryWrapper<SysUserDeptPostEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper
-                .eq(SysUserDeptPostEntity::getDeptId, deptId)
-                .eq(SysUserDeptPostEntity::getUserId, oldLeaderUserId)
-                .eq(SysUserDeptPostEntity::getPostId, leaderPostId);
-        // @formatter:on
+        queryWrapper.eq(SysUserDeptPostEntity::getUserId, userId);
         remove(queryWrapper);
     }
 

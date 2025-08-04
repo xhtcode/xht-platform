@@ -54,11 +54,9 @@ public interface SysUserDeptPostDao extends MapperRepository<SysUserDeptPostEnti
     boolean existsUserDept(Long userId, Long deptId, Long postId);
 
     /**
-     * 根据部门ID、旧领导用户ID、新领导岗位ID删除用户部门关系
+     * 根据用户ID删除用户部门关系
      *
-     * @param deptId          部门ID
-     * @param oldLeaderUserId 旧领导用户ID
-     * @param leaderPostId    新领导岗位ID
+     * @param userId          用户ID
      */
-    void deleteBy(Long deptId, Long oldLeaderUserId, Long leaderPostId);
+    void removeByUserId(Long userId);
 }

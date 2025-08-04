@@ -40,11 +40,15 @@ public class SysUserDeptController {
 
     /**
      * 获取已绑定的用户信息
+     *
+     * @param deptId 部门ID，可选参数，用于筛选指定部门下的已绑定用户
+     * @return 返回部门下已绑定的用户信息列表，封装在R对象中
      */
     @Operation(description = "获取已绑定的用户信息", summary = "获取已绑定的用户信息")
     @GetMapping("/getBindUser")
     public R<List<UserSimpleVo>> getBindUser(@RequestParam(value = "deptId", required = false) Long deptId) {
         return R.ok(userDeptService.getBindUserByDeptId(deptId));
     }
+
 
 }
