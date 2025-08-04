@@ -30,7 +30,7 @@ import java.util.Map;
 @Slf4j
 @Component
 @SuppressWarnings(value = {"unused", "unchecked"})
-public final class SpringContextUtil implements ApplicationContextAware, BeanFactoryPostProcessor {
+public final class SpringContextUtils implements ApplicationContextAware, BeanFactoryPostProcessor {
     /**
      * "@PostConstruct"注解标记的类中，由于ApplicationContext还未加载，导致空指针<br>
      * 因此实现BeanFactoryPostProcessor注入ConfigurableListableBeanFactory实现bean的操作
@@ -43,13 +43,13 @@ public final class SpringContextUtil implements ApplicationContextAware, BeanFac
     @Override
     @SuppressWarnings("all")
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        SpringContextUtil.applicationContext = applicationContext;
+        SpringContextUtils.applicationContext = applicationContext;
     }
 
     @Override
     @SuppressWarnings("all")
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        SpringContextUtil.beanFactory = beanFactory;
+        SpringContextUtils.beanFactory = beanFactory;
     }
 
     /**

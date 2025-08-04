@@ -14,6 +14,11 @@ public interface StringConstant {
     String UNKNOWN = "unknown";
 
     /**
+     * 点
+     */
+    String POINT = ".";
+
+    /**
      * 分号
      */
     String SEMICOLON = ";";

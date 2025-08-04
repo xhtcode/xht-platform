@@ -1,6 +1,7 @@
 package com.xht.framework.log.configurers;
 
 import com.xht.framework.log.aspect.LogAspect;
+import com.xht.framework.log.aspect.MethodTimeAspect;
 import com.xht.framework.log.properties.BasicLogProperties;
 import com.xht.framework.log.repository.LogRepository;
 import com.xht.framework.log.repository.impl.DefaultLogRepositoryImpl;
@@ -10,7 +11,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
 /**
@@ -20,7 +20,6 @@ import org.springframework.core.annotation.Order;
  **/
 @Slf4j
 @Configuration
-@SuppressWarnings("all")
 @RequiredArgsConstructor
 @EnableConfigurationProperties(BasicLogProperties.class)
 public class LogAutoConfigurer {
@@ -42,9 +41,19 @@ public class LogAutoConfigurer {
      * @return {@link LogRepository}
      */
     @Bean
+    @Order
     @ConditionalOnMissingBean(LogRepository.class)
-    @Order(Ordered.LOWEST_PRECEDENCE)
     public LogRepository defaultLogRepository() {
         return new DefaultLogRepositoryImpl();
+    }
+
+    /**
+     * 方法执行时间统计切面
+     *
+     * @return {@link MethodTimeAspect} 方法计时切面实例
+     */
+    @Bean
+    public MethodTimeAspect methodTimeAspect() {
+        return new MethodTimeAspect();
     }
 }

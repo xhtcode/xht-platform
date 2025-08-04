@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.core.utils.spring.SpringContextUtil;
+import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.event.SysDeptInitPostEvent;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
@@ -40,7 +40,7 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
     public Boolean saveDeptInitPost(SysDeptEntity entity) {
         boolean save = save(entity);
         if (save) {
-            SpringContextUtil.publishEvent(new SysDeptInitPostEvent(entity.getId(), entity.getLeaderUserId()));
+            SpringContextUtils.publishEvent(new SysDeptInitPostEvent(entity.getId(), entity.getLeaderUserId()));
         }
         return save;
     }

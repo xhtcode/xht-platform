@@ -3,7 +3,7 @@ package com.xht.framework.security.properties;
 import cn.hutool.core.util.ReUtil;
 import com.xht.framework.core.jackson.JsonUtils;
 import com.xht.framework.core.properties.IProperties;
-import com.xht.framework.core.utils.spring.SpringContextUtil;
+import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.framework.security.annotation.InnerAuth;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +48,7 @@ public class PermitAllUrlProperties implements InitializingBean, IProperties {
     @Override
     public void afterPropertiesSet() {
         urls.addAll(Arrays.asList(DEFAULT_IGNORE_URLS));
-        RequestMappingHandlerMapping mapping = SpringContextUtil.getBean("requestMappingHandlerMapping");
+        RequestMappingHandlerMapping mapping = SpringContextUtils.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> mappingHandlerMethods = mapping.getHandlerMethods();
         mappingHandlerMethods.keySet().forEach(info -> {
             HandlerMethod handlerMethod = mappingHandlerMethods.get(info);
