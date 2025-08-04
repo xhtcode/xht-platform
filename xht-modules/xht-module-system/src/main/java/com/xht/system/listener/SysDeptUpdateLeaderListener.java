@@ -2,8 +2,8 @@ package com.xht.system.listener;
 
 import com.xht.system.event.SysDeptUpdateLeaderEvent;
 import com.xht.system.modules.user.dao.SysUserDao;
-import com.xht.system.modules.user.dao.SysUserDeptPostDao;
-import com.xht.system.modules.user.domain.entity.SysUserDeptPostEntity;
+import com.xht.system.modules.authority.dao.SysUserDeptPostDao;
+import com.xht.system.modules.authority.domain.entity.SysUserDeptPostEntity;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;

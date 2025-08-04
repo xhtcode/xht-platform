@@ -3,8 +3,8 @@ package com.xht.system.listener;
 import com.xht.system.event.SysUserDeptPostUpdateEvent;
 import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
-import com.xht.system.modules.user.dao.SysUserDeptPostDao;
-import com.xht.system.modules.user.domain.entity.SysUserDeptPostEntity;
+import com.xht.system.modules.authority.dao.SysUserDeptPostDao;
+import com.xht.system.modules.authority.domain.entity.SysUserDeptPostEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -48,7 +48,6 @@ public class SysUserDeptPostUpdateListener implements ApplicationListener<SysUse
         sysUserDeptManager.deleteBy(oldDeptId, userId, oldPostId);
             //更改旧的岗位已分配的人员人数
         SysDeptPostEntity oldDeptPostEntity = sysDeptPostManager.forUpdateById(oldPostId);
-        oldResult = sysDeptPostManager.updatePostHave(oldPostId, oldDeptPostEntity.getPostHave() - 1);
         // 保存新的部门信息
         SysUserDeptPostEntity userDeptEntity = new SysUserDeptPostEntity();
         userDeptEntity.setUserId(userId);
@@ -57,7 +56,5 @@ public class SysUserDeptPostUpdateListener implements ApplicationListener<SysUse
         sysUserDeptManager.save(userDeptEntity);
         //更改新的岗位已分配的人员人数
         SysDeptPostEntity newDeptPostEntity = sysDeptPostManager.forUpdateById(newPostId);
-        Boolean newResult = sysDeptPostManager.updatePostHave(newPostId, newDeptPostEntity.getPostHave() - 1);
-        log.info("用户部门更新监听器执行结束 oldResult:`{}` newResult:`{}`", oldResult, newResult);
     }
 }

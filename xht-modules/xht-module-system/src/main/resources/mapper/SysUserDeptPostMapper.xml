@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xht.system.modules.user.dao.mapper.SysUserDeptPostMapper">
+<mapper namespace="com.xht.system.modules.authority.dao.mapper.SysUserDeptPostMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.system.modules.user.domain.vo.UserSimpleVo">
         <id property="userId" column="user_id"/>
@@ -42,8 +42,6 @@
             <result property="postName" column="t3_post_name"/>
             <result property="postSort" column="t3_post_sort"/>
             <result property="postStatus" column="t3_post_status"/>
-            <result property="postLimit" column="t3_post_limit"/>
-            <result property="postHave" column="t3_post_have"/>
             <result property="systemFlag" column="t3_system_flag"/>
             <result property="remark" column="t3_remark"/>
             <result property="createTime" column="t3_create_time"/>
@@ -97,8 +95,6 @@
                t3.post_name       as t3_post_name,
                t3.post_sort       as t3_post_sort,
                t3.post_status     as t3_post_status,
-               t3.post_limit      as t3_post_limit,
-               t3.post_have       as t3_post_have,
                t3.system_flag     as t3_system_flag,
                t3.remark          as t3_remark,
                t3.create_time     as t3_create_time,

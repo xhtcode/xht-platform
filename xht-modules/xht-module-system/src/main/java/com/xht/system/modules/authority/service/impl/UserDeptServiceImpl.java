@@ -1,17 +1,17 @@
-package com.xht.system.modules.user.service.impl;
+package com.xht.system.modules.authority.service.impl;
 
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.system.modules.authority.dao.SysUserDeptPostDao;
+import com.xht.system.modules.authority.domain.entity.SysUserDeptPostEntity;
+import com.xht.system.modules.authority.domain.request.UserBindDeptPostRequest;
+import com.xht.system.modules.authority.service.IUserDeptService;
 import com.xht.system.modules.dept.dao.SysDeptDao;
 import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
 import com.xht.system.modules.user.dao.SysUserDao;
-import com.xht.system.modules.user.dao.SysUserDeptPostDao;
-import com.xht.system.modules.user.domain.entity.SysUserDeptPostEntity;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.request.UserBindDeptPostRequest;
 import com.xht.system.modules.user.domain.vo.UserSimpleVo;
-import com.xht.system.modules.user.service.IUserDeptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

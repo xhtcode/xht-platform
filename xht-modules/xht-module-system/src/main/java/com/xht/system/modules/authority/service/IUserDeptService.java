@@ -1,7 +1,6 @@
-package com.xht.system.modules.user.service;
+package com.xht.system.modules.authority.service;
 
-import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
-import com.xht.system.modules.user.domain.request.UserBindDeptPostRequest;
+import com.xht.system.modules.authority.domain.request.UserBindDeptPostRequest;
 import com.xht.system.modules.user.domain.vo.UserSimpleVo;
 
 import java.util.List;

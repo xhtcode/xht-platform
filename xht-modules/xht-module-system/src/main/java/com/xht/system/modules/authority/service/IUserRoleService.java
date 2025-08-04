@@ -1,4 +1,4 @@
-package com.xht.system.modules.user.service;
+package com.xht.system.modules.authority.service;
 
 import java.util.List;
 

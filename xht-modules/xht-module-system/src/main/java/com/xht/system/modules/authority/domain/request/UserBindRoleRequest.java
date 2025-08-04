@@ -1,4 +1,4 @@
-package com.xht.system.modules.user.domain.request;
+package com.xht.system.modules.authority.domain.request;
 
 import com.xht.framework.core.domain.request.FormRequest;
 import io.swagger.v3.oas.annotations.media.Schema;

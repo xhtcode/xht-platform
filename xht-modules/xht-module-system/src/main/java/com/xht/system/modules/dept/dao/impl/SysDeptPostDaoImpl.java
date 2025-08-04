@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.core.enums.SystemFlagEnums;
-import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.dept.dao.SysDeptPostDao;
@@ -149,8 +148,6 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
                 SysDeptPostEntity::getPostName,
                 SysDeptPostEntity::getPostSort,
                 SysDeptPostEntity::getPostStatus,
-                SysDeptPostEntity::getPostLimit,
-                SysDeptPostEntity::getPostHave,
                 SysDeptPostEntity::getSystemFlag
         );
         // @formatter:on
@@ -170,38 +167,6 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
         return baseMapper.forUpdateById(id);
     }
 
-    /**
-     * 更新岗位拥有人数
-     *
-     * @param postId   岗位id
-     * @param postHave 新的岗位拥有人数
-     * @return true：成功；false：失败
-     */
-    @Override
-    public Boolean updatePostHave(Long postId, int postHave) {
-        LambdaUpdateWrapper<SysDeptPostEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(SysDeptPostEntity::getPostHave, postHave)
-                .eq(SysDeptPostEntity::getId, postId);
-        return update(updateWrapper);
-    }
-
-    /**
-     * 查询当前岗位人数是否超过限制
-     *
-     * @param postId 岗位id
-     * @return true：超过限制；false：未超过限制
-     */
-    @Override
-    public Boolean validatePostLimit(Long postId) {
-        LambdaQueryWrapper<SysDeptPostEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.select(SysDeptPostEntity::getPostLimit, SysDeptPostEntity::getPostHave);
-        lambdaQueryWrapper.eq(SysDeptPostEntity::getId, postId);
-        SysDeptPostEntity one = getOne(lambdaQueryWrapper);
-        if (Objects.isNull(one)) {
-            throw new BusinessException("岗位不存在");
-        }
-        return one.getPostHave() + 1 > one.getPostLimit();
-    }
 
     /**
      * 分页查询部门岗位信息

@@ -1,13 +1,13 @@
-package com.xht.system.modules.user.dao.impl;
+package com.xht.system.modules.authority.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
+import com.xht.system.modules.authority.dao.SysUserDeptPostDao;
+import com.xht.system.modules.authority.dao.mapper.SysUserDeptPostMapper;
+import com.xht.system.modules.authority.domain.entity.SysUserDeptPostEntity;
 import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
-import com.xht.system.modules.user.dao.SysUserDeptPostDao;
-import com.xht.system.modules.user.dao.mapper.SysUserDeptPostMapper;
-import com.xht.system.modules.user.domain.entity.SysUserDeptPostEntity;
 import com.xht.system.modules.user.domain.vo.UserSimpleVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

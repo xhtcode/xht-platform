@@ -1,8 +1,8 @@
-package com.xht.system.modules.user.controller;
+package com.xht.system.modules.authority.controller;
 
 import com.xht.framework.core.domain.R;
-import com.xht.system.modules.user.domain.request.UserBindRoleRequest;
-import com.xht.system.modules.user.service.IUserRoleService;
+import com.xht.system.modules.authority.domain.request.UserBindRoleRequest;
+import com.xht.system.modules.authority.service.IUserRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/sys/user/role")
 @RequiredArgsConstructor
-public class UserRoleController {
+public class SysUserRoleController {
 
     private final IUserRoleService userRoleService;
 

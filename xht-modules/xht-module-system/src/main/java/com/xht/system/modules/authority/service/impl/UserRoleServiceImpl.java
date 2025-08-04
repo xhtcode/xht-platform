@@ -1,14 +1,14 @@
-package com.xht.system.modules.user.service.impl;
+package com.xht.system.modules.authority.service.impl;
 
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.code.UserErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.system.modules.authority.dao.SysRoleDao;
+import com.xht.system.modules.authority.dao.SysUserRoleDao;
+import com.xht.system.modules.authority.domain.entity.SysUserRoleEntity;
+import com.xht.system.modules.authority.service.IUserRoleService;
 import com.xht.system.modules.user.dao.SysUserDao;
-import com.xht.system.modules.user.dao.SysUserRoleDao;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.entity.SysUserRoleEntity;
-import com.xht.system.modules.user.service.IUserRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

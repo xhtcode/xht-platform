@@ -1,4 +1,4 @@
-package com.xht.system.modules.user.domain.request;
+package com.xht.system.modules.authority.domain.request;
 
 import com.xht.framework.core.domain.request.FormRequest;
 import com.xht.system.modules.user.common.enums.PositionNatureEnums;

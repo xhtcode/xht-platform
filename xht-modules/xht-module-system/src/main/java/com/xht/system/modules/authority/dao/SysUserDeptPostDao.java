@@ -1,8 +1,8 @@
-package com.xht.system.modules.user.dao;
+package com.xht.system.modules.authority.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
+import com.xht.system.modules.authority.domain.entity.SysUserDeptPostEntity;
 import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
-import com.xht.system.modules.user.domain.entity.SysUserDeptPostEntity;
 import com.xht.system.modules.user.domain.vo.UserSimpleVo;
 
 import java.util.List;

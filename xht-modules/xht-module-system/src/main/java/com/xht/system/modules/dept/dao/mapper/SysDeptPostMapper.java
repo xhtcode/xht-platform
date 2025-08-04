@@ -19,7 +19,7 @@ public interface SysDeptPostMapper extends BaseMapperX<SysDeptPostEntity> {
      * @param id 岗位id
      * @return 部门岗位信息
      */
-    @Select("SELECT id,dept_id,post_code,post_name,post_sort,post_status,post_limit,post_have  FROM sys_dept_post WHERE id = #{id} FOR UPDATE")
+    @Select("SELECT id,dept_id,post_code,post_name,post_sort,post_status FROM sys_dept_post WHERE id = #{id} FOR UPDATE")
     SysDeptPostEntity forUpdateById(Long id);
 
 }

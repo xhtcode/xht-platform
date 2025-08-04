@@ -86,22 +86,6 @@ public interface SysDeptPostDao extends MapperRepository<SysDeptPostEntity> {
     SysDeptPostEntity forUpdateById(Long id);
 
     /**
-     * 更新岗位拥有人数
-     *
-     * @param postId   岗位id
-     * @param postHave 新的岗位拥有人数
-     * @return true：成功；false：失败
-     */
-    Boolean updatePostHave(Long postId, int postHave);
-    /**
-     * 查询当前岗位人数是否超过限制
-     *
-     * @param postId 岗位id
-     * @return true：超过限制；false：未超过限制
-     */
-    Boolean validatePostLimit(Long postId);
-
-    /**
      * 分页查询部门岗位信息
      *
      * @param page         分页信息

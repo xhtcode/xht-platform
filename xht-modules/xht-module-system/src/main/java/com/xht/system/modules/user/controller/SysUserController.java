@@ -27,7 +27,7 @@ import java.util.List;
 @RequestMapping("/sys/user")
 @Tag(name = "用户模块", description = "用户管理相关的API")
 @RequiredArgsConstructor
-public class UserController {
+public class SysUserController {
 
     private final IUserService userService;
 
