@@ -1,6 +1,5 @@
 package com.xht.system.modules.user.domain.request;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.xht.framework.core.domain.request.PageQueryRequest;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;

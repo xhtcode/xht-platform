@@ -14,7 +14,7 @@ import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.authority.domain.request.SysRoleFormRequest;
 import com.xht.system.modules.authority.domain.request.SysRoleQueryRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.Objects;
  * @author xht
  **/
 @Slf4j
-@Component
+@Repository
 public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleEntity> implements SysRoleDao {
 
     /**

@@ -13,9 +13,8 @@ import com.xht.system.modules.dept.dao.mapper.SysDeptPostMapper;
 import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
 import com.xht.system.modules.dept.domain.request.SysDeptPostFormRequest;
 import com.xht.system.modules.dept.domain.request.SysDeptPostQueryRequest;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -27,8 +26,7 @@ import java.util.Objects;
  * @author xht
  **/
 @Slf4j
-@Component
-@RequiredArgsConstructor
+@Repository
 public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, SysDeptPostEntity> implements SysDeptPostDao {
 
     /**
@@ -117,21 +115,6 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
     }
 
     /**
-     * 判断部门岗位是否存在
-     *
-     * @param deptId 部门ID
-     * @param postId 岗位ID
-     * @return true：存在；false：不存在
-     */
-    @Override
-    public Boolean existsDeptPost(Long deptId, Long postId) {
-        LambdaQueryWrapper<SysDeptPostEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(SysDeptPostEntity::getDeptId, deptId);
-        lambdaQueryWrapper.eq(SysDeptPostEntity::getId, postId);
-        return exists(lambdaQueryWrapper);
-    }
-
-    /**
      * 根据部门ID和岗位编码查询岗位信息
      *
      * @param deptId 部门ID
@@ -155,18 +138,6 @@ public class SysDeptPostDaoImpl extends MapperRepositoryImpl<SysDeptPostMapper, 
                 .eq(SysDeptPostEntity::getId, postId);
         return getOne(lambdaQueryWrapper);
     }
-
-    /**
-     * 根据岗位id查询部门岗位信息
-     *
-     * @param id 岗位id
-     * @return 部门岗位信息
-     */
-    @Override
-    public SysDeptPostEntity forUpdateById(Long id) {
-        return baseMapper.forUpdateById(id);
-    }
-
 
     /**
      * 分页查询部门岗位信息

@@ -20,9 +20,4 @@
             <result property="isDel" column="is_del" />
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,project_id,data_source_id,table_name,table_comment,primary_key,
-        code_name,code_comment,create_by,create_time,update_by,
-        update_time,is_del
-    </sql>
 </mapper>

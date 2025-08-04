@@ -10,7 +10,4 @@
             <result property="enabled" column="enabled" jdbcType="TINYINT"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        username,password,enabled
-    </sql>
 </mapper>

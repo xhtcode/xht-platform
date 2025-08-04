@@ -9,7 +9,6 @@ import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
 import com.xht.system.modules.user.domain.request.UserQueryRequest;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 
-import java.util.List;
 
 /**
  * @author xht

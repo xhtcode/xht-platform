@@ -1,10 +1,6 @@
 package com.xht.generate.dao.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenProjectTemplateDao;
 import com.xht.generate.dao.mapper.GenProjectTemplateMapper;
@@ -12,11 +8,7 @@ import com.xht.generate.domain.entity.GenProjectTemplateEntity;
 import com.xht.generate.domain.request.GenProjectTemplateFormRequest;
 import com.xht.generate.domain.request.GenProjectTemplateQueryRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Objects;
+import org.springframework.stereotype.Repository;
 
 /**
  * 项目模板管理
@@ -24,7 +16,7 @@ import java.util.Objects;
  * @author xht
  **/
 @Slf4j
-@Component
+@Repository
 public class GenProjectTemplateDaoImpl extends MapperRepositoryImpl<GenProjectTemplateMapper, GenProjectTemplateEntity> implements GenProjectTemplateDao {
 
 

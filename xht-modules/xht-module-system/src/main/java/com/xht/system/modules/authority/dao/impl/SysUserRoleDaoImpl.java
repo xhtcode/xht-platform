@@ -44,17 +44,6 @@ public class SysUserRoleDaoImpl extends MapperRepositoryImpl<SysUserRoleMapper, 
     }
 
     /**
-     * 根据用户ID获取角色编码列表
-     *
-     * @param userId 用户ID
-     * @return 角色编码列表
-     */
-    @Override
-    public List<String> getRoleCodes(Long userId) {
-        return baseMapper.getRoleCodes(userId);
-    }
-
-    /**
      * 根据用户ID查询角色ID列表
      *
      * @param userId 用户ID

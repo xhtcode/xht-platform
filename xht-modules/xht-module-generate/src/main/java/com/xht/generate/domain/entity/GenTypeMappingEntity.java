@@ -4,15 +4,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 代码生成器-数据类型映射表
- * @TableName gen_type_mapping
  */
 @TableName(value ="gen_type_mapping")
 @Data
@@ -50,6 +48,5 @@ public class GenTypeMappingEntity extends BasicEntity implements Serializable {
 
 
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
+
 }

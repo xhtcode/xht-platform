@@ -2,8 +2,6 @@ package com.xht.system.modules.log.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.openfeign.annotation.NoAuthentication;
-import com.xht.system.modules.log.domian.request.SysLogFormRequest;
 import com.xht.system.modules.log.domian.request.SysLogQueryRequest;
 import com.xht.system.modules.log.domian.response.SysLogResponse;
 import com.xht.system.modules.log.service.ISysLogService;
@@ -11,7 +9,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 系统日志

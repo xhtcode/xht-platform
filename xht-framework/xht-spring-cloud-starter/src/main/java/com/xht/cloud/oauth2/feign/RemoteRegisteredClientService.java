@@ -4,7 +4,6 @@ import com.xht.boot.oauth2.domain.dto.OAuth2RegisteredClientDTO;
 import com.xht.cloud.oauth2.feign.factory.RemoteRegisteredClientFallbackFactory;
 import com.xht.framework.core.constant.ServiceNameConstant;
 import com.xht.framework.core.domain.R;
-import com.xht.framework.openfeign.annotation.NoAuthentication;
 import com.xht.framework.security.annotation.InnerAuth;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

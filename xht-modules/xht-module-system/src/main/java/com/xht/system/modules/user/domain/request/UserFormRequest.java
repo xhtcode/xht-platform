@@ -1,6 +1,7 @@
 package com.xht.system.modules.user.domain.request;
 
 import com.xht.framework.core.domain.request.FormRequest;
+import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -46,7 +47,7 @@ public class UserFormRequest extends FormRequest {
      * 账号状态
      */
     @Schema(description = "账号状态，例如：0-禁用，1-启用", example = "1")
-    private Integer userStatus;
+    private UserStatusEnums userStatus;
 
     /**
      * 用户详细信息

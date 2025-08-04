@@ -12,7 +12,6 @@ import lombok.Data;
 
 /**
  * 代码生成器-代码生成历史记录表
- * @TableName gen_log
  */
 @TableName(value ="gen_log")
 @Data
@@ -70,6 +69,5 @@ public class GenLogEntity extends BasicEntity implements Serializable {
 
 
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
+
 }

@@ -60,15 +60,6 @@ public interface SysDeptPostDao extends MapperRepository<SysDeptPostEntity> {
     Boolean existsDeptPost(Long deptId);
 
     /**
-     * 判断部门岗位是否存在
-     *
-     * @param deptId 部门ID
-     * @param postId 岗位ID
-     * @return true：存在；false：不存在
-     */
-    Boolean existsDeptPost(Long deptId, Long postId);
-
-    /**
      * 根据部门ID和岗位编码查询岗位信息
      *
      * @param deptId 部门ID
@@ -76,14 +67,6 @@ public interface SysDeptPostDao extends MapperRepository<SysDeptPostEntity> {
      * @return 岗位信息
      */
     SysDeptPostEntity findPostByDeptIdAndPostId(Long deptId, Long postId);
-
-    /**
-     * 根据岗位id查询部门岗位信息
-     *
-     * @param id 岗位id
-     * @return 部门岗位信息
-     */
-    SysDeptPostEntity forUpdateById(Long id);
 
     /**
      * 分页查询部门岗位信息

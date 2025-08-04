@@ -11,7 +11,4 @@
             <result property="isDefault" column="is_default" />
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,project_id,data_source_id,is_default
-    </sql>
 </mapper>

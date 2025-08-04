@@ -1,11 +1,8 @@
 package com.xht.system.modules.user.domain.vo;
 
 import com.xht.framework.core.domain.vo.IVO;
-import com.xht.system.modules.dept.common.enums.DeptPostStatusEnums;
-import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import com.xht.system.modules.dept.domain.response.SysDeptPostResponse;
 import com.xht.system.modules.dept.domain.response.SysDeptResponse;
-import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
 import com.xht.system.modules.user.common.enums.PositionNatureEnums;
 import com.xht.system.modules.user.domain.response.SysUserProfilesResponse;
 import com.xht.system.modules.user.domain.response.SysUserResponse;

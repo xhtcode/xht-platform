@@ -1,7 +1,6 @@
 package com.xht.boot.oauth2.entity.token;
 
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.data.redis.core.index.Indexed;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;

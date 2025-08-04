@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
+import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import lombok.Data;
 
 import java.io.Serial;
@@ -74,7 +75,7 @@ public class SysUserEntity extends BasicEntity implements Serializable {
      * 账号状态
      */
     @TableField(value = "user_status")
-    private Integer userStatus;
+    private UserStatusEnums userStatus;
 
     /**
      * 部门id

@@ -10,9 +10,7 @@ import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.domain.vo.UserSimpleVo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -22,23 +20,9 @@ import java.util.List;
  * @author xht
  **/
 @Slf4j
-@Component
+@Repository
 public class SysUserDeptPostPostDaoImpl extends MapperRepositoryImpl<SysUserDeptPostMapper, SysUserDeptPostEntity> implements SysUserDeptPostDao {
 
-    /**
-     * 保存用户和部门关系
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean saveUserDept(Long deptId, List<SysUserDeptPostEntity> userDeptEntities) {
-        LambdaQueryWrapper<SysUserDeptPostEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysUserDeptPostEntity::getDeptId, deptId);
-        remove(queryWrapper);
-        if (CollectionUtils.isEmpty(userDeptEntities)) {
-            return true;
-        }
-        return saveAll(userDeptEntities);
-    }
 
     /**
      * 根据部门ID查询用户简要信息
@@ -60,19 +44,6 @@ public class SysUserDeptPostPostDaoImpl extends MapperRepositoryImpl<SysUserDept
     @Override
     public SysDeptPostVo getDeptPostByUserId(Long userId) {
         return baseMapper.getDeptPostByUserId(userId);
-    }
-
-    /**
-     * 根据用户ID获取部门信息
-     *
-     * @param userId 用户ID
-     * @return 部门信息
-     */
-    @Override
-    public SysUserDeptPostEntity findOneByUserId(Long userId) {
-        LambdaQueryWrapper<SysUserDeptPostEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysUserDeptPostEntity::getUserId, userId);
-        return getOne(queryWrapper);
     }
 
     /**

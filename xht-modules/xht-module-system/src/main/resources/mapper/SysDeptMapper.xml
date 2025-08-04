@@ -25,11 +25,4 @@
         <result property="isDel" column="is_del" jdbcType="TINYINT"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id
-        ,parent_id,dept_code,dept_name,dept_level,dept_status,
-        dept_sort,ancestors,leader_user_id,leader_name,phone,
-        email,remark,create_by,create_time,update_by,
-        update_time,is_del
-    </sql>
 </mapper>

@@ -22,9 +22,4 @@
             <result property="isDel" column="is_del" />
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,project_id,batch_no,generate_time,file_count,generate_path,
-        template_ids,table_ids,status,error_msg,create_by,
-        create_time,update_by,update_time,is_del
-    </sql>
 </mapper>

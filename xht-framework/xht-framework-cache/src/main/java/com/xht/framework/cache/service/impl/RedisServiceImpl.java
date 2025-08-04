@@ -63,8 +63,8 @@ public class RedisServiceImpl implements RedisService {
      * @return 数据
      */
     @Override
-    public Object get(String key) {
-        return redisTemplate.opsForValue().get(key);
+    public <T> T get(String key) {
+        return (T) redisTemplate.opsForValue().get(key);
     }
 
     @Override

@@ -13,7 +13,7 @@ import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
 import com.xht.system.modules.authority.domain.request.SysMenuFormRequest;
 import com.xht.system.modules.authority.domain.request.SysMenuQueryRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.Objects;
  * @author xht
  **/
 @Slf4j
-@Component
+@Repository
 public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuEntity> implements SysMenuDao {
 
     /**

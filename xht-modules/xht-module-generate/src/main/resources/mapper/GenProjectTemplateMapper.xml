@@ -11,7 +11,4 @@
             <result property="sort" column="sort" />
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,project_id,template_id,sort
-    </sql>
 </mapper>

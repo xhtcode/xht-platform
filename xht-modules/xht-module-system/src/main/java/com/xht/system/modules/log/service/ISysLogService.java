@@ -2,7 +2,6 @@ package com.xht.system.modules.log.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.log.domain.dto.LogDTO;
-import com.xht.system.modules.log.domian.request.SysLogFormRequest;
 import com.xht.system.modules.log.domian.request.SysLogQueryRequest;
 import com.xht.system.modules.log.domian.response.SysLogResponse;
 
