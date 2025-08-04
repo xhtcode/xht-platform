@@ -3,7 +3,7 @@ package com.xht.framework.openfeign.interceptor;
 
 import com.xht.framework.core.properties.SecurityHeaderProperties;
 import com.xht.framework.core.utils.HttpServletUtils;
-import com.xht.framework.core.utils.IpUtil;
+import com.xht.framework.core.utils.IpUtils;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.log.constat.LogConstant;
 import com.xht.framework.log.utils.TraceIdUtils;
@@ -42,7 +42,7 @@ public class FeignTraceLogInterceptor implements RequestInterceptor {
         template.header(LogConstant.REQUEST_TRACE_ID, traceId);
         template.header(LogConstant.REQUEST_USER_ACCOUNT, request.getHeader(LogConstant.REQUEST_USER_ACCOUNT));
         template.header(LogConstant.REQUEST_USER_ID, request.getHeader(LogConstant.REQUEST_USER_ID));
-        template.header("X-Forwarded-For", IpUtil.getIpAddr());
+        template.header("X-Forwarded-For", IpUtils.getIpAddr());
     }
 
 }

@@ -6,7 +6,7 @@ import cn.hutool.extra.servlet.JakartaServletUtil;
 import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.jackson.JsonUtils;
 import com.xht.framework.core.utils.HttpServletUtils;
-import com.xht.framework.core.utils.spring.SpringContextUtil;
+import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.framework.log.annotations.Log;
 import com.xht.framework.log.domain.dto.LogDTO;
 import com.xht.framework.log.enums.LogStatusEnums;
@@ -53,7 +53,7 @@ public class LogAspect {
         LogDTO logDTO = new LogDTO();
         logDTO.setTitle(sysLog.title());
         logDTO.setDescription(sysLog.description());
-        logDTO.setServiceName(SpringContextUtil.getApplicationName());
+        logDTO.setServiceName(SpringContextUtils.getApplicationName());
         Optional<HttpServletRequest> optHttpServletRequest = HttpServletUtils.getOptHttpServletRequest();
         optHttpServletRequest.ifPresent(request -> {
             logDTO.setRemoteAddr(JakartaServletUtil.getClientIP(request));

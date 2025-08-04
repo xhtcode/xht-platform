@@ -1,4 +1,4 @@
-package com.xht.framework.core.utils;
+package com.xht.framework.core.utils.file;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
