@@ -1,4 +1,4 @@
-package com.xht.system.modules.authority.domain.entity;
+package com.xht.system.modules.user.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.xht.framework.mybatis.domain.entity.Entity;
@@ -9,13 +9,13 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 用户部门关联表
+ * 用户岗位关联表
  *
  * @author xht
  */
 @Data
-@TableName(value = "sys_user_dept_post_post")
-public class SysUserDeptPostEntity extends Entity implements Serializable {
+@TableName(value = "sys_user_post")
+public class SysUserPostEntity extends Entity implements Serializable {
     /**
      * 用户ID
      */

@@ -20,14 +20,31 @@
         <result property="updateTime" column="update_time"/>
         <result property="createBy" column="create_by"/>
         <result property="updateBy" column="update_by"/>
+        <association property="dept" javaType="com.xht.system.modules.dept.domain.response.SysDeptResponse">
+            <id property="id" column="id"/>
+            <result property="parentId" column="parent_id"/>
+            <result property="deptCode" column="dept_code"/>
+            <result property="deptName" column="dept_name"/>
+            <result property="deptLevel" column="dept_level"/>
+            <result property="deptStatus" column="dept_status"/>
+            <result property="deptSort" column="dept_sort"/>
+            <result property="ancestors" column="ancestors"/>
+            <result property="phone" column="phone"/>
+            <result property="email" column="email"/>
+            <result property="remark" column="remark"/>
+            <result property="createBy" column="create_by"/>
+            <result property="createTime" column="create_time"/>
+            <result property="updateBy" column="update_by"/>
+            <result property="updateTime" column="update_time"/>
+        </association>
         <association property="profile" javaType="com.xht.system.modules.user.domain.response.SysUserProfilesResponse">
-            <result property="realName" column="real_name" jdbcType="VARCHAR"/>
-            <result property="idCardNumber" column="id_card_number" jdbcType="VARCHAR"/>
-            <result property="gender" column="gender" jdbcType="TINYINT"/>
+            <result property="realName" column="real_name"/>
+            <result property="idCardNumber" column="id_card_number"/>
+            <result property="gender" column="gender"/>
             <result property="birthDate" column="birth_date" jdbcType="DATE"/>
-            <result property="age" column="age" jdbcType="TINYINT"/>
-            <result property="address" column="address" jdbcType="VARCHAR"/>
-            <result property="postalCode" column="postal_code" jdbcType="VARCHAR"/>
+            <result property="age" column="age"/>
+            <result property="address" column="address"/>
+            <result property="postalCode" column="postal_code"/>
         </association>
     </resultMap>
     <sql id="BaseQuerySQL">
@@ -52,10 +69,27 @@
                t2.birth_date,
                t2.age,
                t2.address,
-               t2.postal_code
+               t2.postal_code,
+               t3.id,
+               t3.parent_id,
+               t3.dept_code,
+               t3.dept_name,
+               t3.dept_level,
+               t3.dept_status,
+               t3.dept_sort,
+               t3.ancestors,
+               t3.phone,
+               t3.email,
+               t3.remark,
+               t3.create_by,
+               t3.create_time,
+               t3.update_by,
+               t3.update_time
         FROM sys_user t1
                  LEFT JOIN sys_user_profiles t2 ON t1.id = t2.user_id
+                 left join sys_dept t3 on t1.dept_id = t3.id
         WHERE t1.is_del = 0
+          and t3.is_del = 0
     </sql>
     <!-- 根据手机号和身份证号校验用户是否重复 -->
     <select id="checkUserRepeat" resultType="java.lang.Integer">

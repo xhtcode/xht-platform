@@ -65,13 +65,6 @@ public class SysDeptFormRequest extends FormRequest {
     @Schema(description = "显示顺序", example = "1")
     private Integer deptSort;
 
-
-    /**
-     * 负责人用户ID
-     */
-    @Schema(description = "负责人用户ID")
-    private Long leaderUserId;
-
     /**
      * 联系电话
      */
@@ -93,6 +86,5 @@ public class SysDeptFormRequest extends FormRequest {
      */
     @Schema(description = "备注", example = "这是一个技术部门")
     private String remark;
-
 
 }

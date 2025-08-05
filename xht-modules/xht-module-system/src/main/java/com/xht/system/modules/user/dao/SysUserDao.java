@@ -67,6 +67,7 @@ public interface SysUserDao extends MapperRepository<SysUserEntity> {
      * @return 分页查询结果
      */
     Page<SysUserVO> queryPageRequest(Page<SysUserEntity> page, UserQueryRequest queryRequest);
+
     /**
      * 根据用户ID查询用户信息
      *
@@ -74,14 +75,6 @@ public interface SysUserDao extends MapperRepository<SysUserEntity> {
      * @return 用户信息
      */
     SysUserVO findInfoByUserId(Long userId);
-
-    /**
-     * 根据部门ID查询用户简单信息
-     *
-     * @param leaderUserId 部门领导ID
-     * @param deptId       部门ID
-     */
-    void updateDept(Long leaderUserId, Long deptId);
 
     /**
      * 根据用户名和登录类型查询用户信息

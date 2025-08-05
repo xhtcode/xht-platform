@@ -151,21 +151,6 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
     }
 
     /**
-     * 根据部门ID查询用户简单信息
-     *
-     * @param leaderUserId 部门领导ID
-     * @param deptId       部门ID
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateDept(Long leaderUserId, Long deptId) {
-        LambdaUpdateWrapper<SysUserEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(SysUserEntity::getDeptId, deptId)
-                .eq(SysUserEntity::getId, leaderUserId);
-        update(updateWrapper);
-    }
-
-    /**
      * 根据用户名和登录类型查询用户信息
      *
      * @param username  用户名

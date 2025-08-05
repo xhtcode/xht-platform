@@ -13,8 +13,6 @@
         <result property="deptStatus" column="dept_status" jdbcType="TINYINT"/>
         <result property="deptSort" column="dept_sort" jdbcType="INTEGER"/>
         <result property="ancestors" column="ancestors" jdbcType="VARCHAR"/>
-        <result property="leaderUserId" column="leader_user_id" jdbcType="INTEGER"/>
-        <result property="leaderName" column="leader_name" jdbcType="VARCHAR"/>
         <result property="phone" column="phone" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>

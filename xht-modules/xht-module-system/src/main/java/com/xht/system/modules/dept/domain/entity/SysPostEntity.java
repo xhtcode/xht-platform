@@ -23,7 +23,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName(value = "sys_dept_post")
-public class SysDeptPostEntity extends BasicEntity implements Serializable {
+public class SysPostEntity extends BasicEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -32,21 +32,19 @@ public class SysDeptPostEntity extends BasicEntity implements Serializable {
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-    /**
-     * 部门id
-     */
-    @TableField(value = "dept_id")
-    private Long deptId;
+
     /**
      * 岗位编码
      */
     @TableField(value = "post_code")
     private String postCode;
+
     /**
      * 岗位名称
      */
     @TableField(value = "post_name")
     private String postName;
+
     /**
      * 岗位排序
      */
@@ -64,6 +62,7 @@ public class SysDeptPostEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "system_flag")
     private SystemFlagEnums systemFlag;
+
     /**
      * 岗位描述
      */
@@ -73,15 +72,13 @@ public class SysDeptPostEntity extends BasicEntity implements Serializable {
     /**
      * 构造函数 数据初始化使用
      *
-     * @param deptId     部门ID
      * @param postCode   岗位编码
      * @param postName   岗位名称
      * @param postSort   岗位排序
      * @param remark     备注
      * @param systemFlag 系统内置
      */
-    public SysDeptPostEntity(Long deptId, String postCode, String postName, Integer postSort, String remark, SystemFlagEnums systemFlag) {
-        this.deptId = deptId;
+    public SysPostEntity(String postCode, String postName, Integer postSort, String remark, SystemFlagEnums systemFlag) {
         this.postCode = postCode;
         this.postName = postName;
         this.postSort = postSort;

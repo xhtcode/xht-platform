@@ -1,10 +1,9 @@
 package com.xht.system.modules.dept.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.system.modules.dept.domain.request.SysDeptPostFormRequest;
-import com.xht.system.modules.dept.domain.request.SysDeptPostQueryRequest;
-import com.xht.system.modules.dept.domain.response.SysDeptPostResponse;
-import com.xht.system.modules.dept.domain.vo.SysDeptPostSimpleVo;
+import com.xht.system.modules.dept.domain.request.SysPostFormRequest;
+import com.xht.system.modules.dept.domain.request.SysPostQueryRequest;
+import com.xht.system.modules.dept.domain.response.SysPostResponse;
 
 import java.util.List;
 
@@ -13,14 +12,14 @@ import java.util.List;
  *
  * @author xht
  */
-public interface ISysDeptPostService {
+public interface ISysPostService {
     /**
      * 创建部门岗位
      *
      * @param formRequest 部门岗位表单请求参数
      * @return 操作结果
      */
-    Boolean create(SysDeptPostFormRequest formRequest);
+    Boolean create(SysPostFormRequest formRequest);
 
     /**
      * 根据ID删除部门岗位
@@ -44,7 +43,7 @@ public interface ISysDeptPostService {
      * @param formRequest 部门岗位更新请求参数
      * @return 操作结果
      */
-    Boolean updateById(SysDeptPostFormRequest formRequest);
+    Boolean updateById(SysPostFormRequest formRequest);
 
     /**
      * 根据ID查询部门岗位
@@ -52,7 +51,7 @@ public interface ISysDeptPostService {
      * @param id 部门岗位ID
      * @return 部门岗位信息
      */
-    SysDeptPostResponse getById(Long id);
+    SysPostResponse getById(Long id);
 
     /**
      * 分页查询部门岗位
@@ -60,13 +59,6 @@ public interface ISysDeptPostService {
      * @param queryRequest 部门岗位查询请求参数
      * @return 部门岗位分页信息
      */
-    PageResponse<SysDeptPostResponse> selectPage(SysDeptPostQueryRequest queryRequest);
+    PageResponse<SysPostResponse> selectPage(SysPostQueryRequest queryRequest);
 
-    /**
-     * 根据部门ID查询部门岗位
-     *
-     * @param deptId 部门ID
-     * @return 部门岗位信息
-     */
-    List<SysDeptPostSimpleVo> findListByDeptId(String deptId);
 }

@@ -17,7 +17,7 @@ import java.util.List;
  **/
 @Data
 @Schema(description = "角色菜单绑定请求参数")
-public class RoleMenuBindRequest extends FormRequest {
+public class SysRoleMenuBindRequest extends FormRequest {
 
     @Serial
     private static final long serialVersionUID = 1L;

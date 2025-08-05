@@ -44,7 +44,6 @@ public class SysDeptQueryTreeRequest extends QueryRequest {
     @Schema(description = "部门状态", example = "0")
     private DeptStatusEnums deptStatus;
 
-
     /**
      * 联系电话
      */

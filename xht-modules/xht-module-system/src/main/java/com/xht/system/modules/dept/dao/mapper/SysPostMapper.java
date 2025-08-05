@@ -1,7 +1,7 @@
 package com.xht.system.modules.dept.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
-import com.xht.system.modules.dept.domain.entity.SysDeptPostEntity;
+import com.xht.system.modules.dept.domain.entity.SysPostEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Select;
  * @author xht
  */
 @Mapper
-public interface SysDeptPostMapper extends BaseMapperX<SysDeptPostEntity> {
+public interface SysPostMapper extends BaseMapperX<SysPostEntity> {
 
     /**
      * 根据岗位id查询部门岗位信息
@@ -20,7 +20,7 @@ public interface SysDeptPostMapper extends BaseMapperX<SysDeptPostEntity> {
      * @return 部门岗位信息
      */
     @Select("SELECT id,dept_id,post_code,post_name,post_sort,post_status FROM sys_dept_post WHERE id = #{id} FOR UPDATE")
-    SysDeptPostEntity forUpdateById(Long id);
+    SysPostEntity forUpdateById(Long id);
 
 }
 

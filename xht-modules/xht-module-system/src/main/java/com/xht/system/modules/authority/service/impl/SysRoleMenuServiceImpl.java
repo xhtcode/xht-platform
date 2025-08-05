@@ -4,7 +4,7 @@ import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.authority.domain.entity.SysRoleMenuEntity;
-import com.xht.system.modules.authority.domain.request.RoleMenuBindRequest;
+import com.xht.system.modules.authority.domain.request.SysRoleMenuBindRequest;
 import com.xht.system.modules.authority.dao.SysMenuDao;
 import com.xht.system.modules.authority.dao.SysRoleDao;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
@@ -41,7 +41,7 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
      * @return 成功、失败
      */
     @Override
-    public Boolean roleMenuBind(RoleMenuBindRequest bindRequest) {
+    public Boolean roleMenuBind(SysRoleMenuBindRequest bindRequest) {
         Long roleId = bindRequest.getRoleId();
         Boolean roleExists = sysRoleDao.exists(SysRoleEntity::getId, roleId);
         ThrowUtils.throwIf(!roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");

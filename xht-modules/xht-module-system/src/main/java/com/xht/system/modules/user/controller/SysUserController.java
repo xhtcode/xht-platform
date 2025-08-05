@@ -32,14 +32,14 @@ public class SysUserController {
     private final IUserService userService;
 
     /**
-     * 用户注册
+     * 用户添加
      * 该方法用于根据提供的用户创建请求信息创建一个新用户。
      * 请求体中需要包含创建用户所需的所有必要信息。
      *
      * @param formRequest 用户创建请求信息，使用@Valid注解确保请求数据的有效性
      * @return 返回一个R对象，其中包含一个布尔值，表示用户是否创建成功
      */
-    @Operation(summary = "用户注册", description = "用户注册")
+    @Operation(summary = "用户添加", description = "用户添加")
     @PostMapping("/add")
     public R<Boolean> add(@Valid @RequestBody UserFormRequest formRequest) {
         return R.ok(userService.create(formRequest));

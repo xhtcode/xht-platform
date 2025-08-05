@@ -1,6 +1,5 @@
 package com.xht.system.modules.dept.domain.response;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.xht.framework.core.domain.response.BasicResponse;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -61,23 +60,6 @@ public class SysDeptResponse extends BasicResponse {
      */
     @Schema(description = "祖先列表", example = "0,1,101")
     private String ancestors;
-
-    /**
-     * 负责人用户ID
-     */
-    @Schema(description = "负责人用户ID")
-    private Long leaderUserId;
-    /**
-     * 负责人名称
-     */
-    @Schema(description = "负责人名称")
-    private String leaderName;
-
-    /**
-     * 负责人岗位ID
-     */
-    @TableField(value = "leader_post_id")
-    private Long leaderPostId;
 
     /**
      * 联系电话

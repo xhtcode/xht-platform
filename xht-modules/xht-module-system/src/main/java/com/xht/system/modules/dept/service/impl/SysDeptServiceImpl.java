@@ -1,7 +1,6 @@
 package com.xht.system.modules.dept.service.impl;
 
 import com.xht.framework.core.exception.code.BusinessErrorCode;
-import com.xht.framework.core.exception.code.UserErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.core.utils.tree.TreeNode;
@@ -9,15 +8,11 @@ import com.xht.framework.core.utils.tree.TreeUtils;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import com.xht.system.modules.dept.converter.SysDeptConverter;
 import com.xht.system.modules.dept.dao.SysDeptDao;
-import com.xht.system.modules.dept.dao.SysDeptPostDao;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
 import com.xht.system.modules.dept.domain.request.SysDeptFormRequest;
 import com.xht.system.modules.dept.domain.request.SysDeptQueryTreeRequest;
 import com.xht.system.modules.dept.domain.response.SysDeptResponse;
 import com.xht.system.modules.dept.service.ISysDeptService;
-import com.xht.system.modules.user.common.enums.UserStatusEnums;
-import com.xht.system.modules.user.dao.SysUserDao;
-import com.xht.system.modules.user.domain.entity.SysUserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,10 +33,6 @@ public class SysDeptServiceImpl implements ISysDeptService {
 
     private final SysDeptDao sysDeptDao;
 
-    private final SysDeptPostDao sysDeptPostDao;
-
-    private final SysUserDao sysUserDao;
-
     private final SysDeptConverter sysDeptConverter;
 
     /**
@@ -60,14 +51,6 @@ public class SysDeptServiceImpl implements ISysDeptService {
         SysDeptEntity entity = sysDeptConverter.toEntity(formRequest);
         entity.setDeptLevel(parentDept.getDeptLevel() + 1);
         entity.setAncestors(parentDept.getAncestors() + "," + parentDept.getId());
-        Long leaderUserId = formRequest.getLeaderUserId();
-        if (Objects.nonNull(leaderUserId)) {
-            entity.setLeaderUserId(leaderUserId);
-            SysUserEntity userEntity = sysUserDao.findById(leaderUserId);
-            ThrowUtils.throwIf(Objects.isNull(userEntity), UserErrorCode.DATA_NOT_EXIST, "未查找到用户信息");
-            ThrowUtils.throwIf(!Objects.equals(UserStatusEnums.NORMAL, userEntity.getUserStatus()), UserErrorCode.DATA_NOT_EXIST, "用户状态异常");
-            entity.setLeaderName(userEntity.getUserName());
-        }
         return sysDeptDao.saveDeptInitPost(entity);
     }
 
@@ -79,8 +62,8 @@ public class SysDeptServiceImpl implements ISysDeptService {
      */
     @Override
     public Boolean removeById(Long id) {
-        Boolean existsDeptPost = sysDeptPostDao.existsDeptPost(id);
-        ThrowUtils.throwIf(existsDeptPost, BusinessErrorCode.DATA_NOT_EXIST, "该部门下已有岗位，不能删除");
+        Boolean existsDeptPost = sysDeptDao.exists(SysDeptEntity::getId, id);
+        ThrowUtils.throwIf(existsDeptPost, BusinessErrorCode.DATA_NOT_EXIST, "该部门下已有部门，不能删除");
         return sysDeptDao.deleteById(id);
     }
 
@@ -101,24 +84,12 @@ public class SysDeptServiceImpl implements ISysDeptService {
         // 3.校验上级部门是否存在
         SysDeptEntity parentDept = sysDeptDao.getDefaultParentDeptByParentId(formRequest.getParentId());
         ThrowUtils.throwIf(Objects.isNull(parentDept), BusinessErrorCode.DATA_NOT_EXIST, "父部门不存在");
-        // 4.校验部门主管是否修改
-        Long leaderUserId = dbDept.getLeaderUserId();
-        Long updateLeaderUserId = formRequest.getLeaderUserId();
-        String leaderName = dbDept.getLeaderName();
-        if (!Objects.equals(leaderUserId, updateLeaderUserId)) {
-            //校验修改的部门主管用户是否存在
-            SysUserEntity userEntity = sysUserDao.findById(formRequest.getLeaderUserId());
-            ThrowUtils.throwIf(Objects.isNull(userEntity), UserErrorCode.DATA_NOT_EXIST, "未查找到用户信息");
-            ThrowUtils.throwIf(!Objects.equals(UserStatusEnums.NORMAL, userEntity.getUserStatus()), UserErrorCode.DATA_NOT_EXIST, "用户状态异常");
-            leaderName = userEntity.getUserName();
-        }
         // 转换部门实体
         SysDeptEntity entity = sysDeptConverter.toEntity(formRequest);
         entity.setId(formRequest.getId());
         entity.setDeptLevel(parentDept.getDeptLevel() + 1);
         entity.setAncestors(parentDept.getAncestors() + "," + parentDept.getId());
-        entity.setLeaderName(leaderName);
-        return sysDeptDao.updateFormRequest(entity, leaderUserId);
+        return sysDeptDao.updateFormRequest(entity);
     }
 
     /**

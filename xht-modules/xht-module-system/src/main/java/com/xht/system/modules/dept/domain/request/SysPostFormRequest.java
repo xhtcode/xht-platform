@@ -14,7 +14,7 @@ import lombok.Data;
  **/
 @Data
 @Schema(description = "新增部门岗位请求参数")
-public class SysDeptPostFormRequest extends FormRequest {
+public class SysPostFormRequest extends FormRequest {
 
     /**
      * 部门岗位唯一标识
@@ -24,13 +24,6 @@ public class SysDeptPostFormRequest extends FormRequest {
     @Positive(message = "ID唯一标识参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "部门岗位唯一标识", example = "101")
     private Long id;
-
-    /**
-     * 部门id，必须大于0
-     */
-    @NotNull(message = "部门id参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "部门id")
-    private Long deptId;
 
     /**
      * 岗位编码，必须是唯一的且不超过50个字符

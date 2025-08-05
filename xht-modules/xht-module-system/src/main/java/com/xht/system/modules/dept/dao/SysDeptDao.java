@@ -26,10 +26,9 @@ public interface SysDeptDao extends MapperRepository<SysDeptEntity> {
      * 更新部门信息
      *
      * @param formRequest     部门更新请求
-     * @param oldLeaderUserId 旧的主管用户id
      * @return true：成功；false：失败
      */
-    Boolean updateFormRequest(SysDeptEntity formRequest, Long oldLeaderUserId);
+    Boolean updateFormRequest(SysDeptEntity formRequest);
 
     /**
      * 更新部门状态
@@ -65,11 +64,4 @@ public interface SysDeptDao extends MapperRepository<SysDeptEntity> {
      */
     List<SysDeptEntity> queryListRequest(SysDeptQueryTreeRequest queryRequest);
 
-    /**
-     * 更新部门主管岗位id
-     *
-     * @param deptId       部门id
-     * @param leaderPostId 主管岗位id
-     */
-    void updateLeaderPostId(Long deptId, Long leaderPostId);
 }

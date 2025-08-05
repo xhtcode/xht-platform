@@ -66,24 +66,6 @@ public class SysDeptEntity extends BasicEntity implements Serializable {
     private String ancestors;
 
     /**
-     * 负责人用户ID
-     */
-    @TableField(value = "leader_user_id")
-    private Long leaderUserId;
-    /**
-     * 负责人名称
-     */
-    @TableField(value = "leader_name")
-    private String leaderName;
-
-    /**
-     * 负责人岗位ID
-     */
-    @TableField(value = "leader_post_id")
-    private Long leaderPostId;
-
-
-    /**
      * 联系电话
      */
     @TableField(value = "phone")

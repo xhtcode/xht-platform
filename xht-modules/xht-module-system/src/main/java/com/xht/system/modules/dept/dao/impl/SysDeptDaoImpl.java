@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.system.event.SysDeptInitPostEvent;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import com.xht.system.modules.dept.dao.SysDeptDao;
 import com.xht.system.modules.dept.dao.mapper.SysDeptMapper;
@@ -38,11 +36,7 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean saveDeptInitPost(SysDeptEntity entity) {
-        boolean save = save(entity);
-        if (save) {
-            SpringContextUtils.publishEvent(new SysDeptInitPostEvent(entity.getId(), entity.getLeaderUserId()));
-        }
-        return save;
+        return save(entity);
     }
 
 
@@ -50,15 +44,15 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
      * 更新部门信息
      *
      * @param formRequest     部门更新请求
-     * @param oldLeaderUserId 旧的主管用户id
      * @return true：成功；false：失败
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateFormRequest(SysDeptEntity formRequest, Long oldLeaderUserId) {
+    public Boolean updateFormRequest(SysDeptEntity formRequest) {
         LambdaUpdateWrapper<SysDeptEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
-        updateWrapper.set(SysDeptEntity::getDeptName, formRequest.getDeptName())
+        updateWrapper
+                .set(SysDeptEntity::getDeptName, formRequest.getDeptName())
                 .set(SysDeptEntity::getDeptCode, formRequest.getDeptCode())
                 .set(SysDeptEntity::getDeptName, formRequest.getDeptName())
                 .set(SysDeptEntity::getParentId, formRequest.getParentId())
@@ -66,9 +60,6 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
                 .set(SysDeptEntity::getDeptSort, formRequest.getDeptSort())
                 .set(SysDeptEntity::getDeptLevel, formRequest.getDeptLevel())
                 .set(SysDeptEntity::getAncestors, formRequest.getAncestors())
-                .set(SysDeptEntity::getLeaderUserId, formRequest.getLeaderUserId())
-                .set(SysDeptEntity::getLeaderPostId, formRequest.getLeaderPostId())
-                .set(SysDeptEntity::getLeaderName, formRequest.getLeaderName())
                 .set(SysDeptEntity::getPhone, formRequest.getPhone())
                 .set(SysDeptEntity::getEmail, formRequest.getEmail())
                 .set(SysDeptEntity::getRemark, formRequest.getRemark())
@@ -178,23 +169,6 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
         ;
         // @formatter:on
         return list(queryWrapper);
-    }
-
-    /**
-     * 更新部门主管岗位id
-     *
-     * @param deptId       部门id
-     * @param leaderPostId 主管岗位id
-     */
-    @Override
-    public void updateLeaderPostId(Long deptId, Long leaderPostId) {
-        // @formatter:off
-        LambdaUpdateWrapper<SysDeptEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper
-                .set(SysDeptEntity::getLeaderPostId, leaderPostId)
-                .eq(SysDeptEntity::getId, deptId);
-        // @formatter:on
-        update(updateWrapper);
     }
 
     /**

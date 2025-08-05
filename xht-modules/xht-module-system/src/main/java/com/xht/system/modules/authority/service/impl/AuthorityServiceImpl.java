@@ -11,7 +11,6 @@ import com.xht.framework.security.utils.SecurityUtils;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
 import com.xht.system.modules.authority.dao.SysMenuDao;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
-import com.xht.system.modules.authority.dao.SysUserDeptPostDao;
 import com.xht.system.modules.authority.dao.SysUserRoleDao;
 import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
@@ -19,7 +18,9 @@ import com.xht.system.modules.authority.domain.vo.AuthorityUserVO;
 import com.xht.system.modules.authority.domain.vo.MetaVo;
 import com.xht.system.modules.authority.domain.vo.RouterVo;
 import com.xht.system.modules.authority.service.IAuthorityService;
+import com.xht.system.modules.dept.domain.response.SysPostResponse;
 import com.xht.system.modules.user.dao.SysUserDao;
+import com.xht.system.modules.user.dao.SysUserPostDao;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,13 +45,13 @@ public class AuthorityServiceImpl implements IAuthorityService {
 
     private final SysUserDao sysUserDao;
 
-    private final SysUserDeptPostDao sysUserDeptPostDao;
-
     private final SysUserRoleDao sysUserRoleDao;
 
     private final SysRoleMenuDao sysRoleMenuDao;
 
     private final SysMenuDao sysMenuDao;
+
+    private final SysUserPostDao sysUserPostDao;
 
     /**
      * 获取菜单元数据
@@ -82,6 +83,8 @@ public class AuthorityServiceImpl implements IAuthorityService {
         BasicUserDetails user = SecurityUtils.getUser();
         AuthorityUserVO vo = new AuthorityUserVO();
         SysUserVO sysUserVO = sysUserDao.findInfoByUserId(user.getUserId());
+        List<SysPostResponse> postResponses = sysUserPostDao.getPostByUserId(user.getUserId());
+        sysUserVO.setPost(postResponses);
         sysUserVO.setPassWord(null);
         sysUserVO.setPassWordSalt(null);
         vo.setUserInfo(sysUserVO);

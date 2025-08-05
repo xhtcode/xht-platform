@@ -25,7 +25,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserRoleServiceImpl implements IUserRoleService {
+public class SysUserRoleServiceImpl implements IUserRoleService {
 
     private final SysUserDao sysUserDao;
 

@@ -13,13 +13,7 @@ import lombok.Data;
  **/
 @Data
 @Schema(description = "查询部门岗位分页查询参数")
-public class SysDeptPostQueryRequest extends PageQueryRequest {
-
-    /**
-     * 部门id
-     */
-    @Schema(description = "部门id")
-    private Long deptId;
+public class SysPostQueryRequest extends PageQueryRequest {
 
     /**
      * 岗位编码

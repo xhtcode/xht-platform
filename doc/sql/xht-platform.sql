@@ -19,9 +19,6 @@ CREATE TABLE `sys_dept`
     `dept_status`    tinyint(1)                                                    NOT NULL DEFAULT 0 COMMENT '状态（0正常 1停用）',
     `dept_sort`      int UNSIGNED                                                  NULL     DEFAULT 0 COMMENT '显示顺序',
     `ancestors`      varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL     DEFAULT '' COMMENT '祖级列表',
-    `leader_user_id` bigint                                                        NULL     DEFAULT NULL COMMENT '负责人用户id',
-    `leader_name`    varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL     DEFAULT '' COMMENT '负责人',
-    `leader_post_id` bigint                                                        NULL     DEFAULT NULL COMMENT '负责人岗位id',
     `phone`          varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL     DEFAULT '' COMMENT '联系电话',
     `email`          varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL     DEFAULT '' COMMENT '邮箱',
     `remark`         varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL     DEFAULT NULL COMMENT '备注',
@@ -238,7 +235,7 @@ CREATE TABLE `sys_user_dept`
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci COMMENT = '用户部门关联表'
+  COLLATE = utf8mb4_unicode_ci COMMENT = '用户岗位关联表'
   ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------

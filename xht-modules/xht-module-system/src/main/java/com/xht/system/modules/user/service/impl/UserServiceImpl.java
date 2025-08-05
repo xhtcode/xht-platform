@@ -13,16 +13,15 @@ import com.xht.framework.core.utils.secret.MD5Utils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
-import com.xht.system.modules.authority.dao.SysUserDeptPostDao;
 import com.xht.system.modules.authority.dao.SysUserRoleDao;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
-import com.xht.system.modules.dept.domain.response.SysDeptPostResponse;
-import com.xht.system.modules.dept.domain.response.SysDeptResponse;
-import com.xht.system.modules.dept.domain.vo.SysDeptPostVo;
-import com.xht.system.modules.user.common.enums.PositionNatureEnums;
+import com.xht.system.modules.dept.dao.SysDeptDao;
+import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
+import com.xht.system.modules.dept.domain.response.SysPostResponse;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.converter.SysUserConverter;
 import com.xht.system.modules.user.dao.SysUserDao;
+import com.xht.system.modules.user.dao.SysUserPostDao;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
 import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
 import com.xht.system.modules.user.domain.request.UpdatePwdRequest;
@@ -53,13 +52,15 @@ public class UserServiceImpl implements IUserService {
 
     private final SysUserDao sysUserDao;
 
-    private final SysUserDeptPostDao sysUserDeptPostDao;
+    private final SysUserPostDao sysUserPostDao;
 
     private final SysUserRoleDao sysUserRoleDao;
 
     private final SysRoleMenuDao sysRoleMenuDao;
 
     private final SysUserConverter sysUserConverter;
+
+    private final SysDeptDao sysDeptDao;
 
     /**
      * 获取用户信息实体
@@ -92,6 +93,7 @@ public class UserServiceImpl implements IUserService {
         result.setUserName(formRequest.getUserName());
         result.setPhoneNumber(formRequest.getPhoneNumber());
         result.setUserStatus(formRequest.getUserStatus());
+        result.setDeptId(formRequest.getDeptId());
         return result;
     }
 
@@ -109,11 +111,11 @@ public class UserServiceImpl implements IUserService {
         sysUser.setPassWord(MD5Utils.generateSignature("123456"));
         sysUser.setPassWordSalt(MD5Utils.generateSignature("123456"));
         sysUser.setAvatarUrl("/images/user/avatar.png");
+        ThrowUtils.throwIf(sysDeptDao.exists(SysDeptEntity::getId, formRequest.getDeptId()), BusinessErrorCode.DATA_NOT_EXIST, "部门不存在");
         SysUserProfilesEntity userProfiles = getSysUserProfilesEntity(formRequest);
         Boolean checkUserRepeat = sysUserDao.checkUserRepeat(null, sysUser.getPhoneNumber(), userProfiles.getIdCardNumber());
         ThrowUtils.throwIf(checkUserRepeat, BusinessErrorCode.DATA_EXIST, "手机号或身份证号码已存在");
-        sysUserDao.saveUserInfo(sysUser, userProfiles);
-        return Boolean.TRUE;
+        return sysUserDao.saveUserInfo(sysUser, userProfiles);
     }
 
     /**
@@ -153,10 +155,10 @@ public class UserServiceImpl implements IUserService {
         ThrowUtils.notNull(dbUser, BusinessErrorCode.DATA_NOT_EXIST);
         SysUserEntity sysUserEntity = getSysUserEntity(formRequest);
         SysUserProfilesEntity userProfiles = getSysUserProfilesEntity(formRequest);
+        ThrowUtils.throwIf(sysDeptDao.exists(SysDeptEntity::getId, formRequest.getDeptId()), BusinessErrorCode.DATA_NOT_EXIST, "部门不存在");
         Boolean checkUserRepeat = sysUserDao.checkUserRepeat(sysUserEntity.getId(), sysUserEntity.getPhoneNumber(), userProfiles.getIdCardNumber());
         ThrowUtils.throwIf(checkUserRepeat, BusinessErrorCode.DATA_EXIST, "手机号或身份证号码已存在");
-        sysUserDao.updateUserInfo(sysUserEntity, userProfiles);
-        return Boolean.TRUE;
+        return sysUserDao.updateUserInfo(sysUserEntity, userProfiles);
     }
 
     /**
@@ -168,16 +170,8 @@ public class UserServiceImpl implements IUserService {
     @Override
     public SysUserVO findByUserId(Long userId) {
         SysUserVO sysUserVO = sysUserDao.findInfoByUserId(userId);
-        SysDeptPostVo deptPostVo = sysUserDeptPostDao.getDeptPostByUserId(userId);
-        if (Objects.nonNull(deptPostVo)) {
-            sysUserVO.setDept(deptPostVo.getDept());
-            sysUserVO.setPost(deptPostVo.getPost());
-            sysUserVO.setPositionNature(deptPostVo.getPositionNature());
-        } else {
-            sysUserVO.setPositionNature(PositionNatureEnums.TEMPORARY);
-            sysUserVO.setDept(new SysDeptResponse());
-            sysUserVO.setPost(new SysDeptPostResponse());
-        }
+        List<SysPostResponse> deptPostVo = sysUserPostDao.getPostByUserId(userId);
+        sysUserVO.setPost(deptPostVo);
         sysUserVO.setPassWord(null);
         sysUserVO.setPassWordSalt(null);
         return sysUserVO;

@@ -2,7 +2,7 @@ package com.xht.system.modules.dept.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xht.framework.core.domain.vo.IVO;
-import com.xht.system.modules.dept.domain.response.SysDeptPostResponse;
+import com.xht.system.modules.dept.domain.response.SysPostResponse;
 import com.xht.system.modules.dept.domain.response.SysDeptResponse;
 import com.xht.system.modules.user.common.enums.PositionNatureEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -40,6 +40,6 @@ public class SysDeptPostVo implements IVO {
      * 岗位信息
      */
     @Schema(description = "岗位信息")
-    private SysDeptPostResponse post;
+    private SysPostResponse post;
 
 }

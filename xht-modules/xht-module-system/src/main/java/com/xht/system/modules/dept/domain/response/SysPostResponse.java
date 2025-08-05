@@ -14,18 +14,13 @@ import lombok.Data;
  **/
 @Data
 @Schema(description = "部门岗位响应信息")
-public class SysDeptPostResponse extends BasicResponse {
+public class SysPostResponse extends BasicResponse {
+
     /**
      * 岗位ID
      */
     @TableId(value = "岗位ID")
     private Long id;
-
-    /**
-     * 部门id
-     */
-    @Schema(description = "部门id")
-    private Long deptId;
 
     /**
      * 岗位编码
@@ -51,12 +46,12 @@ public class SysDeptPostResponse extends BasicResponse {
     @Schema(description = "岗位状态")
     private DeptPostStatusEnums postStatus;
 
-
     /**
      * 系统内置
      */
     @Schema(description = "系统内置")
     private SystemFlagEnums systemFlag;
+
     /**
      * 岗位描述
      */

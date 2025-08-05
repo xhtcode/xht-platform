@@ -3,11 +3,10 @@ package com.xht.system.modules.dept.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
-import com.xht.system.modules.dept.domain.request.SysDeptPostFormRequest;
-import com.xht.system.modules.dept.domain.request.SysDeptPostQueryRequest;
-import com.xht.system.modules.dept.domain.response.SysDeptPostResponse;
-import com.xht.system.modules.dept.domain.vo.SysDeptPostSimpleVo;
-import com.xht.system.modules.dept.service.ISysDeptPostService;
+import com.xht.system.modules.dept.domain.request.SysPostFormRequest;
+import com.xht.system.modules.dept.domain.request.SysPostQueryRequest;
+import com.xht.system.modules.dept.domain.response.SysPostResponse;
+import com.xht.system.modules.dept.service.ISysPostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,9 +26,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/sys/dept/post")
 @RequiredArgsConstructor
-public class SysDeptPostController {
+public class SysPostController {
 
-    private final ISysDeptPostService SysDeptPostService;
+    private final ISysPostService SysDeptPostService;
 
     /**
      * 创建部门岗位
@@ -39,7 +38,7 @@ public class SysDeptPostController {
      */
     @Operation(summary = "创建部门岗位", description = "根据提供的请求参数创建一个新的部门岗位")
     @PostMapping("/add")
-    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDeptPostFormRequest formRequest) {
+    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysPostFormRequest formRequest) {
         return R.ok(SysDeptPostService.create(formRequest));
     }
 
@@ -75,7 +74,7 @@ public class SysDeptPostController {
      */
     @Operation(summary = "根据ID更新部门岗位", description = "根据提供的部门岗位更新请求参数更新部门岗位")
     @PostMapping("/update")
-    public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDeptPostFormRequest formRequest) {
+    public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysPostFormRequest formRequest) {
         return R.ok(SysDeptPostService.updateById(formRequest));
     }
 
@@ -87,7 +86,7 @@ public class SysDeptPostController {
      */
     @Operation(summary = "根据ID查询部门岗位", description = "根据提供的部门岗位ID查询部门岗位信息")
     @GetMapping("/get/{id}")
-    public R<SysDeptPostResponse> findById(@PathVariable @Parameter(description = "部门岗位ID", required = true) Long id) {
+    public R<SysPostResponse> findById(@PathVariable @Parameter(description = "部门岗位ID", required = true) Long id) {
         return R.ok(SysDeptPostService.getById(id));
     }
 
@@ -99,18 +98,9 @@ public class SysDeptPostController {
      */
     @Operation(summary = "分页查询部门岗位", description = "根据提供的查询请求参数分页查询部门岗位信息")
     @GetMapping("/page")
-    public R<PageResponse<SysDeptPostResponse>> selectPage(@Valid SysDeptPostQueryRequest queryRequest) {
+    public R<PageResponse<SysPostResponse>> selectPage(@Valid SysPostQueryRequest queryRequest) {
         return R.ok(SysDeptPostService.selectPage(queryRequest));
     }
 
-    /**
-     * 根据部门ID查询部门岗位
-     *
-     * @param deptId 部门ID
-     * @return 部门岗位信息
-     */
-    @GetMapping("/list/{deptId}")
-    public R<List<SysDeptPostSimpleVo>> findListByDeptId(@PathVariable("deptId") String deptId) {
-        return R.ok(SysDeptPostService.findListByDeptId(deptId));
-    }
+
 }
