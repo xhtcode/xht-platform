@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import static com.xht.framework.security.constant.SecurityConstant.PASSWORD_JOIN_SALT;
+
 /**
  * @author xht
  **/
@@ -17,7 +19,6 @@ public class SecurityProperties {
 
     private static final String DEFAULT_SALT = "123456";
 
-    private static final String PASSWORD_JOIN_SALT = "#";
 
     private Password password = new Password();
 

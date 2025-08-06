@@ -58,4 +58,9 @@ public interface SecurityConstant {
      * 角色前缀
      */
     String ROLE_PREFIX = "ROLE_";
+
+    /**
+     * 密码盐值链接符号
+     */
+    String PASSWORD_JOIN_SALT = "#";
 }
