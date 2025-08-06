@@ -1,12 +1,16 @@
 package com.xht.framework.security.utils;
 
 import com.xht.framework.core.exception.UtilException;
+import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.exception.BasicAuthenticationException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.DefaultOAuth2AuthenticatedPrincipal;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -64,7 +68,23 @@ public final class SecurityUtils {
      * 获取 spring security 当前的用户
      */
     public static BasicUserDetails getUser() {
-        return getOptAuthentication().map(authentication -> (BasicUserDetails) authentication.getPrincipal()).orElseThrow(() -> new BasicAuthenticationException("用户认证信息不存在"));
+        return getOptAuthentication().map(authentication -> {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof BasicUserDetails userDetails) {
+                return userDetails;
+            }
+            if (principal instanceof DefaultOAuth2AuthenticatedPrincipal authenticatedPrincipal) {
+                BasicUserDetails basicUserDetails = new BasicUserDetails();
+                Map<String, Object> attributes = authenticatedPrincipal.getAttributes();
+                basicUserDetails.setUsername(authenticatedPrincipal.getName());
+                if (!CollectionUtils.isEmpty(attributes)) {
+                    attributes.forEach(basicUserDetails::addAttribute);
+                }
+                basicUserDetails.setLoginType(LoginTypeEnums.CLIENT_CREDENTIALS);
+                return basicUserDetails;
+            }
+            throw new BasicAuthenticationException("用户认证信息不存在");
+        }).orElseThrow(() -> new BasicAuthenticationException("用户认证信息不存在"));
     }
 
 }

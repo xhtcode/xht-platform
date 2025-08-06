@@ -17,16 +17,29 @@ import java.io.Serializable;
 @AllArgsConstructor
 public enum LoginTypeEnums implements IEnum<String>, Serializable {
 
-    //验证码
+    /**
+     * 客户端模式
+     */
+    CLIENT_CREDENTIALS("client_credentials"),
+
+    /**
+     * 密码模式
+     */
     PASSWORD("password"),
 
-    //短信验证码
+    /**
+     * 短信验证码
+     */
     SMS_CODE("sms_code"),
 
-    //微信
+    /**
+     * 微信
+     */
     WECHAT("wechat"),
 
-    //QQ
+    /**
+     * QQ
+     */
     QQ("qq"),
     ;
 

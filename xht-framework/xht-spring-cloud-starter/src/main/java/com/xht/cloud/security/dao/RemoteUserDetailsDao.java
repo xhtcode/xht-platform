@@ -12,6 +12,7 @@ import com.xht.framework.security.core.userdetails.UserDetailsDao;
 import com.xht.framework.security.properties.SecurityProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.CollectionUtils;
@@ -42,7 +43,6 @@ public class RemoteUserDetailsDao implements UserDetailsDao {
      */
     @Override
     public BasicUserDetails loadUserByUsername(String username, LoginTypeEnums loginType) throws UsernameNotFoundException {
-        // @formatter:off
         // 远程获取用户信息
         R<UserInfoDTO> userDetailsR = remoteUserService.loadUserByUsername(username, loginType);
         UserInfoDTO userInfo = ROptional.of(userDetailsR)
@@ -50,7 +50,7 @@ public class RemoteUserDetailsDao implements UserDetailsDao {
         // 构建权限集合
         Set<String> authoritiesSet = buildAuthoritiesSet(userInfo);
         // 转换为Spring Security所需的权限对象
-        Collection<SimpleGrantedAuthority> authorities = createAuthorityList(authoritiesSet);
+        Set<GrantedAuthority> authorities = createAuthorityList(authoritiesSet);
         // 构建并返回用户详情对象
         return new BasicUserDetails(
                 userInfo.getId(),
@@ -70,15 +70,15 @@ public class RemoteUserDetailsDao implements UserDetailsDao {
      * @param authorities 权限字符串集合，可为null或空集合
      * @return 转换后的GrantedAuthority列表，若输入为null则返回空列表
      */
-    public List<SimpleGrantedAuthority> createAuthorityList(Set<String> authorities) {
+    public Set<GrantedAuthority> createAuthorityList(Set<String> authorities) {
         // @formatter:off
         if (authorities == null) {
-            return Collections.emptyList();
+            return Collections.emptySet();
         }
         return authorities.stream()
                 .filter(StringUtils::hasText)
                 .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         // @formatter:on
     }
 

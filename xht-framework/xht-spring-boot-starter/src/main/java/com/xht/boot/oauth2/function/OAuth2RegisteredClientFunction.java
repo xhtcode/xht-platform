@@ -1,6 +1,5 @@
 package com.xht.boot.oauth2.function;
 
-import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.util.BooleanUtil;
 import com.xht.boot.oauth2.domain.dto.OAuth2RegisteredClientDTO;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -10,9 +9,10 @@ import org.springframework.security.oauth2.server.authorization.settings.ClientS
 import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
@@ -24,10 +24,6 @@ import java.util.stream.Collectors;
  * @author xht
  */
 public class OAuth2RegisteredClientFunction implements Function<OAuth2RegisteredClientDTO, RegisteredClient> {
-    private static final DateTimeFormatter fmt
-
-            = DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_MS_PATTERN).withLocale(Locale.getDefault()).withZone(ZoneId.systemDefault());
-
     @Override
     public RegisteredClient apply(OAuth2RegisteredClientDTO clientDTO) {
         RegisteredClient.Builder registeredClientBuilder = RegisteredClient.withId(String.valueOf(clientDTO.getClientId()))

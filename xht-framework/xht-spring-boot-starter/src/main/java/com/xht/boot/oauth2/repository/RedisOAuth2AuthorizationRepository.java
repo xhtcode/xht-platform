@@ -2,7 +2,6 @@ package com.xht.boot.oauth2.repository;
 
 import com.xht.boot.oauth2.entity.RedisOAuth2Authorization;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
@@ -11,7 +10,6 @@ import java.util.Optional;
  *
  * @author xht
  */
-@Repository
 public interface RedisOAuth2AuthorizationRepository extends CrudRepository<RedisOAuth2Authorization, String> {
 
     /**
@@ -20,7 +18,7 @@ public interface RedisOAuth2AuthorizationRepository extends CrudRepository<Redis
      * @param token 授权码
      * @return 认证信息
      */
-    Optional<RedisOAuth2Authorization> findByAuthorizationCodeTokenValue(String token);
+    Optional<RedisOAuth2Authorization> findByAuthorizationCodeValue(String token);
 
     /**
      * 根据access token获取认证信息
@@ -28,7 +26,7 @@ public interface RedisOAuth2AuthorizationRepository extends CrudRepository<Redis
      * @param token access token
      * @return 认证信息
      */
-    Optional<RedisOAuth2Authorization> findByAccessTokenTokenValue(String token);
+    Optional<RedisOAuth2Authorization> findByAccessTokenValue(String token);
 
     /**
      * 根据刷新token获取认证信息
@@ -36,7 +34,7 @@ public interface RedisOAuth2AuthorizationRepository extends CrudRepository<Redis
      * @param token 刷新token
      * @return 认证信息
      */
-    Optional<RedisOAuth2Authorization> findByRefreshTokenTokenValue(String token);
+    Optional<RedisOAuth2Authorization> findByRefreshTokenValue(String token);
 
     /**
      * 根据id token获取认证信息
@@ -44,7 +42,7 @@ public interface RedisOAuth2AuthorizationRepository extends CrudRepository<Redis
      * @param token id token
      * @return 认证信息
      */
-    Optional<RedisOAuth2Authorization> findByOidcTokenTokenValue(String token);
+    Optional<RedisOAuth2Authorization> findByOidcIdTokenValue(String token);
 
     /**
      * 根据用户码获取认证信息
@@ -52,7 +50,7 @@ public interface RedisOAuth2AuthorizationRepository extends CrudRepository<Redis
      * @param token 用户码
      * @return 认证信息
      */
-    Optional<RedisOAuth2Authorization> findByUserCodeTokenValue(String token);
+    Optional<RedisOAuth2Authorization> findByUserCodeValue(String token);
 
     /**
      * 根据设备码获取认证信息
@@ -60,7 +58,7 @@ public interface RedisOAuth2AuthorizationRepository extends CrudRepository<Redis
      * @param token 设备码
      * @return 认证信息
      */
-    Optional<RedisOAuth2Authorization> findByDeviceCodeTokenValue(String token);
+    Optional<RedisOAuth2Authorization> findByDeviceCodeValue(String token);
 
     /**
      * 根据state获取认证信息

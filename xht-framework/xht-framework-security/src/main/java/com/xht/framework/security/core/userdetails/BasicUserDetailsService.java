@@ -30,7 +30,9 @@ public class BasicUserDetailsService implements UserDetailsService {
         if (loginType == null) {
             throw new BasicAuthenticationException("错误的登录方式");
         }
-        return userDetailsDao.loadUserByUsername(username, loginType);
+        BasicUserDetails basicUserDetails = userDetailsDao.loadUserByUsername(username, loginType);
+        basicUserDetails.setLoginType(loginType);
+        return basicUserDetails;
     }
 
 }

@@ -1,14 +1,15 @@
 package com.xht.boot.oauth2.entity;
 
 import com.xht.boot.oauth2.entity.token.BasicToken;
+import com.xht.boot.oauth2.entity.token.ClaimsHolder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.index.Indexed;
 
 import java.io.Serializable;
-import java.security.Principal;
-import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 使用Repository将授权申请的认证信息缓存至redis的实体
@@ -16,7 +17,7 @@ import java.util.Set;
  * @author xht
  */
 @Data
-@RedisHash(value = "oauth2:authorization")
+@RedisHash(value = "authorization")
 public class RedisOAuth2Authorization implements Serializable {
 
     /**
@@ -43,56 +44,53 @@ public class RedisOAuth2Authorization implements Serializable {
     /**
      * 授权申请的scope
      */
-    private Set<String> authorizedScopes;
+    private String authorizedScopes;
 
     /**
      * 授权的认证信息(当前用户)、请求信息(授权申请请求)
      */
-    private String attributes;
-
-    /**
-     * 授权用户信息
-     */
-    private Principal principal;
-
-    /**
-     * access_token
-     */
-    private BasicToken accessToken;
-
-    /**
-     * refresh_token
-     */
-    private BasicToken refreshToken;
-
-    /**
-     * id_token
-     */
-    private BasicToken oidcToken;
-
-    /**
-     * device_code
-     */
-    private BasicToken deviceCode;
-
-    /**
-     * user_code
-     */
-    private BasicToken userCode;
-    /**
-     * 授权码
-     */
-    private BasicToken authorizationCode;
-    /**
-     * 授权申请时的scope
-     */
-    private Set<String> requestedScopes;
-
+    private ClaimsHolder attributes;
 
     /**
      * 授权申请时的state
      */
     @Indexed
     private String state;
+
+    /**
+     * 授权码
+     */
+    private BasicToken authorizationCode;
+
+    /**
+     * access token
+     */
+    private BasicToken accessToken;
+
+    /**
+     * refresh token
+     */
+    private BasicToken refreshToken;
+
+    /**
+     * id token
+     */
+    private BasicToken oidcToken;
+
+    /**
+     * 用户码
+     */
+    private BasicToken userCode;
+
+    /**
+     * 设备码
+     */
+    private BasicToken deviceCode;
+
+    /**
+     * 当前对象在Redis中的过期时间
+     */
+    @TimeToLive(unit = TimeUnit.MINUTES)
+    private Long timeout;
 
 }

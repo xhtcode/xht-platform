@@ -83,6 +83,9 @@ public class AuthorityServiceImpl implements IAuthorityService {
         BasicUserDetails user = SecurityUtils.getUser();
         AuthorityUserVO vo = new AuthorityUserVO();
         SysUserVO sysUserVO = sysUserDao.findInfoByUserId(user.getUserId());
+        if (Objects.isNull(sysUserVO)) {
+            return vo;
+        }
         List<SysPostResponse> postResponses = sysUserPostDao.getPostByUserId(user.getUserId());
         sysUserVO.setPost(postResponses);
         sysUserVO.setPassWord(null);

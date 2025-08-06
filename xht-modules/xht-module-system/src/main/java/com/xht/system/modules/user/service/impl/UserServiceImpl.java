@@ -34,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -169,7 +170,11 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public SysUserVO findByUserId(Long userId) {
+        Assert.notNull(userId, "用户ID不能为空");
         SysUserVO sysUserVO = sysUserDao.findInfoByUserId(userId);
+        if (sysUserVO == null) {
+            return new SysUserVO();
+        }
         List<SysPostResponse> deptPostVo = sysUserPostDao.getPostByUserId(userId);
         sysUserVO.setPost(deptPostVo);
         sysUserVO.setPassWord(null);

@@ -6,7 +6,6 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
 
 import java.time.Instant;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -16,9 +15,9 @@ import java.util.Set;
 public class BasicToken {
 
     @Indexed
-    private String tokenValue;
+    private String value;
 
-    private OAuth2AccessToken.TokenType tokenType;
+    private OAuth2AccessToken.TokenType type;
 
     private Instant issuedAt;
 
@@ -28,15 +27,10 @@ public class BasicToken {
 
     private Set<String> scopes;
 
-    private OAuth2TokenFormat tokenFormat;
+    private OAuth2TokenFormat format;
 
     private ClaimsHolder claims;
 
-        public record ClaimsHolder(Map<String, Object> claims) {
+    private ClaimsHolder metadata;
 
-        public ClaimsHolder add(String key, Object value) {
-                claims.put(key, value);
-                return this;
-            }
-        }
 }
