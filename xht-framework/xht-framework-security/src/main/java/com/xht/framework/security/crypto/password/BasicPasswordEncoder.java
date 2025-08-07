@@ -49,8 +49,8 @@ public class BasicPasswordEncoder implements PasswordEncoder {
         String[] passWord = StringUtils.split(encodedPassword, SecurityConstant.PASSWORD_JOIN_SALT);
         if (Objects.isNull(passWord) || passWord.length != 2) {
             log.warn("Invalid encoded password");
-            return false;
+            return StringUtils.equals(encodedPassword, MD5Utils.generateSignature(rawPassword.toString()));
         }
-        return passWord[0].equals(MD5Utils.generateSignature(rawPassword + passWord[1]));
+        return  StringUtils.equals(passWord[0],MD5Utils.generateSignature(rawPassword.toString()));
     }
 }
