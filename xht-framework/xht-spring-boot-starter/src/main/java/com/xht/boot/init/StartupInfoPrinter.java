@@ -82,10 +82,6 @@ public class StartupInfoPrinter implements ApplicationRunner {
                 .append("\t接口文档:\t").append(buildUrl("127.0.0.1", "/doc.html")).append("\n")
                 // 接口文档地址（本机IP）
                 .append("\t接口文档:\t").append(buildUrl(serverIp, "/doc.html")).append("\n")
-                // Swagger地址（127.0.0.1）
-                .append("\t接口文档:\t").append(buildUrl("127.0.0.1", "/swagger-ui/index.html")).append("\n")
-                // Swagger地址（本机IP）
-                .append("\t接口文档:\t").append(buildUrl(serverIp, "/swagger-ui/index.html")).append("\n")
                 .append(SEPARATOR);
         new  Thread(()->{
             try {
