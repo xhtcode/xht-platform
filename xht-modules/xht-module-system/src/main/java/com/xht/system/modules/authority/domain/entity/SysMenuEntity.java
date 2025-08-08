@@ -19,6 +19,7 @@ import java.io.Serializable;
 @Data
 @TableName(value = "sys_menu")
 public class SysMenuEntity extends BasicEntity implements Serializable {
+
     /**
      * 菜单ID
      */

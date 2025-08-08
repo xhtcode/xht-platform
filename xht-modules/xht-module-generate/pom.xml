@@ -26,7 +26,10 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.xht</groupId>
             <artifactId>xht-spring-boot-starter</artifactId>

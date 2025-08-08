@@ -75,7 +75,6 @@ public final class MenuValidationFormat {
         switch (menuType) {
             case M:
                 ThrowUtils.throwIf(StringUtils.isEmpty(menuIcon), () -> ex("menuIcon", "目录图标不能为空"));
-                ThrowUtils.throwIf(StringUtils.isEmpty(menuPath), () -> ex("menuPath", "目录路由地址不能为空"));
                 ThrowUtils.throwIf(StringUtils.isEmpty(menuPath), () -> ex("menuPath", "路由地址不能为空"));
                 formRequest.setFrameFlag(null);
                 formRequest.setMenuHidden(null);
@@ -84,7 +83,6 @@ public final class MenuValidationFormat {
                 break;
             case C:
                 ThrowUtils.throwIf(StringUtils.isEmpty(menuIcon), () -> ex("menuIcon", "菜单图标不能为空"));
-                ThrowUtils.throwIf(StringUtils.isEmpty(menuPath), () -> ex("menuPath", "菜单路由地址不能为空"));
                 ThrowUtils.throwIf(StringUtils.isEmpty(menuPath), () -> ex("menuPath", "路由地址不能为空"));
                 ThrowUtils.throwIf(Objects.isNull(frameFlag), () -> ex("frameFlag", "是否为外链不能为空"));
                 ThrowUtils.throwIf(Objects.isNull(menuHidden), () -> ex("menuHidden", "显示状态不能为空"));
