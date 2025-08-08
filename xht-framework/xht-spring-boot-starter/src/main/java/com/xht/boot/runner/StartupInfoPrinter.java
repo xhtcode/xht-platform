@@ -30,11 +30,6 @@ public class StartupInfoPrinter implements ApplicationRunner {
     private static final String DEFAULT_IP = "未知IP";
 
     /**
-     * 启动成功提示语（常量定义，便于统一修改）
-     */
-    private static final String STARTUP_TIP = "项目启动成功, 小糊涂学编程越学越糊涂!";
-
-    /**
      * ASCII艺术字（Welcome主题，调整缩进确保显示整齐）
      */
     private static final String ASCII_ART = """
