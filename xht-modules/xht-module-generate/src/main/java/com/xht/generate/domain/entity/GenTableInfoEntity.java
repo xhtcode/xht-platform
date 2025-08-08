@@ -8,55 +8,73 @@ import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 代码生成器-表结构信息表
+ * @author xht
  */
-@TableName(value ="gen_table_info")
 @Data
+@TableName(value = "gen_table_info")
 public class GenTableInfoEntity extends BasicEntity implements Serializable {
+
     /**
      * 表ID
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
      * 项目ID
      */
+    @TableField(value = "project_id")
     private Long projectId;
 
     /**
      * 数据源ID
      */
+    @TableField(value = "data_source_id")
     private Long dataSourceId;
+
+    /**
+     * 引擎名称
+     */
+    @TableField(value = "engine_name")
+    private String engineName;
 
     /**
      * 数据库表名
      */
+    @TableField(value = "table_name")
     private String tableName;
 
     /**
      * 表注释（如：用户表）
      */
+    @TableField(value = "table_comment")
     private String tableComment;
-
-    /**
-     * 主键字段名
-     */
-    private String primaryKey;
 
     /**
      * 生成的类名（如：User）
      */
+    @TableField(value = "code_name")
     private String codeName;
 
     /**
      * 代码的注释（如：用户）
      */
+    @TableField(value = "code_comment")
     private String codeComment;
 
+    /**
+     * 创建时间
+     */
+    @TableField(value = "table_create_time")
+    private LocalDateTime tableCreateTime;
 
-
-
+    /**
+     * 更新时间
+     */
+    @TableField(value = "table_update_time")
+    private LocalDateTime tableUpdateTime;
 }

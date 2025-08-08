@@ -15,7 +15,7 @@ public class JDBCConfig {
 
     /**
      * 必要参数（无默认值，必须配置）
-     * 数据库连接URL（如：jdbc:mysql://localhost:3306/test）
+     * 数据库连接URL（如：sql:mysql://localhost:3306/test）
      */
     private final String url;
 
@@ -30,7 +30,7 @@ public class JDBCConfig {
     private final String password;
 
     /**
-     * JDBC驱动类全限定名（如：com.mysql.cj.jdbc.Driver）
+     * JDBC驱动类全限定名（如：com.mysql.cj.sql.Driver）
      */
     private final String driverClassName;
 
