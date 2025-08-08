@@ -22,6 +22,7 @@ public class EvnConstants {
         UAT("uat", "测试环境");
 
         private final String code;
+
         private final String info;
 
     }

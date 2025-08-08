@@ -31,7 +31,7 @@ public class SecurityConfigurer {
 
     public SecurityConfigurer(PermitAllUrlProperties permitAllUrlProperties) {
         this.permitAllUrlProperties = permitAllUrlProperties;
-        log.info(">>>>>>SecurityConfigurer init<<<<<<");
+        log.info(">>>>>>SecurityConfigurer runner<<<<<<");
     }
 
     /**

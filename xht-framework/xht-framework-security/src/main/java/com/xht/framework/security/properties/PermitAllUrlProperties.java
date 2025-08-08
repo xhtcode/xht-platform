@@ -66,7 +66,7 @@ public class PermitAllUrlProperties implements InitializingBean, IProperties {
                             .getPatternValues()
                             .forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
         });
-        log.debug("PermitAllUrlProperties init success, \nurls: \n\t{}\n", JsonUtils.toJsonString(urls));
+        log.debug("PermitAllUrlProperties runner success, \nurls: \n\t{}\n", JsonUtils.toJsonString(urls));
     }
 
 }

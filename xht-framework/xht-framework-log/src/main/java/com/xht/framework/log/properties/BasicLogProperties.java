@@ -1,12 +1,9 @@
 package com.xht.framework.log.properties;
 
-import com.xht.framework.core.constant.ServiceNameConstant;
 import com.xht.framework.core.properties.EnableProperties;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,12 +24,6 @@ public final class BasicLogProperties extends EnableProperties {
     private Integer maxLength = 2000;
 
     /**
-     * 配置
-     */
-    @NestedConfigurationProperty
-    private RemoteClientProperties remote;
-
-    /**
      * @return 放行字段
      */
     public Set<String> getExcludeFields() {
@@ -45,24 +36,6 @@ public final class BasicLogProperties extends EnableProperties {
         excludeFields.add("phone");
         excludeFields.add("email");
         return excludeFields;
-    }
-
-    @Data
-    public static class RemoteClientProperties {
-        /**
-         * 服务名称唯一
-         */
-        private String contextId = "remoteLogClientService";
-
-        /**
-         * 服务名称
-         */
-        private String serviceName = ServiceNameConstant.SYSTEM_SERVICE;
-
-        /**
-         * 链接地址
-         */
-        private String url = "/sys/log/save";
     }
 
 }

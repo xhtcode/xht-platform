@@ -12,7 +12,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface Log {
 
-
     /**
      * @return 名称
      */
