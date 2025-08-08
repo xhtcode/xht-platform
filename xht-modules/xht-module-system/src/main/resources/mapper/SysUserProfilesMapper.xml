@@ -4,21 +4,4 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xht.system.modules.user.dao.mapper.SysUserProfilesMapper">
 
-    <resultMap id="BaseResultMap" type="com.xht.system.modules.user.domain.entity.SysUserProfilesEntity">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="realName" column="real_name" jdbcType="VARCHAR"/>
-            <result property="idCardNumber" column="id_card_number" jdbcType="VARCHAR"/>
-            <result property="gender" column="gender" jdbcType="TINYINT"/>
-            <result property="birthDate" column="birth_date" jdbcType="DATE"/>
-            <result property="age" column="age" jdbcType="TINYINT"/>
-            <result property="address" column="address" jdbcType="VARCHAR"/>
-            <result property="postalCode" column="postal_code" jdbcType="VARCHAR"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
-            <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
-            <result property="isDel" column="is_del" jdbcType="TINYINT"/>
-    </resultMap>
-
 </mapper>

@@ -20,6 +20,8 @@
           and sys_menu.menu_status = #{menuStatus}
           and sys_role_menu.role_id = #{roleId}
     </select>
+
+    <!--用户id获取菜单集合-->
     <select id="findPermissionCodeByUserId" resultType="java.lang.String">
         SELECT sys_menu.menu_authority
         FROM sys_role_menu

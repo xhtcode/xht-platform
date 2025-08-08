@@ -6,7 +6,6 @@
 
     <resultMap id="BaseResultMap" type="com.xht.system.modules.authority.domain.entity.SysRoleEntity">
         <id property="id" column="id" jdbcType="INTEGER"/>
-        <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="roleCode" column="role_code" jdbcType="VARCHAR"/>
         <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
         <result property="dataScope" column="data_scope" jdbcType="TINYINT"/>

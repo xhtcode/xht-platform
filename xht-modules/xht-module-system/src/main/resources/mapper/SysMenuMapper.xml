@@ -4,26 +4,4 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xht.system.modules.authority.dao.mapper.SysMenuMapper">
 
-    <resultMap id="BaseResultMap" type="com.xht.system.modules.authority.domain.entity.SysMenuEntity">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
-            <result property="menuType" column="menu_type" jdbcType="INTEGER"/>
-            <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
-            <result property="menuIcon" column="menu_icon" jdbcType="VARCHAR"/>
-            <result property="menuPath" column="menu_path" jdbcType="VARCHAR"/>
-            <result property="menuHidden" column="menu_hidden" jdbcType="TINYINT"/>
-            <result property="menuCache" column="menu_cache" jdbcType="TINYINT"/>
-            <result property="menuStatus" column="menu_status" jdbcType="TINYINT"/>
-            <result property="menuAuthority" column="menu_authority" jdbcType="VARCHAR"/>
-            <result property="menuSort" column="menu_sort" jdbcType="INTEGER"/>
-            <result property="viewName" column="view_name" jdbcType="VARCHAR"/>
-            <result property="viewPath" column="view_path" jdbcType="VARCHAR"/>
-            <result property="frameFlag" column="frame_flag" jdbcType="TINYINT"/>
-            <result property="createBy" column="create_by" jdbcType="BIGINT"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateBy" column="update_by" jdbcType="BIGINT"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="isDel" column="is_del" jdbcType="TINYINT"/>
-    </resultMap>
-
 </mapper>

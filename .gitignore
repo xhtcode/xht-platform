@@ -61,3 +61,5 @@ Servers
 .flattened-pom.xml
 
 /.trae/
+/.feisuan/
+/.lingma/

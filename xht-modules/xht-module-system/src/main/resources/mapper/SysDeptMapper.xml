@@ -4,23 +4,4 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xht.system.modules.dept.dao.mapper.SysDeptMapper">
 
-    <resultMap id="BaseResultMap" type="com.xht.system.modules.dept.domain.entity.SysDeptEntity">
-        <id property="id" column="id" jdbcType="BIGINT"/>
-        <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
-        <result property="deptCode" column="dept_code" jdbcType="VARCHAR"/>
-        <result property="deptName" column="dept_name" jdbcType="VARCHAR"/>
-        <result property="deptLevel" column="dept_level" jdbcType="INTEGER"/>
-        <result property="deptStatus" column="dept_status" jdbcType="TINYINT"/>
-        <result property="deptSort" column="dept_sort" jdbcType="INTEGER"/>
-        <result property="ancestors" column="ancestors" jdbcType="VARCHAR"/>
-        <result property="phone" column="phone" jdbcType="VARCHAR"/>
-        <result property="email" column="email" jdbcType="VARCHAR"/>
-        <result property="remark" column="remark" jdbcType="VARCHAR"/>
-        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
-        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
-        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-        <result property="isDel" column="is_del" jdbcType="TINYINT"/>
-    </resultMap>
-
 </mapper>

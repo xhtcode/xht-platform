@@ -4,21 +4,4 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xht.system.modules.dict.dao.mapper.SysDictItemMapper">
 
-    <resultMap id="BaseResultMap" type="com.xht.system.modules.dict.domain.entity.SysDictItemEntity">
-        <id property="id" column="id" jdbcType="BIGINT"/>
-        <result property="dictId" column="dict_id" jdbcType="BIGINT"/>
-        <result property="dictCode" column="dict_code" jdbcType="VARCHAR"/>
-        <result property="itemLabel" column="item_label" jdbcType="VARCHAR"/>
-        <result property="itemValue" column="item_value" jdbcType="VARCHAR"/>
-        <result property="itemColor" column="item_color" jdbcType="VARCHAR"/>
-        <result property="sortOrder" column="sort_order" jdbcType="INTEGER"/>
-        <result property="remark" column="remark" jdbcType="VARCHAR"/>
-        <result property="status" column="status" jdbcType="TINYINT"/>
-        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
-        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
-        <result property="isDel" column="is_del" jdbcType="TINYINT"/>
-    </resultMap>
-
 </mapper>
