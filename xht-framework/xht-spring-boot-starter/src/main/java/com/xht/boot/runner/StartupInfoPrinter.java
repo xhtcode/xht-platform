@@ -1,5 +1,6 @@
 package com.xht.boot.runner;
 
+import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.properties.GlobalConfigProperties;
 import com.xht.framework.core.utils.IpUtils;
 import com.xht.framework.core.utils.StringUtils;
@@ -80,8 +81,8 @@ public class StartupInfoPrinter implements ApplicationRunner {
             System.out.printf("🌐 本地访问地址: http://localhost:%s%s%n", serverPort, contextPath);
             System.out.printf("🌐 外部访问地址: http://%s:%s%s%n", serverIp, serverPort, contextPath);
             System.out.println("📚 接口文档地址:");
-            System.out.printf("   ├─ Knife4j文档:  http://localhost:%s%sdoc.html%n", serverPort, contextPath);
-            System.out.printf("   ├─ Swagger文档:  http://localhost:%s%sswagger-ui.html%n", serverPort, contextPath);
+            System.out.printf("   ├─ Knife4j文档:  http://localhost:%s%s/doc.html%n", serverPort, contextPath);
+            System.out.printf("   ├─ Swagger文档:  http://localhost:%s%s/swagger-ui.html%n", serverPort, contextPath);
             System.out.printf("   └─ OpenAPI规范:  http://localhost:%s%sv3/api-docs%n", serverPort, contextPath);
             System.out.println();
             System.out.println(SEPARATOR);

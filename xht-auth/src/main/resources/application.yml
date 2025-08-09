@@ -69,7 +69,15 @@ spring:
 springdoc:
   api-docs:
     enabled: true
+  swagger-ui:
+    enabled: true
   override-with-generic-response: false # 解决springdoc和knife4版本冲突问题
+  default-flat-param-object: true # 解决参数列表显示问题
+  paths-to-exclude:
+    - /api/**
+    - /error
+    - /actuator/**
+    - /favicon.ico
 xht:
   safety:
     xss:

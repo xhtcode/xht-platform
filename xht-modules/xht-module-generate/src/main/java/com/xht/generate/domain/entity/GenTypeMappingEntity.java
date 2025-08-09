@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
+import com.xht.generate.constant.DataBaseTypeEnums;
+import com.xht.generate.constant.LanguageTypeEnums;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,6 +17,7 @@ import java.io.Serializable;
 @TableName(value ="gen_type_mapping")
 @Data
 public class GenTypeMappingEntity extends BasicEntity implements Serializable {
+
     /**
      * 映射ID
      */
@@ -24,29 +27,31 @@ public class GenTypeMappingEntity extends BasicEntity implements Serializable {
     /**
      * 数据库类型（MySQL/Oracle）
      */
-    private String dbType;
+    @TableField(value = "db_type")
+    private DataBaseTypeEnums dbType;
 
     /**
      * 数据库数据类型（如：INT/VARCHAR2）
      */
+    @TableField(value = "db_data_type")
     private String dbDataType;
 
     /**
      * 目标编程语言（Java/TypeScript）
      */
-    private String targetLanguage;
+    @TableField(value = "target_language")
+    private LanguageTypeEnums targetLanguage;
 
     /**
      * 目标语言数据类型（如：Integer/number）
      */
+    @TableField(value = "target_data_type")
     private String targetDataType;
 
     /**
      * 导入包路径（如：java.time.LocalDateTime）
      */
+    @TableField(value = "import_package")
     private String importPackage;
-
-
-
 
 }

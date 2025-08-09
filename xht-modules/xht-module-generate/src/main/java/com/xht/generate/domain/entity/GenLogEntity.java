@@ -25,46 +25,55 @@ public class GenLogEntity extends BasicEntity implements Serializable {
     /**
      * 项目ID
      */
+    @TableField(value = "project_id")
     private Long projectId;
 
     /**
      * 生成批次号
      */
+    @TableField(value = "batch_no")
     private String batchNo;
 
     /**
      * 生成时间
      */
+    @TableField(value = "generate_time")
     private LocalDateTime generateTime;
 
     /**
      * 生成文件数量
      */
+    @TableField(value = "file_count")
     private Integer fileCount;
 
     /**
      * 本地生成路径
      */
+    @TableField(value = "generate_path")
     private String generatePath;
 
     /**
      * 使用的模板ID（逗号分隔）
      */
+    @TableField(value = "template_ids")
     private String templateIds;
 
     /**
      * 生成的表ID（逗号分隔）
      */
+    @TableField(value = "table_ids")
     private String tableIds;
 
     /**
      * 生成状态（success/fail）
      */
+    @TableField(value = "status")
     private String status;
 
     /**
      * 错误信息（失败时记录）
      */
+    @TableField(value = "error_msg")
     private String errorMsg;
 
 

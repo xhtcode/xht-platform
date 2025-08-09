@@ -23,3 +23,10 @@ xht:
   gateway:
     global:
       timestamp-valid-period: 120 # 时间戳有效期，单位秒
+knife4j:
+  gateway:
+    enabled: true     # ① 第一个配置，开启gateway聚合组件
+    strategy: discover # ② 第二行配置，设置聚合模式采用discover服务发现的模式
+    discover:
+      enabled: true   # ③ 第三行配置，开启discover模式
+      version: openapi3 # ④ 第四行配置，聚合子服务全部为Swagger2规范的文档

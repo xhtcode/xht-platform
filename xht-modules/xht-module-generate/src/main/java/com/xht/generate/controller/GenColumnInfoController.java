@@ -42,18 +42,6 @@ public class GenColumnInfoController {
     }
 
     /**
-     * 根据ID删除字段信息
-     *
-     * @param id 字段信息ID
-     * @return 操作结果
-     */
-    @Operation(summary = "根据ID删除字段信息", description = "根据提供的字段信息ID删除字段信息")
-    @PostMapping("/delete/{id}")
-    public R<Boolean> removeById(@PathVariable @Parameter(description = "字段信息ID", required = true) Long id) {
-        return R.ok(genColumnInfoService.removeById(id));
-    }
-
-    /**
      * 根据ID更新字段信息
      *
      * @param formRequest 字段信息更新请求参数

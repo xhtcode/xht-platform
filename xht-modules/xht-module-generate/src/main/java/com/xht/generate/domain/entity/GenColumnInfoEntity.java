@@ -1,6 +1,7 @@
 package com.xht.generate.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
@@ -23,61 +24,73 @@ public class GenColumnInfoEntity extends BasicEntity implements Serializable {
     /**
      * 表ID（关联gen_table_info）
      */
+    @TableField(value = "table_id")
     private Long tableId;
 
     /**
      * 数据库字段名
      */
+    @TableField(value = "column_name")
     private String columnName;
 
     /**
      * 数据库字段类型
      */
+    @TableField(value = "db_data_type")
     private String dbDataType;
 
     /**
      * 字段注释
      */
+    @TableField(value = "column_comment")
     private String columnComment;
 
     /**
      * 字段自定义配置（JSON格式），示例：{"codeFieldName":"userId","codeFieldLabel":"用户ID","isQuery":1,"queryType":"eq","isList":1,"isAdd":1,"isEdit":1,"isView":1}
      */
+    @TableField(value = "ext_config")
     private Object extConfig;
 
     /**
      * 字段默认值
      */
+    @TableField(value = "default_value")
     private String defaultValue;
 
     /**
      * 是否必填（0否 1是）
      */
+    @TableField(value = "is_required")
     private Integer isRequired;
 
     /**
      * 是否主键（0否 1是）
      */
+    @TableField(value = "is_primary")
     private Integer isPrimary;
 
     /**
      * 是否外键（0否 1是）
      */
+    @TableField(value = "is_foreign")
     private Integer isForeign;
 
     /**
      * 外键关联表名
      */
+    @TableField(value = "foreign_table")
     private String foreignTable;
 
     /**
      * 外键关联字段名
      */
+    @TableField(value = "foreign_column")
     private String foreignColumn;
 
     /**
      * 字段排序
      */
+    @TableField(value = "sort_order")
     private Integer sortOrder;
 
 

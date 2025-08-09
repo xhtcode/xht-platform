@@ -32,43 +32,6 @@ public class GenLogServiceImpl implements IGenLogService {
     private final GenLogConverter genLogConverter;
 
     /**
-     * 创建生成日志
-     *
-     * @param formRequest 生成日志表单请求参数
-     * @return 操作结果
-     */
-    @Override
-    public Boolean create(GenLogFormRequest formRequest) {
-        GenLogEntity entity = genLogConverter.toEntity(formRequest);
-        return genLogDao.saveTransactional(entity);
-    }
-
-
-    /**
-     * 根据ID删除生成日志
-     *
-     * @param id 生成日志ID
-     * @return 操作结果
-     */
-    @Override
-    public Boolean removeById(Long id) {
-        return genLogDao.removeByIdTransactional(id);
-    }
-
-    /**
-     * 根据ID更新生成日志
-     *
-     * @param formRequest 生成日志更新请求参数
-     * @return 操作结果
-     */
-    @Override
-    public Boolean updateById(GenLogFormRequest formRequest) {
-        Boolean menuExists = genLogDao.exists(GenLogEntity::getId, formRequest.getId());
-        ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "生成日志不存在");
-        return genLogDao.updateFormRequest(formRequest);
-    }
-
-    /**
      * 根据ID查询生成日志
      *
      * @param id 生成日志ID

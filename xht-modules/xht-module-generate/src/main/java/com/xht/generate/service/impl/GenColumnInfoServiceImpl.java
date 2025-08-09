@@ -43,18 +43,6 @@ public class GenColumnInfoServiceImpl implements IGenColumnInfoService {
         return genColumnInfoDao.saveTransactional(entity);
     }
 
-
-    /**
-     * 根据ID删除字段信息
-     *
-     * @param id 字段信息ID
-     * @return 操作结果
-     */
-    @Override
-    public Boolean removeById(Long id) {
-        return genColumnInfoDao.removeByIdTransactional(id);
-    }
-
     /**
      * 根据ID更新字段信息
      *

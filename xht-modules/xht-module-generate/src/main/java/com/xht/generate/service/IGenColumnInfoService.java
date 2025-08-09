@@ -22,14 +22,6 @@ public interface IGenColumnInfoService {
     Boolean create(GenColumnInfoFormRequest formRequest);
 
     /**
-     * 根据ID删除字段信息
-     *
-     * @param id 字段信息ID
-     * @return 操作结果
-     */
-    Boolean removeById(Long id);
-
-    /**
      * 根据ID更新字段信息
      *
      * @param formRequest 字段信息更新请求参数

@@ -14,4 +14,4 @@ import lombok.Data;
 @Schema(description = "字段映射响应信息")
 public class GenTypeMappingResponse extends BasicResponse {
 
-            }
+}

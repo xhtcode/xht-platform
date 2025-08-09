@@ -14,12 +14,12 @@ public interface IGenTableInfoService {
 
 
     /**
-     * 创建表信息
+     * 导入表
      *
      * @param formRequest 表信息表单请求参数
      * @return 操作结果
      */
-    Boolean create(GenTableInfoFormRequest formRequest);
+    Boolean importTable(GenTableInfoFormRequest formRequest);
 
     /**
      * 根据ID删除表信息

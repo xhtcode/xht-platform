@@ -90,6 +90,5 @@ public class GenTypeMappingController {
         return R.ok(genTypeMappingService.selectPage(queryRequest));
     }
 
-
 }
 

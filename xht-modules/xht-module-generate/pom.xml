@@ -36,6 +36,10 @@
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
+            <artifactId>xht-spring-cloud-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
             <artifactId>xht-framework-web</artifactId>
         </dependency>
         <dependency>

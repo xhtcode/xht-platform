@@ -32,13 +32,13 @@ public class GenTableInfoServiceImpl implements IGenTableInfoService {
     private final GenTableInfoConverter genTableInfoConverter;
 
     /**
-     * 创建表信息
+     * 导入表
      *
      * @param formRequest 表信息表单请求参数
      * @return 操作结果
      */
     @Override
-    public Boolean create(GenTableInfoFormRequest formRequest) {
+    public Boolean importTable(GenTableInfoFormRequest formRequest) {
         GenTableInfoEntity entity = genTableInfoConverter.toEntity(formRequest);
         return genTableInfoDao.saveTransactional(entity);
     }

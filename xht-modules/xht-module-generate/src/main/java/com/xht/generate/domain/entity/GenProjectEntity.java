@@ -24,24 +24,26 @@ public class GenProjectEntity extends BasicEntity implements Serializable {
     /**
      * 项目名称
      */
+    @TableField(value = "name")
     private String name;
 
     /**
      * 项目描述
      */
+    @TableField(value = "description")
     private String description;
 
     /**
      * 配置元数据（定义控件类型/标签/选项等）
      */
+    @TableField(value = "config_schema")
     private Object configSchema;
 
     /**
      * 自定义配置值（与config_schema对应）
      */
+    @TableField(value = "custom_config")
     private Object customConfig;
-
-
 
 
 }

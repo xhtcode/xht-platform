@@ -19,18 +19,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class GenLogDaoImpl extends MapperRepositoryImpl<GenLogMapper, GenLogEntity> implements GenLogDao {
 
-
-    /**
-     * 更新菜单信息
-     *
-     * @param formRequest 菜单信息
-     * @return 是否成功
-     */
-    @Override
-    public Boolean updateFormRequest(GenLogFormRequest formRequest) {
-        return null;
-    }
-
     /**
      * 分页查询菜单
      *
@@ -42,4 +30,5 @@ public class GenLogDaoImpl extends MapperRepositoryImpl<GenLogMapper, GenLogEnti
     public Page<GenLogEntity> queryPageRequest(Page<GenLogEntity> page, GenLogQueryRequest queryRequest) {
         return null;
     }
+
 }

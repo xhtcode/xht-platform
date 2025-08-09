@@ -10,7 +10,7 @@ import lombok.Getter;
  **/
 @Getter
 @AllArgsConstructor
-public enum ParsingTypeEnums {
+public enum DataBaseTypeEnums {
 
     MYSQL("MySQL", "MySQL数据库"),
 

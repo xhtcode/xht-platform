@@ -1,7 +1,7 @@
 package com.xht.generate.strategy;
 
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.generate.constant.ParsingTypeEnums;
+import com.xht.generate.constant.DataBaseTypeEnums;
 import com.xht.generate.domain.entity.GenColumnInfoEntity;
 import com.xht.generate.domain.entity.GenTableInfoEntity;
 import com.xht.generate.domain.request.DataBaseQueryRequest;
@@ -47,8 +47,8 @@ public abstract class IDataBaseQuery {
     /**
      * 支持的解析类型
      *
-     * @return 解析类型枚举 {@link ParsingTypeEnums}
+     * @return 解析类型枚举 {@link DataBaseTypeEnums}
      */
-    protected abstract ParsingTypeEnums support();
+    protected abstract DataBaseTypeEnums support();
 
 }

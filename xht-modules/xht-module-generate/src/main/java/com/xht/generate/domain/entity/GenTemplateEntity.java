@@ -24,29 +24,32 @@ public class GenTemplateEntity extends BasicEntity implements Serializable {
     /**
      * 模板名称
      */
+    @TableField(value = "name")
     private String name;
 
     /**
      * 模板内容（Velocity/FreeMarker语法）
      */
+    @TableField(value = "content")
     private String content;
 
     /**
      * 文件类型（java/ts/vue/xml/sql等）
      */
+    @TableField(value = "file_type")
     private String fileType;
 
     /**
      * 文件路径模板（如：src/main/java/{{package}}）
      */
+    @TableField(value = "file_path_template")
     private String filePathTemplate;
 
     /**
      * 文件名模板（如：{{className}}Controller.java）
      */
+    @TableField(value = "file_name_template")
     private String fileNameTemplate;
-
-
 
 
 }

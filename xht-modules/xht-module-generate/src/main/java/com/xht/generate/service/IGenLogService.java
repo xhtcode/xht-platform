@@ -12,31 +12,6 @@ import com.xht.generate.domain.response.GenLogResponse;
  **/
 public interface IGenLogService {
 
-
-    /**
-     * 创建生成日志
-     *
-     * @param formRequest 生成日志表单请求参数
-     * @return 操作结果
-     */
-    Boolean create(GenLogFormRequest formRequest);
-
-    /**
-     * 根据ID删除生成日志
-     *
-     * @param id 生成日志ID
-     * @return 操作结果
-     */
-    Boolean removeById(Long id);
-
-    /**
-     * 根据ID更新生成日志
-     *
-     * @param formRequest 生成日志更新请求参数
-     * @return 操作结果
-     */
-    Boolean updateById(GenLogFormRequest formRequest);
-
     /**
      * 根据ID查询生成日志
      *

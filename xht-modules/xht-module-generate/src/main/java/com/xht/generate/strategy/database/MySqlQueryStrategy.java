@@ -5,7 +5,7 @@ import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.utils.PageTool;
-import com.xht.generate.constant.ParsingTypeEnums;
+import com.xht.generate.constant.DataBaseTypeEnums;
 import com.xht.generate.domain.entity.GenColumnInfoEntity;
 import com.xht.generate.domain.entity.GenTableInfoEntity;
 import com.xht.generate.domain.request.DataBaseQueryRequest;
@@ -155,11 +155,11 @@ public class MySqlQueryStrategy extends IDataBaseQuery {
     /**
      * 支持的解析类型
      *
-     * @return 解析类型枚举 {@link ParsingTypeEnums}
+     * @return 解析类型枚举 {@link DataBaseTypeEnums}
      */
     @Override
-    protected ParsingTypeEnums support() {
-        return ParsingTypeEnums.MYSQL;
+    protected DataBaseTypeEnums support() {
+        return DataBaseTypeEnums.MYSQL;
     }
 
 }

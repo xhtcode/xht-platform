@@ -24,16 +24,19 @@ public class GenProjectTemplateEntity extends BasicEntity implements Serializabl
     /**
      * 项目ID
      */
+    @TableField(value = "project_id")
     private Long projectId;
 
     /**
      * 模板ID
      */
+    @TableField(value = "template_id")
     private Long templateId;
 
     /**
      * 模板排序
      */
+    @TableField(value = "sort")
     private Integer sort;
 
 
