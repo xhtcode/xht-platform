@@ -43,7 +43,6 @@ public abstract class IDataBaseQuery {
      */
     public abstract List<GenColumnInfoEntity> selectTableColumnsByTableName(final JdbcTemplate jdbcTemplate, String tableName);
 
-
     /**
      * 支持的解析类型
      *

@@ -12,7 +12,6 @@ import com.xht.generate.domain.response.GenColumnInfoResponse;
  **/
 public interface IGenColumnInfoService {
 
-
     /**
      * 创建字段信息
      *
