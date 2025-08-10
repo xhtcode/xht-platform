@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import com.xht.framework.mybatis.extension.handlers.JsonTypeHandler;
+import com.xht.generate.constant.DataBaseTypeEnums;
 import com.xht.generate.domain.ColumnExtConfig;
 import lombok.Data;
 
@@ -41,7 +42,7 @@ public class GenColumnInfoEntity extends BasicEntity implements Serializable {
      * 数据库字段类型
      */
     @TableField(value = "db_data_type")
-    private String dbDataType;
+    private DataBaseTypeEnums dbDataType;
 
     /**
      * 字段注释
@@ -68,28 +69,10 @@ public class GenColumnInfoEntity extends BasicEntity implements Serializable {
     private Integer isPrimary;
 
     /**
-     * 是否外键（0否 1是）
-     */
-    @TableField(value = "is_foreign")
-    private Integer isForeign;
-
-    /**
      * 配置属性
      */
     @TableField(value = "ext_config", typeHandler = JsonTypeHandler.class)
     private ColumnExtConfig extConfig;
-
-    /**
-     * 外键关联表名
-     */
-    @TableField(value = "foreign_table")
-    private String foreignTable;
-
-    /**
-     * 外键关联字段名
-     */
-    @TableField(value = "foreign_column")
-    private String foreignColumn;
 
     /**
      * 字段排序

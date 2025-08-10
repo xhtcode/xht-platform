@@ -36,7 +36,7 @@ public class GenTemplateEntity extends BasicEntity implements Serializable {
     private String name;
 
     /**
-     * 模板内容（Velocity/FreeMarker语法）
+     * 模板内容（Velocity语法）
      */
     @TableField(value = "content")
     private String content;
@@ -58,6 +58,5 @@ public class GenTemplateEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "file_name_template")
     private String fileNameTemplate;
-
 
 }

@@ -25,10 +25,10 @@ public class GenTableInfoEntity extends BasicEntity implements Serializable {
     private Long id;
 
     /**
-     * 项目ID
+     * 分组id
      */
-    @TableField(value = "project_id")
-    private Long projectId;
+    @TableField(value = "group_id")
+    private Long groupId;
 
     /**
      * 数据源ID

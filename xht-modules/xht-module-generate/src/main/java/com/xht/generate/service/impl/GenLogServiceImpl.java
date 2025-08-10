@@ -36,7 +36,7 @@ public class GenLogServiceImpl implements IGenLogService {
      */
     @Override
     public GenLogResponse getById(Long id) {
-        return genLogConverter.toResponse(genLogDao.findById(id));
+        return genLogConverter.convert(genLogDao.findById(id));
     }
 
     /**
@@ -48,7 +48,7 @@ public class GenLogServiceImpl implements IGenLogService {
     @Override
     public PageResponse<GenLogResponse> selectPage(GenLogQueryRequest queryRequest) {
         Page<GenLogEntity> page = genLogDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
-        return genLogConverter.toResponse(page);
+        return null;
     }
 
 

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @Tag(name = "项目管理", description = "项目管理")
 @RestController
-@RequestMapping("/gen/project")
+@RequestMapping("/gen/template/group")
 @RequiredArgsConstructor
 public class GenTemplateGroupController {
 

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @Tag(name = "数据源管理", description = "数据源管理")
 @RestController
-@RequestMapping("/gen/data/source")
+@RequestMapping("/gen/datasource")
 @RequiredArgsConstructor
 public class GenDataSourceController {
 

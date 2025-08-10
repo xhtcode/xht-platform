@@ -1,7 +1,8 @@
 package com.xht.generate.domain.response;
 
 import com.xht.framework.core.domain.response.BasicResponse;
-
+import com.xht.generate.constant.DataBaseTypeEnums;
+import com.xht.generate.domain.ColumnExtConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -14,4 +15,63 @@ import lombok.Data;
 @Schema(description = "字段信息响应信息")
 public class GenColumnInfoResponse extends BasicResponse {
 
+    /**
+     * 字段ID
+     */
+    @Schema(description = "id")
+    private Long id;
+
+    /**
+     * 表ID（关联gen_table_info）
+     */
+    @Schema(description = "表ID")
+    private Long tableId;
+
+    /**
+     * 数据库字段名
+     */
+    @Schema(description = "数据库字段名")
+    private String columnName;
+
+    /**
+     * 数据库字段类型
+     */
+    @Schema(description = "数据库字段类型")
+    private DataBaseTypeEnums dbDataType;
+
+    /**
+     * 字段注释
+     */
+    @Schema(description = "字段注释")
+    private String columnComment;
+
+    /**
+     * 字段默认值
+     */
+    @Schema(description = "字段默认值")
+    private String defaultValue;
+
+    /**
+     * 是否必填（0否 1是）
+     */
+    @Schema(description = "是否必填")
+    private Integer isRequired;
+
+    /**
+     * 是否主键（0否 1是）
+     */
+    @Schema(description = "是否主键")
+    private Integer isPrimary;
+
+    /**
+     * 配置属性
+     */
+    @Schema(description = "配置属性")
+    private ColumnExtConfig extConfig;
+
+    /**
+     * 字段排序
+     */
+    @Schema(description = "字段排序")
+    private Integer sortOrder;
 }

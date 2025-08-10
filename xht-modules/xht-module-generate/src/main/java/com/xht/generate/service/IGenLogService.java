@@ -1,7 +1,6 @@
 package com.xht.generate.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.generate.domain.request.GenLogFormRequest;
 import com.xht.generate.domain.request.GenLogQueryRequest;
 import com.xht.generate.domain.response.GenLogResponse;
 

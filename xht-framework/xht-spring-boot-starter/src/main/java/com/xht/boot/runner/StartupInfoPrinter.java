@@ -74,6 +74,7 @@ public class StartupInfoPrinter implements ApplicationRunner {
             }
             System.out.println(SEPARATOR);
             System.out.println(ASCII_ART);
+            System.out.println("🤡 项目作者：👉小糊涂(xht)👈");
             System.out.println(SEPARATOR);
             System.out.println();
             System.out.printf("🌴 项目名称:     %s%n", applicationName);

@@ -1,5 +1,6 @@
 package com.xht.generate.sql;
 
+import com.xht.generate.constant.DataBaseTypeEnums;
 import com.xht.generate.domain.entity.GenColumnInfoEntity;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -19,15 +20,12 @@ public class ColumnInfoRowMapper implements RowMapper<GenColumnInfoEntity> {
         entity.setId(0L);
         entity.setTableId(0L);
         entity.setColumnName("");
-        entity.setDbDataType("");
+        entity.setDbDataType(DataBaseTypeEnums.MYSQL);
         entity.setColumnComment("");
         entity.setExtConfig(null);
         entity.setDefaultValue("");
         entity.setIsRequired(0);
         entity.setIsPrimary(0);
-        entity.setIsForeign(0);
-        entity.setForeignTable("");
-        entity.setForeignColumn("");
         entity.setSortOrder(0);
         return entity;
     }

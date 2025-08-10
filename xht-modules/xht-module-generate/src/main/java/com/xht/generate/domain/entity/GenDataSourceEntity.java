@@ -39,32 +39,8 @@ public class GenDataSourceEntity extends BasicEntity implements Serializable {
     /**
      * 数据库地址
      */
-    @TableField(value = "host")
-    private String host;
-
-    /**
-     * 端口号
-     */
-    @TableField(value = "port")
-    private String port;
-
-    /**
-     * 数据库名称
-     */
-    @TableField(value = "database_name")
-    private String databaseName;
-
-    /**
-     * 用户名
-     */
-    @TableField(value = "username")
-    private String username;
-
-    /**
-     * 加密存储的密码（AES加密）
-     */
-    @TableField(value = "password")
-    private String password;
+    @TableField(value = "url")
+    private String url;
 
     /**
      * 连接测试结果（success/fail）

@@ -24,7 +24,7 @@ create table `gen_template`
 (
     `id`                 bigint       not null auto_increment comment '模板ID',
     `name`               varchar(100) not null comment '模板名称',
-    `content`            text         not null comment '模板内容（Velocity/FreeMarker语法）',
+    `content`            text         not null comment '模板内容（Velocity语法）',
     `file_type`          varchar(20)  not null comment '文件类型（java/ts/vue/xml/sql等）',
     `file_path_template` varchar(500) not null comment '文件路径模板（如：src/main/java/{{package}}）',
     `file_name_template` varchar(100) not null comment '文件名模板（如：{{className}}Controller.java）',

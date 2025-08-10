@@ -49,18 +49,6 @@ public class GenLogEntity extends BasicEntity implements Serializable {
     private Integer fileCount;
 
     /**
-     * 本地生成路径
-     */
-    @TableField(value = "generate_path")
-    private String generatePath;
-
-    /**
-     * 使用的模板ID（逗号分隔）
-     */
-    @TableField(value = "template_ids")
-    private String templateIds;
-
-    /**
      * 生成的表ID（逗号分隔）
      */
     @TableField(value = "table_ids")
