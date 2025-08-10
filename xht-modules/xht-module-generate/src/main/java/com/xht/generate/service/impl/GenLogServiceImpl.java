@@ -2,13 +2,10 @@ package com.xht.generate.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.core.exception.code.BusinessErrorCode;
-import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.generate.converter.GenLogConverter;
 import com.xht.generate.dao.GenLogDao;
 import com.xht.generate.domain.entity.GenLogEntity;
-import com.xht.generate.domain.request.GenLogFormRequest;
 import com.xht.generate.domain.request.GenLogQueryRequest;
 import com.xht.generate.domain.response.GenLogResponse;
 import com.xht.generate.service.IGenLogService;
@@ -55,4 +52,4 @@ public class GenLogServiceImpl implements IGenLogService {
     }
 
 
-                        }
+}

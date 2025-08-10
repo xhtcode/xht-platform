@@ -19,10 +19,12 @@ spring:
             - Path=/admin/**
           filters:
             - StripPrefix=1
-xht:
-  gateway:
-    global:
-      timestamp-valid-period: 120 # 时间戳有效期，单位秒
+        - id: xht-system
+          uri: lb://xht-generate #此处需要使用lb协议
+          predicates:
+            - Path=/generate/**
+          filters:
+            - StripPrefix=1
 knife4j:
   gateway:
     enabled: true     # ① 第一个配置，开启gateway聚合组件

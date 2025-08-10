@@ -13,9 +13,10 @@ import java.io.Serializable;
 
 /**
  * 代码生成器-数据类型映射表
+ * @author xht
  */
-@TableName(value ="gen_type_mapping")
 @Data
+@TableName(value = "gen_type_mapping")
 public class GenTypeMappingEntity extends BasicEntity implements Serializable {
 
     /**

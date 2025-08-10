@@ -45,5 +45,4 @@ public interface IGenColumnInfoService {
      */
     PageResponse<GenColumnInfoResponse> selectPage(GenColumnInfoQueryRequest queryRequest);
 
-
 }

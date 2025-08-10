@@ -2,11 +2,11 @@ package com.xht.generate.dao.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.generate.dao.GenProjectDao;
-import com.xht.generate.dao.mapper.GenProjectMapper;
-import com.xht.generate.domain.entity.GenProjectEntity;
-import com.xht.generate.domain.request.GenProjectFormRequest;
-import com.xht.generate.domain.request.GenProjectQueryRequest;
+import com.xht.generate.dao.GenTemplateGroupDao;
+import com.xht.generate.dao.mapper.GenTemplateGroupMapper;
+import com.xht.generate.domain.entity.GenTemplateGroupEntity;
+import com.xht.generate.domain.request.GenTemplateGroupFormRequest;
+import com.xht.generate.domain.request.GenTemplateGroupQueryRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -17,8 +17,7 @@ import org.springframework.stereotype.Repository;
  **/
 @Slf4j
 @Repository
-public class GenProjectDaoImpl extends MapperRepositoryImpl<GenProjectMapper, GenProjectEntity> implements GenProjectDao {
-
+public class GenTemplateGroupDaoImpl extends MapperRepositoryImpl<GenTemplateGroupMapper, GenTemplateGroupEntity> implements GenTemplateGroupDao {
 
     /**
      * 更新菜单信息
@@ -27,7 +26,7 @@ public class GenProjectDaoImpl extends MapperRepositoryImpl<GenProjectMapper, Ge
      * @return 是否成功
      */
     @Override
-    public Boolean updateFormRequest(GenProjectFormRequest formRequest) {
+    public Boolean updateFormRequest(GenTemplateGroupFormRequest formRequest) {
         return null;
     }
 
@@ -39,7 +38,8 @@ public class GenProjectDaoImpl extends MapperRepositoryImpl<GenProjectMapper, Ge
      * @return 菜单分页信息
      */
     @Override
-    public Page<GenProjectEntity> queryPageRequest(Page<GenProjectEntity> page, GenProjectQueryRequest queryRequest) {
+    public Page<GenTemplateGroupEntity> queryPageRequest(Page<GenTemplateGroupEntity> page, GenTemplateGroupQueryRequest queryRequest) {
         return null;
     }
+
 }

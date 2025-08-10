@@ -1,5 +1,7 @@
 package com.xht.generate.constant;
 
+import com.baomidou.mybatisplus.annotation.IEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,7 +14,7 @@ import java.util.Optional;
  */
 @Getter
 @AllArgsConstructor
-public enum LanguageTypeEnums {
+public enum LanguageTypeEnums implements IEnum<String> {
 
     Java("Java"),
 
@@ -27,7 +29,8 @@ public enum LanguageTypeEnums {
     /**
      * 语言类型编码
      */
-    private final String code;
+    @JsonValue
+    private final String value;
 
     /**
      * 根据编码获取枚举
@@ -37,7 +40,7 @@ public enum LanguageTypeEnums {
      */
     public static Optional<LanguageTypeEnums> getByCode(String code) {
         return Arrays.stream(values())
-                .filter(enums -> enums.code.equalsIgnoreCase(code))
+                .filter(enums -> enums.getValue().equalsIgnoreCase(code))
                 .findFirst();
     }
 }

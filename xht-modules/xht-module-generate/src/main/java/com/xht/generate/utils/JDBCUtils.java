@@ -12,7 +12,7 @@ import java.io.Closeable;
  * JDBC工具类，用于创建JdbcTemplate并管理数据源生命周期
  * 支持try-with-resources语法自动关闭资源
  *
- * @author 小糊涂
+ * @author xht
  */
 @Slf4j
 public class JDBCUtils implements Closeable {

@@ -1,16 +1,16 @@
 package com.xht.generate.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.generate.domain.request.GenProjectFormRequest;
-import com.xht.generate.domain.request.GenProjectQueryRequest;
-import com.xht.generate.domain.response.GenProjectResponse;
+import com.xht.generate.domain.request.GenTemplateGroupFormRequest;
+import com.xht.generate.domain.request.GenTemplateGroupQueryRequest;
+import com.xht.generate.domain.response.GenTemplateGroupResponse;
 
 /**
  * 项目管理Service接口
  *
  * @author xht
  **/
-public interface IGenProjectService {
+public interface IGenTemplateGroupService {
 
 
     /**
@@ -19,7 +19,7 @@ public interface IGenProjectService {
      * @param formRequest 项目表单请求参数
      * @return 操作结果
      */
-    Boolean create(GenProjectFormRequest formRequest);
+    Boolean create(GenTemplateGroupFormRequest formRequest);
 
     /**
      * 根据ID删除项目
@@ -35,7 +35,7 @@ public interface IGenProjectService {
      * @param formRequest 项目更新请求参数
      * @return 操作结果
      */
-    Boolean updateById(GenProjectFormRequest formRequest);
+    Boolean updateById(GenTemplateGroupFormRequest formRequest);
 
     /**
      * 根据ID查询项目
@@ -43,7 +43,7 @@ public interface IGenProjectService {
      * @param id 项目ID
      * @return 项目信息
      */
-    GenProjectResponse getById(Long id);
+    GenTemplateGroupResponse getById(Long id);
 
     /**
      * 分页查询项目
@@ -51,7 +51,7 @@ public interface IGenProjectService {
      * @param queryRequest 项目查询请求参数
      * @return 项目分页信息
      */
-    PageResponse<GenProjectResponse> selectPage(GenProjectQueryRequest queryRequest);
+    PageResponse<GenTemplateGroupResponse> selectPage(GenTemplateGroupQueryRequest queryRequest);
 
 
 }

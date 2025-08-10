@@ -5,20 +5,24 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
+import com.xht.framework.mybatis.extension.handlers.JsonTypeHandler;
+import com.xht.generate.domain.ColumnExtConfig;
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
  * 代码生成器-表字段信息表（支持扩展配置）
+ * @author xht
  */
-@TableName(value ="gen_column_info")
 @Data
+@TableName(value ="gen_column_info")
 public class GenColumnInfoEntity extends BasicEntity implements Serializable {
+
     /**
      * 字段ID
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
@@ -46,12 +50,6 @@ public class GenColumnInfoEntity extends BasicEntity implements Serializable {
     private String columnComment;
 
     /**
-     * 字段自定义配置（JSON格式），示例：{"codeFieldName":"userId","codeFieldLabel":"用户ID","isQuery":1,"queryType":"eq","isList":1,"isAdd":1,"isEdit":1,"isView":1}
-     */
-    @TableField(value = "ext_config")
-    private Object extConfig;
-
-    /**
      * 字段默认值
      */
     @TableField(value = "default_value")
@@ -76,6 +74,12 @@ public class GenColumnInfoEntity extends BasicEntity implements Serializable {
     private Integer isForeign;
 
     /**
+     * 配置属性
+     */
+    @TableField(value = "ext_config", typeHandler = JsonTypeHandler.class)
+    private ColumnExtConfig extConfig;
+
+    /**
      * 外键关联表名
      */
     @TableField(value = "foreign_table")
@@ -92,6 +96,5 @@ public class GenColumnInfoEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "sort_order")
     private Integer sortOrder;
-
 
 }

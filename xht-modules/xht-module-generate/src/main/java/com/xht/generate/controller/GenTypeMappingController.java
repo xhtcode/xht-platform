@@ -65,8 +65,6 @@ public class GenTypeMappingController {
         return R.ok(genTypeMappingService.updateById(formRequest));
     }
 
-
-
     /**
      * 根据ID查询字段映射
      *
@@ -78,6 +76,7 @@ public class GenTypeMappingController {
     public R<GenTypeMappingResponse> findById(@PathVariable @Parameter(description = "字段映射ID", required = true) Long id) {
         return R.ok(genTypeMappingService.getById(id));
     }
+
     /**
      * 分页查询字段映射
      *

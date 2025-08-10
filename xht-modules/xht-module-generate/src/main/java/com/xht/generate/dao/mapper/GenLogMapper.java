@@ -5,10 +5,8 @@ import com.xht.generate.domain.entity.GenLogEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
+ * 代码生成器-代码生成历史记录表
  * @author xht
- * @description 针对表【gen_log(代码生成器-代码生成历史记录表)】的数据库操作Mapper
- * @createDate 2025-08-02 13:52:52
- * @Entity com.xht.generate.domain.entity.GenLogEntity
  */
 @Mapper
 public interface GenLogMapper extends BaseMapperX<GenLogEntity> {

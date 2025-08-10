@@ -1,9 +1,9 @@
 package com.xht.generate.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.generate.domain.entity.GenProjectEntity;
-import com.xht.generate.domain.request.GenProjectFormRequest;
-import com.xht.generate.domain.response.GenProjectResponse;
+import com.xht.generate.domain.entity.GenTemplateGroupEntity;
+import com.xht.generate.domain.request.GenTemplateGroupFormRequest;
+import com.xht.generate.domain.response.GenTemplateGroupResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -14,9 +14,6 @@ import org.mapstruct.ReportingPolicy;
  * @author xht
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface GenProjectConverter extends BasicConverter<GenProjectEntity, GenProjectFormRequest, GenProjectResponse> {
+public interface GenTemplateGroupConverter extends BasicConverter<GenTemplateGroupEntity, GenTemplateGroupFormRequest, GenTemplateGroupResponse> {
 
-
-
-
-                        }
+}

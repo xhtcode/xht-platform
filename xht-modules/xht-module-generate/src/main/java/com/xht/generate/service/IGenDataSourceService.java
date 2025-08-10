@@ -53,5 +53,4 @@ public interface IGenDataSourceService {
      */
     PageResponse<GenDataSourceResponse> selectPage(GenDataSourceQueryRequest queryRequest);
 
-
 }

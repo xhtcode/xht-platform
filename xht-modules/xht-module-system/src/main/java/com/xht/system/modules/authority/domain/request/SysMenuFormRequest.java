@@ -2,7 +2,6 @@ package com.xht.system.modules.authority.domain.request;
 
 import com.xht.framework.core.domain.request.FormRequest;
 import com.xht.framework.web.validation.Groups;
-
 import com.xht.system.modules.authority.common.enums.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
@@ -22,7 +21,7 @@ public class SysMenuFormRequest extends FormRequest {
      */
     @Null(message = "菜单ID唯一标识必须为空", groups = {Groups.Create.class})
     @NotNull(message = "菜单ID唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "菜单ID唯一标识参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Positive(message = "菜单ID唯一标识参数不合法", groups = {Groups.Update.class})
     @Schema(description = "菜单ID唯一标识", example = "101")
     private Long id;
 
@@ -85,7 +84,6 @@ public class SysMenuFormRequest extends FormRequest {
     /**
      * 菜单权限字符串
      */
-    @NotBlank(message = "菜单权限字符串参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "菜单权限字符串", example = "system:manage")
     private String menuAuthority;
 
@@ -100,28 +98,24 @@ public class SysMenuFormRequest extends FormRequest {
     /**
      * 组件视图名称
      */
-    @NotBlank(message = "组件视图名称参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "组件视图名称", example = "SystemManageView")
     private String viewName;
 
     /**
      * 组件视图路径
      */
-    @NotBlank(message = "组件视图路径参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "组件视图路径", example = "/views/system/manage")
     private String viewPath;
 
     /**
      * 菜单显示(菜单隐藏时填写)
      */
-    @NotBlank(message = "菜单显示不能超过255个字符", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "菜单显示(菜单隐藏时填写)")
     private String activeMenuPath;
 
     /**
      * 是否为外链
      */
-    @NotNull(message = "是否为外链参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "是否为外链", example = "0")
     private MenuLinkEnums frameFlag;
 

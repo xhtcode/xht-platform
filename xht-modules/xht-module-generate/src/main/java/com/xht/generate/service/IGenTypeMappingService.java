@@ -12,7 +12,6 @@ import com.xht.generate.domain.response.GenTypeMappingResponse;
  **/
 public interface IGenTypeMappingService {
 
-
     /**
      * 创建字段映射
      *
@@ -52,6 +51,5 @@ public interface IGenTypeMappingService {
      * @return 字段映射分页信息
      */
     PageResponse<GenTypeMappingResponse> selectPage(GenTypeMappingQueryRequest queryRequest);
-
 
 }

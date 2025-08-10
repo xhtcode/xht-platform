@@ -65,8 +65,6 @@ public class GenTemplateController {
         return R.ok(genTemplateService.updateById(formRequest));
     }
 
-
-
     /**
      * 根据ID查询模板
      *
@@ -78,6 +76,7 @@ public class GenTemplateController {
     public R<GenTemplateResponse> findById(@PathVariable @Parameter(description = "模板ID", required = true) Long id) {
         return R.ok(genTemplateService.getById(id));
     }
+
     /**
      * 分页查询模板
      *
@@ -90,6 +89,4 @@ public class GenTemplateController {
         return R.ok(genTemplateService.selectPage(queryRequest));
     }
 
-
 }
-

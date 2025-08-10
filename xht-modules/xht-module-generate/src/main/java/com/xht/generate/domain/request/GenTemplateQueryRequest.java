@@ -14,4 +14,4 @@ import lombok.Data;
 public class GenTemplateQueryRequest extends PageQueryRequest {
 
 
-                        }
+}

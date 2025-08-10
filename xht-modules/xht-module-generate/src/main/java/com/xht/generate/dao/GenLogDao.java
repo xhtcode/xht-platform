@@ -3,7 +3,6 @@ package com.xht.generate.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.generate.domain.entity.GenLogEntity;
-import com.xht.generate.domain.request.GenLogFormRequest;
 import com.xht.generate.domain.request.GenLogQueryRequest;
 
 

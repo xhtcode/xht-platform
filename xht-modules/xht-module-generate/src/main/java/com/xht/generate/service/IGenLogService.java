@@ -28,5 +28,4 @@ public interface IGenLogService {
      */
     PageResponse<GenLogResponse> selectPage(GenLogQueryRequest queryRequest);
 
-
 }

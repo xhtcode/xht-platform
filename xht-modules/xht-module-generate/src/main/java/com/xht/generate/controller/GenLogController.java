@@ -53,6 +53,5 @@ public class GenLogController {
         return R.ok(genLogService.selectPage(queryRequest));
     }
 
-
 }
 

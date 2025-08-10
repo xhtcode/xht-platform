@@ -43,7 +43,6 @@ public class GenTableInfoServiceImpl implements IGenTableInfoService {
         return genTableInfoDao.saveTransactional(entity);
     }
 
-
     /**
      * 根据ID删除表信息
      *
@@ -92,4 +91,4 @@ public class GenTableInfoServiceImpl implements IGenTableInfoService {
     }
 
 
-                        }
+}

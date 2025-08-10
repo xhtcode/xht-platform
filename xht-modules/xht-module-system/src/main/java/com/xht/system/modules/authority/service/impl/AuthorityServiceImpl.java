@@ -8,6 +8,9 @@ import com.xht.framework.core.utils.tree.TreeNode;
 import com.xht.framework.core.utils.tree.TreeUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.utils.SecurityUtils;
+import com.xht.system.modules.authority.common.enums.MenuCacheEnums;
+import com.xht.system.modules.authority.common.enums.MenuHiddenEnums;
+import com.xht.system.modules.authority.common.enums.MenuLinkEnums;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
 import com.xht.system.modules.authority.dao.SysMenuDao;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
@@ -63,11 +66,11 @@ public class AuthorityServiceImpl implements IAuthorityService {
         MetaVo metaVo = new MetaVo();
         metaVo.setTitle(menu.getMenuName());
         metaVo.setIcon(menu.getMenuIcon());
-        metaVo.setLinkStatus(menu.getFrameFlag().getStatus());
+        metaVo.setLinkStatus(Objects.requireNonNullElse(menu.getFrameFlag(), MenuLinkEnums.NO).getStatus());
         metaVo.setMenuType(menu.getMenuType().getValue());
         metaVo.setActiveMenuPath(menu.getActiveMenuPath());
-        metaVo.setHiddenStatus(menu.getMenuHidden().getHidden());
-        metaVo.setKeepAliveStatus(!Objects.isNull(menu.getMenuCache()) && menu.getMenuCache().getStatus());
+        metaVo.setHiddenStatus(Objects.requireNonNullElse(menu.getMenuHidden(), MenuHiddenEnums.SHOW).getHidden());
+        metaVo.setKeepAliveStatus(Objects.requireNonNullElse(menu.getMenuCache(), MenuCacheEnums.YES).getStatus());
         metaVo.setRoles(StrUtil.splitTrim(menu.getMenuAuthority(), ","));//perms
         metaVo.setRank(menu.getMenuSort());
         return metaVo;

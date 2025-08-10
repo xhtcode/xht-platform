@@ -86,7 +86,7 @@ public final class MenuValidationFormat {
                 ThrowUtils.throwIf(StringUtils.isEmpty(menuPath), () -> ex("menuPath", "路由地址不能为空"));
                 ThrowUtils.throwIf(Objects.isNull(frameFlag), () -> ex("frameFlag", "是否为外链不能为空"));
                 ThrowUtils.throwIf(Objects.isNull(menuHidden), () -> ex("menuHidden", "显示状态不能为空"));
-                if (MenuLinkEnums.NO.equals(frameFlag)) {
+                if (MenuLinkEnums.YES.equals(frameFlag)) {
                     ThrowUtils.throwIf(Objects.isNull(menuCache), () -> ex("menuCache", "是否缓存不能为空"));
                     ThrowUtils.throwIf(StringUtils.isEmpty(viewName), () -> ex("viewName", "组件视图名称不能为空"));
                     ThrowUtils.throwIf(StringUtils.isEmpty(viewPath), () -> ex("viewPath", "组件视图路径不能为空"));

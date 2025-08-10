@@ -14,4 +14,4 @@ import lombok.Data;
 @Schema(description = "字段信息响应信息")
 public class GenColumnInfoResponse extends BasicResponse {
 
-            }
+}

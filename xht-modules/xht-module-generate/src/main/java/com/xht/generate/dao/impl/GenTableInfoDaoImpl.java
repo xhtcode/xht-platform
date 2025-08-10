@@ -19,7 +19,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class GenTableInfoDaoImpl extends MapperRepositoryImpl<GenTableInfoMapper, GenTableInfoEntity> implements GenTableInfoDao {
 
-
     /**
      * 更新菜单信息
      *

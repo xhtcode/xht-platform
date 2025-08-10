@@ -2,9 +2,9 @@ package com.xht.generate.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.generate.domain.entity.GenProjectEntity;
-import com.xht.generate.domain.request.GenProjectFormRequest;
-import com.xht.generate.domain.request.GenProjectQueryRequest;
+import com.xht.generate.domain.entity.GenTemplateGroupEntity;
+import com.xht.generate.domain.request.GenTemplateGroupFormRequest;
+import com.xht.generate.domain.request.GenTemplateGroupQueryRequest;
 
 
 /**
@@ -12,7 +12,7 @@ import com.xht.generate.domain.request.GenProjectQueryRequest;
  *
  * @author xht
  **/
-public interface GenProjectDao extends MapperRepository<GenProjectEntity> {
+public interface GenTemplateGroupDao extends MapperRepository<GenTemplateGroupEntity> {
 
     /**
      * 更新菜单信息
@@ -20,7 +20,7 @@ public interface GenProjectDao extends MapperRepository<GenProjectEntity> {
      * @param formRequest 菜单信息
      * @return 是否成功
      */
-    Boolean updateFormRequest(GenProjectFormRequest formRequest);
+    Boolean updateFormRequest(GenTemplateGroupFormRequest formRequest);
 
     /**
      * 分页查询菜单
@@ -29,6 +29,6 @@ public interface GenProjectDao extends MapperRepository<GenProjectEntity> {
      * @param queryRequest 菜单查询请求参数
      * @return 菜单分页信息
      */
-    Page<GenProjectEntity> queryPageRequest(Page<GenProjectEntity> page, GenProjectQueryRequest queryRequest);
+    Page<GenTemplateGroupEntity> queryPageRequest(Page<GenTemplateGroupEntity> page, GenTemplateGroupQueryRequest queryRequest);
 
 }

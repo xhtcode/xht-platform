@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * 项目启动成功后打印关键信息（包含项目名称、IP地址、接口文档等访问入口）
  * 实现ApplicationRunner接口，确保在Spring容器完全初始化后执行
  *
- * @author 小糊涂
+ * @author xht
  */
 @Component
 @RequiredArgsConstructor

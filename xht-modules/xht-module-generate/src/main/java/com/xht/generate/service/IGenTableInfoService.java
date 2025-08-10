@@ -12,7 +12,6 @@ import com.xht.generate.domain.response.GenTableInfoResponse;
  **/
 public interface IGenTableInfoService {
 
-
     /**
      * 导入表
      *

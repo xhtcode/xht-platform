@@ -24,8 +24,4 @@ public interface SysOauth2ClientConverter extends BasicConverter<SysOauth2Client
      */
     OAuth2RegisteredClientDTO toDto(SysOauth2ClientEntity sysOauth2ClientEntity);
 
-
-    default String objectToString(Object str) {
-        return JsonUtils.toJsonString(str);
-    }
 }

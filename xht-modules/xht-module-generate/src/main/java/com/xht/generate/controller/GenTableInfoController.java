@@ -89,6 +89,4 @@ public class GenTableInfoController {
         return R.ok(genTableInfoService.selectPage(queryRequest));
     }
 
-
 }
-

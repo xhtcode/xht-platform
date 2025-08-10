@@ -9,13 +9,14 @@ import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 /**
- * 项目数据源表单请求参数
+ * 项目表单请求参数
  *
  * @author xht
  **/
 @Data
-@Schema(description = "项目数据源表单请求参数")
-public class GenProjectDataSourceFormRequest extends FormRequest {
+@Schema(description = "项目表单请求参数")
+public class GenTemplateGroupFormRequest extends FormRequest {
+
     /**
      * 唯一标识
      */
@@ -24,4 +25,5 @@ public class GenProjectDataSourceFormRequest extends FormRequest {
     @Positive(message = "唯一标识参数不合法", groups = { Groups.Update.class})
     @Schema(description = "唯一标识", example = "101")
     private Long id;
+
 }

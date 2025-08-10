@@ -16,12 +16,14 @@ import lombok.Data;
 @Data
 @Schema(description = "字段信息表单请求参数")
 public class GenColumnInfoFormRequest extends FormRequest {
+
     /**
      * 唯一标识
      */
     @Null(message = "唯一标识必须为空", groups = {Groups.Create.class})
     @NotNull(message = "唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "唯一标识参数不合法", groups = { Groups.Update.class})
+    @Positive(message = "唯一标识参数不合法", groups = {Groups.Update.class})
     @Schema(description = "唯一标识", example = "101")
     private Long id;
+
 }

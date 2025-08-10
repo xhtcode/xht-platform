@@ -65,8 +65,6 @@ public class GenDataSourceController {
         return R.ok(genDataSourceService.updateById(formRequest));
     }
 
-
-
     /**
      * 根据ID查询数据源
      *
@@ -78,6 +76,7 @@ public class GenDataSourceController {
     public R<GenDataSourceResponse> findById(@PathVariable @Parameter(description = "数据源ID", required = true) Long id) {
         return R.ok(genDataSourceService.getById(id));
     }
+
     /**
      * 分页查询数据源
      *

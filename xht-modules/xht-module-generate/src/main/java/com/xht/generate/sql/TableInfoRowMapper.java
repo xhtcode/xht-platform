@@ -24,4 +24,5 @@ public class TableInfoRowMapper implements RowMapper<GenTableInfoEntity> {
         entity.setTableUpdateTime(Convert.toLocalDateTime(resultSet.getDate("table_create_time")));
         return entity;
     }
+
 }

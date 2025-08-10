@@ -77,4 +77,5 @@ public class GenTableInfoEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "table_update_time")
     private LocalDateTime tableUpdateTime;
+
 }

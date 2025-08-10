@@ -11,15 +11,23 @@ import java.io.Serializable;
 
 /**
  * 代码生成器-代码生成模板表（区分文件类型）
+ * @author xht
  */
-@TableName(value ="gen_template")
 @Data
+@TableName(value = "gen_template")
 public class GenTemplateEntity extends BasicEntity implements Serializable {
+
     /**
      * 模板ID
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
+
+    /**
+     * 分组id
+     */
+    @TableField(value = "group_id")
+    private Long groupId;
 
     /**
      * 模板名称

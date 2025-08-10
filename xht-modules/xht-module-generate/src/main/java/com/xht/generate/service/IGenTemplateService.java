@@ -12,7 +12,6 @@ import com.xht.generate.domain.response.GenTemplateResponse;
  **/
 public interface IGenTemplateService {
 
-
     /**
      * 创建模板
      *
@@ -52,6 +51,5 @@ public interface IGenTemplateService {
      * @return 模板分页信息
      */
     PageResponse<GenTemplateResponse> selectPage(GenTemplateQueryRequest queryRequest);
-
 
 }

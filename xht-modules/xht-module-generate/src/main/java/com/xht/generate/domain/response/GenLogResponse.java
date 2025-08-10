@@ -14,4 +14,4 @@ import lombok.Data;
 @Schema(description = "生成日志响应信息")
 public class GenLogResponse extends BasicResponse {
 
-            }
+}

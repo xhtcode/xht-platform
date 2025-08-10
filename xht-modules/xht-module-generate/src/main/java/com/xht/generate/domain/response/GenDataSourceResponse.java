@@ -14,4 +14,4 @@ import lombok.Data;
 @Schema(description = "数据源响应信息")
 public class GenDataSourceResponse extends BasicResponse {
 
-            }
+}

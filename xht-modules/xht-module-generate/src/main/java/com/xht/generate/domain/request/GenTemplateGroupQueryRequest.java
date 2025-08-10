@@ -5,13 +5,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 项目模板分页查询参数
+ * 项目分页查询参数
  *
  * @author xht
  **/
 @Data
-@Schema(description = "项目模板分页查询参数")
-public class GenProjectTemplateQueryRequest extends PageQueryRequest {
+@Schema(description = "项目分页查询参数")
+public class GenTemplateGroupQueryRequest extends PageQueryRequest {
 
 
-                        }
+}

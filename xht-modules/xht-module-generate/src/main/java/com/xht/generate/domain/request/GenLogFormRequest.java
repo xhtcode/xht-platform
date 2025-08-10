@@ -16,6 +16,7 @@ import lombok.Data;
 @Data
 @Schema(description = "生成日志表单请求参数")
 public class GenLogFormRequest extends FormRequest {
+
     /**
      * 唯一标识
      */
@@ -24,4 +25,5 @@ public class GenLogFormRequest extends FormRequest {
     @Positive(message = "唯一标识参数不合法", groups = { Groups.Update.class})
     @Schema(description = "唯一标识", example = "101")
     private Long id;
+
 }

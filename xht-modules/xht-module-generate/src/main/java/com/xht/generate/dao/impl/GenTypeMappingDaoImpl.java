@@ -1,5 +1,6 @@
 package com.xht.generate.dao.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTypeMappingDao;
@@ -9,6 +10,8 @@ import com.xht.generate.domain.request.GenTypeMappingFormRequest;
 import com.xht.generate.domain.request.GenTypeMappingQueryRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+
+import java.util.Objects;
 
 /**
  * 字段映射管理
@@ -39,6 +42,9 @@ public class GenTypeMappingDaoImpl extends MapperRepositoryImpl<GenTypeMappingMa
      */
     @Override
     public Page<GenTypeMappingEntity> queryPageRequest(Page<GenTypeMappingEntity> page, GenTypeMappingQueryRequest queryRequest) {
-        return null;
+        LambdaQueryWrapper<GenTypeMappingEntity> queryWrapper = lambdaQueryWrapper();
+        queryWrapper.eq(Objects.nonNull(queryRequest.getDbType()), GenTypeMappingEntity::getDbType, queryRequest.getDbType())
+                .eq(Objects.nonNull(queryRequest.getTargetLanguage()), GenTypeMappingEntity::getTargetLanguage, queryRequest.getTargetLanguage());
+        return page(page, queryWrapper);
     }
 }

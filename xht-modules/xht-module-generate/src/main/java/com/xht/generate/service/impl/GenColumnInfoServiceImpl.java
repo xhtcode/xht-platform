@@ -79,5 +79,4 @@ public class GenColumnInfoServiceImpl implements IGenColumnInfoService {
         return genColumnInfoConverter.toResponse(page);
     }
 
-
-                        }
+}

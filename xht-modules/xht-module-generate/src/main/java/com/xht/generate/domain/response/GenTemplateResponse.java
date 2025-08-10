@@ -14,4 +14,4 @@ import lombok.Data;
 @Schema(description = "模板响应信息")
 public class GenTemplateResponse extends BasicResponse {
 
-            }
+}

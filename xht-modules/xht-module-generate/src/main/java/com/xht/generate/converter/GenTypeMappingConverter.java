@@ -17,6 +17,4 @@ import org.mapstruct.ReportingPolicy;
 public interface GenTypeMappingConverter extends BasicConverter<GenTypeMappingEntity, GenTypeMappingFormRequest, GenTypeMappingResponse> {
 
 
-
-
-                        }
+}

@@ -13,5 +13,4 @@ import lombok.Data;
 @Schema(description = "生成日志分页查询参数")
 public class GenLogQueryRequest extends PageQueryRequest {
 
-
-                        }
+}

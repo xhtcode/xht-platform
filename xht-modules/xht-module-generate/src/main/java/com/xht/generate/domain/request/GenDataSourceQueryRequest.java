@@ -13,5 +13,4 @@ import lombok.Data;
 @Schema(description = "数据源分页查询参数")
 public class GenDataSourceQueryRequest extends PageQueryRequest {
 
-
-                        }
+}

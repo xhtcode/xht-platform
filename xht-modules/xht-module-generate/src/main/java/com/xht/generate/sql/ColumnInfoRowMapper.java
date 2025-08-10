@@ -23,7 +23,7 @@ public class ColumnInfoRowMapper implements RowMapper<GenColumnInfoEntity> {
         entity.setColumnName("");
         entity.setDbDataType("");
         entity.setColumnComment("");
-        entity.setExtConfig(new Object());
+        entity.setExtConfig(null);
         entity.setDefaultValue("");
         entity.setIsRequired(0);
         entity.setIsPrimary(0);

@@ -53,8 +53,6 @@ public class GenColumnInfoController {
         return R.ok(genColumnInfoService.updateById(formRequest));
     }
 
-
-
     /**
      * 根据ID查询字段信息
      *
@@ -66,6 +64,7 @@ public class GenColumnInfoController {
     public R<GenColumnInfoResponse> findById(@PathVariable @Parameter(description = "字段信息ID", required = true) Long id) {
         return R.ok(genColumnInfoService.getById(id));
     }
+
     /**
      * 分页查询字段信息
      *
@@ -77,7 +76,6 @@ public class GenColumnInfoController {
     public R<PageResponse<GenColumnInfoResponse>> selectPage(GenColumnInfoQueryRequest queryRequest) {
         return R.ok(genColumnInfoService.selectPage(queryRequest));
     }
-
 
 }
 
