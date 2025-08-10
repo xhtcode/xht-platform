@@ -1,5 +1,7 @@
 package com.xht.generate.dao.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTemplateDao;
@@ -27,7 +29,8 @@ public class GenTemplateDaoImpl extends MapperRepositoryImpl<GenTemplateMapper, 
      */
     @Override
     public Boolean updateFormRequest(GenTemplateFormRequest formRequest) {
-        return null;
+        LambdaUpdateWrapper<GenTemplateEntity> updateWrapper = lambdaUpdateWrapper();
+        return update(updateWrapper);
     }
 
     /**
@@ -39,6 +42,7 @@ public class GenTemplateDaoImpl extends MapperRepositoryImpl<GenTemplateMapper, 
      */
     @Override
     public Page<GenTemplateEntity> queryPageRequest(Page<GenTemplateEntity> page, GenTemplateQueryRequest queryRequest) {
-        return null;
+        LambdaQueryWrapper<GenTemplateEntity> queryWrapper = lambdaQueryWrapper();
+        return page(page, queryWrapper);
     }
 }

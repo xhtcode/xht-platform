@@ -38,7 +38,7 @@ public enum LanguageTypeEnums implements IEnum<String> {
      * @param code 语言类型编码
      * @return 对应的枚举实例，不存在则返回空
      */
-    public static Optional<LanguageTypeEnums> getByCode(String code) {
+    public static Optional<LanguageTypeEnums> getByValue(String code) {
         return Arrays.stream(values())
                 .filter(enums -> enums.getValue().equalsIgnoreCase(code))
                 .findFirst();

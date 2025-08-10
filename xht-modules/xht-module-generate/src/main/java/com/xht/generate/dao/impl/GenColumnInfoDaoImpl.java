@@ -1,5 +1,7 @@
 package com.xht.generate.dao.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenColumnInfoDao;
@@ -27,7 +29,8 @@ public class GenColumnInfoDaoImpl extends MapperRepositoryImpl<GenColumnInfoMapp
      */
     @Override
     public Boolean updateFormRequest(GenColumnInfoFormRequest formRequest) {
-        return null;
+        LambdaUpdateWrapper<GenColumnInfoEntity> updateWrapper = lambdaUpdateWrapper();
+        return update(updateWrapper);
     }
 
     /**
@@ -39,6 +42,7 @@ public class GenColumnInfoDaoImpl extends MapperRepositoryImpl<GenColumnInfoMapp
      */
     @Override
     public Page<GenColumnInfoEntity> queryPageRequest(Page<GenColumnInfoEntity> page, GenColumnInfoQueryRequest queryRequest) {
-        return null;
+        LambdaQueryWrapper<GenColumnInfoEntity> queryWrapper = lambdaQueryWrapper();
+        return page(page, queryWrapper);
     }
 }

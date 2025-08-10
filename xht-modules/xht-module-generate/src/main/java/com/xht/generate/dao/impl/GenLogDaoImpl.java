@@ -1,11 +1,11 @@
 package com.xht.generate.dao.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenLogDao;
 import com.xht.generate.dao.mapper.GenLogMapper;
 import com.xht.generate.domain.entity.GenLogEntity;
-import com.xht.generate.domain.request.GenLogFormRequest;
 import com.xht.generate.domain.request.GenLogQueryRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -28,7 +28,8 @@ public class GenLogDaoImpl extends MapperRepositoryImpl<GenLogMapper, GenLogEnti
      */
     @Override
     public Page<GenLogEntity> queryPageRequest(Page<GenLogEntity> page, GenLogQueryRequest queryRequest) {
-        return null;
+        LambdaQueryWrapper<GenLogEntity> queryWrapper = lambdaQueryWrapper();
+        return page(page, queryWrapper);
     }
 
 }

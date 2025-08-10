@@ -1,6 +1,4 @@
 package com.xht.generate.sql;
-import java.time.LocalDateTime;
-import com.xht.framework.mybatis.enums.DelFlagEnum;
 
 import com.xht.generate.domain.entity.GenColumnInfoEntity;
 import org.springframework.jdbc.core.RowMapper;
@@ -31,13 +29,6 @@ public class ColumnInfoRowMapper implements RowMapper<GenColumnInfoEntity> {
         entity.setForeignTable("");
         entity.setForeignColumn("");
         entity.setSortOrder(0);
-        entity.setCreateTime(LocalDateTime.now());
-        entity.setUpdateTime(LocalDateTime.now());
-        entity.setCreateBy("");
-        entity.setUpdateBy("");
-        entity.setIsDel(DelFlagEnum.NORMAL);
-
-
         return entity;
     }
 }
