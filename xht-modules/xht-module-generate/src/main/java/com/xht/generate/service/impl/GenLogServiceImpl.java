@@ -48,8 +48,23 @@ public class GenLogServiceImpl implements IGenLogService {
     @Override
     public PageResponse<GenLogResponse> selectPage(GenLogQueryRequest queryRequest) {
         Page<GenLogEntity> page = genLogDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
-        return null;
+        return toResponse(page);
     }
 
+    /**
+     * 将分页的实体对象转换为分页的响应对象
+     *
+     * @param page 分页的实体对象，包含当前页的数据以及分页信息
+     * @return 转换后的分页响应对象，用于返回给客户端，包含当前页的数据以及分页信息
+     */
+    private PageResponse<GenLogResponse> toResponse(Page<GenLogEntity> page) {
+        PageResponse<GenLogResponse> response = new PageResponse<>();
+        response.setCurrent(page.getCurrent()); // 设置当前页码
+        response.setSize(page.getSize()); // 设置每页显示的数据量
+        response.setTotal(page.getTotal()); // 设置总数据量
+        response.setPages(page.getPages()); // 设置总页数
+        response.setRecords(genLogConverter.convert(page.getRecords())); // 设置当前页的数据列表
+        return response;
+    }
 
 }

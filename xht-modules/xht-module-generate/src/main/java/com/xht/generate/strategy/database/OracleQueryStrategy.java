@@ -1,13 +1,9 @@
 package com.xht.generate.strategy.database;
 
-import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.generate.constant.DataBaseTypeEnums;
 import com.xht.generate.domain.entity.GenColumnInfoEntity;
 import com.xht.generate.domain.entity.GenTableInfoEntity;
-import com.xht.generate.domain.request.DataBaseQueryRequest;
 import com.xht.generate.sql.ColumnInfoRowMapper;
 import com.xht.generate.sql.TableInfoRowMapper;
 import com.xht.generate.strategy.IDataBaseQuery;
@@ -17,7 +13,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * oracle 解析导入
@@ -105,61 +100,13 @@ public class OracleQueryStrategy extends IDataBaseQuery {
      * 根据表名模糊查询多表信息
      *
      * @param jdbcTemplate JDBC模板，用于执行SQL查询
-     * @param request      查询请求
+     * @param tableName      表名
      * @return {@link GenTableInfoEntity} 表信息实体列表
      */
     @Override
-    public PageResponse<GenTableInfoEntity> selectPageTableByLike(JdbcTemplate jdbcTemplate, DataBaseQueryRequest request) {
-        StringBuilder sql = new StringBuilder(QUERY_TABLE_SQL);
-        String tableName = request.getTableName();
-        var page = PageTool.getPage(request);
-
-        // 添加表名模糊查询条件
-        if (StringUtils.hasText(tableName)) {
-            sql.append(" AND utc.table_name LIKE '%' || UPPER(?) || '%' ");
-        }
-
-        // 先排序再分页
-        sql.append(" ORDER BY created DESC ");
-
-        // 构建COUNT查询语句
-        StringBuilder countSqlBuilder = new StringBuilder("SELECT COUNT(*) FROM (").append(QUERY_TABLE_SQL).append(") t");
-        if (StringUtils.hasText(tableName)) {
-            countSqlBuilder.append(" WHERE table_name LIKE '%' || UPPER(?) || '%' ");
-        }
-        String countSql = countSqlBuilder.toString();
-
-        // 执行COUNT查询
-        Object[] countParams = StringUtils.hasText(tableName) ? new Object[]{tableName} : new Object[]{};
-        Long total = jdbcTemplate.queryForObject(countSql, Long.class, countParams);
-        total = Objects.requireNonNullElse(total, 0L);
-
-        // 分页边界判断
-        if (total == 0 || page.getCurrent() >= (total + page.getSize() - 1) / page.getSize()) {
-            return PageTool.cloneEmpty(page);
-        }
-
-        // 使用Oracle分页查询
-        String paginatedSql = "SELECT * FROM (SELECT ROWNUM rn, t.* FROM (" + sql.toString() + ") t WHERE ROWNUM <= ?) WHERE rn > ?";
-
-        // 计算总页数
-        long totalPages = (total - 1) / page.getSize() + 1;
-
-        // 执行主查询
-        Object[] queryParams = StringUtils.hasText(tableName)
-                ? new Object[]{tableName, page.getCurrent() * page.getSize(), (page.getCurrent() - 1) * page.getSize()}
-                : new Object[]{page.getCurrent() * page.getSize(), (page.getCurrent() - 1) * page.getSize()};
-
-        List<GenTableInfoEntity> records = jdbcTemplate.query(paginatedSql, new TableInfoRowMapper(), queryParams);
-
-        // 构建返回结果
-        PageResponse<GenTableInfoEntity> pageResponse = new PageResponse<>();
-        pageResponse.setCurrent(page.getCurrent());
-        pageResponse.setSize(page.getSize());
-        pageResponse.setPages(totalPages);
-        pageResponse.setTotal(total);
-        pageResponse.setRecords(records);
-        return pageResponse;
+    public List<GenTableInfoEntity> selectPageTableByLike(JdbcTemplate jdbcTemplate, String tableName) {
+        String sql = QUERY_TABLE_SQL + " AND utc.table_name LIKE ?";
+        return jdbcTemplate.query(sql, new TableInfoRowMapper(), "%" + tableName + "%");
     }
 
     /**

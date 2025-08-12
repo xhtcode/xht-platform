@@ -11,6 +11,7 @@ import com.xht.generate.domain.request.GenTypeMappingFormRequest;
 import com.xht.generate.domain.request.GenTypeMappingQueryRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -30,8 +31,15 @@ public class GenTypeMappingDaoImpl extends MapperRepositoryImpl<GenTypeMappingMa
      * @return 是否成功
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean updateFormRequest(GenTypeMappingFormRequest formRequest) {
         LambdaUpdateWrapper<GenTypeMappingEntity> updateWrapper = lambdaUpdateWrapper();
+        updateWrapper.set(Objects.nonNull(formRequest.getDbType()), GenTypeMappingEntity::getDbType, formRequest.getDbType());
+        updateWrapper.set(Objects.nonNull(formRequest.getDbDataType()), GenTypeMappingEntity::getDbDataType, formRequest.getDbDataType());
+        updateWrapper.set(Objects.nonNull(formRequest.getTargetLanguage()), GenTypeMappingEntity::getTargetLanguage, formRequest.getTargetLanguage());
+        updateWrapper.set(Objects.nonNull(formRequest.getTargetDataType()), GenTypeMappingEntity::getTargetDataType, formRequest.getTargetDataType());
+        updateWrapper.set(Objects.nonNull(formRequest.getImportPackage()), GenTypeMappingEntity::getImportPackage, formRequest.getImportPackage());
+        updateWrapper.eq(GenTypeMappingEntity::getId, formRequest.getId());
         return update(updateWrapper);
     }
 
@@ -45,8 +53,8 @@ public class GenTypeMappingDaoImpl extends MapperRepositoryImpl<GenTypeMappingMa
     @Override
     public Page<GenTypeMappingEntity> queryPageRequest(Page<GenTypeMappingEntity> page, GenTypeMappingQueryRequest queryRequest) {
         LambdaQueryWrapper<GenTypeMappingEntity> queryWrapper = lambdaQueryWrapper();
-        queryWrapper.eq(Objects.nonNull(queryRequest.getDbType()), GenTypeMappingEntity::getDbType, queryRequest.getDbType())
-                .eq(Objects.nonNull(queryRequest.getTargetLanguage()), GenTypeMappingEntity::getTargetLanguage, queryRequest.getTargetLanguage());
+        queryWrapper.eq(Objects.nonNull(queryRequest.getDbType()), GenTypeMappingEntity::getDbType, queryRequest.getDbType());
+        queryWrapper.eq(Objects.nonNull(queryRequest.getTargetLanguage()), GenTypeMappingEntity::getTargetLanguage, queryRequest.getTargetLanguage());
         return page(page, queryWrapper);
     }
 }

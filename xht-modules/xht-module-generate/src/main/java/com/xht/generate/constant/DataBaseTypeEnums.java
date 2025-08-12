@@ -14,9 +14,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum DataBaseTypeEnums implements IEnum<String> {
 
-    MYSQL("MySql", "MySQL数据库"),
+    MYSQL("MySql", "com.mysql.cj.jdbc.Driver"),
 
-    ORACLE("Oracle", "Oracle数据库"),
+    ORACLE("Oracle", "oracle.jdbc.OracleDriver"),
 
     ;
 
@@ -27,7 +27,7 @@ public enum DataBaseTypeEnums implements IEnum<String> {
     private final String value;
 
     /**
-     * 数据库描述
+     * 数据库驱动
      */
-    private final String desc;
+    private final String driverClassName;
 }

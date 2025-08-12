@@ -1,20 +1,20 @@
 package com.xht.generate.service.impl;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.generate.converter.GenTemplateConverter;
 import com.xht.generate.dao.GenTemplateDao;
+import com.xht.generate.dao.GenTemplateGroupDao;
 import com.xht.generate.domain.entity.GenTemplateEntity;
+import com.xht.generate.domain.entity.GenTemplateGroupEntity;
 import com.xht.generate.domain.request.GenTemplateFormRequest;
-import com.xht.generate.domain.request.GenTemplateQueryRequest;
 import com.xht.generate.domain.response.GenTemplateResponse;
 import com.xht.generate.service.IGenTemplateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 /**
@@ -31,6 +31,8 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
 
     private final GenTemplateConverter genTemplateConverter;
 
+    private final GenTemplateGroupDao genTemplateGroupDao;
+
     /**
      * 创建模板
      *
@@ -39,6 +41,8 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      */
     @Override
     public Boolean create(GenTemplateFormRequest formRequest) {
+        Boolean exists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, formRequest.getGroupId());
+        ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "模板组不存在");
         GenTemplateEntity entity = genTemplateConverter.toEntity(formRequest);
         return genTemplateDao.saveTransactional(entity);
     }
@@ -63,6 +67,8 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      */
     @Override
     public Boolean updateById(GenTemplateFormRequest formRequest) {
+        Boolean exists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, formRequest.getGroupId());
+        ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "模板组不存在");
         Boolean menuExists = genTemplateDao.exists(GenTemplateEntity::getId, formRequest.getId());
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "模板不存在");
         return genTemplateDao.updateFormRequest(formRequest);
@@ -80,15 +86,14 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
     }
 
     /**
-     * 分页查询模板
+     * 根据模板组ID获取模板列表
      *
-     * @param queryRequest 模板查询请求参数
-     * @return 模板分页信息
+     * @param groupId 模板组ID
+     * @return 模板响应列表
      */
     @Override
-    public PageResponse<GenTemplateResponse> selectPage(GenTemplateQueryRequest queryRequest) {
-        Page<GenTemplateEntity> page = genTemplateDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
-        return genTemplateConverter.toResponse(page);
+    public List<GenTemplateResponse> listByGroupId(String groupId) {
+        return genTemplateConverter.toResponse(genTemplateDao.findList(GenTemplateEntity::getGroupId, groupId));
     }
 
 

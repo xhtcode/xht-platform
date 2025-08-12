@@ -3,6 +3,7 @@ package com.xht.generate.service;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.generate.domain.request.GenTableInfoFormRequest;
 import com.xht.generate.domain.request.GenTableInfoQueryRequest;
+import com.xht.generate.domain.request.ImportTableFormRequest;
 import com.xht.generate.domain.response.GenTableInfoResponse;
 
 /**
@@ -18,7 +19,7 @@ public interface IGenTableInfoService {
      * @param formRequest 表信息表单请求参数
      * @return 操作结果
      */
-    Boolean importTable(GenTableInfoFormRequest formRequest);
+    Boolean importTable(ImportTableFormRequest formRequest);
 
     /**
      * 根据ID删除表信息

@@ -1,9 +1,8 @@
 package com.xht.generate.service;
 
-import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.generate.domain.request.GenColumnInfoFormRequest;
-import com.xht.generate.domain.request.GenColumnInfoQueryRequest;
 import com.xht.generate.domain.response.GenColumnInfoResponse;
+
+import java.util.List;
 
 /**
  * 字段信息管理Service接口
@@ -11,22 +10,6 @@ import com.xht.generate.domain.response.GenColumnInfoResponse;
  * @author xht
  **/
 public interface IGenColumnInfoService {
-
-    /**
-     * 创建字段信息
-     *
-     * @param formRequest 字段信息表单请求参数
-     * @return 操作结果
-     */
-    Boolean create(GenColumnInfoFormRequest formRequest);
-
-    /**
-     * 根据ID更新字段信息
-     *
-     * @param formRequest 字段信息更新请求参数
-     * @return 操作结果
-     */
-    Boolean updateById(GenColumnInfoFormRequest formRequest);
 
     /**
      * 根据ID查询字段信息
@@ -37,11 +20,11 @@ public interface IGenColumnInfoService {
     GenColumnInfoResponse getById(Long id);
 
     /**
-     * 分页查询字段信息
+     * 根据表id查询字段信息
      *
-     * @param queryRequest 字段信息查询请求参数
+     * @param tableId 表id
      * @return 字段信息分页信息
      */
-    PageResponse<GenColumnInfoResponse> selectPage(GenColumnInfoQueryRequest queryRequest);
+    List<GenColumnInfoResponse> listByTableId(String tableId);
 
 }

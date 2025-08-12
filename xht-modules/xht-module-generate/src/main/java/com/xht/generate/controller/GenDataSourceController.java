@@ -89,6 +89,17 @@ public class GenDataSourceController {
         return R.ok(genDataSourceService.selectPage(queryRequest));
     }
 
+    /**
+     * 测试链接
+     *
+     * @param id 数据源ID
+     * @return 测试结果 true:成功 false:失败
+     */
+    @Operation(summary = "测试链接", description = "测试链接")
+    @GetMapping("/connection/{id}")
+    public R<Boolean> connection(@PathVariable("id") Long id) {
+        return R.ok(genDataSourceService.connection(id));
+    }
 
 }
 

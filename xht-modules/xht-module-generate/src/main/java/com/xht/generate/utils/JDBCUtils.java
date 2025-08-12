@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.Closeable;
+import java.sql.Connection;
+import java.util.Objects;
 
 /**
  * JDBC工具类，用于创建JdbcTemplate并管理数据源生命周期

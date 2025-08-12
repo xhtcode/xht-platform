@@ -1,14 +1,9 @@
 package com.xht.generate.dao.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenColumnInfoDao;
 import com.xht.generate.dao.mapper.GenColumnInfoMapper;
 import com.xht.generate.domain.entity.GenColumnInfoEntity;
-import com.xht.generate.domain.request.GenColumnInfoFormRequest;
-import com.xht.generate.domain.request.GenColumnInfoQueryRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -21,28 +16,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class GenColumnInfoDaoImpl extends MapperRepositoryImpl<GenColumnInfoMapper, GenColumnInfoEntity> implements GenColumnInfoDao {
 
-    /**
-     * 更新菜单信息
-     *
-     * @param formRequest 菜单信息
-     * @return 是否成功
-     */
-    @Override
-    public Boolean updateFormRequest(GenColumnInfoFormRequest formRequest) {
-        LambdaUpdateWrapper<GenColumnInfoEntity> updateWrapper = lambdaUpdateWrapper();
-        return update(updateWrapper);
-    }
-
-    /**
-     * 分页查询菜单
-     *
-     * @param page         分页信息
-     * @param queryRequest 菜单查询请求参数
-     * @return 菜单分页信息
-     */
-    @Override
-    public Page<GenColumnInfoEntity> queryPageRequest(Page<GenColumnInfoEntity> page, GenColumnInfoQueryRequest queryRequest) {
-        LambdaQueryWrapper<GenColumnInfoEntity> queryWrapper = lambdaQueryWrapper();
-        return page(page, queryWrapper);
-    }
 }

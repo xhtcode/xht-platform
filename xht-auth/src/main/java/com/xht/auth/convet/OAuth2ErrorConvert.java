@@ -1,7 +1,7 @@
 package com.xht.auth.convet;
 
-import com.xht.framework.oauth2.domain.response.OAuth2ErrorResponse;
 import com.xht.framework.core.converter.IConverter;
+import com.xht.framework.oauth2.domain.response.OAuth2ErrorResponse;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.util.StringUtils;
 
@@ -32,5 +32,17 @@ public final class OAuth2ErrorConvert implements IConverter<OAuth2Error, OAuth2E
         }
         return parameters;
     }
+
+    /**
+     * 将目标对象反转转换为源对象
+     *
+     * @param target 目标对象，非null
+     * @return 反转转换后的源对象，非null
+     */
+    @Override
+    public OAuth2Error reverse(OAuth2ErrorResponse target) {
+        throw new UnsupportedOperationException("反转转换方法未实现");
+    }
+
 
 }

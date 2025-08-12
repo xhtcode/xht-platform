@@ -1,10 +1,8 @@
 package com.xht.generate.dao;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
 import com.xht.generate.domain.request.GenTemplateGroupFormRequest;
-import com.xht.generate.domain.request.GenTemplateGroupQueryRequest;
 
 
 /**
@@ -22,13 +20,5 @@ public interface GenTemplateGroupDao extends MapperRepository<GenTemplateGroupEn
      */
     Boolean updateFormRequest(GenTemplateGroupFormRequest formRequest);
 
-    /**
-     * 分页查询菜单
-     *
-     * @param page         分页信息
-     * @param queryRequest 菜单查询请求参数
-     * @return 菜单分页信息
-     */
-    Page<GenTemplateGroupEntity> queryPageRequest(Page<GenTemplateGroupEntity> page, GenTemplateGroupQueryRequest queryRequest);
 
 }

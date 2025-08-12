@@ -1,10 +1,8 @@
 package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
-import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
 import com.xht.generate.domain.request.GenTemplateGroupFormRequest;
-import com.xht.generate.domain.request.GenTemplateGroupQueryRequest;
 import com.xht.generate.domain.response.GenTemplateGroupResponse;
 import com.xht.generate.service.IGenTemplateGroupService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 项目管理
@@ -80,16 +80,16 @@ public class GenTemplateGroupController {
     }
 
     /**
-     * 分页查询项目
+     * 获取代码生成模板组列表
      *
-     * @param queryRequest 项目查询请求参数
-     * @return 项目分页信息
+     * @return 代码生成模板组列表响应结果
      */
-    @Operation(summary = "分页查询项目", description = "根据提供的查询请求参数分页查询项目信息")
-    @GetMapping("/page")
-    public R<PageResponse<GenTemplateGroupResponse>> selectPage(GenTemplateGroupQueryRequest queryRequest) {
-        return R.ok(genTemplateGroupService.selectPage(queryRequest));
+    @Operation(summary = "获取代码生成模板组列表", description = "获取代码生成模板组列表")
+    @GetMapping("/list")
+    public R<List<GenTemplateGroupResponse>> findAll() {
+        return R.ok(genTemplateGroupService.findAll());
     }
+
 
 }
 

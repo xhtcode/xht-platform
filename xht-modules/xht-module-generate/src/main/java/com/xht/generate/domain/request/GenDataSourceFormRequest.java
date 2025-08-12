@@ -2,13 +2,13 @@ package com.xht.generate.domain.request;
 
 import com.xht.framework.core.domain.request.FormRequest;
 import com.xht.framework.web.validation.Groups;
+import com.xht.generate.constant.DataBaseTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 /**
  * 数据源表单请求参数
@@ -20,42 +20,33 @@ import java.time.LocalDateTime;
 public class GenDataSourceFormRequest extends FormRequest {
 
     /**
-     * 唯一标识
+     * Id
      */
-    @Null(message = "唯一标识必须为空", groups = {Groups.Create.class})
-    @NotNull(message = "唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "唯一标识参数不合法", groups = { Groups.Update.class})
-    @Schema(description = "唯一标识", example = "101")
+    @Null(message = "Id必须为空", groups = {Groups.Create.class})
+    @NotNull(message = "Id参数不合法", groups = {Groups.Update.class})
+    @Positive(message = "Id参数不合法", groups = {Groups.Update.class})
+    @Schema(description = "Id", example = "101")
     private Long id;
 
     /**
      * 数据源名称
      */
+    @NotBlank(message = "数据源名称不能为空", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "数据源名称")
     private String name;
 
     /**
      * 数据库类型（MySQL/Oracle）
      */
+    @NotBlank(message = "数据库类型不能为空", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "数据库类型")
-    private String dbType;
+    private DataBaseTypeEnums dbType;
 
     /**
      * 数据库地址
      */
+    @NotBlank(message = "数据库地址不能为空", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "数据库地址")
     private String url;
 
-
-    /**
-     * 连接测试结果（success/fail）
-     */
-    @Schema(description = "连接测试结果")
-    private String testResult;
-
-    /**
-     * 最后测试时间
-     */
-    @Schema(description = "最后测试时间")
-    private LocalDateTime lastTestTime;
 }

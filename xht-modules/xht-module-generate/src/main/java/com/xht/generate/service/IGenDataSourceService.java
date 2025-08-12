@@ -53,4 +53,12 @@ public interface IGenDataSourceService {
      */
     PageResponse<GenDataSourceResponse> selectPage(GenDataSourceQueryRequest queryRequest);
 
+    /**
+     * 测试链接
+     *
+     * @param id 数据源ID
+     * @return 测试结果 true:成功 false:失败
+     */
+    Boolean connection(Long id);
+
 }

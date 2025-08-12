@@ -1,7 +1,10 @@
 package com.xht.generate.domain.request;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.xht.framework.core.domain.request.FormRequest;
 import com.xht.framework.web.validation.Groups;
+import com.xht.generate.constant.DataBaseTypeEnums;
+import com.xht.generate.constant.LanguageTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -18,12 +21,46 @@ import lombok.Data;
 public class GenTypeMappingFormRequest extends FormRequest {
 
     /**
-     * 唯一标识
+     * Id
      */
-    @Null(message = "唯一标识必须为空", groups = {Groups.Create.class})
-    @NotNull(message = "唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "唯一标识参数不合法", groups = { Groups.Update.class})
-    @Schema(description = "唯一标识", example = "101")
+    @Null(message = "Id必须为空", groups = {Groups.Create.class})
+    @NotNull(message = "Id参数不合法", groups = {Groups.Update.class})
+    @Positive(message = "Id参数不合法", groups = {Groups.Update.class})
+    @Schema(description = "Id", example = "101")
     private Long id;
+
+    /**
+     * 数据库类型（MySQL/Oracle）
+     */
+    @NotNull(message = "数据库类型不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @TableField(value = "db_type")
+    private DataBaseTypeEnums dbType;
+
+    /**
+     * 数据库数据类型（如：INT/VARCHAR2）
+     */
+    @NotNull(message = "数据库数据类型不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @TableField(value = "db_data_type")
+    private String dbDataType;
+
+    /**
+     * 目标编程语言（Java/TypeScript）
+     */
+    @NotNull(message = "目标编程语言不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @TableField(value = "target_language")
+    private LanguageTypeEnums targetLanguage;
+
+    /**
+     * 目标语言数据类型（如：Integer/number）
+     */
+    @NotNull(message = "目标语言数据类型不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @TableField(value = "target_data_type")
+    private String targetDataType;
+
+    /**
+     * 导入包路径（如：java.time.LocalDateTime）
+     */
+    @TableField(value = "import_package")
+    private String importPackage;
 
 }

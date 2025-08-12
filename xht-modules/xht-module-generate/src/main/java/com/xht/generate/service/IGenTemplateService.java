@@ -1,9 +1,9 @@
 package com.xht.generate.service;
 
-import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.generate.domain.request.GenTemplateFormRequest;
-import com.xht.generate.domain.request.GenTemplateQueryRequest;
 import com.xht.generate.domain.response.GenTemplateResponse;
+
+import java.util.List;
 
 /**
  * 模板管理Service接口
@@ -45,11 +45,9 @@ public interface IGenTemplateService {
     GenTemplateResponse getById(Long id);
 
     /**
-     * 分页查询模板
-     *
-     * @param queryRequest 模板查询请求参数
-     * @return 模板分页信息
+     * 根据模板组ID获取模板列表
+     * @param groupId 模板组ID
+     * @return 模板响应列表
      */
-    PageResponse<GenTemplateResponse> selectPage(GenTemplateQueryRequest queryRequest);
-
+    List<GenTemplateResponse> listByGroupId(String groupId);
 }

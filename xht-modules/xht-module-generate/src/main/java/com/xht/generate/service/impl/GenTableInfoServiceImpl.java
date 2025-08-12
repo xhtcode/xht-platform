@@ -10,6 +10,7 @@ import com.xht.generate.dao.GenTableInfoDao;
 import com.xht.generate.domain.entity.GenTableInfoEntity;
 import com.xht.generate.domain.request.GenTableInfoFormRequest;
 import com.xht.generate.domain.request.GenTableInfoQueryRequest;
+import com.xht.generate.domain.request.ImportTableFormRequest;
 import com.xht.generate.domain.response.GenTableInfoResponse;
 import com.xht.generate.service.IGenTableInfoService;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +39,8 @@ public class GenTableInfoServiceImpl implements IGenTableInfoService {
      * @return 操作结果
      */
     @Override
-    public Boolean importTable(GenTableInfoFormRequest formRequest) {
-        GenTableInfoEntity entity = genTableInfoConverter.toEntity(formRequest);
-        return genTableInfoDao.saveTransactional(entity);
+    public Boolean importTable(ImportTableFormRequest formRequest) {
+        return Boolean.TRUE;
     }
 
     /**

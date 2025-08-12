@@ -12,9 +12,15 @@ import com.xht.generate.domain.request.GenDataSourceFormRequest;
 import com.xht.generate.domain.request.GenDataSourceQueryRequest;
 import com.xht.generate.domain.response.GenDataSourceResponse;
 import com.xht.generate.service.IGenDataSourceService;
+import com.xht.generate.utils.JDBCConfig;
+import com.xht.generate.utils.JDBCUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 
 /**
@@ -89,6 +95,38 @@ public class GenDataSourceServiceImpl implements IGenDataSourceService {
     public PageResponse<GenDataSourceResponse> selectPage(GenDataSourceQueryRequest queryRequest) {
         Page<GenDataSourceEntity> page = genDataSourceDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
         return genDataSourceConverter.toResponse(page);
+    }
+
+    /**
+     * 测试链接
+     *
+     * @param id 数据源ID
+     * @return 测试结果 true:成功 false:失败
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean connection(Long id) {
+        GenDataSourceEntity entity = genDataSourceDao.findById(id);
+        if (entity != null) {
+            JDBCUtils jdbcUtils = null;
+            boolean result = false;
+            try {
+                JDBCConfig config = JDBCConfig.Builder.of(entity.getUrl(), entity.getName(), entity.getName(), entity.getDbType().getDriverClassName()).build();
+                jdbcUtils = JDBCUtils.create(config);
+                entity.setTestResult("success");
+                result = true;
+            } catch (Exception e) {
+                entity.setTestResult("fail");
+            } finally {
+                if (Objects.nonNull(jdbcUtils)) {
+                    jdbcUtils.close();
+                }
+            }
+            entity.setLastTestTime(LocalDateTime.now());
+            genDataSourceDao.updateById(entity);
+            return result;
+        }
+        return false;
     }
 
 

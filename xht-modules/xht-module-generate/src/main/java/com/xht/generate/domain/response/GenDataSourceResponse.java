@@ -1,6 +1,7 @@
 package com.xht.generate.domain.response;
 
 import com.xht.framework.core.domain.response.BasicResponse;
+import com.xht.generate.constant.DataBaseTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -31,7 +32,7 @@ public class GenDataSourceResponse extends BasicResponse {
      * 数据库类型（MySQL/Oracle）
      */
     @Schema(description = "数据库类型")
-    private String dbType;
+    private DataBaseTypeEnums dbType;
 
     /**
      * 数据库地址

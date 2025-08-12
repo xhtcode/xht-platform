@@ -16,7 +16,6 @@ import java.util.Optional;
  *
  * @author xht
  **/
-@SuppressWarnings("unused")
 public interface MapperRepository<T> extends CrudRepository<T> {
 
     /**

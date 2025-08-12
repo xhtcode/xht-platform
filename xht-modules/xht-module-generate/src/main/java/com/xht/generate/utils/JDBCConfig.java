@@ -83,21 +83,19 @@ public class JDBCConfig {
      */
     private JDBCConfig(Builder builder) {
         // 必要参数直接赋值（Builder已做非空校验）
-        this.url = builder.url;
-        this.username = builder.username;
-        this.password = builder.password;
-        this.driverClassName = builder.driverClassName;
-
+        this.url = builder.getUrl();
+        this.username = builder.getUsername();
+        this.password = builder.getPassword();
+        this.driverClassName = builder.getDriverClassName();
         // 可选参数：优先使用Builder设置的值，未设置则使用默认值
-        this.connectionTestQuery = Objects.nonNull(builder.connectionTestQuery) ? builder.connectionTestQuery : "SELECT 1";
-        this.connectionTimeout = Objects.nonNull(builder.connectionTimeout) ? builder.connectionTimeout : 60000L;
-        this.minimumIdle = Objects.nonNull(builder.minimumIdle) ? builder.minimumIdle : 2;
-        this.maximumPoolSize = Objects.nonNull(builder.maximumPoolSize) ? builder.maximumPoolSize : 10;
-        this.maxLifetime = Objects.nonNull(builder.maxLifetime) ? builder.maxLifetime : 600000L;
-        this.validationTimeout = Objects.nonNull(builder.validationTimeout) ? builder.validationTimeout : 5000L;
-        this.idleTimeout = Objects.nonNull(builder.idleTimeout) ? builder.idleTimeout : 300000L;
-        this.leakDetectionThreshold = Objects.nonNull(builder.leakDetectionThreshold) ? builder.leakDetectionThreshold : 500000L;
-
+        this.connectionTestQuery = builder.getConnectionTestQuery();
+        this.connectionTimeout = builder.getConnectionTimeout();
+        this.minimumIdle = builder.getMinimumIdle();
+        this.maximumPoolSize = builder.getMaximumPoolSize();
+        this.maxLifetime = builder.getMaxLifetime();
+        this.validationTimeout = builder.getValidationTimeout();
+        this.idleTimeout = builder.getIdleTimeout();
+        this.leakDetectionThreshold = builder.getLeakDetectionThreshold();
         // 最终配置校验（确保参数逻辑合法性）
         validateConfig();
     }
@@ -118,10 +116,12 @@ public class JDBCConfig {
         }
     }
 
+
     /**
      * 建造者模式：简化配置创建，支持链式调用
      * 负责参数收集和基础校验
      */
+    @Getter
     public static class Builder {
 
         /**
@@ -140,42 +140,42 @@ public class JDBCConfig {
         /**
          * 连接测试查询语句，用于验证数据库连接的有效性
          */
-        private String connectionTestQuery;
+        private String connectionTestQuery = "SELECT 1";
 
         /**
          * 连接超时时间（毫秒），获取数据库连接的最大等待时间
          */
-        private Long connectionTimeout;
+        private Long connectionTimeout = 60000L;
 
         /**
          * 最小空闲连接数，池中保持的最小空闲连接数量
          */
-        private Integer minimumIdle;
+        private Integer minimumIdle = 2;
 
         /**
          * 最大连接池大小，池中允许的最大连接数量
          */
-        private Integer maximumPoolSize;
+        private Integer maximumPoolSize = 10;
 
         /**
          * 连接的最大生命周期（毫秒），连接在池中的最大存活时间
          */
-        private Long maxLifetime;
+        private Long maxLifetime = 600000L;
 
         /**
          * 验证超时时间（毫秒），连接验证的最大等待时间
          */
-        private Long validationTimeout;
+        private Long validationTimeout = 5000L;
 
         /**
          * 空闲连接超时时间（毫秒），连接在池中空闲的最大时间
          */
-        private Long idleTimeout;
+        private Long idleTimeout = 300000L;
 
         /**
          * 连接泄漏检测阈值（毫秒），检测连接泄漏的时间阈值
          */
-        private Long leakDetectionThreshold;
+        private Long leakDetectionThreshold = 500000L;
 
 
         /**
@@ -186,7 +186,7 @@ public class JDBCConfig {
          * @param password        登录密码（可为null）
          * @param driverClassName 驱动类名（不能为空或空白）
          */
-        public Builder(String url, String username, String password, String driverClassName) {
+        private Builder(String url, String username, String password, String driverClassName) {
             if (Objects.isNull(url) || url.trim().isEmpty()) {
                 throw new UtilException("数据库URL不能为空或空白");
             }
@@ -201,6 +201,20 @@ public class JDBCConfig {
             this.username = username;
             this.password = password;
             this.driverClassName = driverClassName;
+        }
+
+
+        /**
+         * 创建一个新的 Builder 实例，用于构建数据库连接配置
+         *
+         * @param url             数据库连接URL
+         * @param username        数据库用户名
+         * @param password        数据库密码
+         * @param driverClassName 数据库驱动类名
+         * @return 返回一个新的 Builder 实例
+         */
+        public static Builder of(String url, String username, String password, String driverClassName) {
+            return new Builder(url, username, password, driverClassName);
         }
 
         /**
@@ -324,5 +338,4 @@ public class JDBCConfig {
             return new JDBCConfig(this);
         }
     }
-
 }

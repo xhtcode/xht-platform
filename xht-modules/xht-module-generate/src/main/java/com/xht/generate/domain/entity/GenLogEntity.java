@@ -25,10 +25,10 @@ public class GenLogEntity extends BasicEntity implements Serializable {
     private Long id;
 
     /**
-     * 项目ID
+     * 分组id
      */
-    @TableField(value = "project_id")
-    private Long projectId;
+    @TableField(value = "group_id")
+    private Long groupId;
 
     /**
      * 生成批次号

@@ -22,10 +22,10 @@ public class GenLogResponse extends BasicResponse {
     private Long id;
 
     /**
-     * 项目ID
+     * 分组id
      */
-    @Schema(description = "项目ID")
-    private Long projectId;
+    @Schema(description = "分组id")
+    private Long groupId;
 
     /**
      * 生成批次号

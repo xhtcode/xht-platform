@@ -3,8 +3,10 @@ package com.xht.generate.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
+import com.xht.generate.domain.request.DataBaseQueryRequest;
 import com.xht.generate.domain.request.GenTableInfoFormRequest;
 import com.xht.generate.domain.request.GenTableInfoQueryRequest;
+import com.xht.generate.domain.request.ImportTableFormRequest;
 import com.xht.generate.domain.response.GenTableInfoResponse;
 import com.xht.generate.service.IGenTableInfoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,7 +39,7 @@ public class GenTableInfoController {
      */
     @Operation(summary = "创建表信息")
     @PostMapping("/import")
-    public R<Boolean> importTable(@Validated(value = {Groups.Create.class}) @RequestBody GenTableInfoFormRequest formRequest) {
+    public R<Boolean> importTable(@Validated @RequestBody ImportTableFormRequest formRequest) {
         return R.ok(genTableInfoService.importTable(formRequest));
     }
 
@@ -84,9 +86,20 @@ public class GenTableInfoController {
      * @return 表信息分页信息
      */
     @Operation(summary = "分页查询表信息")
-    @GetMapping("/page")
-    public R<PageResponse<GenTableInfoResponse>> selectPage(GenTableInfoQueryRequest queryRequest) {
+    @GetMapping("/exists/page")
+    public R<PageResponse<GenTableInfoResponse>> selectExistsPage(GenTableInfoQueryRequest queryRequest) {
         return R.ok(genTableInfoService.selectPage(queryRequest));
     }
 
+    /**
+     * 分页查询表信息
+     *
+     * @param queryRequest 表信息查询请求参数
+     * @return 表信息分页信息
+     */
+    @Operation(summary = "分页查询表信息")
+    @GetMapping("/no/exists/page")
+    public R<PageResponse<GenTableInfoResponse>> selectNoExistsPage(DataBaseQueryRequest queryRequest) {
+        return R.ok(null);
+    }
 }

@@ -1,10 +1,8 @@
 package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
-import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
 import com.xht.generate.domain.request.GenTemplateFormRequest;
-import com.xht.generate.domain.request.GenTemplateQueryRequest;
 import com.xht.generate.domain.response.GenTemplateResponse;
 import com.xht.generate.service.IGenTemplateService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 模板管理
@@ -78,15 +78,14 @@ public class GenTemplateController {
     }
 
     /**
-     * 分页查询模板
+     * 根据模板组ID获取模板列表
      *
-     * @param queryRequest 模板查询请求参数
-     * @return 模板分页信息
+     * @param groupId 模板组ID
+     * @return 模板响应列表
      */
-    @Operation(summary = "分页查询模板", description = "根据提供的查询请求参数分页查询模板信息")
-    @GetMapping("/page")
-    public R<PageResponse<GenTemplateResponse>> selectPage(GenTemplateQueryRequest queryRequest) {
-        return R.ok(genTemplateService.selectPage(queryRequest));
+    @GetMapping("/list/{groupId}")
+    public R<List<GenTemplateResponse>> listByGroupId(@PathVariable("groupId") String groupId) {
+        return R.ok(genTemplateService.listByGroupId(groupId));
     }
 
 }

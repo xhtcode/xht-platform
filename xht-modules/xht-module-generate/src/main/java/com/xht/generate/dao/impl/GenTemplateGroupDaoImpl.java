@@ -1,16 +1,15 @@
 package com.xht.generate.dao.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTemplateGroupDao;
 import com.xht.generate.dao.mapper.GenTemplateGroupMapper;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
 import com.xht.generate.domain.request.GenTemplateGroupFormRequest;
-import com.xht.generate.domain.request.GenTemplateGroupQueryRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 项目管理
@@ -28,22 +27,13 @@ public class GenTemplateGroupDaoImpl extends MapperRepositoryImpl<GenTemplateGro
      * @return 是否成功
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean updateFormRequest(GenTemplateGroupFormRequest formRequest) {
         LambdaUpdateWrapper<GenTemplateGroupEntity> updateWrapper = lambdaUpdateWrapper();
+        updateWrapper.set(StringUtils.hasText(formRequest.getGroupName()), GenTemplateGroupEntity::getGroupName, formRequest.getGroupName());
+        updateWrapper.set(StringUtils.hasText(formRequest.getGroupDesc()), GenTemplateGroupEntity::getGroupDesc, formRequest.getGroupDesc());
+        updateWrapper.eq(GenTemplateGroupEntity::getId, formRequest.getId());
         return update(updateWrapper);
-    }
-
-    /**
-     * 分页查询菜单
-     *
-     * @param page         分页信息
-     * @param queryRequest 菜单查询请求参数
-     * @return 菜单分页信息
-     */
-    @Override
-    public Page<GenTemplateGroupEntity> queryPageRequest(Page<GenTemplateGroupEntity> page, GenTemplateGroupQueryRequest queryRequest) {
-        LambdaQueryWrapper<GenTemplateGroupEntity> queryWrapper = lambdaQueryWrapper();
-        return page(page, queryWrapper);
     }
 
 }

@@ -21,7 +21,6 @@ import java.util.Optional;
  * @author xht
  **/
 @Slf4j
-@SuppressWarnings("unused")
 public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends CrudRepository<M, T> implements MapperRepository<T> {
 
     protected static final int DEFAULT_BATCH_SIZE = 100;
