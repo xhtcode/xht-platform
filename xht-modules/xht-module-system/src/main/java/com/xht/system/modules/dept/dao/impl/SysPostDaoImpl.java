@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.core.enums.SystemFlagEnums;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.dept.dao.SysPostDao;
 import com.xht.system.modules.dept.dao.mapper.SysPostMapper;
@@ -56,10 +55,10 @@ public class SysPostDaoImpl extends MapperRepositoryImpl<SysPostMapper, SysPostE
         LambdaUpdateWrapper<SysPostEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
-                .set(SysPostEntity::getPostCode, formRequest.getPostCode())
-                .set(SysPostEntity::getPostName, formRequest.getPostName())
-                .set(SysPostEntity::getPostSort, formRequest.getPostSort())
-                .set(SysPostEntity::getRemark, formRequest.getRemark())
+                .set(condition(formRequest.getPostCode()), SysPostEntity::getPostCode, formRequest.getPostCode())
+                .set(condition(formRequest.getPostName()), SysPostEntity::getPostName, formRequest.getPostName())
+                .set(condition(formRequest.getPostSort()), SysPostEntity::getPostSort, formRequest.getPostSort())
+                .set(condition(formRequest.getRemark()), SysPostEntity::getRemark, formRequest.getRemark())
                 .eq(SysPostEntity::getId, formRequest.getId());
         // @formatter:on
         return update(updateWrapper);
@@ -110,13 +109,13 @@ public class SysPostDaoImpl extends MapperRepositoryImpl<SysPostMapper, SysPostE
         LambdaQueryWrapper<SysPostEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(
-                        StringUtils.hasText(queryRequest.getKeyWord()), wrapper -> wrapper.or()
+                        condition(queryRequest.getKeyWord()), wrapper -> wrapper.or()
                                 .like(SysPostEntity::getPostCode, queryRequest.getKeyWord())
                                 .or()
                                 .like(SysPostEntity::getPostName, queryRequest.getKeyWord())
                 )
-                .like(StringUtils.hasText(queryRequest.getPostCode()), SysPostEntity::getPostCode, queryRequest.getPostCode())
-                .like(StringUtils.hasText(queryRequest.getPostName()), SysPostEntity::getPostName, queryRequest.getPostName())
+                .like(condition(queryRequest.getPostCode()), SysPostEntity::getPostCode, queryRequest.getPostCode())
+                .like(condition(queryRequest.getPostName()), SysPostEntity::getPostName, queryRequest.getPostName())
         ;
         // @formatter:on
         return page(page, queryWrapper);

@@ -1,6 +1,7 @@
 package com.xht.generate.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTemplateDao;
@@ -32,14 +33,23 @@ public class GenTemplateDaoImpl extends MapperRepositoryImpl<GenTemplateMapper, 
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateFormRequest(GenTemplateFormRequest formRequest) {
         LambdaUpdateWrapper<GenTemplateEntity> updateWrapper = lambdaUpdateWrapper();
-        updateWrapper.set(Objects.nonNull(formRequest.getGroupId()), GenTemplateEntity::getGroupId, formRequest.getGroupId());
-        updateWrapper.set(StringUtils.hasText(formRequest.getName()), GenTemplateEntity::getName, formRequest.getName());
-        updateWrapper.set(StringUtils.hasText(formRequest.getContent()), GenTemplateEntity::getContent, formRequest.getContent());
-        updateWrapper.set(StringUtils.hasText(formRequest.getFileType()), GenTemplateEntity::getFileType, formRequest.getFileType());
-        updateWrapper.set(StringUtils.hasText(formRequest.getFilePathTemplate()), GenTemplateEntity::getFilePathTemplate, formRequest.getFilePathTemplate());
-        updateWrapper.set(StringUtils.hasText(formRequest.getFileNameTemplate()), GenTemplateEntity::getFileNameTemplate, formRequest.getFileNameTemplate());
+        updateWrapper.set(condition(formRequest.getGroupId()), GenTemplateEntity::getGroupId, formRequest.getGroupId());
+        updateWrapper.set(condition(formRequest.getName()), GenTemplateEntity::getName, formRequest.getName());
+        updateWrapper.set(condition(formRequest.getContent()), GenTemplateEntity::getContent, formRequest.getContent());
+        updateWrapper.set(condition(formRequest.getFileType()), GenTemplateEntity::getFileType, formRequest.getFileType());
+        updateWrapper.set(condition(formRequest.getFilePathTemplate()), GenTemplateEntity::getFilePathTemplate, formRequest.getFilePathTemplate());
+        updateWrapper.set(condition(formRequest.getFileNameTemplate()), GenTemplateEntity::getFileNameTemplate, formRequest.getFileNameTemplate());
         updateWrapper.eq(GenTemplateEntity::getId, formRequest.getId());
         return update(updateWrapper);
     }
 
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    @Override
+    protected SFunction<GenTemplateEntity, ?> getFieldId() {
+        return GenTemplateEntity::getId;
+    }
 }

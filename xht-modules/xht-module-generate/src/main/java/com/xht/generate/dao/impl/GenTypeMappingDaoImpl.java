@@ -2,6 +2,7 @@ package com.xht.generate.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTypeMappingDao;
@@ -12,8 +13,6 @@ import com.xht.generate.domain.request.GenTypeMappingQueryRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Objects;
 
 /**
  * 字段映射管理
@@ -34,11 +33,11 @@ public class GenTypeMappingDaoImpl extends MapperRepositoryImpl<GenTypeMappingMa
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateFormRequest(GenTypeMappingFormRequest formRequest) {
         LambdaUpdateWrapper<GenTypeMappingEntity> updateWrapper = lambdaUpdateWrapper();
-        updateWrapper.set(Objects.nonNull(formRequest.getDbType()), GenTypeMappingEntity::getDbType, formRequest.getDbType());
-        updateWrapper.set(Objects.nonNull(formRequest.getDbDataType()), GenTypeMappingEntity::getDbDataType, formRequest.getDbDataType());
-        updateWrapper.set(Objects.nonNull(formRequest.getTargetLanguage()), GenTypeMappingEntity::getTargetLanguage, formRequest.getTargetLanguage());
-        updateWrapper.set(Objects.nonNull(formRequest.getTargetDataType()), GenTypeMappingEntity::getTargetDataType, formRequest.getTargetDataType());
-        updateWrapper.set(Objects.nonNull(formRequest.getImportPackage()), GenTypeMappingEntity::getImportPackage, formRequest.getImportPackage());
+        updateWrapper.set(condition(formRequest.getDbType()), GenTypeMappingEntity::getDbType, formRequest.getDbType());
+        updateWrapper.set(condition(formRequest.getDbDataType()), GenTypeMappingEntity::getDbDataType, formRequest.getDbDataType());
+        updateWrapper.set(condition(formRequest.getTargetLanguage()), GenTypeMappingEntity::getTargetLanguage, formRequest.getTargetLanguage());
+        updateWrapper.set(condition(formRequest.getTargetDataType()), GenTypeMappingEntity::getTargetDataType, formRequest.getTargetDataType());
+        updateWrapper.set(condition(formRequest.getImportPackage()), GenTypeMappingEntity::getImportPackage, formRequest.getImportPackage());
         updateWrapper.eq(GenTypeMappingEntity::getId, formRequest.getId());
         return update(updateWrapper);
     }
@@ -53,8 +52,18 @@ public class GenTypeMappingDaoImpl extends MapperRepositoryImpl<GenTypeMappingMa
     @Override
     public Page<GenTypeMappingEntity> queryPageRequest(Page<GenTypeMappingEntity> page, GenTypeMappingQueryRequest queryRequest) {
         LambdaQueryWrapper<GenTypeMappingEntity> queryWrapper = lambdaQueryWrapper();
-        queryWrapper.eq(Objects.nonNull(queryRequest.getDbType()), GenTypeMappingEntity::getDbType, queryRequest.getDbType());
-        queryWrapper.eq(Objects.nonNull(queryRequest.getTargetLanguage()), GenTypeMappingEntity::getTargetLanguage, queryRequest.getTargetLanguage());
+        queryWrapper.eq(condition(queryRequest.getDbType()), GenTypeMappingEntity::getDbType, queryRequest.getDbType());
+        queryWrapper.eq(condition(queryRequest.getTargetLanguage()), GenTypeMappingEntity::getTargetLanguage, queryRequest.getTargetLanguage());
         return page(page, queryWrapper);
+    }
+
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    @Override
+    protected SFunction<GenTypeMappingEntity, ?> getFieldId() {
+        return GenTypeMappingEntity::getId;
     }
 }

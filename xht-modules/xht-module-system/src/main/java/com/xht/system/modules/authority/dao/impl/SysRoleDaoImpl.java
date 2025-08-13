@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
 import com.xht.system.modules.authority.dao.SysRoleDao;
@@ -39,12 +38,12 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateFormRequest(SysRoleFormRequest formRequest) {
         LambdaUpdateWrapper<SysRoleEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(SysRoleEntity::getRoleCode, formRequest.getRoleCode());
-        updateWrapper.set(SysRoleEntity::getRoleName, formRequest.getRoleName());
-        updateWrapper.set(SysRoleEntity::getDataScope, formRequest.getDataScope());
-        updateWrapper.set(SysRoleEntity::getRoleStatus, formRequest.getRoleStatus());
-        updateWrapper.set(SysRoleEntity::getRoleSort, formRequest.getRoleSort());
-        updateWrapper.set(SysRoleEntity::getRemark, formRequest.getRemark());
+        updateWrapper.set(condition(formRequest.getRoleCode()), SysRoleEntity::getRoleCode, formRequest.getRoleCode());
+        updateWrapper.set(condition(formRequest.getRoleName()), SysRoleEntity::getRoleName, formRequest.getRoleName());
+        updateWrapper.set(condition(formRequest.getDataScope()), SysRoleEntity::getDataScope, formRequest.getDataScope());
+        updateWrapper.set(condition(formRequest.getRoleStatus()), SysRoleEntity::getRoleStatus, formRequest.getRoleStatus());
+        updateWrapper.set(condition(formRequest.getRoleSort()), SysRoleEntity::getRoleSort, formRequest.getRoleSort());
+        updateWrapper.set(condition(formRequest.getRemark()), SysRoleEntity::getRemark, formRequest.getRemark());
         updateWrapper.eq(SysRoleEntity::getId, formRequest.getId());
         return update(updateWrapper);
     }
@@ -92,13 +91,13 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(
-                        StringUtils.hasText(queryRequest.getKeyWord()), wrapper -> wrapper.or()
+                        condition(queryRequest.getKeyWord()), wrapper -> wrapper.or()
                                 .like(SysRoleEntity::getRoleCode, queryRequest.getKeyWord())
                                 .or()
                                 .like(SysRoleEntity::getRoleName, queryRequest.getKeyWord())
                 )
-                .like(StringUtils.hasText(queryRequest.getRoleCode()), SysRoleEntity::getRoleCode, queryRequest.getRoleCode())
-                .like(StringUtils.hasText(queryRequest.getRoleName()), SysRoleEntity::getRoleName, queryRequest.getRoleName())
+                .like(condition(queryRequest.getRoleCode()), SysRoleEntity::getRoleCode, queryRequest.getRoleCode())
+                .like(condition(queryRequest.getRoleName()), SysRoleEntity::getRoleName, queryRequest.getRoleName())
                 .eq(Objects.nonNull(queryRequest.getRoleStatus()), SysRoleEntity::getRoleStatus, queryRequest.getRoleStatus())
         ;
         // @formatter:on

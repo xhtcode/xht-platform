@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.dict.dao.SysDictDao;
 import com.xht.system.modules.dict.dao.mapper.SysDictItemMapper;
@@ -46,11 +45,11 @@ public class SysDictDaoImpl extends MapperRepositoryImpl<SysDictMapper, SysDictE
         LambdaUpdateWrapper<SysDictEntity> updateWrapper = new LambdaUpdateWrapper<>();
         //@formatter:off
         updateWrapper
-                .set(SysDictEntity::getDictCode, formRequest.getDictCode())
-                .set(SysDictEntity::getDictName, formRequest.getDictName())
-                .set(SysDictEntity::getSortOrder, formRequest.getSortOrder())
-                .set(SysDictEntity::getRemark, formRequest.getRemark())
-                .set(SysDictEntity::getStatus, formRequest.getStatus())
+                .set(condition(formRequest.getDictCode()), SysDictEntity::getDictCode, formRequest.getDictCode())
+                .set(condition(formRequest.getDictName()), SysDictEntity::getDictName, formRequest.getDictName())
+                .set(condition(formRequest.getSortOrder()), SysDictEntity::getSortOrder, formRequest.getSortOrder())
+                .set(condition(formRequest.getRemark()), SysDictEntity::getRemark, formRequest.getRemark())
+                .set(condition(formRequest.getStatus()), SysDictEntity::getStatus, formRequest.getStatus())
                 .eq(SysDictEntity::getId, formRequest.getId());
         //@formatter:on
         if (updateItemStatus) {
@@ -91,14 +90,14 @@ public class SysDictDaoImpl extends MapperRepositoryImpl<SysDictMapper, SysDictE
     @Override
     public Page<SysDictEntity> queryPageRequest(Page<SysDictEntity> page, SysDictQueryRequest queryRequest) {
         LambdaQueryWrapper<SysDictEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.and(StringUtils.hasLength(queryRequest.getKeyWord()), wrapper -> wrapper
+        queryWrapper.and(condition(queryRequest.getKeyWord()), wrapper -> wrapper
                 .like(SysDictEntity::getDictCode, queryRequest.getKeyWord())
                 .or()
                 .like(SysDictEntity::getDictName, queryRequest.getKeyWord())
         );
-        queryWrapper.like(StringUtils.hasLength(queryRequest.getDictCode()), SysDictEntity::getDictCode, queryRequest.getDictCode());
-        queryWrapper.like(StringUtils.hasLength(queryRequest.getDictName()), SysDictEntity::getDictName, queryRequest.getDictName());
-        queryWrapper.eq(Objects.nonNull(queryRequest.getStatus()), SysDictEntity::getStatus, queryRequest.getStatus());
+        queryWrapper.like(condition(queryRequest.getDictCode()), SysDictEntity::getDictCode, queryRequest.getDictCode());
+        queryWrapper.like(condition(queryRequest.getDictName()), SysDictEntity::getDictName, queryRequest.getDictName());
+        queryWrapper.eq(condition(queryRequest.getStatus()), SysDictEntity::getStatus, queryRequest.getStatus());
         return page(page, queryWrapper);
     }
 

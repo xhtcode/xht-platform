@@ -80,26 +80,27 @@ public class GenTableInfoController {
     }
 
     /**
-     * 分页查询表信息
+     * 分页查询已存在的表信息
      *
-     * @param queryRequest 表信息查询请求参数
-     * @return 表信息分页信息
+     * @param queryRequest 查询条件封装对象，包含分页参数和查询条件
+     * @return 分页结果封装对象，包含表信息列表和分页信息
      */
     @Operation(summary = "分页查询表信息")
     @GetMapping("/exists/page")
     public R<PageResponse<GenTableInfoResponse>> selectExistsPage(GenTableInfoQueryRequest queryRequest) {
-        return R.ok(genTableInfoService.selectPage(queryRequest));
+        return R.ok(genTableInfoService.selectExistsPage(queryRequest));
     }
 
     /**
-     * 分页查询表信息
+     * 分页查询不存在的表信息
      *
-     * @param queryRequest 表信息查询请求参数
-     * @return 表信息分页信息
+     * @param queryRequest 数据库查询条件封装对象，包含分页参数和数据库连接信息
+     * @return 分页结果封装对象，包含表信息列表和分页信息
      */
     @Operation(summary = "分页查询表信息")
     @GetMapping("/no/exists/page")
     public R<PageResponse<GenTableInfoResponse>> selectNoExistsPage(DataBaseQueryRequest queryRequest) {
-        return R.ok(null);
-    }
+        return R.ok(genTableInfoService.selectNoExistsPage(queryRequest));
+}
+
 }

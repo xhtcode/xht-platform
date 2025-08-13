@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import com.xht.system.modules.dept.dao.SysDeptDao;
@@ -52,17 +51,17 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
         LambdaUpdateWrapper<SysDeptEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
-                .set(SysDeptEntity::getDeptName, formRequest.getDeptName())
-                .set(SysDeptEntity::getDeptCode, formRequest.getDeptCode())
-                .set(SysDeptEntity::getDeptName, formRequest.getDeptName())
-                .set(SysDeptEntity::getParentId, formRequest.getParentId())
-                .set(SysDeptEntity::getDeptStatus, formRequest.getDeptStatus())
-                .set(SysDeptEntity::getDeptSort, formRequest.getDeptSort())
-                .set(SysDeptEntity::getDeptLevel, formRequest.getDeptLevel())
-                .set(SysDeptEntity::getAncestors, formRequest.getAncestors())
-                .set(SysDeptEntity::getPhone, formRequest.getPhone())
-                .set(SysDeptEntity::getEmail, formRequest.getEmail())
-                .set(SysDeptEntity::getRemark, formRequest.getRemark())
+                .set(condition(formRequest.getDeptName()), SysDeptEntity::getDeptName, formRequest.getDeptName())
+                .set(condition(formRequest.getDeptCode()), SysDeptEntity::getDeptCode, formRequest.getDeptCode())
+                .set(condition(formRequest.getDeptName()), SysDeptEntity::getDeptName, formRequest.getDeptName())
+                .set(condition(formRequest.getParentId()), SysDeptEntity::getParentId, formRequest.getParentId())
+                .set(condition(formRequest.getDeptStatus()), SysDeptEntity::getDeptStatus, formRequest.getDeptStatus())
+                .set(condition(formRequest.getDeptSort()), SysDeptEntity::getDeptSort, formRequest.getDeptSort())
+                .set(condition(formRequest.getDeptLevel()), SysDeptEntity::getDeptLevel, formRequest.getDeptLevel())
+                .set(condition(formRequest.getAncestors()), SysDeptEntity::getAncestors, formRequest.getAncestors())
+                .set(condition(formRequest.getPhone()), SysDeptEntity::getPhone, formRequest.getPhone())
+                .set(condition(formRequest.getEmail()), SysDeptEntity::getEmail, formRequest.getEmail())
+                .set(condition(formRequest.getRemark()), SysDeptEntity::getRemark, formRequest.getRemark())
                 .eq(SysDeptEntity::getId, formRequest.getId());
         // @formatter:on
         return update(updateWrapper);
@@ -149,7 +148,7 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
         // @formatter:off
         LambdaQueryWrapper<SysDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.and(
-                        StringUtils.hasText(queryRequest.getKeyWord()), wrapper ->
+                        condition(queryRequest.getKeyWord()), wrapper ->
                                 wrapper
                                         .or()
                                         .like(SysDeptEntity::getDeptName, queryRequest.getKeyWord())
@@ -160,12 +159,12 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
                                         .or()
                                         .like(SysDeptEntity::getEmail, queryRequest.getKeyWord())
                 )
-                .eq(Objects.nonNull(queryRequest.getParentId()), SysDeptEntity::getParentId, queryRequest.getParentId())
-                .like(StringUtils.hasText(queryRequest.getDeptCode()), SysDeptEntity::getDeptCode, queryRequest.getDeptCode())
-                .like(StringUtils.hasText(queryRequest.getDeptName()), SysDeptEntity::getDeptName, queryRequest.getDeptName())
-                .eq(Objects.nonNull(queryRequest.getDeptStatus()), SysDeptEntity::getDeptStatus, queryRequest.getDeptStatus())
-                .like(StringUtils.hasText(queryRequest.getPhone()), SysDeptEntity::getPhone, queryRequest.getPhone())
-                .like(StringUtils.hasText(queryRequest.getEmail()), SysDeptEntity::getPhone, queryRequest.getEmail())
+                .eq(condition(queryRequest.getParentId()), SysDeptEntity::getParentId, queryRequest.getParentId())
+                .eq(condition(queryRequest.getDeptStatus()), SysDeptEntity::getDeptStatus, queryRequest.getDeptStatus())
+                .like(condition(queryRequest.getDeptCode()), SysDeptEntity::getDeptCode, queryRequest.getDeptCode())
+                .like(condition(queryRequest.getDeptName()), SysDeptEntity::getDeptName, queryRequest.getDeptName())
+                .like(condition(queryRequest.getPhone()), SysDeptEntity::getPhone, queryRequest.getPhone())
+                .like(condition(queryRequest.getEmail()), SysDeptEntity::getPhone, queryRequest.getEmail())
         ;
         // @formatter:on
         return list(queryWrapper);

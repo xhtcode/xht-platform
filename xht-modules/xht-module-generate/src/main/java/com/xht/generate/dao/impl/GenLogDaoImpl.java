@@ -1,6 +1,7 @@
 package com.xht.generate.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
@@ -32,11 +33,20 @@ public class GenLogDaoImpl extends MapperRepositoryImpl<GenLogMapper, GenLogEnti
     @Override
     public Page<GenLogEntity> queryPageRequest(Page<GenLogEntity> page, GenLogQueryRequest queryRequest) {
         LambdaQueryWrapper<GenLogEntity> queryWrapper = lambdaQueryWrapper();
-        queryWrapper.eq(Objects.nonNull(queryRequest.getGroupId()), GenLogEntity::getGroupId, queryRequest.getGroupId());
-        queryWrapper.eq(StringUtils.hasText(queryRequest.getBatchNo()), GenLogEntity::getBatchNo, queryRequest.getBatchNo());
-        queryWrapper.ge(Objects.nonNull(queryRequest.getGenerateTimeStart()), GenLogEntity::getGenerateTime, queryRequest.getGenerateTimeStart());
-        queryWrapper.le(Objects.nonNull(queryRequest.getGenerateTimeEnd()), GenLogEntity::getGenerateTime, queryRequest.getGenerateTimeEnd());
+        queryWrapper.eq(condition(queryRequest.getGroupId()), GenLogEntity::getGroupId, queryRequest.getGroupId());
+        queryWrapper.eq(condition(queryRequest.getBatchNo()), GenLogEntity::getBatchNo, queryRequest.getBatchNo());
+        queryWrapper.ge(condition(queryRequest.getGenerateTimeStart()), GenLogEntity::getGenerateTime, queryRequest.getGenerateTimeStart());
+        queryWrapper.le(condition(queryRequest.getGenerateTimeEnd()), GenLogEntity::getGenerateTime, queryRequest.getGenerateTimeEnd());
         return page(page, queryWrapper);
     }
 
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    @Override
+    protected SFunction<GenLogEntity, ?> getFieldId() {
+        return GenLogEntity::getId;
+    }
 }

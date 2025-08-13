@@ -3,7 +3,6 @@ package com.xht.system.modules.authority.dao.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
@@ -40,19 +39,19 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
         LambdaUpdateWrapper<SysMenuEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
-                .set(SysMenuEntity::getParentId, formRequest.getParentId())
-                .set(SysMenuEntity::getMenuType, formRequest.getMenuType())
-                .set(SysMenuEntity::getMenuStatus, formRequest.getMenuStatus())
-                .set(SysMenuEntity::getMenuName, formRequest.getMenuName())
-                .set(SysMenuEntity::getMenuIcon, formRequest.getMenuIcon())
-                .set(SysMenuEntity::getMenuPath, formRequest.getMenuPath())
-                .set(SysMenuEntity::getMenuHidden, formRequest.getMenuHidden())
-                .set(SysMenuEntity::getMenuCache, formRequest.getMenuCache())
-                .set(SysMenuEntity::getMenuAuthority, formRequest.getMenuAuthority())
-                .set(SysMenuEntity::getMenuSort, formRequest.getMenuSort())
-                .set(SysMenuEntity::getViewName, formRequest.getViewName())
-                .set(SysMenuEntity::getViewPath, formRequest.getViewPath())
-                .set(SysMenuEntity::getFrameFlag, formRequest.getFrameFlag())
+                .set(condition(formRequest.getParentId()), SysMenuEntity::getParentId, formRequest.getParentId())
+                .set(condition(formRequest.getMenuType()), SysMenuEntity::getMenuType, formRequest.getMenuType())
+                .set(condition(formRequest.getMenuStatus()), SysMenuEntity::getMenuStatus, formRequest.getMenuStatus())
+                .set(condition(formRequest.getMenuName()), SysMenuEntity::getMenuName, formRequest.getMenuName())
+                .set(condition(formRequest.getMenuIcon()), SysMenuEntity::getMenuIcon, formRequest.getMenuIcon())
+                .set(condition(formRequest.getMenuPath()), SysMenuEntity::getMenuPath, formRequest.getMenuPath())
+                .set(condition(formRequest.getMenuHidden()), SysMenuEntity::getMenuHidden, formRequest.getMenuHidden())
+                .set(condition(formRequest.getMenuCache()), SysMenuEntity::getMenuCache, formRequest.getMenuCache())
+                .set(condition(formRequest.getMenuAuthority()), SysMenuEntity::getMenuAuthority, formRequest.getMenuAuthority())
+                .set(condition(formRequest.getMenuSort()), SysMenuEntity::getMenuSort, formRequest.getMenuSort())
+                .set(condition(formRequest.getViewName()), SysMenuEntity::getViewName, formRequest.getViewName())
+                .set(condition(formRequest.getViewPath()), SysMenuEntity::getViewPath, formRequest.getViewPath())
+                .set(condition(formRequest.getFrameFlag()), SysMenuEntity::getFrameFlag, formRequest.getFrameFlag())
                 .eq(SysMenuEntity::getId, formRequest.getId());
         // @formatter:on
         updateWrapper.eq(SysMenuEntity::getId, formRequest.getId());
@@ -125,16 +124,16 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
     public List<SysMenuEntity> getMenuList(SysMenuQueryRequest queryRequest) {
         // @formatter:off
         LambdaQueryWrapper<SysMenuEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.and(StringUtils.hasText(queryRequest.getKeyWord()), wrapper ->
+        lambdaQueryWrapper.and(condition(queryRequest.getKeyWord()), wrapper ->
                 wrapper.like(SysMenuEntity::getMenuName, queryRequest.getKeyWord())
                         .or()
                         .like(SysMenuEntity::getMenuAuthority, queryRequest.getKeyWord())
         );
         lambdaQueryWrapper
-                .eq(Objects.nonNull(queryRequest.getParentId()), SysMenuEntity::getParentId, queryRequest.getParentId())
-                .eq(Objects.nonNull(queryRequest.getMenuType()), SysMenuEntity::getMenuType, queryRequest.getMenuType())
-                .like(StringUtils.hasText(queryRequest.getMenuName()), SysMenuEntity::getMenuName, queryRequest.getMenuName())
-                .eq(Objects.nonNull(queryRequest.getMenuStatus()), SysMenuEntity::getMenuStatus, queryRequest.getMenuStatus());
+                .eq(condition(queryRequest.getParentId()), SysMenuEntity::getParentId, queryRequest.getParentId())
+                .eq(condition(queryRequest.getMenuType()), SysMenuEntity::getMenuType, queryRequest.getMenuType())
+                .eq(condition(queryRequest.getMenuStatus()), SysMenuEntity::getMenuStatus, queryRequest.getMenuStatus())
+                .like(condition(queryRequest.getMenuName()), SysMenuEntity::getMenuName, queryRequest.getMenuName());
         // @formatter:on
         return list(lambdaQueryWrapper);
     }

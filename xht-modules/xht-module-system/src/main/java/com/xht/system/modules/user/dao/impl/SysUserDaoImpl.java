@@ -80,13 +80,13 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
                 .eq(SysUserEntity::getId, sysUserEntity.getId());
         LambdaUpdateWrapper<SysUserProfilesEntity> userProfilesUpdateWrapper = new LambdaUpdateWrapper<>();
         userProfilesUpdateWrapper
-                .set(SysUserProfilesEntity::getRealName, sysUserProfilesEntity.getRealName())
-                .set(SysUserProfilesEntity::getIdCardNumber, sysUserProfilesEntity.getIdCardNumber())
-                .set(SysUserProfilesEntity::getGender, sysUserProfilesEntity.getGender())
-                .set(SysUserProfilesEntity::getBirthDate, sysUserProfilesEntity.getBirthDate())
-                .set(SysUserProfilesEntity::getAge, sysUserProfilesEntity.getAge())
-                .set(SysUserProfilesEntity::getAddress, sysUserProfilesEntity.getAddress())
-                .set(SysUserProfilesEntity::getPostalCode, sysUserProfilesEntity.getPostalCode())
+                .set(condition(sysUserProfilesEntity.getRealName()), SysUserProfilesEntity::getRealName, sysUserProfilesEntity.getRealName())
+                .set(condition(sysUserProfilesEntity.getIdCardNumber()), SysUserProfilesEntity::getIdCardNumber, sysUserProfilesEntity.getIdCardNumber())
+                .set(condition(sysUserProfilesEntity.getGender()), SysUserProfilesEntity::getGender, sysUserProfilesEntity.getGender())
+                .set(condition(sysUserProfilesEntity.getBirthDate()), SysUserProfilesEntity::getBirthDate, sysUserProfilesEntity.getBirthDate())
+                .set(condition(sysUserProfilesEntity.getAge()), SysUserProfilesEntity::getAge, sysUserProfilesEntity.getAge())
+                .set(condition(sysUserProfilesEntity.getAddress()), SysUserProfilesEntity::getAddress, sysUserProfilesEntity.getAddress())
+                .set(condition(sysUserProfilesEntity.getPostalCode()), SysUserProfilesEntity::getPostalCode, sysUserProfilesEntity.getPostalCode())
                 .eq(SysUserProfilesEntity::getUserId, sysUserEntity.getId());
         //@formatter:on
         update(userUpdateWrapper);

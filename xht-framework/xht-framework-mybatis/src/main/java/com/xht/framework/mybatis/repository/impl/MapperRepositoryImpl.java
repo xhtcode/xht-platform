@@ -5,15 +5,15 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.repository.CrudRepository;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * 自定义 Mapper 接口实现类
@@ -34,10 +34,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      *
      * @return 主键字段名
      */
-    protected SFunction<T, ?> getFieldId() {
-        throw new UnsupportedOperationException("getFieldId() method not implemented");
-    }
-
+    protected abstract SFunction<T, ?> getFieldId();
 
     /**
      * 保存单个实体
@@ -287,5 +284,58 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
         return count(new LambdaQueryWrapper<T>().in(field, value));
     }
 
+
+    /**
+     * 判断给定的文本是否满足条件（即文本不为空且包含非空白字符）
+     *
+     * @param text 待判断的文本字符串
+     * @return 如果文本不为空且包含非空白字符则返回true，否则返回false
+     */
+    protected final boolean condition(String text) {
+        return StringUtils.hasText(text);
+    }
+
+
+    /**
+     * 判断给定的对象是否不为null
+     *
+     * @param value 需要判断的对象
+     * @return 如果对象不为null则返回true，否则返回false
+     */
+    protected final boolean condition(Object value) {
+        return Objects.nonNull(value);
+    }
+
+    /**
+     * 判断集合是否不为空
+     *
+     * @param collection 待判断的集合
+     * @return 集合不为空且不为null时返回true，否则返回false
+     */
+    protected final boolean condition(Collection<?> collection) {
+        return !CollectionUtils.isEmpty(collection);
+    }
+
+    /**
+     * 判断给定的Map是否非空且包含元素
+     *
+     * @param map 待判断的Map对象，类型为Map<?, ?>，允许为null
+     * @return 当map不为null且包含至少一个键值对时返回true，否则返回false
+     */
+    protected final boolean condition(Map<?, ?> map) {
+        return !CollectionUtils.isEmpty(map);
+    }
+
+
+    /**
+     * 判断给定的数组是否非空且长度大于0
+     *
+     * @param array 待判断的数组，类型为泛型A的数组
+     * @param <A>   数组元素的类型
+     * @return 如果数组不为null且长度大于0，返回true；否则返回false
+     */
+    protected final <A> boolean condition(A[] array) {
+        return array != null && array.length > 0;
+    }
 
 }

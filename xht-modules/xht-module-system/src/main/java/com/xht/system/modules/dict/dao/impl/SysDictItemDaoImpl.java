@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.dict.dao.SysDictItemDao;
 import com.xht.system.modules.dict.dao.mapper.SysDictItemMapper;
@@ -40,13 +39,14 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
     public boolean updateFormRequest(SysDictItemFormRequest formRequest) {
         // @formatter:off
         LambdaUpdateWrapper<SysDictItemEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        lambdaUpdateWrapper.set(SysDictItemEntity::getDictId, formRequest.getDictId())
-                .set(SysDictItemEntity::getItemLabel, formRequest.getItemLabel())
-                .set(SysDictItemEntity::getItemValue, formRequest.getItemValue())
-                .set(SysDictItemEntity::getItemColor, formRequest.getItemColor())
-                .set(SysDictItemEntity::getSortOrder, formRequest.getSortOrder())
-                .set(SysDictItemEntity::getRemark, formRequest.getRemark())
-                .set(SysDictItemEntity::getStatus, formRequest.getStatus());
+        lambdaUpdateWrapper
+                .set(condition(formRequest.getDictId()), SysDictItemEntity::getDictId, formRequest.getDictId())
+                .set(condition(formRequest.getItemLabel()), SysDictItemEntity::getItemLabel, formRequest.getItemLabel())
+                .set(condition(formRequest.getItemValue()), SysDictItemEntity::getItemValue, formRequest.getItemValue())
+                .set(condition(formRequest.getItemColor()), SysDictItemEntity::getItemColor, formRequest.getItemColor())
+                .set(condition(formRequest.getSortOrder()), SysDictItemEntity::getSortOrder, formRequest.getSortOrder())
+                .set(condition(formRequest.getRemark()), SysDictItemEntity::getRemark, formRequest.getRemark())
+                .set(condition(formRequest.getStatus()), SysDictItemEntity::getStatus, formRequest.getStatus());
         lambdaUpdateWrapper.eq(SysDictItemEntity::getId, formRequest.getId());
         // @formatter:on
         return update(lambdaUpdateWrapper);
@@ -82,18 +82,18 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
         LambdaQueryWrapper<SysDictItemEntity> queryWrapper = Wrappers.lambdaQuery();
         // @formatter:off
         queryWrapper
-                .and(StringUtils.hasLength(queryRequest.getKeyWord()), wrapper -> wrapper
+                .and(condition(queryRequest.getKeyWord()), wrapper -> wrapper
                         .like(SysDictItemEntity::getDictCode, queryRequest.getKeyWord())
                         .or()
                         .like(SysDictItemEntity::getItemLabel, queryRequest.getKeyWord())
                         .or()
                         .like(SysDictItemEntity::getItemValue, queryRequest.getKeyWord())
                 )
-                .eq(Objects.nonNull(queryRequest.getDictId()), SysDictItemEntity::getDictId, queryRequest.getDictId())
-                .like(StringUtils.hasLength(queryRequest.getDictCode()), SysDictItemEntity::getDictCode, queryRequest.getDictCode())
-                .like(StringUtils.hasLength(queryRequest.getItemLabel()), SysDictItemEntity::getItemLabel, queryRequest.getItemLabel())
-                .like(StringUtils.hasLength(queryRequest.getItemValue()), SysDictItemEntity::getItemValue, queryRequest.getItemValue())
-                .eq(Objects.nonNull(queryRequest.getStatus()), SysDictItemEntity::getStatus, queryRequest.getStatus());
+                .eq(condition(queryRequest.getDictId()), SysDictItemEntity::getDictId, queryRequest.getDictId())
+                .like(condition(queryRequest.getDictCode()), SysDictItemEntity::getDictCode, queryRequest.getDictCode())
+                .like(condition(queryRequest.getItemLabel()), SysDictItemEntity::getItemLabel, queryRequest.getItemLabel())
+                .like(condition(queryRequest.getItemValue()), SysDictItemEntity::getItemValue, queryRequest.getItemValue())
+                .eq(condition(queryRequest.getStatus()), SysDictItemEntity::getStatus, queryRequest.getStatus());
         // @formatter:on
         return page(page, queryWrapper);
     }

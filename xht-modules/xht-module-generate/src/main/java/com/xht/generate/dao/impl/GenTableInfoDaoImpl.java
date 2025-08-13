@@ -2,6 +2,7 @@ package com.xht.generate.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTableInfoDao;
@@ -43,6 +44,20 @@ public class GenTableInfoDaoImpl extends MapperRepositoryImpl<GenTableInfoMapper
     @Override
     public Page<GenTableInfoEntity> queryPageRequest(Page<GenTableInfoEntity> page, GenTableInfoQueryRequest queryRequest) {
         LambdaQueryWrapper<GenTableInfoEntity> queryWrapper = lambdaQueryWrapper();
+        queryWrapper.eq(condition(queryRequest.getGroupId()), GenTableInfoEntity::getGroupId, queryRequest.getGroupId());
+        queryWrapper.eq(condition(queryRequest.getDataSourceId()), GenTableInfoEntity::getDataSourceId, queryRequest.getDataSourceId());
+        queryWrapper.like(condition(queryRequest.getTableName()), GenTableInfoEntity::getTableName, queryRequest.getTableName());
+        queryWrapper.like(condition(queryRequest.getTableComment()), GenTableInfoEntity::getTableComment, queryRequest.getTableComment());
         return page(page, queryWrapper);
+    }
+
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    @Override
+    protected SFunction<GenTableInfoEntity, ?> getFieldId() {
+        return GenTableInfoEntity::getId;
     }
 }

@@ -1,6 +1,7 @@
 package com.xht.generate.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.generate.domain.request.DataBaseQueryRequest;
 import com.xht.generate.domain.request.GenTableInfoFormRequest;
 import com.xht.generate.domain.request.GenTableInfoQueryRequest;
 import com.xht.generate.domain.request.ImportTableFormRequest;
@@ -45,13 +46,20 @@ public interface IGenTableInfoService {
      */
     GenTableInfoResponse getById(Long id);
 
+
     /**
-     * 分页查询表信息
+     * 分页查询已存在的表信息
      *
-     * @param queryRequest 表信息查询请求参数
-     * @return 表信息分页信息
+     * @param queryRequest 查询条件封装对象，包含分页参数和查询条件
+     * @return 分页结果封装对象，包含表信息列表和分页信息
      */
-    PageResponse<GenTableInfoResponse> selectPage(GenTableInfoQueryRequest queryRequest);
+    PageResponse<GenTableInfoResponse> selectExistsPage(GenTableInfoQueryRequest queryRequest);
 
-
+    /**
+     * 分页查询不存在的表信息
+     *
+     * @param queryRequest 数据库查询条件封装对象，包含分页参数和数据库连接信息
+     * @return 分页结果封装对象，包含表信息列表和分页信息
+     */
+    PageResponse<GenTableInfoResponse> selectNoExistsPage(DataBaseQueryRequest queryRequest);
 }

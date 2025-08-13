@@ -2,8 +2,8 @@ package com.xht.generate.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenDataSourceDao;
 import com.xht.generate.dao.mapper.GenDataSourceMapper;
@@ -13,8 +13,6 @@ import com.xht.generate.domain.request.GenDataSourceQueryRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Objects;
 
 /**
  * 数据源管理
@@ -35,9 +33,9 @@ public class GenDataSourceDaoImpl extends MapperRepositoryImpl<GenDataSourceMapp
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateFormRequest(GenDataSourceFormRequest formRequest) {
         LambdaUpdateWrapper<GenDataSourceEntity> updateWrapper = lambdaUpdateWrapper();
-        updateWrapper.set(StringUtils.hasText(formRequest.getName()), GenDataSourceEntity::getName, formRequest.getName());
-        updateWrapper.set(Objects.nonNull(formRequest.getDbType()), GenDataSourceEntity::getDbType, formRequest.getDbType());
-        updateWrapper.set(StringUtils.hasText(formRequest.getUrl()), GenDataSourceEntity::getUrl, formRequest.getUrl());
+        updateWrapper.set(condition(formRequest.getName()), GenDataSourceEntity::getName, formRequest.getName());
+        updateWrapper.set(condition(formRequest.getDbType()), GenDataSourceEntity::getDbType, formRequest.getDbType());
+        updateWrapper.set(condition(formRequest.getUrl()), GenDataSourceEntity::getUrl, formRequest.getUrl());
         updateWrapper.eq(GenDataSourceEntity::getId, formRequest.getId());
         return update(updateWrapper);
     }
@@ -52,8 +50,18 @@ public class GenDataSourceDaoImpl extends MapperRepositoryImpl<GenDataSourceMapp
     @Override
     public Page<GenDataSourceEntity> queryPageRequest(Page<GenDataSourceEntity> page, GenDataSourceQueryRequest queryRequest) {
         LambdaQueryWrapper<GenDataSourceEntity> queryWrapper = lambdaQueryWrapper();
-        queryWrapper.like(StringUtils.hasText(queryRequest.getName()), GenDataSourceEntity::getName, queryRequest.getName());
-        queryWrapper.eq(Objects.nonNull(queryRequest.getDbType()), GenDataSourceEntity::getDbType, queryRequest.getDbType());
+        queryWrapper.like(condition(queryRequest.getName()), GenDataSourceEntity::getName, queryRequest.getName());
+        queryWrapper.eq(condition(queryRequest.getDbType()), GenDataSourceEntity::getDbType, queryRequest.getDbType());
         return page(page, queryWrapper);
+    }
+
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    @Override
+    protected SFunction<GenDataSourceEntity, ?> getFieldId() {
+        return GenDataSourceEntity::getId;
     }
 }

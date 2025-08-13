@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.oauth2.dao.SysOauth2ClientDao;
 import com.xht.system.modules.oauth2.dao.mapper.SysOauth2ClientMapper;
@@ -39,18 +38,18 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
         LambdaUpdateWrapper<SysOauth2ClientEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
-                .set(SysOauth2ClientEntity::getClientId, formRequest.getClientId())
-                .set(SysOauth2ClientEntity::getClientName, formRequest.getClientName())
-                .set(SysOauth2ClientEntity::getClientSecret, formRequest.getClientSecret())
-                .set(SysOauth2ClientEntity::getClientIdIssuedAt, formRequest.getClientIdIssuedAt())
-                .set(SysOauth2ClientEntity::getClientSecretExpiresAt, formRequest.getClientSecretExpiresAt())
-                .set(SysOauth2ClientEntity::getAuthorizationGrantTypes, formRequest.getAuthorizationGrantTypes(), JACKSON_TYPE_HANDLER)
-                .set(SysOauth2ClientEntity::getScopes, formRequest.getScopes(), JACKSON_TYPE_HANDLER)
-                .set(SysOauth2ClientEntity::getRedirectUris, formRequest.getRedirectUris(), JACKSON_TYPE_HANDLER)
-                .set(SysOauth2ClientEntity::getAccessTokenValidity, formRequest.getAccessTokenValidity())
-                .set(SysOauth2ClientEntity::getRefreshTokenValidity, formRequest.getRefreshTokenValidity())
-                .set(SysOauth2ClientEntity::getAdditionalInformation, formRequest.getAdditionalInformation(), JACKSON_TYPE_HANDLER)
-                .set(SysOauth2ClientEntity::getAutoApprove, formRequest.getAutoApprove());
+                .set(condition(formRequest.getClientId()), SysOauth2ClientEntity::getClientId, formRequest.getClientId())
+                .set(condition(formRequest.getClientName()), SysOauth2ClientEntity::getClientName, formRequest.getClientName())
+                .set(condition(formRequest.getClientSecret()), SysOauth2ClientEntity::getClientSecret, formRequest.getClientSecret())
+                .set(condition(formRequest.getClientIdIssuedAt()), SysOauth2ClientEntity::getClientIdIssuedAt, formRequest.getClientIdIssuedAt())
+                .set(condition(formRequest.getClientSecretExpiresAt()), SysOauth2ClientEntity::getClientSecretExpiresAt, formRequest.getClientSecretExpiresAt())
+                .set(condition(formRequest.getAuthorizationGrantTypes()), SysOauth2ClientEntity::getAuthorizationGrantTypes, formRequest.getAuthorizationGrantTypes(), JACKSON_TYPE_HANDLER)
+                .set(condition(formRequest.getScopes()), SysOauth2ClientEntity::getScopes, formRequest.getScopes(), JACKSON_TYPE_HANDLER)
+                .set(condition(formRequest.getRedirectUris()), SysOauth2ClientEntity::getRedirectUris, formRequest.getRedirectUris(), JACKSON_TYPE_HANDLER)
+                .set(condition(formRequest.getAccessTokenValidity()), SysOauth2ClientEntity::getAccessTokenValidity, formRequest.getAccessTokenValidity())
+                .set(condition(formRequest.getRefreshTokenValidity()), SysOauth2ClientEntity::getRefreshTokenValidity, formRequest.getRefreshTokenValidity())
+                .set(condition(formRequest.getAdditionalInformation()), SysOauth2ClientEntity::getAdditionalInformation, formRequest.getAdditionalInformation(), JACKSON_TYPE_HANDLER)
+                .set(condition(formRequest.getAutoApprove()), SysOauth2ClientEntity::getAutoApprove, formRequest.getAutoApprove());
         // @formatter:on
         updateWrapper.eq(SysOauth2ClientEntity::getId, formRequest.getId());
         return update(updateWrapper);
@@ -83,13 +82,13 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
         LambdaQueryWrapper<SysOauth2ClientEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(
-                        StringUtils.hasText(queryRequest.getKeyWord()), wrapper -> wrapper.or()
+                        condition(queryRequest.getKeyWord()), wrapper -> wrapper.or()
                                 .like(SysOauth2ClientEntity::getClientId, queryRequest.getKeyWord())
                                 .or()
                                 .like(SysOauth2ClientEntity::getClientName, queryRequest.getKeyWord())
                 )
-                .like(StringUtils.hasText(queryRequest.getClientId()), SysOauth2ClientEntity::getClientId, queryRequest.getClientId())
-                .like(StringUtils.hasText(queryRequest.getClientName()), SysOauth2ClientEntity::getClientName, queryRequest.getClientName())
+                .like(condition(queryRequest.getClientId()), SysOauth2ClientEntity::getClientId, queryRequest.getClientId())
+                .like(condition(queryRequest.getClientName()), SysOauth2ClientEntity::getClientName, queryRequest.getClientName())
         ;
         // @formatter:on
         return page(page, queryWrapper);
