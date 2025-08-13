@@ -1,5 +1,6 @@
 package com.xht.generate.domain;
 
+import com.xht.generate.constant.enums.GenStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -14,13 +15,13 @@ public class ColumnExtConfig {
      * 表单项 0：否 1：是
      */
     @Schema(description ="表单项 0：否 1：是")
-    private String formItem;
+    private GenStatusEnums formItem;
 
     /**
      * 表单必填 0：否 1：是
      */
     @Schema(description ="表单必填 0：否 1：是")
-    private String formRequired;
+    private GenStatusEnums formRequired;
 
     /**
      * 表单类型
@@ -29,28 +30,28 @@ public class ColumnExtConfig {
     private String formType;
 
     /**
-     * 表单效验
+     * 表单效验 0：否 1：是
      */
     @Schema(description ="表单效验")
-    private String formValidator;
+    private GenStatusEnums formValidator;
 
     /**
      * 列表项 0：否 1：是
      */
     @Schema(description ="列表项 0：否 1：是")
-    private String gridItem;
+    private GenStatusEnums gridItem;
 
     /**
      * 列表排序 0：否 1：是
      */
     @Schema(description ="列表排序 0：否 1：是")
-    private String gridSort;
+    private GenStatusEnums gridSort;
 
     /**
      * 查询项 0：否 1：是
      */
     @Schema(description ="查询项 0：否 1：是")
-    private String queryItem;
+    private GenStatusEnums queryItem;
 
     /**
      * 查询方式

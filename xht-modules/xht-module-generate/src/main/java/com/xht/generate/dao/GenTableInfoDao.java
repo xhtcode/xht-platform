@@ -6,6 +6,8 @@ import com.xht.generate.domain.entity.GenTableInfoEntity;
 import com.xht.generate.domain.request.GenTableInfoFormRequest;
 import com.xht.generate.domain.request.GenTableInfoQueryRequest;
 
+import java.util.List;
+
 
 /**
  * 表信息管理 Dao
@@ -31,4 +33,11 @@ public interface GenTableInfoDao extends MapperRepository<GenTableInfoEntity> {
      */
     Page<GenTableInfoEntity> queryPageRequest(Page<GenTableInfoEntity> page, GenTableInfoQueryRequest queryRequest);
 
+    /**
+     * 根据数据源id查询表名
+     *
+     * @param dataSourceId 数据源id
+     * @return 表名
+     */
+    List<String> findTableNameByDbId(Long dataSourceId);
 }

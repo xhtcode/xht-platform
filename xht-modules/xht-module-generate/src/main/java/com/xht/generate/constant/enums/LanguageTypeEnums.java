@@ -1,4 +1,4 @@
-package com.xht.generate.constant;
+package com.xht.generate.constant.enums;
 
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;

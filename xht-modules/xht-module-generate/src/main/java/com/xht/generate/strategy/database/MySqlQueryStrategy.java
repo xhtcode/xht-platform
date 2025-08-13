@@ -2,7 +2,7 @@ package com.xht.generate.strategy.database;
 
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.StringUtils;
-import com.xht.generate.constant.DataBaseTypeEnums;
+import com.xht.generate.constant.enums.DataBaseTypeEnums;
 import com.xht.generate.domain.entity.GenColumnInfoEntity;
 import com.xht.generate.domain.entity.GenTableInfoEntity;
 import com.xht.generate.sql.ColumnInfoRowMapper;
@@ -86,7 +86,7 @@ public class MySqlQueryStrategy extends IDataBaseQuery {
      * @return {@link GenTableInfoEntity} 表信息实体列表
      */
     @Override
-    public List<GenTableInfoEntity> selectPageTableByLike(JdbcTemplate jdbcTemplate, String tableName) {
+    public List<GenTableInfoEntity> selectListTableByLike(JdbcTemplate jdbcTemplate, String tableName) {
         StringBuilder sql = new StringBuilder(QUERY_TABLE_SQL);
         // 添加表名模糊查询条件
         if (StringUtils.hasText(tableName)) {
@@ -116,7 +116,7 @@ public class MySqlQueryStrategy extends IDataBaseQuery {
      * @return 解析类型枚举 {@link DataBaseTypeEnums}
      */
     @Override
-    protected DataBaseTypeEnums support() {
+    public DataBaseTypeEnums support() {
         return DataBaseTypeEnums.MYSQL;
     }
 

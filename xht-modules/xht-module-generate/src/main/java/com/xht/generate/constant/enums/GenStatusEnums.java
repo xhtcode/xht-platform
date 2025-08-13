@@ -1,23 +1,21 @@
-package com.xht.generate.constant;
+package com.xht.generate.constant.enums;
 
 import com.baomidou.mybatisplus.annotation.IEnum;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
- * 是否是主键
- *
  * @author xht
  **/
 @Getter
-@RequiredArgsConstructor
-public enum IdPrimaryKeyEnums implements IEnum<Integer> {
+@AllArgsConstructor
+public enum GenStatusEnums implements IEnum<Integer> {
 
     NO(0, "否"),
 
     YES(1, "是"),
 
-    ;
+    OTHER(99, "其他");
 
     private final Integer value;
 

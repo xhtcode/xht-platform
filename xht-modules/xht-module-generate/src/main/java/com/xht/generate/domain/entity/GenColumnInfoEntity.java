@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import com.xht.framework.mybatis.extension.handlers.JsonTypeHandler;
-import com.xht.generate.constant.DataBaseTypeEnums;
+import com.xht.generate.constant.enums.GenStatusEnums;
 import com.xht.generate.domain.ColumnExtConfig;
 import lombok.Data;
 
@@ -30,7 +30,7 @@ public class GenColumnInfoEntity extends BasicEntity implements Serializable {
      * 表ID（关联gen_table_info）
      */
     @TableField(value = "table_id")
-    private Long tableId;
+    private String tableId;
 
     /**
      * 数据库字段名
@@ -42,13 +42,25 @@ public class GenColumnInfoEntity extends BasicEntity implements Serializable {
      * 数据库字段类型
      */
     @TableField(value = "db_data_type")
-    private DataBaseTypeEnums dbDataType;
+    private String dbDataType;
 
     /**
      * 字段注释
      */
     @TableField(value = "column_comment")
     private String columnComment;
+
+    /**
+     * 字段代码名称
+     */
+    @TableField(value = "code_name")
+    private String codeName;
+
+    /**
+     * 字段代码注释
+     */
+    @TableField(value = "code_comment")
+    private String codeComment;
 
     /**
      * 字段默认值
@@ -60,13 +72,13 @@ public class GenColumnInfoEntity extends BasicEntity implements Serializable {
      * 是否必填（0否 1是）
      */
     @TableField(value = "is_required")
-    private Integer isRequired;
+    private GenStatusEnums isRequired;
 
     /**
      * 是否主键（0否 1是）
      */
     @TableField(value = "is_primary")
-    private Integer isPrimary;
+    private GenStatusEnums isPrimary;
 
     /**
      * 配置属性

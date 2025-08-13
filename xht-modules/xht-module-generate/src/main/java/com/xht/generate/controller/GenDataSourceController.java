@@ -1,7 +1,6 @@
 package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
-import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
 import com.xht.generate.domain.request.GenDataSourceFormRequest;
 import com.xht.generate.domain.request.GenDataSourceQueryRequest;
@@ -14,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 数据源管理
@@ -78,15 +79,15 @@ public class GenDataSourceController {
     }
 
     /**
-     * 分页查询数据源
+     * 按条件查询数据源
      *
      * @param queryRequest 数据源查询请求参数
      * @return 数据源分页信息
      */
-    @Operation(summary = "分页查询数据源", description = "根据提供的查询请求参数分页查询数据源信息")
-    @GetMapping("/page")
-    public R<PageResponse<GenDataSourceResponse>> selectPage(GenDataSourceQueryRequest queryRequest) {
-        return R.ok(genDataSourceService.selectPage(queryRequest));
+    @Operation(summary = "按条件查询数据源", description = "根据提供的查询请求参数按条件查询数据源信息")
+    @GetMapping("/list")
+    public R<List<GenDataSourceResponse>> selectList(GenDataSourceQueryRequest queryRequest) {
+        return R.ok(genDataSourceService.selectList(queryRequest));
     }
 
     /**

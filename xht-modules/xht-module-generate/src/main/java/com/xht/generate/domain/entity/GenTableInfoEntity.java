@@ -21,8 +21,8 @@ public class GenTableInfoEntity extends BasicEntity implements Serializable {
     /**
      * 表ID
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @TableId(value = "id", type = IdType.NONE)
+    private String id;
 
     /**
      * 分组id

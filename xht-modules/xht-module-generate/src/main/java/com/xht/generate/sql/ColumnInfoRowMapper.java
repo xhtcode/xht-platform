@@ -1,6 +1,6 @@
 package com.xht.generate.sql;
 
-import com.xht.generate.constant.DataBaseTypeEnums;
+import com.xht.generate.constant.enums.DataBaseTypeEnums;
 import com.xht.generate.domain.entity.GenColumnInfoEntity;
 import org.springframework.jdbc.core.RowMapper;
 

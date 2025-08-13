@@ -6,6 +6,9 @@ import com.xht.generate.domain.request.GenTableInfoFormRequest;
 import com.xht.generate.domain.request.GenTableInfoQueryRequest;
 import com.xht.generate.domain.request.ImportTableFormRequest;
 import com.xht.generate.domain.response.GenTableInfoResponse;
+import com.xht.generate.domain.vo.GenTableColumnVo;
+
+import java.util.List;
 
 /**
  * 表信息管理Service接口
@@ -23,12 +26,20 @@ public interface IGenTableInfoService {
     Boolean importTable(ImportTableFormRequest formRequest);
 
     /**
+     * 同步表信息
+     *
+     * @param tableId 表id
+     * @return 操作结果 true表示成功，false表示失败
+     */
+    Boolean syncTable(String tableId);
+
+    /**
      * 根据ID删除表信息
      *
      * @param id 表信息ID
      * @return 操作结果
      */
-    Boolean removeById(Long id);
+    Boolean removeById(String id);
 
     /**
      * 根据ID更新表信息
@@ -42,9 +53,9 @@ public interface IGenTableInfoService {
      * 根据ID查询表信息
      *
      * @param id 表信息ID
-     * @return 表信息信息
+     * @return 表信息字段信息
      */
-    GenTableInfoResponse getById(Long id);
+    GenTableColumnVo getById(Long id);
 
 
     /**
@@ -61,5 +72,6 @@ public interface IGenTableInfoService {
      * @param queryRequest 数据库查询条件封装对象，包含分页参数和数据库连接信息
      * @return 分页结果封装对象，包含表信息列表和分页信息
      */
-    PageResponse<GenTableInfoResponse> selectNoExistsPage(DataBaseQueryRequest queryRequest);
+    List<GenTableInfoResponse> selectNoExistsList(DataBaseQueryRequest queryRequest);
+
 }

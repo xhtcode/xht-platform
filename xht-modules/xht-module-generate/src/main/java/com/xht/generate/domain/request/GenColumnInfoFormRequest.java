@@ -2,6 +2,7 @@ package com.xht.generate.domain.request;
 
 import com.xht.framework.core.domain.request.FormRequest;
 import com.xht.framework.web.validation.Groups;
+import com.xht.generate.domain.ColumnExtConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -25,5 +26,23 @@ public class GenColumnInfoFormRequest extends FormRequest {
     @Positive(message = "Id参数不合法", groups = {Groups.Update.class})
     @Schema(description = "Id", example = "101")
     private Long id;
+
+    /**
+     * 字段代码名称
+     */
+    @Schema(description = "字段代码名称")
+    private String codeName;
+
+    /**
+     * 字段代码注释
+     */
+    @Schema(description = "字段代码注释")
+    private String codeComment;
+
+    /**
+     * 配置属性
+     */
+    @Schema(description = "配置属性")
+    private ColumnExtConfig extConfig;
 
 }

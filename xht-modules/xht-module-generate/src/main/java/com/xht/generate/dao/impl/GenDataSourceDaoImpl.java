@@ -3,7 +3,6 @@ package com.xht.generate.dao.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenDataSourceDao;
 import com.xht.generate.dao.mapper.GenDataSourceMapper;
@@ -13,6 +12,8 @@ import com.xht.generate.domain.request.GenDataSourceQueryRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 数据源管理
@@ -24,9 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class GenDataSourceDaoImpl extends MapperRepositoryImpl<GenDataSourceMapper, GenDataSourceEntity> implements GenDataSourceDao {
 
     /**
-     * 更新菜单信息
+     * 更新数据源信息
      *
-     * @param formRequest 菜单信息
+     * @param formRequest 数据源信息
      * @return 是否成功
      */
     @Override
@@ -41,18 +42,17 @@ public class GenDataSourceDaoImpl extends MapperRepositoryImpl<GenDataSourceMapp
     }
 
     /**
-     * 分页查询菜单
+     * 分页查询数据源
      *
-     * @param page         分页信息
-     * @param queryRequest 菜单查询请求参数
-     * @return 菜单分页信息
+     * @param queryRequest 数据源查询请求参数
+     * @return 数据源分页信息
      */
     @Override
-    public Page<GenDataSourceEntity> queryPageRequest(Page<GenDataSourceEntity> page, GenDataSourceQueryRequest queryRequest) {
+    public List<GenDataSourceEntity> selectList(GenDataSourceQueryRequest queryRequest) {
         LambdaQueryWrapper<GenDataSourceEntity> queryWrapper = lambdaQueryWrapper();
         queryWrapper.like(condition(queryRequest.getName()), GenDataSourceEntity::getName, queryRequest.getName());
         queryWrapper.eq(condition(queryRequest.getDbType()), GenDataSourceEntity::getDbType, queryRequest.getDbType());
-        return page(page, queryWrapper);
+        return list(queryWrapper);
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.xht.generate.domain.response;
 
 import com.xht.framework.core.domain.response.BasicResponse;
-import com.xht.generate.constant.DataBaseTypeEnums;
 import com.xht.generate.domain.ColumnExtConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -37,13 +36,25 @@ public class GenColumnInfoResponse extends BasicResponse {
      * 数据库字段类型
      */
     @Schema(description = "数据库字段类型")
-    private DataBaseTypeEnums dbDataType;
+    private String dbDataType;
 
     /**
      * 字段注释
      */
     @Schema(description = "字段注释")
     private String columnComment;
+
+    /**
+     * 字段代码名称
+     */
+    @Schema(description = "字段代码名称")
+    private String codeName;
+
+    /**
+     * 字段代码注释
+     */
+    @Schema(description = "字段代码注释")
+    private String codeComment;
 
     /**
      * 字段默认值

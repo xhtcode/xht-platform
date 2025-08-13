@@ -1,7 +1,7 @@
 package com.xht.generate.domain.response;
 
 import com.xht.framework.core.domain.response.BasicResponse;
-import com.xht.generate.constant.DataBaseTypeEnums;
+import com.xht.generate.constant.enums.DataBaseTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

@@ -1,10 +1,7 @@
 package com.xht.generate.service.impl;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.generate.converter.GenDataSourceConverter;
 import com.xht.generate.dao.GenDataSourceDao;
 import com.xht.generate.domain.entity.GenDataSourceEntity;
@@ -20,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -86,14 +84,14 @@ public class GenDataSourceServiceImpl implements IGenDataSourceService {
     }
 
     /**
-     * 分页查询数据源
+     * 按条件查询数据源
      *
      * @param queryRequest 数据源查询请求参数
      * @return 数据源分页信息
      */
     @Override
-    public PageResponse<GenDataSourceResponse> selectPage(GenDataSourceQueryRequest queryRequest) {
-        Page<GenDataSourceEntity> page = genDataSourceDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
+    public List<GenDataSourceResponse> selectList(GenDataSourceQueryRequest queryRequest) {
+        List<GenDataSourceEntity> page = genDataSourceDao.selectList(queryRequest);
         return genDataSourceConverter.toResponse(page);
     }
 

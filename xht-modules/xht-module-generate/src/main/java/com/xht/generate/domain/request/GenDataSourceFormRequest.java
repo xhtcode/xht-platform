@@ -2,7 +2,7 @@ package com.xht.generate.domain.request;
 
 import com.xht.framework.core.domain.request.FormRequest;
 import com.xht.framework.web.validation.Groups;
-import com.xht.generate.constant.DataBaseTypeEnums;
+import com.xht.generate.constant.enums.DataBaseTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

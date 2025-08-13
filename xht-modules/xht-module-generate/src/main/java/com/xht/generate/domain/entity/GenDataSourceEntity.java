@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.generate.constant.DataBaseTypeEnums;
+import com.xht.generate.constant.enums.DataBaseTypeEnums;
 import lombok.Data;
 
 import java.io.Serializable;

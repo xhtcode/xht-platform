@@ -8,6 +8,7 @@ import com.xht.generate.domain.request.GenTableInfoFormRequest;
 import com.xht.generate.domain.request.GenTableInfoQueryRequest;
 import com.xht.generate.domain.request.ImportTableFormRequest;
 import com.xht.generate.domain.response.GenTableInfoResponse;
+import com.xht.generate.domain.vo.GenTableColumnVo;
 import com.xht.generate.service.IGenTableInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 表信息管理
@@ -35,7 +38,7 @@ public class GenTableInfoController {
      * 导入表
      *
      * @param formRequest 表信息表单请求参数
-     * @return 操作结果
+     * @return 操作结果 true表示成功，false表示失败
      */
     @Operation(summary = "创建表信息")
     @PostMapping("/import")
@@ -44,14 +47,26 @@ public class GenTableInfoController {
     }
 
     /**
+     * 同步表信息
+     *
+     * @param tableId 表id
+     * @return 操作结果 true表示成功，false表示失败
+     */
+    @Operation(summary = "同步表信息")
+    @PostMapping("/syncTable/{tableId}")
+    public R<Boolean> syncTable(@Validated @PathVariable("tableId") String tableId) {
+        return R.ok(genTableInfoService.syncTable(tableId));
+    }
+
+    /**
      * 根据ID删除表信息
      *
      * @param id 表信息ID
-     * @return 操作结果
+     * @return 操作结果 true表示成功，false表示失败
      */
     @Operation(summary = "根据ID删除表信息")
     @PostMapping("/delete/{id}")
-    public R<Boolean> removeById(@PathVariable @Parameter(description = "表信息ID", required = true) Long id) {
+    public R<Boolean> removeById(@PathVariable @Parameter(description = "表信息ID", required = true) String id) {
         return R.ok(genTableInfoService.removeById(id));
     }
 
@@ -59,7 +74,7 @@ public class GenTableInfoController {
      * 根据ID更新表信息
      *
      * @param formRequest 表信息更新请求参数
-     * @return 操作结果
+     * @return 操作结果 true表示成功，false表示失败
      */
     @Operation(summary = "根据ID更新表信息")
     @PostMapping("/update")
@@ -71,11 +86,11 @@ public class GenTableInfoController {
      * 根据ID查询表信息
      *
      * @param id 表信息ID
-     * @return 表信息信息
+     * @return 表信息字段信息
      */
     @Operation(summary = "根据ID查询表信息")
     @GetMapping("/get/{id}")
-    public R<GenTableInfoResponse> findById(@PathVariable @Parameter(description = "表信息ID", required = true) Long id) {
+    public R<GenTableColumnVo> findById(@PathVariable @Parameter(description = "表信息ID", required = true) Long id) {
         return R.ok(genTableInfoService.getById(id));
     }
 
@@ -99,8 +114,8 @@ public class GenTableInfoController {
      */
     @Operation(summary = "分页查询表信息")
     @GetMapping("/no/exists/page")
-    public R<PageResponse<GenTableInfoResponse>> selectNoExistsPage(DataBaseQueryRequest queryRequest) {
-        return R.ok(genTableInfoService.selectNoExistsPage(queryRequest));
+    public R<List<GenTableInfoResponse>> selectNoExistsList(DataBaseQueryRequest queryRequest) {
+        return R.ok(genTableInfoService.selectNoExistsList(queryRequest));
 }
 
 }

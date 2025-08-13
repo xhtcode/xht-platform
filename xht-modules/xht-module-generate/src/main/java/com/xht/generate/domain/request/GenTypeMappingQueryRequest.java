@@ -1,8 +1,8 @@
 package com.xht.generate.domain.request;
 
 import com.xht.framework.core.domain.request.PageQueryRequest;
-import com.xht.generate.constant.DataBaseTypeEnums;
-import com.xht.generate.constant.LanguageTypeEnums;
+import com.xht.generate.constant.enums.DataBaseTypeEnums;
+import com.xht.generate.constant.enums.LanguageTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

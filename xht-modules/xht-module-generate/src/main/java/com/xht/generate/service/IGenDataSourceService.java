@@ -1,9 +1,10 @@
 package com.xht.generate.service;
 
-import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.generate.domain.request.GenDataSourceFormRequest;
 import com.xht.generate.domain.request.GenDataSourceQueryRequest;
 import com.xht.generate.domain.response.GenDataSourceResponse;
+
+import java.util.List;
 
 /**
  * 数据源管理Service接口
@@ -46,12 +47,12 @@ public interface IGenDataSourceService {
     GenDataSourceResponse getById(Long id);
 
     /**
-     * 分页查询数据源
+     * 按条件查询数据源
      *
      * @param queryRequest 数据源查询请求参数
      * @return 数据源分页信息
      */
-    PageResponse<GenDataSourceResponse> selectPage(GenDataSourceQueryRequest queryRequest);
+    List<GenDataSourceResponse> selectList(GenDataSourceQueryRequest queryRequest);
 
     /**
      * 测试链接

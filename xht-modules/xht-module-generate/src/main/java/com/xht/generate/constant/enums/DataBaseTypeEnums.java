@@ -1,4 +1,4 @@
-package com.xht.generate.constant;
+package com.xht.generate.constant.enums;
 
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -30,4 +30,9 @@ public enum DataBaseTypeEnums implements IEnum<String> {
      * 数据库驱动
      */
     private final String driverClassName;
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

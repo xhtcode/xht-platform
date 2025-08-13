@@ -1,6 +1,6 @@
 package com.xht.generate.strategy;
 
-import com.xht.generate.constant.DataBaseTypeEnums;
+import com.xht.generate.constant.enums.DataBaseTypeEnums;
 import com.xht.generate.domain.entity.GenColumnInfoEntity;
 import com.xht.generate.domain.entity.GenTableInfoEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,7 +30,7 @@ public abstract class IDataBaseQuery {
      * @param tableName      表名
      * @return {@link GenTableInfoEntity} 表信息实体列表
      */
-    public abstract List<GenTableInfoEntity> selectPageTableByLike(final JdbcTemplate jdbcTemplate, String tableName);
+    public abstract List<GenTableInfoEntity> selectListTableByLike(final JdbcTemplate jdbcTemplate, String tableName);
 
 
     /**
@@ -47,6 +47,6 @@ public abstract class IDataBaseQuery {
      *
      * @return 解析类型枚举 {@link DataBaseTypeEnums}
      */
-    protected abstract DataBaseTypeEnums support();
+    public abstract DataBaseTypeEnums support();
 
 }

@@ -19,7 +19,7 @@ public class GenTableInfoResponse extends BasicResponse {
      * 表ID
      */
     @Schema(description = "表ID")
-    private Long id;
+    private String id;
 
     /**
      * 分组id
