@@ -1,6 +1,7 @@
 package com.xht.generate.domain.response;
 
 import com.xht.framework.core.domain.response.BasicResponse;
+import com.xht.generate.constant.enums.GenerateStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -43,7 +44,7 @@ public class GenLogResponse extends BasicResponse {
      * 生成文件数量
      */
     @Schema(description = "生成文件数量")
-    private Integer fileCount;
+    private Long fileCount;
 
     /**
      * 生成的表ID（逗号分隔）
@@ -55,7 +56,7 @@ public class GenLogResponse extends BasicResponse {
      * 生成状态（success/fail）
      */
     @Schema(description = "生成状态")
-    private String status;
+    private GenerateStatus status;
 
     /**
      * 错误信息（失败时记录）

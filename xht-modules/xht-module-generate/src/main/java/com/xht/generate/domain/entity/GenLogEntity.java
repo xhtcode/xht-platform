@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
+import com.xht.generate.constant.enums.GenerateStatus;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -46,7 +47,7 @@ public class GenLogEntity extends BasicEntity implements Serializable {
      * 生成文件数量
      */
     @TableField(value = "file_count")
-    private Integer fileCount;
+    private Long fileCount;
 
     /**
      * 生成的表ID（逗号分隔）
@@ -58,7 +59,7 @@ public class GenLogEntity extends BasicEntity implements Serializable {
      * 生成状态（success/fail）
      */
     @TableField(value = "status")
-    private String status;
+    private GenerateStatus status;
 
     /**
      * 错误信息（失败时记录）

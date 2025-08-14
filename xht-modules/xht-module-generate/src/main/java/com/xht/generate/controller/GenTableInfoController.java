@@ -78,7 +78,7 @@ public class GenTableInfoController {
      */
     @Operation(summary = "根据ID更新表信息")
     @PostMapping("/update")
-     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTableInfoFormRequest formRequest) {
+    public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTableInfoFormRequest formRequest) {
         return R.ok(genTableInfoService.updateById(formRequest));
     }
 
@@ -116,6 +116,6 @@ public class GenTableInfoController {
     @GetMapping("/no/exists/page")
     public R<List<GenTableInfoResponse>> selectNoExistsList(DataBaseQueryRequest queryRequest) {
         return R.ok(genTableInfoService.selectNoExistsList(queryRequest));
-}
+    }
 
 }
