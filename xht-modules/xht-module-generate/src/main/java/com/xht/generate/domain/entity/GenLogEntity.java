@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.generate.constant.enums.GenerateStatus;
+import com.xht.generate.constant.enums.GenerateStatusEnums;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -59,7 +59,7 @@ public class GenLogEntity extends BasicEntity implements Serializable {
      * 生成状态（success/fail）
      */
     @TableField(value = "status")
-    private GenerateStatus status;
+    private GenerateStatusEnums status;
 
     /**
      * 错误信息（失败时记录）

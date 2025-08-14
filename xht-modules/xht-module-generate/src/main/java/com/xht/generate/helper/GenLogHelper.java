@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import com.xht.framework.core.constant.StringConstant;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
-import com.xht.generate.constant.enums.GenerateStatus;
+import com.xht.generate.constant.enums.GenerateStatusEnums;
 import com.xht.generate.domain.entity.GenLogEntity;
 import com.xht.generate.event.GenLogEvent;
 
@@ -27,7 +27,7 @@ public final class GenLogHelper {
      */
     public static void success(Long groupId, Long groupTemplateSize, List<String> tableIds) {
         GenLogEvent genLogEvent = createGenLogEvent(groupId, groupTemplateSize, tableIds,
-                GenerateStatus.SUCCESS, null);
+                GenerateStatusEnums.SUCCESS, null);
         SpringContextUtils.publishEvent(genLogEvent);
     }
 
@@ -42,7 +42,7 @@ public final class GenLogHelper {
     public static void fail(Long groupId, Long groupTemplateSize,
                             List<String> tableIds, String errorMsg) {
         GenLogEvent genLogEvent = createGenLogEvent(groupId, groupTemplateSize, tableIds,
-                GenerateStatus.FAIL, errorMsg);
+                GenerateStatusEnums.FAIL, errorMsg);
         SpringContextUtils.publishEvent(genLogEvent);
     }
 
@@ -57,7 +57,7 @@ public final class GenLogHelper {
      * @return 生成日志事件
      */
     private static GenLogEvent createGenLogEvent(Long groupId, Long groupTemplateSize,
-                                                 List<String> tableIds, GenerateStatus status, String errorMsg) {
+                                                 List<String> tableIds, GenerateStatusEnums status, String errorMsg) {
         GenLogEntity entity = new GenLogEntity();
         entity.setGroupId(groupId);
         entity.setBatchNo(IdUtil.getSnowflakeNextIdStr());

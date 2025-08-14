@@ -1,7 +1,7 @@
 package com.xht.generate.domain.response;
 
 import com.xht.framework.core.domain.response.BasicResponse;
-import com.xht.generate.constant.enums.GenerateStatus;
+import com.xht.generate.constant.enums.GenerateStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -56,7 +56,7 @@ public class GenLogResponse extends BasicResponse {
      * 生成状态（success/fail）
      */
     @Schema(description = "生成状态")
-    private GenerateStatus status;
+    private GenerateStatusEnums status;
 
     /**
      * 错误信息（失败时记录）
