@@ -12,7 +12,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum GenerateStatus implements IEnum<String> {
+public enum GenerateStatusEnums implements IEnum<String> {
     /**
      * 成功
      */
