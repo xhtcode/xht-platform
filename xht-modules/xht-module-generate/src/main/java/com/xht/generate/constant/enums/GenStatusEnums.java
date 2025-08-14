@@ -20,4 +20,13 @@ public enum GenStatusEnums implements IEnum<Integer> {
     private final Integer value;
 
     private final String desc;
+
+    public static GenStatusEnums getByValue(Integer value) {
+        for (GenStatusEnums item : values()) {
+            if (item.value.equals(value)) {
+                return item;
+            }
+        }
+        return null;
+    }
 }

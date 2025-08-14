@@ -46,15 +46,13 @@ public class MySqlQueryStrategy extends IDataBaseQuery {
      */
     private static final String QUERY_COLUMN_SQL = """
             SELECT
-            	table_name,
-            	table_schema,
             	column_name,
+            	data_type AS column_db_type,
+            	column_comment,
+            	CHARACTER_MAXIMUM_LENGTH AS column_length,
                 ( IF(is_nullable = 'no', '1', '0') ) AS is_required,
             	( IF(column_key = 'PRI', '1', '0') ) AS is_pk,
-            	ordinal_position AS sort,
-            	column_comment,
-            	data_type AS column_db_type,
-            	CHARACTER_MAXIMUM_LENGTH AS column_length
+            	ordinal_position AS column_sort
             FROM
             	information_schema.COLUMNS
             WHERE

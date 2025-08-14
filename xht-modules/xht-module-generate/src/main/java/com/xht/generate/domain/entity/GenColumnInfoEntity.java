@@ -51,6 +51,12 @@ public class GenColumnInfoEntity extends BasicEntity implements Serializable {
     private String columnComment;
 
     /**
+     * 字段长度
+     */
+    @TableField(value = "column_length")
+    private int columnLength;
+
+    /**
      * 字段代码名称
      */
     @TableField(value = "code_name")
@@ -61,12 +67,6 @@ public class GenColumnInfoEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "code_comment")
     private String codeComment;
-
-    /**
-     * 字段默认值
-     */
-    @TableField(value = "default_value")
-    private String defaultValue;
 
     /**
      * 是否必填（0否 1是）
