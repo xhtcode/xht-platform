@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-
 import com.xht.system.modules.authority.common.enums.*;
 import lombok.Data;
 
@@ -23,7 +22,7 @@ public class SysMenuEntity extends BasicEntity implements Serializable {
     /**
      * 菜单ID
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
 
     /**

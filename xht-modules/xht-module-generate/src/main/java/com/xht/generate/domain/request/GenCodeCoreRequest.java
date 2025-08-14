@@ -31,4 +31,11 @@ public class GenCodeCoreRequest implements IRequest {
     @Schema(description = "作者名称")
     private String author;
 
+    /**
+     * 包名称
+     */
+    @NotBlank(message = "包名称不能为空")
+    @Schema(description = "包名称")
+    private String packageName;
+
 }
