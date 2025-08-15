@@ -82,7 +82,7 @@ public final class GenCodeHelper {
                 .filter(col -> GenStatusEnums.YES.equals(col.getIsPrimary()))
                 .findFirst()
                 .orElse(new GenColumnInfoEntity());
-        context.put("pkColumn", pkColumn);
+        context.put("pkColumn", convertColumnToMap(typeMappingCache, tableInfo.getDataBaseType(), pkColumn, null));
 
         // 添加需要导入的类
         context.put("importClassNames", importClassNames);
@@ -227,7 +227,7 @@ public final class GenCodeHelper {
                 columnMap.put(languageType.getShortName(), typeMapping.getTargetDataType());
                 // 收集需要导入的类
                 String importPackage = typeMapping.getImportPackage();
-                if (StringUtils.hasText(importPackage)) {
+                if (StringUtils.hasText(importPackage) && Objects.nonNull(importClassNames)) {
                     importClassNames.add(importPackage);
                 }
             } else {
