@@ -50,7 +50,6 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
      */
     @Override
     public void generateCode(GenCodeCoreRequest genCodeCoreRequest) {
-        Long groupTemplateSize = 0L;
         List<GenCodeCoreBo> codeCoreList = new ArrayList<>();
         List<String> tableIds = genCodeCoreRequest.getTableIds();
         List<GenTableInfoEntity> tableInfoEntities = genTableInfoDao.findList(GenTableInfoEntity::getId, genCodeCoreRequest.getTableIds());
@@ -61,8 +60,8 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
         List<GenTemplateEntity> templateEntities = genTemplateDao.findList(GenTemplateEntity::getGroupId, groupTableInfoEntities.keySet());
         Map<Long, List<GenTemplateEntity>> groupTemplateEntities = templateEntities.stream().collect(Collectors.groupingBy(GenTemplateEntity::getGroupId));
         for (Long groupId : groupTableInfoEntities.keySet()) {
+            List<GenTemplateEntity> templateEntityList = groupTemplateEntities.get(groupId);
             try {
-                List<GenTemplateEntity> templateEntityList = groupTemplateEntities.get(groupId);
                 List<GenCodeCoreBo> parse = GenCodeHelper.parse(templateEntityList);
                 List<GenTableInfoEntity> entities = groupTableInfoEntities.get(groupId);
                 for (GenTableInfoEntity tableInfo : entities) {
@@ -71,10 +70,10 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
                     GenCodeHelper.generateCode(velocityContext, parse);
                     codeCoreList.addAll(parse);
                 }
-                GenLogHelper.success(groupId, groupTemplateSize, tableIds);
+                GenLogHelper.success(groupId, templateEntityList.size(), tableIds);
             } catch (Exception e) {
                 log.error("生成代码异常: {}", e.getMessage(), e);
-                GenLogHelper.fail(groupId, groupTemplateSize, tableIds, String.format("生成代码异常:%s", e.getMessage()));
+                GenLogHelper.fail(groupId, templateEntityList.size(), tableIds, String.format("生成代码异常:%s", e.getMessage()));
                 throw new BusinessException(e.getMessage());
             }
         }

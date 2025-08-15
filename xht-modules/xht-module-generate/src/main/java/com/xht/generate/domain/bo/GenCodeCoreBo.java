@@ -1,6 +1,7 @@
 package com.xht.generate.domain.bo;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
 /**
@@ -8,19 +9,19 @@ import lombok.Getter;
  *
  * @author xht
  **/
-@Getter
+@Data
 @AllArgsConstructor
 public class GenCodeCoreBo {
 
     /**
      * 文件路径
      */
-    private final String filePath;
+    private  String filePath;
 
     /**
      * 生成的代码内容
      */
-    private final String code;
+    private  String code;
 }
 
 

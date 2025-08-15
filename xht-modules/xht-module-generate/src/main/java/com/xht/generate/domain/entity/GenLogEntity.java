@@ -47,7 +47,7 @@ public class GenLogEntity extends BasicEntity implements Serializable {
      * 生成文件数量
      */
     @TableField(value = "file_count")
-    private Long fileCount;
+    private int fileCount;
 
     /**
      * 生成的表ID（逗号分隔）

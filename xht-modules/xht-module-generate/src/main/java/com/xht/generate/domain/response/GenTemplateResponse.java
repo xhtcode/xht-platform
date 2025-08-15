@@ -38,12 +38,6 @@ public class GenTemplateResponse extends BasicResponse {
     private String content;
 
     /**
-     * 文件类型（java/ts/vue/xml/sql等）
-     */
-    @Schema(description = "文件类型")
-    private String fileType;
-
-    /**
      * 文件路径模板（如：src/main/java/{{package}}）
      */
     @Schema(description = "文件路径模板")

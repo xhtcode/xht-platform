@@ -48,12 +48,6 @@ public class GenTemplateFormRequest extends FormRequest {
     @Schema(description = "模板内容（Velocity语法）")
     private String content;
 
-    /**
-     * 文件类型（java/ts/vue/xml/sql等）
-     */
-    @NotBlank(message = "文件类型不能为空", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "文件类型（java/ts/vue/xml/sql等）")
-    private String fileType;
 
     /**
      * 文件路径模板（如：src/main/java/{{package}}）

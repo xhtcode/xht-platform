@@ -36,7 +36,6 @@ public class GenTemplateDaoImpl extends MapperRepositoryImpl<GenTemplateMapper, 
         updateWrapper.set(condition(formRequest.getGroupId()), GenTemplateEntity::getGroupId, formRequest.getGroupId());
         updateWrapper.set(condition(formRequest.getName()), GenTemplateEntity::getName, formRequest.getName());
         updateWrapper.set(condition(formRequest.getContent()), GenTemplateEntity::getContent, formRequest.getContent());
-        updateWrapper.set(condition(formRequest.getFileType()), GenTemplateEntity::getFileType, formRequest.getFileType());
         updateWrapper.set(condition(formRequest.getFilePathTemplate()), GenTemplateEntity::getFilePathTemplate, formRequest.getFilePathTemplate());
         updateWrapper.set(condition(formRequest.getFileNameTemplate()), GenTemplateEntity::getFileNameTemplate, formRequest.getFileNameTemplate());
         updateWrapper.eq(GenTemplateEntity::getId, formRequest.getId());

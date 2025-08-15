@@ -44,7 +44,7 @@ public class GenLogResponse extends BasicResponse {
      * 生成文件数量
      */
     @Schema(description = "生成文件数量")
-    private Long fileCount;
+    private int fileCount;
 
     /**
      * 生成的表ID（逗号分隔）

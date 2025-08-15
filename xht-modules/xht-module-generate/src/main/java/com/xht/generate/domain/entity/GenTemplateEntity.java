@@ -42,12 +42,6 @@ public class GenTemplateEntity extends BasicEntity implements Serializable {
     private String content;
 
     /**
-     * 文件类型（java/ts/vue/xml/sql等）
-     */
-    @TableField(value = "file_type")
-    private String fileType;
-
-    /**
      * 文件路径模板（如：src/main/java/{{package}}）
      */
     @TableField(value = "file_path_template")
