@@ -31,4 +31,11 @@ public class ImportTableFormRequest extends FormRequest {
     @Schema(description = "数据源id")
     private Long dataSourceId;
 
+    /**
+     * 模块名称
+     */
+    @NotEmpty(message = "模块名称不能为空")
+    @Schema(description = "模块名称")
+    private String moduleName;
+
 }

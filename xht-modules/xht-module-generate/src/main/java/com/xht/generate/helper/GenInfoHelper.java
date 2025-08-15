@@ -3,10 +3,12 @@ package com.xht.generate.helper;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.xht.framework.core.constant.StringConstant;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.generate.constant.GenConstant;
 import com.xht.generate.constant.enums.GenStatusEnums;
 import com.xht.generate.domain.ColumnExtConfig;
+import com.xht.generate.domain.TableExtConfig;
 import com.xht.generate.domain.entity.GenColumnInfoEntity;
 import com.xht.generate.domain.entity.GenDataSourceEntity;
 import com.xht.generate.domain.entity.GenTableInfoEntity;
@@ -36,18 +38,24 @@ public final class GenInfoHelper {
      * @param dataSourceEntity 数据源实体
      * @param tableInfoEntity  表信息实体
      */
-    public static void parseTableInfo(GenDataSourceEntity dataSourceEntity, GenTableInfoEntity tableInfoEntity) {
+    public static void parseTableInfo(GenDataSourceEntity dataSourceEntity, GenTableInfoEntity tableInfoEntity, String moduleName) {
         // 生成雪花算法ID
         if (!StringUtils.hasText(tableInfoEntity.getId())) {
             String tableId = IdUtil.getSnowflakeNextIdStr();
             tableInfoEntity.setId(tableId);
         }
         tableInfoEntity.setDataSourceId(dataSourceEntity.getId());
+        tableInfoEntity.setDataBaseType(dataSourceEntity.getDbType());
         // 格式化表名为驼峰命名（首字母大写）
         tableInfoEntity.setCodeName(formatToCamelCase(tableInfoEntity.getTableName()));
         tableInfoEntity.setCodeComment(tableInfoEntity.getTableComment());
+        TableExtConfig tableExtConfig = new TableExtConfig();
+        tableExtConfig.setUrl(getPathUrl(tableInfoEntity.getTableName()));
+        tableExtConfig.setModuleName(moduleName);
+        tableExtConfig.setServiceName(getServiceName(tableInfoEntity.getTableName()));
+        tableExtConfig.setAuthorizationPrefix(getAuthorizationPrefix(tableInfoEntity.getTableName()));
+        tableInfoEntity.setExtConfig(tableExtConfig);
     }
-
 
     /**
      * 解析列信息列表，为每个列信息实体设置关联属性和扩展配置
@@ -60,7 +68,6 @@ public final class GenInfoHelper {
             log.warn("列信息列表为空，无需解析");
             return;
         }
-
         for (GenColumnInfoEntity column : columnInfoEntities) {
             column.setTableId(tableInfoEntity.getId());
             // 格式化列名为驼峰命名（首字母大写）
@@ -94,7 +101,7 @@ public final class GenInfoHelper {
     private static ColumnExtConfig buildColumnExtConfig(GenColumnInfoEntity columnInfoEntity) {
         ColumnExtConfig extConfig = new ColumnExtConfig();
         String columnName = columnInfoEntity.getColumnName();
-
+        extConfig.setEntity(determineStatus(GenConstant.COLUMN_NOT_ENTITY, columnName));
         // 处理表单项相关配置
         GenStatusEnums isFormItem = determineStatus(GenConstant.COLUMN_NOT_FORM, columnName);
         extConfig.setFormItem(isFormItem);
@@ -108,8 +115,8 @@ public final class GenInfoHelper {
 
         // 处理列表相关配置
         GenStatusEnums isGridItem = determineStatus(GenConstant.COLUMN_NOT_LIST, columnName);
-        extConfig.setGridItem(isGridItem);
-        extConfig.setGridSort(isGridItem);
+        extConfig.setList(isGridItem);
+        extConfig.setListSort(isGridItem);
 
         // 处理查询项相关配置
         GenStatusEnums isQueryItem = determineStatus(GenConstant.COLUMN_NOT_QUERY, columnName);
@@ -139,5 +146,40 @@ public final class GenInfoHelper {
         return ArrayUtil.contains(excludedColumns, columnName)
                 ? GenStatusEnums.NO
                 : GenStatusEnums.YES;
+    }
+
+    /**
+     * 获取 controller地址前缀
+     *
+     * @param tableName 表名
+     * @return controller地址前缀
+     */
+    public static String getPathUrl(String tableName) {
+        String url = StrUtil.replace(tableName, "_", StringConstant.SEPARATOR_SLASH);
+        return StrUtil.addPrefixIfNot(url, StringConstant.SEPARATOR_SLASH);
+    }
+
+    /**
+     * 获取权限前缀
+     * 将表名中的第一个下划线替换为冒号，其余下划线替换为短横线
+     *
+     * @param tableName 表名
+     * @return 权限前缀字符串
+     */
+    public static String getAuthorizationPrefix(String tableName) {
+        String s = StrUtil.replaceFirst(tableName, "_", ":");
+        return StrUtil.replace(s, "_", "-");
+    }
+
+    /**
+     * 获取业务命名成
+     *
+     * @param tableName 表名称
+     * @return String
+     */
+    private static String getServiceName(String tableName) {
+        int lastIndex = tableName.indexOf("_");
+        int nameLength = tableName.length();
+        return StrUtil.sub(tableName, 0, lastIndex > 0 ? lastIndex : nameLength);
     }
 }

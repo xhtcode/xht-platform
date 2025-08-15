@@ -13,6 +13,7 @@ import com.xht.generate.converter.GenTableInfoConverter;
 import com.xht.generate.dao.GenColumnInfoDao;
 import com.xht.generate.dao.GenDataSourceDao;
 import com.xht.generate.dao.GenTableInfoDao;
+import com.xht.generate.domain.TableExtConfig;
 import com.xht.generate.domain.entity.GenColumnInfoEntity;
 import com.xht.generate.domain.entity.GenDataSourceEntity;
 import com.xht.generate.domain.entity.GenTableInfoEntity;
@@ -84,7 +85,7 @@ public class GenTableInfoServiceImpl implements IGenTableInfoService, Initializi
             for (String tableName : tableNames) {
                 GenTableInfoEntity tableInfoEntity = dataBaseQuery.selectTableByTableName(jdbcTemplate, tableName);
                 if (Objects.nonNull(tableInfoEntity)) {
-                    GenInfoHelper.parseTableInfo(dataSourceEntity, tableInfoEntity);
+                    GenInfoHelper.parseTableInfo(dataSourceEntity, tableInfoEntity, formRequest.getModuleName());
                     saveTableEntity.add(tableInfoEntity);
                     List<GenColumnInfoEntity> genColumnInfoEntities = dataBaseQuery.selectTableColumnsByTableName(jdbcTemplate, tableName);
                     GenInfoHelper.parseColumnInfos(tableInfoEntity, genColumnInfoEntities);
@@ -132,7 +133,7 @@ public class GenTableInfoServiceImpl implements IGenTableInfoService, Initializi
             JdbcTemplate jdbcTemplate = jdbcUtils.getJdbcTemplate();
             GenTableInfoEntity tableInfoEntity = dataBaseQuery.selectTableByTableName(jdbcTemplate, tableName);
             ThrowUtils.notNull(tableInfoEntity, String.format("表`%s`不存在", tableName));
-            GenInfoHelper.parseTableInfo(dataSourceEntity, tableInfoEntity);
+            GenInfoHelper.parseTableInfo(dataSourceEntity, tableInfoEntity, Objects.requireNonNullElse(dbTableInfoEntity.getExtConfig(), new TableExtConfig()).getModuleName());
             tableInfoEntity.setId(tableId);
             List<GenColumnInfoEntity> genColumnInfoEntities = dataBaseQuery.selectTableColumnsByTableName(jdbcTemplate, tableName);
             GenInfoHelper.parseColumnInfos(tableInfoEntity, genColumnInfoEntities);

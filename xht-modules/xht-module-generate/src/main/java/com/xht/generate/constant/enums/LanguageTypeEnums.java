@@ -16,21 +16,24 @@ import java.util.Optional;
 @AllArgsConstructor
 public enum LanguageTypeEnums implements IEnum<String> {
 
-    Java("Java"),
-
-    Python("Python"),
-
-    JavaScript("JavaScript"),
-
-    TypeScript("TypeScript"),
-
-    Vue("Vue");
+    Java("Java", "js", "Object"),
+    TypeScript("TypeScript", "ts", "any");
 
     /**
      * 语言类型编码
      */
     @JsonValue
     private final String value;
+
+    /**
+     * 简称
+     */
+    private final String shortName;
+
+    /**
+     * 默认类型
+     */
+    private final String defaultType;
 
     /**
      * 根据编码获取枚举

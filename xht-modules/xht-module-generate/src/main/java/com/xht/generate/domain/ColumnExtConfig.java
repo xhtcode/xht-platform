@@ -5,11 +5,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
+ *  字段扩展配置
  * @author xht
  **/
 @Data
-@Schema(description = "列扩展配置")
+@Schema(description = "字段扩展配置")
 public class ColumnExtConfig {
+
+    /**
+     * 实体属性 0：否 1：是
+     */
+    @Schema(description = "实体属性")
+    private GenStatusEnums entity;
 
     /**
      * 表单项 0：否 1：是
@@ -39,13 +46,13 @@ public class ColumnExtConfig {
      * 列表项 0：否 1：是
      */
     @Schema(description ="列表项 0：否 1：是")
-    private GenStatusEnums gridItem;
+    private GenStatusEnums list;
 
     /**
      * 列表排序 0：否 1：是
      */
     @Schema(description ="列表排序 0：否 1：是")
-    private GenStatusEnums gridSort;
+    private GenStatusEnums listSort;
 
     /**
      * 查询项 0：否 1：是

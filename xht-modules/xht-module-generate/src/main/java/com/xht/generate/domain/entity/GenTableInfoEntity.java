@@ -5,6 +5,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
+import com.xht.framework.mybatis.extension.handlers.JsonTypeHandler;
+import com.xht.generate.constant.enums.DataBaseTypeEnums;
+import com.xht.generate.domain.ColumnExtConfig;
+import com.xht.generate.domain.TableExtConfig;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -35,6 +39,12 @@ public class GenTableInfoEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "data_source_id")
     private Long dataSourceId;
+
+    /**
+     * 数据库类型
+     */
+    @TableField(value = "data_base_type")
+    private DataBaseTypeEnums dataBaseType;
 
     /**
      * 引擎名称
@@ -77,5 +87,11 @@ public class GenTableInfoEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "table_update_time")
     private LocalDateTime tableUpdateTime;
+
+    /**
+     * 配置属性
+     */
+    @TableField(value = "ext_config", typeHandler = JsonTypeHandler.class)
+    private TableExtConfig extConfig;
 
 }

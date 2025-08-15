@@ -1,7 +1,10 @@
 package com.xht.generate.domain.request;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.xht.framework.core.domain.request.FormRequest;
+import com.xht.framework.mybatis.extension.handlers.JsonTypeHandler;
 import com.xht.framework.web.validation.Groups;
+import com.xht.generate.domain.TableExtConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -64,6 +67,15 @@ public class GenTableInfoFormRequest extends FormRequest {
     @NotBlank(message = "代码的注释不能为空", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "代码的注释")
     private String codeComment;
+
+
+    /**
+     * 配置属性
+     */
+    @Valid
+    @Schema(description = "配置属性")
+    private TableExtConfig extConfig;
+
 
     @Valid
     @Schema(description = "字段信息")

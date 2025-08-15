@@ -14,6 +14,6 @@ public interface IGenCodeCoreService {
      *
      * @param genCodeCoreRequest 代码生成核心请求参数
      */
-    void generateCode(GenCodeCoreRequest genCodeCoreRequest);
+    byte[] generateCode(GenCodeCoreRequest genCodeCoreRequest);
 
 }
