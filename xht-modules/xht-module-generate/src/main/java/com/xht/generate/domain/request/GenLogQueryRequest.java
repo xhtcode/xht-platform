@@ -3,6 +3,7 @@ package com.xht.generate.domain.request;
 import com.xht.framework.core.domain.request.PageQueryRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -16,9 +17,9 @@ import java.time.LocalDateTime;
 public class GenLogQueryRequest extends PageQueryRequest {
 
     /**
-     * 分组id
+     * 模板分组id
      */
-    @Schema(description = "分组id")
+    @Schema(description = "模板分组id")
     private Long groupId;
 
     /**
@@ -31,11 +32,13 @@ public class GenLogQueryRequest extends PageQueryRequest {
      * 生成时间
      */
     @Schema(description = "生成时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime generateTimeStart;
 
     /**
      * 生成时间
      */
     @Schema(description = "生成时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime generateTimeEnd;
 }

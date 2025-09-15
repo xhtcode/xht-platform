@@ -18,7 +18,7 @@ import java.io.Serializable;
 public class GenTemplateGroupEntity extends BasicEntity implements Serializable {
 
     /**
-     * 分组ID
+     * 模板分组id
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;

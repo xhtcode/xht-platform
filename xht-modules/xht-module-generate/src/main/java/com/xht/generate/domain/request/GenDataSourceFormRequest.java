@@ -38,7 +38,7 @@ public class GenDataSourceFormRequest extends FormRequest {
     /**
      * 数据库类型（MySQL/Oracle）
      */
-    @NotBlank(message = "数据库类型不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @NotNull(message = "数据库类型不能为空", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "数据库类型")
     private DataBaseTypeEnums dbType;
 

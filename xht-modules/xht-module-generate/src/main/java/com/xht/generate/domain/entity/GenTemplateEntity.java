@@ -24,7 +24,7 @@ public class GenTemplateEntity extends BasicEntity implements Serializable {
     private Long id;
 
     /**
-     * 分组id
+     * 模板分组id
      */
     @TableField(value = "group_id")
     private Long groupId;

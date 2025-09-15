@@ -29,7 +29,7 @@ public class GenTableInfoEntity extends BasicEntity implements Serializable {
     private String id;
 
     /**
-     * 分组id
+     * 模板分组id
      */
     @TableField(value = "group_id")
     private Long groupId;
@@ -53,7 +53,7 @@ public class GenTableInfoEntity extends BasicEntity implements Serializable {
     private String engineName;
 
     /**
-     * 数据库表名
+     * 表名
      */
     @TableField(value = "table_name")
     private String tableName;
@@ -65,13 +65,13 @@ public class GenTableInfoEntity extends BasicEntity implements Serializable {
     private String tableComment;
 
     /**
-     * 生成的类名（如：User）
+     * 代码名称（如：User）
      */
     @TableField(value = "code_name")
     private String codeName;
 
     /**
-     * 代码的注释（如：用户）
+     * 代码注释（如：用户）
      */
     @TableField(value = "code_comment")
     private String codeComment;

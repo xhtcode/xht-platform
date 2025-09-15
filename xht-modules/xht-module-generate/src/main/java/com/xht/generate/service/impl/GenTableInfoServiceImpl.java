@@ -74,7 +74,7 @@ public class GenTableInfoServiceImpl implements IGenTableInfoService, Initializi
         ThrowUtils.notNull(dataSourceEntity, "数据源不存在");
         JDBCUtils jdbcUtils = null;
         try {
-            JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity.getUrl(), dataSourceEntity.getName(), dataSourceEntity.getName(), dataSourceEntity.getDbType().getDriverClassName()).build();
+            JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity.getUrl(), dataSourceEntity.getUsername(), dataSourceEntity.getPassword(), dataSourceEntity.getDbType().getDriverClassName()).build();
             jdbcUtils = JDBCUtils.create(jdbcConfig);
             DataBaseTypeEnums dbType = dataSourceEntity.getDbType();
             IDataBaseQuery dataBaseQuery = queryMap.get(dbType);
@@ -125,7 +125,7 @@ public class GenTableInfoServiceImpl implements IGenTableInfoService, Initializi
         ThrowUtils.notNull(dataSourceEntity, "数据源不存在");
         JDBCUtils jdbcUtils = null;
         try {
-            JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity.getUrl(), dataSourceEntity.getName(), dataSourceEntity.getName(), dataSourceEntity.getDbType().getDriverClassName()).build();
+            JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity.getUrl(), dataSourceEntity.getUsername(), dataSourceEntity.getPassword(), dataSourceEntity.getDbType().getDriverClassName()).build();
             jdbcUtils = JDBCUtils.create(jdbcConfig);
             DataBaseTypeEnums dbType = dataSourceEntity.getDbType();
             IDataBaseQuery dataBaseQuery = queryMap.get(dbType);
@@ -228,7 +228,7 @@ public class GenTableInfoServiceImpl implements IGenTableInfoService, Initializi
         ThrowUtils.notNull(dataSourceEntity, "数据源不存在");
         JDBCUtils jdbcUtils = null;
         try {
-            JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity.getUrl(), dataSourceEntity.getName(), dataSourceEntity.getName(), dataSourceEntity.getDbType().getDriverClassName()).build();
+            JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity.getUrl(), dataSourceEntity.getUsername(), dataSourceEntity.getPassword(), dataSourceEntity.getDbType().getDriverClassName()).build();
             jdbcUtils = JDBCUtils.create(jdbcConfig);
             DataBaseTypeEnums dbType = dataSourceEntity.getDbType();
             IDataBaseQuery dataBaseQuery = queryMap.get(dbType);

@@ -92,7 +92,7 @@ public final class GenInfoHelper {
      * 格式化名称为驼峰命名（首字母大写）
      * 处理逻辑：先将下划线命名转为驼峰命名，再将首字母大写
      *
-     * @param name 需要格式化的名称（通常是数据库表名或列名）
+     * @param name 需要格式化的名称（通常是表名或列名）
      * @return 格式化后的驼峰命名，若输入为空则返回空字符串
      */
     private static String formatToCamelCase(String name) {

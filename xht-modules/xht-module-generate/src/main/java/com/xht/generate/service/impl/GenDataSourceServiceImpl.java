@@ -109,7 +109,7 @@ public class GenDataSourceServiceImpl implements IGenDataSourceService {
             JDBCUtils jdbcUtils = null;
             boolean result = false;
             try {
-                JDBCConfig config = JDBCConfig.Builder.of(entity.getUrl(), entity.getName(), entity.getName(), entity.getDbType().getDriverClassName()).build();
+                JDBCConfig config = JDBCConfig.Builder.of(entity.getUrl(), entity.getUsername(), entity.getPassword(), entity.getDbType().getDriverClassName()).build();
                 jdbcUtils = JDBCUtils.create(config);
                 entity.setTestResult("success");
                 result = true;

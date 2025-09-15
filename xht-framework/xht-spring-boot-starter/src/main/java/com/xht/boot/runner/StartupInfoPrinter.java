@@ -1,6 +1,6 @@
 package com.xht.boot.runner;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.date.DateUtil;
 import com.xht.framework.core.properties.GlobalConfigProperties;
 import com.xht.framework.core.utils.IpUtils;
 import com.xht.framework.core.utils.StringUtils;
@@ -65,6 +65,7 @@ public class StartupInfoPrinter implements ApplicationRunner {
     private final GlobalConfigProperties globalConfigProperties;
 
     @Override
+    @SuppressWarnings("all")
     public void run(ApplicationArguments args) {
         if (globalConfigProperties.isBanner()) {
             // 获取并校验本机IP地址（防止获取失败导致的空指针）
@@ -75,6 +76,7 @@ public class StartupInfoPrinter implements ApplicationRunner {
             System.out.println(SEPARATOR);
             System.out.println(ASCII_ART);
             System.out.println("🤡 项目作者：👉小糊涂(xht)👈");
+            System.out.printf("⌛ 启动时间：👉%s👈", DateUtil.now());
             System.out.println(SEPARATOR);
             System.out.println();
             System.out.printf("🌴 项目名称:     %s%n", applicationName);
@@ -84,7 +86,7 @@ public class StartupInfoPrinter implements ApplicationRunner {
             System.out.println("📚 接口文档地址:");
             System.out.printf("   ├─ Knife4j文档:  http://localhost:%s%s/doc.html%n", serverPort, contextPath);
             System.out.printf("   ├─ Swagger文档:  http://localhost:%s%s/swagger-ui.html%n", serverPort, contextPath);
-            System.out.printf("   └─ OpenAPI规范:  http://localhost:%s%sv3/api-docs%n", serverPort, contextPath);
+            System.out.printf("   └─ OpenAPI规范:  http://localhost:%s%s/v3/api-docs%n", serverPort, contextPath);
             System.out.println();
             System.out.println(SEPARATOR);
         }

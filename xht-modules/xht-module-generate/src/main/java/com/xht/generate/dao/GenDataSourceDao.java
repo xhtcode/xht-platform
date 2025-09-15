@@ -31,4 +31,5 @@ public interface GenDataSourceDao extends MapperRepository<GenDataSourceEntity> 
      */
     List<GenDataSourceEntity> selectList(GenDataSourceQueryRequest queryRequest);
 
+
 }

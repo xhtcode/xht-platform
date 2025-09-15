@@ -34,10 +34,10 @@ public class GenTableInfoFormRequest extends FormRequest {
     private String id;
 
     /**
-     * 分组id
+     * 模板分组id
      */
-    @NotNull(message = "分组id不能为空", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "分组id")
+    @NotNull(message = "模板分组id不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "模板分组id")
     private Long groupId;
 
     /**
@@ -55,17 +55,17 @@ public class GenTableInfoFormRequest extends FormRequest {
     private String tableComment;
 
     /**
-     * 生成的类名（如：User）
+     * 代码名称（如：User）
      */
-    @NotBlank(message = "生成的类名不能为空", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "生成的类名")
+    @NotBlank(message = "代码名称不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "代码名称")
     private String codeName;
 
     /**
-     * 代码的注释（如：用户）
+     * 代码注释（如：用户）
      */
-    @NotBlank(message = "代码的注释不能为空", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "代码的注释")
+    @NotBlank(message = "代码注释不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "代码注释")
     private String codeComment;
 
 

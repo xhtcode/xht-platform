@@ -44,7 +44,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      */
     @Override
     public final boolean save(T entity) {
-        return SqlHelper.retBool(baseMapper.insert(entity));
+        return SqlHelper.retBool(getBaseMapper().insert(entity));
     }
 
     /**
@@ -56,7 +56,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean saveTransactional(T entity) {
-        return SqlHelper.retBool(baseMapper.insert(entity));
+        return SqlHelper.retBool(getBaseMapper().insert(entity));
     }
 
     /**
@@ -145,7 +145,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      */
     @Override
     public final boolean updateById(T entity) {
-        return SqlHelper.retBool(baseMapper.updateById(entity));
+        return SqlHelper.retBool(getBaseMapper().updateById(entity));
     }
 
     /**
@@ -167,7 +167,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      */
     @Override
     public final boolean existsById(Serializable id) {
-        return SqlHelper.retBool(baseMapper.selectCount(getFieldId(), id));
+        return SqlHelper.retBool(getBaseMapper().selectCount(getFieldId(), id));
     }
 
     /**
@@ -178,7 +178,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      */
     @Override
     public final List<T> findAllById(Collection<? extends Serializable> idList) {
-        return baseMapper.selectList(getFieldId(), idList);
+        return getBaseMapper().selectList(getFieldId(), idList);
     }
 
     /**

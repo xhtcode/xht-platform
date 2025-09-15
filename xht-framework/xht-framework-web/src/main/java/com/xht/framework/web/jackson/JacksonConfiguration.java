@@ -27,7 +27,6 @@ import java.util.TimeZone;
 public class JacksonConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean
     public Jackson2ObjectMapperBuilderCustomizer customizer() {
         return builder -> {
             builder.locale(Locale.CHINA);

@@ -40,6 +40,17 @@ public class GenDataSourceResponse extends BasicResponse {
     @Schema(description = "数据库地址")
     private String url;
 
+    /**
+     * 数据库用户名
+     */
+    @Schema(description = "数据库用户名")
+    private String username;
+
+    /**
+     * 密码
+     */
+    @Schema(description = "密码")
+    private String password;
 
     /**
      * 连接测试结果（success/fail）

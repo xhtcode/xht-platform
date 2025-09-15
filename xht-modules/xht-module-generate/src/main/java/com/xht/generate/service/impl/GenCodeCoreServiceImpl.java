@@ -86,9 +86,9 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
                     codeList.addAll(parsedTemplates);
                 }
                 GenLogHelper.success(groupId, groupTemplates.size(), tableIds);
-                log.info("代码生成成功 [分组ID: {}, 表数量: {}]", groupId, groupTables.size());
+                log.info("代码生成成功 [模板分组id: {}, 表数量: {}]", groupId, groupTables.size());
             } catch (Exception e) {
-                String errorMsg = String.format("分组ID: %s 代码生成失败: %s", groupId, e.getMessage());
+                String errorMsg = String.format("模板分组id: %s 代码生成失败: %s", groupId, e.getMessage());
                 log.error(errorMsg, e);
                 GenLogHelper.fail(groupId, groupTemplates.size(), tableIds, errorMsg);
                 throw new BusinessException(errorMsg);

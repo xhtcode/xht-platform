@@ -28,10 +28,10 @@ public class GenTemplateFormRequest extends FormRequest {
     private Long id;
 
     /**
-     * 分组id
+     * 模板分组id
      */
-    @NotNull(message = "分组id不能为空", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "分组id")
+    @NotNull(message = "模板分组id不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "模板分组id")
     private Long groupId;
 
     /**

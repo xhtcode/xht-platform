@@ -14,9 +14,9 @@ import lombok.Data;
 public class GenTableInfoQueryRequest extends PageQueryRequest {
 
     /**
-     * 分组id
+     * 模板分组id
      */
-    @Schema(description = "分组id")
+    @Schema(description = "模板分组id")
     private Long groupId;
 
     /**
@@ -26,9 +26,9 @@ public class GenTableInfoQueryRequest extends PageQueryRequest {
     private Long dataSourceId;
 
     /**
-     * 数据库表名
+     * 表名
      */
-    @Schema(description = "数据库表名")
+    @Schema(description = "表名")
     private String tableName;
 
     /**

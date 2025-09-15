@@ -24,9 +24,9 @@ public class GenTableInfoResponse extends BasicResponse {
     private String id;
 
     /**
-     * 分组id
+     * 模板分组id
      */
-    @Schema(description = "分组id")
+    @Schema(description = "模板分组id")
     private Long groupId;
 
     /**
@@ -48,9 +48,9 @@ public class GenTableInfoResponse extends BasicResponse {
     private String engineName;
 
     /**
-     * 数据库表名
+     * 表名
      */
-    @Schema(description = "数据库表名")
+    @Schema(description = "表名")
     private String tableName;
 
     /**
@@ -60,15 +60,15 @@ public class GenTableInfoResponse extends BasicResponse {
     private String tableComment;
 
     /**
-     * 生成的类名（如：User）
+     * 代码名称（如：User）
      */
-    @Schema(description = "生成的类名")
+    @Schema(description = "代码名称")
     private String codeName;
 
     /**
-     * 代码的注释（如：用户）
+     * 代码注释（如：用户）
      */
-    @Schema(description = "代码的注释")
+    @Schema(description = "代码注释")
     private String codeComment;
 
     /**

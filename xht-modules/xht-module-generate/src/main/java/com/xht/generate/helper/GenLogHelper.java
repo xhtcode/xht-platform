@@ -21,7 +21,7 @@ public final class GenLogHelper {
     /**
      * 创建成功的生成日志事件
      *
-     * @param groupId           分组ID
+     * @param groupId           模板分组id
      * @param groupTemplateSize 分组模板数量
      * @param tableIds          表ID列表
      */
@@ -34,7 +34,7 @@ public final class GenLogHelper {
     /**
      * 创建失败的生成日志事件
      *
-     * @param groupId           分组ID
+     * @param groupId           模板分组id
      * @param groupTemplateSize 分组模板数量
      * @param tableIds          表ID列表
      * @param errorMsg          错误信息
@@ -49,7 +49,7 @@ public final class GenLogHelper {
     /**
      * 创建生成日志事件的通用方法
      *
-     * @param groupId           分组ID
+     * @param groupId           模板分组id
      * @param groupTemplateSize 分组模板数量
      * @param tableIds          表ID列表
      * @param status            生成状态

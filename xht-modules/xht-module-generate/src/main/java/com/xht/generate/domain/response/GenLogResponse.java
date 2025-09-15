@@ -23,9 +23,9 @@ public class GenLogResponse extends BasicResponse {
     private Long id;
 
     /**
-     * 分组id
+     * 模板分组id
      */
-    @Schema(description = "分组id")
+    @Schema(description = "模板分组id")
     private Long groupId;
 
     /**

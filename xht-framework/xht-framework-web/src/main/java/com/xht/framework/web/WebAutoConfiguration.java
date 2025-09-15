@@ -54,4 +54,5 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
         registration.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.ASYNC);
         return registration;
     }
+
 }

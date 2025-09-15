@@ -14,9 +14,9 @@ import lombok.Data;
 public class GenTemplateGroupResponse extends BasicResponse {
 
     /**
-     * 分组ID
+     * 模板分组id
      */
-    @Schema(description = "分组ID")
+    @Schema(description = "模板分组id")
     private Long id;
 
     /**
