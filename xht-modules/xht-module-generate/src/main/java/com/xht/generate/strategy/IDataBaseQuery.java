@@ -1,8 +1,8 @@
 package com.xht.generate.strategy;
 
 import com.xht.generate.constant.enums.DataBaseTypeEnums;
-import com.xht.generate.domain.entity.GenColumnInfoEntity;
-import com.xht.generate.domain.entity.GenTableInfoEntity;
+import com.xht.generate.domain.bo.ColumnBo;
+import com.xht.generate.domain.bo.TableBo;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
@@ -19,18 +19,18 @@ public abstract class IDataBaseQuery {
      *
      * @param jdbcTemplate JDBC模板，用于执行SQL查询
      * @param tableName    表名
-     * @return {@link GenTableInfoEntity} 表信息实体对象
+     * @return {@link TableBo} 表信息对象
      */
-    public abstract GenTableInfoEntity selectTableByTableName(final JdbcTemplate jdbcTemplate, String tableName);
+    public abstract TableBo selectTableByTableName(final JdbcTemplate jdbcTemplate, String tableName);
 
     /**
      * 根据表名模糊查询多表信息
      *
      * @param jdbcTemplate JDBC模板，用于执行SQL查询
      * @param tableName      表名
-     * @return {@link GenTableInfoEntity} 表信息实体列表
+     * @return {@link TableBo} 表信息对象
      */
-    public abstract List<GenTableInfoEntity> selectListTableByLike(final JdbcTemplate jdbcTemplate, String tableName);
+    public abstract List<TableBo> selectListTableByLike(final JdbcTemplate jdbcTemplate, String tableName);
 
 
     /**
@@ -38,9 +38,9 @@ public abstract class IDataBaseQuery {
      *
      * @param jdbcTemplate JDBC模板，用于执行SQL查询
      * @param tableName    表名
-     * @return 字段信息列表
+     * @return {@link ColumnBo}字段信息列表
      */
-    public abstract List<GenColumnInfoEntity> selectTableColumnsByTableName(final JdbcTemplate jdbcTemplate, String tableName);
+    public abstract List<ColumnBo> selectTableColumnsByTableName(final JdbcTemplate jdbcTemplate, String tableName);
 
     /**
      * 支持的解析类型

@@ -2,8 +2,8 @@ package com.xht.generate.strategy.database;
 
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.generate.constant.enums.DataBaseTypeEnums;
-import com.xht.generate.domain.entity.GenColumnInfoEntity;
-import com.xht.generate.domain.entity.GenTableInfoEntity;
+import com.xht.generate.domain.bo.ColumnBo;
+import com.xht.generate.domain.bo.TableBo;
 import com.xht.generate.sql.ColumnInfoRowMapper;
 import com.xht.generate.sql.TableInfoRowMapper;
 import com.xht.generate.strategy.IDataBaseQuery;
@@ -89,10 +89,10 @@ public class OracleQueryStrategy extends IDataBaseQuery {
      *
      * @param jdbcTemplate JDBC模板，用于执行SQL查询
      * @param tableName    表名
-     * @return {@link GenTableInfoEntity} 表信息实体对象
+     * @return {@link TableBo} 表信息对象
      */
     @Override
-    public GenTableInfoEntity selectTableByTableName(JdbcTemplate jdbcTemplate, String tableName) {
+    public TableBo selectTableByTableName(JdbcTemplate jdbcTemplate, String tableName) {
         return jdbcTemplate.queryForObject(QUERY_EQ_TABLE_NAME, new TableInfoRowMapper(), tableName);
     }
 
@@ -101,10 +101,10 @@ public class OracleQueryStrategy extends IDataBaseQuery {
      *
      * @param jdbcTemplate JDBC模板，用于执行SQL查询
      * @param tableName      表名
-     * @return {@link GenTableInfoEntity} 表信息实体列表
+     * @return {@link TableBo} 表信息对象
      */
     @Override
-    public List<GenTableInfoEntity> selectListTableByLike(JdbcTemplate jdbcTemplate, String tableName) {
+    public List<TableBo> selectListTableByLike(JdbcTemplate jdbcTemplate, String tableName) {
         String sql = QUERY_TABLE_SQL + " AND utc.table_name LIKE ?";
         return jdbcTemplate.query(sql, new TableInfoRowMapper(), "%" + tableName + "%");
     }
@@ -114,10 +114,10 @@ public class OracleQueryStrategy extends IDataBaseQuery {
      *
      * @param jdbcTemplate JDBC模板，用于执行SQL查询
      * @param tableName    表名
-     * @return 字段信息列表
+     * @return {@link ColumnBo}字段信息列表
      */
     @Override
-    public List<GenColumnInfoEntity> selectTableColumnsByTableName(JdbcTemplate jdbcTemplate, String tableName) {
+    public List<ColumnBo> selectTableColumnsByTableName(JdbcTemplate jdbcTemplate, String tableName) {
         ThrowUtils.hasText(tableName, "表名不能为空");
         return jdbcTemplate.query(QUERY_COLUMN_SQL, new ColumnInfoRowMapper(), tableName);
     }

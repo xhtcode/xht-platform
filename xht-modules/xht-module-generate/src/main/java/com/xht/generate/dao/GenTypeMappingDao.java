@@ -3,8 +3,8 @@ package com.xht.generate.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.generate.domain.entity.GenTypeMappingEntity;
-import com.xht.generate.domain.request.GenTypeMappingFormRequest;
-import com.xht.generate.domain.request.GenTypeMappingQueryRequest;
+import com.xht.generate.domain.form.GenTypeMappingFormRequest;
+import com.xht.generate.domain.query.GenTypeMappingQueryRequest;
 
 
 /**

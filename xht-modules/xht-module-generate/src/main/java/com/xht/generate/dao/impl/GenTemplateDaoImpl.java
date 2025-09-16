@@ -2,17 +2,14 @@ package com.xht.generate.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTemplateDao;
 import com.xht.generate.dao.mapper.GenTemplateMapper;
 import com.xht.generate.domain.entity.GenTemplateEntity;
-import com.xht.generate.domain.request.GenTemplateFormRequest;
+import com.xht.generate.domain.form.GenTemplateFormRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Objects;
 
 /**
  * 模板管理

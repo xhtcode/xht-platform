@@ -1,7 +1,8 @@
 package com.xht.generate.sql;
 
 import cn.hutool.core.convert.Convert;
-import com.xht.generate.domain.entity.GenTableInfoEntity;
+import com.xht.generate.domain.bo.TableBo;
+import com.xht.generate.domain.entity.GenTableEntity;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -12,17 +13,17 @@ import java.sql.SQLException;
  *
  * @author xht
  **/
-public class TableInfoRowMapper implements RowMapper<GenTableInfoEntity> {
+public class TableInfoRowMapper implements RowMapper<TableBo> {
 
     @Override
-    public GenTableInfoEntity mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-        GenTableInfoEntity entity = new GenTableInfoEntity();
-        entity.setTableName(resultSet.getString("table_name"));
-        entity.setEngineName(resultSet.getString("engine_name"));
-        entity.setTableComment(resultSet.getString("table_comment"));
-        entity.setTableCreateTime(Convert.toLocalDateTime(resultSet.getDate("table_create_time")));
-        entity.setTableUpdateTime(Convert.toLocalDateTime(resultSet.getDate("table_update_time")));
-        return entity;
+    public TableBo mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+        TableBo tableBo = new TableBo();
+        tableBo.setTableName(resultSet.getString("table_name"));
+        tableBo.setEngineName(resultSet.getString("engine_name"));
+        tableBo.setTableComment(resultSet.getString("table_comment"));
+        tableBo.setTableCreateTime(Convert.toLocalDateTime(resultSet.getDate("table_create_time")));
+        tableBo.setTableUpdateTime(Convert.toLocalDateTime(resultSet.getDate("table_update_time")));
+        return tableBo;
     }
 
 }

@@ -1,7 +1,7 @@
 package com.xht.generate.service;
 
-import com.xht.generate.domain.request.GenDataSourceFormRequest;
-import com.xht.generate.domain.request.GenDataSourceQueryRequest;
+import com.xht.generate.domain.form.GenDataSourceFormRequest;
+import com.xht.generate.domain.query.GenDataSourceQueryRequest;
 import com.xht.generate.domain.response.GenDataSourceResponse;
 
 import java.util.List;

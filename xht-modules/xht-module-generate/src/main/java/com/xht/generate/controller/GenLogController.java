@@ -2,7 +2,7 @@ package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.generate.domain.request.GenLogQueryRequest;
+import com.xht.generate.domain.query.GenLogQueryRequest;
 import com.xht.generate.domain.response.GenLogResponse;
 import com.xht.generate.service.IGenLogService;
 import io.swagger.v3.oas.annotations.Operation;

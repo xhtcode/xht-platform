@@ -3,12 +3,12 @@ package com.xht.generate.service.impl;
 import cn.hutool.core.io.IoUtil;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.generate.dao.GenColumnInfoDao;
-import com.xht.generate.dao.GenTableInfoDao;
+import com.xht.generate.dao.GenTableColumnDao;
+import com.xht.generate.dao.GenTableDao;
 import com.xht.generate.dao.GenTemplateDao;
 import com.xht.generate.domain.bo.GenCodeCoreBo;
-import com.xht.generate.domain.entity.GenColumnInfoEntity;
-import com.xht.generate.domain.entity.GenTableInfoEntity;
+import com.xht.generate.domain.entity.GenTableColumnEntity;
+import com.xht.generate.domain.entity.GenTableEntity;
 import com.xht.generate.domain.entity.GenTemplateEntity;
 import com.xht.generate.domain.request.GenCodeCoreRequest;
 import com.xht.generate.helper.GenCodeHelper;
@@ -38,9 +38,9 @@ import java.util.zip.ZipOutputStream;
 @RequiredArgsConstructor
 public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
 
-    private final GenColumnInfoDao columnInfoDao;
+    private final GenTableColumnDao columnInfoDao;
 
-    private final GenTableInfoDao tableInfoDao;
+    private final GenTableDao tableInfoDao;
 
     private final GenTemplateDao templateDao;
 
@@ -54,16 +54,16 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
     public byte[] generateCode(GenCodeCoreRequest request) {
         // 1. 校验并获取基础数据
         List<String> tableIds = request.getTableIds();
-        List<GenTableInfoEntity> tableEntities = tableInfoDao.findList(GenTableInfoEntity::getId, tableIds);
+        List<GenTableEntity> tableEntities = tableInfoDao.findList(GenTableEntity::getId, tableIds);
         ThrowUtils.notEmpty(tableEntities, "请选择要生成的表");
 
         // 2. 按分组整理数据
-        Map<Long, List<GenTableInfoEntity>> tablesByGroup = tableEntities.stream()
-                .collect(Collectors.groupingBy(GenTableInfoEntity::getGroupId));
+        Map<Long, List<GenTableEntity>> tablesByGroup = tableEntities.stream()
+                .collect(Collectors.groupingBy(GenTableEntity::getGroupId));
 
-        List<GenColumnInfoEntity> columnEntities = columnInfoDao.findList(GenColumnInfoEntity::getTableId, tableIds);
-        Map<String, List<GenColumnInfoEntity>> columnsByTable = columnEntities.stream()
-                .collect(Collectors.groupingBy(GenColumnInfoEntity::getTableId));
+        List<GenTableColumnEntity> columnEntities = columnInfoDao.findList(GenTableColumnEntity::getTableId, tableIds);
+        Map<Long, List<GenTableColumnEntity>> columnsByTable = columnEntities.stream()
+                .collect(Collectors.groupingBy(GenTableColumnEntity::getTableId));
 
         List<GenTemplateEntity> templateEntities = templateDao.findList(GenTemplateEntity::getGroupId, tablesByGroup.keySet());
         Map<Long, List<GenTemplateEntity>> templatesByGroup = templateEntities.stream()
@@ -71,16 +71,16 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
 
         // 3. 解析模板并生成代码
         List<GenCodeCoreBo> codeList = new ArrayList<>();
-        for (Map.Entry<Long, List<GenTableInfoEntity>> groupEntry : tablesByGroup.entrySet()) {
+        for (Map.Entry<Long, List<GenTableEntity>> groupEntry : tablesByGroup.entrySet()) {
             Long groupId = groupEntry.getKey();
-            List<GenTableInfoEntity> groupTables = groupEntry.getValue();
+            List<GenTableEntity> groupTables = groupEntry.getValue();
             List<GenTemplateEntity> groupTemplates = templatesByGroup.getOrDefault(groupId, new ArrayList<>());
             try {
                 // 解析模板定义
                 List<GenCodeCoreBo> parsedTemplates = GenCodeHelper.parseTemplates(groupTemplates);
                 // 为每个表生成代码
-                for (GenTableInfoEntity table : groupTables) {
-                    List<GenColumnInfoEntity> tableColumns = columnsByTable.getOrDefault(table.getId(), new ArrayList<>());
+                for (GenTableEntity table : groupTables) {
+                    List<GenTableColumnEntity> tableColumns = columnsByTable.getOrDefault(table.getId(), new ArrayList<>());
                     VelocityContext context = GenCodeHelper.buildVelocityContext(request, table, tableColumns);
                     GenCodeHelper.generateCode(context, parsedTemplates);
                     codeList.addAll(parsedTemplates);

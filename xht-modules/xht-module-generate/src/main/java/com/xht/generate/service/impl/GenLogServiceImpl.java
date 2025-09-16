@@ -6,7 +6,7 @@ import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.generate.converter.GenLogConverter;
 import com.xht.generate.dao.GenLogDao;
 import com.xht.generate.domain.entity.GenLogEntity;
-import com.xht.generate.domain.request.GenLogQueryRequest;
+import com.xht.generate.domain.query.GenLogQueryRequest;
 import com.xht.generate.domain.response.GenLogResponse;
 import com.xht.generate.service.IGenLogService;
 import lombok.RequiredArgsConstructor;

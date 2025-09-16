@@ -2,7 +2,7 @@ package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.web.validation.Groups;
-import com.xht.generate.domain.request.GenTemplateFormRequest;
+import com.xht.generate.domain.form.GenTemplateFormRequest;
 import com.xht.generate.domain.response.GenTemplateResponse;
 import com.xht.generate.service.IGenTemplateService;
 import io.swagger.v3.oas.annotations.Operation;

@@ -2,7 +2,7 @@ package com.xht.generate.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
-import com.xht.generate.domain.request.GenTemplateGroupFormRequest;
+import com.xht.generate.domain.form.GenTemplateGroupFormRequest;
 
 
 /**

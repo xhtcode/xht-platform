@@ -21,7 +21,7 @@ public enum GenStatusEnums implements IEnum<Integer> {
 
     private final String desc;
 
-    public static GenStatusEnums getByValue(Integer value) {
+    public static GenStatusEnums of(Integer value) {
         for (GenStatusEnums item : values()) {
             if (item.value.equals(value)) {
                 return item;

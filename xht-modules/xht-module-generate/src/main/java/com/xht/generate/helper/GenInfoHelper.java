@@ -1,24 +1,24 @@
 package com.xht.generate.helper;
 
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.constant.StringConstant;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.generate.constant.GenConstant;
 import com.xht.generate.constant.enums.GenStatusEnums;
 import com.xht.generate.domain.ColumnExtConfig;
 import com.xht.generate.domain.TableExtConfig;
-import com.xht.generate.domain.entity.GenColumnInfoEntity;
+import com.xht.generate.domain.bo.ColumnBo;
+import com.xht.generate.domain.bo.TableBo;
 import com.xht.generate.domain.entity.GenDataSourceEntity;
-import com.xht.generate.domain.entity.GenTableInfoEntity;
+import com.xht.generate.domain.entity.GenTableColumnEntity;
+import com.xht.generate.domain.entity.GenTableEntity;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.xht.framework.core.constant.StringConstant.HORIZONTAL;
 import static com.xht.framework.core.constant.StringConstant.UNDERLINE;
-import static com.xht.generate.constant.GenConstant.*;
 
 /**
  * 生成信息辅助类
@@ -40,52 +40,26 @@ public final class GenInfoHelper {
      * 解析数据源和表信息，为表信息实体设置唯一ID和基本属性
      *
      * @param dataSourceEntity 数据源实体
-     * @param tableInfoEntity  表信息实体
-     * @param moduleName       模块名称
+     * @param tableBo  表信息实体
      */
-    public static void parseTableInfo(GenDataSourceEntity dataSourceEntity,
-                                      GenTableInfoEntity tableInfoEntity,
-                                      String moduleName) {
-        // 生成雪花算法ID（若未设置）
-        if (StringUtils.isEmpty(tableInfoEntity.getId())) {
-            tableInfoEntity.setId(IdUtil.getSnowflakeNextIdStr());
-        }
+    public static GenTableEntity parseTableInfo(GenDataSourceEntity dataSourceEntity, TableBo tableBo) {
+        GenTableEntity tableEntity = new GenTableEntity();
 
-        // 设置数据源关联信息
-        tableInfoEntity.setDataSourceId(dataSourceEntity.getId());
-        tableInfoEntity.setDataBaseType(dataSourceEntity.getDbType());
-
-        // 格式化表名与注释
-        String tableName = tableInfoEntity.getTableName();
-        tableInfoEntity.setCodeName(formatToCamelCase(tableName));
-        tableInfoEntity.setCodeComment(tableInfoEntity.getTableComment());
-
-        // 构建并设置表扩展配置
-        tableInfoEntity.setExtConfig(buildTableExtConfig(tableName, moduleName));
+        return tableEntity;
     }
 
     /**
      * 解析列信息列表，为每个列信息实体设置关联属性和扩展配置
      *
-     * @param tableInfoEntity   表信息实体
+     * @param tableBo   表信息实体
      * @param columnInfoList    列信息实体列表
      */
-    public static void parseColumnInfos(GenTableInfoEntity tableInfoEntity,
-                                        List<GenColumnInfoEntity> columnInfoList) {
+    public static List<GenTableColumnEntity> parseColumnInfos(TableBo tableBo, List<ColumnBo> columnInfoList) {
         if (columnInfoList == null || columnInfoList.isEmpty()) {
-            log.warn("表[{}]的列信息列表为空，无需解析", tableInfoEntity.getTableName());
-            return;
+            log.warn("表[{}]的列信息列表为空，无需解析", tableBo.getTableName());
+            return Collections.emptyList();
         }
-
-        String tableId = tableInfoEntity.getId();
-        for (GenColumnInfoEntity column : columnInfoList) {
-            column.setTableId(tableId);
-            // 格式化列名与注释
-            column.setCodeName(formatToCamelCase(column.getColumnName()));
-            column.setCodeComment(column.getColumnComment());
-            // 生成并设置列扩展配置
-            column.setExtConfig(buildColumnExtConfig(column));
-        }
+        return Collections.emptyList();
     }
 
     /**
@@ -118,33 +92,6 @@ public final class GenInfoHelper {
         return extConfig;
     }
 
-    /**
-     * 根据列信息实体生成列扩展配置
-     *
-     * @param columnInfoEntity 列信息实体
-     * @return 列扩展配置对象
-     */
-    private static ColumnExtConfig buildColumnExtConfig(GenColumnInfoEntity columnInfoEntity) {
-        ColumnExtConfig extConfig = new ColumnExtConfig();
-        String columnName = columnInfoEntity.getColumnName();
-
-        // 设置实体相关配置
-        extConfig.setEntity(determineIncluded(COLUMN_NOT_ENTITY, columnName));
-
-        // 设置表单项相关配置
-        GenStatusEnums isFormItem = determineIncluded(COLUMN_NOT_FORM, columnName);
-        handleFormConfig(extConfig, isFormItem);
-
-        // 设置列表相关配置
-        GenStatusEnums isGridItem = determineIncluded(COLUMN_NOT_LIST, columnName);
-        handleGridConfig(extConfig, isGridItem);
-
-        // 设置查询项相关配置
-        GenStatusEnums isQueryItem = determineIncluded(COLUMN_NOT_QUERY, columnName);
-        handleQueryConfig(extConfig, isQueryItem);
-
-        return extConfig;
-    }
 
     /**
      * 处理表单项配置

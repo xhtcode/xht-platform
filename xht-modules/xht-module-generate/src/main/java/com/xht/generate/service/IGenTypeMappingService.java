@@ -1,8 +1,8 @@
 package com.xht.generate.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.generate.domain.request.GenTypeMappingFormRequest;
-import com.xht.generate.domain.request.GenTypeMappingQueryRequest;
+import com.xht.generate.domain.form.GenTypeMappingFormRequest;
+import com.xht.generate.domain.query.GenTypeMappingQueryRequest;
 import com.xht.generate.domain.response.GenTypeMappingResponse;
 
 /**

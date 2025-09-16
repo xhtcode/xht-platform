@@ -2,7 +2,7 @@ package com.xht.generate.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
-import com.xht.generate.domain.request.GenTemplateGroupFormRequest;
+import com.xht.generate.domain.form.GenTemplateGroupFormRequest;
 import com.xht.generate.domain.response.GenTemplateGroupResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

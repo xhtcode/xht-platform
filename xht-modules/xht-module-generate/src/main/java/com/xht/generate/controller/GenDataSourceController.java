@@ -2,8 +2,8 @@ package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.web.validation.Groups;
-import com.xht.generate.domain.request.GenDataSourceFormRequest;
-import com.xht.generate.domain.request.GenDataSourceQueryRequest;
+import com.xht.generate.domain.form.GenDataSourceFormRequest;
+import com.xht.generate.domain.query.GenDataSourceQueryRequest;
 import com.xht.generate.domain.response.GenDataSourceResponse;
 import com.xht.generate.service.IGenDataSourceService;
 import io.swagger.v3.oas.annotations.Operation;

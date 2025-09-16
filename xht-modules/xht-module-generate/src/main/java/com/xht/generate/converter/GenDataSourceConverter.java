@@ -2,7 +2,7 @@ package com.xht.generate.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.generate.domain.entity.GenDataSourceEntity;
-import com.xht.generate.domain.request.GenDataSourceFormRequest;
+import com.xht.generate.domain.form.GenDataSourceFormRequest;
 import com.xht.generate.domain.response.GenDataSourceResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

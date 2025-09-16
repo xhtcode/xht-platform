@@ -7,7 +7,7 @@ import com.xht.generate.dao.GenTemplateDao;
 import com.xht.generate.dao.GenTemplateGroupDao;
 import com.xht.generate.domain.entity.GenTemplateEntity;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
-import com.xht.generate.domain.request.GenTemplateGroupFormRequest;
+import com.xht.generate.domain.form.GenTemplateGroupFormRequest;
 import com.xht.generate.domain.response.GenTemplateGroupResponse;
 import com.xht.generate.service.IGenTemplateGroupService;
 import lombok.RequiredArgsConstructor;

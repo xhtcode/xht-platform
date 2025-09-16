@@ -1,6 +1,6 @@
 package com.xht.generate.service;
 
-import com.xht.generate.domain.request.GenTemplateGroupFormRequest;
+import com.xht.generate.domain.form.GenTemplateGroupFormRequest;
 import com.xht.generate.domain.response.GenTemplateGroupResponse;
 
 import java.util.List;

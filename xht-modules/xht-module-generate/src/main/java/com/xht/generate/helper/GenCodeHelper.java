@@ -8,12 +8,11 @@ import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.generate.cache.ColumnTypeMappingCache;
 import com.xht.generate.constant.enums.DataBaseTypeEnums;
 import com.xht.generate.constant.enums.GenStatusEnums;
+import com.xht.generate.constant.enums.IdPrimaryKeyEnums;
 import com.xht.generate.constant.enums.LanguageTypeEnums;
-import com.xht.generate.domain.ColumnExtConfig;
-import com.xht.generate.domain.TableExtConfig;
 import com.xht.generate.domain.bo.GenCodeCoreBo;
-import com.xht.generate.domain.entity.GenColumnInfoEntity;
-import com.xht.generate.domain.entity.GenTableInfoEntity;
+import com.xht.generate.domain.entity.GenTableColumnEntity;
+import com.xht.generate.domain.entity.GenTableEntity;
 import com.xht.generate.domain.entity.GenTemplateEntity;
 import com.xht.generate.domain.entity.GenTypeMappingEntity;
 import com.xht.generate.domain.request.GenCodeCoreRequest;
@@ -56,8 +55,8 @@ public final class GenCodeHelper {
      * @return Velocity上下文对象，包含所有渲染所需数据
      */
     public static VelocityContext buildVelocityContext(GenCodeCoreRequest genRequest,
-                                                       GenTableInfoEntity tableInfo,
-                                                       List<GenColumnInfoEntity> columnInfoList) {
+                                                       GenTableEntity tableInfo,
+                                                       List<GenTableColumnEntity> columnInfoList) {
         // 获取类型映射缓存Bean，增加空判断
         ColumnTypeMappingCache typeMappingCache = SpringContextUtils.getBean(ColumnTypeMappingCache.class);
         // 用于收集需要导入的类
@@ -78,10 +77,10 @@ public final class GenCodeHelper {
         context.put("columns", columnMaps);
 
         // 设置主键列信息
-        GenColumnInfoEntity pkColumn = columnInfoList.stream()
-                .filter(col -> GenStatusEnums.YES.equals(col.getIsPrimary()))
+        GenTableColumnEntity pkColumn = columnInfoList.stream()
+                .filter(col -> IdPrimaryKeyEnums.YES.equals(col.getDbPrimary()))
                 .findFirst()
-                .orElse(new GenColumnInfoEntity());
+                .orElse(new GenTableColumnEntity());
         context.put("pkColumn", convertColumnToMap(typeMappingCache, tableInfo.getDataBaseType(), pkColumn, null));
 
         // 添加需要导入的类
@@ -97,17 +96,17 @@ public final class GenCodeHelper {
      * 处理列信息，转换为Map并收集导入类
      */
     private static List<Map<String, Object>> processColumnInfo(ColumnTypeMappingCache typeMappingCache,
-                                                               GenTableInfoEntity tableInfo,
-                                                               List<GenColumnInfoEntity> columnInfoList,
+                                                               GenTableEntity genTableEntity,
+                                                               List<GenTableColumnEntity> columnInfoList,
                                                                Set<String> importClassNames) {
         if (Objects.isNull(columnInfoList) || columnInfoList.isEmpty()) {
             return Collections.emptyList();
         }
 
-        DataBaseTypeEnums dbType = tableInfo.getDataBaseType();
+        DataBaseTypeEnums dbType = genTableEntity.getDataBaseType();
         List<Map<String, Object>> columnMaps = new ArrayList<>(columnInfoList.size());
 
-        for (GenColumnInfoEntity column : columnInfoList) {
+        for (GenTableColumnEntity column : columnInfoList) {
             Map<String, Object> columnMap = convertColumnToMap(typeMappingCache, dbType, column, importClassNames);
             columnMaps.add(columnMap);
         }
@@ -132,7 +131,7 @@ public final class GenCodeHelper {
      * @param tableInfo 表信息实体
      * @return 转换后的Map集合
      */
-    private static Map<String, Object> convertTableToMap(GenTableInfoEntity tableInfo) {
+    private static Map<String, Object> convertTableToMap(GenTableEntity tableInfo) {
         if (Objects.isNull(tableInfo)) {
             return Collections.emptyMap();
         }
@@ -147,11 +146,10 @@ public final class GenCodeHelper {
         map.put("tableUpdateTime", tableInfo.getTableUpdateTime());
 
         // 处理表扩展配置
-        TableExtConfig tableExtConfig = Objects.requireNonNullElse(tableInfo.getExtConfig(), new TableExtConfig());
-        map.put("moduleName", tableExtConfig.getModuleName());
-        map.put("serviceName", tableExtConfig.getServiceName());
-        map.put("url", tableExtConfig.getUrl());
-        map.put("authorizationPrefix", tableExtConfig.getAuthorizationPrefix());
+        map.put("moduleName", tableInfo.getModuleName());
+        map.put("serviceName", tableInfo.getServiceName());
+        map.put("url", "");
+        map.put("authorizationPrefix", tableInfo.getPermissionPrefix());
 
         return map;
     }
@@ -167,42 +165,26 @@ public final class GenCodeHelper {
      */
     private static Map<String, Object> convertColumnToMap(ColumnTypeMappingCache typeMappingCache,
                                                           DataBaseTypeEnums dbType,
-                                                          GenColumnInfoEntity columnInfo,
+                                                          GenTableColumnEntity columnInfo,
                                                           Set<String> importClassNames) {
         if (Objects.isNull(columnInfo)) {
             return Collections.emptyMap();
         }
 
         Map<String, Object> map = new HashMap<>(32);
-        ColumnExtConfig extConfig = Objects.requireNonNullElse(columnInfo.getExtConfig(), new ColumnExtConfig());
 
         // 基础列信息
         map.put("id", columnInfo.getId());
         map.put("tableId", columnInfo.getTableId());
-        map.put("columnName", columnInfo.getColumnName());
-        map.put("dbDataType", columnInfo.getDbDataType());
-        map.put("columnComment", columnInfo.getColumnComment());
-        map.put("columnLength", columnInfo.getColumnLength());
         map.put("codeName", columnInfo.getCodeName());
         map.put("codeComment", columnInfo.getCodeComment());
         map.put("sortOrder", columnInfo.getSortOrder());
 
         // 状态枚举值转换（存储实际值而非枚举对象）
-        map.put("isRequired", getStatusValue(columnInfo.getIsRequired()));
-        map.put("isPrimary", getStatusValue(columnInfo.getIsPrimary()));
+
 
         // 扩展配置信息
-        map.put("entity", getStatusValue(extConfig.getEntity()));
-        map.put("formItem", getStatusValue(extConfig.getFormItem()));
-        map.put("formRequired", getStatusValue(extConfig.getFormRequired()));
-        map.put("formType", extConfig.getFormType());
-        map.put("formValidator", getStatusValue(extConfig.getFormValidator()));
-        map.put("listItem", getStatusValue(extConfig.getList()));
-        map.put("listSort", getStatusValue(extConfig.getListSort()));
-        map.put("queryItem", getStatusValue(extConfig.getQueryItem()));
-        map.put("queryType", extConfig.getQueryType());
-        map.put("queryFormType", extConfig.getQueryFormType());
-        map.put("extConfig", extConfig);
+
 
         // 处理各语言类型的字段映射
         processLanguageTypeMappings(typeMappingCache, dbType, columnInfo, map, importClassNames);
@@ -215,14 +197,11 @@ public final class GenCodeHelper {
      */
     private static void processLanguageTypeMappings(ColumnTypeMappingCache typeMappingCache,
                                                     DataBaseTypeEnums dbType,
-                                                    GenColumnInfoEntity columnInfo,
+                                                    GenTableColumnEntity columnInfo,
                                                     Map<String, Object> columnMap,
                                                     Set<String> importClassNames) {
-        String dbDataType = columnInfo.getDbDataType();
-
         for (LanguageTypeEnums languageType : LanguageTypeEnums.values()) {
-            GenTypeMappingEntity typeMapping = typeMappingCache.getTargetType(dbType, languageType, dbDataType);
-
+            GenTypeMappingEntity typeMapping = typeMappingCache.getTargetType(dbType, languageType, columnInfo.getDbType());
             if (Objects.nonNull(typeMapping)) {
                 columnMap.put(languageType.getShortName(), typeMapping.getTargetDataType());
                 // 收集需要导入的类

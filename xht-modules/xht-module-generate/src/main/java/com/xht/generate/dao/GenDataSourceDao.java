@@ -2,8 +2,8 @@ package com.xht.generate.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.generate.domain.entity.GenDataSourceEntity;
-import com.xht.generate.domain.request.GenDataSourceFormRequest;
-import com.xht.generate.domain.request.GenDataSourceQueryRequest;
+import com.xht.generate.domain.form.GenDataSourceFormRequest;
+import com.xht.generate.domain.query.GenDataSourceQueryRequest;
 
 import java.util.List;
 

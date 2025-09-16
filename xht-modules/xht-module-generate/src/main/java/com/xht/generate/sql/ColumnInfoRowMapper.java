@@ -1,7 +1,6 @@
 package com.xht.generate.sql;
 
-import com.xht.generate.constant.enums.GenStatusEnums;
-import com.xht.generate.domain.entity.GenColumnInfoEntity;
+import com.xht.generate.domain.bo.ColumnBo;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -12,21 +11,19 @@ import java.sql.SQLException;
  *
  * @author xht
  **/
-public class ColumnInfoRowMapper implements RowMapper<GenColumnInfoEntity> {
+public class ColumnInfoRowMapper implements RowMapper<ColumnBo> {
 
     @Override
-    public GenColumnInfoEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
-        GenColumnInfoEntity entity = new GenColumnInfoEntity();
-        entity.setColumnName(rs.getString("column_name"));
-        entity.setDbDataType(rs.getString("column_db_type"));
-        entity.setColumnComment(rs.getString("column_comment"));
-        entity.setColumnLength(rs.getInt("column_length"));
-        int isRequired = rs.getInt("is_required");
-        entity.setIsRequired(GenStatusEnums.getByValue(isRequired));
-        int isPk = rs.getInt("is_pk");
-        entity.setIsPrimary(GenStatusEnums.getByValue(isPk));
-        entity.setSortOrder(rs.getInt("column_sort"));
-        return entity;
+    public ColumnBo mapRow(ResultSet rs, int rowNum) throws SQLException {
+        ColumnBo columnBo = new ColumnBo();
+        columnBo.setDbName(rs.getString("column_name"));
+        columnBo.setDbType(rs.getString("column_db_type"));
+        columnBo.setDbComment(rs.getString("column_comment"));
+        columnBo.setDbLength(rs.getInt("column_length"));
+        columnBo.setDbRequired(rs.getInt("is_required"));
+        columnBo.setDbPrimary(rs.getInt("is_pk"));
+        columnBo.setSortOrder(rs.getInt("column_sort"));
+        return columnBo;
     }
 
 }
