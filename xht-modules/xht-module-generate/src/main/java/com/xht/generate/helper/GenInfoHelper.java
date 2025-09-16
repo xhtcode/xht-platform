@@ -1,24 +1,22 @@
 package com.xht.generate.helper;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-import com.xht.framework.core.constant.StringConstant;
-import com.xht.generate.constant.GenConstant;
-import com.xht.generate.constant.enums.GenStatusEnums;
-import com.xht.generate.domain.ColumnExtConfig;
-import com.xht.generate.domain.TableExtConfig;
+import com.xht.framework.core.utils.spring.SpringContextUtils;
+import com.xht.generate.cache.ColumnTypeMappingCache;
+import com.xht.generate.constant.enums.DataBaseTypeEnums;
+import com.xht.generate.constant.enums.LanguageTypeEnums;
+import com.xht.generate.constant.enums.PageStyleEnums;
 import com.xht.generate.domain.bo.ColumnBo;
 import com.xht.generate.domain.bo.TableBo;
 import com.xht.generate.domain.entity.GenDataSourceEntity;
 import com.xht.generate.domain.entity.GenTableColumnEntity;
 import com.xht.generate.domain.entity.GenTableEntity;
+import com.xht.generate.domain.entity.GenTypeMappingEntity;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static com.xht.framework.core.constant.StringConstant.HORIZONTAL;
-import static com.xht.framework.core.constant.StringConstant.UNDERLINE;
 
 /**
  * 生成信息辅助类
@@ -40,153 +38,90 @@ public final class GenInfoHelper {
      * 解析数据源和表信息，为表信息实体设置唯一ID和基本属性
      *
      * @param dataSourceEntity 数据源实体
-     * @param tableBo  表信息实体
+     * @param tableBo          表信息实体
      */
     public static GenTableEntity parseTableInfo(GenDataSourceEntity dataSourceEntity, TableBo tableBo) {
         GenTableEntity tableEntity = new GenTableEntity();
-
+        tableEntity.setId(null);
+        tableEntity.setGroupId(null);
+        tableEntity.setDataSourceId(dataSourceEntity.getId());
+        tableEntity.setDataBaseType(dataSourceEntity.getDbType());
+        tableEntity.setEngineName(tableBo.getEngineName());
+        tableEntity.setTableName(tableBo.getTableName());
+        tableEntity.setTableComment(tableBo.getTableComment());
+        tableEntity.setModuleName(tableBo.getModuleName());
+        tableEntity.setServiceName(tableBo.getServiceName());
+        tableEntity.setCodeName(tableBo.getCodeName());
+        tableEntity.setCodeComment(tableBo.getCodeComment());
+        tableEntity.setBackEndAuthor("xht");
+        tableEntity.setFrontEndAuthor("xht");
+        tableEntity.setUrlPrefix(tableBo.getUrlPrefix());
+        tableEntity.setPermissionPrefix(tableBo.getPermissionPrefix());
+        tableEntity.setParentMenuId(-1L);
+        tableEntity.setPageStyle(PageStyleEnums.DRAWER);
+        tableEntity.setPageStyleWidth(45);
+        tableEntity.setFromNumber(2);
+        tableEntity.setTableCreateTime(tableBo.getTableCreateTime());
+        tableEntity.setTableUpdateTime(tableBo.getTableUpdateTime());
         return tableEntity;
     }
 
     /**
      * 解析列信息列表，为每个列信息实体设置关联属性和扩展配置
      *
-     * @param tableBo   表信息实体
-     * @param columnInfoList    列信息实体列表
+     * @param tableBo        表信息业务对象
+     * @param columnInfoList 列信息业务对象
      */
-    public static List<GenTableColumnEntity> parseColumnInfos(TableBo tableBo, List<ColumnBo> columnInfoList) {
+    public static List<GenTableColumnEntity> parseColumnInfos(GenDataSourceEntity dataSourceEntity, TableBo tableBo, List<ColumnBo> columnInfoList) {
         if (columnInfoList == null || columnInfoList.isEmpty()) {
             log.warn("表[{}]的列信息列表为空，无需解析", tableBo.getTableName());
             return Collections.emptyList();
         }
-        return Collections.emptyList();
+        List<GenTableColumnEntity> columnEntityList = new ArrayList<>();
+        for (ColumnBo columnBo : columnInfoList) {
+            columnEntityList.add(convertColumnBoToEntity(dataSourceEntity.getDbType(), tableBo, columnBo));
+        }
+        return columnEntityList;
     }
 
+
     /**
-     * 格式化名称为驼峰命名（首字母大写）
-     * 处理逻辑：先将下划线命名转为驼峰命名，再将首字母大写
+     * 将列信息业务对象转换为表列实体对象
      *
-     * @param name 需要格式化的名称（通常是表名或列名）
-     * @return 格式化后的驼峰命名，若输入为空则返回空字符串
+     * @param tableBo  表信息业务对象
+     * @param columnBo 列信息业务对象
+     * @return 表列实体对象
      */
-    private static String formatToCamelCase(String name) {
-        if (StrUtil.isBlank(name)) {
-            return StrUtil.EMPTY;
-        }
-        return StrUtil.upperFirst(StrUtil.toCamelCase(name));
+    private static GenTableColumnEntity convertColumnBoToEntity(DataBaseTypeEnums dataBaseTypeEnums, TableBo tableBo, ColumnBo columnBo) {
+        GenTableColumnEntity result = new GenTableColumnEntity();
+        result.setId(null);
+        result.setTableId(tableBo.getTableId());
+        result.setTableName(tableBo.getTableName());
+        result.setDbName(columnBo.getDbName());
+        result.setDbType(columnBo.getDbType());
+        result.setDbPrimary(columnBo.getDbPrimary());
+        result.setDbRequired(columnBo.getDbRequired());
+        result.setDbComment(columnBo.getDbComment());
+        result.setDbLength(columnBo.getDbLength());
+        result.setCodeName(columnBo.getCodeName());
+        result.setCodeComment(columnBo.getCodeComment());
+        result.setFromInsert(columnBo.setFromInsert());
+        result.setFromUpdate(columnBo.setFromUpdate());
+        result.setFromLength(columnBo.setFromLength());
+        result.setFromFill(columnBo.setFromFill());
+        result.setFromComponent(columnBo.setFromComponent());
+        result.setListShow(columnBo.setListShow());
+        result.setListComment(columnBo.setListComment());
+        result.setListDisabled(columnBo.setListDisabled());
+        result.setListHidden(columnBo.setListHidden());
+        ColumnTypeMappingCache typeMappingCache = SpringContextUtils.getBean(ColumnTypeMappingCache.class);
+        GenTypeMappingEntity javaType = typeMappingCache.getTargetType(dataBaseTypeEnums, LanguageTypeEnums.Java, columnBo.getDbType());
+        GenTypeMappingEntity ts = typeMappingCache.getTargetType(dataBaseTypeEnums, LanguageTypeEnums.TypeScript, columnBo.getDbType());
+        result.setCodeJava(StrUtil.emptyToDefault(javaType.getTargetDataType(), "Object"));
+        result.setCodeJavaPackage(javaType.getImportPackage());
+        result.setCodeTs(StrUtil.emptyToDefault(ts.getTargetDataType(), "any"));
+        result.setSortOrder(columnBo.getSortOrder());
+        return result;
     }
 
-    /**
-     * 构建表扩展配置
-     *
-     * @param tableName  表名
-     * @param moduleName 模块名称
-     * @return 表扩展配置对象
-     */
-    private static TableExtConfig buildTableExtConfig(String tableName, String moduleName) {
-        TableExtConfig extConfig = new TableExtConfig();
-        extConfig.setUrl(getPathUrl(tableName));
-        extConfig.setModuleName(moduleName);
-        extConfig.setServiceName(getServiceName(tableName));
-        extConfig.setAuthorizationPrefix(getAuthorizationPrefix(tableName));
-        return extConfig;
-    }
-
-
-    /**
-     * 处理表单项配置
-     */
-    private static void handleFormConfig(ColumnExtConfig extConfig, GenStatusEnums isFormItem) {
-        extConfig.setFormItem(isFormItem);
-        extConfig.setFormRequired(isFormItem);
-        extConfig.setFormValidator(isFormItem);
-
-        // 若为表单项，默认设置为输入框类型
-        if (GenStatusEnums.YES.equals(isFormItem)) {
-            extConfig.setFormType(GenConstant.INPUT);
-        }
-    }
-
-    /**
-     * 处理列表项配置
-     */
-    private static void handleGridConfig(ColumnExtConfig extConfig, GenStatusEnums isGridItem) {
-        extConfig.setList(isGridItem);
-        extConfig.setListSort(isGridItem);
-    }
-
-    /**
-     * 处理查询项配置
-     */
-    private static void handleQueryConfig(ColumnExtConfig extConfig, GenStatusEnums isQueryItem) {
-        extConfig.setQueryItem(isQueryItem);
-
-        // 若为查询项，默认设置查询方式和表单类型
-        if (GenStatusEnums.YES.equals(isQueryItem)) {
-            extConfig.setQueryType(GenConstant.EQ);
-            extConfig.setQueryFormType(GenConstant.INPUT);
-        }
-    }
-
-    /**
-     * 判断列是否包含在特定功能中（是否未被排除）
-     *
-     * @param excludedColumns 排除的列名数组
-     * @param columnName      列名
-     * @return 若列名不在排除数组中则返回YES，否则返回NO
-     */
-    private static GenStatusEnums determineIncluded(String[] excludedColumns, String columnName) {
-        if (StrUtil.isBlank(columnName) || ArrayUtil.isEmpty(excludedColumns)) {
-            return GenStatusEnums.NO;
-        }
-        return ArrayUtil.contains(excludedColumns, columnName)
-                ? GenStatusEnums.NO
-                : GenStatusEnums.YES;
-    }
-
-    /**
-     * 获取Controller地址前缀
-     *
-     * @param tableName 表名
-     * @return controller地址前缀（以斜杠开头）
-     */
-    public static String getPathUrl(String tableName) {
-        if (StrUtil.isBlank(tableName)) {
-            return StringConstant.SEPARATOR_SLASH;
-        }
-        String url = StrUtil.replace(tableName, UNDERLINE, StringConstant.SEPARATOR_SLASH);
-        return StrUtil.addPrefixIfNot(url, StringConstant.SEPARATOR_SLASH);
-    }
-
-    /**
-     * 获取权限前缀
-     * 转换规则：将表名中的第一个下划线替换为冒号，其余下划线替换为短横线
-     *
-     * @param tableName 表名
-     * @return 权限前缀字符串
-     */
-    public static String getAuthorizationPrefix(String tableName) {
-        if (StrUtil.isBlank(tableName)) {
-            return StrUtil.EMPTY;
-        }
-        String replacedFirst = StrUtil.replaceFirst(tableName, UNDERLINE, ":");
-        return StrUtil.replace(replacedFirst, UNDERLINE, HORIZONTAL);
-    }
-
-    /**
-     * 获取业务服务名称
-     * 规则：取表名中第一个下划线前的部分（若没有下划线则取整个表名）
-     *
-     * @param tableName 表名称
-     * @return 业务服务名称
-     */
-    private static String getServiceName(String tableName) {
-        if (StrUtil.isBlank(tableName)) {
-            return StrUtil.EMPTY;
-        }
-        int firstUnderlineIndex = tableName.indexOf(UNDERLINE);
-        return firstUnderlineIndex > 0
-                ? StrUtil.sub(tableName, 0, firstUnderlineIndex)
-                : tableName;
-    }
 }

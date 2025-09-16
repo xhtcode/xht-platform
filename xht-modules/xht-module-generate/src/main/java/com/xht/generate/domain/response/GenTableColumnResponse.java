@@ -2,7 +2,6 @@ package com.xht.generate.domain.response;
 
 import com.xht.framework.core.domain.response.BasicResponse;
 import com.xht.generate.constant.enums.GenStatusEnums;
-import com.xht.generate.domain.ColumnExtConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -74,12 +73,6 @@ public class GenTableColumnResponse extends BasicResponse {
      */
     @Schema(description = "是否主键")
     private GenStatusEnums isPrimary;
-
-    /**
-     * 配置属性
-     */
-    @Schema(description = "配置属性")
-    private ColumnExtConfig extConfig;
 
     /**
      * 字段排序

@@ -2,7 +2,6 @@ package com.xht.generate.domain.response;
 
 import com.xht.framework.core.domain.response.BasicResponse;
 import com.xht.generate.constant.enums.DataBaseTypeEnums;
-import com.xht.generate.domain.TableExtConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -83,10 +82,5 @@ public class GenTableResponse extends BasicResponse {
     @Schema(description = "更新时间")
     private LocalDateTime tableUpdateTime;
 
-    /**
-     * 配置属性
-     */
-    @Schema(description = "配置属性")
-    private TableExtConfig extConfig;
 
 }

@@ -1,5 +1,6 @@
 package com.xht.generate.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.BusinessException;
@@ -90,9 +91,10 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
             for (String tableName : tableNames) {
                 TableBo tableBo = dataBaseQuery.selectTableByTableName(jdbcTemplate, tableName);
                 if (Objects.nonNull(tableBo)) {
+                    tableBo.setTableId(IdUtil.getSnowflakeNextId());
                     saveTableEntity.add(GenInfoHelper.parseTableInfo(dataSourceEntity, tableBo));
                     List<ColumnBo> columnBoList = dataBaseQuery.selectTableColumnsByTableName(jdbcTemplate, tableName);
-                    saveColumnEntity.addAll(GenInfoHelper.parseColumnInfos(tableBo, columnBoList));
+                    saveColumnEntity.addAll(GenInfoHelper.parseColumnInfos(dataSourceEntity, tableBo, columnBoList));
                 }
             }
             if (!CollectionUtils.isEmpty(saveTableEntity)) {
@@ -128,7 +130,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
         ThrowUtils.notNull(dataSourceEntity, "数据源不存在");
         JDBCUtils jdbcUtils = null;
         try {
-            JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity.getUrl(), dataSourceEntity.getUsername(), dataSourceEntity.getPassword(), dataSourceEntity.getDbType().getDriverClassName()).build();
+            JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity).build();
             jdbcUtils = JDBCUtils.create(jdbcConfig);
             DataBaseTypeEnums dbType = dataSourceEntity.getDbType();
             IDataBaseQuery dataBaseQuery = queryMap.get(dbType);
@@ -138,10 +140,11 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
             ThrowUtils.notNull(tableBo, String.format("表`%s`不存在", tableName));
             GenTableEntity tableEntity = GenInfoHelper.parseTableInfo(dataSourceEntity, tableBo);
             tableEntity.setId(tableId);
+            tableBo.setTableId(tableId);
             List<ColumnBo> genColumnInfoEntities = dataBaseQuery.selectTableColumnsByTableName(jdbcTemplate, tableName);
             genTableColumnDao.deleteByTableId(tableId);
             genTableDao.updateById(tableEntity);
-            genTableColumnDao.saveAll(GenInfoHelper.parseColumnInfos(tableBo, genColumnInfoEntities));
+            genTableColumnDao.saveAll(GenInfoHelper.parseColumnInfos(dataSourceEntity, tableBo, genColumnInfoEntities));
         } catch (Exception e) {
             log.error("数据库连接失败 {}", e.getMessage(), e);
             throw new BusinessException("数据库连接失败");
@@ -230,7 +233,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
         ThrowUtils.notNull(dataSourceEntity, "数据源不存在");
         JDBCUtils jdbcUtils = null;
         try {
-            JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity.getUrl(), dataSourceEntity.getUsername(), dataSourceEntity.getPassword(), dataSourceEntity.getDbType().getDriverClassName()).build();
+            JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity).build();
             jdbcUtils = JDBCUtils.create(jdbcConfig);
             DataBaseTypeEnums dbType = dataSourceEntity.getDbType();
             IDataBaseQuery dataBaseQuery = queryMap.get(dbType);

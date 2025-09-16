@@ -1,6 +1,8 @@
 package com.xht.generate.utils;
 
 import com.xht.framework.core.exception.UtilException;
+import com.xht.framework.core.utils.StringUtils;
+import com.xht.generate.domain.entity.GenDataSourceEntity;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -181,20 +183,23 @@ public class JDBCConfig {
         /**
          * 构造器：初始化必要参数并进行基础校验
          *
-         * @param url             数据库连接URL（不能为空或空白）
-         * @param username        登录用户名（不能为空或空白）
+         * @param url             数据库连接URL（数据不合法）
+         * @param username        登录用户名（数据不合法）
          * @param password        登录密码（可为null）
-         * @param driverClassName 驱动类名（不能为空或空白）
+         * @param driverClassName 驱动类名（数据不合法）
          */
         private Builder(String url, String username, String password, String driverClassName) {
-            if (Objects.isNull(url) || url.trim().isEmpty()) {
-                throw new UtilException("数据库URL不能为空或空白");
+            if (StringUtils.isEmpty(url)) {
+                throw new UtilException("数据库URL数据不合法");
             }
-            if (Objects.isNull(username) || username.trim().isEmpty()) {
-                throw new UtilException("数据库用户名不能为空或空白");
+            if (StringUtils.isEmpty(username)) {
+                throw new UtilException("数据库用户名数据不合法");
             }
-            if (Objects.isNull(driverClassName) || driverClassName.trim().isEmpty()) {
-                throw new UtilException("数据库驱动类名不能为空或空白");
+            if (StringUtils.isEmpty(password)) {
+                throw new UtilException("数据库密码数据不合法");
+            }
+            if (StringUtils.isEmpty(driverClassName)) {
+                throw new UtilException("数据库驱动类名数据不合法");
             }
 
             this.url = url;
@@ -203,6 +208,15 @@ public class JDBCConfig {
             this.driverClassName = driverClassName;
         }
 
+        /**
+         * 创建一个新的 Builder 实例，用于构建数据库连接配置
+         *
+         * @param dataSourceEntity 数据库链接对象
+         * @return 返回一个新的 Builder 实例
+         */
+        public static Builder of(GenDataSourceEntity dataSourceEntity) {
+            return of(dataSourceEntity.getUrl(), dataSourceEntity.getUsername(), dataSourceEntity.getPassword(), dataSourceEntity.getDbType().getDriverClassName());
+        }
 
         /**
          * 创建一个新的 Builder 实例，用于构建数据库连接配置
@@ -225,7 +239,7 @@ public class JDBCConfig {
          */
         public Builder connectionTestQuery(String connectionTestQuery) {
             if (Objects.isNull(connectionTestQuery) || connectionTestQuery.trim().isEmpty()) {
-                throw new UtilException("连接测试SQL不能为空或空白");
+                throw new UtilException("连接测试SQL数据不合法");
             }
             this.connectionTestQuery = connectionTestQuery;
             return this;

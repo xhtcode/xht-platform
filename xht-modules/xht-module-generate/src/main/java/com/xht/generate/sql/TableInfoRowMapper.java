@@ -2,7 +2,8 @@ package com.xht.generate.sql;
 
 import cn.hutool.core.convert.Convert;
 import com.xht.generate.domain.bo.TableBo;
-import com.xht.generate.domain.entity.GenTableEntity;
+import com.xht.generate.domain.entity.GenDataSourceEntity;
+import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -13,8 +14,8 @@ import java.sql.SQLException;
  *
  * @author xht
  **/
+@AllArgsConstructor
 public class TableInfoRowMapper implements RowMapper<TableBo> {
-
     @Override
     public TableBo mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         TableBo tableBo = new TableBo();

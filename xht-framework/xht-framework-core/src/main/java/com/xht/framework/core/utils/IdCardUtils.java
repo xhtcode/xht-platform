@@ -1,5 +1,7 @@
 package com.xht.framework.core.utils;
 
+import com.xht.framework.core.enums.GenderEnums;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -37,21 +39,6 @@ public final class IdCardUtils {
      * 校验码对应值（0-10分别对应如下字符）
      */
     private static final char[] CHECK_CODES = {'1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'};
-
-    /**
-     * 性别常量：男
-     */
-    public static final int GENDER_MALE = 1;
-
-    /**
-     * 性别常量：女
-     */
-    public static final int GENDER_FEMALE = 2;
-
-    /**
-     * 性别常量：未知
-     */
-    public static final int GENDER_UNKNOWN = 0;
 
     static {
         // 初始化省份代码映射并转为不可修改集合
@@ -258,11 +245,11 @@ public final class IdCardUtils {
      * 从身份证号码提取性别
      *
      * @param idCard 身份证号码
-     * @return 性别（{@link #GENDER_MALE}、{@link #GENDER_FEMALE}或{@link #GENDER_UNKNOWN}）
+     * @return 性别 {@link GenderEnums}
      */
-    public static int getGender(String idCard) {
+    public static GenderEnums getGender(String idCard) {
         if (!isValid(idCard)) {
-            return GENDER_UNKNOWN;
+            return GenderEnums.UNKNOWN;
         }
 
         String trimmedId = idCard.trim();
@@ -276,7 +263,7 @@ public final class IdCardUtils {
         }
 
         int genderValue = Integer.parseInt(genderDigit);
-        return genderValue % 2 == 1 ? GENDER_MALE : GENDER_FEMALE;
+        return genderValue % 2 == 1 ? GenderEnums.MALE : GenderEnums.FEMALE;
     }
 
     /**

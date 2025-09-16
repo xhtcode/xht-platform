@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import com.xht.generate.constant.enums.DataBaseTypeEnums;
+import com.xht.generate.constant.enums.PageStyleEnums;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -35,6 +36,12 @@ public class GenTableEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "data_source_id")
     private Long dataSourceId;
+
+    /**
+     * 数据库类型
+     */
+    @TableField(value = "data_base_type")
+    private DataBaseTypeEnums dataBaseType;
 
     /**
      * 引擎名称
@@ -91,6 +98,12 @@ public class GenTableEntity extends BasicEntity implements Serializable {
     private String frontEndAuthor;
 
     /**
+     * 请求前缀
+     */
+    @TableField(value = "url_prefix")
+    private String urlPrefix;
+
+    /**
      * 权限前缀
      */
     @TableField(value = "permission_prefix")
@@ -106,13 +119,13 @@ public class GenTableEntity extends BasicEntity implements Serializable {
      * 页面风格
      */
     @TableField(value = "page_style")
-    private String pageStyle;
+    private PageStyleEnums pageStyle;
 
     /**
      * 页面宽度
      */
     @TableField(value = "page_style_width")
-    private String pageStyleWidth;
+    private Integer pageStyleWidth;
 
     /**
      * 每行数量
@@ -132,8 +145,4 @@ public class GenTableEntity extends BasicEntity implements Serializable {
     @TableField(value = "table_update_time")
     private LocalDateTime tableUpdateTime;
 
-
-    public DataBaseTypeEnums getDataBaseType() {
-        return null;
-    }
 }

@@ -5,6 +5,8 @@ package com.xht.generate.constant;
  **/
 public class GenConstant {
 
+    public static final String PATH_SEPARATOR = "/";
+
     /**
      * 等于
      */
@@ -15,13 +17,6 @@ public class GenConstant {
      * 输入框
      */
     public static final String INPUT = "input";
-
-    /**
-     * 不需要Entity字段
-     */
-    public static final String[] COLUMN_NOT_ENTITY = {"create_by", "create_time", "update_by",
-            "update_time", "del_flag", "version", "tenant_id"};
-
 
     /**
      * 不需要表单字段
@@ -36,10 +31,5 @@ public class GenConstant {
     public static final String[] COLUMN_NOT_LIST = {"create_by", "create_time", "update_by",
             "update_time", "del_flag", "version", "tenant_id"};
 
-    /**
-     * 不需要查询字段
-     */
-    public static final String[] COLUMN_NOT_QUERY = {"create_by", "create_time", "update_by",
-            "update_time", "del_flag", "version", "tenant_id"};
 
 }

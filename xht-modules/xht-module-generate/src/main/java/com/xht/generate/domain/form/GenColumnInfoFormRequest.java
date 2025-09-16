@@ -2,7 +2,6 @@ package com.xht.generate.domain.form;
 
 import com.xht.framework.core.domain.request.FormRequest;
 import com.xht.framework.web.validation.Groups;
-import com.xht.generate.domain.ColumnExtConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -38,11 +37,5 @@ public class GenColumnInfoFormRequest extends FormRequest {
      */
     @Schema(description = "字段代码注释")
     private String codeComment;
-
-    /**
-     * 配置属性
-     */
-    @Schema(description = "配置属性")
-    private ColumnExtConfig extConfig;
 
 }

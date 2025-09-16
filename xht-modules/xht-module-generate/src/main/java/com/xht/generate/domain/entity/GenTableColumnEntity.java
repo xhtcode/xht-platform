@@ -8,7 +8,6 @@ import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import com.xht.generate.constant.enums.GenStatusEnums;
 import com.xht.generate.constant.enums.IdPrimaryKeyEnums;
 import lombok.Data;
-import org.aspectj.weaver.ast.Not;
 
 import java.io.Serializable;
 
@@ -102,7 +101,7 @@ public class GenTableColumnEntity extends BasicEntity implements Serializable {
      * 表单输入长度
      */
     @TableField(value = "from_length")
-    private GenStatusEnums fromLength;
+    private Integer fromLength;
 
     /**
      * 表单必填：0-非必填，1-必填
@@ -145,6 +144,12 @@ public class GenTableColumnEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "code_java")
     private String codeJava;
+
+    /**
+     * java类型 包地址
+     */
+    @TableField(value = "code_java_package")
+    private String codeJavaPackage;
 
     /**
      * ts类型
