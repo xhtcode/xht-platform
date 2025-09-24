@@ -1,13 +1,17 @@
 package com.xht.generate.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.generate.converter.GenTemplateGroupConverter;
 import com.xht.generate.dao.GenTemplateDao;
 import com.xht.generate.dao.GenTemplateGroupDao;
 import com.xht.generate.domain.entity.GenTemplateEntity;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
 import com.xht.generate.domain.form.GenTemplateGroupFormRequest;
+import com.xht.generate.domain.query.GenTemplateGroupQueryRequest;
 import com.xht.generate.domain.response.GenTemplateGroupResponse;
 import com.xht.generate.service.IGenTemplateGroupService;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +46,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
     @Override
     public Boolean create(GenTemplateGroupFormRequest formRequest) {
         GenTemplateGroupEntity entity = genTemplateGroupConverter.toEntity(formRequest);
+        entity.setTemplateCount(0);
         return genTemplateGroupDao.saveTransactional(entity);
     }
 
@@ -89,7 +94,21 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      * @return 代码生成模板组列表响应结果
      */
     public List<GenTemplateGroupResponse> findAll() {
-        return genTemplateGroupConverter.toResponse(genTemplateGroupDao.findAll());
+        List<GenTemplateGroupEntity> entityList = genTemplateGroupDao.findAllBy();
+        return genTemplateGroupConverter.toResponse(entityList);
+    }
+
+
+    /**
+     * 根据提供的查询请求参数分页查询代码生成模板组信息
+     *
+     * @param queryRequest 查询参数
+     * @return 代码生成模板组列表响应结果
+     */
+    @Override
+    public PageResponse<GenTemplateGroupResponse> selectPage(GenTemplateGroupQueryRequest queryRequest) {
+        Page<GenTemplateGroupEntity> page = genTemplateGroupDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
+        return genTemplateGroupConverter.toResponse(page);
     }
 
 

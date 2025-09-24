@@ -56,7 +56,7 @@ public final class StringUtils extends org.springframework.util.StringUtils {
     /**
      * 当字符串空的时候，返回默认值,不为空返回当前值
      */
-    public static String emptyToDefaultNull(String value) {
+    public static String emptyToDefault(String value) {
         return emptyToDefault(value, StringConstant.EMPTY);
     }
 

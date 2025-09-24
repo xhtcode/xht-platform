@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @author xht
  */
 @Data
-@TableName(value = "gen_project")
+@TableName(value = "gen_template_group")
 public class GenTemplateGroupEntity extends BasicEntity implements Serializable {
 
     /**
@@ -30,9 +30,20 @@ public class GenTemplateGroupEntity extends BasicEntity implements Serializable 
     private String groupName;
 
     /**
+     * 模板数量
+     */
+    @TableField(value = "template_count")
+    private Integer templateCount;
+
+    /**
      * 分组描述
      */
     @TableField(value = "group_desc")
     private String groupDesc;
 
+    /**
+     * 分组描述
+     */
+    @TableField(value = "group_sort")
+    private Integer groupSort;
 }

@@ -75,18 +75,16 @@ public class StartupInfoPrinter implements ApplicationRunner {
             }
             System.out.println(SEPARATOR);
             System.out.println(ASCII_ART);
-            System.out.println("🤡 项目作者：👉小糊涂(xht)👈");
-            System.out.printf("⌛ 启动时间：👉%s👈", DateUtil.now());
-            System.out.println(SEPARATOR);
-            System.out.println();
-            System.out.printf("🌴 项目名称:     %s%n", applicationName);
-            System.out.printf("🌎 当前环境:     %s%n", activeProfile);
-            System.out.printf("🌐 本地访问地址: http://localhost:%s%s%n", serverPort, contextPath);
-            System.out.printf("🌐 外部访问地址: http://%s:%s%s%n", serverIp, serverPort, contextPath);
+            System.out.println("🙋‍♂️项目作者:\t👉小糊涂(xht)👈");
+            System.out.printf("⌚启动时间:\t👉%s👈%n", DateUtil.now());
+            System.out.printf("🌴项目名称:\t%s%n", applicationName);
+            System.out.printf("🌎当前环境:\t%s%n", activeProfile);
+            System.out.printf("🌐本地访问地址:\thttp://localhost:%s%s%n", serverPort, contextPath);
+            System.out.printf("🌐外部访问地址:\thttp://%s:%s%s%n", serverIp, serverPort, contextPath);
             System.out.println("📚 接口文档地址:");
-            System.out.printf("   ├─ Knife4j文档:  http://localhost:%s%s/doc.html%n", serverPort, contextPath);
-            System.out.printf("   ├─ Swagger文档:  http://localhost:%s%s/swagger-ui.html%n", serverPort, contextPath);
-            System.out.printf("   └─ OpenAPI规范:  http://localhost:%s%s/v3/api-docs%n", serverPort, contextPath);
+            System.out.printf("   ├─ Knife4j文档:\thttp://localhost:%s%s/doc.html%n", serverPort, contextPath);
+            System.out.printf("   ├─ Swagger文档:\thttp://localhost:%s%s/swagger-ui.html%n", serverPort, contextPath);
+            System.out.printf("   └─ OpenAPI规范:\thttp://localhost:%s%s/v3/api-docs%n", serverPort, contextPath);
             System.out.println();
             System.out.println(SEPARATOR);
         }

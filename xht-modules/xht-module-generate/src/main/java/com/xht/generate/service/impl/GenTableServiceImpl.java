@@ -10,22 +10,24 @@ import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.generate.constant.enums.DataBaseTypeEnums;
 import com.xht.generate.converter.GenTableColumnConverter;
+import com.xht.generate.converter.GenTableColumnQueryConverter;
 import com.xht.generate.converter.GenTableConverter;
 import com.xht.generate.dao.GenDataSourceDao;
 import com.xht.generate.dao.GenTableColumnDao;
+import com.xht.generate.dao.GenTableColumnQueryDao;
 import com.xht.generate.dao.GenTableDao;
 import com.xht.generate.domain.bo.ColumnBo;
 import com.xht.generate.domain.bo.TableBo;
 import com.xht.generate.domain.entity.GenDataSourceEntity;
 import com.xht.generate.domain.entity.GenTableColumnEntity;
 import com.xht.generate.domain.entity.GenTableEntity;
-import com.xht.generate.domain.form.GenColumnInfoFormRequest;
-import com.xht.generate.domain.form.GenTableInfoFormRequest;
-import com.xht.generate.domain.form.ImportTableFormRequest;
+import com.xht.generate.domain.form.*;
 import com.xht.generate.domain.query.DataBaseQueryRequest;
 import com.xht.generate.domain.query.GenTableInfoQueryRequest;
+import com.xht.generate.domain.response.GenTableColumnQueryResponse;
+import com.xht.generate.domain.response.GenTableColumnResponse;
 import com.xht.generate.domain.response.GenTableResponse;
-import com.xht.generate.domain.vo.GenTableColumnVo;
+import com.xht.generate.domain.vo.TableColumnVo;
 import com.xht.generate.helper.GenInfoHelper;
 import com.xht.generate.service.IGenTableService;
 import com.xht.generate.strategy.IDataBaseQuery;
@@ -59,9 +61,13 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
 
     private final GenTableColumnDao genTableColumnDao;
 
+    private final GenTableColumnQueryDao genTableColumnQueryDao;
+
     private final GenTableConverter genTableConverter;
 
     private final GenTableColumnConverter genTableColumnConverter;
+
+    private final GenTableColumnQueryConverter genTableColumnQueryConverter;
 
     private final Map<DataBaseTypeEnums, IDataBaseQuery> queryMap = new ConcurrentHashMap<>();
 
@@ -92,7 +98,9 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
                 TableBo tableBo = dataBaseQuery.selectTableByTableName(jdbcTemplate, tableName);
                 if (Objects.nonNull(tableBo)) {
                     tableBo.setTableId(IdUtil.getSnowflakeNextId());
-                    saveTableEntity.add(GenInfoHelper.parseTableInfo(dataSourceEntity, tableBo));
+                    GenTableEntity tableEntity = GenInfoHelper.parseTableInfo(dataSourceEntity, tableBo);
+                    tableEntity.setGroupId(formRequest.getGroupId());
+                    saveTableEntity.add(tableEntity);
                     List<ColumnBo> columnBoList = dataBaseQuery.selectTableColumnsByTableName(jdbcTemplate, tableName);
                     saveColumnEntity.addAll(GenInfoHelper.parseColumnInfos(dataSourceEntity, tableBo, columnBoList));
                 }
@@ -104,8 +112,8 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
                 genTableColumnDao.saveAll(saveColumnEntity);
             }
         } catch (Exception e) {
-            log.error("数据库连接失败 {}", e.getMessage(), e);
-            throw new BusinessException("数据库连接失败");
+            log.error("导入失败 {}", e.getMessage(), e);
+            throw new BusinessException("导入失败");
         } finally {
             if (Objects.nonNull(jdbcUtils)) {
                 jdbcUtils.close();
@@ -178,32 +186,39 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateById(GenTableInfoFormRequest formRequest) {
-        List<GenColumnInfoFormRequest> columns = formRequest.getColumns();
+    public Boolean updateById(TableColumnForm formRequest) {
+        GenTableInfoFormRequest tableInfo = formRequest.getTableInfo();
+        List<GenColumnInfoFormRequest> columns = formRequest.getColumnInfos();
+        List<GenTableColumnQueryFormRequest> queryColumns = formRequest.getQueryColumns();
         ThrowUtils.notEmpty(columns, "字段信息不能为空");
-        Boolean menuExists = genTableDao.exists(GenTableEntity::getId, formRequest.getId());
+        Boolean menuExists = genTableDao.exists(GenTableEntity::getId, tableInfo.getId());
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "表信息不存在");
         for (GenColumnInfoFormRequest column : columns) {
             genTableColumnDao.updateFormRequest(column);
         }
-        return genTableDao.updateFormRequest(formRequest);
+        genTableColumnQueryDao.deleteByTableId(tableInfo.getId());
+        if (!CollectionUtils.isEmpty(queryColumns)){
+            genTableColumnQueryDao.saveAll(genTableColumnQueryConverter.toEntity(queryColumns));
+        }
+        return genTableDao.updateFormRequest(formRequest.getTableInfo());
     }
 
     /**
      * 根据ID查询表信息
      *
-     * @param id 表信息ID
+     * @param tableId 表信息ID
      * @return 表信息字段信息
      */
     @Override
-    public GenTableColumnVo getById(Long id) {
-        GenTableEntity tableInfoEntity = genTableDao.findById(id);
-        GenTableColumnVo vo = genTableConverter.toVo(tableInfoEntity);
-        if (Objects.nonNull(vo)) {
-            List<GenTableColumnEntity> list = genTableColumnDao.findList(GenTableColumnEntity::getTableId, id);
-            vo.setColumn(genTableColumnConverter.toResponse(list));
-        }
-        return vo;
+    public TableColumnVo getById(Long tableId) {
+        TableColumnVo result = new TableColumnVo();
+        GenTableResponse tableResponse = genTableConverter.toResponse(genTableDao.findById(tableId));
+        result.setTableInfo(Objects.requireNonNullElseGet(tableResponse, GenTableResponse::new));
+        List<GenTableColumnResponse> columnResponses = genTableColumnConverter.toResponse(genTableColumnDao.findByTableId(tableId));
+        result.setColumnInfos(Objects.requireNonNullElseGet(columnResponses, Collections::emptyList));
+        List<GenTableColumnQueryResponse> queryResponseList = genTableColumnQueryConverter.toResponse(genTableColumnQueryDao.findByTableId(tableId));
+        result.setQueryColumns(Objects.requireNonNullElseGet(queryResponseList, Collections::emptyList));
+        return result;
     }
 
 

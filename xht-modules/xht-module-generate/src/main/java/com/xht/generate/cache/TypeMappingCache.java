@@ -1,5 +1,6 @@
 package com.xht.generate.cache;
 
+import com.xht.framework.core.utils.StringUtils;
 import com.xht.generate.constant.enums.DataBaseTypeEnums;
 import com.xht.generate.constant.enums.LanguageTypeEnums;
 import com.xht.generate.dao.GenTypeMappingDao;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ColumnTypeMappingCache {
+public class TypeMappingCache {
 
     private final GenTypeMappingDao genTypeMappingDao;
 
@@ -60,6 +62,31 @@ public class ColumnTypeMappingCache {
         } catch (Exception e) {
             log.error("类型映射缓存刷新失败", e);
         }
+    }
+
+    /**
+     * 获取指定数据库类型和目标语言类型的所有类型映射实体集合
+     *
+     * @param dbType       数据库类型
+     * @param languageType 目标语言类型
+     * @return 类型映射实体集合
+     */
+    public List<GenTypeMappingEntity> getTypeMappingList(DataBaseTypeEnums dbType, LanguageTypeEnums languageType) {
+        //@formatter:off
+        return getTypeMapping(dbType, languageType)
+                .values()
+                .stream()
+                .collect(Collectors.toMap(
+                        item->StringUtils.trimAllWhitespace(item.getTargetDataType()),
+                        item -> item,
+                        (existing, replacement) -> existing
+                        )
+                )
+                .values()
+                .stream()
+                .sorted(Comparator.comparing(GenTypeMappingEntity::getTargetDataType))
+                .collect(Collectors.toList());
+        //@formatter:on
     }
 
     /**
@@ -112,8 +139,7 @@ public class ColumnTypeMappingCache {
 
             languageGroups.forEach((languageType, typeMappings) -> {
                 Map<String, GenTypeMappingEntity> typeMap = typeMappings.stream()
-                        .collect(Collectors.toMap(
-                                GenTypeMappingEntity::getDbDataType,
+                        .collect(Collectors.toMap((item) -> StringUtils.emptyToDefault(item.getDbDataType()).toLowerCase(),
                                 (item) -> item,
                                 (existing, replacement) -> {
                                     // 处理重复的数据库类型定义，保留第一个

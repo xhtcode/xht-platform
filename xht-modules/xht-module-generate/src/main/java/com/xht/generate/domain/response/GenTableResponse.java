@@ -1,7 +1,9 @@
 package com.xht.generate.domain.response;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.xht.framework.core.domain.response.BasicResponse;
 import com.xht.generate.constant.enums.DataBaseTypeEnums;
+import com.xht.generate.constant.enums.PageStyleEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -19,13 +21,13 @@ public class GenTableResponse extends BasicResponse {
     /**
      * 表ID
      */
-    @Schema(description = "表ID")
-    private String id;
+    @TableId(value = "表ID")
+    private Long id;
 
     /**
-     * 模板分组id
+     * 分组id
      */
-    @Schema(description = "模板分组id")
+    @Schema(description = "分组id")
     private Long groupId;
 
     /**
@@ -47,39 +49,99 @@ public class GenTableResponse extends BasicResponse {
     private String engineName;
 
     /**
-     * 表名
+     * 数据库表名
      */
-    @Schema(description = "表名")
+    @Schema(description = "数据库表名")
     private String tableName;
 
     /**
-     * 表注释（如：用户表）
+     * 表注释
      */
     @Schema(description = "表注释")
     private String tableComment;
 
     /**
-     * 代码名称（如：User）
+     * 模块名称
+     */
+    @Schema(description = "模块名称")
+    private String moduleName;
+
+    /**
+     * 业务名称
+     */
+    @Schema(description = "业务名称")
+    private String serviceName;
+
+    /**
+     * 代码名称
      */
     @Schema(description = "代码名称")
     private String codeName;
 
     /**
-     * 代码注释（如：用户）
+     * 代码注释
      */
     @Schema(description = "代码注释")
     private String codeComment;
 
     /**
-     * 创建时间
+     * 后端作者
      */
-    @Schema(description = "创建时间")
+    @Schema(description = "后端作者")
+    private String backEndAuthor;
+
+    /**
+     * 前端作者
+     */
+    @Schema(description = "前端作者")
+    private String frontEndAuthor;
+
+    /**
+     * 请求前缀
+     */
+    @Schema(description = "请求前缀")
+    private String urlPrefix;
+
+    /**
+     * 权限前缀
+     */
+    @Schema(description = "权限前缀")
+    private String permissionPrefix;
+
+    /**
+     * 上级菜单
+     */
+    @Schema(description = "上级菜单")
+    private Long parentMenuId;
+
+    /**
+     * 页面风格
+     */
+    @Schema(description = "页面风格")
+    private PageStyleEnums pageStyle;
+
+    /**
+     * 页面宽度
+     */
+    @Schema(description = "页面宽度")
+    private Integer pageStyleWidth;
+
+    /**
+     * 每行数量
+     */
+    @Schema(description = "每行数量")
+    private Integer fromNumber;
+
+    /**
+     * 表创建时间
+     */
+    @Schema(description = "表创建时间")
     private LocalDateTime tableCreateTime;
 
     /**
-     * 更新时间
+     * 表更新时间
      */
-    @Schema(description = "更新时间")
+    @Schema(description = "表更新时间")
     private LocalDateTime tableUpdateTime;
 
 

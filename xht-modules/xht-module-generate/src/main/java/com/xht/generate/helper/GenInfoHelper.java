@@ -2,7 +2,7 @@ package com.xht.generate.helper;
 
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
-import com.xht.generate.cache.ColumnTypeMappingCache;
+import com.xht.generate.cache.TypeMappingCache;
 import com.xht.generate.constant.enums.DataBaseTypeEnums;
 import com.xht.generate.constant.enums.LanguageTypeEnums;
 import com.xht.generate.constant.enums.PageStyleEnums;
@@ -42,7 +42,7 @@ public final class GenInfoHelper {
      */
     public static GenTableEntity parseTableInfo(GenDataSourceEntity dataSourceEntity, TableBo tableBo) {
         GenTableEntity tableEntity = new GenTableEntity();
-        tableEntity.setId(null);
+        tableEntity.setId(tableBo.getTableId());
         tableEntity.setGroupId(null);
         tableEntity.setDataSourceId(dataSourceEntity.getId());
         tableEntity.setDataBaseType(dataSourceEntity.getDbType());
@@ -114,7 +114,7 @@ public final class GenInfoHelper {
         result.setListComment(columnBo.setListComment());
         result.setListDisabled(columnBo.setListDisabled());
         result.setListHidden(columnBo.setListHidden());
-        ColumnTypeMappingCache typeMappingCache = SpringContextUtils.getBean(ColumnTypeMappingCache.class);
+        TypeMappingCache typeMappingCache = SpringContextUtils.getBean(TypeMappingCache.class);
         GenTypeMappingEntity javaType = typeMappingCache.getTargetType(dataBaseTypeEnums, LanguageTypeEnums.Java, columnBo.getDbType());
         GenTypeMappingEntity ts = typeMappingCache.getTargetType(dataBaseTypeEnums, LanguageTypeEnums.TypeScript, columnBo.getDbType());
         result.setCodeJava(StrUtil.emptyToDefault(javaType.getTargetDataType(), "Object"));

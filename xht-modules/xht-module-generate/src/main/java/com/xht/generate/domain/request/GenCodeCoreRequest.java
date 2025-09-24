@@ -25,13 +25,6 @@ public class GenCodeCoreRequest implements IRequest {
     private List<String> tableIds;
 
     /**
-     * 作者名称
-     */
-    @NotBlank(message = "作者名称不能为空")
-    @Schema(description = "作者名称")
-    private String author;
-
-    /**
      * 包名称
      */
     @NotBlank(message = "包名称不能为空")

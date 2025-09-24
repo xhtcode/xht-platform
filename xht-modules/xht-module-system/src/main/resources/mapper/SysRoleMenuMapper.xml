@@ -16,7 +16,7 @@
         SELECT sys_role_menu.menu_id
         FROM sys_role_menu
                  left join sys_menu on sys_role_menu.menu_id = sys_menu.id
-        WHERE sys_menu.is_del = 0
+        WHERE sys_menu.del_flag = 0
           and sys_menu.menu_status = #{menuStatus}
           and sys_role_menu.role_id = #{roleId}
     </select>
@@ -28,7 +28,7 @@
                  left join sys_menu on sys_role_menu.menu_id = sys_menu.id
                  left join sys_role on sys_role_menu.role_id = sys_role.id
                  left join sys_user_role on sys_role.id = sys_user_role.role_id
-        WHERE sys_menu.is_del = 0
+        WHERE sys_menu.del_flag = 0
           and sys_menu.menu_status = 1
           and sys_menu.menu_type = 'B'
           and sys_user_role.user_id = #{userId}

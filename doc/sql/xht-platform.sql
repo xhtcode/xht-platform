@@ -28,7 +28,7 @@ CREATE TABLE `sys_dept`
     `create_time`    datetime                                                      NULL     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_by`      varchar(65) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL     DEFAULT NULL COMMENT '更新者',
     `update_time`    datetime                                                      NULL     DEFAULT NULL COMMENT '更新时间',
-    `is_del`         tinyint                                                       NOT NULL DEFAULT 0 COMMENT '删除标志(0正常 1删除)',
+    `del_flag`         tinyint                                                       NOT NULL DEFAULT 0 COMMENT '删除标志(0正常 1删除)',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
@@ -51,7 +51,7 @@ CREATE TABLE `sys_dept_post`
     `post_have`   int                                                           NULL     DEFAULT NULL COMMENT '岗位已分配人数',
     `system_flag` tinyint                                                       NULL     DEFAULT NULL COMMENT '系统内置0是',
     `remark`      varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL     DEFAULT NULL COMMENT '岗位描述',
-    `is_del`      char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci      NOT NULL DEFAULT '0' COMMENT '是否删除  -1：已删除  0：正常',
+    `del_flag`      char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci      NOT NULL DEFAULT '0' COMMENT '是否删除  -1：已删除  0：正常',
     `create_time` datetime                                                      NULL     DEFAULT NULL COMMENT '创建时间',
     `create_by`   varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '创建人',
     `update_time` datetime                                                      NULL     DEFAULT NULL COMMENT '更新时间',
@@ -81,7 +81,7 @@ CREATE TABLE `sys_user`
     `update_time` datetime                                                      NULL     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `create_by`   varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL     DEFAULT NULL COMMENT '创建人',
     `update_by`   varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL     DEFAULT NULL COMMENT '更新人',
-    `is_del`      tinyint                                                       NULL     DEFAULT 0 COMMENT '是否删除(1:是 0:否)',
+    `del_flag`      tinyint                                                       NULL     DEFAULT 0 COMMENT '是否删除(1:是 0:否)',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `idx_username` (`user_name` ASC) USING BTREE
 ) ENGINE = InnoDB
@@ -129,7 +129,7 @@ CREATE TABLE `sys_user_profiles`
     `update_time`    datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `create_by`      varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '创建人',
     `update_by`      varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '更新人',
-    `is_del`         tinyint                                                       NULL DEFAULT 0 COMMENT '是否删除(1:是 0:否)',
+    `del_flag`         tinyint                                                       NULL DEFAULT 0 COMMENT '是否删除(1:是 0:否)',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `idx_user_id` (`user_id` ASC) USING BTREE,
     UNIQUE INDEX `idx_id_card` (`id_card_number` ASC) USING BTREE

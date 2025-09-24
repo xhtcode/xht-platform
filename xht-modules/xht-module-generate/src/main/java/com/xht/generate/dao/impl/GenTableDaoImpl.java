@@ -37,9 +37,22 @@ public class GenTableDaoImpl extends MapperRepositoryImpl<GenTableMapper, GenTab
         LambdaUpdateWrapper<GenTableEntity> updateWrapper = lambdaUpdateWrapper();
         updateWrapper.set(condition(formRequest.getGroupId()), GenTableEntity::getGroupId, formRequest.getGroupId());
         updateWrapper.set(condition(formRequest.getDataSourceId()), GenTableEntity::getDataSourceId, formRequest.getDataSourceId());
+        updateWrapper.set(condition(formRequest.getDataBaseType()), GenTableEntity::getDataBaseType, formRequest.getDataBaseType());
+        updateWrapper.set(condition(formRequest.getEngineName()), GenTableEntity::getEngineName, formRequest.getEngineName());
+        updateWrapper.set(condition(formRequest.getTableName()), GenTableEntity::getTableName, formRequest.getTableName());
         updateWrapper.set(condition(formRequest.getTableComment()), GenTableEntity::getTableComment, formRequest.getTableComment());
+        updateWrapper.set(condition(formRequest.getModuleName()), GenTableEntity::getModuleName, formRequest.getModuleName());
+        updateWrapper.set(condition(formRequest.getServiceName()), GenTableEntity::getServiceName, formRequest.getServiceName());
         updateWrapper.set(condition(formRequest.getCodeName()), GenTableEntity::getCodeName, formRequest.getCodeName());
         updateWrapper.set(condition(formRequest.getCodeComment()), GenTableEntity::getCodeComment, formRequest.getCodeComment());
+        updateWrapper.set(condition(formRequest.getBackEndAuthor()), GenTableEntity::getBackEndAuthor, formRequest.getBackEndAuthor());
+        updateWrapper.set(condition(formRequest.getFrontEndAuthor()), GenTableEntity::getFrontEndAuthor, formRequest.getFrontEndAuthor());
+        updateWrapper.set(condition(formRequest.getUrlPrefix()), GenTableEntity::getUrlPrefix, formRequest.getUrlPrefix());
+        updateWrapper.set(condition(formRequest.getPermissionPrefix()), GenTableEntity::getPermissionPrefix, formRequest.getPermissionPrefix());
+        updateWrapper.set(condition(formRequest.getParentMenuId()), GenTableEntity::getParentMenuId, formRequest.getParentMenuId());
+        updateWrapper.set(condition(formRequest.getPageStyle()), GenTableEntity::getPageStyle, formRequest.getPageStyle());
+        updateWrapper.set(condition(formRequest.getPageStyleWidth()), GenTableEntity::getPageStyleWidth, formRequest.getPageStyleWidth());
+        updateWrapper.set(condition(formRequest.getFromNumber()), GenTableEntity::getFromNumber, formRequest.getFromNumber());
         updateWrapper.eq(GenTableEntity::getId, formRequest.getId());
         return update(updateWrapper);
     }
@@ -57,7 +70,6 @@ public class GenTableDaoImpl extends MapperRepositoryImpl<GenTableMapper, GenTab
         queryWrapper.eq(condition(queryRequest.getGroupId()), GenTableEntity::getGroupId, queryRequest.getGroupId());
         queryWrapper.eq(condition(queryRequest.getDataSourceId()), GenTableEntity::getDataSourceId, queryRequest.getDataSourceId());
         queryWrapper.like(condition(queryRequest.getTableName()), GenTableEntity::getTableName, queryRequest.getTableName());
-        queryWrapper.like(condition(queryRequest.getTableComment()), GenTableEntity::getTableComment, queryRequest.getTableComment());
         return page(page, queryWrapper);
     }
 

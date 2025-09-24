@@ -37,6 +37,12 @@ public class GenTemplateGroupFormRequest extends FormRequest {
     /**
      * 分组描述
      */
+    @Schema(description = "分组描述")
+    private Integer groupSort;
+
+    /**
+     * 分组描述
+     */
     @NotBlank(message = "分组描述不能为空", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "分组描述")
     private String groupDesc;

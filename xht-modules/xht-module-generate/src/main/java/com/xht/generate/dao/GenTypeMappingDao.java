@@ -6,6 +6,8 @@ import com.xht.generate.domain.entity.GenTypeMappingEntity;
 import com.xht.generate.domain.form.GenTypeMappingFormRequest;
 import com.xht.generate.domain.query.GenTypeMappingQueryRequest;
 
+import java.util.List;
+
 
 /**
  * 字段映射管理 Dao

@@ -1,6 +1,7 @@
 package com.xht.generate.constant.enums;
 
 import com.baomidou.mybatisplus.annotation.IEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -17,6 +18,7 @@ public enum GenStatusEnums implements IEnum<Integer> {
 
     OTHER(99, "其他");
 
+    @JsonValue
     private final Integer value;
 
     private final String desc;

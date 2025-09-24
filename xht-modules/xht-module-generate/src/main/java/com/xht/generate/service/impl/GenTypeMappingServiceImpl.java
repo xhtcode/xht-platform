@@ -5,6 +5,7 @@ import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
+import com.xht.generate.cache.TypeMappingCache;
 import com.xht.generate.converter.GenTypeMappingConverter;
 import com.xht.generate.dao.GenTypeMappingDao;
 import com.xht.generate.domain.entity.GenTypeMappingEntity;
@@ -15,6 +16,8 @@ import com.xht.generate.service.IGenTypeMappingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 /**
@@ -28,6 +31,8 @@ import org.springframework.stereotype.Service;
 public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
 
     private final GenTypeMappingDao genTypeMappingDao;
+
+    private final TypeMappingCache typeMappingCache;
 
     private final GenTypeMappingConverter genTypeMappingConverter;
 
@@ -89,6 +94,18 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
     public PageResponse<GenTypeMappingResponse> selectPage(GenTypeMappingQueryRequest queryRequest) {
         Page<GenTypeMappingEntity> page = genTypeMappingDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
         return genTypeMappingConverter.toResponse(page);
+    }
+
+    /**
+     * 根据数据库类型和目标编程语言类型查询所有的映射关系
+     *
+     * @param queryRequest 字段映射查询请求参数
+     * @return 字段映射信息
+     */
+    @Override
+    public List<GenTypeMappingResponse> findAll(GenTypeMappingQueryRequest queryRequest) {
+        List<GenTypeMappingEntity> typeMappingList = typeMappingCache.getTypeMappingList(queryRequest.getDbType(), queryRequest.getTargetLanguage());
+        return genTypeMappingConverter.toResponse(typeMappingList);
     }
 
 

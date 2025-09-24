@@ -13,7 +13,7 @@ CREATE TABLE `gen_project`
     `create_time`   datetime     default null comment '创建时间',
     `update_by`     varchar(65)  default null comment '更新者',
     `update_time`   datetime     default null comment '更新时间',
-    `is_del`        tinyint      default 0 comment '删除标志(0正常 1删除)',
+    `del_flag`        tinyint      default 0 comment '删除标志(0正常 1删除)',
     primary key (`id`),
     unique key `uk_gen_project_name` (`name`) comment '项目名称唯一'
 ) engine = innodb
@@ -32,7 +32,7 @@ create table `gen_template`
     `create_time`        datetime    default null comment '创建时间',
     `update_by`          varchar(65) default null comment '更新者',
     `update_time`        datetime    default null comment '更新时间',
-    `is_del`             tinyint     default 0 comment '删除标志(0正常 1删除)',
+    `del_flag`             tinyint     default 0 comment '删除标志(0正常 1删除)',
     primary key (`id`),
     unique key `uk_gen_template_name_type` (`name`, `file_type`) comment '同文件类型的模板名称唯一'
 ) engine = innodb
@@ -67,7 +67,7 @@ create table `gen_data_source`
     `create_time`    datetime    default null comment '创建时间',
     `update_by`      varchar(65) default null comment '更新者',
     `update_time`    datetime    default null comment '更新时间',
-    `is_del`         tinyint     default 0 comment '删除标志(0正常 1删除)',
+    `del_flag`         tinyint     default 0 comment '删除标志(0正常 1删除)',
     primary key (`id`),
     unique key `uk_gen_ds_name` (`name`) comment '数据源名称唯一'
 ) engine = innodb
@@ -98,7 +98,7 @@ create table `gen_type_mapping`
     `create_time`      datetime     default null comment '创建时间',
     `update_by`        varchar(65)  default null comment '更新者',
     `update_time`      datetime     default null comment '更新时间',
-    `is_del`           tinyint      default 0 comment '删除标志(0正常 1删除)',
+    `del_flag`           tinyint      default 0 comment '删除标志(0正常 1删除)',
     primary key (`id`),
     unique key `uk_gen_type_mapping` (`db_type`, `db_data_type`, `target_language`) comment '同数据库类型+数据类型+目标语言映射唯一'
 ) engine = innodb
@@ -119,7 +119,7 @@ create table `gen_table_info`
     `create_time`    datetime     default null comment '创建时间',
     `update_by`      varchar(65)  default null comment '更新者',
     `update_time`    datetime     default null comment '更新时间',
-    `is_del`         tinyint      default 0 comment '删除标志(0正常 1删除)',
+    `del_flag`         tinyint      default 0 comment '删除标志(0正常 1删除)',
     primary key (`id`),
     unique key `uk_gen_table_project_ds` (`project_id`, `data_source_id`, `table_name`) comment '项目+数据源+表名唯一'
 ) engine = innodb
@@ -145,7 +145,7 @@ create table `gen_column_info`
     `create_time`    datetime     default null comment '创建时间',
     `update_by`      varchar(65)  default null comment '更新者',
     `update_time`    datetime     default null comment '更新时间',
-    `is_del`         tinyint      default 0 comment '删除标志(0正常 1删除)',
+    `del_flag`         tinyint      default 0 comment '删除标志(0正常 1删除)',
     primary key (`id`),
     unique key `uk_gen_column_table` (`table_id`, `column_name`) comment '表内字段名唯一'
 ) engine = innodb
@@ -168,7 +168,7 @@ create table `gen_generate_history`
     `create_time`   datetime     default null comment '创建时间',
     `update_by`     varchar(65)  default null comment '更新者',
     `update_time`   datetime     default null comment '更新时间',
-    `is_del`        tinyint      default 0 comment '删除标志(0正常 1删除)',
+    `del_flag`        tinyint      default 0 comment '删除标志(0正常 1删除)',
     primary key (`id`)
 ) engine = innodb
   default charset = utf8mb4 comment ='代码生成器-代码生成历史记录表';

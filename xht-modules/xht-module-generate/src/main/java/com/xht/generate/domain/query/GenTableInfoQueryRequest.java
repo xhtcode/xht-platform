@@ -31,10 +31,4 @@ public class GenTableInfoQueryRequest extends PageQueryRequest {
     @Schema(description = "表名")
     private String tableName;
 
-    /**
-     * 表注释（如：用户表）
-     */
-    @Schema(description = "表注释")
-    private String tableComment;
-
 }

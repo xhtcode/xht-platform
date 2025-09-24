@@ -5,6 +5,8 @@ import com.xht.generate.domain.form.GenTypeMappingFormRequest;
 import com.xht.generate.domain.query.GenTypeMappingQueryRequest;
 import com.xht.generate.domain.response.GenTypeMappingResponse;
 
+import java.util.List;
+
 /**
  * 字段映射管理Service接口
  *
@@ -52,4 +54,11 @@ public interface IGenTypeMappingService {
      */
     PageResponse<GenTypeMappingResponse> selectPage(GenTypeMappingQueryRequest queryRequest);
 
+    /**
+     * 根据数据库类型和目标编程语言类型查询所有的映射关系
+     *
+     * @param queryRequest 字段映射查询请求参数
+     * @return 字段映射信息
+     */
+    List<GenTypeMappingResponse> findAll(GenTypeMappingQueryRequest queryRequest);
 }

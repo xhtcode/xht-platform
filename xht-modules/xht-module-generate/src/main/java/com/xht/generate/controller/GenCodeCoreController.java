@@ -1,6 +1,7 @@
 package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
+import com.xht.framework.core.utils.HttpServletUtils;
 import com.xht.generate.domain.request.GenCodeCoreRequest;
 import com.xht.generate.service.IGenCodeCoreService;
 import io.swagger.v3.oas.annotations.Operation;

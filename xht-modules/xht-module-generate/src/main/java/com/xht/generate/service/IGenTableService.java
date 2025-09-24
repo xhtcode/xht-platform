@@ -1,12 +1,13 @@
 package com.xht.generate.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.generate.domain.form.TableColumnForm;
 import com.xht.generate.domain.query.DataBaseQueryRequest;
 import com.xht.generate.domain.form.GenTableInfoFormRequest;
 import com.xht.generate.domain.query.GenTableInfoQueryRequest;
 import com.xht.generate.domain.form.ImportTableFormRequest;
 import com.xht.generate.domain.response.GenTableResponse;
-import com.xht.generate.domain.vo.GenTableColumnVo;
+import com.xht.generate.domain.vo.TableColumnVo;
 
 import java.util.List;
 
@@ -47,7 +48,7 @@ public interface IGenTableService {
      * @param formRequest 表信息更新请求参数
      * @return 操作结果
      */
-    Boolean updateById(GenTableInfoFormRequest formRequest);
+    Boolean updateById(TableColumnForm formRequest);
 
     /**
      * 根据ID查询表信息
@@ -55,7 +56,7 @@ public interface IGenTableService {
      * @param id 表信息ID
      * @return 表信息字段信息
      */
-    GenTableColumnVo getById(Long id);
+    TableColumnVo getById(Long id);
 
 
     /**

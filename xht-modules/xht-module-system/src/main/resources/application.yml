@@ -50,7 +50,7 @@ xht:
 mybatis-plus:
   global-config:
     db-config:
-      logic-delete-field: isDel
+      logic-delete-field: delFlag
       logic-delete-value: 1
       logic-not-delete-value: 0
   mapper-locations: classpath:mapper/*Mapper.xml

@@ -1,5 +1,6 @@
 package com.xht.generate.dao.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
@@ -10,6 +11,10 @@ import com.xht.generate.domain.form.GenTemplateFormRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static com.xht.framework.mybatis.constant.MapperConstant.JACKSON_TYPE_HANDLER;
 
 /**
  * 模板管理
@@ -30,13 +35,35 @@ public class GenTemplateDaoImpl extends MapperRepositoryImpl<GenTemplateMapper, 
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateFormRequest(GenTemplateFormRequest formRequest) {
         LambdaUpdateWrapper<GenTemplateEntity> updateWrapper = lambdaUpdateWrapper();
-        updateWrapper.set(condition(formRequest.getGroupId()), GenTemplateEntity::getGroupId, formRequest.getGroupId());
-        updateWrapper.set(condition(formRequest.getName()), GenTemplateEntity::getName, formRequest.getName());
-        updateWrapper.set(condition(formRequest.getContent()), GenTemplateEntity::getContent, formRequest.getContent());
-        updateWrapper.set(condition(formRequest.getFilePathTemplate()), GenTemplateEntity::getFilePathTemplate, formRequest.getFilePathTemplate());
-        updateWrapper.set(condition(formRequest.getFileNameTemplate()), GenTemplateEntity::getFileNameTemplate, formRequest.getFileNameTemplate());
-        updateWrapper.eq(GenTemplateEntity::getId, formRequest.getId());
+        // @formatter:off
+        updateWrapper
+                .set(condition(formRequest.getGroupId()), GenTemplateEntity::getGroupId, formRequest.getGroupId())
+                .set(condition(formRequest.getTemplateName()), GenTemplateEntity::getTemplateName, formRequest.getTemplateName())
+                .set(condition(formRequest.getTemplateContent()), GenTemplateEntity::getTemplateContent, formRequest.getTemplateContent())
+                .set(condition(formRequest.getTemplateFilePath()), GenTemplateEntity::getTemplateFilePath, formRequest.getTemplateFilePath())
+                .set(condition(formRequest.getTemplateFileName()), GenTemplateEntity::getTemplateFileName, formRequest.getTemplateFileName())
+                .set(condition(formRequest.getTemplateFileType()), GenTemplateEntity::getTemplateFileType, formRequest.getTemplateFileType())
+                .set(condition(formRequest.getTemplateIgnoreField()), GenTemplateEntity::getTemplateIgnoreField, formRequest.getTemplateIgnoreField(), JACKSON_TYPE_HANDLER)
+                .set(condition(formRequest.getTemplateSort()), GenTemplateEntity::getTemplateSort, formRequest.getTemplateSort())
+                .eq(GenTemplateEntity::getId, formRequest.getId());
+        // @formatter:on
         return update(updateWrapper);
+    }
+
+    /**
+     * 根据分组查询模板信息
+     *
+     * @param groupId 分组ID
+     * @return 模板信息
+     */
+    @Override
+    public List<GenTemplateEntity> findByGroupId(String groupId) {
+        // @formatter:off
+        LambdaQueryWrapper<GenTemplateEntity> queryWrapper = lambdaQueryWrapper()
+                .eq(GenTemplateEntity::getGroupId, groupId)
+                .orderByDesc(GenTemplateEntity::getGroupId);
+        // @formatter:on
+        return list(queryWrapper);
     }
 
     /**

@@ -1,6 +1,8 @@
 package com.xht.generate.service;
 
+import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.generate.domain.form.GenTemplateGroupFormRequest;
+import com.xht.generate.domain.query.GenTemplateGroupQueryRequest;
 import com.xht.generate.domain.response.GenTemplateGroupResponse;
 
 import java.util.List;
@@ -52,4 +54,11 @@ public interface IGenTemplateGroupService {
      */
     List<GenTemplateGroupResponse> findAll();
 
+    /**
+     * 根据提供的查询请求参数分页查询代码生成模板组信息
+     *
+     * @param queryRequest 查询参数
+     * @return 代码生成模板组列表响应结果
+     */
+    PageResponse<GenTemplateGroupResponse> selectPage(GenTemplateGroupQueryRequest queryRequest);
 }

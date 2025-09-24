@@ -4,25 +4,18 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.exception.UtilException;
-import com.xht.framework.core.utils.spring.SpringContextUtils;
-import com.xht.generate.cache.ColumnTypeMappingCache;
-import com.xht.generate.constant.enums.DataBaseTypeEnums;
-import com.xht.generate.constant.enums.GenStatusEnums;
+import com.xht.framework.core.utils.StringUtils;
 import com.xht.generate.constant.enums.IdPrimaryKeyEnums;
-import com.xht.generate.constant.enums.LanguageTypeEnums;
 import com.xht.generate.domain.bo.GenCodeCoreBo;
 import com.xht.generate.domain.entity.GenTableColumnEntity;
 import com.xht.generate.domain.entity.GenTableEntity;
 import com.xht.generate.domain.entity.GenTemplateEntity;
-import com.xht.generate.domain.entity.GenTypeMappingEntity;
 import com.xht.generate.domain.request.GenCodeCoreRequest;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.springframework.util.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.io.StringWriter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,72 +40,134 @@ public final class GenCodeHelper {
     }
 
     /**
-     * 构建Velocity上下文对象，用于模板渲染
+     * 生成代码文件
      *
-     * @param genRequest     代码生成核心请求参数
-     * @param tableInfo      表信息实体
-     * @param columnInfoList 列信息实体列表
-     * @return Velocity上下文对象，包含所有渲染所需数据
+     * @param request      代码生成核心请求参数
+     * @param table        表信息实体
+     * @param tableColumns 表列信息实体列表
+     * @param codeCore     解析后的代码核心业务对象列表
      */
-    public static VelocityContext buildVelocityContext(GenCodeCoreRequest genRequest,
-                                                       GenTableEntity tableInfo,
-                                                       List<GenTableColumnEntity> columnInfoList) {
-        // 获取类型映射缓存Bean，增加空判断
-        ColumnTypeMappingCache typeMappingCache = SpringContextUtils.getBean(ColumnTypeMappingCache.class);
-        // 用于收集需要导入的类
-        Set<String> importClassNames = new HashSet<>();
+    public static void generateCode(GenCodeCoreRequest request, GenTableEntity table, List<GenTableColumnEntity> tableColumns, List<GenCodeCoreBo> codeCore) {
+        if (CollectionUtils.isEmpty(codeCore)) {
+            return;
+        }
         VelocityContext context = new VelocityContext();
-
-        // 设置基础配置参数
-        context.put("author", genRequest.getAuthor());
-        context.put("packageName", genRequest.getPackageName());
+        context.put("packageName", request.getPackageName());
         context.put("nowDate", DateUtil.now());
-
-        // 添加表信息
-        Map<String, Object> tableInfoMap = convertTableToMap(tableInfo);
-        tableInfoMap.forEach(context::put);
-
-        // 处理列信息
-        List<Map<String, Object>> columnMaps = processColumnInfo(typeMappingCache, tableInfo, columnInfoList, importClassNames);
-        context.put("columns", columnMaps);
-
-        // 设置主键列信息
-        GenTableColumnEntity pkColumn = columnInfoList.stream()
-                .filter(col -> IdPrimaryKeyEnums.YES.equals(col.getDbPrimary()))
-                .findFirst()
-                .orElse(new GenTableColumnEntity());
-        context.put("pkColumn", convertColumnToMap(typeMappingCache, tableInfo.getDataBaseType(), pkColumn, null));
-
-        // 添加需要导入的类
-        context.put("importClassNames", importClassNames);
-
-        // 添加ID和UUID生成器
+        context.put("tableId", table.getId());
+        context.put("groupId", table.getGroupId());
+        context.put("dataSourceId", table.getDataSourceId());
+        context.put("dataBaseType", table.getDataBaseType());
+        context.put("engineName", table.getEngineName());
+        context.put("tableName", table.getTableName());
+        context.put("tableComment", table.getTableComment());
+        context.put("moduleName", table.getModuleName());
+        context.put("serviceName", table.getServiceName());
+        context.put("codeName", StrUtil.lowerFirst(table.getCodeName()));
+        context.put("codeNameUpperFirst", StrUtil.upperFirst(table.getCodeName()));
+        context.put("codeComment", table.getCodeComment());
+        context.put("backEndAuthor", table.getBackEndAuthor());
+        context.put("frontEndAuthor", table.getFrontEndAuthor());
+        context.put("urlPrefix", table.getUrlPrefix());
+        context.put("permissionPrefix", table.getPermissionPrefix());
+        context.put("parentMenuId", table.getParentMenuId());
+        context.put("pageStyle", table.getPageStyle());
+        context.put("pageStyleWidth", table.getPageStyleWidth());
+        context.put("fromNumber", table.getFromNumber());
+        context.put("allColumns", convertColumnToMap(tableColumns));
+        context.put("pkColumn", filterPkColumnToMap(tableColumns));
         addIdGenerators(context);
-
-        return context;
+        for (GenCodeCoreBo item : codeCore) {
+            List<GenTableColumnEntity> filter = item.filter(tableColumns);
+            context.put("column", convertColumnToMap(filter));
+            context.put("importPackage", getImportPackage(filter));
+            // 渲染文件路径
+            String resolvedPath = renderTemplate(context, "filePathTemplate", item.getFilePath());
+            // 渲染文件内容
+            String resolvedCode = renderTemplate(context, "codeTemplate", item.getCode());
+            item.setFilePath(resolvedPath);
+            item.setCode(resolvedCode);
+        }
     }
 
     /**
-     * 处理列信息，转换为Map并收集导入类
+     * 从表列信息中提取需要导入的类名集合
+     *
+     * @param tableColumns 表列信息实体列表
+     * @return 需要导入的类名集合
      */
-    private static List<Map<String, Object>> processColumnInfo(ColumnTypeMappingCache typeMappingCache,
-                                                               GenTableEntity genTableEntity,
-                                                               List<GenTableColumnEntity> columnInfoList,
-                                                               Set<String> importClassNames) {
-        if (Objects.isNull(columnInfoList) || columnInfoList.isEmpty()) {
-            return Collections.emptyList();
+    private static Set<String> getImportPackage(List<GenTableColumnEntity> tableColumns) {
+        Set<String> importClassNames = new HashSet<>();
+        for (GenTableColumnEntity column : tableColumns) {
+            if (StringUtils.hasText(column.getCodeJavaPackage())) {
+                importClassNames.add(column.getFromComponent());
+            }
         }
+        return importClassNames;
+    }
 
-        DataBaseTypeEnums dbType = genTableEntity.getDataBaseType();
-        List<Map<String, Object>> columnMaps = new ArrayList<>(columnInfoList.size());
-
-        for (GenTableColumnEntity column : columnInfoList) {
-            Map<String, Object> columnMap = convertColumnToMap(typeMappingCache, dbType, column, importClassNames);
-            columnMaps.add(columnMap);
+    /**
+     * 将表列信息实体列表转换为Map列表
+     *
+     * @param tableColumns 表列信息实体列表
+     * @return 转换后的Map列表，每个Map代表一列的信息
+     */
+    private static List<Map<String, Object>> convertColumnToMap(List<GenTableColumnEntity> tableColumns) {
+        List<Map<String, Object>> columnMaps = new ArrayList<>();
+        for (GenTableColumnEntity tableColumn : tableColumns) {
+            columnMaps.add(convertColumnToMap(tableColumn));
         }
-
         return columnMaps;
     }
+
+    /**
+     * 将表列信息实体转换为Map
+     *
+     * @param tableColumn 表列信息实体
+     * @return 转换后的Map
+     */
+    private static Map<String, Object> convertColumnToMap(GenTableColumnEntity tableColumn) {
+        Map<String, Object> columnMap = new HashMap<>();
+        columnMap.put("id", tableColumn.getId());
+        columnMap.put("dbName", tableColumn.getDbName());
+        columnMap.put("dbType", tableColumn.getDbType());
+        columnMap.put("dbPrimary", tableColumn.getDbPrimary().getValue());
+        columnMap.put("dbRequired", tableColumn.getDbRequired().getValue());
+        columnMap.put("dbComment", tableColumn.getDbComment());
+        columnMap.put("dbLength", tableColumn.getDbLength());
+        columnMap.put("codeName", StrUtil.lowerFirst(tableColumn.getCodeName()));
+        columnMap.put("codeNameUpperFirst", StrUtil.upperFirst(tableColumn.getCodeName()));
+        columnMap.put("codeComment", tableColumn.getCodeComment());
+        columnMap.put("fromInsert", tableColumn.getFromInsert().getValue());
+        columnMap.put("fromUpdate", tableColumn.getFromUpdate().getValue());
+        columnMap.put("fromLength", tableColumn.getFromLength());
+        columnMap.put("fromFill", tableColumn.getFromFill().getValue());
+        columnMap.put("fromComponent", tableColumn.getFromComponent());
+        columnMap.put("listShow", tableColumn.getListShow().getValue());
+        columnMap.put("listComment", tableColumn.getListComment());
+        columnMap.put("listDisabled", tableColumn.getListDisabled().getValue());
+        columnMap.put("listHidden", tableColumn.getListHidden().getValue());
+        columnMap.put("codeJava", tableColumn.getCodeJava());
+        columnMap.put("codeJavaPackage", tableColumn.getCodeJavaPackage());
+        columnMap.put("codeTs", tableColumn.getCodeTs());
+        columnMap.put("sortOrder", tableColumn.getSortOrder());
+        return columnMap;
+    }
+
+    /**
+     * 从表列信息列表中筛选主键列并转换为Map
+     *
+     * @param tableColumns 表列信息实体列表
+     * @return 主键列信息转换后的Map，如果没有找到主键列则返回空实体转换的Map
+     */
+    private static Map<String, Object> filterPkColumnToMap(List<GenTableColumnEntity> tableColumns) {
+        GenTableColumnEntity pkColumn = tableColumns.stream()
+                .filter(col -> IdPrimaryKeyEnums.YES.equals(col.getDbPrimary()))
+                .findFirst()
+                .orElse(new GenTableColumnEntity());
+        return convertColumnToMap(pkColumn);
+    }
+
 
     /**
      * 向上下文添加ID和UUID生成器
@@ -126,104 +181,6 @@ public final class GenCodeHelper {
     }
 
     /**
-     * 将表信息实体转换为Map，便于Velocity模板访问
-     *
-     * @param tableInfo 表信息实体
-     * @return 转换后的Map集合
-     */
-    private static Map<String, Object> convertTableToMap(GenTableEntity tableInfo) {
-        if (Objects.isNull(tableInfo)) {
-            return Collections.emptyMap();
-        }
-
-        Map<String, Object> map = new HashMap<>(16);
-        map.put("engineName", tableInfo.getEngineName());
-        map.put("tableName", tableInfo.getTableName());
-        map.put("tableComment", tableInfo.getTableComment());
-        map.put("codeName", tableInfo.getCodeName());
-        map.put("codeComment", tableInfo.getCodeComment());
-        map.put("tableCreateTime", tableInfo.getTableCreateTime());
-        map.put("tableUpdateTime", tableInfo.getTableUpdateTime());
-
-        // 处理表扩展配置
-        map.put("moduleName", tableInfo.getModuleName());
-        map.put("serviceName", tableInfo.getServiceName());
-        map.put("url", "");
-        map.put("authorizationPrefix", tableInfo.getPermissionPrefix());
-
-        return map;
-    }
-
-    /**
-     * 将列信息实体转换为Map，便于Velocity模板访问
-     *
-     * @param typeMappingCache  数据库类型字段映射缓存
-     * @param dbType            数据库类型
-     * @param columnInfo        列信息实体
-     * @param importClassNames  需导入的类名集合
-     * @return 转换后的Map集合
-     */
-    private static Map<String, Object> convertColumnToMap(ColumnTypeMappingCache typeMappingCache,
-                                                          DataBaseTypeEnums dbType,
-                                                          GenTableColumnEntity columnInfo,
-                                                          Set<String> importClassNames) {
-        if (Objects.isNull(columnInfo)) {
-            return Collections.emptyMap();
-        }
-
-        Map<String, Object> map = new HashMap<>(32);
-
-        // 基础列信息
-        map.put("id", columnInfo.getId());
-        map.put("tableId", columnInfo.getTableId());
-        map.put("codeName", columnInfo.getCodeName());
-        map.put("codeComment", columnInfo.getCodeComment());
-        map.put("sortOrder", columnInfo.getSortOrder());
-
-        // 状态枚举值转换（存储实际值而非枚举对象）
-
-
-        // 扩展配置信息
-
-
-        // 处理各语言类型的字段映射
-        processLanguageTypeMappings(typeMappingCache, dbType, columnInfo, map, importClassNames);
-
-        return map;
-    }
-
-    /**
-     * 处理各语言类型的字段映射关系
-     */
-    private static void processLanguageTypeMappings(ColumnTypeMappingCache typeMappingCache,
-                                                    DataBaseTypeEnums dbType,
-                                                    GenTableColumnEntity columnInfo,
-                                                    Map<String, Object> columnMap,
-                                                    Set<String> importClassNames) {
-        for (LanguageTypeEnums languageType : LanguageTypeEnums.values()) {
-            GenTypeMappingEntity typeMapping = typeMappingCache.getTargetType(dbType, languageType, columnInfo.getDbType());
-            if (Objects.nonNull(typeMapping)) {
-                columnMap.put(languageType.getShortName(), typeMapping.getTargetDataType());
-                // 收集需要导入的类
-                String importPackage = typeMapping.getImportPackage();
-                if (StringUtils.hasText(importPackage) && Objects.nonNull(importClassNames)) {
-                    importClassNames.add(importPackage);
-                }
-            } else {
-                // 使用默认类型
-                columnMap.put(languageType.getShortName(), languageType.getDefaultType());
-            }
-        }
-    }
-
-    /**
-     * 获取状态枚举值，默认返回NO的value
-     */
-    private static Integer getStatusValue(GenStatusEnums status) {
-        return Objects.requireNonNullElse(status, GenStatusEnums.NO).getValue();
-    }
-
-    /**
      * 解析模板列表为代码核心业务对象列表
      *
      * @param templateList 模板实体列表
@@ -233,45 +190,17 @@ public final class GenCodeHelper {
         if (Objects.isNull(templateList) || templateList.isEmpty()) {
             return Collections.emptyList();
         }
-
         return templateList.stream()
-                .map(GenCodeHelper::convertToGenCodeCoreBo)
+                .map((template) -> {
+                    GenCodeCoreBo genCodeCoreBo = new GenCodeCoreBo(template.getTemplateIgnoreField());
+                    genCodeCoreBo.setFilePath(template.getTemplateFilePath());
+                    genCodeCoreBo.setCode(template.getTemplateContent());
+                    return genCodeCoreBo;
+                })
                 .collect(Collectors.toList());
     }
 
-    /**
-     * 将模板实体转换为代码核心业务对象
-     */
-    private static GenCodeCoreBo convertToGenCodeCoreBo(GenTemplateEntity template) {
-        // 使用Path处理路径，避免手动拼接斜杠的问题
-        Path filePath = Paths.get(template.getFilePathTemplate())
-                .resolve(template.getFileNameTemplate())
-                .normalize();
 
-        return new GenCodeCoreBo(filePath.toString(), template.getContent());
-    }
-
-    /**
-     * 根据Velocity上下文和代码核心业务对象列表生成代码
-     *
-     * @param velocityContext Velocity上下文
-     * @param codeCoreList    代码核心业务对象列表
-     */
-    public static void generateCode(VelocityContext velocityContext, List<GenCodeCoreBo> codeCoreList) {
-        if (Objects.isNull(velocityContext) || Objects.isNull(codeCoreList) || codeCoreList.isEmpty()) {
-            return;
-        }
-
-        codeCoreList.forEach(codeCore -> {
-            // 渲染文件路径
-            String resolvedPath = renderTemplate(velocityContext, "filePathTemplate", codeCore.getFilePath());
-            // 渲染文件内容
-            String resolvedCode = renderTemplate(velocityContext, "codeTemplate", codeCore.getCode());
-
-            codeCore.setFilePath(resolvedPath);
-            codeCore.setCode(resolvedCode);
-        });
-    }
 
     /**
      * 使用Velocity模板引擎渲染模板内容
@@ -285,7 +214,6 @@ public final class GenCodeHelper {
         if (!StringUtils.hasText(templateName) || !StringUtils.hasText(templateContent)) {
             return StrUtil.EMPTY;
         }
-
         try (StringWriter writer = new StringWriter()) {
             Velocity.evaluate(context, writer, templateName, templateContent);
             return writer.toString().trim(); // 去除首尾空白
@@ -293,4 +221,6 @@ public final class GenCodeHelper {
             throw new UtilException("模板渲染失败，模板名称：" + templateName, e);
         }
     }
+
+
 }

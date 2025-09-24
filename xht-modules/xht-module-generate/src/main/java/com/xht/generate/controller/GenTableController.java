@@ -3,12 +3,12 @@ package com.xht.generate.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
-import com.xht.generate.domain.query.DataBaseQueryRequest;
-import com.xht.generate.domain.form.GenTableInfoFormRequest;
-import com.xht.generate.domain.query.GenTableInfoQueryRequest;
 import com.xht.generate.domain.form.ImportTableFormRequest;
+import com.xht.generate.domain.form.TableColumnForm;
+import com.xht.generate.domain.query.DataBaseQueryRequest;
+import com.xht.generate.domain.query.GenTableInfoQueryRequest;
 import com.xht.generate.domain.response.GenTableResponse;
-import com.xht.generate.domain.vo.GenTableColumnVo;
+import com.xht.generate.domain.vo.TableColumnVo;
 import com.xht.generate.service.IGenTableService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -78,7 +78,7 @@ public class GenTableController {
      */
     @Operation(summary = "根据ID更新表信息")
     @PostMapping("/update")
-    public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTableInfoFormRequest formRequest) {
+    public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody TableColumnForm formRequest) {
         return R.ok(genTableInfoService.updateById(formRequest));
     }
 
@@ -90,7 +90,7 @@ public class GenTableController {
      */
     @Operation(summary = "根据ID查询表信息")
     @GetMapping("/get/{id}")
-    public R<GenTableColumnVo> findById(@PathVariable @Parameter(description = "表信息ID", required = true) Long id) {
+    public R<TableColumnVo> findById(@PathVariable @Parameter(description = "表信息ID", required = true) Long id) {
         return R.ok(genTableInfoService.getById(id));
     }
 

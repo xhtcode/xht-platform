@@ -56,37 +56,24 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
         List<String> tableIds = request.getTableIds();
         List<GenTableEntity> tableEntities = tableInfoDao.findList(GenTableEntity::getId, tableIds);
         ThrowUtils.notEmpty(tableEntities, "请选择要生成的表");
-
         // 2. 按分组整理数据
-        Map<Long, List<GenTableEntity>> tablesByGroup = tableEntities.stream()
-                .collect(Collectors.groupingBy(GenTableEntity::getGroupId));
-
-        List<GenTableColumnEntity> columnEntities = columnInfoDao.findList(GenTableColumnEntity::getTableId, tableIds);
-        Map<Long, List<GenTableColumnEntity>> columnsByTable = columnEntities.stream()
-                .collect(Collectors.groupingBy(GenTableColumnEntity::getTableId));
-
-        List<GenTemplateEntity> templateEntities = templateDao.findList(GenTemplateEntity::getGroupId, tablesByGroup.keySet());
-        Map<Long, List<GenTemplateEntity>> templatesByGroup = templateEntities.stream()
-                .collect(Collectors.groupingBy(GenTemplateEntity::getGroupId));
-
+        Map<Long, List<GenTableEntity>> tablesByGroup = tableEntities.stream().collect(Collectors.groupingBy(GenTableEntity::getGroupId));
         // 3. 解析模板并生成代码
         List<GenCodeCoreBo> codeList = new ArrayList<>();
-        for (Map.Entry<Long, List<GenTableEntity>> groupEntry : tablesByGroup.entrySet()) {
-            Long groupId = groupEntry.getKey();
-            List<GenTableEntity> groupTables = groupEntry.getValue();
-            List<GenTemplateEntity> groupTemplates = templatesByGroup.getOrDefault(groupId, new ArrayList<>());
+        for (Long groupId : tablesByGroup.keySet()) {
+            List<GenTableEntity> genTableEntities = tablesByGroup.get(groupId);
+            List<GenTemplateEntity> groupTemplates = templateDao.findList(GenTemplateEntity::getGroupId, groupId);
             try {
                 // 解析模板定义
-                List<GenCodeCoreBo> parsedTemplates = GenCodeHelper.parseTemplates(groupTemplates);
+                List<GenCodeCoreBo> codeCoreBoList = GenCodeHelper.parseTemplates(groupTemplates);
                 // 为每个表生成代码
-                for (GenTableEntity table : groupTables) {
-                    List<GenTableColumnEntity> tableColumns = columnsByTable.getOrDefault(table.getId(), new ArrayList<>());
-                    VelocityContext context = GenCodeHelper.buildVelocityContext(request, table, tableColumns);
-                    GenCodeHelper.generateCode(context, parsedTemplates);
-                    codeList.addAll(parsedTemplates);
+                for (GenTableEntity table : genTableEntities) {
+                    List<GenTableColumnEntity> tableColumns = columnInfoDao.findList(GenTableColumnEntity::getTableId, table.getId());
+                    GenCodeHelper.generateCode(request, table, tableColumns, codeCoreBoList);
+                    codeList.addAll(codeCoreBoList);
                 }
                 GenLogHelper.success(groupId, groupTemplates.size(), tableIds);
-                log.info("代码生成成功 [模板分组id: {}, 表数量: {}]", groupId, groupTables.size());
+                log.info("代码生成成功 [模板分组id: {}, 表数量: {}]", groupId, genTableEntities.size());
             } catch (Exception e) {
                 String errorMsg = String.format("模板分组id: %s 代码生成失败: %s", groupId, e.getMessage());
                 log.error(errorMsg, e);

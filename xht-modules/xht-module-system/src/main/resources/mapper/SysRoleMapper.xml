@@ -16,7 +16,7 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
         <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
-        <result property="isDel" column="is_del" jdbcType="TINYINT"/>
+        <result property="delFlag" column="del_flag" jdbcType="TINYINT"/>
     </resultMap>
 
 </mapper>

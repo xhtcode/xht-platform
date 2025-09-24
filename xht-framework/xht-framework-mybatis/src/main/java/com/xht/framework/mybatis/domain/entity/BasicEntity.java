@@ -49,6 +49,6 @@ public class BasicEntity extends Entity implements Serializable {
      * 是否删除(0未删除1已经删除)
      */
     @TableLogic
-    @TableField(value = "is_del", fill = FieldFill.INSERT)
-    private DelFlagEnum isDel;
+    @TableField(value = "del_flag", fill = FieldFill.INSERT)
+    private DelFlagEnum delFlag;
 }

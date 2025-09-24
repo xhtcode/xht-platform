@@ -11,6 +11,8 @@ import com.xht.generate.domain.form.GenColumnInfoFormRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 字段信息管理
  *
@@ -40,10 +42,44 @@ public class GenTableColumnDaoImpl extends MapperRepositoryImpl<GenTableColumnMa
     @Override
     public void updateFormRequest(GenColumnInfoFormRequest column) {
         LambdaUpdateWrapper<GenTableColumnEntity> updateWrapper = lambdaUpdateWrapper();
-        updateWrapper.eq(GenTableColumnEntity::getId, column.getId())
-                .set(GenTableColumnEntity::getCodeName, column.getCodeName())
-                .set(GenTableColumnEntity::getCodeComment, column.getCodeComment());
+        // @formatter:off
+        updateWrapper
+                .set(condition(column.getDbRequired()), GenTableColumnEntity::getDbRequired, column.getDbRequired())
+                .set(condition(column.getDbComment()), GenTableColumnEntity::getDbComment, column.getDbComment())
+                .set(condition(column.getDbLength()), GenTableColumnEntity::getDbLength, column.getDbLength())
+                .set(condition(column.getCodeName()), GenTableColumnEntity::getCodeName, column.getCodeName())
+                .set(condition(column.getCodeComment()), GenTableColumnEntity::getCodeComment, column.getCodeComment())
+                .set(condition(column.getFromInsert()), GenTableColumnEntity::getFromInsert, column.getFromInsert())
+                .set(condition(column.getFromUpdate()), GenTableColumnEntity::getFromUpdate, column.getFromUpdate())
+                .set(condition(column.getFromLength()), GenTableColumnEntity::getFromLength, column.getFromLength())
+                .set(condition(column.getFromFill()), GenTableColumnEntity::getFromFill, column.getFromFill())
+                .set(condition(column.getFromComponent()), GenTableColumnEntity::getFromComponent, column.getFromComponent())
+                .set(condition(column.getListShow()), GenTableColumnEntity::getListShow, column.getListShow())
+                .set(condition(column.getListComment()), GenTableColumnEntity::getListComment, column.getListComment())
+                .set(condition(column.getListDisabled()), GenTableColumnEntity::getListDisabled, column.getListDisabled())
+                .set(condition(column.getListHidden()), GenTableColumnEntity::getListHidden, column.getListHidden())
+                .set(condition(column.getCodeJava()), GenTableColumnEntity::getCodeJava, column.getCodeJava())
+                .set(condition(column.getCodeJavaPackage()), GenTableColumnEntity::getCodeJavaPackage, column.getCodeJavaPackage())
+                .set(condition(column.getCodeTs()), GenTableColumnEntity::getCodeTs, column.getCodeTs())
+                .set(condition(column.getSortOrder()), GenTableColumnEntity::getSortOrder, column.getSortOrder())
+        ;
+        // @formatter:on
+        updateWrapper.eq(GenTableColumnEntity::getId, column.getId());
         update(updateWrapper);
+    }
+
+    /**
+     * 根据表ID查询字段信息
+     *
+     * @param tableId 表ID
+     * @return 字段信息
+     */
+    @Override
+    public List<GenTableColumnEntity> findByTableId(Long tableId) {
+        LambdaQueryWrapper<GenTableColumnEntity> queryWrapper = lambdaQueryWrapper();
+        queryWrapper.eq(GenTableColumnEntity::getTableId, tableId)
+                .orderByAsc(GenTableColumnEntity::getSortOrder);
+        return list(queryWrapper);
     }
 
     /**

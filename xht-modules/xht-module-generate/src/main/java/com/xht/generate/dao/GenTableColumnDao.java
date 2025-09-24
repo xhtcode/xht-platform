@@ -4,6 +4,8 @@ import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.generate.domain.entity.GenTableColumnEntity;
 import com.xht.generate.domain.form.GenColumnInfoFormRequest;
 
+import java.util.List;
+
 
 /**
  * 字段信息管理 Dao
@@ -25,4 +27,12 @@ public interface GenTableColumnDao extends MapperRepository<GenTableColumnEntity
      * @param column 字段信息
      */
     void updateFormRequest(GenColumnInfoFormRequest column);
+
+    /**
+     * 根据表ID查询字段信息
+     *
+     * @param tableId 表ID
+     * @return 字段信息
+     */
+    List<GenTableColumnEntity> findByTableId(Long tableId);
 }

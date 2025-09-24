@@ -26,8 +26,22 @@ public class GenTemplateGroupResponse extends BasicResponse {
     private String groupName;
 
     /**
+     * 模板数量
+     */
+    @Schema(description = "模板数量")
+    private Integer templateCount;
+
+    /**
      * 分组描述
      */
     @Schema(description = "分组描述")
     private String groupDesc;
+
+    /**
+     * 分组描述
+     */
+    @Schema(description = "分组描述")
+    private Integer groupSort;
+
+
 }

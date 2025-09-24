@@ -93,7 +93,7 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      */
     @Override
     public List<GenTemplateResponse> listByGroupId(String groupId) {
-        return genTemplateConverter.toResponse(genTemplateDao.findList(GenTemplateEntity::getGroupId, groupId));
+        return genTemplateConverter.toResponse(genTemplateDao.findByGroupId(groupId));
     }
 
 

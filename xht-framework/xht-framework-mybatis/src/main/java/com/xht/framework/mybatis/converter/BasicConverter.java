@@ -28,6 +28,23 @@ public interface BasicConverter<T extends Entity, Request extends FormRequest, R
      */
     T toEntity(Request formRequest);
 
+
+    /**
+     * 将请求对象列表转换为实体对象列表
+     *
+     * @param requestList 请求对象列表，可为null或空
+     * @return 转换后的实体对象列表，非null（空列表而非null）
+     */
+    default List<T> toEntity(List<Request> requestList) {
+        if (CollectionUtils.isEmpty(requestList)) {
+            return List.of(); // 使用Java 9+的不可变空列表
+        }
+        return requestList.stream()
+                .map(this::toEntity)
+                .collect(Collectors.toList());
+    }
+
+
     /**
      * 将实体对象转换为响应对象
      *

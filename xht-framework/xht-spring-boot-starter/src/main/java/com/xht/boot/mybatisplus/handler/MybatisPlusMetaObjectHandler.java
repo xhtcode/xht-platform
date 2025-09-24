@@ -27,7 +27,7 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
         this.strictInsertFill(metaObject, "updateTime", () -> now, LocalDateTime.class);
         this.strictInsertFill(metaObject, "updateBy", () -> DEFAULT_USERNAME, String.class);
         // 删除标记自动填充
-        this.strictInsertFill(metaObject, "isDel", () -> DelFlagEnum.NORMAL, DelFlagEnum.class);
+        this.strictInsertFill(metaObject, "delFlag", () -> DelFlagEnum.NORMAL, DelFlagEnum.class);
     }
 
     @Override

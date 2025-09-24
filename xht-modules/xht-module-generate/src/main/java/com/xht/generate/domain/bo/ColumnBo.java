@@ -75,13 +75,12 @@ public class ColumnBo implements Serializable {
 
 
     /**
-     * 获取代码类名（表名转驼峰且首字母大写）
-     * 示例：tableName=sys_user → codeName=SysUser；tableName=order_detail → codeName=OrderDetail
+     * 获取代码类名（表名转驼峰且首字母小写）
      *
      * @return 代码类名
      */
     public String getCodeName() {
-        return StrUtil.upperFirst(StrUtil.toCamelCase(this.dbName));
+        return StrUtil.lowerFirst(StrUtil.toCamelCase(this.dbName));
     }
 
     /**
@@ -91,7 +90,7 @@ public class ColumnBo implements Serializable {
      * @return 代码注释
      */
     public String getCodeComment() {
-        return StrUtil.emptyToDefault(this.dbName, StringConstant.EMPTY);
+        return StrUtil.emptyToDefault(this.getDbComment(), StringConstant.EMPTY);
     }
 
     /**

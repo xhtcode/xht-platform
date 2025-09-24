@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 字段映射管理
  *
@@ -87,6 +89,18 @@ public class GenTypeMappingController {
     @GetMapping("/page")
     public R<PageResponse<GenTypeMappingResponse>> selectPage(GenTypeMappingQueryRequest queryRequest) {
         return R.ok(genTypeMappingService.selectPage(queryRequest));
+    }
+
+    /**
+     * 根据数据库类型和目标编程语言类型查询所有的映射关系
+     *
+     * @param queryRequest 字段映射查询请求参数
+     * @return 字段映射信息
+     */
+    @Operation(summary = "根据数据库类型和目标编程语言类型查询所有的映射关系", description = "根据提供的数据库类型和目标编程语言类型查询所有的映射关系")
+    @GetMapping("/list")
+    public R<List<GenTypeMappingResponse>> findAll(@Validated GenTypeMappingQueryRequest queryRequest) {
+        return R.ok(genTypeMappingService.findAll(queryRequest));
     }
 
 }

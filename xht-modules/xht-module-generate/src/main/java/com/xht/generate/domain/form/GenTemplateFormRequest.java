@@ -8,6 +8,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
+import org.w3c.dom.stylesheets.LinkStyle;
+
+import java.util.List;
 
 /**
  * 模板表单请求参数
@@ -28,39 +31,51 @@ public class GenTemplateFormRequest extends FormRequest {
     private Long id;
 
     /**
-     * 模板分组id
+     *分组id
      */
-    @NotNull(message = "模板分组id不能为空", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "模板分组id")
+    @Schema(description="分组id")
     private Long groupId;
 
     /**
-     * 模板名称
+     *模板名称
      */
-    @NotBlank(message = "模板名称不能为空", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "模板名称")
-    private String name;
+    @Schema(description="模板名称")
+    private String templateName;
 
     /**
-     * 模板内容（Velocity语法）
+     *模板内容
      */
-    @NotBlank(message = "模板内容不能为空", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "模板内容（Velocity语法）")
-    private String content;
+    @Schema(description="模板内容")
+    private String templateContent;
+
+    /**
+     *文件路径模板
+     */
+    @Schema(description="文件路径模板")
+    private String templateFilePath;
+
+    /**
+     *文件名模板
+     */
+    @Schema(description="文件名模板")
+    private String templateFileName;
+
+    /**
+     *文件类型
+     */
+    @Schema(description="文件类型")
+    private String templateFileType;
 
 
     /**
-     * 文件路径模板（如：src/main/java/{{package}}）
+     * 忽略的字段,逗号分割"
      */
-    @NotBlank(message = "文件路径模板不能为空", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "文件路径模板（如：src/main/java/{{package}}）")
-    private String filePathTemplate;
+    @Schema(description="忽略的字段,逗号分割")
+    private List<String> templateIgnoreField;
 
     /**
-     * 文件名模板（如：{{className}}Controller.java）
+     * 模板排序
      */
-    @NotBlank(message = "文件名模板不能为空", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "文件名模板（如：{{className}}Controller.java）")
-    private String fileNameTemplate;
-
+    @Schema(description="模板排序")
+    private Integer templateSort;
 }
