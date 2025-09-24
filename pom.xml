@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <!-- 指定POM模型的版本 -->
     <modelVersion>4.0.0</modelVersion>
-    <!-- 定义项目组的ID，通常是公司或组织的唯一标识符 -->
     <groupId>com.xht</groupId>
-    <!-- 定义项目的唯一ID，通常是项目的名称 -->
     <artifactId>xht-platform</artifactId>
-    <!-- 定义项目的版本号，这里使用了一个变量${revision} -->
     <version>${revision}</version>
-    <!-- 定义项目的打包方式，这里设置为pom，表示这是一个父项目或聚合项目 -->
     <packaging>pom</packaging>
-    <!-- 定义项目的名称，用于展示 -->
     <name>xht-platform</name>
-    <!-- 提供项目的描述信息 -->
     <description>xht-platform</description>
 
-
-    <!-- 定义项目模块 -->
     <modules>
         <module>xht-framework</module>
         <module>xht-demo</module>
@@ -27,28 +18,20 @@
         <module>xht-api</module>
     </modules>
 
-    <!-- 定义项目属性 -->
     <properties>
-        <revision>${xht.version}</revision>
-        <xht.version>1.0.0</xht.version>
+        <revision>1.0.0</revision>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
-        <docker-maven-plugin.version>0.46.0</docker-maven-plugin.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
-        <spring-boot.version>3.4.4</spring-boot.version>
-        <spring-cloud.version>2024.0.0</spring-cloud.version>
-        <spring-cloud-alibaba.version>2023.0.3.2</spring-cloud-alibaba.version>
-        <mybatis-plus.version>3.5.9</mybatis-plus.version>
-        <mybatis-plus-jsqlparser.version>3.5.9</mybatis-plus-jsqlparser.version>
-        <knife-springdoc.version>4.5.0</knife-springdoc.version>
-        <knife-swagger.version>2.2.27</knife-swagger.version>
-        <velocity.version>2.4</velocity.version>
-        <fastjson2.version>2.0.53</fastjson2.version>
-        <hutool.version>5.8.38</hutool.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+        <spring-boot.version>3.5.6</spring-boot.version>
+        <spring-boot-admin.version>3.5.5</spring-boot-admin.version>
+        <spring-cloud.version>2025.0.0</spring-cloud.version>
+        <spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
+        <hutool.version>5.8.40</hutool.version>
         <lombok.version>1.18.36</lombok.version>
         <mapstruct.version>1.6.3</mapstruct.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
     </properties>
 
@@ -86,65 +69,16 @@
             <dependency>
                 <groupId>com.xht</groupId>
                 <artifactId>xht-framework-bom</artifactId>
-                <version>${xht.version}</version>
+                <version>${revision}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <!-- Mybatis-Plus 依赖配置 -->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-jsqlparser</artifactId>
-                <version>${mybatis-plus-jsqlparser.version}</version>
-            </dependency>
-
             <!-- mapstruct 转换器 -->
             <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
                 <version>${mapstruct.version}</version>
             </dependency>
-
-            <!-- Swagger-Knife4j -->
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
-                <version>${knife-springdoc.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
-                <version>${knife-springdoc.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.swagger.core.v3</groupId>
-                <artifactId>swagger-annotations-jakarta</artifactId>
-                <version>${knife-swagger.version}</version>
-                <scope>compile</scope>
-            </dependency>
-
-            <!-- 代码生成使用模板 -->
-            <dependency>
-                <groupId>org.apache.velocity</groupId>
-                <artifactId>velocity-engine-core</artifactId>
-                <version>${velocity.version}</version>
-            </dependency>
-
-            <!-- JSON 解析器和生成器 -->
-            <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2</artifactId>
-                <version>${fastjson2.version}</version>
-            </dependency>
-
             <!-- huTool 工具类库 -->
             <dependency>
                 <groupId>cn.hutool</groupId>
@@ -153,15 +87,33 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- commons-lang3 覆盖其他包中的警告信息 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <!-- 项目具体依赖 -->
     <dependencies>
-        <!-- bootstrap 启动器 -->
+        <!-- lombok -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!--配置文件处理器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--测试依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -174,7 +126,6 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-
         <pluginManagement>
             <plugins>
                 <!-- Spring Boot Maven 插件 -->
@@ -188,45 +139,10 @@
                             <enabled>true</enabled>
                         </layers>
                     </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>repackage</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
-
         <plugins>
-            <!-- 统一版本 -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
-                <version>${flatten-maven-plugin.version}</version>
-                <configuration>
-                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
-                    <updatePomFile>true</updatePomFile>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>flatten</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>flatten</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>flatten.clean</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!-- Maven 编译插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -257,21 +173,10 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
-
             <!-- 跳过 Spring Boot Maven 插件的默认行为 -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-
-            <!-- Docker Maven 插件，配置为跳过 -->
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>${docker-maven-plugin.version}</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>

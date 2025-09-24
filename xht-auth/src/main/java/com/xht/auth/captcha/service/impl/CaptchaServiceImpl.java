@@ -58,6 +58,17 @@ public class CaptchaServiceImpl implements ICaptchaService {
         return response;
     }
 
+    public static void main(String[] args) {
+        ShearCaptcha captcha = CaptchaUtil.createShearCaptcha(150, 40, 4, 2);
+        MathGenerator mathGenerator = new MathGenerator(2);
+        captcha.setGenerator(mathGenerator);
+        captcha.setBackground(Color.LIGHT_GRAY);
+        String code = captcha.getCode();
+        System.out.println(mathGenerator.verify(code,"1"));
+        System.out.println(captcha.verify(code));
+        System.out.println(code);
+    }
+
     /**
      * 删除验证码
      *

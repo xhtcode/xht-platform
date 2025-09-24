@@ -2,26 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <!-- 指定POM模型的版本 -->
     <modelVersion>4.0.0</modelVersion>
-    <!-- 定义项目的groupId，通常是公司或组织的域名反写 -->
     <groupId>com.xht</groupId>
     <name>xht-framework-bom</name>
-    <!-- 定义项目的artifactId，通常是项目或模块的名称 -->
     <artifactId>xht-framework-bom</artifactId>
-    <!-- 定义项目的版本号，这里使用了属性引用 -->
     <version>${revision}</version>
     <packaging>pom</packaging>
-    <!-- 项目的描述信息 -->
     <description>xht-framework-bom通用模块依赖配置</description>
 
     <properties>
-        <!-- 定义revision属性，其值引用了xht.version属性 -->
-        <revision>${xht.version}</revision>
-        <!-- 定义项目版本号，初始值为1.0.0 -->
-        <xht.version>1.0.0</xht.version>
-        <spring-boot.version>3.4.4</spring-boot.version>
-        <docker-maven-plugin.version>0.46.0</docker-maven-plugin.version>
+        <revision>1.0.0</revision>
+        <mysql.version>9.4.0</mysql.version>
+        <mybatis-plus.version>3.5.14</mybatis-plus.version>
+        <knife4j-springdoc.version>4.5.0</knife4j-springdoc.version>
+        <swagger.core.version>2.2.37</swagger.core.version>
+        <common.io.version>2.18.0</common.io.version>
+        <velocity.version>2.4</velocity.version>
     </properties>
 
     <dependencyManagement>
@@ -93,32 +89,52 @@
                 <artifactId>xht-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- mysql数据库驱动 -->
+            <dependency>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <!-- Mybatis-Plus 依赖配置 -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-bom</artifactId>
+                <version>${mybatis-plus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Swagger-Knife4j -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j-springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
+                <version>${knife4j-springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations-jakarta</artifactId>
+                <version>${swagger.core.version}</version>
+            </dependency>
+            <!-- commons.io  -->
+            <dependency>
+                <artifactId>commons-io</artifactId>
+                <groupId>commons-io</groupId>
+                <version>${common.io.version}</version>
+            </dependency>
+            <!-- 代码生成使用模板 -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
-        <!-- 构建配置 -->
-        <plugins>
-            <!-- Spring Boot Maven插件配置 -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-                <configuration>
-                    <!-- 跳过Spring Boot插件的执行 -->
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-            <!-- Docker Maven插件配置 -->
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>${docker-maven-plugin.version}</version>
-                <configuration>
-                    <!-- 跳过Docker插件的执行 -->
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
+        <finalName>${project.artifactId}</finalName>
     </build>
 </project>

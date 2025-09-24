@@ -4,7 +4,6 @@ import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.properties.SecurityHeaderProperties;
 import com.xht.framework.core.utils.HttpServletUtils;
 import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.core.utils.aspect.AopUtils;
 import com.xht.framework.security.annotation.InnerAuth;
 import com.xht.framework.security.exception.InnerAuthException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +15,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.Ordered;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -47,7 +47,8 @@ public class InnerAuthAspect implements Ordered {
     @SneakyThrows
     @Around(value = "innerAuthCut()")
     public Object innerAuthAround(ProceedingJoinPoint point) {
-        InnerAuth innerAuth = AopUtils.getAnnotation(point, InnerAuth.class);
+        Class<?> clazz = point.getTarget().getClass();
+        InnerAuth innerAuth = AnnotationUtils.findAnnotation(clazz, InnerAuth.class);
         if (Objects.isNull(innerAuth)) {
             return point.proceed();
         }

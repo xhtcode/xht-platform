@@ -58,7 +58,6 @@ target/
 Thumbs.db
 Servers
 .metadata
-.flattened-pom.xml
 
 /.trae/
 /.feisuan/
