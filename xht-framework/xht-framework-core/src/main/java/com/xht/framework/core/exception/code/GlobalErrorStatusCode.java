@@ -1,11 +1,9 @@
 package com.xht.framework.core.exception.code;
 
-import com.xht.framework.core.constant.basic.RConstants;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import static com.xht.framework.core.constant.basic.RConstants.FAIL;
-import static com.xht.framework.core.constant.basic.RConstants.SUCCESS_MSG;
 
 /**
  * 全局状态码枚举类
@@ -18,11 +16,6 @@ import static com.xht.framework.core.constant.basic.RConstants.SUCCESS_MSG;
 @Getter
 @AllArgsConstructor
 public enum GlobalErrorStatusCode implements ErrorCode {
-
-    /**
-     * 成功状态码
-     */
-    SUCCESS(RConstants.SUCCESS, SUCCESS_MSG),
 
     /**
      * 客户端错误状态码：400

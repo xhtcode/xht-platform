@@ -64,16 +64,6 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     }
 
     /**
-     * 捕获 {@link Throwable} 异常
-     */
-    @ExceptionHandler(Throwable.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public R<String> handleThrowable(Throwable e) {
-        log.error("未知异常: {}", e.getMessage(), e);
-        return R.error(GlobalErrorStatusCode.ERROR, e.getMessage());
-    }
-
-    /**
      * 捕获 {@link BusinessException}  异常
      */
     @ExceptionHandler(value = {BusinessException.class})
