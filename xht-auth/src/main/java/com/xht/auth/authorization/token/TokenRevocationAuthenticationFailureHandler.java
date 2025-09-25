@@ -4,7 +4,7 @@ import com.xht.auth.convet.OAuth2ErrorConvert;
 import com.xht.framework.oauth2.domain.response.OAuth2ErrorResponse;
 import com.xht.framework.core.converter.IConverter;
 import com.xht.framework.core.domain.R;
-import com.xht.framework.core.utils.HttpServletUtils;
+import com.xht.framework.core.utils.ServletUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,7 +35,7 @@ public class TokenRevocationAuthenticationFailureHandler implements Authenticati
         if (exception instanceof OAuth2AuthenticationException oAuth2AuthenticationException) {
             OAuth2Error error = oAuth2AuthenticationException.getError();
             OAuth2ErrorResponse errorResponse = ERROR_CONVERTER.convert(error);
-            HttpServletUtils.writeString(response, R.errorMsgData(errorResponse.getErrorDescription(), errorResponse));
+            ServletUtil.write(response, R.errorMsgData(errorResponse.getErrorDescription(), errorResponse));
         } else {
             log.warn(AuthenticationException.class.getSimpleName() + " must be of type "
                     + OAuth2AuthenticationException.class.getName() + " but was "

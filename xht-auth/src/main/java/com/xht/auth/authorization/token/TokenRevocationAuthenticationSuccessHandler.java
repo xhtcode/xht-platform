@@ -1,7 +1,7 @@
 package com.xht.auth.authorization.token;
 
 import com.xht.framework.core.domain.R;
-import com.xht.framework.core.utils.HttpServletUtils;
+import com.xht.framework.core.utils.ServletUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,6 +29,6 @@ public class TokenRevocationAuthenticationSuccessHandler implements Authenticati
      */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        HttpServletUtils.writeString(response, R.okMsg("token 注销成功"));
+        ServletUtil.write(response, R.okMsg("token 注销成功"));
     }
 }

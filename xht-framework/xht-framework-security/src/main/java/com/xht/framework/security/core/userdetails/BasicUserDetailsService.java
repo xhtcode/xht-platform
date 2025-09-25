@@ -1,6 +1,6 @@
 package com.xht.framework.security.core.userdetails;
 
-import com.xht.framework.core.utils.HttpServletUtils;
+import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import com.xht.framework.security.exception.BasicAuthenticationException;
@@ -24,8 +24,8 @@ public class BasicUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        HttpServletRequest httpServletRequest = HttpServletUtils.getHttpServletRequest();
-        String loginTypeStr = HttpServletUtils.getParams(httpServletRequest, SecurityConstant.REQUEST_LOGIN_TYPE);
+        HttpServletRequest httpServletRequest = ServletUtil.getHttpServletRequest();
+        String loginTypeStr = ServletUtil.getParams(httpServletRequest, SecurityConstant.REQUEST_LOGIN_TYPE);
         LoginTypeEnums loginType = LoginTypeEnums.of(loginTypeStr);
         if (loginType == null) {
             throw new BasicAuthenticationException("错误的登录方式");

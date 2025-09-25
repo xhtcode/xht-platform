@@ -2,7 +2,7 @@ package com.xht.framework.security.aspect;
 
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.properties.SecurityHeaderProperties;
-import com.xht.framework.core.utils.HttpServletUtils;
+import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.security.annotation.InnerAuth;
 import com.xht.framework.security.exception.InnerAuthException;
@@ -52,7 +52,7 @@ public class InnerAuthAspect implements Ordered {
         if (Objects.isNull(innerAuth)) {
             return point.proceed();
         }
-        HttpServletRequest request = HttpServletUtils.getHttpServletRequest();
+        HttpServletRequest request = ServletUtil.getHttpServletRequest();
         ThrowUtils.notNull(request, "request cannot be null");
         String source = request.getHeader(securityHeaderProperties.getAuthKey());
         // 内部请求验证

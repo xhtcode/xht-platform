@@ -3,7 +3,7 @@ package com.xht.framework.openfeign.interceptor;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.properties.SecurityHeaderProperties;
-import com.xht.framework.core.utils.HttpServletUtils;
+import com.xht.framework.core.utils.ServletUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +35,7 @@ public class FeignTokenInterceptor implements RequestInterceptor {
             return;
         }
         // 非web 请求直接跳过
-        Optional<HttpServletRequest> optRequest = HttpServletUtils.getOptHttpServletRequest();
+        Optional<HttpServletRequest> optRequest = ServletUtil.getOptHttpServletRequest();
         if (optRequest.isEmpty()) {
             log.debug("非web 请求, 跳过token拦截器");
             return;

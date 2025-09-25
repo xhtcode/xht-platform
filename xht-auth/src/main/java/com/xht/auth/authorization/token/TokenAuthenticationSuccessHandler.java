@@ -2,7 +2,7 @@ package com.xht.auth.authorization.token;
 
 import com.xht.framework.security.domain.response.TokenResponse;
 import com.xht.framework.core.domain.R;
-import com.xht.framework.core.utils.HttpServletUtils;
+import com.xht.framework.core.utils.ServletUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,7 +34,7 @@ public class TokenAuthenticationSuccessHandler implements AuthenticationSuccessH
         OAuth2RefreshToken refreshToken = accessTokenAuthentication.getRefreshToken();
         Map<String, Object> additionalParameters = accessTokenAuthentication.getAdditionalParameters();
         TokenResponse tokenResponse = convertToTokenResponse(accessToken, refreshToken, additionalParameters);
-        HttpServletUtils.writeString(response, R.ok(tokenResponse));
+        ServletUtil.write(response, R.ok(tokenResponse));
     }
 
     private TokenResponse convertToTokenResponse(OAuth2AccessToken accessToken, OAuth2RefreshToken refreshToken, Map<String, Object> additionalParameters) {

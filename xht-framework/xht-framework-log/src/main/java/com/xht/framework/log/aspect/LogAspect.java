@@ -2,10 +2,10 @@ package com.xht.framework.log.aspect;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
-import cn.hutool.extra.servlet.JakartaServletUtil;
 import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.jackson.JsonUtils;
-import com.xht.framework.core.utils.HttpServletUtils;
+import com.xht.framework.core.utils.IpUtils;
+import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.framework.log.annotations.Log;
 import com.xht.framework.log.domain.dto.LogDTO;
@@ -54,9 +54,9 @@ public class LogAspect {
         logDTO.setTitle(sysLog.title());
         logDTO.setDescription(sysLog.description());
         logDTO.setServiceName(SpringContextUtils.getApplicationName());
-        Optional<HttpServletRequest> optHttpServletRequest = HttpServletUtils.getOptHttpServletRequest();
+        Optional<HttpServletRequest> optHttpServletRequest = ServletUtil.getOptHttpServletRequest();
         optHttpServletRequest.ifPresent(request -> {
-            logDTO.setRemoteAddr(JakartaServletUtil.getClientIP(request));
+            logDTO.setRemoteAddr(IpUtils.getIpAddr(request));
             logDTO.setUserAgent(request.getHeader(HttpConstants.Header.USER_AGENT.getValue()));
             logDTO.setRequestUri(URLUtil.getPath(request.getRequestURI()));
             logDTO.setMethod(request.getMethod());

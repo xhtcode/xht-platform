@@ -65,7 +65,7 @@ public class RequestUserBO implements Serializable {
      * @param additionalParameters 扩展信息 数据来源{@code  com.xht.cloud.framework.security.authorization.granttype.AbstractAuthenticationConverter}
      * @return {@link RequestUserBO}
      */
-    public static RequestUserBO builderUser(Map<String, Object> additionalParameters) throws AuthenticationException {
+    public static RequestUserBO builderUser(Map<String, ?> additionalParameters) throws AuthenticationException {
         String username = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_USERNAME);
         String password = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_PASSWORD);
         String grantType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_OAUTH2_GRANT_TYPE);
