@@ -2,10 +2,6 @@
 spring:
   cloud:
     gateway:
-      discovery: #网关发现机制配置
-        locator: #处理机制
-          enabled: true # 开启网关自动映射处理逻辑，只要请求地址符合规则: http://gatewayPort/微服务名/微服务请求地址
-          lower-case-service-id: true #全部服务名称全部小写
       routes:
         - id: xht-auth
           uri: lb://xht-auth #此处需要使用lb协议
@@ -25,6 +21,16 @@ spring:
             - Path=/generate/**
           filters:
             - StripPrefix=1
+      server:
+        webflux:
+          discovery:
+            locator:
+              lower-case-service-id: true
+              enabled: true
+    nacos:
+      config:
+        import-check:
+          enabled: false
 knife4j:
   gateway:
     enabled: true     # ① 第一个配置，开启gateway聚合组件

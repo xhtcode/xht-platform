@@ -13,3 +13,6 @@ spring:
         password: @nacos.password@
         namespace: @nacos.namespace@
         group: @nacos.group@
+      config:
+        import-check:
+          enabled: false
