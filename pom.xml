@@ -143,6 +143,22 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <!-- 过滤后缀不需要转码的文件后缀名.crt-->
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>xlsx</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>xls</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>zip</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>cer</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>pfx</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>py</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+                </configuration>
+            </plugin>
             <!-- Maven 编译插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
