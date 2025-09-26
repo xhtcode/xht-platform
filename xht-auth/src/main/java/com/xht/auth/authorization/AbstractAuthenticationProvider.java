@@ -238,7 +238,7 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
                 .build();
         OAuth2Token generatedIdToken =
                 Optional.ofNullable(tokenGenerator.generate(tokenContext))
-                        .orElseThrow(() -> new OAuth2AuthenticationException(new OAuth2Error("code", "desc", "uri")));
+                        .orElseThrow(() -> new OAuth2AuthenticationException(new OAuth2Error("getCode", "desc", "uri")));
         if (!(generatedIdToken instanceof Jwt)) {
             OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
                     "The token generator failed to generate the ID token.", ERROR_URI);
