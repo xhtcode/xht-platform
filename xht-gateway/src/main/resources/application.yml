@@ -1,36 +1,34 @@
-# gateway路由配置
+server:
+  port: 8080
 spring:
   cloud:
     gateway:
-      routes:
-        - id: xht-auth
-          uri: lb://xht-auth #此处需要使用lb协议
-          predicates:
-            - Path=/auth/**
-          filters:
-            - StripPrefix=1
-        - id: xht-system
-          uri: lb://xht-system #此处需要使用lb协议
-          predicates:
-            - Path=/admin/**
-          filters:
-            - StripPrefix=1
-        - id: xht-system
-          uri: lb://xht-generate #此处需要使用lb协议
-          predicates:
-            - Path=/generate/**
-          filters:
-            - StripPrefix=1
       server:
         webflux:
           discovery:
             locator:
               lower-case-service-id: true
               enabled: true
-    nacos:
-      config:
-        import-check:
-          enabled: false
+          routes:
+          - id: xht-auth
+            uri: lb://xht-auth #此处需要使用lb协议
+            predicates:
+              - Path=/auth/**
+            filters:
+              - StripPrefix=1
+          - id: xht-system
+            uri: lb://xht-system #此处需要使用lb协议
+            predicates:
+              - Path=/admin/**
+            filters:
+              - StripPrefix=1
+          - id: xht-system
+            uri: lb://xht-generate #此处需要使用lb协议
+            predicates:
+              - Path=/generate/**
+            filters:
+              - StripPrefix=1
+
 knife4j:
   gateway:
     enabled: true     # ① 第一个配置，开启gateway聚合组件

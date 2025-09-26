@@ -17,6 +17,11 @@ public class BusinessException extends RuntimeException {
      */
     private final int code;
 
+    public BusinessException(Throwable cause) {
+        super(cause);
+        this.code = RConstants.FAIL;
+    }
+
     public BusinessException(String message) {
         super(message);
         this.code = RConstants.FAIL;

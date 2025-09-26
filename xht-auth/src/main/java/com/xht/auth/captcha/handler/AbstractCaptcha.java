@@ -140,19 +140,6 @@ public abstract class AbstractCaptcha {
     protected abstract void graphicsImage(ByteArrayOutputStream outputStream) throws Exception;
 
     /**
-     * 将验证码转换为指定类型的Base64字符串
-     * <p>
-     * 在验证码Base64字符串前添加类型前缀
-     * </p>
-     *
-     * @param type 类型前缀字符串
-     * @return 带有类型前缀的验证码Base64编码字符串
-     */
-    public final String getBase64(String type) {
-        return String.format(type, getBase64());
-    }
-
-    /**
      * 获取验证码
      * <p>
      * 获取验证码前先检查验证码是否已生成，如果未生成则先生成验证码

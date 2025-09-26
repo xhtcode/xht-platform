@@ -1,12 +1,12 @@
 package com.xht.generate.domain.bo;
 
-import cn.hutool.core.util.StrUtil;
-import com.xht.framework.core.constant.StringConstant;
 import com.xht.generate.domain.entity.GenTableColumnEntity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 代码生成核心业务对象
@@ -34,7 +34,7 @@ public final class GenCodeCoreBo {
     private final List<String> ignoreField;
 
     public GenCodeCoreBo(List<String> ignoreField) {
-        this.ignoreField = ignoreField;
+        this.ignoreField = Objects.requireNonNullElseGet(ignoreField, Collections::emptyList);
     }
 
     /**

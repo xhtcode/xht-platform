@@ -68,7 +68,7 @@ public interface MapperRepository<T> extends CrudRepository<T> {
      * @param field 字段name
      * @param value 字段value
      */
-    List<T> findListIn(SFunction<T, ?> field, Collection<?> value);
+    List<T> findList(SFunction<T, ?> field, Collection<?> value);
 
 
     /**

@@ -232,7 +232,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @param value 字段value
      */
     @Override
-    public final List<T> findListIn(SFunction<T, ?> field, Collection<?> value) {
+    public final List<T> findList(SFunction<T, ?> field, Collection<?> value) {
         return list(new LambdaQueryWrapper<T>().in(field, value));
     }
 

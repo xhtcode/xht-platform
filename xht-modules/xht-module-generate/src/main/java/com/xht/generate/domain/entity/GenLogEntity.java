@@ -22,7 +22,7 @@ public class GenLogEntity extends BasicEntity implements Serializable {
     /**
      * 历史记录ID
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**

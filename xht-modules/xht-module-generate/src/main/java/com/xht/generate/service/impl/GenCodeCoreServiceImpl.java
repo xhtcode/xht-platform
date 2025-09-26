@@ -16,7 +16,6 @@ import com.xht.generate.helper.GenLogHelper;
 import com.xht.generate.service.IGenCodeCoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.velocity.VelocityContext;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -65,11 +64,11 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
             List<GenTemplateEntity> groupTemplates = templateDao.findList(GenTemplateEntity::getGroupId, groupId);
             try {
                 // 解析模板定义
-                List<GenCodeCoreBo> codeCoreBoList = GenCodeHelper.parseTemplates(groupTemplates);
+                final List<GenCodeCoreBo> originalList = GenCodeHelper.parseTemplates(groupTemplates);
                 // 为每个表生成代码
                 for (GenTableEntity table : genTableEntities) {
                     List<GenTableColumnEntity> tableColumns = columnInfoDao.findList(GenTableColumnEntity::getTableId, table.getId());
-                    GenCodeHelper.generateCode(request, table, tableColumns, codeCoreBoList);
+                    List<GenCodeCoreBo> codeCoreBoList = GenCodeHelper.generateCode(request, table, tableColumns, originalList);
                     codeList.addAll(codeCoreBoList);
                 }
                 GenLogHelper.success(groupId, groupTemplates.size(), tableIds);
@@ -112,14 +111,12 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
                     addZipEntry(zipOut, filePath, codeBo.getCode());
                 }
             }
-
             zipOut.finish();
             return byteOut.toByteArray();
 
         } catch (Exception e) {
-            String errorMsg = "代码打包为ZIP失败: " + e.getMessage();
-            log.error(errorMsg, e);
-            throw new BusinessException(errorMsg);
+            log.error("代码打包为ZIP失败 {}", e.getMessage(), e);
+            throw new BusinessException(e);
         }
     }
 

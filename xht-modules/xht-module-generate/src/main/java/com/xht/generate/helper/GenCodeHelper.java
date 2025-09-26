@@ -47,9 +47,10 @@ public final class GenCodeHelper {
      * @param tableColumns 表列信息实体列表
      * @param codeCore     解析后的代码核心业务对象列表
      */
-    public static void generateCode(GenCodeCoreRequest request, GenTableEntity table, List<GenTableColumnEntity> tableColumns, List<GenCodeCoreBo> codeCore) {
+    public static List<GenCodeCoreBo> generateCode(GenCodeCoreRequest request, GenTableEntity table, List<GenTableColumnEntity> tableColumns, List<GenCodeCoreBo> codeCore) {
+        List<GenCodeCoreBo> result = new ArrayList<>();
         if (CollectionUtils.isEmpty(codeCore)) {
-            return;
+            return Collections.emptyList();
         }
         VelocityContext context = new VelocityContext();
         context.put("packageName", request.getPackageName());
@@ -74,37 +75,28 @@ public final class GenCodeHelper {
         context.put("pageStyle", table.getPageStyle());
         context.put("pageStyleWidth", table.getPageStyleWidth());
         context.put("fromNumber", table.getFromNumber());
-        context.put("allColumns", convertColumnToMap(tableColumns));
+        Set<String> allPackages = new HashSet<>();
+        context.put("allColumns", convertColumnToMap(tableColumns, allPackages));
+        context.put("allPackages", allPackages);
         context.put("pkColumn", filterPkColumnToMap(tableColumns));
         addIdGenerators(context);
         for (GenCodeCoreBo item : codeCore) {
             List<GenTableColumnEntity> filter = item.filter(tableColumns);
-            context.put("column", convertColumnToMap(filter));
-            context.put("importPackage", getImportPackage(filter));
+            Set<String> importClassNames = new HashSet<>();
+            context.put("column", convertColumnToMap(filter, importClassNames));
+            context.put("packages", importClassNames);
             // 渲染文件路径
             String resolvedPath = renderTemplate(context, "filePathTemplate", item.getFilePath());
             // 渲染文件内容
             String resolvedCode = renderTemplate(context, "codeTemplate", item.getCode());
-            item.setFilePath(resolvedPath);
-            item.setCode(resolvedCode);
+            GenCodeCoreBo genCodeCoreBo = new GenCodeCoreBo(item.getIgnoreField());
+            genCodeCoreBo.setFilePath(resolvedPath);
+            genCodeCoreBo.setCode(resolvedCode);
+            result.add(genCodeCoreBo);
         }
+        return result;
     }
 
-    /**
-     * 从表列信息中提取需要导入的类名集合
-     *
-     * @param tableColumns 表列信息实体列表
-     * @return 需要导入的类名集合
-     */
-    private static Set<String> getImportPackage(List<GenTableColumnEntity> tableColumns) {
-        Set<String> importClassNames = new HashSet<>();
-        for (GenTableColumnEntity column : tableColumns) {
-            if (StringUtils.hasText(column.getCodeJavaPackage())) {
-                importClassNames.add(column.getFromComponent());
-            }
-        }
-        return importClassNames;
-    }
 
     /**
      * 将表列信息实体列表转换为Map列表
@@ -112,10 +104,13 @@ public final class GenCodeHelper {
      * @param tableColumns 表列信息实体列表
      * @return 转换后的Map列表，每个Map代表一列的信息
      */
-    private static List<Map<String, Object>> convertColumnToMap(List<GenTableColumnEntity> tableColumns) {
+    private static List<Map<String, Object>> convertColumnToMap(List<GenTableColumnEntity> tableColumns, Set<String> importClassNames) {
         List<Map<String, Object>> columnMaps = new ArrayList<>();
         for (GenTableColumnEntity tableColumn : tableColumns) {
             columnMaps.add(convertColumnToMap(tableColumn));
+            if (StringUtils.hasText(tableColumn.getCodeJavaPackage())) {
+                importClassNames.add(tableColumn.getFromComponent());
+            }
         }
         return columnMaps;
     }
@@ -193,7 +188,7 @@ public final class GenCodeHelper {
         return templateList.stream()
                 .map((template) -> {
                     GenCodeCoreBo genCodeCoreBo = new GenCodeCoreBo(template.getTemplateIgnoreField());
-                    genCodeCoreBo.setFilePath(template.getTemplateFilePath());
+                    genCodeCoreBo.setFilePath(String.format("%s%s.%s", template.getTemplateFilePath(), template.getTemplateFileName(), template.getTemplateFileType()));
                     genCodeCoreBo.setCode(template.getTemplateContent());
                     return genCodeCoreBo;
                 })
