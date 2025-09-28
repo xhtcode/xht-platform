@@ -27,7 +27,7 @@
         <spring-boot.version>3.5.6</spring-boot.version>
         <spring-boot-admin.version>3.5.5</spring-boot-admin.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
-        <spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2025.0.0.0-preview</spring-cloud-alibaba.version>
         <hutool.version>5.8.40</hutool.version>
         <lombok.version>1.18.36</lombok.version>
         <mapstruct.version>1.6.3</mapstruct.version>
