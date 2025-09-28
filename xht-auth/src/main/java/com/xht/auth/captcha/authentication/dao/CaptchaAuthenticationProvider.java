@@ -44,8 +44,8 @@ public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
      * @param passwordEncoder    密码解析器，用于加密和校验密码
      */
     public CaptchaAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        super(userDetailsService);
         super.setPasswordEncoder(passwordEncoder);
-        super.setUserDetailsService(userDetailsService);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
         Map<String, String> mapParameters = ServletUtil.getParamMap(httpServletRequest);
         RequestUserBO requestUserBO = RequestUserBO.builderUser(mapParameters);
         requestUserBO.checkLoginType();//todo 验证码校验逻辑 requestUserBO.getLoginType()
-        if (Objects.equals(LoginTypeEnums.QQ, requestUserBO.getLoginType())) {
+        if (Objects.equals(LoginTypeEnums.PASSWORD, requestUserBO.getLoginType())) {
             String captcha = requestUserBO.getCaptcha();
             try {
                 if (StringUtils.isEmpty(captcha)) {
