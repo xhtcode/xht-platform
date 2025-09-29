@@ -189,7 +189,7 @@ public class UserServiceImpl implements IUserService {
      * @return 用户对象分页结果
      */
     @Override
-    public PageResponse<SysUserVO> selectPage(UserQueryRequest queryRequest) {
+    public PageResponse<SysUserVO> pageList(UserQueryRequest queryRequest) {
         Page<SysUserVO> page = sysUserDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
         return PageTool.getPageVo(page);
     }

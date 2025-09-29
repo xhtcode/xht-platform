@@ -84,7 +84,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      * @return 项目信息
      */
     @Override
-    public GenTemplateGroupResponse getById(Long id) {
+    public GenTemplateGroupResponse findById(Long id) {
         return genTemplateGroupConverter.toResponse(genTemplateGroupDao.findById(id));
     }
 
@@ -106,7 +106,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      * @return 代码生成模板组列表响应结果
      */
     @Override
-    public PageResponse<GenTemplateGroupResponse> selectPage(GenTemplateGroupQueryRequest queryRequest) {
+    public PageResponse<GenTemplateGroupResponse> pageList(GenTemplateGroupQueryRequest queryRequest) {
         Page<GenTemplateGroupEntity> page = genTemplateGroupDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
         return genTemplateGroupConverter.toResponse(page);
     }

@@ -45,7 +45,7 @@ public interface IGenTemplateGroupService {
      * @param id 项目ID
      * @return 项目信息
      */
-    GenTemplateGroupResponse getById(Long id);
+    GenTemplateGroupResponse findById(Long id);
 
     /**
      * 获取代码生成模板组列表
@@ -60,5 +60,5 @@ public interface IGenTemplateGroupService {
      * @param queryRequest 查询参数
      * @return 代码生成模板组列表响应结果
      */
-    PageResponse<GenTemplateGroupResponse> selectPage(GenTemplateGroupQueryRequest queryRequest);
+    PageResponse<GenTemplateGroupResponse> pageList(GenTemplateGroupQueryRequest queryRequest);
 }

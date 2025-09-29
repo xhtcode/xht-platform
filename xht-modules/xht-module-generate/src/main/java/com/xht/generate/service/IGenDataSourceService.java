@@ -44,7 +44,7 @@ public interface IGenDataSourceService {
      * @param id 数据源ID
      * @return 数据源信息
      */
-    GenDataSourceResponse getById(Long id);
+    GenDataSourceResponse findById(Long id);
 
     /**
      * 按条件查询数据源
@@ -52,7 +52,7 @@ public interface IGenDataSourceService {
      * @param queryRequest 数据源查询请求参数
      * @return 数据源分页信息
      */
-    List<GenDataSourceResponse> selectList(GenDataSourceQueryRequest queryRequest);
+    List<GenDataSourceResponse> findList(GenDataSourceQueryRequest queryRequest);
 
     /**
      * 测试链接

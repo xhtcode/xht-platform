@@ -44,7 +44,7 @@ public interface ISysDictService {
      * @param id 字典ID
      * @return 字典详情
      */
-    SysDictResponse getById(Long id);
+    SysDictResponse findById(Long id);
 
     /**
      * 分页查询字典类型
@@ -52,7 +52,7 @@ public interface ISysDictService {
      * @param queryRequest 系统字典查询参数
      * @return 分页结果
      */
-    PageResponse<SysDictResponse> selectPage(SysDictQueryRequest queryRequest);
+    PageResponse<SysDictResponse> pageList(SysDictQueryRequest queryRequest);
 
 
 }

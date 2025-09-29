@@ -113,7 +113,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @return 部门信息
      */
     @Override
-    public SysDeptResponse getById(Long id) {
+    public SysDeptResponse findById(Long id) {
         return sysDeptConverter.toResponse(sysDeptDao.findById(id));
     }
 

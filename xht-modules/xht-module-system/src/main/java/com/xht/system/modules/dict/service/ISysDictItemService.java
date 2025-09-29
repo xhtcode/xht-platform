@@ -44,7 +44,7 @@ public interface ISysDictItemService {
      * @param id 系统字典项ID
      * @return 系统字典项响应信息
      */
-    SysDictItemResponse getById(Long id);
+    SysDictItemResponse findById(Long id);
 
     /**
      * 分页查询系统字典项
@@ -52,7 +52,7 @@ public interface ISysDictItemService {
      * @param queryRequest 系统字典项查询请求参数
      * @return 分页响应结果，包含系统字典项响应信息
      */
-    PageResponse<SysDictItemResponse> selectPage(SysDictItemQueryRequest queryRequest);
+    PageResponse<SysDictItemResponse> pageList(SysDictItemQueryRequest queryRequest);
 
     /**
      * 根据字典编码获取系统字典项列表

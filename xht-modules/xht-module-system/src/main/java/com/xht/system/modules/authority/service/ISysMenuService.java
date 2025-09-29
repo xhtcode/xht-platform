@@ -56,7 +56,7 @@ public interface ISysMenuService {
      * @param id 菜单ID
      * @return 菜单信息
      */
-    SysMenuResponse getById(Long id);
+    SysMenuResponse findById(Long id);
 
     /**
      * 查询菜单列表(树形结构)

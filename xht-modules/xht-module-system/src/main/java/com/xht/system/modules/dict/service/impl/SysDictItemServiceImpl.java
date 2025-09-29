@@ -92,7 +92,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      * @return 系统字典项响应信息
      */
     @Override
-    public SysDictItemResponse getById(Long id) {
+    public SysDictItemResponse findById(Long id) {
         return sysDictItemConverter.toResponse(sysDictItemDao.findById(id));
     }
 
@@ -103,7 +103,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      * @return 分页响应结果，包含系统字典项响应信息
      */
     @Override
-    public PageResponse<SysDictItemResponse> selectPage(SysDictItemQueryRequest queryRequest) {
+    public PageResponse<SysDictItemResponse> pageList(SysDictItemQueryRequest queryRequest) {
         if (Objects.isNull(queryRequest.getDictId())) {
             return PageTool.empty();
         }

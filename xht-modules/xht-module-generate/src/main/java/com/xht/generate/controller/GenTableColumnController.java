@@ -38,7 +38,7 @@ public class GenTableColumnController {
     @Operation(summary = "根据ID查询字段信息", description = "根据提供的字段信息ID查询字段信息信息")
     @GetMapping("/get/{id}")
     public R<GenTableColumnResponse> findById(@PathVariable @Parameter(description = "字段信息ID", required = true) Long id) {
-        return R.ok(genColumnInfoService.getById(id));
+        return R.ok(genColumnInfoService.findById(id));
     }
 
     /**

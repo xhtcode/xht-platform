@@ -210,7 +210,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
      * @return 表信息字段信息
      */
     @Override
-    public TableColumnVo getById(Long tableId) {
+    public TableColumnVo findById(Long tableId) {
         TableColumnVo result = new TableColumnVo();
         GenTableResponse tableResponse = genTableConverter.toResponse(genTableDao.findById(tableId));
         result.setTableInfo(Objects.requireNonNullElseGet(tableResponse, GenTableResponse::new));

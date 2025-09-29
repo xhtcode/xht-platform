@@ -101,7 +101,7 @@ public class SysPostServiceImpl implements ISysPostService {
      * @return 部门岗位信息
      */
     @Override
-    public SysPostResponse getById(Long id) {
+    public SysPostResponse findById(Long id) {
         SysPostEntity sysPostEntity = sysPostDao.findOptionalById(id).orElse(null);
         return sysPostConverter.toResponse(sysPostEntity);
     }
@@ -113,7 +113,7 @@ public class SysPostServiceImpl implements ISysPostService {
      * @return 部门岗位分页信息
      */
     @Override
-    public PageResponse<SysPostResponse> selectPage(SysPostQueryRequest queryRequest) {
+    public PageResponse<SysPostResponse> pageList(SysPostQueryRequest queryRequest) {
         if (Objects.isNull(queryRequest)) {
             return PageTool.empty();
         }

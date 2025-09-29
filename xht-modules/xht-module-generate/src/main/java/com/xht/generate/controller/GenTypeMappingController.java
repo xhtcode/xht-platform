@@ -38,7 +38,7 @@ public class GenTypeMappingController {
      * @return 操作结果
      */
     @Operation(summary = "创建字段映射", description = "根据提供的请求参数创建一个新的字段映射")
-    @PostMapping("/add")
+    @PostMapping("/create")
     public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTypeMappingFormRequest formRequest) {
         return R.ok(genTypeMappingService.create(formRequest));
     }
@@ -50,7 +50,7 @@ public class GenTypeMappingController {
      * @return 操作结果
      */
     @Operation(summary = "根据ID删除字段映射", description = "根据提供的字段映射ID删除字段映射")
-    @PostMapping("/delete/{id}")
+    @PostMapping("/remove/{id}")
     public R<Boolean> removeById(@PathVariable @Parameter(description = "字段映射ID", required = true) Long id) {
         return R.ok(genTypeMappingService.removeById(id));
     }
@@ -76,7 +76,7 @@ public class GenTypeMappingController {
     @Operation(summary = "根据ID查询字段映射", description = "根据提供的字段映射ID查询字段映射信息")
     @GetMapping("/get/{id}")
     public R<GenTypeMappingResponse> findById(@PathVariable @Parameter(description = "字段映射ID", required = true) Long id) {
-        return R.ok(genTypeMappingService.getById(id));
+        return R.ok(genTypeMappingService.findById(id));
     }
 
     /**
@@ -87,8 +87,8 @@ public class GenTypeMappingController {
      */
     @Operation(summary = "分页查询字段映射", description = "根据提供的查询请求参数分页查询字段映射信息")
     @GetMapping("/page")
-    public R<PageResponse<GenTypeMappingResponse>> selectPage(GenTypeMappingQueryRequest queryRequest) {
-        return R.ok(genTypeMappingService.selectPage(queryRequest));
+    public R<PageResponse<GenTypeMappingResponse>> pageList(GenTypeMappingQueryRequest queryRequest) {
+        return R.ok(genTypeMappingService.pageList(queryRequest));
     }
 
     /**

@@ -29,7 +29,7 @@ public interface GenDataSourceDao extends MapperRepository<GenDataSourceEntity> 
      * @param queryRequest 数据源查询请求参数
      * @return 数据源分页信息
      */
-    List<GenDataSourceEntity> selectList(GenDataSourceQueryRequest queryRequest);
+    List<GenDataSourceEntity> findList(GenDataSourceQueryRequest queryRequest);
 
 
 }

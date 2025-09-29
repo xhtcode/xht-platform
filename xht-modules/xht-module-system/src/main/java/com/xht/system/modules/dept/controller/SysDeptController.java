@@ -36,7 +36,7 @@ public class SysDeptController {
      * @param formRequest 部门表单请求参数
      * @return 操作结果
      */
-    @PostMapping("/add")
+    @PostMapping("/create")
     @Operation(summary = "创建部门")
     public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDeptFormRequest formRequest) {
         return R.ok(sysDeptService.create(formRequest));
@@ -48,7 +48,7 @@ public class SysDeptController {
      * @param id 部门ID
      * @return 操作结果
      */
-    @PostMapping("/delete/{id}")
+    @PostMapping("/remove/{id}")
     @Operation(summary = "删除部门")
     @Parameter(name = "id", description = "部门ID")
     public R<Boolean> removeById(@PathVariable Long id) {
@@ -91,8 +91,8 @@ public class SysDeptController {
     @GetMapping("/get/{id}")
     @Operation(summary = "查询部门详情")
     @Parameter(name = "id", description = "部门ID")
-    public R<SysDeptResponse> getById(@PathVariable Long id) {
-        return R.ok(sysDeptService.getById(id));
+    public R<SysDeptResponse> findById(@PathVariable Long id) {
+        return R.ok(sysDeptService.findById(id));
     }
 
     /**

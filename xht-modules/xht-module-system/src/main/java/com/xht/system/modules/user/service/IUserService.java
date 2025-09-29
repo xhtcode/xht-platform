@@ -64,7 +64,7 @@ public interface IUserService {
      * @param queryRequest 用户查询请求对象
      * @return 用户对象分页结果
      */
-    PageResponse<SysUserVO> selectPage(UserQueryRequest queryRequest);
+    PageResponse<SysUserVO> pageList(UserQueryRequest queryRequest);
 
     /**
      * 重置密码

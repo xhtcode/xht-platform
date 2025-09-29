@@ -39,7 +39,7 @@ public class SysRoleController {
      * @return 操作结果
      */
     @Operation(summary = "创建角色", description = "根据提供的请求参数创建一个新的角色")
-    @PostMapping("/add")
+    @PostMapping("/create")
     public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysRoleFormRequest formRequest) {
         return R.ok(sysRoleService.create(formRequest));
     }
@@ -51,7 +51,7 @@ public class SysRoleController {
      * @return 操作结果
      */
     @Operation(summary = "根据ID删除角色", description = "根据提供的角色ID删除角色")
-    @PostMapping("/delete/{id}")
+    @PostMapping("/remove/{id}")
     public R<Boolean> removeById(@PathVariable Long id) {
         return R.ok(sysRoleService.removeById(id));
     }
@@ -63,7 +63,7 @@ public class SysRoleController {
      * @return 操作结果
      */
     @Operation(summary = "根据ID删除角色", description = "根据提供的角色ID删除角色")
-    @PostMapping("/delete/")
+    @PostMapping("/remove/")
     public R<Boolean> removeByIds(@RequestBody List<Long> ids) {
         return R.ok(sysRoleService.removeByIds(ids));
     }
@@ -103,7 +103,7 @@ public class SysRoleController {
     @Operation(summary = "根据ID查询角色", description = "根据提供的角色ID查询角色信息")
     @GetMapping("/get/{id}")
     public R<SysRoleResponse> findById(@PathVariable @Parameter(description = "角色ID", required = true) Long id) {
-        return R.ok(sysRoleService.getById(id));
+        return R.ok(sysRoleService.findById(id));
     }
 
     /**
@@ -114,8 +114,8 @@ public class SysRoleController {
      */
     @Operation(summary = "分页查询角色", description = "根据提供的查询请求参数分页查询角色信息")
     @GetMapping("/page")
-    public R<PageResponse<SysRoleResponse>> selectPage(SysRoleQueryRequest queryRequest) {
-        return R.ok(sysRoleService.selectPage(queryRequest));
+    public R<PageResponse<SysRoleResponse>> pageList(SysRoleQueryRequest queryRequest) {
+        return R.ok(sysRoleService.pageList(queryRequest));
     }
 
     /**

@@ -80,7 +80,7 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
      * @return 字段映射信息
      */
     @Override
-    public GenTypeMappingResponse getById(Long id) {
+    public GenTypeMappingResponse findById(Long id) {
         return genTypeMappingConverter.toResponse(genTypeMappingDao.findById(id));
     }
 
@@ -91,7 +91,7 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
      * @return 字段映射分页信息
      */
     @Override
-    public PageResponse<GenTypeMappingResponse> selectPage(GenTypeMappingQueryRequest queryRequest) {
+    public PageResponse<GenTypeMappingResponse> pageList(GenTypeMappingQueryRequest queryRequest) {
         Page<GenTypeMappingEntity> page = genTypeMappingDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
         return genTypeMappingConverter.toResponse(page);
     }

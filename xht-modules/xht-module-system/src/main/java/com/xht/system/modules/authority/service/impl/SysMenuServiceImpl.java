@@ -117,7 +117,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return 菜单信息
      */
     @Override
-    public SysMenuResponse getById(Long id) {
+    public SysMenuResponse findById(Long id) {
         return sysMenuConverter.toResponse(sysMenuDao.findById(id));
     }
 

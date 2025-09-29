@@ -48,7 +48,7 @@ public class GenDataSourceDaoImpl extends MapperRepositoryImpl<GenDataSourceMapp
      * @return 数据源分页信息
      */
     @Override
-    public List<GenDataSourceEntity> selectList(GenDataSourceQueryRequest queryRequest) {
+    public List<GenDataSourceEntity> findList(GenDataSourceQueryRequest queryRequest) {
         LambdaQueryWrapper<GenDataSourceEntity> queryWrapper = lambdaQueryWrapper();
         queryWrapper.like(condition(queryRequest.getName()), GenDataSourceEntity::getName, queryRequest.getName());
         queryWrapper.eq(condition(queryRequest.getDbType()), GenDataSourceEntity::getDbType, queryRequest.getDbType());

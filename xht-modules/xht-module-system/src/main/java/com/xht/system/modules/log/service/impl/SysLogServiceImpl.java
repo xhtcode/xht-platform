@@ -49,7 +49,7 @@ public class SysLogServiceImpl implements ISysLogService {
      * @return 系统日志详情
      */
     @Override
-    public SysLogResponse getById(Long id) {
+    public SysLogResponse findById(Long id) {
         SysLogEntity sysLogEntity = sysLogDao.findById(id);
         return sysLogConverter.toResponse(sysLogEntity);
     }
@@ -61,7 +61,7 @@ public class SysLogServiceImpl implements ISysLogService {
      * @return 系统日志岗位分页信息
      */
     @Override
-    public PageResponse<SysLogResponse> selectPage(SysLogQueryRequest queryRequest) {
+    public PageResponse<SysLogResponse> pageList(SysLogQueryRequest queryRequest) {
         if (Objects.isNull(queryRequest)) {
             return PageTool.empty();
         }

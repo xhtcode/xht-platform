@@ -17,7 +17,7 @@ public interface IGenTableColumnService {
      * @param id 字段信息ID
      * @return 字段信息信息
      */
-    GenTableColumnResponse getById(Long id);
+    GenTableColumnResponse findById(Long id);
 
     /**
      * 根据表id查询字段信息

@@ -79,7 +79,7 @@ public class GenDataSourceServiceImpl implements IGenDataSourceService {
      * @return 数据源信息
      */
     @Override
-    public GenDataSourceResponse getById(Long id) {
+    public GenDataSourceResponse findById(Long id) {
         return genDataSourceConverter.toResponse(genDataSourceDao.findById(id));
     }
 
@@ -90,8 +90,8 @@ public class GenDataSourceServiceImpl implements IGenDataSourceService {
      * @return 数据源分页信息
      */
     @Override
-    public List<GenDataSourceResponse> selectList(GenDataSourceQueryRequest queryRequest) {
-        List<GenDataSourceEntity> page = genDataSourceDao.selectList(queryRequest);
+    public List<GenDataSourceResponse> findList(GenDataSourceQueryRequest queryRequest) {
+        List<GenDataSourceEntity> page = genDataSourceDao.findList(queryRequest);
         return genDataSourceConverter.toResponse(page);
     }
 

@@ -37,7 +37,7 @@ public class GenDataSourceController {
      * @return 操作结果
      */
     @Operation(summary = "创建数据源", description = "根据提供的请求参数创建一个新的数据源")
-    @PostMapping("/add")
+    @PostMapping("/create")
     public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody GenDataSourceFormRequest formRequest) {
         return R.ok(genDataSourceService.create(formRequest));
     }
@@ -49,7 +49,7 @@ public class GenDataSourceController {
      * @return 操作结果
      */
     @Operation(summary = "根据ID删除数据源", description = "根据提供的数据源ID删除数据源")
-    @PostMapping("/delete/{id}")
+    @PostMapping("/remove/{id}")
     public R<Boolean> removeById(@PathVariable @Parameter(description = "数据源ID", required = true) Long id) {
         return R.ok(genDataSourceService.removeById(id));
     }
@@ -75,7 +75,7 @@ public class GenDataSourceController {
     @Operation(summary = "根据ID查询数据源", description = "根据提供的数据源ID查询数据源信息")
     @GetMapping("/get/{id}")
     public R<GenDataSourceResponse> findById(@PathVariable @Parameter(description = "数据源ID", required = true) Long id) {
-        return R.ok(genDataSourceService.getById(id));
+        return R.ok(genDataSourceService.findById(id));
     }
 
     /**
@@ -86,8 +86,8 @@ public class GenDataSourceController {
      */
     @Operation(summary = "按条件查询数据源", description = "根据提供的查询请求参数按条件查询数据源信息")
     @GetMapping("/list")
-    public R<List<GenDataSourceResponse>> selectList(GenDataSourceQueryRequest queryRequest) {
-        return R.ok(genDataSourceService.selectList(queryRequest));
+    public R<List<GenDataSourceResponse>> findList(GenDataSourceQueryRequest queryRequest) {
+        return R.ok(genDataSourceService.findList(queryRequest));
     }
 
     /**

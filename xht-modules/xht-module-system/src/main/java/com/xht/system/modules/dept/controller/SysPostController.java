@@ -37,7 +37,7 @@ public class SysPostController {
      * @return 操作结果
      */
     @Operation(summary = "创建部门岗位", description = "根据提供的请求参数创建一个新的部门岗位")
-    @PostMapping("/add")
+    @PostMapping("/create")
     public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysPostFormRequest formRequest) {
         return R.ok(SysDeptPostService.create(formRequest));
     }
@@ -49,7 +49,7 @@ public class SysPostController {
      * @return 操作结果
      */
     @Operation(summary = "根据ID删除部门岗位", description = "根据提供的部门岗位ID删除部门岗位")
-    @PostMapping("/delete/{id}")
+    @PostMapping("/remove/{id}")
     public R<Boolean> removeById(@PathVariable Long id) {
         return R.ok(SysDeptPostService.removeById(id));
     }
@@ -61,7 +61,7 @@ public class SysPostController {
      * @return 操作结果
      */
     @Operation(summary = "根据ID删除部门岗位", description = "根据提供的部门岗位ID删除部门岗位")
-    @PostMapping("/delete/")
+    @PostMapping("/remove/")
     public R<Boolean> removeByIds(@RequestBody List<Long> ids) {
         return R.ok(SysDeptPostService.removeByIds(ids));
     }
@@ -87,7 +87,7 @@ public class SysPostController {
     @Operation(summary = "根据ID查询部门岗位", description = "根据提供的部门岗位ID查询部门岗位信息")
     @GetMapping("/get/{id}")
     public R<SysPostResponse> findById(@PathVariable @Parameter(description = "部门岗位ID", required = true) Long id) {
-        return R.ok(SysDeptPostService.getById(id));
+        return R.ok(SysDeptPostService.findById(id));
     }
 
     /**
@@ -98,8 +98,8 @@ public class SysPostController {
      */
     @Operation(summary = "分页查询部门岗位", description = "根据提供的查询请求参数分页查询部门岗位信息")
     @GetMapping("/page")
-    public R<PageResponse<SysPostResponse>> selectPage(@Valid SysPostQueryRequest queryRequest) {
-        return R.ok(SysDeptPostService.selectPage(queryRequest));
+    public R<PageResponse<SysPostResponse>> pageList(@Valid SysPostQueryRequest queryRequest) {
+        return R.ok(SysDeptPostService.pageList(queryRequest));
     }
 
 

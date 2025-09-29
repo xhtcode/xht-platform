@@ -45,7 +45,7 @@ public interface ISysOauth2ClientService {
      * @param id OAuth2客户端ID
      * @return OAuth2客户端详情
      */
-    SysOauth2ClientResponse getById(Long id);
+    SysOauth2ClientResponse findById(Long id);
 
     /**
      * 分页查询OAuth2客户端
@@ -53,7 +53,7 @@ public interface ISysOauth2ClientService {
      * @param queryRequest 查询请求参数
      * @return 分页结果
      */
-    PageResponse<SysOauth2ClientResponse> selectPage(SysOauth2ClientQueryRequest queryRequest);
+    PageResponse<SysOauth2ClientResponse> pageList(SysOauth2ClientQueryRequest queryRequest);
 
     /**
      *  根据clientId 获取客户端详情

@@ -36,8 +36,8 @@ public class SysLogController {
      */
     @Operation(summary = "获取系统日志详情")
     @GetMapping("/get/{id}")
-    public R<SysLogResponse> getById(@PathVariable Long id) {
-        return R.ok(sysLogService.getById(id));
+    public R<SysLogResponse> findById(@PathVariable Long id) {
+        return R.ok(sysLogService.findById(id));
     }
 
     /**
@@ -48,8 +48,8 @@ public class SysLogController {
      */
     @Operation(summary = "分页查询系统日志岗位", description = "根据提供的查询请求参数分页查询系统日志岗位信息")
     @GetMapping("/page")
-    public R<PageResponse<SysLogResponse>> selectPage(@Valid SysLogQueryRequest queryRequest) {
-        return R.ok(sysLogService.selectPage(queryRequest));
+    public R<PageResponse<SysLogResponse>> pageList(@Valid SysLogQueryRequest queryRequest) {
+        return R.ok(sysLogService.pageList(queryRequest));
     }
 
 }

@@ -62,7 +62,7 @@ public interface ISysRoleService {
      * @param id 角色ID
      * @return 角色信息
      */
-    SysRoleResponse getById(Long id);
+    SysRoleResponse findById(Long id);
 
     /**
      * 分页查询角色
@@ -70,7 +70,7 @@ public interface ISysRoleService {
      * @param queryRequest 角色查询请求参数
      * @return 角色分页信息
      */
-    PageResponse<SysRoleResponse> selectPage(SysRoleQueryRequest queryRequest);
+    PageResponse<SysRoleResponse> pageList(SysRoleQueryRequest queryRequest);
 
     /***
      * 查询所有角色

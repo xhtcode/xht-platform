@@ -97,7 +97,7 @@ public class SysDictServiceImpl implements ISysDictService {
      * @return 字典详情
      */
     @Override
-    public SysDictResponse getById(Long id) {
+    public SysDictResponse findById(Long id) {
         return sysDictConverter.toResponse(sysDictDao.findById(id));
     }
 
@@ -108,7 +108,7 @@ public class SysDictServiceImpl implements ISysDictService {
      * @return 分页结果
      */
     @Override
-    public PageResponse<SysDictResponse> selectPage(SysDictQueryRequest queryRequest) {
+    public PageResponse<SysDictResponse> pageList(SysDictQueryRequest queryRequest) {
         Page<SysDictEntity> page = sysDictDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
         return sysDictConverter.toResponse(page);
     }

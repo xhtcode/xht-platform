@@ -65,7 +65,7 @@ public class GenTableController {
      * @return 操作结果 true表示成功，false表示失败
      */
     @Operation(summary = "根据ID删除表信息")
-    @PostMapping("/delete/{tableId}")
+    @PostMapping("/remove/{tableId}")
     public R<Boolean> removeById(@PathVariable @Parameter(description = "表信息ID", required = true) Long tableId) {
         return R.ok(genTableInfoService.removeById(tableId));
     }
@@ -91,7 +91,7 @@ public class GenTableController {
     @Operation(summary = "根据ID查询表信息")
     @GetMapping("/get/{id}")
     public R<TableColumnVo> findById(@PathVariable @Parameter(description = "表信息ID", required = true) Long id) {
-        return R.ok(genTableInfoService.getById(id));
+        return R.ok(genTableInfoService.findById(id));
     }
 
     /**

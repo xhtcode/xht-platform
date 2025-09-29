@@ -40,7 +40,7 @@ public class SysUserController {
      * @return 返回一个R对象，其中包含一个布尔值，表示用户是否创建成功
      */
     @Operation(summary = "用户添加", description = "用户添加")
-    @PostMapping("/add")
+    @PostMapping("/create")
     public R<Boolean> add(@Valid @RequestBody UserFormRequest formRequest) {
         return R.ok(userService.create(formRequest));
     }
@@ -53,7 +53,7 @@ public class SysUserController {
      * @return 返回一个R对象，其中包含一个布尔值，表示用户是否删除成功
      */
     @Operation(summary = "删除用户", description = "根据ID删除用户")
-    @PostMapping("/delete/{id}")
+    @PostMapping("/remove/{id}")
     public R<Boolean> removeById(@PathVariable Long id) {
         return R.ok(userService.delete(id));
     }
@@ -66,7 +66,7 @@ public class SysUserController {
      * @return 返回一个R对象，其中包含一个布尔值，表示用户是否删除成功
      */
     @Operation(summary = "批量删除用户", description = "根据ID删除用户")
-    @PostMapping("/delete")
+    @PostMapping("/remove")
     public R<Boolean> removeByIds(@RequestBody List<Long> ids) {
         return R.ok(userService.removeByIds(ids));
     }
@@ -107,8 +107,8 @@ public class SysUserController {
      */
     @Operation(summary = "分页获取用户列表", description = "分页获取用户列表")
     @GetMapping("/page")
-    public R<PageResponse<SysUserVO>> selectPage(UserQueryRequest queryRequest) {
-        return R.ok(userService.selectPage(queryRequest));
+    public R<PageResponse<SysUserVO>> pageList(UserQueryRequest queryRequest) {
+        return R.ok(userService.pageList(queryRequest));
     }
 
     /**

@@ -42,7 +42,7 @@ public interface IGenTemplateService {
      * @param id 模板ID
      * @return 模板信息
      */
-    GenTemplateResponse getById(Long id);
+    GenTemplateResponse findById(Long id);
 
     /**
      * 根据模板组ID获取模板列表

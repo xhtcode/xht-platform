@@ -82,7 +82,7 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      * @return OAuth2客户端详情
      */
     @Override
-    public SysOauth2ClientResponse getById(Long id) {
+    public SysOauth2ClientResponse findById(Long id) {
         SysOauth2ClientEntity sysOauth2ClientEntity = sysOauth2ClientDao.findById(id);
         return sysOauth2ClientConverter.toResponse(sysOauth2ClientEntity);
     }
@@ -94,7 +94,7 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      * @return 分页结果
      */
     @Override
-    public PageResponse<SysOauth2ClientResponse> selectPage(SysOauth2ClientQueryRequest queryRequest) {
+    public PageResponse<SysOauth2ClientResponse> pageList(SysOauth2ClientQueryRequest queryRequest) {
         if (Objects.isNull(queryRequest)) {
             return PageTool.empty();
         }

@@ -111,7 +111,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @return 角色信息
      */
     @Override
-    public SysRoleResponse getById(Long id) {
+    public SysRoleResponse findById(Long id) {
         SysRoleEntity sysRoleEntity = sysRoleDao.findOptionalById(id).orElse(null);
         return sysRoleConverter.toResponse(sysRoleEntity);
     }
@@ -123,7 +123,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @return 角色分页信息
      */
     @Override
-    public PageResponse<SysRoleResponse> selectPage(SysRoleQueryRequest queryRequest) {
+    public PageResponse<SysRoleResponse> pageList(SysRoleQueryRequest queryRequest) {
         Page<SysRoleEntity> page = sysRoleDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
         return sysRoleConverter.toResponse(page);
     }

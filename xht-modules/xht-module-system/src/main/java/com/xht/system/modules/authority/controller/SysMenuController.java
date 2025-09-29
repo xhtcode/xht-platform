@@ -40,7 +40,7 @@ public class SysMenuController {
      * @return 操作结果
      */
     @Operation(summary = "创建菜单", description = "根据提供的请求参数创建一个新的菜单")
-    @PostMapping("/add")
+    @PostMapping("/create")
     public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysMenuFormRequest formRequest) {
         return R.ok(sysMenuService.create(formRequest));
     }
@@ -52,7 +52,7 @@ public class SysMenuController {
      * @return 操作结果
      */
     @Operation(summary = "根据ID删除菜单", description = "根据提供的菜单ID删除菜单")
-    @PostMapping("/delete/{id}")
+    @PostMapping("/remove/{id}")
     public R<Boolean> removeById(@PathVariable @Parameter(description = "菜单ID", required = true) Long id) {
         return R.ok(sysMenuService.removeById(id));
     }
@@ -92,7 +92,7 @@ public class SysMenuController {
     @Operation(summary = "根据ID查询菜单", description = "根据提供的菜单ID查询菜单信息")
     @GetMapping("/get/{id}")
     public R<SysMenuResponse> findById(@PathVariable @Parameter(description = "菜单ID", required = true) Long id) {
-        return R.ok(sysMenuService.getById(id));
+        return R.ok(sysMenuService.findById(id));
     }
 
     /**

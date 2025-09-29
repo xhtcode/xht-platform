@@ -38,7 +38,7 @@ public class GenTemplateGroupController {
      * @return 操作结果
      */
     @Operation(summary = "创建项目", description = "根据提供的请求参数创建一个新的项目")
-    @PostMapping("/add")
+    @PostMapping("/create")
     public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTemplateGroupFormRequest formRequest) {
         return R.ok(genTemplateGroupService.create(formRequest));
     }
@@ -50,7 +50,7 @@ public class GenTemplateGroupController {
      * @return 操作结果
      */
     @Operation(summary = "根据ID删除项目", description = "根据提供的项目ID删除项目")
-    @PostMapping("/delete/{id}")
+    @PostMapping("/remove/{id}")
     public R<Boolean> removeById(@PathVariable @Parameter(description = "项目ID", required = true) Long id) {
         return R.ok(genTemplateGroupService.removeById(id));
     }
@@ -78,7 +78,7 @@ public class GenTemplateGroupController {
     @Operation(summary = "根据ID查询项目", description = "根据提供的项目ID查询项目信息")
     @GetMapping("/get/{id}")
     public R<GenTemplateGroupResponse> findById(@PathVariable @Parameter(description = "项目ID", required = true) Long id) {
-        return R.ok(genTemplateGroupService.getById(id));
+        return R.ok(genTemplateGroupService.findById(id));
     }
 
     /**
@@ -89,8 +89,8 @@ public class GenTemplateGroupController {
      */
     @Operation(summary = "分页查询", description = "根据提供的查询请求参数分页查询代码生成模板组信息")
     @GetMapping("/page")
-    public R<PageResponse<GenTemplateGroupResponse>> selectPage(GenTemplateGroupQueryRequest queryRequest) {
-        return R.ok(genTemplateGroupService.selectPage(queryRequest));
+    public R<PageResponse<GenTemplateGroupResponse>> pageList(GenTemplateGroupQueryRequest queryRequest) {
+        return R.ok(genTemplateGroupService.pageList(queryRequest));
     }
 
     /**

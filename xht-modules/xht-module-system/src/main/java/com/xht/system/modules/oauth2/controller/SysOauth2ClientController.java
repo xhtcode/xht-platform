@@ -35,7 +35,7 @@ public class SysOauth2ClientController {
      * @return true成功、false失败
      */
     @Operation(summary = "创建OAuth2客户端")
-    @PostMapping("/add")
+    @PostMapping("/create")
     public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysOauth2ClientFormRequest formRequest) {
         return R.ok(sysOauth2ClientService.create(formRequest));
     }
@@ -47,7 +47,7 @@ public class SysOauth2ClientController {
      * @return true成功、false失败
      */
     @Operation(summary = "删除OAuth2客户端")
-    @PostMapping("/delete")
+    @PostMapping("/remove")
     public R<Boolean> removeById(@RequestBody List<Long> ids) {
         return R.ok(sysOauth2ClientService.removeById(ids));
     }
@@ -72,8 +72,8 @@ public class SysOauth2ClientController {
      */
     @Operation(summary = "获取OAuth2客户端详情")
     @GetMapping("/get/{id}")
-    public R<SysOauth2ClientResponse> getById(@PathVariable Long id) {
-        return R.ok(sysOauth2ClientService.getById(id));
+    public R<SysOauth2ClientResponse> findById(@PathVariable Long id) {
+        return R.ok(sysOauth2ClientService.findById(id));
     }
 
     /**
@@ -84,8 +84,8 @@ public class SysOauth2ClientController {
      */
     @Operation(summary = "分页查询OAuth2客户端")
     @GetMapping("/page")
-    public R<PageResponse<SysOauth2ClientResponse>> selectPage(SysOauth2ClientQueryRequest queryRequest) {
-        return R.ok(sysOauth2ClientService.selectPage(queryRequest));
+    public R<PageResponse<SysOauth2ClientResponse>> pageList(SysOauth2ClientQueryRequest queryRequest) {
+        return R.ok(sysOauth2ClientService.pageList(queryRequest));
     }
 
 

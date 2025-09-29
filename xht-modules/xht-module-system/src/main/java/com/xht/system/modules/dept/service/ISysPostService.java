@@ -13,6 +13,7 @@ import java.util.List;
  * @author xht
  */
 public interface ISysPostService {
+
     /**
      * 创建部门岗位
      *
@@ -51,7 +52,7 @@ public interface ISysPostService {
      * @param id 部门岗位ID
      * @return 部门岗位信息
      */
-    SysPostResponse getById(Long id);
+    SysPostResponse findById(Long id);
 
     /**
      * 分页查询部门岗位
@@ -59,6 +60,6 @@ public interface ISysPostService {
      * @param queryRequest 部门岗位查询请求参数
      * @return 部门岗位分页信息
      */
-    PageResponse<SysPostResponse> selectPage(SysPostQueryRequest queryRequest);
+    PageResponse<SysPostResponse> pageList(SysPostQueryRequest queryRequest);
 
 }

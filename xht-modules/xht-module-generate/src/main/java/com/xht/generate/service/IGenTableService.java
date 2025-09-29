@@ -56,7 +56,7 @@ public interface IGenTableService {
      * @param id 表信息ID
      * @return 表信息字段信息
      */
-    TableColumnVo getById(Long id);
+    TableColumnVo findById(Long id);
 
 
     /**

@@ -33,7 +33,7 @@ public class GenTableColumnServiceImpl implements IGenTableColumnService {
      * @return 字段信息信息
      */
     @Override
-    public GenTableColumnResponse getById(Long id) {
+    public GenTableColumnResponse findById(Long id) {
         return genTableColumnConverter.toResponse(genTableColumnDao.findById(id));
     }
 

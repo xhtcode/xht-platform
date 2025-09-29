@@ -26,7 +26,7 @@ public interface ISysLogService {
      * @param id 系统日志ID
      * @return 系统日志详情
      */
-    SysLogResponse getById(Long id);
+    SysLogResponse findById(Long id);
 
     /**
      * 分页查询系统日志岗位
@@ -34,5 +34,5 @@ public interface ISysLogService {
      * @param queryRequest 系统日志岗位查询请求参数
      * @return 系统日志岗位分页信息
      */
-    PageResponse<SysLogResponse> selectPage(SysLogQueryRequest queryRequest);
+    PageResponse<SysLogResponse> pageList(SysLogQueryRequest queryRequest);
 }

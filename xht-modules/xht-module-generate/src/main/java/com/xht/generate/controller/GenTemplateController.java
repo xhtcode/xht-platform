@@ -36,7 +36,7 @@ public class GenTemplateController {
      * @return 操作结果
      */
     @Operation(summary = "创建模板", description = "根据提供的请求参数创建一个新的模板")
-    @PostMapping("/add")
+    @PostMapping("/create")
     public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTemplateFormRequest formRequest) {
         return R.ok(genTemplateService.create(formRequest));
     }
@@ -48,7 +48,7 @@ public class GenTemplateController {
      * @return 操作结果
      */
     @Operation(summary = "根据ID删除模板", description = "根据提供的模板ID删除模板")
-    @PostMapping("/delete/{id}")
+    @PostMapping("/remove/{id}")
     public R<Boolean> removeById(@PathVariable @Parameter(description = "模板ID", required = true) Long id) {
         return R.ok(genTemplateService.removeById(id));
     }
@@ -74,7 +74,7 @@ public class GenTemplateController {
     @Operation(summary = "根据ID查询模板", description = "根据提供的模板ID查询模板信息")
     @GetMapping("/get/{id}")
     public R<GenTemplateResponse> findById(@PathVariable @Parameter(description = "模板ID", required = true) Long id) {
-        return R.ok(genTemplateService.getById(id));
+        return R.ok(genTemplateService.findById(id));
     }
 
     /**

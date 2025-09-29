@@ -54,7 +54,7 @@ public interface ISysDeptService {
      * @param id 部门ID
      * @return 部门信息
      */
-    SysDeptResponse getById(Long id);
+    SysDeptResponse findById(Long id);
 
     /**
      * 获取部门树形结构

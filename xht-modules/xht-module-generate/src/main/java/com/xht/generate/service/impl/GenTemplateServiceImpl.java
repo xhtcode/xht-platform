@@ -81,7 +81,7 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      * @return 模板信息
      */
     @Override
-    public GenTemplateResponse getById(Long id) {
+    public GenTemplateResponse findById(Long id) {
         return genTemplateConverter.toResponse(genTemplateDao.findById(id));
     }
 

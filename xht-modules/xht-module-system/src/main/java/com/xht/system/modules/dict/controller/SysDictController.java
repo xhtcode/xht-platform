@@ -35,7 +35,7 @@ public class SysDictController {
      * @return true成功、false失败
      */
     @Operation(summary = "创建字典类型")
-    @PostMapping("/add")
+    @PostMapping("/create")
     public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictFormRequest formRequest) {
         return R.ok(sysDictService.create(formRequest));
     }
@@ -47,7 +47,7 @@ public class SysDictController {
      * @return true成功、false失败
      */
     @Operation(summary = "删除字典类型")
-    @PostMapping("/delete")
+    @PostMapping("/remove")
     public R<Boolean> removeById(@RequestBody List<Long> ids) {
         return R.ok(sysDictService.removeById(ids));
     }
@@ -72,8 +72,8 @@ public class SysDictController {
      */
     @Operation(summary = "获取字典类型详情")
     @GetMapping("/get/{id}")
-    public R<SysDictResponse> getById(@PathVariable Long id) {
-        return R.ok(sysDictService.getById(id));
+    public R<SysDictResponse> findById(@PathVariable Long id) {
+        return R.ok(sysDictService.findById(id));
     }
 
     /**
@@ -84,8 +84,8 @@ public class SysDictController {
      */
     @Operation(summary = "分页查询字典类型")
     @GetMapping("/page")
-    public R<PageResponse<SysDictResponse>> selectPage(SysDictQueryRequest queryRequest) {
-        return R.ok(sysDictService.selectPage(queryRequest));
+    public R<PageResponse<SysDictResponse>> pageList(SysDictQueryRequest queryRequest) {
+        return R.ok(sysDictService.pageList(queryRequest));
     }
 
 }

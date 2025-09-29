@@ -44,7 +44,7 @@ public interface IGenTypeMappingService {
      * @param id 字段映射ID
      * @return 字段映射信息
      */
-    GenTypeMappingResponse getById(Long id);
+    GenTypeMappingResponse findById(Long id);
 
     /**
      * 分页查询字段映射
@@ -52,7 +52,7 @@ public interface IGenTypeMappingService {
      * @param queryRequest 字段映射查询请求参数
      * @return 字段映射分页信息
      */
-    PageResponse<GenTypeMappingResponse> selectPage(GenTypeMappingQueryRequest queryRequest);
+    PageResponse<GenTypeMappingResponse> pageList(GenTypeMappingQueryRequest queryRequest);
 
     /**
      * 根据数据库类型和目标编程语言类型查询所有的映射关系
