@@ -12,7 +12,6 @@ import com.xht.generate.domain.entity.GenTableEntity;
 import com.xht.generate.domain.entity.GenTemplateEntity;
 import com.xht.generate.domain.request.GenCodeCoreRequest;
 import com.xht.generate.helper.GenCodeHelper;
-import com.xht.generate.helper.GenLogHelper;
 import com.xht.generate.service.IGenCodeCoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,8 +50,18 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
      */
     @Override
     public byte[] generateCode(GenCodeCoreRequest request) {
+        return generateZipPackage(viewCode(request));
+    }
+
+    /**
+     * 预览代码
+     *
+     * @param genCodeCoreRequest 代码生成核心请求参数
+     */
+    @Override
+    public List<GenCodeCoreBo> viewCode(GenCodeCoreRequest genCodeCoreRequest) {
         // 1. 校验并获取基础数据
-        List<String> tableIds = request.getTableIds();
+        List<String> tableIds = genCodeCoreRequest.getTableIds();
         List<GenTableEntity> tableEntities = tableInfoDao.findList(GenTableEntity::getId, tableIds);
         ThrowUtils.notEmpty(tableEntities, "请选择要生成的表");
         // 2. 按分组整理数据
@@ -68,21 +77,16 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
                 // 为每个表生成代码
                 for (GenTableEntity table : genTableEntities) {
                     List<GenTableColumnEntity> tableColumns = columnInfoDao.findList(GenTableColumnEntity::getTableId, table.getId());
-                    List<GenCodeCoreBo> codeCoreBoList = GenCodeHelper.generateCode(request, table, tableColumns, originalList);
+                    List<GenCodeCoreBo> codeCoreBoList = GenCodeHelper.generateCode(genCodeCoreRequest, table, tableColumns, originalList);
                     codeList.addAll(codeCoreBoList);
                 }
-                GenLogHelper.success(groupId, groupTemplates.size(), tableIds);
-                log.info("代码生成成功 [模板分组id: {}, 表数量: {}]", groupId, genTableEntities.size());
             } catch (Exception e) {
                 String errorMsg = String.format("模板分组id: %s 代码生成失败: %s", groupId, e.getMessage());
                 log.error(errorMsg, e);
-                GenLogHelper.fail(groupId, groupTemplates.size(), tableIds, errorMsg);
                 throw new BusinessException(errorMsg);
             }
         }
-
-        // 4. 打包生成的代码为ZIP
-        return generateZipPackage(codeList);
+        return codeList;
     }
 
     /**
