@@ -9,6 +9,7 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -36,20 +37,20 @@ public class TraceFilter implements GlobalFilter, Ordered {
         if (StringUtils.isEmpty(traceId)) {
             traceId = TraceIdUtils.generateTraceId();
         }
+        TraceIdUtils.putTraceId(traceId);
         String requestURL = getRequestURL(request);
-        try {
-            TraceIdUtils.putTraceId(traceId);
-            return chain.filter(exchange.mutate()
-                    .request(request.mutate()
-                            .header(REQUEST_USER_ACCOUNT, userAccount)
-                            .header(REQUEST_USER_ID, userId)
-                            .header(REQUEST_TRACE_ID, traceId)
-                            .build())
-                    .build());
-        } finally {
-            log.debug("请求路径：{}， 用户ID：{}， 用户账号：{}，链路ID：{}", requestURL, userId, userAccount, traceId);
-        }
+        log.debug("请求路径：{}， 用户ID：{}， 用户账号：{}，链路ID：{}", requestURL, userId, userAccount, traceId);
+        ServerHttpResponse response = exchange.getResponse();
+        response.getHeaders().add(REQUEST_TRACE_ID, traceId);
+        return chain.filter(exchange.mutate()
+                .request(request.mutate()
+                        .header(REQUEST_USER_ACCOUNT, userAccount)
+                        .header(REQUEST_USER_ID, userId)
+                        .header(REQUEST_TRACE_ID, traceId)
+                        .build()).response(response)
+                .build()).doFinally(s -> TraceIdUtils.removeTraceId());
     }
+
 
     @Override
     public int getOrder() {

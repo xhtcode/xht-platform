@@ -5,9 +5,12 @@
     <!-- 日志存放路径 -->
     <property name="log.path" value="${log.file.path}"/>
     <!-- 日志输出彩色日志格式 -->
-    <property name="log.pattern"
-              value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr([traceId:%X{traceId}]){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
-    <!-- 彩色日志依赖的渲染类 -->
+    <!-- 彩色日志格式 -->
+    <property name="console.log.pattern"
+              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([%X{traceId}]){yellow} %clr(${LOG_LEVEL_PATTERN:-%5p}){blue} %clr(${PID}){magenta} %clr([%thread]){orange} %clr(%logger){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="file.log.pattern"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}] %level ${PID} [%thread] %logger : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+   <!-- 彩色日志依赖的渲染类 -->
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
     <conversionRule conversionWord="wex"
                     converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
@@ -16,7 +19,7 @@
     <!-- 控制台输出 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>${log.pattern}</pattern>
+            <pattern>${console.log.pattern}</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
@@ -31,7 +34,7 @@
             <maxHistory>60</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>${log.pattern}</pattern>
+            <pattern>${file.log.pattern}</pattern>
             <charset>UTF-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -54,7 +57,7 @@
             <maxHistory>60</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>${log.pattern}</pattern>
+            <pattern>${file.log.pattern}</pattern>
             <charset>UTF-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -77,7 +80,7 @@
             <maxHistory>60</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>${log.pattern}</pattern>
+            <pattern>${file.log.pattern}</pattern>
             <charset>UTF-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -100,7 +103,7 @@
             <maxHistory>60</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>${log.pattern}</pattern>
+            <pattern>${file.log.pattern}</pattern>
             <charset>UTF-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -128,14 +131,18 @@
         <root level="info">
             <appender-ref ref="console"/>
             <appender-ref ref="file_info"/>
+            <appender-ref ref="file_warn"/>
             <appender-ref ref="file_error"/>
+            <appender-ref ref="file_debug"/>
         </root>
     </springProfile>
     <springProfile name="prod">
         <root level="info">
             <appender-ref ref="console"/>
             <appender-ref ref="file_info"/>
+            <appender-ref ref="file_warn"/>
             <appender-ref ref="file_error"/>
+            <appender-ref ref="file_debug"/>
         </root>
     </springProfile>
 </configuration>

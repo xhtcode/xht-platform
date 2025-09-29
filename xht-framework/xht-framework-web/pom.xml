@@ -34,6 +34,10 @@
             <groupId>com.xht</groupId>
             <artifactId>xht-framework-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-log</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

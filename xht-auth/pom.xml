@@ -19,11 +19,6 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.github.penggle</groupId>
-            <artifactId>kaptcha</artifactId>
-            <version>2.3.2</version>
-        </dependency>
-        <dependency>
             <groupId>com.xht</groupId>
             <artifactId>xht-spring-boot-starter</artifactId>
         </dependency>

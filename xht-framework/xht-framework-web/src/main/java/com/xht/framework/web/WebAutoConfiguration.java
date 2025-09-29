@@ -2,6 +2,7 @@ package com.xht.framework.web;
 
 import com.xht.framework.web.convert.IEnumsSerializableConverterFactory;
 import com.xht.framework.web.handler.DefaultGlobalExceptionHandler;
+import com.xht.framework.web.interceptor.TraceIdInterceptor;
 import com.xht.framework.web.xss.XSSProperties;
 import com.xht.framework.web.xss.filter.XSSFilter;
 import jakarta.servlet.DispatcherType;
@@ -15,6 +16,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.util.PathMatcher;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -55,4 +57,9 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
         return registration;
     }
 
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new TraceIdInterceptor()).addPathPatterns("/**");;
+    }
 }
