@@ -11,12 +11,10 @@ import com.xht.framework.security.utils.SecurityUtils;
 import com.xht.system.modules.authority.common.enums.MenuCacheEnums;
 import com.xht.system.modules.authority.common.enums.MenuHiddenEnums;
 import com.xht.system.modules.authority.common.enums.MenuLinkEnums;
-import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
-import com.xht.system.modules.authority.dao.SysMenuDao;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
 import com.xht.system.modules.authority.dao.SysUserRoleDao;
-import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
+import com.xht.system.modules.authority.domain.response.SysMenuResponse;
 import com.xht.system.modules.authority.domain.vo.AuthorityUserVO;
 import com.xht.system.modules.authority.domain.vo.MetaVo;
 import com.xht.system.modules.authority.domain.vo.RouterVo;
@@ -52,8 +50,6 @@ public class AuthorityServiceImpl implements IAuthorityService {
 
     private final SysRoleMenuDao sysRoleMenuDao;
 
-    private final SysMenuDao sysMenuDao;
-
     private final SysUserPostDao sysUserPostDao;
 
     /**
@@ -62,7 +58,7 @@ public class AuthorityServiceImpl implements IAuthorityService {
      * @param menu 菜单信息
      * @return 菜单元数据
      */
-    private static MetaVo getMetaVo(SysMenuEntity menu) {
+    private static MetaVo getMetaVo(SysMenuResponse menu) {
         MetaVo metaVo = new MetaVo();
         metaVo.setTitle(menu.getMenuName());
         metaVo.setIcon(menu.getMenuIcon());
@@ -109,12 +105,13 @@ public class AuthorityServiceImpl implements IAuthorityService {
      */
     @Override
     public List<INode<Long>> getRouters() {
-        List<SysMenuEntity> menus = sysMenuDao.getMenusExcludingType(MenuTypeEnums.B);
+        BasicUserDetails user = SecurityUtils.getUser();
+        List<SysMenuResponse> menus = sysRoleMenuDao.findRouterByUserId(user.getUserId());
         if (CollectionUtils.isEmpty(menus)) {
             return Collections.emptyList();
         }
         List<INode<Long>> result = new ArrayList<>(menus.size());
-        for (SysMenuEntity menu : menus) {
+        for (SysMenuResponse menu : menus) {
             RouterVo routerVo = new RouterVo();
             routerVo.setPath(menu.getMenuPath());
             routerVo.setName(StringUtils.emptyToDefault(menu.getViewName(), menu.getId() + ""));
@@ -124,4 +121,5 @@ public class AuthorityServiceImpl implements IAuthorityService {
         }
         return TreeUtils.buildList(result, Boolean.FALSE);
     }
+
 }

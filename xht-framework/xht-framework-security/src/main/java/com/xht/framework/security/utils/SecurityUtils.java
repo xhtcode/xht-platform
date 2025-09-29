@@ -73,15 +73,8 @@ public final class SecurityUtils {
             if (principal instanceof BasicUserDetails userDetails) {
                 return userDetails;
             }
-            if (principal instanceof DefaultOAuth2AuthenticatedPrincipal authenticatedPrincipal) {
-                BasicUserDetails basicUserDetails = new BasicUserDetails();
-                Map<String, Object> attributes = authenticatedPrincipal.getAttributes();
-                basicUserDetails.setUsername(authenticatedPrincipal.getName());
-                if (!CollectionUtils.isEmpty(attributes)) {
-                    attributes.forEach(basicUserDetails::addAttribute);
-                }
-                basicUserDetails.setLoginType(LoginTypeEnums.CLIENT_CREDENTIALS);
-                return basicUserDetails;
+            if (principal instanceof DefaultOAuth2AuthenticatedPrincipal) {
+                throw new BasicAuthenticationException("当前登录是客户端，无法获取用户信息!");
             }
             throw new BasicAuthenticationException("用户认证信息不存在");
         }).orElseThrow(() -> new BasicAuthenticationException("用户认证信息不存在"));

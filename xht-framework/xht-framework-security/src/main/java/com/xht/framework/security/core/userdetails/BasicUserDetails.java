@@ -1,5 +1,6 @@
 package com.xht.framework.security.core.userdetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -165,5 +166,14 @@ public class BasicUserDetails implements UserDetails, Principal, OAuth2Authentic
     @Override
     public String getName() {
         return this.getUsername();
+    }
+
+    /**
+     * 校验是否合法的用户信息
+     * 如果是客户端模式那就抛出错误，因为客户端模式不需要用户信息
+     */
+    @JsonIgnore
+    public Boolean validateUserInfo() {
+        return this.loginType == LoginTypeEnums.CLIENT_CREDENTIALS;
     }
 }

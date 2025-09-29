@@ -4,33 +4,86 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xht.system.modules.authority.dao.mapper.SysRoleMenuMapper">
 
-    <resultMap id="BaseResultMap" type="com.xht.system.modules.authority.domain.entity.SysRoleMenuEntity">
-        <id property="roleId" column="role_id" jdbcType="BIGINT"/>
-        <id property="menuId" column="menu_id" jdbcType="BIGINT"/>
-        <result property="createBy" column="create_by" jdbcType="BIGINT"/>
-        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    <resultMap id="BaseResultMap" type="com.xht.system.modules.authority.domain.response.SysMenuResponse">
+        <id property="id" column="id" />
+        <result property="parentId" column="parent_id" />
+        <result property="menuType" column="menu_type" />
+        <result property="menuName" column="menu_name" />
+        <result property="menuIcon" column="menu_icon" />
+        <result property="menuPath" column="menu_path" />
+        <result property="menuHidden" column="menu_hidden" />
+        <result property="menuCache" column="menu_cache" />
+        <result property="menuStatus" column="menu_status" />
+        <result property="menuAuthority" column="menu_authority" />
+        <result property="menuSort" column="menu_sort" />
+        <result property="viewName" column="view_name" />
+        <result property="viewPath" column="view_path" />
+        <result property="activeMenuPath" column="active_menu_path" />
+        <result property="frameFlag" column="frame_flag" />
+        <result property="createBy" column="create_by" />
+        <result property="createTime" column="create_time" />
+        <result property="updateBy" column="update_by" />
+        <result property="updateTime" column="update_time" />
     </resultMap>
 
     <!-- 根据角色ID查询菜单ID列表 -->
     <select id="selectMenuIdByRoleId" resultType="java.lang.Long">
+        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         SELECT sys_role_menu.menu_id
         FROM sys_role_menu
                  left join sys_menu on sys_role_menu.menu_id = sys_menu.id
-        WHERE sys_menu.del_flag = 0
+        WHERE sys_menu.del_flag = #{delFlag}
           and sys_menu.menu_status = #{menuStatus}
           and sys_role_menu.role_id = #{roleId}
     </select>
 
     <!--用户id获取菜单集合-->
     <select id="findPermissionCodeByUserId" resultType="java.lang.String">
+        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
+        <bind name="menuStatus" value="@com.xht.system.modules.authority.common.enums.MenuStatusEnums@NORMAL.getValue()" />
+        <bind name="menuType" value="@com.xht.system.modules.authority.common.enums.MenuTypeEnums@B.getValue()" />
         SELECT sys_menu.menu_authority
         FROM sys_role_menu
                  left join sys_menu on sys_role_menu.menu_id = sys_menu.id
                  left join sys_role on sys_role_menu.role_id = sys_role.id
                  left join sys_user_role on sys_role.id = sys_user_role.role_id
-        WHERE sys_menu.del_flag = 0
-          and sys_menu.menu_status = 1
-          and sys_menu.menu_type = 'B'
+        WHERE sys_menu.del_flag = #{delFlag}
+          and sys_menu.menu_status = #{menuStatus}
+          and sys_menu.menu_type = #{menuType}
+          and sys_user_role.user_id = #{userId}
+    </select>
+
+    <select id="findRouterByUserId" resultMap="BaseResultMap">
+        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
+        <bind name="menuStatus" value="@com.xht.system.modules.authority.common.enums.MenuStatusEnums@NORMAL.getValue()" />
+        <bind name="menuType" value="@com.xht.system.modules.authority.common.enums.MenuTypeEnums@B.getValue()" />
+        SELECT sys_menu.id,
+               sys_menu.parent_id,
+               sys_menu.menu_type,
+               sys_menu.menu_name,
+               sys_menu.menu_icon,
+               sys_menu.menu_path,
+               sys_menu.menu_hidden,
+               sys_menu.menu_cache,
+               sys_menu.menu_status,
+               sys_menu.menu_authority,
+               sys_menu.menu_sort,
+               sys_menu.view_name,
+               sys_menu.view_path,
+               sys_menu.active_menu_path,
+               sys_menu.frame_flag,
+               sys_menu.del_flag,
+               sys_menu.create_by,
+               sys_menu.create_time,
+               sys_menu.update_by,
+               sys_menu.update_time
+        FROM sys_role_menu
+                 left join sys_menu on sys_role_menu.menu_id = sys_menu.id
+                 left join sys_role on sys_role_menu.role_id = sys_role.id
+                 left join sys_user_role on sys_role.id = sys_user_role.role_id
+        WHERE sys_menu.del_flag = #{delFlag}
+          and sys_menu.menu_type != #{menuType}
+          and sys_menu.menu_status = #{menuStatus}
           and sys_user_role.user_id = #{userId}
     </select>
 
