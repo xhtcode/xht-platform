@@ -10,8 +10,8 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.dict.dao.SysDictItemDao;
 import com.xht.system.modules.dict.dao.mapper.SysDictItemMapper;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
-import com.xht.system.modules.dict.domain.request.SysDictItemFormRequest;
-import com.xht.system.modules.dict.domain.request.SysDictItemQueryRequest;
+import com.xht.system.modules.dict.domain.request.SysDictItemForm;
+import com.xht.system.modules.dict.domain.request.SysDictItemQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,23 +31,23 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
     /**
      * 根据更新请求更新指定ID的字典项实体
      *
-     * @param formRequest 更新请求
+     * @param form 更新请求
      * @return 更新结果
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean updateFormRequest(SysDictItemFormRequest formRequest) {
+    public boolean updateFormRequest(SysDictItemForm form) {
         // @formatter:off
         LambdaUpdateWrapper<SysDictItemEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper
-                .set(condition(formRequest.getDictId()), SysDictItemEntity::getDictId, formRequest.getDictId())
-                .set(condition(formRequest.getItemLabel()), SysDictItemEntity::getItemLabel, formRequest.getItemLabel())
-                .set(condition(formRequest.getItemValue()), SysDictItemEntity::getItemValue, formRequest.getItemValue())
-                .set(condition(formRequest.getItemColor()), SysDictItemEntity::getItemColor, formRequest.getItemColor())
-                .set(condition(formRequest.getSortOrder()), SysDictItemEntity::getSortOrder, formRequest.getSortOrder())
-                .set(condition(formRequest.getRemark()), SysDictItemEntity::getRemark, formRequest.getRemark())
-                .set(condition(formRequest.getStatus()), SysDictItemEntity::getStatus, formRequest.getStatus());
-        lambdaUpdateWrapper.eq(SysDictItemEntity::getId, formRequest.getId());
+                .set(condition(form.getDictId()), SysDictItemEntity::getDictId, form.getDictId())
+                .set(condition(form.getItemLabel()), SysDictItemEntity::getItemLabel, form.getItemLabel())
+                .set(condition(form.getItemValue()), SysDictItemEntity::getItemValue, form.getItemValue())
+                .set(condition(form.getItemColor()), SysDictItemEntity::getItemColor, form.getItemColor())
+                .set(condition(form.getSortOrder()), SysDictItemEntity::getSortOrder, form.getSortOrder())
+                .set(condition(form.getRemark()), SysDictItemEntity::getRemark, form.getRemark())
+                .set(condition(form.getStatus()), SysDictItemEntity::getStatus, form.getStatus());
+        lambdaUpdateWrapper.eq(SysDictItemEntity::getId, form.getId());
         // @formatter:on
         return update(lambdaUpdateWrapper);
     }
@@ -74,26 +74,26 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
      * 分页查询字典项列表
      *
      * @param page         分页信息
-     * @param queryRequest 字典项查询请求参数
+     * @param query 字典项查询请求参数
      * @return 分页字典项列表
      */
     @Override
-    public Page<SysDictItemEntity> queryPageRequest(Page<SysDictItemEntity> page, SysDictItemQueryRequest queryRequest) {
+    public Page<SysDictItemEntity> queryPageRequest(Page<SysDictItemEntity> page, SysDictItemQuery query) {
         LambdaQueryWrapper<SysDictItemEntity> queryWrapper = Wrappers.lambdaQuery();
         // @formatter:off
         queryWrapper
-                .and(condition(queryRequest.getKeyWord()), wrapper -> wrapper
-                        .like(SysDictItemEntity::getDictCode, queryRequest.getKeyWord())
+                .and(condition(query.getKeyWord()), wrapper -> wrapper
+                        .like(SysDictItemEntity::getDictCode, query.getKeyWord())
                         .or()
-                        .like(SysDictItemEntity::getItemLabel, queryRequest.getKeyWord())
+                        .like(SysDictItemEntity::getItemLabel, query.getKeyWord())
                         .or()
-                        .like(SysDictItemEntity::getItemValue, queryRequest.getKeyWord())
+                        .like(SysDictItemEntity::getItemValue, query.getKeyWord())
                 )
-                .eq(condition(queryRequest.getDictId()), SysDictItemEntity::getDictId, queryRequest.getDictId())
-                .like(condition(queryRequest.getDictCode()), SysDictItemEntity::getDictCode, queryRequest.getDictCode())
-                .like(condition(queryRequest.getItemLabel()), SysDictItemEntity::getItemLabel, queryRequest.getItemLabel())
-                .like(condition(queryRequest.getItemValue()), SysDictItemEntity::getItemValue, queryRequest.getItemValue())
-                .eq(condition(queryRequest.getStatus()), SysDictItemEntity::getStatus, queryRequest.getStatus());
+                .eq(condition(query.getDictId()), SysDictItemEntity::getDictId, query.getDictId())
+                .like(condition(query.getDictCode()), SysDictItemEntity::getDictCode, query.getDictCode())
+                .like(condition(query.getItemLabel()), SysDictItemEntity::getItemLabel, query.getItemLabel())
+                .like(condition(query.getItemValue()), SysDictItemEntity::getItemValue, query.getItemValue())
+                .eq(condition(query.getStatus()), SysDictItemEntity::getStatus, query.getStatus());
         // @formatter:on
         return page(page, queryWrapper);
     }

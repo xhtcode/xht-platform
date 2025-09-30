@@ -8,6 +8,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 日志属性
+ *
+ * @author xht
+ */
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "xht.system.log")

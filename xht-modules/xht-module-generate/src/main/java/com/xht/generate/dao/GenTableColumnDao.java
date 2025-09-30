@@ -2,7 +2,7 @@ package com.xht.generate.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.generate.domain.entity.GenTableColumnEntity;
-import com.xht.generate.domain.form.GenColumnInfoFormRequest;
+import com.xht.generate.domain.form.GenColumnInfoForm;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public interface GenTableColumnDao extends MapperRepository<GenTableColumnEntity
      *
      * @param column 字段信息
      */
-    void updateFormRequest(GenColumnInfoFormRequest column);
+    void updateFormRequest(GenColumnInfoForm column);
 
     /**
      * 根据表ID查询字段信息

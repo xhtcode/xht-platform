@@ -11,8 +11,8 @@ import com.xht.system.modules.dict.dao.mapper.SysDictItemMapper;
 import com.xht.system.modules.dict.dao.mapper.SysDictMapper;
 import com.xht.system.modules.dict.domain.entity.SysDictEntity;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
-import com.xht.system.modules.dict.domain.request.SysDictFormRequest;
-import com.xht.system.modules.dict.domain.request.SysDictQueryRequest;
+import com.xht.system.modules.dict.domain.request.SysDictForm;
+import com.xht.system.modules.dict.domain.request.SysDictQuery;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -35,32 +35,31 @@ public class SysDictDaoImpl extends MapperRepositoryImpl<SysDictMapper, SysDictE
     /**
      * 修改系统字典
      *
-     * @param formRequest      系统字典修改参数
+     * @param form             系统字典修改参数
      * @param updateItemStatus 是否更新字典项状态
-     * @return 修改系统字典
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateRequest(SysDictFormRequest formRequest, boolean updateItemStatus) {
+    public void updateRequest(SysDictForm form, boolean updateItemStatus) {
         LambdaUpdateWrapper<SysDictEntity> updateWrapper = new LambdaUpdateWrapper<>();
         //@formatter:off
         updateWrapper
-                .set(condition(formRequest.getDictCode()), SysDictEntity::getDictCode, formRequest.getDictCode())
-                .set(condition(formRequest.getDictName()), SysDictEntity::getDictName, formRequest.getDictName())
-                .set(condition(formRequest.getSortOrder()), SysDictEntity::getSortOrder, formRequest.getSortOrder())
-                .set(condition(formRequest.getRemark()), SysDictEntity::getRemark, formRequest.getRemark())
-                .set(condition(formRequest.getStatus()), SysDictEntity::getStatus, formRequest.getStatus())
-                .eq(SysDictEntity::getId, formRequest.getId());
+                .set(condition(form.getDictCode()), SysDictEntity::getDictCode, form.getDictCode())
+                .set(condition(form.getDictName()), SysDictEntity::getDictName, form.getDictName())
+                .set(condition(form.getSortOrder()), SysDictEntity::getSortOrder, form.getSortOrder())
+                .set(condition(form.getRemark()), SysDictEntity::getRemark, form.getRemark())
+                .set(condition(form.getStatus()), SysDictEntity::getStatus, form.getStatus())
+                .eq(SysDictEntity::getId, form.getId());
         //@formatter:on
         if (updateItemStatus) {
             LambdaUpdateWrapper<SysDictItemEntity> itemEntityWrapper = new LambdaUpdateWrapper<>();
             itemEntityWrapper
-                    .set(SysDictItemEntity::getStatus, formRequest.getStatus())
-                    .set(SysDictItemEntity::getDictCode, formRequest.getDictCode())
-                    .eq(SysDictItemEntity::getDictId, formRequest.getId());
+                    .set(SysDictItemEntity::getStatus, form.getStatus())
+                    .set(SysDictItemEntity::getDictCode, form.getDictCode())
+                    .eq(SysDictItemEntity::getDictId, form.getId());
             sysDictItemMapper.update(itemEntityWrapper);
         }
-        return update(updateWrapper);
+        update(updateWrapper);
     }
 
     /**
@@ -84,20 +83,20 @@ public class SysDictDaoImpl extends MapperRepositoryImpl<SysDictMapper, SysDictE
     /**
      * 查询系统字典列表
      *
-     * @param queryRequest 系统字典查询参数
+     * @param query 系统字典查询参数
      * @return 系统字典列表
      */
     @Override
-    public Page<SysDictEntity> queryPageRequest(Page<SysDictEntity> page, SysDictQueryRequest queryRequest) {
+    public Page<SysDictEntity> queryPageRequest(Page<SysDictEntity> page, SysDictQuery query) {
         LambdaQueryWrapper<SysDictEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.and(condition(queryRequest.getKeyWord()), wrapper -> wrapper
-                .like(SysDictEntity::getDictCode, queryRequest.getKeyWord())
+        queryWrapper.and(condition(query.getKeyWord()), wrapper -> wrapper
+                .like(SysDictEntity::getDictCode, query.getKeyWord())
                 .or()
-                .like(SysDictEntity::getDictName, queryRequest.getKeyWord())
+                .like(SysDictEntity::getDictName, query.getKeyWord())
         );
-        queryWrapper.like(condition(queryRequest.getDictCode()), SysDictEntity::getDictCode, queryRequest.getDictCode());
-        queryWrapper.like(condition(queryRequest.getDictName()), SysDictEntity::getDictName, queryRequest.getDictName());
-        queryWrapper.eq(condition(queryRequest.getStatus()), SysDictEntity::getStatus, queryRequest.getStatus());
+        queryWrapper.like(condition(query.getDictCode()), SysDictEntity::getDictCode, query.getDictCode());
+        queryWrapper.like(condition(query.getDictName()), SysDictEntity::getDictName, query.getDictName());
+        queryWrapper.eq(condition(query.getStatus()), SysDictEntity::getStatus, query.getStatus());
         return page(page, queryWrapper);
     }
 

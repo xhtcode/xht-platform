@@ -4,9 +4,9 @@ import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
-import com.xht.system.modules.dept.domain.request.SysDeptFormRequest;
-import com.xht.system.modules.dept.domain.request.SysDeptQueryTreeRequest;
-import com.xht.system.modules.dept.domain.response.SysDeptResponse;
+import com.xht.system.modules.dept.domain.request.SysDeptForm;
+import com.xht.system.modules.dept.domain.request.SysDeptTreeQuery;
+import com.xht.system.modules.dept.domain.response.SysDeptResp;
 import com.xht.system.modules.dept.service.ISysDeptService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,38 +33,41 @@ public class SysDeptController {
     /**
      * 创建部门
      *
-     * @param formRequest 部门表单请求参数
-     * @return 操作结果
+     * @param form 部门表单请求参数
+     * @return 统一响应结果
      */
     @PostMapping("/create")
     @Operation(summary = "创建部门")
-    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDeptFormRequest formRequest) {
-        return R.ok(sysDeptService.create(formRequest));
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDeptForm form) {
+        sysDeptService.create(form);
+        return R.ok();
     }
 
     /**
      * 根据ID删除部门
      *
      * @param id 部门ID
-     * @return 操作结果
+     * @return 统一响应结果
      */
     @PostMapping("/remove/{id}")
     @Operation(summary = "删除部门")
     @Parameter(name = "id", description = "部门ID")
-    public R<Boolean> removeById(@PathVariable Long id) {
-        return R.ok(sysDeptService.removeById(id));
+    public R<Void> removeById(@PathVariable Long id) {
+        sysDeptService.removeById(id);
+        return R.ok();
     }
 
     /**
      * 根据ID更新部门
      *
-     * @param formRequest 部门更新请求参数
-     * @return 操作结果
+     * @param form 部门更新请求参数
+     * @return 统一响应结果
      */
     @PostMapping("/update")
     @Operation(summary = "更新部门")
-     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDeptFormRequest formRequest) {
-        return R.ok(sysDeptService.updateById(formRequest));
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDeptForm form) {
+        sysDeptService.updateById(form);
+        return R.ok();
     }
 
     /**
@@ -72,14 +75,15 @@ public class SysDeptController {
      *
      * @param id     部门ID
      * @param status 部门状态
-     * @return 操作结果
+     * @return 统一响应结果
      */
     @PostMapping("/{id}/status/{status}")
     @Operation(summary = "更新部门状态")
     @Parameter(name = "id", description = "部门ID")
     @Parameter(name = "status", description = "部门状态")
-    public R<Boolean> updateStatus(@PathVariable Long id, @PathVariable DeptStatusEnums status) {
-        return R.ok(sysDeptService.updateStatus(id, status));
+    public R<Void> updateStatus(@PathVariable Long id, @PathVariable DeptStatusEnums status) {
+        sysDeptService.updateStatus(id, status);
+        return R.ok();
     }
 
     /**
@@ -91,7 +95,7 @@ public class SysDeptController {
     @GetMapping("/get/{id}")
     @Operation(summary = "查询部门详情")
     @Parameter(name = "id", description = "部门ID")
-    public R<SysDeptResponse> findById(@PathVariable Long id) {
+    public R<SysDeptResp> findById(@PathVariable Long id) {
         return R.ok(sysDeptService.findById(id));
     }
 
@@ -103,7 +107,7 @@ public class SysDeptController {
      */
     @GetMapping("/tree")
     @Operation(summary = "获取部门树形结构")
-    public R<List<INode<Long>>> getDeptTree(SysDeptQueryTreeRequest treeRequest) {
+    public R<List<INode<Long>>> getDeptTree(SysDeptTreeQuery treeRequest) {
         return R.ok(sysDeptService.getDeptTree(treeRequest));
     }
 }

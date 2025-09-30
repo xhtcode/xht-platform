@@ -9,8 +9,8 @@ import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
 import com.xht.system.modules.authority.dao.SysMenuDao;
 import com.xht.system.modules.authority.dao.mapper.SysMenuMapper;
 import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
-import com.xht.system.modules.authority.domain.request.SysMenuFormRequest;
-import com.xht.system.modules.authority.domain.request.SysMenuQueryRequest;
+import com.xht.system.modules.authority.domain.request.SysMenuForm;
+import com.xht.system.modules.authority.domain.request.SysMenuQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,32 +30,31 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
     /**
      * 更新菜单信息
      *
-     * @param formRequest 菜单信息
-     * @return 是否成功
+     * @param form 菜单信息
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateFormRequest(SysMenuFormRequest formRequest) {
+    public void updateFormRequest(SysMenuForm form) {
         LambdaUpdateWrapper<SysMenuEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
-                .set(condition(formRequest.getParentId()), SysMenuEntity::getParentId, formRequest.getParentId())
-                .set(condition(formRequest.getMenuType()), SysMenuEntity::getMenuType, formRequest.getMenuType())
-                .set(condition(formRequest.getMenuStatus()), SysMenuEntity::getMenuStatus, formRequest.getMenuStatus())
-                .set(condition(formRequest.getMenuName()), SysMenuEntity::getMenuName, formRequest.getMenuName())
-                .set(condition(formRequest.getMenuIcon()), SysMenuEntity::getMenuIcon, formRequest.getMenuIcon())
-                .set(condition(formRequest.getMenuPath()), SysMenuEntity::getMenuPath, formRequest.getMenuPath())
-                .set(condition(formRequest.getMenuHidden()), SysMenuEntity::getMenuHidden, formRequest.getMenuHidden())
-                .set(condition(formRequest.getMenuCache()), SysMenuEntity::getMenuCache, formRequest.getMenuCache())
-                .set(condition(formRequest.getMenuAuthority()), SysMenuEntity::getMenuAuthority, formRequest.getMenuAuthority())
-                .set(condition(formRequest.getMenuSort()), SysMenuEntity::getMenuSort, formRequest.getMenuSort())
-                .set(condition(formRequest.getViewName()), SysMenuEntity::getViewName, formRequest.getViewName())
-                .set(condition(formRequest.getViewPath()), SysMenuEntity::getViewPath, formRequest.getViewPath())
-                .set(condition(formRequest.getFrameFlag()), SysMenuEntity::getFrameFlag, formRequest.getFrameFlag())
-                .eq(SysMenuEntity::getId, formRequest.getId());
+                .set(condition(form.getParentId()), SysMenuEntity::getParentId, form.getParentId())
+                .set(condition(form.getMenuType()), SysMenuEntity::getMenuType, form.getMenuType())
+                .set(condition(form.getMenuStatus()), SysMenuEntity::getMenuStatus, form.getMenuStatus())
+                .set(condition(form.getMenuName()), SysMenuEntity::getMenuName, form.getMenuName())
+                .set(condition(form.getMenuIcon()), SysMenuEntity::getMenuIcon, form.getMenuIcon())
+                .set(condition(form.getMenuPath()), SysMenuEntity::getMenuPath, form.getMenuPath())
+                .set(condition(form.getMenuHidden()), SysMenuEntity::getMenuHidden, form.getMenuHidden())
+                .set(condition(form.getMenuCache()), SysMenuEntity::getMenuCache, form.getMenuCache())
+                .set(condition(form.getMenuAuthority()), SysMenuEntity::getMenuAuthority, form.getMenuAuthority())
+                .set(condition(form.getMenuSort()), SysMenuEntity::getMenuSort, form.getMenuSort())
+                .set(condition(form.getViewName()), SysMenuEntity::getViewName, form.getViewName())
+                .set(condition(form.getViewPath()), SysMenuEntity::getViewPath, form.getViewPath())
+                .set(condition(form.getFrameFlag()), SysMenuEntity::getFrameFlag, form.getFrameFlag())
+                .eq(SysMenuEntity::getId, form.getId());
         // @formatter:on
-        updateWrapper.eq(SysMenuEntity::getId, formRequest.getId());
-        return update(updateWrapper);
+        updateWrapper.eq(SysMenuEntity::getId, form.getId());
+        update(updateWrapper);
     }
 
     /**
@@ -63,15 +62,14 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
      *
      * @param id     菜单ID
      * @param status 菜单状态
-     * @return 是否成功
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateStatus(Long id, MenuStatusEnums status) {
+    public void updateStatus(Long id, MenuStatusEnums status) {
         LambdaUpdateWrapper<SysMenuEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(SysMenuEntity::getMenuStatus, status);
         updateWrapper.eq(SysMenuEntity::getId, id);
-        return update(updateWrapper);
+        update(updateWrapper);
     }
 
     /**
@@ -85,19 +83,6 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
         LambdaQueryWrapper<SysMenuEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(SysMenuEntity::getId, menuIds);
         return exists(queryWrapper);
-    }
-
-    /**
-     * 获取排除特定菜单类型的菜单列表
-     *
-     * @param excludedType 需要排除的菜单类型
-     * @return 菜单列表
-     */
-    @Override
-    public List<SysMenuEntity> getMenusExcludingType(MenuTypeEnums excludedType) {
-        LambdaQueryWrapper<SysMenuEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.ne(SysMenuEntity::getMenuType, excludedType);
-        return list(queryWrapper);
     }
 
     /**
@@ -117,23 +102,23 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
     /**
      * 根据查询条件获取菜单列表
      *
-     * @param queryRequest 查询请求参数
+     * @param query 查询请求参数
      * @return LambdaQueryWrapper<SysMenuEntity>
      */
     @Override
-    public List<SysMenuEntity> getMenuList(SysMenuQueryRequest queryRequest) {
+    public List<SysMenuEntity> getMenuList(SysMenuQuery query) {
         // @formatter:off
         LambdaQueryWrapper<SysMenuEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.and(condition(queryRequest.getKeyWord()), wrapper ->
-                wrapper.like(SysMenuEntity::getMenuName, queryRequest.getKeyWord())
+        lambdaQueryWrapper.and(condition(query.getKeyWord()), wrapper ->
+                wrapper.like(SysMenuEntity::getMenuName, query.getKeyWord())
                         .or()
-                        .like(SysMenuEntity::getMenuAuthority, queryRequest.getKeyWord())
+                        .like(SysMenuEntity::getMenuAuthority, query.getKeyWord())
         );
         lambdaQueryWrapper
-                .eq(condition(queryRequest.getParentId()), SysMenuEntity::getParentId, queryRequest.getParentId())
-                .eq(condition(queryRequest.getMenuType()), SysMenuEntity::getMenuType, queryRequest.getMenuType())
-                .eq(condition(queryRequest.getMenuStatus()), SysMenuEntity::getMenuStatus, queryRequest.getMenuStatus())
-                .like(condition(queryRequest.getMenuName()), SysMenuEntity::getMenuName, queryRequest.getMenuName());
+                .eq(condition(query.getParentId()), SysMenuEntity::getParentId, query.getParentId())
+                .eq(condition(query.getMenuType()), SysMenuEntity::getMenuType, query.getMenuType())
+                .eq(condition(query.getMenuStatus()), SysMenuEntity::getMenuStatus, query.getMenuStatus())
+                .like(condition(query.getMenuName()), SysMenuEntity::getMenuName, query.getMenuName());
         // @formatter:on
         return list(lambdaQueryWrapper);
     }

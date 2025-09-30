@@ -1,6 +1,6 @@
 package com.xht.generate.service;
 
-import com.xht.generate.domain.response.GenTableColumnResponse;
+import com.xht.generate.domain.response.GenTableColumnResp;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public interface IGenTableColumnService {
      * @param id 字段信息ID
      * @return 字段信息信息
      */
-    GenTableColumnResponse findById(Long id);
+    GenTableColumnResp findById(Long id);
 
     /**
      * 根据表id查询字段信息
@@ -25,6 +25,6 @@ public interface IGenTableColumnService {
      * @param tableId 表id
      * @return 字段信息分页信息
      */
-    List<GenTableColumnResponse> listByTableId(String tableId);
+    List<GenTableColumnResp> listByTableId(String tableId);
 
 }

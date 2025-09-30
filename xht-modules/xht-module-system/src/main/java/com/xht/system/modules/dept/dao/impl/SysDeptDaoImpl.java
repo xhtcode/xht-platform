@@ -9,7 +9,7 @@ import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import com.xht.system.modules.dept.dao.SysDeptDao;
 import com.xht.system.modules.dept.dao.mapper.SysDeptMapper;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
-import com.xht.system.modules.dept.domain.request.SysDeptQueryTreeRequest;
+import com.xht.system.modules.dept.domain.request.SysDeptTreeQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,41 +30,39 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
      * 保存部门初始化数据
      *
      * @param entity 部门实体
-     * @return true：成功；false：失败
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean saveDeptInitPost(SysDeptEntity entity) {
-        return save(entity);
+    public void saveDeptInitPost(SysDeptEntity entity) {
+        save(entity);
     }
 
 
     /**
      * 更新部门信息
      *
-     * @param formRequest     部门更新请求
-     * @return true：成功；false：失败
+     * @param form 部门更新请求
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateFormRequest(SysDeptEntity formRequest) {
+    public void updateFormRequest(SysDeptEntity form) {
         LambdaUpdateWrapper<SysDeptEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
-                .set(condition(formRequest.getDeptName()), SysDeptEntity::getDeptName, formRequest.getDeptName())
-                .set(condition(formRequest.getDeptCode()), SysDeptEntity::getDeptCode, formRequest.getDeptCode())
-                .set(condition(formRequest.getDeptName()), SysDeptEntity::getDeptName, formRequest.getDeptName())
-                .set(condition(formRequest.getParentId()), SysDeptEntity::getParentId, formRequest.getParentId())
-                .set(condition(formRequest.getDeptStatus()), SysDeptEntity::getDeptStatus, formRequest.getDeptStatus())
-                .set(condition(formRequest.getDeptSort()), SysDeptEntity::getDeptSort, formRequest.getDeptSort())
-                .set(condition(formRequest.getDeptLevel()), SysDeptEntity::getDeptLevel, formRequest.getDeptLevel())
-                .set(condition(formRequest.getAncestors()), SysDeptEntity::getAncestors, formRequest.getAncestors())
-                .set(condition(formRequest.getPhone()), SysDeptEntity::getPhone, formRequest.getPhone())
-                .set(condition(formRequest.getEmail()), SysDeptEntity::getEmail, formRequest.getEmail())
-                .set(condition(formRequest.getRemark()), SysDeptEntity::getRemark, formRequest.getRemark())
-                .eq(SysDeptEntity::getId, formRequest.getId());
+                .set(condition(form.getDeptName()), SysDeptEntity::getDeptName, form.getDeptName())
+                .set(condition(form.getDeptCode()), SysDeptEntity::getDeptCode, form.getDeptCode())
+                .set(condition(form.getDeptName()), SysDeptEntity::getDeptName, form.getDeptName())
+                .set(condition(form.getParentId()), SysDeptEntity::getParentId, form.getParentId())
+                .set(condition(form.getDeptStatus()), SysDeptEntity::getDeptStatus, form.getDeptStatus())
+                .set(condition(form.getDeptSort()), SysDeptEntity::getDeptSort, form.getDeptSort())
+                .set(condition(form.getDeptLevel()), SysDeptEntity::getDeptLevel, form.getDeptLevel())
+                .set(condition(form.getAncestors()), SysDeptEntity::getAncestors, form.getAncestors())
+                .set(condition(form.getPhone()), SysDeptEntity::getPhone, form.getPhone())
+                .set(condition(form.getEmail()), SysDeptEntity::getEmail, form.getEmail())
+                .set(condition(form.getRemark()), SysDeptEntity::getRemark, form.getRemark())
+                .eq(SysDeptEntity::getId, form.getId());
         // @formatter:on
-        return update(updateWrapper);
+        update(updateWrapper);
     }
 
     /**
@@ -72,18 +70,17 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
      *
      * @param id     部门id
      * @param status 部门状态
-     * @return true：成功；false：失败
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateStatus(Long id, DeptStatusEnums status) {
+    public void updateStatus(Long id, DeptStatusEnums status) {
         LambdaUpdateWrapper<SysDeptEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
                 .set(SysDeptEntity::getDeptStatus, status.getValue())
                 .eq(SysDeptEntity::getId, id);
         // @formatter:on
-        return update(updateWrapper);
+        update(updateWrapper);
     }
 
     /**
@@ -140,31 +137,31 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
     /**
      * 查询部门列表信息
      *
-     * @param queryRequest 查询请求参数
+     * @param query 查询请求参数
      * @return 部门列表
      */
     @Override
-    public List<SysDeptEntity> queryListRequest(SysDeptQueryTreeRequest queryRequest) {
+    public List<SysDeptEntity> queryListRequest(SysDeptTreeQuery query) {
         // @formatter:off
         LambdaQueryWrapper<SysDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.and(
-                        condition(queryRequest.getKeyWord()), wrapper ->
+                        condition(query.getKeyWord()), wrapper ->
                                 wrapper
                                         .or()
-                                        .like(SysDeptEntity::getDeptName, queryRequest.getKeyWord())
+                                        .like(SysDeptEntity::getDeptName, query.getKeyWord())
                                         .or()
-                                        .like(SysDeptEntity::getDeptCode, queryRequest.getKeyWord())
+                                        .like(SysDeptEntity::getDeptCode, query.getKeyWord())
                                         .or()
-                                        .like(SysDeptEntity::getPhone, queryRequest.getKeyWord())
+                                        .like(SysDeptEntity::getPhone, query.getKeyWord())
                                         .or()
-                                        .like(SysDeptEntity::getEmail, queryRequest.getKeyWord())
+                                        .like(SysDeptEntity::getEmail, query.getKeyWord())
                 )
-                .eq(condition(queryRequest.getParentId()), SysDeptEntity::getParentId, queryRequest.getParentId())
-                .eq(condition(queryRequest.getDeptStatus()), SysDeptEntity::getDeptStatus, queryRequest.getDeptStatus())
-                .like(condition(queryRequest.getDeptCode()), SysDeptEntity::getDeptCode, queryRequest.getDeptCode())
-                .like(condition(queryRequest.getDeptName()), SysDeptEntity::getDeptName, queryRequest.getDeptName())
-                .like(condition(queryRequest.getPhone()), SysDeptEntity::getPhone, queryRequest.getPhone())
-                .like(condition(queryRequest.getEmail()), SysDeptEntity::getPhone, queryRequest.getEmail())
+                .eq(condition(query.getParentId()), SysDeptEntity::getParentId, query.getParentId())
+                .eq(condition(query.getDeptStatus()), SysDeptEntity::getDeptStatus, query.getDeptStatus())
+                .like(condition(query.getDeptCode()), SysDeptEntity::getDeptCode, query.getDeptCode())
+                .like(condition(query.getDeptName()), SysDeptEntity::getDeptName, query.getDeptName())
+                .like(condition(query.getPhone()), SysDeptEntity::getPhone, query.getPhone())
+                .like(condition(query.getEmail()), SysDeptEntity::getPhone, query.getEmail())
         ;
         // @formatter:on
         return list(queryWrapper);

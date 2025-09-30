@@ -1,16 +1,14 @@
 package com.xht.system.modules.user.dao.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.system.modules.dept.domain.response.SysPostResponse;
+import com.xht.system.modules.dept.domain.response.SysPostResp;
 import com.xht.system.modules.user.dao.SysUserPostDao;
 import com.xht.system.modules.user.dao.mapper.SysUserPostMapper;
 import com.xht.system.modules.user.domain.entity.SysUserPostEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -30,8 +28,8 @@ public class SysUserPostDaoImpl extends MapperRepositoryImpl<SysUserPostMapper, 
      * @return 部门信息
      */
     @Override
-    public List<SysPostResponse> getPostByUserId(Long userId) {
-        List<SysPostResponse> postByUserId = baseMapper.getPostByUserId(userId);
+    public List<SysPostResp> getPostByUserId(Long userId) {
+        List<SysPostResp> postByUserId = baseMapper.getPostByUserId(userId);
         return CollectionUtil.emptyIfNull(postByUserId);
     }
 

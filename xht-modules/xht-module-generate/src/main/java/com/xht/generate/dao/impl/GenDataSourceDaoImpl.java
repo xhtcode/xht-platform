@@ -7,8 +7,8 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenDataSourceDao;
 import com.xht.generate.dao.mapper.GenDataSourceMapper;
 import com.xht.generate.domain.entity.GenDataSourceEntity;
-import com.xht.generate.domain.form.GenDataSourceFormRequest;
-import com.xht.generate.domain.query.GenDataSourceQueryRequest;
+import com.xht.generate.domain.form.GenDataSourceForm;
+import com.xht.generate.domain.query.GenDataSourceQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,31 +27,30 @@ public class GenDataSourceDaoImpl extends MapperRepositoryImpl<GenDataSourceMapp
     /**
      * 更新数据源信息
      *
-     * @param formRequest 数据源信息
-     * @return 是否成功
+     * @param form 数据源信息
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateFormRequest(GenDataSourceFormRequest formRequest) {
+    public void updateFormRequest(GenDataSourceForm form) {
         LambdaUpdateWrapper<GenDataSourceEntity> updateWrapper = lambdaUpdateWrapper();
-        updateWrapper.set(condition(formRequest.getName()), GenDataSourceEntity::getName, formRequest.getName());
-        updateWrapper.set(condition(formRequest.getDbType()), GenDataSourceEntity::getDbType, formRequest.getDbType());
-        updateWrapper.set(condition(formRequest.getUrl()), GenDataSourceEntity::getUrl, formRequest.getUrl());
-        updateWrapper.eq(GenDataSourceEntity::getId, formRequest.getId());
-        return update(updateWrapper);
+        updateWrapper.set(condition(form.getName()), GenDataSourceEntity::getName, form.getName());
+        updateWrapper.set(condition(form.getDbType()), GenDataSourceEntity::getDbType, form.getDbType());
+        updateWrapper.set(condition(form.getUrl()), GenDataSourceEntity::getUrl, form.getUrl());
+        updateWrapper.eq(GenDataSourceEntity::getId, form.getId());
+        update(updateWrapper);
     }
 
     /**
      * 分页查询数据源
      *
-     * @param queryRequest 数据源查询请求参数
+     * @param query 数据源查询请求参数
      * @return 数据源分页信息
      */
     @Override
-    public List<GenDataSourceEntity> findList(GenDataSourceQueryRequest queryRequest) {
+    public List<GenDataSourceEntity> findList(GenDataSourceQuery query) {
         LambdaQueryWrapper<GenDataSourceEntity> queryWrapper = lambdaQueryWrapper();
-        queryWrapper.like(condition(queryRequest.getName()), GenDataSourceEntity::getName, queryRequest.getName());
-        queryWrapper.eq(condition(queryRequest.getDbType()), GenDataSourceEntity::getDbType, queryRequest.getDbType());
+        queryWrapper.like(condition(query.getName()), GenDataSourceEntity::getName, query.getName());
+        queryWrapper.eq(condition(query.getDbType()), GenDataSourceEntity::getDbType, query.getDbType());
         return list(queryWrapper);
     }
 

@@ -1,9 +1,9 @@
 package com.xht.system.modules.dict.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.system.modules.dict.domain.request.SysDictFormRequest;
-import com.xht.system.modules.dict.domain.request.SysDictQueryRequest;
-import com.xht.system.modules.dict.domain.response.SysDictResponse;
+import com.xht.system.modules.dict.domain.request.SysDictForm;
+import com.xht.system.modules.dict.domain.request.SysDictQuery;
+import com.xht.system.modules.dict.domain.response.SysDictResp;
 
 import java.util.List;
 
@@ -17,26 +17,23 @@ public interface ISysDictService {
     /**
      * 创建字典类型
      *
-     * @param formRequest 创建请求
-     * @return 是否成功
+     * @param form 创建请求
      */
-    Boolean create(SysDictFormRequest formRequest);
+    void create(SysDictForm form);
 
     /**
      * 删除字典类型
      *
      * @param ids ID列表
-     * @return 是否成功
      */
-    Boolean removeById(List<Long> ids);
+    void removeById(List<Long> ids);
 
     /**
      * 修改字典类型
      *
-     * @param formRequest 更新请求
-     * @return 是否成功
+     * @param form 更新请求
      */
-    Boolean updateById(SysDictFormRequest formRequest);
+    void updateById(SysDictForm form);
 
     /**
      * 获取字典类型详情
@@ -44,15 +41,15 @@ public interface ISysDictService {
      * @param id 字典ID
      * @return 字典详情
      */
-    SysDictResponse findById(Long id);
+    SysDictResp findById(Long id);
 
     /**
      * 分页查询字典类型
      *
-     * @param queryRequest 系统字典查询参数
+     * @param query 系统字典查询参数
      * @return 分页结果
      */
-    PageResponse<SysDictResponse> pageList(SysDictQueryRequest queryRequest);
+    PageResponse<SysDictResp> pageList(SysDictQuery query);
 
 
 }

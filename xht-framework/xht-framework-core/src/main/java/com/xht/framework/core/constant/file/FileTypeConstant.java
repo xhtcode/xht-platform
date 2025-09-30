@@ -8,7 +8,7 @@ import com.xht.framework.core.domain.FileType;
  *
  * @author xht
  **/
-@SuppressWarnings("unused")
+@SuppressWarnings("all")
 public interface FileTypeConstant {
 
     FileType DEFAULT_FILETYPE = new FileType("", "application/octet-stream", "通用的 MIME 类型");

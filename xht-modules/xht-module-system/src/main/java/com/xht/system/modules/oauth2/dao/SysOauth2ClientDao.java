@@ -3,8 +3,8 @@ package com.xht.system.modules.oauth2.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.system.modules.oauth2.domian.entity.SysOauth2ClientEntity;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientFormRequest;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQueryRequest;
+import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientForm;
+import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQuery;
 
 /**
  * OAuth2客户端管理
@@ -16,10 +16,9 @@ public interface SysOauth2ClientDao extends MapperRepository<SysOauth2ClientEnti
     /**
      * 更新OAuth2客户端信息
      *
-     * @param formRequest OAuth2客户端修改信息
-     * @return 是否成功
+     * @param form OAuth2客户端修改信息
      */
-    Boolean updateFormRequest(SysOauth2ClientFormRequest formRequest);
+    void updateFormRequest(SysOauth2ClientForm form);
 
     /**
      * 判断客户端ID是否存在
@@ -34,8 +33,8 @@ public interface SysOauth2ClientDao extends MapperRepository<SysOauth2ClientEnti
      * 分页查询OAuth2客户端
      *
      * @param page         分页信息
-     * @param queryRequest 查询参数
+     * @param query 查询参数
      * @return 分页结果
      */
-    Page<SysOauth2ClientEntity> queryPageRequest(Page<SysOauth2ClientEntity> page, SysOauth2ClientQueryRequest queryRequest);
+    Page<SysOauth2ClientEntity> queryPageRequest(Page<SysOauth2ClientEntity> page, SysOauth2ClientQuery query);
 }

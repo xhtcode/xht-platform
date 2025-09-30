@@ -14,6 +14,7 @@ import java.util.Optional;
  * @author xht
  * @see BaseMapper
  **/
+@SuppressWarnings("unused")
 public interface BaseMapperX<T> extends BaseMapper<T> {
 
 
@@ -22,6 +23,7 @@ public interface BaseMapperX<T> extends BaseMapper<T> {
      *
      * @param field 字段name
      * @param value 字段value
+     * @return 对象信息
      */
     default Optional<T> selectOne(SFunction<T, ?> field, Object value) {
         return Optional.ofNullable(selectOne(new LambdaQueryWrapper<T>().eq(field, value)));
@@ -32,6 +34,7 @@ public interface BaseMapperX<T> extends BaseMapper<T> {
      *
      * @param field 字段name
      * @param value 字段value
+     * @return 集合
      */
     default List<T> selectList(SFunction<T, ?> field, Object value) {
         return selectList(new LambdaQueryWrapper<T>().eq(field, value));
@@ -42,6 +45,7 @@ public interface BaseMapperX<T> extends BaseMapper<T> {
      *
      * @param field 字段name
      * @param value 字段value
+     * @return 集合
      */
     default List<T> selectListIn(SFunction<T, ?> field, Collection<?> value) {
         return selectList(new LambdaQueryWrapper<T>().in(field, value));

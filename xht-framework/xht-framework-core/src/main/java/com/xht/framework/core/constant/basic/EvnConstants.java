@@ -8,6 +8,7 @@ import lombok.Getter;
  *
  * @author xht
  **/
+@SuppressWarnings("unused")
 public class EvnConstants {
 
     /**

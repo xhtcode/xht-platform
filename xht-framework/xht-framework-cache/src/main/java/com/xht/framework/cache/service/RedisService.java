@@ -73,9 +73,8 @@ public interface RedisService {
      * 删除key
      *
      * @param key redis key
-     * @return boolean true成功
      */
-    boolean delete(String key);
+    void delete(String key);
 
     /**
      * 删除key

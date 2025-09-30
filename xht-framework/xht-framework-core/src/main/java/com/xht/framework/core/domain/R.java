@@ -5,7 +5,6 @@ import com.xht.framework.core.exception.code.ErrorCode;
 import com.xht.framework.core.utils.StringUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.slf4j.MDC;
 
 import static com.xht.framework.core.constant.basic.RConstants.SUCCESS;
 import static com.xht.framework.core.constant.basic.RConstants.SUCCESS_MSG;

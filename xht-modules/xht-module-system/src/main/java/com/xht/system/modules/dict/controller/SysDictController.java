@@ -3,9 +3,9 @@ package com.xht.system.modules.dict.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
-import com.xht.system.modules.dict.domain.request.SysDictFormRequest;
-import com.xht.system.modules.dict.domain.request.SysDictQueryRequest;
-import com.xht.system.modules.dict.domain.response.SysDictResponse;
+import com.xht.system.modules.dict.domain.request.SysDictForm;
+import com.xht.system.modules.dict.domain.request.SysDictQuery;
+import com.xht.system.modules.dict.domain.response.SysDictResp;
 import com.xht.system.modules.dict.service.ISysDictService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,13 +31,14 @@ public class SysDictController {
     /**
      * 创建字典类型
      *
-     * @param formRequest 字典类型信息
+     * @param form 字典类型信息
      * @return true成功、false失败
      */
     @Operation(summary = "创建字典类型")
     @PostMapping("/create")
-    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictFormRequest formRequest) {
-        return R.ok(sysDictService.create(formRequest));
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictForm form) {
+        sysDictService.create(form);
+        return R.ok();
     }
 
     /**
@@ -48,20 +49,22 @@ public class SysDictController {
      */
     @Operation(summary = "删除字典类型")
     @PostMapping("/remove")
-    public R<Boolean> removeById(@RequestBody List<Long> ids) {
-        return R.ok(sysDictService.removeById(ids));
+    public R<Void> removeById(@RequestBody List<Long> ids) {
+        sysDictService.removeById(ids);
+        return R.ok();
     }
 
     /**
      * 修改字典类型
      *
-     * @param formRequest 字典类型信息
+     * @param form 字典类型信息
      * @return true成功、false失败
      */
     @Operation(summary = "修改字典类型")
     @PostMapping("/update")
-     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictFormRequest formRequest) {
-        return R.ok(sysDictService.updateById(formRequest));
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictForm form) {
+        sysDictService.updateById(form);
+        return R.ok();
     }
 
     /**
@@ -72,20 +75,20 @@ public class SysDictController {
      */
     @Operation(summary = "获取字典类型详情")
     @GetMapping("/get/{id}")
-    public R<SysDictResponse> findById(@PathVariable Long id) {
+    public R<SysDictResp> findById(@PathVariable Long id) {
         return R.ok(sysDictService.findById(id));
     }
 
     /**
      * 分页查询字典类型
      *
-     * @param queryRequest 系统字典查询参数
+     * @param query 系统字典查询参数
      * @return 分页结果
      */
     @Operation(summary = "分页查询字典类型")
     @GetMapping("/page")
-    public R<PageResponse<SysDictResponse>> pageList(SysDictQueryRequest queryRequest) {
-        return R.ok(sysDictService.pageList(queryRequest));
+    public R<PageResponse<SysDictResp>> pageList(SysDictQuery query) {
+        return R.ok(sysDictService.pageList(query));
     }
 
 }

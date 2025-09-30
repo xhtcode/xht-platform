@@ -4,8 +4,8 @@ import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
 import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
-import com.xht.system.modules.authority.domain.request.SysMenuFormRequest;
-import com.xht.system.modules.authority.domain.request.SysMenuQueryRequest;
+import com.xht.system.modules.authority.domain.request.SysMenuForm;
+import com.xht.system.modules.authority.domain.request.SysMenuQuery;
 
 import java.util.List;
 
@@ -19,19 +19,17 @@ public interface SysMenuDao extends MapperRepository<SysMenuEntity> {
     /**
      * 更新菜单信息
      *
-     * @param formRequest 菜单信息
-     * @return 是否成功
+     * @param form 菜单信息
      */
-    Boolean updateFormRequest(SysMenuFormRequest formRequest);
+    void updateFormRequest(SysMenuForm form);
 
     /**
      * 更新菜单状态
      *
      * @param id     菜单ID
      * @param status 菜单状态
-     * @return 是否成功
      */
-    Boolean updateStatus(Long id, MenuStatusEnums status);
+    void updateStatus(Long id, MenuStatusEnums status);
 
     /**
      * 判断菜单ID是否存在
@@ -40,14 +38,6 @@ public interface SysMenuDao extends MapperRepository<SysMenuEntity> {
      * @return 是否存在
      */
     Boolean existsMenuIds(List<Long> menuIds);
-
-    /**
-     * 获取排除特定菜单类型的菜单列表
-     *
-     * @param excludedType 需要排除的菜单类型
-     * @return 菜单列表
-     */
-    List<SysMenuEntity> getMenusExcludingType(MenuTypeEnums excludedType);
 
     /**
      * 查询菜单类型
@@ -60,10 +50,10 @@ public interface SysMenuDao extends MapperRepository<SysMenuEntity> {
     /**
      * 根据查询条件获取菜单列表
      *
-     * @param queryRequest 查询请求参数
+     * @param query 查询请求参数
      * @return LambdaQueryWrapper<SysMenuEntity>
      */
-    List<SysMenuEntity> getMenuList(SysMenuQueryRequest queryRequest);
+    List<SysMenuEntity> getMenuList(SysMenuQuery query);
 
     /**
      * 查询可用菜单并构建树形结构

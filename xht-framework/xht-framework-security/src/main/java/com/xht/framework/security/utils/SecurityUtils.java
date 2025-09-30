@@ -1,16 +1,13 @@
 package com.xht.framework.security.utils;
 
 import com.xht.framework.core.exception.UtilException;
-import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.exception.BasicAuthenticationException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.DefaultOAuth2AuthenticatedPrincipal;
-import org.springframework.util.CollectionUtils;
 
-import java.util.Map;
 import java.util.Optional;
 
 /**

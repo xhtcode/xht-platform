@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
  * @param <T> 目标对象类型，不能为null
  * @author xht
  */
+@SuppressWarnings("unused")
 public interface IConverter<S, T> {
 
     /**

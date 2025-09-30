@@ -48,6 +48,13 @@ public interface SysUserConverter {
      */
     SysUserProfilesResponse toResponse(SysUserProfilesEntity profilesEntity);
 
+    /**
+     * 将SysUserVO对象转换为UserInfoDTO对象
+     *
+     * @param sysUserVO 系统用户VO对象，包含用户的基本信息
+     * @return UserInfoDTO 用户信息DTO对象，用于数据传输
+     */
     UserInfoDTO convertToDto(SysUserVO sysUserVO);
+
 
 }

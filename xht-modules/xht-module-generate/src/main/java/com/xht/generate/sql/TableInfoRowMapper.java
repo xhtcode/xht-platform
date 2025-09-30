@@ -2,7 +2,6 @@ package com.xht.generate.sql;
 
 import cn.hutool.core.convert.Convert;
 import com.xht.generate.domain.bo.TableBo;
-import com.xht.generate.domain.entity.GenDataSourceEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 

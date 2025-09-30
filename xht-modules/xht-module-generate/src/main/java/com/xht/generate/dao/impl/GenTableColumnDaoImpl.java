@@ -7,7 +7,7 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTableColumnDao;
 import com.xht.generate.dao.mapper.GenTableColumnMapper;
 import com.xht.generate.domain.entity.GenTableColumnEntity;
-import com.xht.generate.domain.form.GenColumnInfoFormRequest;
+import com.xht.generate.domain.form.GenColumnInfoForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -40,7 +40,7 @@ public class GenTableColumnDaoImpl extends MapperRepositoryImpl<GenTableColumnMa
      * @param column 字段信息
      */
     @Override
-    public void updateFormRequest(GenColumnInfoFormRequest column) {
+    public void updateFormRequest(GenColumnInfoForm column) {
         LambdaUpdateWrapper<GenTableColumnEntity> updateWrapper = lambdaUpdateWrapper();
         // @formatter:off
         updateWrapper

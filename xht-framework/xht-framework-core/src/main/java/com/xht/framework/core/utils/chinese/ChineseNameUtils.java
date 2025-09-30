@@ -117,7 +117,9 @@ public final class ChineseNameUtils {
         }
         if (countLength > 2) {
             String oldName = DOUBLE_SURNAME.stream().filter(item -> StrUtil.contains(name, item)).findFirst().orElse(null);
-            if (StringUtils.hasText(oldName)) return StrUtil.hide(name, oldName.length(), name.length());
+            if (StringUtils.hasText(oldName)) {
+                return StrUtil.hide(name, oldName.length(), name.length());
+            }
         }
         return DesensitizedUtil.chineseName(name);
     }

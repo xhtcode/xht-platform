@@ -5,9 +5,9 @@ import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.generate.converter.GenDataSourceConverter;
 import com.xht.generate.dao.GenDataSourceDao;
 import com.xht.generate.domain.entity.GenDataSourceEntity;
-import com.xht.generate.domain.form.GenDataSourceFormRequest;
-import com.xht.generate.domain.query.GenDataSourceQueryRequest;
-import com.xht.generate.domain.response.GenDataSourceResponse;
+import com.xht.generate.domain.form.GenDataSourceForm;
+import com.xht.generate.domain.query.GenDataSourceQuery;
+import com.xht.generate.domain.response.GenDataSourceResp;
 import com.xht.generate.service.IGenDataSourceService;
 import com.xht.generate.utils.JDBCConfig;
 import com.xht.generate.utils.JDBCUtils;
@@ -38,13 +38,12 @@ public class GenDataSourceServiceImpl implements IGenDataSourceService {
     /**
      * 创建数据源
      *
-     * @param formRequest 数据源表单请求参数
-     * @return 操作结果
+     * @param form 数据源表单请求参数
      */
     @Override
-    public Boolean create(GenDataSourceFormRequest formRequest) {
-        GenDataSourceEntity entity = genDataSourceConverter.toEntity(formRequest);
-        return genDataSourceDao.saveTransactional(entity);
+    public void create(GenDataSourceForm form) {
+        GenDataSourceEntity entity = genDataSourceConverter.toEntity(form);
+        genDataSourceDao.saveTransactional(entity);
     }
 
 
@@ -52,24 +51,22 @@ public class GenDataSourceServiceImpl implements IGenDataSourceService {
      * 根据ID删除数据源
      *
      * @param id 数据源ID
-     * @return 操作结果
      */
     @Override
-    public Boolean removeById(Long id) {
-        return genDataSourceDao.removeByIdTransactional(id);
+    public void removeById(Long id) {
+        genDataSourceDao.removeByIdTransactional(id);
     }
 
     /**
      * 根据ID更新数据源
      *
-     * @param formRequest 数据源更新请求参数
-     * @return 操作结果
+     * @param form 数据源更新请求参数
      */
     @Override
-    public Boolean updateById(GenDataSourceFormRequest formRequest) {
-        Boolean menuExists = genDataSourceDao.exists(GenDataSourceEntity::getId, formRequest.getId());
+    public void updateById(GenDataSourceForm form) {
+        Boolean menuExists = genDataSourceDao.exists(GenDataSourceEntity::getId, form.getId());
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "数据源不存在");
-        return genDataSourceDao.updateFormRequest(formRequest);
+        genDataSourceDao.updateFormRequest(form);
     }
 
     /**
@@ -79,19 +76,19 @@ public class GenDataSourceServiceImpl implements IGenDataSourceService {
      * @return 数据源信息
      */
     @Override
-    public GenDataSourceResponse findById(Long id) {
+    public GenDataSourceResp findById(Long id) {
         return genDataSourceConverter.toResponse(genDataSourceDao.findById(id));
     }
 
     /**
      * 按条件查询数据源
      *
-     * @param queryRequest 数据源查询请求参数
+     * @param query 数据源查询请求参数
      * @return 数据源分页信息
      */
     @Override
-    public List<GenDataSourceResponse> findList(GenDataSourceQueryRequest queryRequest) {
-        List<GenDataSourceEntity> page = genDataSourceDao.findList(queryRequest);
+    public List<GenDataSourceResp> findList(GenDataSourceQuery query) {
+        List<GenDataSourceEntity> page = genDataSourceDao.findList(query);
         return genDataSourceConverter.toResponse(page);
     }
 

@@ -7,7 +7,7 @@ import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
 import com.xht.system.modules.authority.dao.mapper.SysRoleMenuMapper;
 import com.xht.system.modules.authority.domain.entity.SysRoleMenuEntity;
-import com.xht.system.modules.authority.domain.response.SysMenuResponse;
+import com.xht.system.modules.authority.domain.response.SysMenuResp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,20 +26,20 @@ public class SysRoleMenuDaoImpl extends MapperRepositoryImpl<SysRoleMenuMapper, 
 
     /**
      * 角色菜单绑定
-     * @param roleId 角色ID
+     *
+     * @param roleId           角色ID
      * @param roleMenuEntities 角色菜单关系集合
-     * @return true/false
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean roleMenuBind(Long roleId, List<SysRoleMenuEntity> roleMenuEntities) {
+    public void roleMenuBind(Long roleId, List<SysRoleMenuEntity> roleMenuEntities) {
         LambdaQueryWrapper<SysRoleMenuEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysRoleMenuEntity::getRoleId, roleId);
         this.remove(queryWrapper);
         if (CollectionUtils.isEmpty(roleMenuEntities)) {
-            return true;
+            return;
         }
-        return saveAll(roleMenuEntities);
+        saveAll(roleMenuEntities);
     }
 
     /**
@@ -71,7 +71,7 @@ public class SysRoleMenuDaoImpl extends MapperRepositoryImpl<SysRoleMenuMapper, 
      * @return 路由菜单集合
      */
     @Override
-    public List<SysMenuResponse> findRouterByUserId(Long userId) {
+    public List<SysMenuResp> findRouterByUserId(Long userId) {
         return baseMapper.findRouterByUserId(userId);
     }
 

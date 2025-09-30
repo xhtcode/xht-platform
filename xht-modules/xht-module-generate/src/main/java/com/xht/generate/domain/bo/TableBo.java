@@ -2,7 +2,6 @@ package com.xht.generate.domain.bo;
 
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.constant.StringConstant;
-import com.xht.generate.domain.entity.GenDataSourceEntity;
 import lombok.Data;
 
 import java.io.Serial;

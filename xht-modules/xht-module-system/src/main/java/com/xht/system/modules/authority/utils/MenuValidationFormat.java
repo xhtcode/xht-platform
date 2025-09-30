@@ -5,7 +5,7 @@ import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.system.modules.authority.common.enums.*;
-import com.xht.system.modules.authority.domain.request.SysMenuFormRequest;
+import com.xht.system.modules.authority.domain.request.SysMenuForm;
 
 import java.util.Objects;
 
@@ -48,24 +48,24 @@ public final class MenuValidationFormat {
     /**
      * 菜单校验格式化
      *
-     * @param formRequest 菜单表单请求参数
+     * @param form 菜单表单请求参数
      * @throws ValidationException 校验异常
      */
-    public static void validationFormat(SysMenuFormRequest formRequest) {
-        ThrowUtils.notNull(formRequest, "请求参数不能为空");
-        Long parentId = formRequest.getParentId();
-        MenuTypeEnums menuType = formRequest.getMenuType();
-        String menuName = formRequest.getMenuName();
-        String menuIcon = formRequest.getMenuIcon();
-        String menuPath = formRequest.getMenuPath();
-        MenuHiddenEnums menuHidden = formRequest.getMenuHidden();
-        MenuCacheEnums menuCache = formRequest.getMenuCache();
-        MenuStatusEnums menuStatus = formRequest.getMenuStatus();
-        Integer menuSort = formRequest.getMenuSort();
-        String viewName = formRequest.getViewName();
-        String viewPath = formRequest.getViewPath();
-        String activeMenuPath = formRequest.getActiveMenuPath();
-        MenuLinkEnums frameFlag = formRequest.getFrameFlag();
+    public static void validationFormat(SysMenuForm form) {
+        ThrowUtils.notNull(form, "请求参数不能为空");
+        Long parentId = form.getParentId();
+        MenuTypeEnums menuType = form.getMenuType();
+        String menuName = form.getMenuName();
+        String menuIcon = form.getMenuIcon();
+        String menuPath = form.getMenuPath();
+        MenuHiddenEnums menuHidden = form.getMenuHidden();
+        MenuCacheEnums menuCache = form.getMenuCache();
+        MenuStatusEnums menuStatus = form.getMenuStatus();
+        Integer menuSort = form.getMenuSort();
+        String viewName = form.getViewName();
+        String viewPath = form.getViewPath();
+        String activeMenuPath = form.getActiveMenuPath();
+        MenuLinkEnums frameFlag = form.getFrameFlag();
         //公共字段的校验
         ThrowUtils.throwIf(Objects.isNull(parentId), () -> ex("parentId", "父菜单ID不能为空"));
         ThrowUtils.throwIf(Objects.isNull(menuType), () -> ex("menuType", "菜单类型不能为空"));
@@ -76,10 +76,10 @@ public final class MenuValidationFormat {
             case M:
                 ThrowUtils.throwIf(StringUtils.isEmpty(menuIcon), () -> ex("menuIcon", "目录图标不能为空"));
                 ThrowUtils.throwIf(StringUtils.isEmpty(menuPath), () -> ex("menuPath", "路由地址不能为空"));
-                formRequest.setFrameFlag(null);
-                formRequest.setMenuHidden(null);
-                formRequest.setMenuCache(null);
-                formRequest.setActiveMenuPath(null);
+                form.setFrameFlag(null);
+                form.setMenuHidden(null);
+                form.setMenuCache(null);
+                form.setActiveMenuPath(null);
                 break;
             case C:
                 ThrowUtils.throwIf(StringUtils.isEmpty(menuIcon), () -> ex("menuIcon", "菜单图标不能为空"));
@@ -90,25 +90,25 @@ public final class MenuValidationFormat {
                     ThrowUtils.throwIf(Objects.isNull(menuCache), () -> ex("menuCache", "是否缓存不能为空"));
                     ThrowUtils.throwIf(StringUtils.isEmpty(viewName), () -> ex("viewName", "组件视图名称不能为空"));
                     ThrowUtils.throwIf(StringUtils.isEmpty(viewPath), () -> ex("viewPath", "组件视图路径不能为空"));
-                    formRequest.setMenuCache(null);
-                    formRequest.setViewName(null);
-                    formRequest.setViewPath(null);
+                    form.setMenuCache(null);
+                    form.setViewName(null);
+                    form.setViewPath(null);
                 }
                 if (MenuHiddenEnums.HIDE.equals(menuHidden)) {
                     ThrowUtils.throwIf(StringUtils.isEmpty(activeMenuPath), () -> ex("activeMenuPath", "菜单显示不能为空"));
                 } else {
-                    formRequest.setActiveMenuPath(formRequest.getMenuPath());
+                    form.setActiveMenuPath(form.getMenuPath());
                 }
                 break;
             case B:
-                formRequest.setMenuIcon(null);
-                formRequest.setMenuPath(null);
-                formRequest.setMenuHidden(null);
-                formRequest.setMenuCache(null);
-                formRequest.setViewName(null);
-                formRequest.setViewPath(null);
-                formRequest.setActiveMenuPath(null);
-                formRequest.setFrameFlag(null);
+                form.setMenuIcon(null);
+                form.setMenuPath(null);
+                form.setMenuHidden(null);
+                form.setMenuCache(null);
+                form.setViewName(null);
+                form.setViewPath(null);
+                form.setActiveMenuPath(null);
+                form.setFrameFlag(null);
                 break;
             default:
                 break;

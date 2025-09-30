@@ -2,12 +2,12 @@ package com.xht.system.modules.authority.service.impl;
 
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
-import com.xht.system.modules.authority.domain.entity.SysRoleMenuEntity;
-import com.xht.system.modules.authority.domain.request.SysRoleMenuBindRequest;
 import com.xht.system.modules.authority.dao.SysMenuDao;
 import com.xht.system.modules.authority.dao.SysRoleDao;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
+import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
+import com.xht.system.modules.authority.domain.entity.SysRoleMenuEntity;
+import com.xht.system.modules.authority.domain.request.SysRoleMenuBindForm;
 import com.xht.system.modules.authority.service.ISysRoleMenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,10 +38,9 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
      * 角色绑定菜单
      *
      * @param bindRequest 角色菜单绑定请求
-     * @return 成功、失败
      */
     @Override
-    public Boolean roleMenuBind(SysRoleMenuBindRequest bindRequest) {
+    public void roleMenuBind(SysRoleMenuBindForm bindRequest) {
         Long roleId = bindRequest.getRoleId();
         Boolean roleExists = sysRoleDao.exists(SysRoleEntity::getId, roleId);
         ThrowUtils.throwIf(!roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
@@ -57,7 +56,7 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
                 roleMenuEntities.add(sysRoleMenuEntity);
             }
         }
-        return sysRoleMenuDao.roleMenuBind(roleId, roleMenuEntities);
+        sysRoleMenuDao.roleMenuBind(roleId, roleMenuEntities);
     }
 
     /**

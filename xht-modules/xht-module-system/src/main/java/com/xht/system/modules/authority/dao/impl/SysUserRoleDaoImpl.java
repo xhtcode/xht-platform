@@ -29,18 +29,17 @@ public class SysUserRoleDaoImpl extends MapperRepositoryImpl<SysUserRoleMapper, 
      *
      * @param userId              用户ID
      * @param sysUserRoleEntities 角色列表
-     * @return Boolean
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean saveUserRole(Long userId, List<SysUserRoleEntity> sysUserRoleEntities) {
+    public void saveUserRole(Long userId, List<SysUserRoleEntity> sysUserRoleEntities) {
         LambdaQueryWrapper<SysUserRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUserRoleEntity::getUserId, userId);
         remove(queryWrapper);
         if (CollectionUtils.isEmpty(sysUserRoleEntities)) {
-            return true;
+            return;
         }
-        return saveBatch(sysUserRoleEntities,500);
+        saveBatch(sysUserRoleEntities, 500);
     }
 
     /**

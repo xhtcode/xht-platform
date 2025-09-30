@@ -20,7 +20,7 @@
         <result property="updateTime" column="update_time"/>
         <result property="createBy" column="create_by"/>
         <result property="updateBy" column="update_by"/>
-        <association property="dept" javaType="com.xht.system.modules.dept.domain.response.SysDeptResponse">
+        <association property="dept" javaType="com.xht.system.modules.dept.domain.response.SysDeptResp">
             <id property="id" column="id"/>
             <result property="parentId" column="parent_id"/>
             <result property="deptCode" column="dept_code"/>
@@ -106,46 +106,46 @@
     </select>
 
     <!-- 自定义查询 -->
-    <select id="queryPageRequest" resultMap="BaseResultMap" parameterType="com.xht.system.modules.user.domain.request.UserQueryRequest">
+    <select id="queryPageRequest" resultMap="BaseResultMap" parameterType="com.xht.system.modules.user.domain.request.SysUserQuery">
         <include refid="BaseQuerySQL"/>
-        <if test="queryRequest. keyWord != null and queryRequest.keyWord != ''">
-            AND (t1.user_name LIKE CONCAT('%', #{queryRequest.keyWord}, '%') OR t1.nick_name LIKE CONCAT('%',
-            #{queryRequest.keyWord}, '%') OR
-            t2.real_name LIKE CONCAT('%', #{queryRequest.keyWord}, '%') OR t2.id_card_number LIKE CONCAT('%',
-            #{queryRequest.keyWord}, '%'))
+        <if test="query. keyWord != null and query.keyWord != ''">
+            AND (t1.user_name LIKE CONCAT('%', #{query.keyWord}, '%') OR t1.nick_name LIKE CONCAT('%',
+            #{query.keyWord}, '%') OR
+            t2.real_name LIKE CONCAT('%', #{query.keyWord}, '%') OR t2.id_card_number LIKE CONCAT('%',
+            #{query.keyWord}, '%'))
         </if>
-        <if test="queryRequest.userStatus != null">
-            AND t1.user_status = #{queryRequest.userStatus}
+        <if test="query.userStatus != null">
+            AND t1.user_status = #{query.userStatus}
         </if>
-        <if test="queryRequest.userName != null and queryRequest.userName != ''">
-            AND t1.user_name LIKE CONCAT('%', #{queryRequest.userName}, '%')
+        <if test="query.userName != null and query.userName != ''">
+            AND t1.user_name LIKE CONCAT('%', #{query.userName}, '%')
         </if>
-        <if test="queryRequest.userAccount != null and queryRequest.userAccount != ''">
+        <if test="query.userAccount != null and query.userAccount != ''">
             AND t1.user_account LIKE CONCAT('%', #{userAccount}, '%')
         </if>
-        <if test="queryRequest.realName != null and queryRequest.realName != ''">
-            AND t2.real_name LIKE CONCAT('%', #{queryRequest.realName}, '%')
+        <if test="query.realName != null and query.realName != ''">
+            AND t2.real_name LIKE CONCAT('%', #{query.realName}, '%')
         </if>
-        <if test="queryRequest.gender != null">
-            AND t2.gender = #{queryRequest.gender}
+        <if test="query.gender != null">
+            AND t2.gender = #{query.gender}
         </if>
-        <if test="queryRequest.age != null">
-            AND t2.age = #{queryRequest.age}
+        <if test="query.age != null">
+            AND t2.age = #{query.age}
         </if>
-        <if test="queryRequest.idCardNumber != null and queryRequest.idCardNumber != ''">
-            AND t2.id_card_number LIKE CONCAT('%', #{queryRequest.idCardNumber}, '%')
+        <if test="query.idCardNumber != null and query.idCardNumber != ''">
+            AND t2.id_card_number LIKE CONCAT('%', #{query.idCardNumber}, '%')
         </if>
-        <if test="queryRequest.birthDateStart != null">
-            AND t2.birth_date &gt;= #{queryRequest.birthDateStart}
+        <if test="query.birthDateStart != null">
+            AND t2.birth_date &gt;= #{query.birthDateStart}
         </if>
-        <if test="queryRequest.birthDateEnd != null">
-            AND t2.birth_date &lt;= #{queryRequest.birthDateEnd}
+        <if test="query.birthDateEnd != null">
+            AND t2.birth_date &lt;= #{query.birthDateEnd}
         </if>
-        <if test="queryRequest.postalCode != null and queryRequest.postalCode != ''">
-            AND t2.postal_code = #{queryRequest.postalCode}
+        <if test="query.postalCode != null and query.postalCode != ''">
+            AND t2.postal_code = #{query.postalCode}
         </if>
-        <if test="queryRequest.deptId != null and queryRequest.deptId != ''">
-            AND t1.dept_id = #{queryRequest.deptId}
+        <if test="query.deptId != null and query.deptId != ''">
+            AND t1.dept_id = #{query.deptId}
         </if>
     </select>
 

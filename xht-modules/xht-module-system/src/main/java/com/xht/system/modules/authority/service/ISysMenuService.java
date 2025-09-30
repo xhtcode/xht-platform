@@ -3,9 +3,9 @@ package com.xht.system.modules.authority.service;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
-import com.xht.system.modules.authority.domain.request.SysMenuFormRequest;
-import com.xht.system.modules.authority.domain.request.SysMenuQueryRequest;
-import com.xht.system.modules.authority.domain.response.SysMenuResponse;
+import com.xht.system.modules.authority.domain.request.SysMenuForm;
+import com.xht.system.modules.authority.domain.request.SysMenuQuery;
+import com.xht.system.modules.authority.domain.response.SysMenuResp;
 
 import java.util.List;
 
@@ -20,35 +20,31 @@ public interface ISysMenuService {
     /**
      * 创建菜单
      *
-     * @param formRequest 菜单表单请求参数
-     * @return 操作结果
+     * @param form 菜单表单请求参数
      */
-    Boolean create(SysMenuFormRequest formRequest);
+    void create(SysMenuForm form);
 
     /**
      * 根据ID删除菜单
      *
      * @param id 菜单ID
-     * @return 操作结果
      */
-    Boolean removeById(Long id);
+    void removeById(Long id);
 
     /**
      * 根据ID更新菜单
      *
-     * @param formRequest 菜单更新请求参数
-     * @return 操作结果
+     * @param form 菜单更新请求参数
      */
-    Boolean updateById(SysMenuFormRequest formRequest);
+    void updateById(SysMenuForm form);
 
     /**
      * 更新菜单状态
      *
      * @param id     菜单ID
      * @param status 菜单状态
-     * @return 操作结果
      */
-    Boolean updateStatus(Long id, MenuStatusEnums status);
+    void updateStatus(Long id, MenuStatusEnums status);
 
     /**
      * 根据ID查询菜单
@@ -56,15 +52,15 @@ public interface ISysMenuService {
      * @param id 菜单ID
      * @return 菜单信息
      */
-    SysMenuResponse findById(Long id);
+    SysMenuResp findById(Long id);
 
     /**
      * 查询菜单列表(树形结构)
      *
-     * @param queryRequest 菜单查询请求参数
+     * @param query 菜单查询请求参数
      * @return 菜单分页信息
      */
-    List<INode<Long>> findTree(SysMenuQueryRequest queryRequest);
+    List<INode<Long>> findTree(SysMenuQuery query);
 
     /**
      * 根据菜单类型查询菜单列表(树形结构)

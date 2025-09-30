@@ -3,9 +3,9 @@ package com.xht.system.modules.dict.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
-import com.xht.system.modules.dict.domain.request.SysDictItemFormRequest;
-import com.xht.system.modules.dict.domain.request.SysDictItemQueryRequest;
-import com.xht.system.modules.dict.domain.response.SysDictItemResponse;
+import com.xht.system.modules.dict.domain.request.SysDictItemForm;
+import com.xht.system.modules.dict.domain.request.SysDictItemQuery;
+import com.xht.system.modules.dict.domain.response.SysDictItemResp;
 import com.xht.system.modules.dict.domain.vo.SysDictVo;
 import com.xht.system.modules.dict.service.ISysDictItemService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,13 +32,14 @@ public class SysDictItemController {
     /**
      * 创建字典项
      *
-     * @param formRequest 字典项创建参数
+     * @param form 字典项创建参数
      * @return true成功、false失败
      */
     @Operation(summary = "创建字典项")
     @PostMapping("/create")
-    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictItemFormRequest formRequest) {
-        return R.ok(sysDictItemService.create(formRequest));
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictItemForm form) {
+        sysDictItemService.create(form);
+        return R.ok();
     }
 
     /**
@@ -49,20 +50,22 @@ public class SysDictItemController {
      */
     @Operation(summary = "删除字典项")
     @PostMapping("/remove")
-    public R<Boolean> removeById(@RequestBody List<Long> ids) {
-        return R.ok(sysDictItemService.removeById(ids));
+    public R<Void> removeById(@RequestBody List<Long> ids) {
+        sysDictItemService.removeById(ids);
+        return R.ok();
     }
 
     /**
      * 修改字典项
      *
-     * @param formRequest 字典项修改参数
+     * @param form 字典项修改参数
      * @return true成功、false失败
      */
     @Operation(summary = "修改字典项")
     @PostMapping("/update")
-     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictItemFormRequest formRequest) {
-        return R.ok(sysDictItemService.updateById(formRequest));
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictItemForm form) {
+        sysDictItemService.updateById(form);
+        return R.ok();
     }
 
     /**
@@ -73,20 +76,20 @@ public class SysDictItemController {
      */
     @Operation(summary = "获取字典项详情")
     @GetMapping("/get/{id}")
-    public R<SysDictItemResponse> findById(@PathVariable Long id) {
+    public R<SysDictItemResp> findById(@PathVariable Long id) {
         return R.ok(sysDictItemService.findById(id));
     }
 
     /**
      * 分页查询字典项
      *
-     * @param queryRequest 字典项查询参数
+     * @param query 字典项查询参数
      * @return 分页字典项
      */
     @Operation(summary = "分页查询字典项")
     @GetMapping("/page")
-    public R<PageResponse<SysDictItemResponse>> page(SysDictItemQueryRequest queryRequest) {
-        return R.ok(sysDictItemService.pageList(queryRequest));
+    public R<PageResponse<SysDictItemResp>> page(SysDictItemQuery query) {
+        return R.ok(sysDictItemService.pageList(query));
     }
 
     /**

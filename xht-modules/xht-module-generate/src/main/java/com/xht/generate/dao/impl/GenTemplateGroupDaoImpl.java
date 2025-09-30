@@ -8,8 +8,8 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTemplateGroupDao;
 import com.xht.generate.dao.mapper.GenTemplateGroupMapper;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
-import com.xht.generate.domain.form.GenTemplateGroupFormRequest;
-import com.xht.generate.domain.query.GenTemplateGroupQueryRequest;
+import com.xht.generate.domain.form.GenTemplateGroupForm;
+import com.xht.generate.domain.query.GenTemplateGroupQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,31 +28,30 @@ public class GenTemplateGroupDaoImpl extends MapperRepositoryImpl<GenTemplateGro
     /**
      * 更新菜单信息
      *
-     * @param formRequest 菜单信息
-     * @return 是否成功
+     * @param form 菜单信息
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateFormRequest(GenTemplateGroupFormRequest formRequest) {
+    public void updateFormRequest(GenTemplateGroupForm form) {
         LambdaUpdateWrapper<GenTemplateGroupEntity> updateWrapper = lambdaUpdateWrapper();
-        updateWrapper.set(condition(formRequest.getGroupName()), GenTemplateGroupEntity::getGroupName, formRequest.getGroupName());
-        updateWrapper.set(condition(formRequest.getGroupSort()), GenTemplateGroupEntity::getGroupSort, formRequest.getGroupSort());
-        updateWrapper.set(condition(formRequest.getGroupDesc()), GenTemplateGroupEntity::getGroupDesc, formRequest.getGroupDesc());
-        updateWrapper.eq(GenTemplateGroupEntity::getId, formRequest.getId());
-        return update(updateWrapper);
+        updateWrapper.set(condition(form.getGroupName()), GenTemplateGroupEntity::getGroupName, form.getGroupName());
+        updateWrapper.set(condition(form.getGroupSort()), GenTemplateGroupEntity::getGroupSort, form.getGroupSort());
+        updateWrapper.set(condition(form.getGroupDesc()), GenTemplateGroupEntity::getGroupDesc, form.getGroupDesc());
+        updateWrapper.eq(GenTemplateGroupEntity::getId, form.getId());
+        update(updateWrapper);
     }
 
     /**
      * 根据提供的查询请求参数分页查询代码生成模板组信息
      *
      * @param page         分页查询参数
-     * @param queryRequest 查询参数
+     * @param query 查询参数
      * @return 代码生成模板组列表响应结果
      */
     @Override
-    public Page<GenTemplateGroupEntity> queryPageRequest(Page<GenTemplateGroupEntity> page, GenTemplateGroupQueryRequest queryRequest) {
+    public Page<GenTemplateGroupEntity> queryPageRequest(Page<GenTemplateGroupEntity> page, GenTemplateGroupQuery query) {
         LambdaQueryWrapper<GenTemplateGroupEntity> queryWrapper = lambdaQueryWrapper();
-        queryWrapper.eq(condition(queryRequest.getGroupName()), GenTemplateGroupEntity::getGroupName, queryRequest.getGroupName());
+        queryWrapper.eq(condition(query.getGroupName()), GenTemplateGroupEntity::getGroupName, query.getGroupName());
         return page(page, queryWrapper);
     }
 

@@ -44,7 +44,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     /**
      * 默认参数校验失败信息
      */
-    private static final String message = GlobalErrorStatusCode.PARAM_INVALID.getMsg();
+    private static final String MESSAGE = GlobalErrorStatusCode.PARAM_INVALID.getMsg();
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -68,7 +68,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      */
     @ExceptionHandler(value = {BusinessException.class})
     public R<String> handle(BusinessException e) {
-        log.error("自定义异常: code={} message={}", e.getCode(), e.getMessage(), e);
+        log.error("自定义异常: code={} MESSAGE={}", e.getCode(), e.getMessage(), e);
         return new R<>(e.getCode(), false, e.getMessage());
     }
 
@@ -144,10 +144,10 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     public R<Map<String, Object>> handleException(ValidationException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put(e.getField(), StringUtils.emptyToDefault(e.getMessage(), message));
+        resultMap.put(e.getField(), StringUtils.emptyToDefault(e.getMessage(), MESSAGE));
         log.warn("请求地址:{}参数检验失败,请求方式：{} ,codeData={}", requestURI, request.getMethod(), resultMap, e);
         R<Map<String, Object>> mapR = R.errorData(GlobalErrorStatusCode.PARAM_INVALID, resultMap);
-        mapR.setMsg(message);
+        mapR.setMsg(MESSAGE);
         return mapR;
     }
 

@@ -7,6 +7,7 @@ import org.springframework.security.core.AuthenticationException;
  *
  * @author xht
  **/
+@SuppressWarnings("unused")
 public class BasicAuthenticationException extends AuthenticationException {
 
     public BasicAuthenticationException(String msg) {

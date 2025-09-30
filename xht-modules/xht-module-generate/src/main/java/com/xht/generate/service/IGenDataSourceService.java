@@ -1,8 +1,8 @@
 package com.xht.generate.service;
 
-import com.xht.generate.domain.form.GenDataSourceFormRequest;
-import com.xht.generate.domain.query.GenDataSourceQueryRequest;
-import com.xht.generate.domain.response.GenDataSourceResponse;
+import com.xht.generate.domain.form.GenDataSourceForm;
+import com.xht.generate.domain.query.GenDataSourceQuery;
+import com.xht.generate.domain.response.GenDataSourceResp;
 
 import java.util.List;
 
@@ -17,26 +17,23 @@ public interface IGenDataSourceService {
     /**
      * 创建数据源
      *
-     * @param formRequest 数据源表单请求参数
-     * @return 操作结果
+     * @param form 数据源表单请求参数
      */
-    Boolean create(GenDataSourceFormRequest formRequest);
+    void create(GenDataSourceForm form);
 
     /**
      * 根据ID删除数据源
      *
      * @param id 数据源ID
-     * @return 操作结果
      */
-    Boolean removeById(Long id);
+    void removeById(Long id);
 
     /**
      * 根据ID更新数据源
      *
-     * @param formRequest 数据源更新请求参数
-     * @return 操作结果
+     * @param form 数据源更新请求参数
      */
-    Boolean updateById(GenDataSourceFormRequest formRequest);
+    void updateById(GenDataSourceForm form);
 
     /**
      * 根据ID查询数据源
@@ -44,15 +41,15 @@ public interface IGenDataSourceService {
      * @param id 数据源ID
      * @return 数据源信息
      */
-    GenDataSourceResponse findById(Long id);
+    GenDataSourceResp findById(Long id);
 
     /**
      * 按条件查询数据源
      *
-     * @param queryRequest 数据源查询请求参数
+     * @param query 数据源查询请求参数
      * @return 数据源分页信息
      */
-    List<GenDataSourceResponse> findList(GenDataSourceQueryRequest queryRequest);
+    List<GenDataSourceResp> findList(GenDataSourceQuery query);
 
     /**
      * 测试链接

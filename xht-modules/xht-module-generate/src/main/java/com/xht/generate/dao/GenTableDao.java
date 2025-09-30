@@ -3,8 +3,8 @@ package com.xht.generate.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.generate.domain.entity.GenTableEntity;
-import com.xht.generate.domain.form.GenTableInfoFormRequest;
-import com.xht.generate.domain.query.GenTableInfoQueryRequest;
+import com.xht.generate.domain.form.GenTableInfoForm;
+import com.xht.generate.domain.query.GenTableInfoQuery;
 
 import java.util.List;
 
@@ -19,19 +19,18 @@ public interface GenTableDao extends MapperRepository<GenTableEntity> {
     /**
      * 更新菜单信息
      *
-     * @param formRequest 菜单信息
-     * @return 是否成功
+     * @param form 菜单信息
      */
-    Boolean updateFormRequest(GenTableInfoFormRequest formRequest);
+    void updateFormRequest(GenTableInfoForm form);
 
     /**
      * 分页查询菜单
      *
      * @param page         分页信息
-     * @param queryRequest 菜单查询请求参数
+     * @param query 菜单查询请求参数
      * @return 菜单分页信息
      */
-    Page<GenTableEntity> queryPageRequest(Page<GenTableEntity> page, GenTableInfoQueryRequest queryRequest);
+    Page<GenTableEntity> queryPageRequest(Page<GenTableEntity> page, GenTableInfoQuery query);
 
     /**
      * 根据数据源id查询表名

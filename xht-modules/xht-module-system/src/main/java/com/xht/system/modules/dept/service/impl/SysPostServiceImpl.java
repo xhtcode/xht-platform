@@ -9,9 +9,9 @@ import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.modules.dept.converter.SysPostConverter;
 import com.xht.system.modules.dept.dao.SysPostDao;
 import com.xht.system.modules.dept.domain.entity.SysPostEntity;
-import com.xht.system.modules.dept.domain.request.SysPostFormRequest;
-import com.xht.system.modules.dept.domain.request.SysPostQueryRequest;
-import com.xht.system.modules.dept.domain.response.SysPostResponse;
+import com.xht.system.modules.dept.domain.request.SysPostForm;
+import com.xht.system.modules.dept.domain.request.SysPostQuery;
+import com.xht.system.modules.dept.domain.response.SysPostResp;
 import com.xht.system.modules.dept.service.ISysPostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,59 +39,55 @@ public class SysPostServiceImpl implements ISysPostService {
     /**
      * 创建部门岗位
      *
-     * @param formRequest 部门岗位表单请求参数
-     * @return 操作结果
+     * @param form 部门岗位表单请求参数
      */
     @Override
-    public Boolean create(SysPostFormRequest formRequest) {
-        Boolean postCodeExists = sysPostDao.existsPostCode(formRequest.getPostCode(), null);
+    public void create(SysPostForm form) {
+        Boolean postCodeExists = sysPostDao.existsPostCode(form.getPostCode(), null);
         ThrowUtils.throwIf(postCodeExists, BusinessErrorCode.DATA_NOT_EXIST, "岗位编码已存在");
-        SysPostEntity sysPostEntity = sysPostConverter.toEntity(formRequest);
-        return sysPostDao.saveTransactional(sysPostEntity);
+        SysPostEntity sysPostEntity = sysPostConverter.toEntity(form);
+        sysPostDao.saveTransactional(sysPostEntity);
     }
 
     /**
      * 根据ID删除部门岗位
      *
      * @param id 部门岗位ID
-     * @return 操作结果
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean removeById(Long id) {
+    public void removeById(Long id) {
         Boolean systemFlag = sysPostDao.validateSystemFlag(id, SystemFlagEnums.YES);
         ThrowUtils.throwIf(systemFlag, BusinessErrorCode.DATA_TYPE_ERROR, "系统内置岗位，禁止删除");
-        return sysPostDao.deleteById(id);
+        sysPostDao.deleteById(id);
     }
 
     /**
      * 根据ID数组批量删除部门岗位
      *
      * @param ids 部门岗位ID数组
-     * @return 操作结果
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean removeByIds(List<Long> ids) {
+    public void removeByIds(List<Long> ids) {
         ThrowUtils.notNull(ids, BusinessErrorCode.PARAM_ERROR);
         Boolean systemFlag = sysPostDao.validateSystemFlag(ids, SystemFlagEnums.YES);
         ThrowUtils.throwIf(systemFlag, BusinessErrorCode.DATA_TYPE_ERROR, "选择得到的数据中存在系统内置岗位，禁止删除");
-        return sysPostDao.deleteAllById(ids);
+        sysPostDao.deleteAllById(ids);
     }
 
     /**
      * 根据ID更新部门岗位
      *
-     * @param formRequest 部门岗位更新请求参数
-     * @return 操作结果
+     * @param form 部门岗位更新请求参数
      */
     @Override
-    public Boolean updateById(SysPostFormRequest formRequest) {
-        Boolean systemFlag = sysPostDao.validateSystemFlag(formRequest.getId(), SystemFlagEnums.YES);
+    public void updateById(SysPostForm form) {
+        Boolean systemFlag = sysPostDao.validateSystemFlag(form.getId(), SystemFlagEnums.YES);
         ThrowUtils.throwIf(systemFlag, BusinessErrorCode.DATA_TYPE_ERROR, "系统内置岗位禁止修改");
-        Boolean postCodeExists = sysPostDao.existsPostCode(formRequest.getPostCode(), formRequest.getId());
+        Boolean postCodeExists = sysPostDao.existsPostCode(form.getPostCode(), form.getId());
         ThrowUtils.throwIf(postCodeExists, BusinessErrorCode.DATA_NOT_EXIST, "岗位编码已存在");
-        return sysPostDao.updateFormRequest(formRequest);
+        sysPostDao.updateFormRequest(form);
     }
 
     /**
@@ -101,7 +97,7 @@ public class SysPostServiceImpl implements ISysPostService {
      * @return 部门岗位信息
      */
     @Override
-    public SysPostResponse findById(Long id) {
+    public SysPostResp findById(Long id) {
         SysPostEntity sysPostEntity = sysPostDao.findOptionalById(id).orElse(null);
         return sysPostConverter.toResponse(sysPostEntity);
     }
@@ -109,15 +105,15 @@ public class SysPostServiceImpl implements ISysPostService {
     /**
      * 分页查询部门岗位
      *
-     * @param queryRequest 部门岗位查询请求参数
+     * @param query 部门岗位查询请求参数
      * @return 部门岗位分页信息
      */
     @Override
-    public PageResponse<SysPostResponse> pageList(SysPostQueryRequest queryRequest) {
-        if (Objects.isNull(queryRequest)) {
+    public PageResponse<SysPostResp> pageList(SysPostQuery query) {
+        if (Objects.isNull(query)) {
             return PageTool.empty();
         }
-        Page<SysPostEntity> page = sysPostDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
+        Page<SysPostEntity> page = sysPostDao.queryPageRequest(PageTool.getPage(query), query);
         return sysPostConverter.toResponse(page);
     }
 

@@ -2,8 +2,8 @@ package com.xht.system.modules.dept.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
-import com.xht.system.modules.dept.domain.request.SysDeptFormRequest;
-import com.xht.system.modules.dept.domain.response.SysDeptResponse;
+import com.xht.system.modules.dept.domain.request.SysDeptForm;
+import com.xht.system.modules.dept.domain.response.SysDeptResp;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -17,18 +17,24 @@ import java.util.Map;
  * @author xht
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SysDeptConverter extends BasicConverter<SysDeptEntity, SysDeptFormRequest, SysDeptResponse> {
+public interface SysDeptConverter extends BasicConverter<SysDeptEntity, SysDeptForm, SysDeptResp> {
 
 
     /**
      * 将创建请求对象转换为实体对象。
      *
-     * @param formRequest 创建请求对象
+     * @param form 创建请求对象
      * @return 转换后的实体对象
      */
     @Override
-    SysDeptEntity toEntity(SysDeptFormRequest formRequest);
+    SysDeptEntity toEntity(SysDeptForm form);
 
+    /**
+     * 将SysDeptEntity对象转换为Map集合
+     *
+     * @param entity 部门实体对象
+     * @return 包含部门信息的Map集合
+     */
     default Map<String, Object> toMap(SysDeptEntity entity) {
         Map<String, Object> map = new HashMap<>(16);
         map.put("id", entity.getId());
@@ -40,10 +46,13 @@ public interface SysDeptConverter extends BasicConverter<SysDeptEntity, SysDeptF
         map.put("email", entity.getEmail());
         map.put("phone", entity.getPhone());
         map.put("remark", entity.getRemark());
+        // 添加时间相关信息
         map.put("createTime", entity.getCreateTime());    // 创建时间
         map.put("updateTime", entity.getUpdateTime());    // 更新时间
+        // 添加操作人相关信息
         map.put("createBy", entity.getCreateBy());    // 创建人
         map.put("updateBy", entity.getUpdateBy());    // 更新人
         return map;
     }
+
 }

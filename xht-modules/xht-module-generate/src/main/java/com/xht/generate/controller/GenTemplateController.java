@@ -2,8 +2,8 @@ package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.web.validation.Groups;
-import com.xht.generate.domain.form.GenTemplateFormRequest;
-import com.xht.generate.domain.response.GenTemplateResponse;
+import com.xht.generate.domain.form.GenTemplateForm;
+import com.xht.generate.domain.response.GenTemplateResp;
 import com.xht.generate.service.IGenTemplateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,37 +32,40 @@ public class GenTemplateController {
     /**
      * 创建模板
      *
-     * @param formRequest 模板表单请求参数
-     * @return 操作结果
+     * @param form 模板表单请求参数
+     * @return 统一响应结果
      */
     @Operation(summary = "创建模板", description = "根据提供的请求参数创建一个新的模板")
     @PostMapping("/create")
-    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTemplateFormRequest formRequest) {
-        return R.ok(genTemplateService.create(formRequest));
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTemplateForm form) {
+        genTemplateService.create(form);
+        return R.ok();
     }
 
     /**
      * 根据ID删除模板
      *
      * @param id 模板ID
-     * @return 操作结果
+     * @return 统一响应结果
      */
     @Operation(summary = "根据ID删除模板", description = "根据提供的模板ID删除模板")
     @PostMapping("/remove/{id}")
-    public R<Boolean> removeById(@PathVariable @Parameter(description = "模板ID", required = true) Long id) {
-        return R.ok(genTemplateService.removeById(id));
+    public R<Void> removeById(@PathVariable @Parameter(description = "模板ID", required = true) Long id) {
+        genTemplateService.removeById(id);
+        return R.ok();
     }
 
     /**
      * 根据ID更新模板
      *
-     * @param formRequest 模板更新请求参数
-     * @return 操作结果
+     * @param form 模板更新请求参数
+     * @return 统一响应结果
      */
     @Operation(summary = "根据ID更新模板", description = "根据提供的模板更新请求参数更新模板")
     @PostMapping("/update")
-     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTemplateFormRequest formRequest) {
-        return R.ok(genTemplateService.updateById(formRequest));
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTemplateForm form) {
+        genTemplateService.updateById(form);
+        return R.ok();
     }
 
     /**
@@ -73,7 +76,7 @@ public class GenTemplateController {
      */
     @Operation(summary = "根据ID查询模板", description = "根据提供的模板ID查询模板信息")
     @GetMapping("/get/{id}")
-    public R<GenTemplateResponse> findById(@PathVariable @Parameter(description = "模板ID", required = true) Long id) {
+    public R<GenTemplateResp> findById(@PathVariable @Parameter(description = "模板ID", required = true) Long id) {
         return R.ok(genTemplateService.findById(id));
     }
 
@@ -84,7 +87,7 @@ public class GenTemplateController {
      * @return 模板响应列表
      */
     @GetMapping("/list/{groupId}")
-    public R<List<GenTemplateResponse>> listByGroupId(@PathVariable("groupId") String groupId) {
+    public R<List<GenTemplateResp>> listByGroupId(@PathVariable("groupId") String groupId) {
         return R.ok(genTemplateService.listByGroupId(groupId));
     }
 

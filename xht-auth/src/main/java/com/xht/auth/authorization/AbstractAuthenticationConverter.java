@@ -1,5 +1,6 @@
 package com.xht.auth.authorization;
 
+import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
@@ -31,7 +32,7 @@ public abstract class AbstractAuthenticationConverter implements AuthenticationC
     public final Authentication convert(HttpServletRequest request) {
         // 请求链 FilterOrderRegistration
         String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
-        if (!StringUtils.equals(getGrantType(), grantType) || !StringUtils.equals(request.getMethod(), "POST")) {
+        if (!StringUtils.equals(getGrantType(), grantType) || !StringUtils.equals(request.getMethod(), HttpConstants.Method.POST.getValue())) {
             return null;
         }
         // 构建请求参数集合
@@ -69,6 +70,7 @@ public abstract class AbstractAuthenticationConverter implements AuthenticationC
      * @param authentication       认证参数
      * @param scopes               范围
      * @param additionalParameters 扩展参数
+     * @return {@link Authentication}
      */
     protected abstract Authentication convert(Authentication authentication, Set<String> scopes, Map<String, Object> additionalParameters);
 

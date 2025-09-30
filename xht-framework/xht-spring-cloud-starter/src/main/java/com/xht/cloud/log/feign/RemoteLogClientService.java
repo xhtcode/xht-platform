@@ -29,6 +29,6 @@ public interface RemoteLogClientService {
      */
     @InnerAuth
     @PostMapping("/api/sys/log/save")
-    R<Boolean> saveLog(@RequestBody LogDTO logDTO);
+    R<Void> saveLog(@RequestBody LogDTO logDTO);
 }
 // @formatter:on

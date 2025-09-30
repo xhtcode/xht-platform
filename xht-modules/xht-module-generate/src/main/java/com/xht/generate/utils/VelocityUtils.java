@@ -5,7 +5,6 @@ import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
-import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -39,21 +38,9 @@ public class VelocityUtils {
      */
     private static VelocityEngine initVelocityEngine() {
         Properties props = new Properties();
-
-        // 1. 配置模板加载方式（默认使用 classpath 加载，如需文件系统加载可修改此处）
-        // 方式一：classpath 加载（适合 jar 包内的模板）
         props.setProperty("resource.loader", "class");
         props.setProperty("class.resource.loader.class", ClasspathResourceLoader.class.getName());
-
-        // 方式二：文件系统加载（适合外部文件模板，需指定路径）
-        // props.setProperty("resource.loader", "file");
-        // props.setProperty("file.resource.loader.class", FileResourceLoader.class.getName());
-        // props.setProperty("file.resource.loader.path", "/path/to/templates"); // 模板所在目录
-
-        // 2. 配置编码（避免中文乱码）
         props.setProperty(Velocity.INPUT_ENCODING, StandardCharsets.UTF_8.name());
-
-        // 3. 初始化引擎
         VelocityEngine engine = new VelocityEngine();
         engine.init(props);
         return engine;

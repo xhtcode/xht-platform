@@ -14,32 +14,32 @@ import java.util.stream.Collectors;
  * 基础转换器接口，用于实体与请求/响应对象之间的转换
  *
  * @param <T>       实体类型，继承自Entity
- * @param <Request> 请求对象类型，继承自FormRequest
+ * @param <Form> 请求对象类型，继承自FormRequest
  * @param <Response> 响应对象类型，继承自IResponse
  * @author xht
  */
-public interface BasicConverter<T extends Entity, Request extends FormRequest, Response extends IResponse> {
+public interface BasicConverter<T extends Entity, Form extends FormRequest, Response extends IResponse> {
 
     /**
      * 将创建请求对象转换为实体对象
      *
-     * @param formRequest 创建请求对象，非null
+     * @param form 创建请求对象，非null
      * @return 转换后的实体对象，非null
      */
-    T toEntity(Request formRequest);
+    T toEntity(Form form);
 
 
     /**
      * 将请求对象列表转换为实体对象列表
      *
-     * @param requestList 请求对象列表，可为null或空
+     * @param formList 请求对象列表，可为null或空
      * @return 转换后的实体对象列表，非null（空列表而非null）
      */
-    default List<T> toEntity(List<Request> requestList) {
-        if (CollectionUtils.isEmpty(requestList)) {
+    default List<T> toEntity(List<Form> formList) {
+        if (CollectionUtils.isEmpty(formList)) {
             return List.of(); // 使用Java 9+的不可变空列表
         }
-        return requestList.stream()
+        return formList.stream()
                 .map(this::toEntity)
                 .collect(Collectors.toList());
     }

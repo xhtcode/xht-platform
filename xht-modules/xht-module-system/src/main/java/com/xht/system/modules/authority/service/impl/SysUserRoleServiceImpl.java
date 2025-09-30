@@ -39,10 +39,9 @@ public class SysUserRoleServiceImpl implements IUserRoleService {
      *
      * @param userId  用户ID
      * @param roleIds 角色ID
-     * @return 成功返回true，失败返回false
      */
     @Override
-    public Boolean userBindRole(Long userId, List<Long> roleIds) {
+    public void userBindRole(Long userId, List<Long> roleIds) {
         Boolean userExists = sysUserDao.exists(SysUserEntity::getId, userId);
         ThrowUtils.throwIf(!userExists, UserErrorCode.DATA_NOT_EXIST);
         List<SysUserRoleEntity> sysUserRoleEntities = new ArrayList<>();
@@ -56,7 +55,7 @@ public class SysUserRoleServiceImpl implements IUserRoleService {
                 sysUserRoleEntities.add(sysUserRoleEntity);
             });
         }
-        return sysUserRoleDao.saveUserRole(userId, sysUserRoleEntities);
+        sysUserRoleDao.saveUserRole(userId, sysUserRoleEntities);
     }
 
     /**

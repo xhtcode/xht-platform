@@ -9,8 +9,8 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.oauth2.dao.SysOauth2ClientDao;
 import com.xht.system.modules.oauth2.dao.mapper.SysOauth2ClientMapper;
 import com.xht.system.modules.oauth2.domian.entity.SysOauth2ClientEntity;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientFormRequest;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQueryRequest;
+import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientForm;
+import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -30,29 +30,28 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
     /**
      * 更新OAuth2客户端信息
      *
-     * @param formRequest OAuth2客户端修改信息
-     * @return 是否成功
+     * @param form OAuth2客户端修改信息
      */
     @Override
-    public Boolean updateFormRequest(SysOauth2ClientFormRequest formRequest) {
+    public void updateFormRequest(SysOauth2ClientForm form) {
         LambdaUpdateWrapper<SysOauth2ClientEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
-                .set(condition(formRequest.getClientId()), SysOauth2ClientEntity::getClientId, formRequest.getClientId())
-                .set(condition(formRequest.getClientName()), SysOauth2ClientEntity::getClientName, formRequest.getClientName())
-                .set(condition(formRequest.getClientSecret()), SysOauth2ClientEntity::getClientSecret, formRequest.getClientSecret())
-                .set(condition(formRequest.getClientIdIssuedAt()), SysOauth2ClientEntity::getClientIdIssuedAt, formRequest.getClientIdIssuedAt())
-                .set(condition(formRequest.getClientSecretExpiresAt()), SysOauth2ClientEntity::getClientSecretExpiresAt, formRequest.getClientSecretExpiresAt())
-                .set(condition(formRequest.getAuthorizationGrantTypes()), SysOauth2ClientEntity::getAuthorizationGrantTypes, formRequest.getAuthorizationGrantTypes(), JACKSON_TYPE_HANDLER)
-                .set(condition(formRequest.getScopes()), SysOauth2ClientEntity::getScopes, formRequest.getScopes(), JACKSON_TYPE_HANDLER)
-                .set(condition(formRequest.getRedirectUris()), SysOauth2ClientEntity::getRedirectUris, formRequest.getRedirectUris(), JACKSON_TYPE_HANDLER)
-                .set(condition(formRequest.getAccessTokenValidity()), SysOauth2ClientEntity::getAccessTokenValidity, formRequest.getAccessTokenValidity())
-                .set(condition(formRequest.getRefreshTokenValidity()), SysOauth2ClientEntity::getRefreshTokenValidity, formRequest.getRefreshTokenValidity())
-                .set(condition(formRequest.getAdditionalInformation()), SysOauth2ClientEntity::getAdditionalInformation, formRequest.getAdditionalInformation(), JACKSON_TYPE_HANDLER)
-                .set(condition(formRequest.getAutoApprove()), SysOauth2ClientEntity::getAutoApprove, formRequest.getAutoApprove());
+                .set(condition(form.getClientId()), SysOauth2ClientEntity::getClientId, form.getClientId())
+                .set(condition(form.getClientName()), SysOauth2ClientEntity::getClientName, form.getClientName())
+                .set(condition(form.getClientSecret()), SysOauth2ClientEntity::getClientSecret, form.getClientSecret())
+                .set(condition(form.getClientIdIssuedAt()), SysOauth2ClientEntity::getClientIdIssuedAt, form.getClientIdIssuedAt())
+                .set(condition(form.getClientSecretExpiresAt()), SysOauth2ClientEntity::getClientSecretExpiresAt, form.getClientSecretExpiresAt())
+                .set(condition(form.getAuthorizationGrantTypes()), SysOauth2ClientEntity::getAuthorizationGrantTypes, form.getAuthorizationGrantTypes(), JACKSON_TYPE_HANDLER)
+                .set(condition(form.getScopes()), SysOauth2ClientEntity::getScopes, form.getScopes(), JACKSON_TYPE_HANDLER)
+                .set(condition(form.getRedirectUris()), SysOauth2ClientEntity::getRedirectUris, form.getRedirectUris(), JACKSON_TYPE_HANDLER)
+                .set(condition(form.getAccessTokenValidity()), SysOauth2ClientEntity::getAccessTokenValidity, form.getAccessTokenValidity())
+                .set(condition(form.getRefreshTokenValidity()), SysOauth2ClientEntity::getRefreshTokenValidity, form.getRefreshTokenValidity())
+                .set(condition(form.getAdditionalInformation()), SysOauth2ClientEntity::getAdditionalInformation, form.getAdditionalInformation(), JACKSON_TYPE_HANDLER)
+                .set(condition(form.getAutoApprove()), SysOauth2ClientEntity::getAutoApprove, form.getAutoApprove());
         // @formatter:on
-        updateWrapper.eq(SysOauth2ClientEntity::getId, formRequest.getId());
-        return update(updateWrapper);
+        updateWrapper.eq(SysOauth2ClientEntity::getId, form.getId());
+        update(updateWrapper);
     }
 
     /**
@@ -73,22 +72,22 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
     /**
      * 分页查询OAuth2客户端
      *
-     * @param page         分页信息
-     * @param queryRequest 查询参数
+     * @param page  分页信息
+     * @param query 查询参数
      * @return 分页结果
      */
     @Override
-    public Page<SysOauth2ClientEntity> queryPageRequest(Page<SysOauth2ClientEntity> page, SysOauth2ClientQueryRequest queryRequest) {
+    public Page<SysOauth2ClientEntity> queryPageRequest(Page<SysOauth2ClientEntity> page, SysOauth2ClientQuery query) {
         LambdaQueryWrapper<SysOauth2ClientEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(
-                        condition(queryRequest.getKeyWord()), wrapper -> wrapper.or()
-                                .like(SysOauth2ClientEntity::getClientId, queryRequest.getKeyWord())
+                        condition(query.getKeyWord()), wrapper -> wrapper.or()
+                                .like(SysOauth2ClientEntity::getClientId, query.getKeyWord())
                                 .or()
-                                .like(SysOauth2ClientEntity::getClientName, queryRequest.getKeyWord())
+                                .like(SysOauth2ClientEntity::getClientName, query.getKeyWord())
                 )
-                .like(condition(queryRequest.getClientId()), SysOauth2ClientEntity::getClientId, queryRequest.getClientId())
-                .like(condition(queryRequest.getClientName()), SysOauth2ClientEntity::getClientName, queryRequest.getClientName())
+                .like(condition(query.getClientId()), SysOauth2ClientEntity::getClientId, query.getClientId())
+                .like(condition(query.getClientName()), SysOauth2ClientEntity::getClientName, query.getClientName())
         ;
         // @formatter:on
         return page(page, queryWrapper);

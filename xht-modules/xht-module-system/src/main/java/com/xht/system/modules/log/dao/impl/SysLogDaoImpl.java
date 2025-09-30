@@ -7,7 +7,7 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.log.dao.SysLogDao;
 import com.xht.system.modules.log.dao.mapper.SysLogMapper;
 import com.xht.system.modules.log.domian.entity.SysLogEntity;
-import com.xht.system.modules.log.domian.request.SysLogQueryRequest;
+import com.xht.system.modules.log.domian.request.SysLogQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -23,26 +23,26 @@ public class SysLogDaoImpl extends MapperRepositoryImpl<SysLogMapper, SysLogEnti
     /**
      * 分页查询系统日志
      *
-     * @param page         分页信息
-     * @param queryRequest 系统日志管理查询请求参数
+     * @param page  分页信息
+     * @param query 系统日志管理查询请求参数
      * @return 分页查询系统日志
      */
     @Override
-    public Page<SysLogEntity> queryPageRequest(Page<SysLogEntity> page, SysLogQueryRequest queryRequest) {
+    public Page<SysLogEntity> queryPageRequest(Page<SysLogEntity> page, SysLogQuery query) {
         LambdaQueryWrapper<SysLogEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(
-                        condition(queryRequest.getKeyWord()), wrapper -> wrapper.or()
-                                .like(SysLogEntity::getTitle, queryRequest.getKeyWord())
+                        condition(query.getKeyWord()), wrapper -> wrapper.or()
+                                .like(SysLogEntity::getTitle, query.getKeyWord())
                                 .or()
-                                .like(SysLogEntity::getServiceName, queryRequest.getKeyWord())
+                                .like(SysLogEntity::getServiceName, query.getKeyWord())
                                 .or()
-                                .like(SysLogEntity::getDescription, queryRequest.getKeyWord())
+                                .like(SysLogEntity::getDescription, query.getKeyWord())
                 )
-                .like(condition(queryRequest.getTitle()), SysLogEntity::getTitle, queryRequest.getTitle())
-                .like(condition(queryRequest.getServiceName()), SysLogEntity::getServiceName, queryRequest.getServiceName())
-                .like(condition(queryRequest.getDescription()), SysLogEntity::getDescription, queryRequest.getDescription())
-                .eq(condition(queryRequest.getStatus()), SysLogEntity::getStatus, queryRequest.getStatus())
+                .like(condition(query.getTitle()), SysLogEntity::getTitle, query.getTitle())
+                .like(condition(query.getServiceName()), SysLogEntity::getServiceName, query.getServiceName())
+                .like(condition(query.getDescription()), SysLogEntity::getDescription, query.getDescription())
+                .eq(condition(query.getStatus()), SysLogEntity::getStatus, query.getStatus())
         ;
         // @formatter:on
         return page(page, queryWrapper);

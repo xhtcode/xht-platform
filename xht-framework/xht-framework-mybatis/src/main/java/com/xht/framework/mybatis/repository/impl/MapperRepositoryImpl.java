@@ -21,13 +21,10 @@ import java.util.*;
  * @author xht
  **/
 @Slf4j
+@SuppressWarnings("unused")
 public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends CrudRepository<M, T> implements MapperRepository<T> {
 
     protected static final int DEFAULT_BATCH_SIZE = 100;
-
-    protected int getDefaultBatchSize() {
-        return DEFAULT_BATCH_SIZE;
-    }
 
     /**
      * 获取主键字段名
@@ -67,7 +64,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      */
     @Override
     public final boolean saveAll(Collection<T> entityList) {
-        return super.saveBatch(entityList, getDefaultBatchSize());
+        return super.saveBatch(entityList, DEFAULT_BATCH_SIZE);
     }
 
 
@@ -111,8 +108,8 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean removeByIdTransactional(Serializable id) {
-        return removeById(id);
+    public void removeByIdTransactional(Serializable id) {
+        removeById(id);
     }
 
     /**

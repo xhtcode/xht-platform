@@ -3,6 +3,7 @@ package com.xht.generate.domain.bo;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.constant.StringConstant;
+import com.xht.generate.constant.GenConstant;
 import com.xht.generate.constant.enums.GenStatusEnums;
 import com.xht.generate.constant.enums.IdPrimaryKeyEnums;
 import lombok.Getter;
@@ -96,63 +97,63 @@ public class ColumnBo implements Serializable {
     /**
      * @return 设置 表单新增
      */
-    public GenStatusEnums setFromInsert() {
+    public GenStatusEnums getFromInsert() {
         return determineIncluded(COLUMN_NOT_FORM);
     }
 
     /**
      * @return 设置 表单更新
      */
-    public GenStatusEnums setFromUpdate() {
+    public GenStatusEnums getFromUpdate() {
         return determineIncluded(COLUMN_NOT_FORM);
     }
 
     /**
      * @return 设置 表单输入长度
      */
-    public Integer setFromLength() {
+    public Integer getFromLength() {
         return this.dbLength;
     }
 
     /**
      * @return 设置 表单必填
      */
-    public GenStatusEnums setFromFill() {
+    public GenStatusEnums getFromFill() {
         return determineIncluded(COLUMN_NOT_FORM);
     }
 
     /**
      * @return 设置 表单组件
      */
-    public String setFromComponent() {
-        return "input";
+    public String getFromComponent() {
+        return GenConstant.INPUT;
     }
 
     /**
      * @return 设置 列表显示
      */
-    public GenStatusEnums setListShow() {
+    public GenStatusEnums getListShow() {
         return determineIncluded(COLUMN_NOT_LIST);
     }
 
     /**
      * @return 设置 列表描述
      */
-    public String setListComment() {
+    public String getListComment() {
         return this.dbComment;
     }
 
     /**
      * @return 设置 显示切换禁用
      */
-    public GenStatusEnums setListDisabled() {
+    public GenStatusEnums getListDisabled() {
         return GenStatusEnums.NO;
     }
 
     /**
      * @return 设置 默认隐藏
      */
-    public GenStatusEnums setListHidden() {
+    public GenStatusEnums getListHidden() {
         return GenStatusEnums.NO;
     }
 

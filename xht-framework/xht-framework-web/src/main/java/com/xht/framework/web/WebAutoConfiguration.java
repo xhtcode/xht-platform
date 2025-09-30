@@ -60,6 +60,6 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new TraceIdInterceptor()).addPathPatterns("/**");;
+        registry.addInterceptor(new TraceIdInterceptor()).addPathPatterns("/**");
     }
 }

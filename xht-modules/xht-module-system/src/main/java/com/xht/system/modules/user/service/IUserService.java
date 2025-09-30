@@ -4,9 +4,9 @@ import com.xht.cloud.oauth2.dto.UserInfoDTO;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
-import com.xht.system.modules.user.domain.request.UpdatePwdRequest;
-import com.xht.system.modules.user.domain.request.UserFormRequest;
-import com.xht.system.modules.user.domain.request.UserQueryRequest;
+import com.xht.system.modules.user.domain.request.SysUserForm;
+import com.xht.system.modules.user.domain.request.SysUserQuery;
+import com.xht.system.modules.user.domain.request.UpdatePwdFrom;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 
 import java.util.List;
@@ -21,34 +21,30 @@ public interface IUserService {
     /**
      * 用户注册
      *
-     * @param formRequest 用户创建请求对象
-     * @return 操作成功返回true，否则返回false
+     * @param form 用户创建请求对象
      */
-    Boolean create(UserFormRequest formRequest);
+    void create(SysUserForm form);
 
     /**
      * 删除用户
      *
      * @param id 用户ID
-     * @return 操作成功返回true，否则返回false
      */
-    Boolean delete(Long id);
+    void delete(Long id);
 
     /**
      * 根据ID批量删除用户
      *
      * @param ids 用户ID
-     * @return 操作成功返回true，否则返回false
      */
-    Boolean removeByIds(List<Long> ids);
+    void removeByIds(List<Long> ids);
 
     /**
      * 更新用户信息
      *
-     * @param formRequest 用户更新请求对象
-     * @return 操作成功返回true，否则返回false
+     * @param form 用户更新请求对象
      */
-    Boolean update(UserFormRequest formRequest);
+    void update(SysUserForm form);
 
     /**
      * 根据ID查找用户
@@ -61,35 +57,32 @@ public interface IUserService {
     /**
      * 根据查询条件分页查找用户
      *
-     * @param queryRequest 用户查询请求对象
+     * @param query 用户查询请求对象
      * @return 用户对象分页结果
      */
-    PageResponse<SysUserVO> pageList(UserQueryRequest queryRequest);
+    PageResponse<SysUserVO> pageList(SysUserQuery query);
 
     /**
      * 重置密码
      *
      * @param userId 用户ID
-     * @return 操作成功返回true，否则返回false
      */
-    Boolean resetPassword(Long userId);
+    void resetPassword(Long userId);
 
     /**
      * 修改密码
      *
-     * @param formRequest 用户更新请求对象
-     * @return 操作成功返回true，否则返回false
+     * @param form 用户更新请求对象
      */
-    Boolean updatePassword(UpdatePwdRequest formRequest);
+    void updatePassword(UpdatePwdFrom form);
 
     /**
      * 更新用户状态
      *
      * @param userId 用户ID
      * @param status 状态
-     * @return 操作成功返回true，否则返回false
      */
-    Boolean updateStatus(Long userId, UserStatusEnums status);
+    void updateStatus(Long userId, UserStatusEnums status);
 
     /**
      * 根据用户名和登录类型获取用户信息

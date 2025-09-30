@@ -1,8 +1,5 @@
 package com.xht.generate.domain.form;
 
-import com.xht.generate.domain.response.GenTableColumnQueryResponse;
-import com.xht.generate.domain.response.GenTableColumnResponse;
-import com.xht.generate.domain.response.GenTableResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.Data;
@@ -19,14 +16,14 @@ public class TableColumnForm {
 
     @Valid
     @Schema(description = "表信息")
-    private GenTableInfoFormRequest tableInfo;
+    private GenTableInfoForm tableInfo;
 
     @Valid
     @Schema(description = "字段信息")
-    private List<GenColumnInfoFormRequest> columnInfos;
+    private List<GenColumnInfoForm> columnInfos;
 
     @Valid
     @Schema(description = "查询字段信息")
-    private List<GenTableColumnQueryFormRequest> queryColumns;
+    private List<GenTableColumnQueryForm> queryColumns;
 
 }

@@ -7,8 +7,8 @@ import com.xht.generate.dao.GenTemplateDao;
 import com.xht.generate.dao.GenTemplateGroupDao;
 import com.xht.generate.domain.entity.GenTemplateEntity;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
-import com.xht.generate.domain.form.GenTemplateFormRequest;
-import com.xht.generate.domain.response.GenTemplateResponse;
+import com.xht.generate.domain.form.GenTemplateForm;
+import com.xht.generate.domain.response.GenTemplateResp;
 import com.xht.generate.service.IGenTemplateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,15 +36,14 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
     /**
      * 创建模板
      *
-     * @param formRequest 模板表单请求参数
-     * @return 操作结果
+     * @param form 模板表单请求参数
      */
     @Override
-    public Boolean create(GenTemplateFormRequest formRequest) {
-        Boolean exists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, formRequest.getGroupId());
+    public void create(GenTemplateForm form) {
+        Boolean exists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, form.getGroupId());
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "模板组不存在");
-        GenTemplateEntity entity = genTemplateConverter.toEntity(formRequest);
-        return genTemplateDao.saveTransactional(entity);
+        GenTemplateEntity entity = genTemplateConverter.toEntity(form);
+        genTemplateDao.saveTransactional(entity);
     }
 
 
@@ -52,26 +51,24 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      * 根据ID删除模板
      *
      * @param id 模板ID
-     * @return 操作结果
      */
     @Override
-    public Boolean removeById(Long id) {
-        return genTemplateDao.removeByIdTransactional(id);
+    public void removeById(Long id) {
+        genTemplateDao.removeByIdTransactional(id);
     }
 
     /**
      * 根据ID更新模板
      *
-     * @param formRequest 模板更新请求参数
-     * @return 操作结果
+     * @param form 模板更新请求参数
      */
     @Override
-    public Boolean updateById(GenTemplateFormRequest formRequest) {
-        Boolean exists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, formRequest.getGroupId());
+    public void updateById(GenTemplateForm form) {
+        Boolean exists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, form.getGroupId());
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "模板组不存在");
-        Boolean menuExists = genTemplateDao.exists(GenTemplateEntity::getId, formRequest.getId());
+        Boolean menuExists = genTemplateDao.exists(GenTemplateEntity::getId, form.getId());
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "模板不存在");
-        return genTemplateDao.updateFormRequest(formRequest);
+        genTemplateDao.updateFormRequest(form);
     }
 
     /**
@@ -81,7 +78,7 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      * @return 模板信息
      */
     @Override
-    public GenTemplateResponse findById(Long id) {
+    public GenTemplateResp findById(Long id) {
         return genTemplateConverter.toResponse(genTemplateDao.findById(id));
     }
 
@@ -92,7 +89,7 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      * @return 模板响应列表
      */
     @Override
-    public List<GenTemplateResponse> listByGroupId(String groupId) {
+    public List<GenTemplateResp> listByGroupId(String groupId) {
         return genTemplateConverter.toResponse(genTemplateDao.findByGroupId(groupId));
     }
 

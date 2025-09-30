@@ -10,8 +10,8 @@ import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
 import com.xht.system.modules.authority.dao.SysRoleDao;
 import com.xht.system.modules.authority.dao.mapper.SysRoleMapper;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
-import com.xht.system.modules.authority.domain.request.SysRoleFormRequest;
-import com.xht.system.modules.authority.domain.request.SysRoleQueryRequest;
+import com.xht.system.modules.authority.domain.request.SysRoleForm;
+import com.xht.system.modules.authority.domain.request.SysRoleQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,21 +31,20 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
     /**
      * 更新角色信息
      *
-     * @param formRequest 角色信息
-     * @return 是否成功
+     * @param form 角色信息
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateFormRequest(SysRoleFormRequest formRequest) {
+    public void updateFormRequest(SysRoleForm form) {
         LambdaUpdateWrapper<SysRoleEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(condition(formRequest.getRoleCode()), SysRoleEntity::getRoleCode, formRequest.getRoleCode());
-        updateWrapper.set(condition(formRequest.getRoleName()), SysRoleEntity::getRoleName, formRequest.getRoleName());
-        updateWrapper.set(condition(formRequest.getDataScope()), SysRoleEntity::getDataScope, formRequest.getDataScope());
-        updateWrapper.set(condition(formRequest.getRoleStatus()), SysRoleEntity::getRoleStatus, formRequest.getRoleStatus());
-        updateWrapper.set(condition(formRequest.getRoleSort()), SysRoleEntity::getRoleSort, formRequest.getRoleSort());
-        updateWrapper.set(condition(formRequest.getRemark()), SysRoleEntity::getRemark, formRequest.getRemark());
-        updateWrapper.eq(SysRoleEntity::getId, formRequest.getId());
-        return update(updateWrapper);
+        updateWrapper.set(condition(form.getRoleCode()), SysRoleEntity::getRoleCode, form.getRoleCode());
+        updateWrapper.set(condition(form.getRoleName()), SysRoleEntity::getRoleName, form.getRoleName());
+        updateWrapper.set(condition(form.getDataScope()), SysRoleEntity::getDataScope, form.getDataScope());
+        updateWrapper.set(condition(form.getRoleStatus()), SysRoleEntity::getRoleStatus, form.getRoleStatus());
+        updateWrapper.set(condition(form.getRoleSort()), SysRoleEntity::getRoleSort, form.getRoleSort());
+        updateWrapper.set(condition(form.getRemark()), SysRoleEntity::getRemark, form.getRemark());
+        updateWrapper.eq(SysRoleEntity::getId, form.getId());
+        update(updateWrapper);
     }
 
     /**
@@ -53,15 +52,14 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
      *
      * @param id     角色ID
      * @param status 角色状态
-     * @return 是否成功
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateStatus(Long id, RoleStatusEnums status) {
+    public void updateStatus(Long id, RoleStatusEnums status) {
         LambdaUpdateWrapper<SysRoleEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(SysRoleEntity::getRoleStatus, status);
         updateWrapper.eq(SysRoleEntity::getId, id);
-        return update(updateWrapper);
+        update(updateWrapper);
     }
 
     /**
@@ -82,23 +80,23 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
     /**
      * 分页查询角色
      *
-     * @param page         分页信息
-     * @param queryRequest 角色查询请求参数
+     * @param page  分页信息
+     * @param query 角色查询请求参数
      * @return 角色分页信息
      */
     @Override
-    public Page<SysRoleEntity> queryPageRequest(Page<SysRoleEntity> page, SysRoleQueryRequest queryRequest) {
+    public Page<SysRoleEntity> queryPageRequest(Page<SysRoleEntity> page, SysRoleQuery query) {
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(
-                        condition(queryRequest.getKeyWord()), wrapper -> wrapper.or()
-                                .like(SysRoleEntity::getRoleCode, queryRequest.getKeyWord())
+                        condition(query.getKeyWord()), wrapper -> wrapper.or()
+                                .like(SysRoleEntity::getRoleCode, query.getKeyWord())
                                 .or()
-                                .like(SysRoleEntity::getRoleName, queryRequest.getKeyWord())
+                                .like(SysRoleEntity::getRoleName, query.getKeyWord())
                 )
-                .like(condition(queryRequest.getRoleCode()), SysRoleEntity::getRoleCode, queryRequest.getRoleCode())
-                .like(condition(queryRequest.getRoleName()), SysRoleEntity::getRoleName, queryRequest.getRoleName())
-                .eq(Objects.nonNull(queryRequest.getRoleStatus()), SysRoleEntity::getRoleStatus, queryRequest.getRoleStatus())
+                .like(condition(query.getRoleCode()), SysRoleEntity::getRoleCode, query.getRoleCode())
+                .like(condition(query.getRoleName()), SysRoleEntity::getRoleName, query.getRoleName())
+                .eq(Objects.nonNull(query.getRoleStatus()), SysRoleEntity::getRoleStatus, query.getRoleStatus())
         ;
         // @formatter:on
         return page(page, queryWrapper);
@@ -107,11 +105,10 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
     /**
      * 根据角色状态查询角色列表
      *
-     * @param roleStatusEnums 角色状态
      * @return 角色列表信息
      */
     @Override
-    public List<SysRoleEntity> queryRolesByStatus(RoleStatusEnums roleStatusEnums) {
+    public List<SysRoleEntity> queryRolesByStatus() {
         // @formatter:off
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper

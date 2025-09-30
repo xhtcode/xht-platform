@@ -43,10 +43,11 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
     private final GenTemplateDao templateDao;
 
     /**
-     * 生成代码并打包为ZIP字节数组
+     * 生成代码
+     * 根据请求参数生成对应的代码文件，并返回字节数组格式的代码内容
      *
-     * @param request 代码生成核心请求参数
-     * @return 生成的ZIP文件字节数组
+     * @param request 代码生成核心请求参数，包含生成代码所需的配置信息
+     * @return byte[] 生成的代码文件字节数组
      */
     @Override
     public byte[] generateCode(GenCodeCoreRequest request) {
@@ -55,8 +56,10 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
 
     /**
      * 预览代码
+     * 根据请求参数预览将要生成的代码内容，返回代码预览信息列表
      *
-     * @param genCodeCoreRequest 代码生成核心请求参数
+     * @param genCodeCoreRequest 代码生成核心请求参数，包含生成代码所需的配置信息
+     * @return List<GenCodeCoreBo> 代码预览信息列表，包含各个代码文件的内容
      */
     @Override
     public List<GenCodeCoreBo> viewCode(GenCodeCoreRequest genCodeCoreRequest) {

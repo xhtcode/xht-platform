@@ -3,7 +3,7 @@ package com.xht.system.modules.dept.dao;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
-import com.xht.system.modules.dept.domain.request.SysDeptQueryTreeRequest;
+import com.xht.system.modules.dept.domain.request.SysDeptTreeQuery;
 
 import java.util.List;
 
@@ -18,26 +18,23 @@ public interface SysDeptDao extends MapperRepository<SysDeptEntity> {
      * 保存部门初始化数据
      *
      * @param entity 部门实体
-     * @return true：成功；false：失败
      */
-    Boolean saveDeptInitPost(SysDeptEntity entity);
+    void saveDeptInitPost(SysDeptEntity entity);
 
     /**
      * 更新部门信息
      *
-     * @param formRequest     部门更新请求
-     * @return true：成功；false：失败
+     * @param form 部门更新请求
      */
-    Boolean updateFormRequest(SysDeptEntity formRequest);
+    void updateFormRequest(SysDeptEntity form);
 
     /**
      * 更新部门状态
      *
      * @param id     部门id
      * @param status 部门状态
-     * @return true：成功；false：失败
      */
-    Boolean updateStatus(Long id, DeptStatusEnums status);
+    void updateStatus(Long id, DeptStatusEnums status);
 
     /**
      * 检查部门编码是否唯一
@@ -59,9 +56,9 @@ public interface SysDeptDao extends MapperRepository<SysDeptEntity> {
     /**
      * 查询部门列表信息
      *
-     * @param queryRequest 查询请求参数
+     * @param query 查询请求参数
      * @return 部门列表
      */
-    List<SysDeptEntity> queryListRequest(SysDeptQueryTreeRequest queryRequest);
+    List<SysDeptEntity> queryListRequest(SysDeptTreeQuery query);
 
 }

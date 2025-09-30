@@ -18,9 +18,8 @@ public interface SysUserRoleDao extends MapperRepository<SysUserRoleEntity> {
      *
      * @param userId              用户ID
      * @param sysUserRoleEntities 角色列表
-     * @return Boolean
      */
-    Boolean saveUserRole(Long userId, List<SysUserRoleEntity> sysUserRoleEntities);
+    void saveUserRole(Long userId, List<SysUserRoleEntity> sysUserRoleEntities);
 
     /**
      * 根据用户ID查询角色ID列表

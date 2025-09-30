@@ -2,9 +2,9 @@ package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.web.validation.Groups;
-import com.xht.generate.domain.form.GenDataSourceFormRequest;
-import com.xht.generate.domain.query.GenDataSourceQueryRequest;
-import com.xht.generate.domain.response.GenDataSourceResponse;
+import com.xht.generate.domain.form.GenDataSourceForm;
+import com.xht.generate.domain.query.GenDataSourceQuery;
+import com.xht.generate.domain.response.GenDataSourceResp;
 import com.xht.generate.service.IGenDataSourceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,37 +33,40 @@ public class GenDataSourceController {
     /**
      * 创建数据源
      *
-     * @param formRequest 数据源表单请求参数
-     * @return 操作结果
+     * @param form 数据源表单请求参数
+     * @return 统一响应结果
      */
     @Operation(summary = "创建数据源", description = "根据提供的请求参数创建一个新的数据源")
     @PostMapping("/create")
-    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody GenDataSourceFormRequest formRequest) {
-        return R.ok(genDataSourceService.create(formRequest));
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenDataSourceForm form) {
+        genDataSourceService.create(form);
+        return R.ok();
     }
 
     /**
      * 根据ID删除数据源
      *
      * @param id 数据源ID
-     * @return 操作结果
+     * @return 统一响应结果
      */
     @Operation(summary = "根据ID删除数据源", description = "根据提供的数据源ID删除数据源")
     @PostMapping("/remove/{id}")
-    public R<Boolean> removeById(@PathVariable @Parameter(description = "数据源ID", required = true) Long id) {
-        return R.ok(genDataSourceService.removeById(id));
+    public R<Void> removeById(@PathVariable @Parameter(description = "数据源ID", required = true) Long id) {
+        genDataSourceService.removeById(id);
+        return R.ok();
     }
 
     /**
      * 根据ID更新数据源
      *
-     * @param formRequest 数据源更新请求参数
-     * @return 操作结果
+     * @param form 数据源更新请求参数
+     * @return 统一响应结果
      */
     @Operation(summary = "根据ID更新数据源", description = "根据提供的数据源更新请求参数更新数据源")
     @PostMapping("/update")
-     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenDataSourceFormRequest formRequest) {
-        return R.ok(genDataSourceService.updateById(formRequest));
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenDataSourceForm form) {
+        genDataSourceService.updateById(form);
+        return R.ok();
     }
 
     /**
@@ -74,20 +77,20 @@ public class GenDataSourceController {
      */
     @Operation(summary = "根据ID查询数据源", description = "根据提供的数据源ID查询数据源信息")
     @GetMapping("/get/{id}")
-    public R<GenDataSourceResponse> findById(@PathVariable @Parameter(description = "数据源ID", required = true) Long id) {
+    public R<GenDataSourceResp> findById(@PathVariable @Parameter(description = "数据源ID", required = true) Long id) {
         return R.ok(genDataSourceService.findById(id));
     }
 
     /**
      * 按条件查询数据源
      *
-     * @param queryRequest 数据源查询请求参数
+     * @param query 数据源查询请求参数
      * @return 数据源分页信息
      */
     @Operation(summary = "按条件查询数据源", description = "根据提供的查询请求参数按条件查询数据源信息")
     @GetMapping("/list")
-    public R<List<GenDataSourceResponse>> findList(GenDataSourceQueryRequest queryRequest) {
-        return R.ok(genDataSourceService.findList(queryRequest));
+    public R<List<GenDataSourceResp>> findList(GenDataSourceQuery query) {
+        return R.ok(genDataSourceService.findList(query));
     }
 
     /**

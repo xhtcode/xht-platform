@@ -11,9 +11,9 @@ import com.xht.system.modules.dict.dao.SysDictDao;
 import com.xht.system.modules.dict.dao.SysDictItemDao;
 import com.xht.system.modules.dict.domain.entity.SysDictEntity;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
-import com.xht.system.modules.dict.domain.request.SysDictItemFormRequest;
-import com.xht.system.modules.dict.domain.request.SysDictItemQueryRequest;
-import com.xht.system.modules.dict.domain.response.SysDictItemResponse;
+import com.xht.system.modules.dict.domain.request.SysDictItemForm;
+import com.xht.system.modules.dict.domain.request.SysDictItemQuery;
+import com.xht.system.modules.dict.domain.response.SysDictItemResp;
 import com.xht.system.modules.dict.domain.vo.SysDictVo;
 import com.xht.system.modules.dict.service.ISysDictItemService;
 import lombok.RequiredArgsConstructor;
@@ -43,14 +43,14 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
     /**
      * 根据创建请求创建系统字典项
      *
-     * @param formRequest 系统字典项表单请求参数
+     * @param form 系统字典项表单请求参数
      * @return 创建的系统字典项实体
      */
     @Override
-    public Boolean create(SysDictItemFormRequest formRequest) {
-        Boolean checkDictCode = sysDictItemDao.checkDictValue(null, formRequest.getDictId(), formRequest.getItemValue());
+    public Boolean create(SysDictItemForm form) {
+        Boolean checkDictCode = sysDictItemDao.checkDictValue(null, form.getDictId(), form.getItemValue());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项值已存在");
-        SysDictItemEntity entity = sysDictItemConverter.toEntity(formRequest);
+        SysDictItemEntity entity = sysDictItemConverter.toEntity(form);
         return sysDictItemDao.saveTransactional(entity);
     }
 
@@ -69,20 +69,20 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
     /**
      * 根据ID更新系统字典项
      *
-     * @param formRequest 系统字典项更新请求参数
+     * @param form 系统字典项更新请求参数
      * @return 更新是否成功
      */
     @Override
-    public boolean updateById(SysDictItemFormRequest formRequest) {
-        Long id = formRequest.getId();
+    public boolean updateById(SysDictItemForm form) {
+        Long id = form.getId();
         ThrowUtils.notNull(id);
         // 校验数据是否存在
         boolean exists = sysDictItemDao.exists(SysDictItemEntity::getId, id);
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "字典项不存在");
         // 校验字典项值 是否存在
-        Boolean checkDictCode = sysDictItemDao.checkDictValue(id, formRequest.getDictId(), formRequest.getItemValue());
+        Boolean checkDictCode = sysDictItemDao.checkDictValue(id, form.getDictId(), form.getItemValue());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
-        return sysDictItemDao.updateFormRequest(formRequest);
+        return sysDictItemDao.updateFormRequest(form);
     }
 
     /**
@@ -92,22 +92,22 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      * @return 系统字典项响应信息
      */
     @Override
-    public SysDictItemResponse findById(Long id) {
+    public SysDictItemResp findById(Long id) {
         return sysDictItemConverter.toResponse(sysDictItemDao.findById(id));
     }
 
     /**
      * 分页查询系统字典项
      *
-     * @param queryRequest 系统字典项查询请求参数
+     * @param query 系统字典项查询请求参数
      * @return 分页响应结果，包含系统字典项响应信息
      */
     @Override
-    public PageResponse<SysDictItemResponse> pageList(SysDictItemQueryRequest queryRequest) {
-        if (Objects.isNull(queryRequest.getDictId())) {
+    public PageResponse<SysDictItemResp> pageList(SysDictItemQuery query) {
+        if (Objects.isNull(query.getDictId())) {
             return PageTool.empty();
         }
-        Page<SysDictItemEntity> page = sysDictItemDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
+        Page<SysDictItemEntity> page = sysDictItemDao.queryPageRequest(PageTool.getPage(query), query);
         return sysDictItemConverter.toResponse(page);
     }
 
@@ -123,7 +123,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         SysDictEntity sysDictEntity = sysDictDao.findOneOptional(SysDictEntity::getDictCode, dictCode).orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
         SysDictVo sysDictVo = convertEntityToVo(sysDictEntity);
         List<SysDictItemEntity> sysDictItemEntities = sysDictItemDao.selectByDictId(sysDictEntity.getId());
-        List<SysDictItemResponse> response = sysDictItemConverter.toResponse(sysDictItemEntities);
+        List<SysDictItemResp> response = sysDictItemConverter.toResponse(sysDictItemEntities);
         sysDictVo.setItems(response);
         return sysDictVo;
     }

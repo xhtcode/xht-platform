@@ -89,11 +89,10 @@ public class RedisServiceImpl implements RedisService {
      * 删除key
      *
      * @param key redis key
-     * @return boolean true成功
      */
     @Override
-    public boolean delete(String key) {
-        return Boolean.TRUE.equals(redisTemplate.delete(key));
+    public void delete(String key) {
+        redisTemplate.delete(key);
     }
 
     /**

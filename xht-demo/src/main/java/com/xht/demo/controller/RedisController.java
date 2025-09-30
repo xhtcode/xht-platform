@@ -24,14 +24,14 @@ public class RedisController {
     private final RedisService redisService;
 
     @GetMapping("/set")
-    @Operation(summary = "设置Redis缓存", description = "向Redis中设置一个键为'test:key'，值为'test'的缓存")
-    public R<Boolean> set() {
+    @Operation(summary = "设置Redis缓存", description = "向Redis中设置一个键为'test:key'，")
+    public R<Void> set() {
         redisService.set(Keys.createKey("test", "key"), "test");
         return R.ok();
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获取Redis缓存", description = "从Redis中获取键为'test:key'的缓存值")
+    @Operation(summary = "获取Redis缓存", description = "从Redis中获取")
     public R<String> get() {
         return R.ok(redisService.get(Keys.createKey("test", "key")));
     }

@@ -12,7 +12,7 @@ import java.io.Serial;
  **/
 @Data
 @Schema(description = "通用分页请求实体")
-public abstract class PageQueryRequest implements IRequest {
+public abstract class PageQueryRequest extends QueryRequest {
 
     @Serial
     private static final long serialVersionUID = 1L;

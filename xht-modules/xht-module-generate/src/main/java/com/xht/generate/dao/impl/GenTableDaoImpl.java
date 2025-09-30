@@ -9,8 +9,8 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTableDao;
 import com.xht.generate.dao.mapper.GenTableMapper;
 import com.xht.generate.domain.entity.GenTableEntity;
-import com.xht.generate.domain.form.GenTableInfoFormRequest;
-import com.xht.generate.domain.query.GenTableInfoQueryRequest;
+import com.xht.generate.domain.form.GenTableInfoForm;
+import com.xht.generate.domain.query.GenTableInfoQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -29,47 +29,46 @@ public class GenTableDaoImpl extends MapperRepositoryImpl<GenTableMapper, GenTab
     /**
      * 更新菜单信息
      *
-     * @param formRequest 菜单信息
-     * @return 是否成功
+     * @param form 菜单信息
      */
     @Override
-    public Boolean updateFormRequest(GenTableInfoFormRequest formRequest) {
+    public void updateFormRequest(GenTableInfoForm form) {
         LambdaUpdateWrapper<GenTableEntity> updateWrapper = lambdaUpdateWrapper();
-        updateWrapper.set(condition(formRequest.getGroupId()), GenTableEntity::getGroupId, formRequest.getGroupId());
-        updateWrapper.set(condition(formRequest.getDataSourceId()), GenTableEntity::getDataSourceId, formRequest.getDataSourceId());
-        updateWrapper.set(condition(formRequest.getDataBaseType()), GenTableEntity::getDataBaseType, formRequest.getDataBaseType());
-        updateWrapper.set(condition(formRequest.getEngineName()), GenTableEntity::getEngineName, formRequest.getEngineName());
-        updateWrapper.set(condition(formRequest.getTableName()), GenTableEntity::getTableName, formRequest.getTableName());
-        updateWrapper.set(condition(formRequest.getTableComment()), GenTableEntity::getTableComment, formRequest.getTableComment());
-        updateWrapper.set(condition(formRequest.getModuleName()), GenTableEntity::getModuleName, formRequest.getModuleName());
-        updateWrapper.set(condition(formRequest.getServiceName()), GenTableEntity::getServiceName, formRequest.getServiceName());
-        updateWrapper.set(condition(formRequest.getCodeName()), GenTableEntity::getCodeName, formRequest.getCodeName());
-        updateWrapper.set(condition(formRequest.getCodeComment()), GenTableEntity::getCodeComment, formRequest.getCodeComment());
-        updateWrapper.set(condition(formRequest.getBackEndAuthor()), GenTableEntity::getBackEndAuthor, formRequest.getBackEndAuthor());
-        updateWrapper.set(condition(formRequest.getFrontEndAuthor()), GenTableEntity::getFrontEndAuthor, formRequest.getFrontEndAuthor());
-        updateWrapper.set(condition(formRequest.getUrlPrefix()), GenTableEntity::getUrlPrefix, formRequest.getUrlPrefix());
-        updateWrapper.set(condition(formRequest.getPermissionPrefix()), GenTableEntity::getPermissionPrefix, formRequest.getPermissionPrefix());
-        updateWrapper.set(condition(formRequest.getParentMenuId()), GenTableEntity::getParentMenuId, formRequest.getParentMenuId());
-        updateWrapper.set(condition(formRequest.getPageStyle()), GenTableEntity::getPageStyle, formRequest.getPageStyle());
-        updateWrapper.set(condition(formRequest.getPageStyleWidth()), GenTableEntity::getPageStyleWidth, formRequest.getPageStyleWidth());
-        updateWrapper.set(condition(formRequest.getFromNumber()), GenTableEntity::getFromNumber, formRequest.getFromNumber());
-        updateWrapper.eq(GenTableEntity::getId, formRequest.getId());
-        return update(updateWrapper);
+        updateWrapper.set(condition(form.getGroupId()), GenTableEntity::getGroupId, form.getGroupId());
+        updateWrapper.set(condition(form.getDataSourceId()), GenTableEntity::getDataSourceId, form.getDataSourceId());
+        updateWrapper.set(condition(form.getDataBaseType()), GenTableEntity::getDataBaseType, form.getDataBaseType());
+        updateWrapper.set(condition(form.getEngineName()), GenTableEntity::getEngineName, form.getEngineName());
+        updateWrapper.set(condition(form.getTableName()), GenTableEntity::getTableName, form.getTableName());
+        updateWrapper.set(condition(form.getTableComment()), GenTableEntity::getTableComment, form.getTableComment());
+        updateWrapper.set(condition(form.getModuleName()), GenTableEntity::getModuleName, form.getModuleName());
+        updateWrapper.set(condition(form.getServiceName()), GenTableEntity::getServiceName, form.getServiceName());
+        updateWrapper.set(condition(form.getCodeName()), GenTableEntity::getCodeName, form.getCodeName());
+        updateWrapper.set(condition(form.getCodeComment()), GenTableEntity::getCodeComment, form.getCodeComment());
+        updateWrapper.set(condition(form.getBackEndAuthor()), GenTableEntity::getBackEndAuthor, form.getBackEndAuthor());
+        updateWrapper.set(condition(form.getFrontEndAuthor()), GenTableEntity::getFrontEndAuthor, form.getFrontEndAuthor());
+        updateWrapper.set(condition(form.getUrlPrefix()), GenTableEntity::getUrlPrefix, form.getUrlPrefix());
+        updateWrapper.set(condition(form.getPermissionPrefix()), GenTableEntity::getPermissionPrefix, form.getPermissionPrefix());
+        updateWrapper.set(condition(form.getParentMenuId()), GenTableEntity::getParentMenuId, form.getParentMenuId());
+        updateWrapper.set(condition(form.getPageStyle()), GenTableEntity::getPageStyle, form.getPageStyle());
+        updateWrapper.set(condition(form.getPageStyleWidth()), GenTableEntity::getPageStyleWidth, form.getPageStyleWidth());
+        updateWrapper.set(condition(form.getFromNumber()), GenTableEntity::getFromNumber, form.getFromNumber());
+        updateWrapper.eq(GenTableEntity::getId, form.getId());
+        update(updateWrapper);
     }
 
     /**
      * 分页查询菜单
      *
      * @param page         分页信息
-     * @param queryRequest 菜单查询请求参数
+     * @param query 菜单查询请求参数
      * @return 菜单分页信息
      */
     @Override
-    public Page<GenTableEntity> queryPageRequest(Page<GenTableEntity> page, GenTableInfoQueryRequest queryRequest) {
+    public Page<GenTableEntity> queryPageRequest(Page<GenTableEntity> page, GenTableInfoQuery query) {
         LambdaQueryWrapper<GenTableEntity> queryWrapper = lambdaQueryWrapper();
-        queryWrapper.eq(condition(queryRequest.getGroupId()), GenTableEntity::getGroupId, queryRequest.getGroupId());
-        queryWrapper.eq(condition(queryRequest.getDataSourceId()), GenTableEntity::getDataSourceId, queryRequest.getDataSourceId());
-        queryWrapper.like(condition(queryRequest.getTableName()), GenTableEntity::getTableName, queryRequest.getTableName());
+        queryWrapper.eq(condition(query.getGroupId()), GenTableEntity::getGroupId, query.getGroupId());
+        queryWrapper.eq(condition(query.getDataSourceId()), GenTableEntity::getDataSourceId, query.getDataSourceId());
+        queryWrapper.like(condition(query.getTableName()), GenTableEntity::getTableName, query.getTableName());
         return page(page, queryWrapper);
     }
 

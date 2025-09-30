@@ -4,9 +4,9 @@ import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
-import com.xht.system.modules.user.domain.request.UpdatePwdRequest;
-import com.xht.system.modules.user.domain.request.UserFormRequest;
-import com.xht.system.modules.user.domain.request.UserQueryRequest;
+import com.xht.system.modules.user.domain.request.SysUserForm;
+import com.xht.system.modules.user.domain.request.SysUserQuery;
+import com.xht.system.modules.user.domain.request.UpdatePwdFrom;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import com.xht.system.modules.user.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,13 +36,14 @@ public class SysUserController {
      * 该方法用于根据提供的用户创建请求信息创建一个新用户。
      * 请求体中需要包含创建用户所需的所有必要信息。
      *
-     * @param formRequest 用户创建请求信息，使用@Valid注解确保请求数据的有效性
+     * @param form 用户创建请求信息，使用@Valid注解确保请求数据的有效性
      * @return 返回一个R对象，其中包含一个布尔值，表示用户是否创建成功
      */
     @Operation(summary = "用户添加", description = "用户添加")
     @PostMapping("/create")
-    public R<Boolean> add(@Valid @RequestBody UserFormRequest formRequest) {
-        return R.ok(userService.create(formRequest));
+    public R<Void> create(@Valid @RequestBody SysUserForm form) {
+        userService.create(form);
+        return R.ok();
     }
 
     /**
@@ -54,8 +55,9 @@ public class SysUserController {
      */
     @Operation(summary = "删除用户", description = "根据ID删除用户")
     @PostMapping("/remove/{id}")
-    public R<Boolean> removeById(@PathVariable Long id) {
-        return R.ok(userService.delete(id));
+    public R<Void> removeById(@PathVariable Long id) {
+        userService.delete(id);
+        return R.ok();
     }
 
     /**
@@ -67,8 +69,9 @@ public class SysUserController {
      */
     @Operation(summary = "批量删除用户", description = "根据ID删除用户")
     @PostMapping("/remove")
-    public R<Boolean> removeByIds(@RequestBody List<Long> ids) {
-        return R.ok(userService.removeByIds(ids));
+    public R<Void> removeByIds(@RequestBody List<Long> ids) {
+        userService.removeByIds(ids);
+        return R.ok();
     }
 
     /**
@@ -76,13 +79,14 @@ public class SysUserController {
      * 该方法用于根据用户ID更新用户信息。
      * 请求体中需要包含更新用户所需的信息。
      *
-     * @param formRequest 包含更新信息的用户请求对象，使用@Valid注解确保请求数据的有效性
+     * @param form 包含更新信息的用户请求对象，使用@Valid注解确保请求数据的有效性
      * @return 返回一个R对象，其中包含一个布尔值，表示用户信息是否更新成功
      */
     @Operation(summary = "更新用户信息", description = "根据ID更新用户信息")
     @PostMapping("/update")
-     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody UserFormRequest formRequest) {
-        return R.ok(userService.update(formRequest));
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysUserForm form) {
+        userService.update(form);
+        return R.ok();
     }
 
     /**
@@ -102,13 +106,13 @@ public class SysUserController {
      * 分页获取用户列表
      * 该方法用于分页查询用户列表，可以根据传入的查询请求参数获取相应的用户信息列表。
      *
-     * @param queryRequest 查询请求参数，可以包含分页信息、排序信息或过滤条件等
+     * @param query 查询请求参数，可以包含分页信息、排序信息或过滤条件等
      * @return 返回一个R对象，其中包含Page<SysUserVO>对象，表示分页用户列表信息
      */
     @Operation(summary = "分页获取用户列表", description = "分页获取用户列表")
     @GetMapping("/page")
-    public R<PageResponse<SysUserVO>> pageList(UserQueryRequest queryRequest) {
-        return R.ok(userService.pageList(queryRequest));
+    public R<PageResponse<SysUserVO>> pageList(SysUserQuery query) {
+        return R.ok(userService.pageList(query));
     }
 
     /**
@@ -121,8 +125,9 @@ public class SysUserController {
      */
     @Operation(summary = "密码重置", description = "密码重置")
     @PostMapping("/reset/{userId}/pwd")
-    public R<Boolean> resetPassword(@Valid @PathVariable Long userId) {
-        return R.ok(userService.resetPassword(userId));
+    public R<Void> resetPassword(@Valid @PathVariable Long userId) {
+        userService.resetPassword(userId);
+        return R.ok();
     }
 
     /**
@@ -130,13 +135,14 @@ public class SysUserController {
      * 该方法用于根据提供的用户更新请求信息修改用户的密码。
      * 请求体中需要包含用户的ID和旧密码、新密码信息。
      *
-     * @param formRequest 包含修改密码信息的用户请求对象，使用@Valid注解确保请求数据的有效性
+     * @param form 包含修改密码信息的用户请求对象，使用@Valid注解确保请求数据的有效性
      * @return 返回一个R对象，其中包含一个布尔值，表示密码是否修改成功
      */
     @Operation(summary = "密码修改", description = "密码修改")
     @PostMapping("/update/pwd")
-    public R<Boolean> updatePassword(@Valid @RequestBody UpdatePwdRequest formRequest) {
-        return R.ok(userService.updatePassword(formRequest));
+    public R<Void> updatePassword(@Valid @RequestBody UpdatePwdFrom form) {
+        userService.updatePassword(form);
+        return R.ok();
     }
 
     /**
@@ -150,8 +156,9 @@ public class SysUserController {
      */
     @Operation(summary = "用户状态修改", description = "用户状态修改")
     @PostMapping("/update/{userId}/{status}")
-    public R<Boolean> updateStatus(@PathVariable("userId") Long userId, @PathVariable("status") UserStatusEnums status) {
-        return R.ok(userService.updateStatus(userId, status));
+    public R<Void> updateStatus(@PathVariable("userId") Long userId, @PathVariable("status") UserStatusEnums status) {
+        userService.updateStatus(userId, status);
+        return R.ok();
     }
 
 

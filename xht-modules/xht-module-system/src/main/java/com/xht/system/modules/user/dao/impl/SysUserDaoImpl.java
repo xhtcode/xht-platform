@@ -12,7 +12,7 @@ import com.xht.system.modules.user.dao.mapper.SysUserMapper;
 import com.xht.system.modules.user.dao.mapper.SysUserProfilesMapper;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
 import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
-import com.xht.system.modules.user.domain.request.UserQueryRequest;
+import com.xht.system.modules.user.domain.request.SysUserQuery;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -35,30 +35,27 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      *
      * @param sysUserEntity         用户信息
      * @param sysUserProfilesEntity 用户详细信息
-     * @return true：保存成功；false：保存失败
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean saveUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity) {
+    public void saveUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity) {
         save(sysUserEntity);
         sysUserProfilesEntity.setUserId(sysUserEntity.getId());
         userProfilesMapper.insert(sysUserProfilesEntity);
-        return Boolean.TRUE;
     }
 
     /**
      * 用户信息删除
      *
      * @param userId 用户ID
-     * @return true：删除成功；false：删除失败
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean removeUserInfo(Long userId) {
+    public void removeUserInfo(Long userId) {
         LambdaQueryWrapper<SysUserProfilesEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUserProfilesEntity::getUserId, userId);
         userProfilesMapper.delete(queryWrapper);
-        return removeById(userId);
+        removeById(userId);
     }
 
     /**
@@ -66,11 +63,10 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      *
      * @param sysUserEntity         用户信息
      * @param sysUserProfilesEntity 用户详细信息
-     * @return true：更新成功；false：更新失败
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity) {
+    public void updateUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity) {
         //@formatter:off
         LambdaUpdateWrapper<SysUserEntity> userUpdateWrapper = new LambdaUpdateWrapper<>();
         userUpdateWrapper
@@ -91,7 +87,6 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
         //@formatter:on
         update(userUpdateWrapper);
         userProfilesMapper.update(userProfilesUpdateWrapper);
-        return true;
     }
 
     /**
@@ -99,15 +94,14 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      *
      * @param userId      用户ID
      * @param newPassword 新密码
-     * @return true：更新成功；false：更新失败
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updatePassword(Long userId, String newPassword) {
+    public void updatePassword(Long userId, String newPassword) {
         LambdaUpdateWrapper<SysUserEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.set(SysUserEntity::getPassWord, newPassword);
         lambdaUpdateWrapper.eq(SysUserEntity::getId, userId);
-        return update(lambdaUpdateWrapper);
+        update(lambdaUpdateWrapper);
     }
 
     /**
@@ -115,15 +109,14 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      *
      * @param userId 用户ID
      * @param status 状态
-     * @return true：更新成功；false：更新失败
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateStatus(Long userId, UserStatusEnums status) {
+    public void updateStatus(Long userId, UserStatusEnums status) {
         LambdaUpdateWrapper<SysUserEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.set(SysUserEntity::getUserStatus, status);
         lambdaUpdateWrapper.eq(SysUserEntity::getId, userId);
-        return update(lambdaUpdateWrapper);
+        update(lambdaUpdateWrapper);
     }
 
 
@@ -131,12 +124,12 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * 分页查询用户信息
      *
      * @param page         分页信息
-     * @param queryRequest 查询请求参数
+     * @param query 查询请求参数
      * @return 分页查询结果
      */
     @Override
-    public Page<SysUserVO> queryPageRequest(Page<SysUserEntity> page, UserQueryRequest queryRequest) {
-        return baseMapper.queryPageRequest(page, queryRequest);
+    public Page<SysUserVO> queryPageRequest(Page<SysUserEntity> page, SysUserQuery query) {
+        return baseMapper.queryPageRequest(page, query);
     }
 
     /**

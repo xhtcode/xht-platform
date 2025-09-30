@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.system.modules.dept.domain.entity.SysPostEntity;
-import com.xht.system.modules.dept.domain.request.SysPostFormRequest;
-import com.xht.system.modules.dept.domain.request.SysPostQueryRequest;
+import com.xht.system.modules.dept.domain.request.SysPostForm;
+import com.xht.system.modules.dept.domain.request.SysPostQuery;
 
 import java.util.List;
 
@@ -27,10 +27,9 @@ public interface SysPostDao extends MapperRepository<SysPostEntity> {
     /**
      * 更新岗位信息
      *
-     * @param formRequest 岗位信息
-     * @return true：成功；false：失败
+     * @param form 岗位信息
      */
-    Boolean updateFormRequest(SysPostFormRequest formRequest);
+    void updateFormRequest(SysPostForm form);
 
     /**
      * 验证部门岗位是否系统内置
@@ -54,9 +53,9 @@ public interface SysPostDao extends MapperRepository<SysPostEntity> {
      * 分页查询部门岗位信息
      *
      * @param page         分页信息
-     * @param queryRequest 查询请求参数
+     * @param query 查询请求参数
      * @return 分页数据
      */
-    Page<SysPostEntity> queryPageRequest(Page<SysPostEntity> page, SysPostQueryRequest queryRequest);
+    Page<SysPostEntity> queryPageRequest(Page<SysPostEntity> page, SysPostQuery query);
 
 }

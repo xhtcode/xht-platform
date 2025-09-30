@@ -10,9 +10,9 @@ import com.xht.generate.dao.GenTemplateDao;
 import com.xht.generate.dao.GenTemplateGroupDao;
 import com.xht.generate.domain.entity.GenTemplateEntity;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
-import com.xht.generate.domain.form.GenTemplateGroupFormRequest;
-import com.xht.generate.domain.query.GenTemplateGroupQueryRequest;
-import com.xht.generate.domain.response.GenTemplateGroupResponse;
+import com.xht.generate.domain.form.GenTemplateGroupForm;
+import com.xht.generate.domain.query.GenTemplateGroupQuery;
+import com.xht.generate.domain.response.GenTemplateGroupResp;
 import com.xht.generate.service.IGenTemplateGroupService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,14 +40,13 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
     /**
      * 创建项目
      *
-     * @param formRequest 项目表单请求参数
-     * @return 操作结果
+     * @param form 项目表单请求参数
      */
     @Override
-    public Boolean create(GenTemplateGroupFormRequest formRequest) {
-        GenTemplateGroupEntity entity = genTemplateGroupConverter.toEntity(formRequest);
+    public void create(GenTemplateGroupForm form) {
+        GenTemplateGroupEntity entity = genTemplateGroupConverter.toEntity(form);
         entity.setTemplateCount(0);
-        return genTemplateGroupDao.saveTransactional(entity);
+        genTemplateGroupDao.saveTransactional(entity);
     }
 
 
@@ -55,26 +54,24 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      * 根据ID删除项目
      *
      * @param id 项目ID
-     * @return 操作结果
      */
     @Override
-    public Boolean removeById(Long id) {
+    public void removeById(Long id) {
         Boolean exists = genTemplateDao.exists(GenTemplateEntity::getGroupId, id);
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "项目下存在模板，不能删除");
-        return genTemplateGroupDao.removeByIdTransactional(id);
+        genTemplateGroupDao.removeByIdTransactional(id);
     }
 
     /**
      * 根据ID更新项目
      *
-     * @param formRequest 项目更新请求参数
-     * @return 操作结果
+     * @param form 项目更新请求参数
      */
     @Override
-    public Boolean updateById(GenTemplateGroupFormRequest formRequest) {
-        Boolean menuExists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, formRequest.getId());
+    public void updateById(GenTemplateGroupForm form) {
+        Boolean menuExists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, form.getId());
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "项目不存在");
-        return genTemplateGroupDao.updateFormRequest(formRequest);
+        genTemplateGroupDao.updateFormRequest(form);
     }
 
     /**
@@ -84,7 +81,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      * @return 项目信息
      */
     @Override
-    public GenTemplateGroupResponse findById(Long id) {
+    public GenTemplateGroupResp findById(Long id) {
         return genTemplateGroupConverter.toResponse(genTemplateGroupDao.findById(id));
     }
 
@@ -93,7 +90,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      *
      * @return 代码生成模板组列表响应结果
      */
-    public List<GenTemplateGroupResponse> findAll() {
+    public List<GenTemplateGroupResp> findAll() {
         List<GenTemplateGroupEntity> entityList = genTemplateGroupDao.findAllBy();
         return genTemplateGroupConverter.toResponse(entityList);
     }
@@ -102,12 +99,12 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
     /**
      * 根据提供的查询请求参数分页查询代码生成模板组信息
      *
-     * @param queryRequest 查询参数
+     * @param query 查询参数
      * @return 代码生成模板组列表响应结果
      */
     @Override
-    public PageResponse<GenTemplateGroupResponse> pageList(GenTemplateGroupQueryRequest queryRequest) {
-        Page<GenTemplateGroupEntity> page = genTemplateGroupDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
+    public PageResponse<GenTemplateGroupResp> pageList(GenTemplateGroupQuery query) {
+        Page<GenTemplateGroupEntity> page = genTemplateGroupDao.queryPageRequest(PageTool.getPage(query), query);
         return genTemplateGroupConverter.toResponse(page);
     }
 

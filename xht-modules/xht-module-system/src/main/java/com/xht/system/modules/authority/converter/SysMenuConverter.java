@@ -2,8 +2,8 @@ package com.xht.system.modules.authority.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
-import com.xht.system.modules.authority.domain.request.SysMenuFormRequest;
-import com.xht.system.modules.authority.domain.response.SysMenuResponse;
+import com.xht.system.modules.authority.domain.request.SysMenuForm;
+import com.xht.system.modules.authority.domain.response.SysMenuResp;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -18,12 +18,13 @@ import java.util.Map;
  * @author xht
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SysMenuConverter extends BasicConverter<SysMenuEntity, SysMenuFormRequest, SysMenuResponse> {
+public interface SysMenuConverter extends BasicConverter<SysMenuEntity, SysMenuForm, SysMenuResp> {
 
     /**
      * 转换为Map
      *
      * @param entity 实体
+     * @param isSelect 是否为选择菜单
      * @return Map
      */
     default Map<String, Object> toMap(SysMenuEntity entity, boolean isSelect) {

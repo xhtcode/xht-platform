@@ -22,7 +22,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "sys_dept_post")
+@TableName(value = "sys_post")
 public class SysPostEntity extends BasicEntity implements Serializable {
 
     @Serial

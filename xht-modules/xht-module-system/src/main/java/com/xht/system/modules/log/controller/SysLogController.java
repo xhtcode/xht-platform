@@ -2,8 +2,8 @@ package com.xht.system.modules.log.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.system.modules.log.domian.request.SysLogQueryRequest;
-import com.xht.system.modules.log.domian.response.SysLogResponse;
+import com.xht.system.modules.log.domian.request.SysLogQuery;
+import com.xht.system.modules.log.domian.response.SysLogResp;
 import com.xht.system.modules.log.service.ISysLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,20 +36,20 @@ public class SysLogController {
      */
     @Operation(summary = "获取系统日志详情")
     @GetMapping("/get/{id}")
-    public R<SysLogResponse> findById(@PathVariable Long id) {
+    public R<SysLogResp> findById(@PathVariable Long id) {
         return R.ok(sysLogService.findById(id));
     }
 
     /**
      * 分页查询系统日志岗位
      *
-     * @param queryRequest 系统日志岗位查询请求参数
+     * @param query 系统日志岗位查询请求参数
      * @return 系统日志岗位分页信息
      */
     @Operation(summary = "分页查询系统日志岗位", description = "根据提供的查询请求参数分页查询系统日志岗位信息")
     @GetMapping("/page")
-    public R<PageResponse<SysLogResponse>> pageList(@Valid SysLogQueryRequest queryRequest) {
-        return R.ok(sysLogService.pageList(queryRequest));
+    public R<PageResponse<SysLogResp>> pageList(@Valid SysLogQuery query) {
+        return R.ok(sysLogService.pageList(query));
     }
 
 }

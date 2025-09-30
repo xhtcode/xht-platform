@@ -7,7 +7,7 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTemplateDao;
 import com.xht.generate.dao.mapper.GenTemplateMapper;
 import com.xht.generate.domain.entity.GenTemplateEntity;
-import com.xht.generate.domain.form.GenTemplateFormRequest;
+import com.xht.generate.domain.form.GenTemplateForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,26 +28,25 @@ public class GenTemplateDaoImpl extends MapperRepositoryImpl<GenTemplateMapper, 
     /**
      * 更新菜单信息
      *
-     * @param formRequest 菜单信息
-     * @return 是否成功
+     * @param form 菜单信息
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateFormRequest(GenTemplateFormRequest formRequest) {
+    public void updateFormRequest(GenTemplateForm form) {
         LambdaUpdateWrapper<GenTemplateEntity> updateWrapper = lambdaUpdateWrapper();
         // @formatter:off
         updateWrapper
-                .set(condition(formRequest.getGroupId()), GenTemplateEntity::getGroupId, formRequest.getGroupId())
-                .set(condition(formRequest.getTemplateName()), GenTemplateEntity::getTemplateName, formRequest.getTemplateName())
-                .set(condition(formRequest.getTemplateContent()), GenTemplateEntity::getTemplateContent, formRequest.getTemplateContent())
-                .set(condition(formRequest.getTemplateFilePath()), GenTemplateEntity::getTemplateFilePath, formRequest.getTemplateFilePath())
-                .set(condition(formRequest.getTemplateFileName()), GenTemplateEntity::getTemplateFileName, formRequest.getTemplateFileName())
-                .set(condition(formRequest.getTemplateFileType()), GenTemplateEntity::getTemplateFileType, formRequest.getTemplateFileType())
-                .set(condition(formRequest.getTemplateIgnoreField()), GenTemplateEntity::getTemplateIgnoreField, formRequest.getTemplateIgnoreField(), JACKSON_TYPE_HANDLER)
-                .set(condition(formRequest.getTemplateSort()), GenTemplateEntity::getTemplateSort, formRequest.getTemplateSort())
-                .eq(GenTemplateEntity::getId, formRequest.getId());
+                .set(condition(form.getGroupId()), GenTemplateEntity::getGroupId, form.getGroupId())
+                .set(condition(form.getTemplateName()), GenTemplateEntity::getTemplateName, form.getTemplateName())
+                .set(condition(form.getTemplateContent()), GenTemplateEntity::getTemplateContent, form.getTemplateContent())
+                .set(condition(form.getTemplateFilePath()), GenTemplateEntity::getTemplateFilePath, form.getTemplateFilePath())
+                .set(condition(form.getTemplateFileName()), GenTemplateEntity::getTemplateFileName, form.getTemplateFileName())
+                .set(condition(form.getTemplateFileType()), GenTemplateEntity::getTemplateFileType, form.getTemplateFileType())
+                .set(condition(form.getTemplateIgnoreField()), GenTemplateEntity::getTemplateIgnoreField, form.getTemplateIgnoreField(), JACKSON_TYPE_HANDLER)
+                .set(condition(form.getTemplateSort()), GenTemplateEntity::getTemplateSort, form.getTemplateSort())
+                .eq(GenTemplateEntity::getId, form.getId());
         // @formatter:on
-        return update(updateWrapper);
+        update(updateWrapper);
     }
 
     /**

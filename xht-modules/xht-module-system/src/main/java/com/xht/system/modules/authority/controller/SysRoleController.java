@@ -4,9 +4,9 @@ import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
-import com.xht.system.modules.authority.domain.request.SysRoleFormRequest;
-import com.xht.system.modules.authority.domain.request.SysRoleQueryRequest;
-import com.xht.system.modules.authority.domain.response.SysRoleResponse;
+import com.xht.system.modules.authority.domain.request.SysRoleForm;
+import com.xht.system.modules.authority.domain.request.SysRoleQuery;
+import com.xht.system.modules.authority.domain.response.SysRoleResp;
 import com.xht.system.modules.authority.service.ISysRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -35,49 +35,53 @@ public class SysRoleController {
     /**
      * 创建角色
      *
-     * @param formRequest 角色表单请求参数
-     * @return 操作结果
+     * @param form 角色表单请求参数
+     * @return 统一响应结果
      */
     @Operation(summary = "创建角色", description = "根据提供的请求参数创建一个新的角色")
     @PostMapping("/create")
-    public R<Boolean> create(@Validated(value = {Groups.Create.class}) @RequestBody SysRoleFormRequest formRequest) {
-        return R.ok(sysRoleService.create(formRequest));
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysRoleForm form) {
+        sysRoleService.create(form);
+        return R.ok();
     }
 
     /**
      * 根据ID删除角色
      *
      * @param id 角色ID
-     * @return 操作结果
+     * @return 统一响应结果
      */
     @Operation(summary = "根据ID删除角色", description = "根据提供的角色ID删除角色")
     @PostMapping("/remove/{id}")
-    public R<Boolean> removeById(@PathVariable Long id) {
-        return R.ok(sysRoleService.removeById(id));
+    public R<Void> removeById(@PathVariable Long id) {
+        sysRoleService.removeById(id);
+        return R.ok();
     }
 
     /**
      * 根据ID删除角色
      *
      * @param ids 角色ID
-     * @return 操作结果
+     * @return 统一响应结果
      */
     @Operation(summary = "根据ID删除角色", description = "根据提供的角色ID删除角色")
     @PostMapping("/remove/")
-    public R<Boolean> removeByIds(@RequestBody List<Long> ids) {
-        return R.ok(sysRoleService.removeByIds(ids));
+    public R<Void> removeByIds(@RequestBody List<Long> ids) {
+        sysRoleService.removeByIds(ids);
+        return R.ok();
     }
 
     /**
      * 根据ID更新角色
      *
-     * @param formRequest 角色更新请求参数
-     * @return 操作结果
+     * @param form 角色更新请求参数
+     * @return 统一响应结果
      */
     @Operation(summary = "根据ID更新角色", description = "根据提供的角色更新请求参数更新角色")
     @PostMapping("/update")
-     public R<Boolean> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysRoleFormRequest formRequest) {
-        return R.ok(sysRoleService.updateById(formRequest));
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysRoleForm form) {
+        sysRoleService.updateById(form);
+        return R.ok();
     }
 
     /**
@@ -85,13 +89,14 @@ public class SysRoleController {
      *
      * @param id     角色ID
      * @param status 角色状态
-     * @return 操作结果 成功：true 失败：false
+     * @return 统一响应结果 成功：true 失败：false
      */
     @Operation(summary = "修改角色状态", description = "根据提供的角色ID和状态修改角色状态")
     @PostMapping("/updateStatus/{id}/{status}")
-    public R<Boolean> updateStatus(@PathVariable("id") @Parameter(description = "角色ID", required = true) Long id,
+    public R<Void> updateStatus(@PathVariable("id") @Parameter(description = "角色ID", required = true) Long id,
                                    @PathVariable("status") @Parameter(description = "角色状态", required = true) RoleStatusEnums status) {
-        return R.ok(sysRoleService.updateStatus(id, status));
+        sysRoleService.updateStatus(id, status);
+        return R.ok();
     }
 
     /**
@@ -102,20 +107,20 @@ public class SysRoleController {
      */
     @Operation(summary = "根据ID查询角色", description = "根据提供的角色ID查询角色信息")
     @GetMapping("/get/{id}")
-    public R<SysRoleResponse> findById(@PathVariable @Parameter(description = "角色ID", required = true) Long id) {
+    public R<SysRoleResp> findById(@PathVariable @Parameter(description = "角色ID", required = true) Long id) {
         return R.ok(sysRoleService.findById(id));
     }
 
     /**
      * 分页查询角色
      *
-     * @param queryRequest 角色查询请求参数
+     * @param query 角色查询请求参数
      * @return 角色分页信息
      */
     @Operation(summary = "分页查询角色", description = "根据提供的查询请求参数分页查询角色信息")
     @GetMapping("/page")
-    public R<PageResponse<SysRoleResponse>> pageList(SysRoleQueryRequest queryRequest) {
-        return R.ok(sysRoleService.pageList(queryRequest));
+    public R<PageResponse<SysRoleResp>> pageList(SysRoleQuery query) {
+        return R.ok(sysRoleService.pageList(query));
     }
 
     /**
@@ -125,7 +130,7 @@ public class SysRoleController {
      */
     @Operation(summary = "查询全部角色", description = "查询全部角色")
     @GetMapping("/list")
-    public R<List<SysRoleResponse>> list() {
+    public R<List<SysRoleResp>> list() {
         return R.ok(sysRoleService.list());
     }
 }

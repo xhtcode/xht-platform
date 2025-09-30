@@ -9,9 +9,9 @@ import com.xht.generate.cache.TypeMappingCache;
 import com.xht.generate.converter.GenTypeMappingConverter;
 import com.xht.generate.dao.GenTypeMappingDao;
 import com.xht.generate.domain.entity.GenTypeMappingEntity;
-import com.xht.generate.domain.form.GenTypeMappingFormRequest;
-import com.xht.generate.domain.query.GenTypeMappingQueryRequest;
-import com.xht.generate.domain.response.GenTypeMappingResponse;
+import com.xht.generate.domain.form.GenTypeMappingForm;
+import com.xht.generate.domain.query.GenTypeMappingQuery;
+import com.xht.generate.domain.response.GenTypeMappingResp;
 import com.xht.generate.service.IGenTypeMappingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,13 +39,12 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
     /**
      * 创建字段映射
      *
-     * @param formRequest 字段映射表单请求参数
-     * @return 操作结果
+     * @param form 字段映射表单请求参数
      */
     @Override
-    public Boolean create(GenTypeMappingFormRequest formRequest) {
-        GenTypeMappingEntity entity = genTypeMappingConverter.toEntity(formRequest);
-        return genTypeMappingDao.saveTransactional(entity);
+    public void create(GenTypeMappingForm form) {
+        GenTypeMappingEntity entity = genTypeMappingConverter.toEntity(form);
+        genTypeMappingDao.saveTransactional(entity);
     }
 
 
@@ -53,24 +52,22 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
      * 根据ID删除字段映射
      *
      * @param id 字段映射ID
-     * @return 操作结果
      */
     @Override
-    public Boolean removeById(Long id) {
-        return genTypeMappingDao.removeByIdTransactional(id);
+    public void removeById(Long id) {
+        genTypeMappingDao.removeByIdTransactional(id);
     }
 
     /**
      * 根据ID更新字段映射
      *
-     * @param formRequest 字段映射更新请求参数
-     * @return 操作结果
+     * @param form 字段映射更新请求参数
      */
     @Override
-    public Boolean updateById(GenTypeMappingFormRequest formRequest) {
-        Boolean menuExists = genTypeMappingDao.exists(GenTypeMappingEntity::getId, formRequest.getId());
+    public void updateById(GenTypeMappingForm form) {
+        Boolean menuExists = genTypeMappingDao.exists(GenTypeMappingEntity::getId, form.getId());
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "字段映射不存在");
-        return genTypeMappingDao.updateFormRequest(formRequest);
+        genTypeMappingDao.updateFormRequest(form);
     }
 
     /**
@@ -80,31 +77,31 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
      * @return 字段映射信息
      */
     @Override
-    public GenTypeMappingResponse findById(Long id) {
+    public GenTypeMappingResp findById(Long id) {
         return genTypeMappingConverter.toResponse(genTypeMappingDao.findById(id));
     }
 
     /**
      * 分页查询字段映射
      *
-     * @param queryRequest 字段映射查询请求参数
+     * @param query 字段映射查询请求参数
      * @return 字段映射分页信息
      */
     @Override
-    public PageResponse<GenTypeMappingResponse> pageList(GenTypeMappingQueryRequest queryRequest) {
-        Page<GenTypeMappingEntity> page = genTypeMappingDao.queryPageRequest(PageTool.getPage(queryRequest), queryRequest);
+    public PageResponse<GenTypeMappingResp> pageList(GenTypeMappingQuery query) {
+        Page<GenTypeMappingEntity> page = genTypeMappingDao.queryPageRequest(PageTool.getPage(query), query);
         return genTypeMappingConverter.toResponse(page);
     }
 
     /**
      * 根据数据库类型和目标编程语言类型查询所有的映射关系
      *
-     * @param queryRequest 字段映射查询请求参数
+     * @param query 字段映射查询请求参数
      * @return 字段映射信息
      */
     @Override
-    public List<GenTypeMappingResponse> findAll(GenTypeMappingQueryRequest queryRequest) {
-        List<GenTypeMappingEntity> typeMappingList = typeMappingCache.getTypeMappingList(queryRequest.getDbType(), queryRequest.getTargetLanguage());
+    public List<GenTypeMappingResp> findAll(GenTypeMappingQuery query) {
+        List<GenTypeMappingEntity> typeMappingList = typeMappingCache.getTypeMappingList(query.getDbType(), query.getTargetLanguage());
         return genTypeMappingConverter.toResponse(typeMappingList);
     }
 

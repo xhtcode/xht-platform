@@ -2,9 +2,9 @@ package com.xht.system.modules.oauth2.service;
 
 import com.xht.boot.oauth2.domain.dto.OAuth2RegisteredClientDTO;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientFormRequest;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQueryRequest;
-import com.xht.system.modules.oauth2.domian.response.SysOauth2ClientResponse;
+import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientForm;
+import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQuery;
+import com.xht.system.modules.oauth2.domian.response.SysOauth2ClientResp;
 
 import java.util.List;
 
@@ -18,26 +18,23 @@ public interface ISysOauth2ClientService {
     /**
      * 创建OAuth2客户端
      *
-     * @param formRequest OAuth2客户端信息
-     * @return true成功、false失败
+     * @param form OAuth2客户端信息
      */
-    Boolean create(SysOauth2ClientFormRequest formRequest);
+    void create(SysOauth2ClientForm form);
 
     /**
      * 删除OAuth2客户端
      *
      * @param ids OAuth2客户端ID集合
-     * @return true成功、false失败
      */
-    Boolean removeById(List<Long> ids);
+    void removeById(List<Long> ids);
 
     /**
      * 修改OAuth2客户端
      *
-     * @param formRequest OAuth2客户端信息
-     * @return true成功、false失败
+     * @param form OAuth2客户端信息
      */
-    Boolean updateById(SysOauth2ClientFormRequest formRequest);
+    void updateById(SysOauth2ClientForm form);
 
     /**
      * 获取OAuth2客户端详情
@@ -45,15 +42,15 @@ public interface ISysOauth2ClientService {
      * @param id OAuth2客户端ID
      * @return OAuth2客户端详情
      */
-    SysOauth2ClientResponse findById(Long id);
+    SysOauth2ClientResp findById(Long id);
 
     /**
      * 分页查询OAuth2客户端
      *
-     * @param queryRequest 查询请求参数
+     * @param query 查询请求参数
      * @return 分页结果
      */
-    PageResponse<SysOauth2ClientResponse> pageList(SysOauth2ClientQueryRequest queryRequest);
+    PageResponse<SysOauth2ClientResp> pageList(SysOauth2ClientQuery query);
 
     /**
      *  根据clientId 获取客户端详情
