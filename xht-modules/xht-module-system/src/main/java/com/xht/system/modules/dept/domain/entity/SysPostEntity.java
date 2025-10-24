@@ -69,21 +69,4 @@ public class SysPostEntity extends BasicEntity implements Serializable {
     @TableField(value = "remark")
     private String remark;
 
-    /**
-     * 构造函数 数据初始化使用
-     *
-     * @param postCode   岗位编码
-     * @param postName   岗位名称
-     * @param postSort   岗位排序
-     * @param remark     备注
-     * @param systemFlag 系统内置
-     */
-    public SysPostEntity(String postCode, String postName, Integer postSort, String remark, SystemFlagEnums systemFlag) {
-        this.postCode = postCode;
-        this.postName = postName;
-        this.postSort = postSort;
-        this.remark = remark;
-        this.postStatus = DeptPostStatusEnums.NORMAL;
-        this.systemFlag = systemFlag;
-    }
 }

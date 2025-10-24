@@ -111,10 +111,10 @@ CREATE TABLE `sys_user_dept_post`
   ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Table structure for sys_user_profiles
+-- Table structure for sys_user_admins
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_user_profiles`;
-CREATE TABLE `sys_user_profiles`
+DROP TABLE IF EXISTS `sys_user_admins`;
+CREATE TABLE `sys_user_admins`
 (
     `id`             bigint                                                        NOT NULL AUTO_INCREMENT COMMENT '信息ID',
     `user_id`        bigint                                                        NOT NULL COMMENT '关联用户ID',
@@ -122,7 +122,7 @@ CREATE TABLE `sys_user_profiles`
     `id_card_number` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '身份证号',
     `gender`         tinyint                                                       NULL DEFAULT NULL COMMENT '性别(1-男,2-女,3-其他)',
     `birth_date`     date                                                          NULL DEFAULT NULL COMMENT '出生日期',
-    `age`            tinyint                                                       NULL DEFAULT NULL COMMENT '年龄(可计算字段)',
+    `age`            tinyint                                                       NULL DEFAULT NULL COMMENT '年龄',
     `address`        varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '地址',
     `postal_code`    varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '邮政编码',
     `create_time`    datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

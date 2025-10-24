@@ -50,14 +50,12 @@ public final class SecurityUtils {
      * @return 当前用户名
      */
     public static String getUserName() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof AnonymousAuthenticationToken) {
-            return null;
+        String userName = null;
+        Optional<Authentication> optAuthentication = getOptAuthentication();
+        if (optAuthentication.isPresent()) {
+            userName = optAuthentication.get().getName();
         }
-        if (getOptAuthentication().isPresent()) {
-            return authentication.getName();
-        }
-        return null;
+        return userName;
     }
 
 

@@ -2,6 +2,7 @@ package com.xht.auth.captcha.authentication.dao;
 
 import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.auth.captcha.service.ICaptchaService;
+import com.xht.framework.cache.service.RedisService;
 import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
@@ -9,7 +10,6 @@ import com.xht.framework.security.domain.RequestUserBO;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -21,7 +21,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author xht
@@ -29,8 +28,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Component
 public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
+
     @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private RedisService redisService;
 
     @Resource
     private ICaptchaService iCaptchaService;
@@ -72,18 +72,18 @@ public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
                     throw new CaptchaException("验证码已失效.");
                 }
                 captchaId = requestUserBO.generateCaptchaKey();
-                Long expire = stringRedisTemplate.getExpire(captchaId, TimeUnit.SECONDS);
+                Long expire = redisService.getExpire(captchaId);
                 if (expire <= 0) {
                     throw new CaptchaException("验证码已过期.");
                 }
-                String captchaCode = stringRedisTemplate.opsForValue().get(captchaId);
+                String captchaCode = redisService.get(captchaId);
                 if (!StringUtils.equalsIgnoreCase(captchaCode, captcha)) {
                     throw new CaptchaException("验证码错误.");
                 }
             } catch (CaptchaException e) {
                 throw new CaptchaException(e.getMessage());
             } catch (Exception e) {
-                log.error("验证码认证失败.", e);
+                log.error("验证码认证失败. {}", e.getMessage(), e);
                 throw new CaptchaException("验证码认证失败.");
             } finally {
                 iCaptchaService.removeCaptcha(requestUserBO.getCaptchaKey());

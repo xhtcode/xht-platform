@@ -33,12 +33,12 @@ public class GatewayGlobalExceptionHandler implements ErrorWebExceptionHandler {
             return Mono.error(ex);
         }
         if (ex instanceof NotFoundException) {
-            result = R.errorMsg("服务未找到或服务不可用");
+            result = R.error(GlobalErrorStatusCode.GATEWAY_TIMEOUT);
         } else if (ex instanceof ResponseStatusException) {
             result = R.error(GlobalErrorStatusCode.NOT_FOUND);
         } else {
             //内部服务器错误
-            result = R.errorMsg("内部服务器错误");
+            result = R.error(GlobalErrorStatusCode.ERROR);
         }
         log.debug("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), ex.getMessage(), ex);
         return WebFluxUtils.webFluxResponseWriter(response, result);

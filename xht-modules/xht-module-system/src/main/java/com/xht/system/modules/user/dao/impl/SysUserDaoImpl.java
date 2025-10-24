@@ -8,11 +8,12 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.dao.SysUserDao;
+import com.xht.system.modules.user.dao.mapper.SysUserAdminMapper;
 import com.xht.system.modules.user.dao.mapper.SysUserMapper;
-import com.xht.system.modules.user.dao.mapper.SysUserProfilesMapper;
+import com.xht.system.modules.user.domain.entity.SysUserAdminEntity;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
 import com.xht.system.modules.user.domain.request.SysUserQuery;
+import com.xht.system.modules.user.domain.response.UserInfoBasicResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -27,21 +28,21 @@ import org.springframework.transaction.annotation.Transactional;
 public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserEntity> implements SysUserDao {
 
     @Resource
-    private SysUserProfilesMapper userProfilesMapper;
+    private SysUserAdminMapper userProfilesMapper;
 
 
     /**
      * 保存用户信息
      *
-     * @param sysUserEntity         用户信息
-     * @param sysUserProfilesEntity 用户详细信息
+     * @param sysUserEntity      用户信息
+     * @param sysUserAdminEntity 用户详细信息
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void saveUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity) {
+    public void saveUserInfo(SysUserEntity sysUserEntity, SysUserAdminEntity sysUserAdminEntity) {
         save(sysUserEntity);
-        sysUserProfilesEntity.setUserId(sysUserEntity.getId());
-        userProfilesMapper.insert(sysUserProfilesEntity);
+        sysUserAdminEntity.setUserId(sysUserEntity.getId());
+        userProfilesMapper.insert(sysUserAdminEntity);
     }
 
     /**
@@ -52,8 +53,8 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void removeUserInfo(Long userId) {
-        LambdaQueryWrapper<SysUserProfilesEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysUserProfilesEntity::getUserId, userId);
+        LambdaQueryWrapper<SysUserAdminEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUserAdminEntity::getUserId, userId);
         userProfilesMapper.delete(queryWrapper);
         removeById(userId);
     }
@@ -61,29 +62,31 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
     /**
      * 更新用户信息
      *
-     * @param sysUserEntity         用户信息
-     * @param sysUserProfilesEntity 用户详细信息
+     * @param sysUserEntity      用户信息
+     * @param sysUserAdminEntity 用户详细信息
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateUserInfo(SysUserEntity sysUserEntity, SysUserProfilesEntity sysUserProfilesEntity) {
+    public void updateUserInfo(SysUserEntity sysUserEntity, SysUserAdminEntity sysUserAdminEntity) {
         //@formatter:off
         LambdaUpdateWrapper<SysUserEntity> userUpdateWrapper = new LambdaUpdateWrapper<>();
         userUpdateWrapper
-                .set(SysUserEntity::getUserType, sysUserEntity.getUserType())
-                .set(SysUserEntity::getPhoneNumber, sysUserEntity.getPhoneNumber())
+                .set(SysUserEntity::getNickName, sysUserEntity.getUserPhone())
                 .set(SysUserEntity::getUserStatus, sysUserEntity.getUserStatus())
+                .set(SysUserEntity::getUserPhone, sysUserEntity.getUserPhone())
+                .set(SysUserEntity::getDeptId, sysUserEntity.getDeptId())
+                .set(SysUserEntity::getDeptName, sysUserEntity.getDeptName())
                 .eq(SysUserEntity::getId, sysUserEntity.getId());
-        LambdaUpdateWrapper<SysUserProfilesEntity> userProfilesUpdateWrapper = new LambdaUpdateWrapper<>();
+        LambdaUpdateWrapper<SysUserAdminEntity> userProfilesUpdateWrapper = new LambdaUpdateWrapper<>();
         userProfilesUpdateWrapper
-                .set(condition(sysUserProfilesEntity.getRealName()), SysUserProfilesEntity::getRealName, sysUserProfilesEntity.getRealName())
-                .set(condition(sysUserProfilesEntity.getIdCardNumber()), SysUserProfilesEntity::getIdCardNumber, sysUserProfilesEntity.getIdCardNumber())
-                .set(condition(sysUserProfilesEntity.getGender()), SysUserProfilesEntity::getGender, sysUserProfilesEntity.getGender())
-                .set(condition(sysUserProfilesEntity.getBirthDate()), SysUserProfilesEntity::getBirthDate, sysUserProfilesEntity.getBirthDate())
-                .set(condition(sysUserProfilesEntity.getAge()), SysUserProfilesEntity::getAge, sysUserProfilesEntity.getAge())
-                .set(condition(sysUserProfilesEntity.getAddress()), SysUserProfilesEntity::getAddress, sysUserProfilesEntity.getAddress())
-                .set(condition(sysUserProfilesEntity.getPostalCode()), SysUserProfilesEntity::getPostalCode, sysUserProfilesEntity.getPostalCode())
-                .eq(SysUserProfilesEntity::getUserId, sysUserEntity.getId());
+                .set(condition(sysUserAdminEntity.getRealName()), SysUserAdminEntity::getRealName, sysUserAdminEntity.getRealName())
+                .set(condition(sysUserAdminEntity.getIdCard()), SysUserAdminEntity::getIdCard, sysUserAdminEntity.getIdCard())
+                .set(condition(sysUserAdminEntity.getGender()), SysUserAdminEntity::getGender, sysUserAdminEntity.getGender())
+                .set(condition(sysUserAdminEntity.getBirthDate()), SysUserAdminEntity::getBirthDate, sysUserAdminEntity.getBirthDate())
+                .set(condition(sysUserAdminEntity.getAge()), SysUserAdminEntity::getAge, sysUserAdminEntity.getAge())
+                .set(condition(sysUserAdminEntity.getAddress()), SysUserAdminEntity::getAddress, sysUserAdminEntity.getAddress())
+                .set(condition(sysUserAdminEntity.getPostalCode()), SysUserAdminEntity::getPostalCode, sysUserAdminEntity.getPostalCode())
+                .eq(SysUserAdminEntity::getUserId, sysUserEntity.getId());
         //@formatter:on
         update(userUpdateWrapper);
         userProfilesMapper.update(userProfilesUpdateWrapper);
@@ -119,17 +122,17 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
         update(lambdaUpdateWrapper);
     }
 
-
     /**
      * 分页查询用户信息
      *
-     * @param page         分页信息
+     * @param page  分页信息
      * @param query 查询请求参数
      * @return 分页查询结果
      */
     @Override
-    public Page<SysUserVO> queryPageRequest(Page<SysUserEntity> page, SysUserQuery query) {
-        return baseMapper.queryPageRequest(page, query);
+    public Page<SysUserEntity> queryPageRequest(Page<SysUserEntity> page, SysUserQuery query) {
+        LambdaQueryWrapper<SysUserEntity> queryWrapper = lambdaQueryWrapper();
+        return page(page, queryWrapper);
     }
 
     /**
@@ -139,7 +142,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @return 用户信息
      */
     @Override
-    public SysUserVO findInfoByUserId(Long userId) {
+    public <T extends UserInfoBasicResponse> SysUserVO<T> findInfoByUserId(Long userId) {
         return baseMapper.findInfoByUserId(userId);
     }
 
@@ -151,7 +154,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @return 用户信息
      */
     @Override
-    public SysUserVO findByUsernameAndLoginType(String username, LoginTypeEnums loginType) {
+    public <T extends UserInfoBasicResponse> SysUserVO<T> findByUsernameAndLoginType(String username, LoginTypeEnums loginType) {
         return baseMapper.findByUsernameAndLoginType(username, loginType.getValue());
     }
 

@@ -7,6 +7,8 @@ import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.domain.request.SysUserForm;
 import com.xht.system.modules.user.domain.request.SysUserQuery;
 import com.xht.system.modules.user.domain.request.UpdatePwdFrom;
+import com.xht.system.modules.user.domain.response.SysUserAdminResponse;
+import com.xht.system.modules.user.domain.response.SysUserResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import com.xht.system.modules.user.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -98,7 +100,7 @@ public class SysUserController {
      */
     @Operation(summary = "获取用户详情", description = "根据ID获取用户详情")
     @GetMapping("/get/{id}")
-    public R<SysUserVO> findById(@PathVariable Long id) {
+    public R<SysUserVO<SysUserAdminResponse>> findById(@PathVariable Long id) {
         return R.ok(userService.findByUserId(id));
     }
 
@@ -111,7 +113,7 @@ public class SysUserController {
      */
     @Operation(summary = "分页获取用户列表", description = "分页获取用户列表")
     @GetMapping("/page")
-    public R<PageResponse<SysUserVO>> pageList(SysUserQuery query) {
+    public R<PageResponse<SysUserResponse>> pageList(SysUserQuery query) {
         return R.ok(userService.pageList(query));
     }
 

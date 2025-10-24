@@ -24,6 +24,7 @@ public interface SysPostDao extends MapperRepository<SysPostEntity> {
      * @return true：存在；false：不存在
      */
     Boolean existsPostCode(String postCode, Long postId);
+
     /**
      * 更新岗位信息
      *

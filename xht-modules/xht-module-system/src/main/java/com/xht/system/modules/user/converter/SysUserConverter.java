@@ -1,10 +1,14 @@
 package com.xht.system.modules.user.converter;
 
 import com.xht.cloud.oauth2.dto.UserInfoDTO;
+import com.xht.framework.mybatis.converter.BasicConverter;
+import com.xht.system.modules.user.domain.entity.SysUserAdminEntity;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
-import com.xht.system.modules.user.domain.response.SysUserProfilesResponse;
+import com.xht.system.modules.user.domain.request.SysUserForm;
+import com.xht.system.modules.user.domain.request.SysUserAdminForm;
+import com.xht.system.modules.user.domain.response.SysUserAdminResponse;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
+import com.xht.system.modules.user.domain.response.UserInfoBasicResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -17,16 +21,7 @@ import org.mapstruct.ReportingPolicy;
  **/
 @SuppressWarnings("unused")
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SysUserConverter {
-    /**
-     * 将SysUserEntity对象转换为SysUserResponse对象。
-     * 该方法通常用于在服务层与控制器层之间传递数据时，
-     * 将包含完整用户信息的SysUserEntity对象转换为仅包含必要信息的SysUserResponse对象。
-     *
-     * @param sysUserEntity 包含用户详细信息的SysUserEntity对象
-     * @return 包含用户基本信息的SysUserResponse对象
-     */
-    SysUserResponse toResponse(SysUserEntity sysUserEntity);
+public interface SysUserConverter extends BasicConverter<SysUserEntity, SysUserForm, SysUserResponse> {
 
     /**
      * 将SysUserEntity对象转换为SysUserVO对象。
@@ -36,7 +31,7 @@ public interface SysUserConverter {
      * @param sysUserEntity 包含用户详细信息的SysUserEntity对象
      * @return 包含用户基本信息的SysUserVO对象
      */
-    SysUserVO toVo(SysUserEntity sysUserEntity);
+    <T extends UserInfoBasicResponse> SysUserVO<T> toVo(SysUserEntity sysUserEntity);
 
     /**
      * 将SysUserProfilesEntity对象转换为SysUserProfilesResponse对象。
@@ -46,7 +41,7 @@ public interface SysUserConverter {
      * @param profilesEntity 包含用户配置文件详细信息的SysUserProfilesEntity对象
      * @return 包含用户配置文件基本信息的SysUserProfilesResponse对象
      */
-    SysUserProfilesResponse toResponse(SysUserProfilesEntity profilesEntity);
+    SysUserAdminResponse toResponse(SysUserAdminEntity profilesEntity);
 
     /**
      * 将SysUserVO对象转换为UserInfoDTO对象
@@ -54,7 +49,13 @@ public interface SysUserConverter {
      * @param sysUserVO 系统用户VO对象，包含用户的基本信息
      * @return UserInfoDTO 用户信息DTO对象，用于数据传输
      */
-    UserInfoDTO convertToDto(SysUserVO sysUserVO);
+    <T extends UserInfoBasicResponse> UserInfoDTO convertToDto(SysUserVO<T> sysUserVO);
 
-
+    /**
+     * 将SysUserProfileForm对象转换为SysUserProfilesEntity对象
+     *
+     * @param profileForm 用户配置文件表单对象，包含用户配置文件的信息
+     * @return SysUserAdminEntity 用户配置文件实体对象，用于数据存储
+     */
+    SysUserAdminEntity toEntity(SysUserAdminForm profileForm);
 }

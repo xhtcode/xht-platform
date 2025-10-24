@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
 import com.xht.system.modules.user.domain.request.SysUserQuery;
+import com.xht.system.modules.user.domain.response.UserInfoBasicResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -23,7 +24,7 @@ public interface SysUserMapper extends BaseMapperX<SysUserEntity> {
      * @param query 查询请求参数
      * @return 分页查询结果
      */
-    Page<SysUserVO> queryPageRequest(Page<SysUserEntity> page, @Param("queryRequest") SysUserQuery query);
+    <T extends UserInfoBasicResponse> Page<SysUserVO<T>> queryPageRequest(Page<SysUserEntity> page, @Param("query") SysUserQuery query);
 
     /**
      * 根据用户ID查询用户信息
@@ -31,7 +32,7 @@ public interface SysUserMapper extends BaseMapperX<SysUserEntity> {
      * @param userId 用户ID
      * @return 用户信息
      */
-    SysUserVO findInfoByUserId(Long userId);
+    <T extends UserInfoBasicResponse> SysUserVO<T> findInfoByUserId(Long userId);
 
     /**
      * 根据用户名和登录类型查询用户信息
@@ -40,7 +41,7 @@ public interface SysUserMapper extends BaseMapperX<SysUserEntity> {
      * @param loginType 登录类型
      * @return 用户信息
      */
-    SysUserVO findByUsernameAndLoginType(@Param("userName") String userName, @Param("loginType") String loginType);
+    <T extends UserInfoBasicResponse> SysUserVO<T> findByUsernameAndLoginType(@Param("userName") String userName, @Param("loginType") String loginType);
 
     /**
      * 根据手机号和身份证号校验用户是否重复

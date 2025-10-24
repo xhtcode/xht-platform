@@ -7,6 +7,8 @@ import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.domain.request.SysUserForm;
 import com.xht.system.modules.user.domain.request.SysUserQuery;
 import com.xht.system.modules.user.domain.request.UpdatePwdFrom;
+import com.xht.system.modules.user.domain.response.SysUserAdminResponse;
+import com.xht.system.modules.user.domain.response.SysUserResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 
 import java.util.List;
@@ -52,7 +54,7 @@ public interface IUserService {
      * @param userId 用户ID
      * @return 找到的用户对象，不存在时返回null
      */
-    SysUserVO findByUserId(Long userId);
+    SysUserVO<SysUserAdminResponse> findByUserId(Long userId);
 
     /**
      * 根据查询条件分页查找用户
@@ -60,7 +62,7 @@ public interface IUserService {
      * @param query 用户查询请求对象
      * @return 用户对象分页结果
      */
-    PageResponse<SysUserVO> pageList(SysUserQuery query);
+    PageResponse<SysUserResponse> pageList(SysUserQuery query);
 
     /**
      * 重置密码

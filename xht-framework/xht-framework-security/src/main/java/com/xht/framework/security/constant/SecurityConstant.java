@@ -46,7 +46,7 @@ public interface SecurityConstant {
     /**
      * 验证码key
      */
-    String REQUEST_CAPTCHA_CODE_KEY = "captchaKey";
+    String REQUEST_CAPTCHA_CODE_KEY = "captcha_key";
 
 
     /**

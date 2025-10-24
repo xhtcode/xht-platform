@@ -1,14 +1,14 @@
 package com.xht.system.modules.user.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
-import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
+import com.xht.system.modules.user.domain.entity.SysUserAdminEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @author xht
  */
 @Mapper
-public interface SysUserProfilesMapper extends BaseMapperX<SysUserProfilesEntity> {
+public interface SysUserAdminMapper extends BaseMapperX<SysUserAdminEntity> {
 
 }
 

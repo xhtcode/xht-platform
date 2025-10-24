@@ -20,21 +20,22 @@ import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
 import com.xht.system.modules.dept.domain.response.SysPostResp;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.converter.SysUserConverter;
+import com.xht.system.modules.user.dao.SysUserAdminDao;
 import com.xht.system.modules.user.dao.SysUserDao;
 import com.xht.system.modules.user.dao.SysUserPostDao;
+import com.xht.system.modules.user.domain.entity.SysUserAdminEntity;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.entity.SysUserProfilesEntity;
 import com.xht.system.modules.user.domain.request.SysUserForm;
-import com.xht.system.modules.user.domain.request.SysUserProfileForm;
 import com.xht.system.modules.user.domain.request.SysUserQuery;
 import com.xht.system.modules.user.domain.request.UpdatePwdFrom;
+import com.xht.system.modules.user.domain.response.SysUserAdminResponse;
+import com.xht.system.modules.user.domain.response.SysUserResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import com.xht.system.modules.user.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
@@ -54,6 +55,8 @@ public class UserServiceImpl implements IUserService {
 
     private final SysUserDao sysUserDao;
 
+    private final SysUserAdminDao sysUserAdminDao;
+
     private final SysUserPostDao sysUserPostDao;
 
     private final SysUserRoleDao sysUserRoleDao;
@@ -65,56 +68,20 @@ public class UserServiceImpl implements IUserService {
     private final SysDeptDao sysDeptDao;
 
     /**
-     * 获取用户信息实体
-     *
-     * @param form 用户创建请求对象
-     * @return 用户信息实体
-     */
-    private SysUserProfilesEntity getSysUserProfilesEntity(SysUserForm form) {
-        SysUserProfilesEntity result = new SysUserProfilesEntity();
-        SysUserProfileForm userProfile = form.getUserProfile();
-        result.setRealName(userProfile.getRealName());
-        result.setIdCardNumber(userProfile.getIdCardNumber());
-        result.setGender(userProfile.getGender());
-        result.setBirthDate(userProfile.getBirthDate());
-        result.setAge(userProfile.getAge());
-        result.setAddress(userProfile.getAddress());
-        result.setPostalCode(userProfile.getPostalCode());
-        return result;
-    }
-
-    /**
-     * 获取用户实体
-     *
-     * @param form 用户创建请求对象
-     * @return 用户实体
-     */
-    private SysUserEntity getSysUserEntity(SysUserForm form) {
-        SysUserEntity result = new SysUserEntity();
-        result.setUserType(form.getUserType());
-        result.setUserName(form.getUserName());
-        result.setPhoneNumber(form.getPhoneNumber());
-        result.setUserStatus(form.getUserStatus());
-        result.setDeptId(form.getDeptId());
-        return result;
-    }
-
-
-    /**
      * 用户注册
      *
      * @param form 用户创建请求对象
      */
     @Override
     public void create(SysUserForm form) {
-        SysUserEntity sysUser = getSysUserEntity(form);
-        sysUser.setUserAccount(IdUtil.fastUUID());
+        SysUserEntity sysUser = sysUserConverter.toEntity(form);
+        sysUser.setUserName(IdUtil.fastUUID());
         sysUser.setPassWord(MD5Utils.generateSignature("123456"));
         sysUser.setPassWordSalt(MD5Utils.generateSignature("123456"));
-        sysUser.setAvatarUrl("/images/user/avatar.png");
+        sysUser.setUserAvatar("/images/user/avatar.png");
         ThrowUtils.throwIf(sysDeptDao.exists(SysDeptEntity::getId, form.getDeptId()), BusinessErrorCode.DATA_NOT_EXIST, "部门不存在");
-        SysUserProfilesEntity userProfiles = getSysUserProfilesEntity(form);
-        Boolean checkUserRepeat = sysUserDao.checkUserRepeat(null, sysUser.getPhoneNumber(), userProfiles.getIdCardNumber());
+        SysUserAdminEntity userProfiles = sysUserConverter.toEntity(form.getUserProfile());
+        Boolean checkUserRepeat = sysUserDao.checkUserRepeat(null, sysUser.getUserPhone(), userProfiles.getIdCard());
         ThrowUtils.throwIf(checkUserRepeat, BusinessErrorCode.DATA_EXIST, "手机号或身份证号码已存在");
         sysUserDao.saveUserInfo(sysUser, userProfiles);
     }
@@ -151,10 +118,10 @@ public class UserServiceImpl implements IUserService {
     public void update(SysUserForm form) {
         SysUserEntity dbUser = sysUserDao.findById(form.getId());
         ThrowUtils.notNull(dbUser, BusinessErrorCode.DATA_NOT_EXIST);
-        SysUserEntity sysUserEntity = getSysUserEntity(form);
-        SysUserProfilesEntity userProfiles = getSysUserProfilesEntity(form);
+        SysUserEntity sysUserEntity = sysUserConverter.toEntity(form);
+        SysUserAdminEntity userProfiles = sysUserConverter.toEntity(form.getUserProfile());
         ThrowUtils.throwIf(sysDeptDao.exists(SysDeptEntity::getId, form.getDeptId()), BusinessErrorCode.DATA_NOT_EXIST, "部门不存在");
-        Boolean checkUserRepeat = sysUserDao.checkUserRepeat(sysUserEntity.getId(), sysUserEntity.getPhoneNumber(), userProfiles.getIdCardNumber());
+        Boolean checkUserRepeat = sysUserDao.checkUserRepeat(sysUserEntity.getId(), sysUserEntity.getUserPhone(), userProfiles.getIdCard());
         ThrowUtils.throwIf(checkUserRepeat, BusinessErrorCode.DATA_EXIST, "手机号或身份证号码已存在");
         sysUserDao.updateUserInfo(sysUserEntity, userProfiles);
     }
@@ -166,12 +133,10 @@ public class UserServiceImpl implements IUserService {
      * @return 找到的用户对象，不存在时返回null
      */
     @Override
-    public SysUserVO findByUserId(Long userId) {
-        Assert.notNull(userId, "用户ID不能为空");
-        SysUserVO sysUserVO = sysUserDao.findInfoByUserId(userId);
-        if (sysUserVO == null) {
-            return new SysUserVO();
-        }
+    public SysUserVO<SysUserAdminResponse> findByUserId(Long userId) {
+        ThrowUtils.notNull(userId, "用户ID不能为空");
+        SysUserVO<SysUserAdminResponse> sysUserVO = sysUserDao.findInfoByUserId(userId);
+        ThrowUtils.notNull(sysUserVO, "查询不到用户信息!");
         List<SysPostResp> deptPostVo = sysUserPostDao.getPostByUserId(userId);
         sysUserVO.setPost(deptPostVo);
         sysUserVO.setPassWord(null);
@@ -186,9 +151,9 @@ public class UserServiceImpl implements IUserService {
      * @return 用户对象分页结果
      */
     @Override
-    public PageResponse<SysUserVO> pageList(SysUserQuery query) {
-        Page<SysUserVO> page = sysUserDao.queryPageRequest(PageTool.getPage(query), query);
-        return PageTool.getPageVo(page);
+    public PageResponse<SysUserResponse> pageList(SysUserQuery query) {
+        Page<SysUserEntity> sysUserEntityPage = sysUserDao.queryPageRequest(PageTool.getPage(query), query);
+        return sysUserConverter.toResponse(sysUserEntityPage);
     }
 
     /**

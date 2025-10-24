@@ -38,14 +38,14 @@ public class SysUserEntity extends BasicEntity implements Serializable {
     /**
      * 用户账号
      */
-    @TableField(value = "user_account")
-    private String userAccount;
+    @TableField(value = "user_name")
+    private String userName;
 
     /**
      * 用户昵称
      */
-    @TableField(value = "user_name")
-    private String userName;
+    @TableField(value = "nick_name")
+    private String nickName;
 
     /**
      * 用户密码
@@ -60,22 +60,22 @@ public class SysUserEntity extends BasicEntity implements Serializable {
     private String passWordSalt;
 
     /**
-     * 手机号码
-     */
-    @TableField(value = "phone_number")
-    private String phoneNumber;
-
-    /**
-     * 头像地址
-     */
-    @TableField(value = "avatar_url")
-    private String avatarUrl;
-
-    /**
      * 账号状态
      */
     @TableField(value = "user_status")
     private UserStatusEnums userStatus;
+
+    /**
+     * 手机号码
+     */
+    @TableField(value = "user_phone")
+    private String userPhone;
+
+    /**
+     * 头像地址
+     */
+    @TableField(value = "user_avatar")
+    private String userAvatar;
 
     /**
      * 部门id
@@ -84,9 +84,9 @@ public class SysUserEntity extends BasicEntity implements Serializable {
     private Long deptId;
 
     /**
-     * 岗位id
+     * 部门名称
      */
-    @TableField(value = "post_id")
-    private Long postId;
+    @TableField(value = "dept_name")
+    private String deptName;
 
 }

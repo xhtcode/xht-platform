@@ -66,7 +66,7 @@ public class SysUserForm extends FormRequest {
      */
     @Valid
     @Schema(description = "用户详细信息")
-    private SysUserProfileForm userProfile;
+    private SysUserAdminForm userProfile;
 
     /**
      * 部门id

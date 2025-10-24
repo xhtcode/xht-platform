@@ -66,7 +66,7 @@ public class SysUserQuery extends PageQueryRequest {
     private LocalDate birthDateEnd;
 
     /**
-     * 年龄(可计算字段)
+     * 年龄
      */
     @Schema(description = "年龄（可计算字段）", example = "30")
     private Integer age;

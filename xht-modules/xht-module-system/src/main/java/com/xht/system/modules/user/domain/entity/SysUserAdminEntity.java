@@ -11,13 +11,13 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
- * 用户信息表
+ * 管理员用户信息表
  *
  * @author xht
  */
 @Data
-@TableName(value = "sys_user_profiles")
-public class SysUserProfilesEntity extends BasicEntity implements Serializable {
+@TableName(value = "sys_user_admin")
+public class SysUserAdminEntity extends BasicEntity implements Serializable {
 
     /**
      * 信息ID
@@ -26,7 +26,7 @@ public class SysUserProfilesEntity extends BasicEntity implements Serializable {
     private Long id;
 
     /**
-     * 关联用户ID
+     * 用户ID
      */
     @TableField(value = "user_id")
     private Long userId;
@@ -40,11 +40,11 @@ public class SysUserProfilesEntity extends BasicEntity implements Serializable {
     /**
      * 身份证号
      */
-    @TableField(value = "id_card_number")
-    private String idCardNumber;
+    @TableField(value = "id_card")
+    private String idCard;
 
     /**
-     * 性别(1-男,2-女,3-其他)
+     * 用户性别
      */
     @TableField(value = "gender")
     private Integer gender;
@@ -56,13 +56,13 @@ public class SysUserProfilesEntity extends BasicEntity implements Serializable {
     private LocalDate birthDate;
 
     /**
-     * 年龄(可计算字段)
+     * 用户年龄
      */
     @TableField(value = "age")
     private Integer age;
 
     /**
-     * 地址
+     * 用户地址
      */
     @TableField(value = "address")
     private String address;
@@ -72,4 +72,22 @@ public class SysUserProfilesEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "postal_code")
     private String postalCode;
+
+    /**
+     * 紧急联系人
+     */
+    @TableField(value = "emergency_contact")
+    private String emergencyContact;
+
+    /**
+     * 紧急联系人电话
+     */
+    @TableField(value = "emergency_phone")
+    private String emergencyPhone;
+
+    /**
+     * 用户民族
+     */
+    @TableField(value = "nation")
+    private String nation;
 }
