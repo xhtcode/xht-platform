@@ -3,9 +3,9 @@ package com.xht.system.modules.dict.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
-import com.xht.system.modules.dict.domain.request.SysDictItemForm;
-import com.xht.system.modules.dict.domain.request.SysDictItemQuery;
-import com.xht.system.modules.dict.domain.response.SysDictItemResp;
+import com.xht.system.modules.dict.domain.form.SysDictItemBasicForm;
+import com.xht.system.modules.dict.domain.query.SysDictItemBasicQuery;
+import com.xht.system.modules.dict.domain.response.SysDictItemResponse;
 import com.xht.system.modules.dict.domain.vo.SysDictVo;
 import com.xht.system.modules.dict.service.ISysDictItemService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,7 +37,7 @@ public class SysDictItemController {
      */
     @Operation(summary = "创建字典项")
     @PostMapping("/create")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictItemForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictItemBasicForm form) {
         sysDictItemService.create(form);
         return R.ok();
     }
@@ -63,7 +63,7 @@ public class SysDictItemController {
      */
     @Operation(summary = "修改字典项")
     @PostMapping("/update")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictItemForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictItemBasicForm form) {
         sysDictItemService.updateById(form);
         return R.ok();
     }
@@ -76,7 +76,7 @@ public class SysDictItemController {
      */
     @Operation(summary = "获取字典项详情")
     @GetMapping("/get/{id}")
-    public R<SysDictItemResp> findById(@PathVariable Long id) {
+    public R<SysDictItemResponse> findById(@PathVariable Long id) {
         return R.ok(sysDictItemService.findById(id));
     }
 
@@ -88,7 +88,7 @@ public class SysDictItemController {
      */
     @Operation(summary = "分页查询字典项")
     @GetMapping("/page")
-    public R<PageResponse<SysDictItemResp>> page(SysDictItemQuery query) {
+    public R<PageResponse<SysDictItemResponse>> page(SysDictItemBasicQuery query) {
         return R.ok(sysDictItemService.findPageList(query));
     }
 

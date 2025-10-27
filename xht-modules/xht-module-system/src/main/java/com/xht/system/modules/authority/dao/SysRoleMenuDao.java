@@ -2,7 +2,7 @@ package com.xht.system.modules.authority.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.system.modules.authority.domain.entity.SysRoleMenuEntity;
-import com.xht.system.modules.authority.domain.response.SysMenuResp;
+import com.xht.system.modules.authority.domain.response.SysMenuResponse;
 
 import java.util.List;
 
@@ -40,5 +40,5 @@ public interface SysRoleMenuDao extends MapperRepository<SysRoleMenuEntity> {
      * @param userId 用户ID
      * @return 路由菜单集合
      */
-    List<SysMenuResp> findRouterByUserId(Long userId);
+    List<SysMenuResponse> findRouterByUserId(Long userId);
 }

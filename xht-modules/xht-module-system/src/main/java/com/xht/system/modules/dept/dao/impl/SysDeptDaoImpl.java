@@ -9,7 +9,7 @@ import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import com.xht.system.modules.dept.dao.SysDeptDao;
 import com.xht.system.modules.dept.dao.mapper.SysDeptMapper;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
-import com.xht.system.modules.dept.domain.request.SysDeptTreeQuery;
+import com.xht.system.modules.dept.domain.query.SysDeptTreeBasicQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -141,7 +141,7 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
      * @return 部门列表
      */
     @Override
-    public List<SysDeptEntity> queryListRequest(SysDeptTreeQuery query) {
+    public List<SysDeptEntity> queryListRequest(SysDeptTreeBasicQuery query) {
         // @formatter:off
         LambdaQueryWrapper<SysDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.and(

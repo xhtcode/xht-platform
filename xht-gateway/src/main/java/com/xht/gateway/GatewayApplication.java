@@ -1,5 +1,6 @@
 package com.xht.gateway;
 
+import com.xht.framework.log.repository.LogRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

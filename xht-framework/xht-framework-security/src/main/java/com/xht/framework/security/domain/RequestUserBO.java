@@ -3,7 +3,7 @@ package com.xht.framework.security.domain;
 import cn.hutool.core.map.MapUtil;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.security.constant.SecurityConstant;
-import com.xht.framework.security.constant.enums.LoginTypeEnums;
+import com.xht.framework.core.enums.LoginTypeEnums;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

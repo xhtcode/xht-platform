@@ -1,8 +1,8 @@
 package com.xht.system.modules.user.domain.vo;
 
 import com.xht.framework.core.domain.vo.IVO;
-import com.xht.system.modules.dept.domain.response.SysDeptResp;
-import com.xht.system.modules.dept.domain.response.SysPostResp;
+import com.xht.system.modules.dept.domain.response.SysDeptResponse;
+import com.xht.system.modules.dept.domain.response.SysPostResponse;
 import com.xht.system.modules.user.domain.response.SysUserDetailResponse;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,12 +29,12 @@ public class SysUserVO extends SysUserResponse implements IVO {
      * 用户所在的部门信息
      */
     @Schema(description = "用户所在的部门信息")
-    private SysDeptResp deptInfo;
+    private SysDeptResponse deptInfo;
 
     /**
      * 用户所在的岗位信息
      */
     @Schema(description = "用户所在的岗位信息")
-    private List<SysPostResp> postInfos;
+    private List<SysPostResponse> postInfos;
 
 }

@@ -2,8 +2,8 @@ package com.xht.system.modules.log.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.log.domain.dto.LogDTO;
-import com.xht.system.modules.log.domian.request.SysLogQuery;
-import com.xht.system.modules.log.domian.response.SysLogResp;
+import com.xht.system.modules.log.domian.request.SysLogBasicQuery;
+import com.xht.system.modules.log.domian.response.SysLogResponse;
 
 /**
  * 系统日志
@@ -25,7 +25,7 @@ public interface ISysLogService {
      * @param id 系统日志ID
      * @return 系统日志详情
      */
-    SysLogResp findById(Long id);
+    SysLogResponse findById(Long id);
 
     /**
      * 分页查询系统日志岗位
@@ -33,5 +33,5 @@ public interface ISysLogService {
      * @param query 系统日志岗位查询请求参数
      * @return 系统日志岗位分页信息
      */
-    PageResponse<SysLogResp>findPageList(SysLogQuery query);
+    PageResponse<SysLogResponse>findPageList(SysLogBasicQuery query);
 }

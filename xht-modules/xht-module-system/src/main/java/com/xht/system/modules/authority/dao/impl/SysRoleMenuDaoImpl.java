@@ -7,7 +7,7 @@ import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
 import com.xht.system.modules.authority.dao.mapper.SysRoleMenuMapper;
 import com.xht.system.modules.authority.domain.entity.SysRoleMenuEntity;
-import com.xht.system.modules.authority.domain.response.SysMenuResp;
+import com.xht.system.modules.authority.domain.response.SysMenuResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,7 +71,7 @@ public class SysRoleMenuDaoImpl extends MapperRepositoryImpl<SysRoleMenuMapper, 
      * @return 路由菜单集合
      */
     @Override
-    public List<SysMenuResp> findRouterByUserId(Long userId) {
+    public List<SysMenuResponse> findRouterByUserId(Long userId) {
         return baseMapper.findRouterByUserId(userId);
     }
 

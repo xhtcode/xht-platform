@@ -1,6 +1,6 @@
 package com.xht.system.modules.user.domain.response;
 
-import com.xht.framework.core.domain.response.BasicResponse;
+import com.xht.framework.core.domain.response.MetaResponse;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.common.enums.UserTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,7 +13,7 @@ import lombok.Data;
  **/
 @Data
 @Schema(description = "用户信息响应信息")
-public class SysUserResponse extends BasicResponse {
+public class SysUserResponse extends MetaResponse {
 
     /**
      * 用户ID

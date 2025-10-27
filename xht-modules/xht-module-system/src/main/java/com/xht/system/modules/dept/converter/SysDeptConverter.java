@@ -2,8 +2,8 @@ package com.xht.system.modules.dept.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
-import com.xht.system.modules.dept.domain.request.SysDeptForm;
-import com.xht.system.modules.dept.domain.response.SysDeptResp;
+import com.xht.system.modules.dept.domain.form.SysDeptBasicForm;
+import com.xht.system.modules.dept.domain.response.SysDeptResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -17,7 +17,7 @@ import java.util.Map;
  * @author xht
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SysDeptConverter extends BasicConverter<SysDeptEntity, SysDeptForm, SysDeptResp> {
+public interface SysDeptConverter extends BasicConverter<SysDeptEntity, SysDeptBasicForm, SysDeptResponse> {
 
 
     /**
@@ -27,7 +27,7 @@ public interface SysDeptConverter extends BasicConverter<SysDeptEntity, SysDeptF
      * @return 转换后的实体对象
      */
     @Override
-    SysDeptEntity toEntity(SysDeptForm form);
+    SysDeptEntity toEntity(SysDeptBasicForm form);
 
     /**
      * 将SysDeptEntity对象转换为Map集合

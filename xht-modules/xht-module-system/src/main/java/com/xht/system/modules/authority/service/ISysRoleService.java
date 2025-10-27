@@ -2,9 +2,9 @@ package com.xht.system.modules.authority.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
-import com.xht.system.modules.authority.domain.request.SysRoleForm;
-import com.xht.system.modules.authority.domain.request.SysRoleQuery;
-import com.xht.system.modules.authority.domain.response.SysRoleResp;
+import com.xht.system.modules.authority.domain.form.SysRoleBasicForm;
+import com.xht.system.modules.authority.domain.query.SysRoleBasicQuery;
+import com.xht.system.modules.authority.domain.response.SysRoleResponse;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface ISysRoleService {
      *
      * @param form 角色表单请求参数
      */
-    void create(SysRoleForm form);
+    void create(SysRoleBasicForm form);
 
     /**
      * 根据ID删除角色
@@ -41,7 +41,7 @@ public interface ISysRoleService {
      *
      * @param form 角色更新请求参数
      */
-    void updateById(SysRoleForm form);
+    void updateById(SysRoleBasicForm form);
 
     /**
      * 更新角色状态
@@ -57,7 +57,7 @@ public interface ISysRoleService {
      * @param id 角色ID
      * @return 角色信息
      */
-    SysRoleResp findById(Long id);
+    SysRoleResponse findById(Long id);
 
     /**
      * 分页查询角色
@@ -65,12 +65,12 @@ public interface ISysRoleService {
      * @param query 角色查询请求参数
      * @return 角色分页信息
      */
-    PageResponse<SysRoleResp>findPageList(SysRoleQuery query);
+    PageResponse<SysRoleResponse>findPageList(SysRoleBasicQuery query);
 
     /***
      * 查询所有角色
      * @return 角色列表
      */
-    List<SysRoleResp> list();
+    List<SysRoleResponse> list();
 
 }

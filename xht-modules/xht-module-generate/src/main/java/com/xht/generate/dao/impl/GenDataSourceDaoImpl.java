@@ -7,8 +7,8 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenDataSourceDao;
 import com.xht.generate.dao.mapper.GenDataSourceMapper;
 import com.xht.generate.domain.entity.GenDataSourceEntity;
-import com.xht.generate.domain.form.GenDataSourceForm;
-import com.xht.generate.domain.query.GenDataSourceQuery;
+import com.xht.generate.domain.form.GenDataSourceBasicForm;
+import com.xht.generate.domain.query.GenDataSourceBasicQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +31,7 @@ public class GenDataSourceDaoImpl extends MapperRepositoryImpl<GenDataSourceMapp
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFormRequest(GenDataSourceForm form) {
+    public void updateFormRequest(GenDataSourceBasicForm form) {
         LambdaUpdateWrapper<GenDataSourceEntity> updateWrapper = lambdaUpdateWrapper();
         updateWrapper.set(condition(form.getName()), GenDataSourceEntity::getName, form.getName());
         updateWrapper.set(condition(form.getDbType()), GenDataSourceEntity::getDbType, form.getDbType());
@@ -47,7 +47,7 @@ public class GenDataSourceDaoImpl extends MapperRepositoryImpl<GenDataSourceMapp
      * @return 数据源分页信息
      */
     @Override
-    public List<GenDataSourceEntity> findList(GenDataSourceQuery query) {
+    public List<GenDataSourceEntity> findList(GenDataSourceBasicQuery query) {
         LambdaQueryWrapper<GenDataSourceEntity> queryWrapper = lambdaQueryWrapper();
         queryWrapper.like(condition(query.getName()), GenDataSourceEntity::getName, query.getName());
         queryWrapper.eq(condition(query.getDbType()), GenDataSourceEntity::getDbType, query.getDbType());

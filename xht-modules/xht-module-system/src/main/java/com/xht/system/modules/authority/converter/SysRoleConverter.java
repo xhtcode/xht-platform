@@ -2,8 +2,8 @@ package com.xht.system.modules.authority.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
-import com.xht.system.modules.authority.domain.request.SysRoleForm;
-import com.xht.system.modules.authority.domain.response.SysRoleResp;
+import com.xht.system.modules.authority.domain.form.SysRoleBasicForm;
+import com.xht.system.modules.authority.domain.response.SysRoleResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -14,5 +14,5 @@ import org.mapstruct.ReportingPolicy;
  * @author xht
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SysRoleConverter extends BasicConverter<SysRoleEntity, SysRoleForm, SysRoleResp> {
+public interface SysRoleConverter extends BasicConverter<SysRoleEntity, SysRoleBasicForm, SysRoleResponse> {
 }

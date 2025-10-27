@@ -14,7 +14,7 @@ import java.util.List;
  **/
 @Data
 @Schema(description = "分页信息响应实体")
-public class PageResponse<T> implements IResponse {
+public final class PageResponse<T> extends BasicResponse {
 
     /**
      * 当前页

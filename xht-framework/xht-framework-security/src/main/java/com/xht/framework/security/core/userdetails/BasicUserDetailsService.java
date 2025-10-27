@@ -2,7 +2,7 @@ package com.xht.framework.security.core.userdetails;
 
 import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.security.constant.SecurityConstant;
-import com.xht.framework.security.constant.enums.LoginTypeEnums;
+import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.security.exception.BasicAuthenticationException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;

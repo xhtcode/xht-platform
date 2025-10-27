@@ -1,7 +1,7 @@
 package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
-import com.xht.generate.domain.response.GenTableColumnResp;
+import com.xht.generate.domain.response.GenTableColumnResponse;
 import com.xht.generate.service.IGenTableColumnService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,7 +37,7 @@ public class GenTableColumnController {
      */
     @Operation(summary = "根据ID查询字段信息", description = "根据提供的字段信息ID查询字段信息信息")
     @GetMapping("/get/{id}")
-    public R<GenTableColumnResp> findById(@PathVariable @Parameter(description = "字段信息ID", required = true) Long id) {
+    public R<GenTableColumnResponse> findById(@PathVariable @Parameter(description = "字段信息ID", required = true) Long id) {
         return R.ok(genColumnInfoService.findById(id));
     }
 
@@ -49,7 +49,7 @@ public class GenTableColumnController {
      */
     @Operation(summary = "根据表id查询字段信息", description = "根据表id查询字段信息")
     @GetMapping("/list/{tableId}")
-    public R<List<GenTableColumnResp>> listByTableId(@PathVariable("tableId") String tableId) {
+    public R<List<GenTableColumnResponse>> listByTableId(@PathVariable("tableId") String tableId) {
         return R.ok(genColumnInfoService.listByTableId(tableId));
     }
 

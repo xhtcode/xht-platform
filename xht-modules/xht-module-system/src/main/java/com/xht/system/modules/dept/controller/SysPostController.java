@@ -3,9 +3,9 @@ package com.xht.system.modules.dept.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
-import com.xht.system.modules.dept.domain.request.SysPostForm;
-import com.xht.system.modules.dept.domain.request.SysPostQuery;
-import com.xht.system.modules.dept.domain.response.SysPostResp;
+import com.xht.system.modules.dept.domain.form.SysPostBasicForm;
+import com.xht.system.modules.dept.domain.query.SysPostBasicQuery;
+import com.xht.system.modules.dept.domain.response.SysPostResponse;
 import com.xht.system.modules.dept.service.ISysPostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -38,7 +38,7 @@ public class SysPostController {
      */
     @Operation(summary = "创建部门岗位", description = "根据提供的请求参数创建一个新的部门岗位")
     @PostMapping("/create")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysPostForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysPostBasicForm form) {
         sysDeptPostService.create(form);
         return R.ok();
     }
@@ -77,7 +77,7 @@ public class SysPostController {
      */
     @Operation(summary = "根据ID更新部门岗位", description = "根据提供的部门岗位更新请求参数更新部门岗位")
     @PostMapping("/update")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysPostForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysPostBasicForm form) {
         sysDeptPostService.updateById(form);
         return R.ok();
     }
@@ -90,7 +90,7 @@ public class SysPostController {
      */
     @Operation(summary = "根据ID查询部门岗位", description = "根据提供的部门岗位ID查询部门岗位信息")
     @GetMapping("/get/{id}")
-    public R<SysPostResp> findById(@PathVariable @Parameter(description = "部门岗位ID", required = true) Long id) {
+    public R<SysPostResponse> findById(@PathVariable @Parameter(description = "部门岗位ID", required = true) Long id) {
         return R.ok(sysDeptPostService.findById(id));
     }
 
@@ -102,7 +102,7 @@ public class SysPostController {
      */
     @Operation(summary = "分页查询部门岗位", description = "根据提供的查询请求参数分页查询部门岗位信息")
     @GetMapping("/page")
-    public R<PageResponse<SysPostResp>>findPageList(@Valid SysPostQuery query) {
+    public R<PageResponse<SysPostResponse>>findPageList(@Valid SysPostBasicQuery query) {
         return R.ok(sysDeptPostService.findPageList(query));
     }
 

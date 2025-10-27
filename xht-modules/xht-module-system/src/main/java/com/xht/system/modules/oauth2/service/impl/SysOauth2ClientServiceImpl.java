@@ -1,16 +1,16 @@
 package com.xht.system.modules.oauth2.service.impl;
 
-import com.xht.boot.oauth2.domain.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.oauth2.dto.OAuth2RegisteredClientDTO;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.modules.oauth2.converter.SysOauth2ClientConverter;
 import com.xht.system.modules.oauth2.dao.SysOauth2ClientDao;
-import com.xht.system.modules.oauth2.domian.entity.SysOauth2ClientEntity;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientForm;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQuery;
-import com.xht.system.modules.oauth2.domian.response.SysOauth2ClientResp;
+import com.xht.system.modules.oauth2.domain.entity.SysOauth2ClientEntity;
+import com.xht.system.modules.oauth2.domain.form.SysOauth2ClientBasicForm;
+import com.xht.system.modules.oauth2.domain.query.SysOauth2ClientBasicQuery;
+import com.xht.system.modules.oauth2.domain.response.SysOauth2ClientResp;
 import com.xht.system.modules.oauth2.service.ISysOauth2ClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      * @param form OAuth2客户端信息
      */
     @Override
-    public void create(SysOauth2ClientForm form) {
+    public void create(SysOauth2ClientBasicForm form) {
         Boolean exists = sysOauth2ClientDao.existsByClientId(form.getClientId(), null);
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "客户端id已存在.");
         SysOauth2ClientEntity entity = sysOauth2ClientConverter.toEntity(form);
@@ -64,7 +64,7 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      * @param form OAuth2客户端信息
      */
     @Override
-    public void updateById(SysOauth2ClientForm form) {
+    public void updateById(SysOauth2ClientBasicForm form) {
         Boolean deptExists = sysOauth2ClientDao.exists(SysOauth2ClientEntity::getId, form.getId());
         ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_NOT_EXIST, "客户端不存在");
         Boolean exists = sysOauth2ClientDao.existsByClientId(form.getClientId(), form.getId());
@@ -91,7 +91,7 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      * @return 分页结果
      */
     @Override
-    public PageResponse<SysOauth2ClientResp>findPageList(SysOauth2ClientQuery query) {
+    public PageResponse<SysOauth2ClientResp> findPageList(SysOauth2ClientBasicQuery query) {
         if (Objects.isNull(query)) {
             return PageTool.empty();
         }

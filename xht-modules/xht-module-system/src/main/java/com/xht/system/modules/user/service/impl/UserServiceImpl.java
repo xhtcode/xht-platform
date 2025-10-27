@@ -2,9 +2,10 @@ package com.xht.system.modules.user.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.cloud.oauth2.dto.UserInfoDTO;
+import com.xht.api.system.user.dto.UserInfoDTO;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.enums.GenderEnums;
+import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.code.UserErrorCode;
@@ -13,11 +14,10 @@ import com.xht.framework.core.utils.IdCardUtils;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.secret.MD5Utils;
 import com.xht.framework.mybatis.utils.PageTool;
-import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
 import com.xht.system.modules.authority.dao.SysUserRoleDao;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
-import com.xht.system.modules.dept.domain.response.SysPostResp;
+import com.xht.system.modules.dept.domain.response.SysPostResponse;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.common.enums.UserTypeEnums;
 import com.xht.system.modules.user.converter.SysUserConverter;
@@ -27,10 +27,10 @@ import com.xht.system.modules.user.dao.SysUserDetailDao;
 import com.xht.system.modules.user.dao.SysUserPostDao;
 import com.xht.system.modules.user.domain.entity.SysUserDetailEntity;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.request.SysUserDetailForm;
-import com.xht.system.modules.user.domain.request.SysUserForm;
-import com.xht.system.modules.user.domain.request.SysUserQuery;
-import com.xht.system.modules.user.domain.request.UpdatePwdFrom;
+import com.xht.system.modules.user.domain.form.SysUserBasicForm;
+import com.xht.system.modules.user.domain.form.SysUserDetailBasicForm;
+import com.xht.system.modules.user.domain.form.UpdatePwdFrom;
+import com.xht.system.modules.user.domain.query.SysUserBasicQuery;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import com.xht.system.modules.user.service.IUserService;
@@ -77,8 +77,8 @@ public class UserServiceImpl implements IUserService {
      * @param userForm 用户创建请求对象
      */
     @Override
-    public void create(SysUserForm userForm) {
-        SysUserDetailForm detail = userForm.getDetail();
+    public void create(SysUserBasicForm userForm) {
+        SysUserDetailBasicForm detail = userForm.getDetail();
         String idCard = detail.getIdCard();
         String userPhone = userForm.getUserPhone();
         // 校验当前用户信息是否已经注册过
@@ -99,7 +99,7 @@ public class UserServiceImpl implements IUserService {
      * @param form 表单对象，用于接收前端传入的用户数据
      * @return 转换后的系统用户实体对象，如果转换失败则返回null
      */
-    protected final SysUserEntity formatUser(SysUserForm form) {
+    protected final SysUserEntity formatUser(SysUserBasicForm form) {
         SysUserEntity entity = new SysUserEntity();
         entity.setId(IdUtil.getSnowflakeNextId());
         entity.setUserType(UserTypeEnums.BUSINESS);
@@ -123,7 +123,7 @@ public class UserServiceImpl implements IUserService {
      * @param userId 用户ID
      * @return 格式化后的用户实体对象
      */
-    private SysUserDetailEntity formatUser(SysUserDetailForm detail, String idCard, Long userId) {
+    private SysUserDetailEntity formatUser(SysUserDetailBasicForm detail, String idCard, Long userId) {
         SysUserDetailEntity adminEntity = sysUserDetailConverter.toEntity(detail);
         LocalDate now = LocalDate.now();
         // 从身份证中提取性别和出生日期信息
@@ -155,9 +155,9 @@ public class UserServiceImpl implements IUserService {
      * @param userForm 用户更新请求对象
      */
     @Override
-    public void update(SysUserForm userForm) {
+    public void update(SysUserBasicForm userForm) {
         Long userId = userForm.getId();
-        SysUserDetailForm detail = userForm.getDetail();
+        SysUserDetailBasicForm detail = userForm.getDetail();
         String idCard = detail.getIdCard();
         String userPhone = userForm.getUserPhone();
         Boolean userExists = sysUserDao.exists(SysUserEntity::getId, userId);
@@ -186,7 +186,7 @@ public class UserServiceImpl implements IUserService {
         ThrowUtils.notNull(userId, "用户ID不能为空");
         SysUserVO sysUserVO = sysUserDao.findInfoByUserId(userId);
         ThrowUtils.notNull(sysUserVO, "查询不到用户信息!");
-        List<SysPostResp> deptPostVo = sysUserPostDao.getPostByUserId(userId);
+        List<SysPostResponse> deptPostVo = sysUserPostDao.getPostByUserId(userId);
         sysUserVO.setPostInfos(deptPostVo);
         sysUserVO.setPassWord(null);
         sysUserVO.setPassWordSalt(null);
@@ -200,7 +200,7 @@ public class UserServiceImpl implements IUserService {
      * @return 用户对象分页结果
      */
     @Override
-    public PageResponse<SysUserResponse> findPageList(SysUserQuery query) {
+    public PageResponse<SysUserResponse> findPageList(SysUserBasicQuery query) {
         Page<SysUserEntity> sysUserEntityPage = sysUserDao.findPageList(PageTool.getPage(query), query);
         return sysUserConverter.toResponse(sysUserEntityPage);
     }

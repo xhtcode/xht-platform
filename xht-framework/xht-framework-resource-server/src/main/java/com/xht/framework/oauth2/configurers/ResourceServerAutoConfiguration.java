@@ -36,7 +36,7 @@ public class ResourceServerAutoConfiguration {
     }
 
     @Bean
-    public ResourceOpaqueTokenIntrospector resourceServerConfigurer(OAuth2AuthorizationService authorizationService, UserDetailsService userDetailsService) {
-        return new ResourceOpaqueTokenIntrospector(authorizationService, userDetailsService);
+    public ResourceOpaqueTokenIntrospector resourceServerConfigurer(OAuth2AuthorizationService authorizationService) {
+        return new ResourceOpaqueTokenIntrospector(authorizationService);
     }
 }

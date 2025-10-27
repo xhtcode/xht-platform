@@ -14,12 +14,12 @@ import com.xht.system.modules.authority.common.enums.MenuLinkEnums;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
 import com.xht.system.modules.authority.dao.SysUserRoleDao;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
-import com.xht.system.modules.authority.domain.response.SysMenuResp;
+import com.xht.system.modules.authority.domain.response.SysMenuResponse;
 import com.xht.system.modules.authority.domain.vo.AuthorityUserVO;
-import com.xht.system.modules.authority.domain.vo.MetaVo;
+import com.xht.system.modules.authority.domain.response.MetaResponse;
 import com.xht.system.modules.authority.domain.vo.RouterVo;
 import com.xht.system.modules.authority.service.IAuthorityService;
-import com.xht.system.modules.dept.domain.response.SysPostResp;
+import com.xht.system.modules.dept.domain.response.SysPostResponse;
 import com.xht.system.modules.user.dao.SysUserDao;
 import com.xht.system.modules.user.dao.SysUserPostDao;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
@@ -58,18 +58,18 @@ public class AuthorityServiceImpl implements IAuthorityService {
      * @param menu 菜单信息
      * @return 菜单元数据
      */
-    private static MetaVo getMetaVo(SysMenuResp menu) {
-        MetaVo metaVo = new MetaVo();
-        metaVo.setTitle(menu.getMenuName());
-        metaVo.setIcon(menu.getMenuIcon());
-        metaVo.setLinkStatus(Objects.requireNonNullElse(menu.getFrameFlag(), MenuLinkEnums.NO).getStatus());
-        metaVo.setMenuType(menu.getMenuType().getValue());
-        metaVo.setActiveMenuPath(menu.getActiveMenuPath());
-        metaVo.setHiddenStatus(Objects.requireNonNullElse(menu.getMenuHidden(), MenuHiddenEnums.SHOW).getHidden());
-        metaVo.setKeepAliveStatus(Objects.requireNonNullElse(menu.getMenuCache(), MenuCacheEnums.YES).getStatus());
-        metaVo.setRoles(StrUtil.splitTrim(menu.getMenuAuthority(), ","));//perms
-        metaVo.setRank(menu.getMenuSort());
-        return metaVo;
+    private static MetaResponse getMetaVo(SysMenuResponse menu) {
+        MetaResponse metaResponse = new MetaResponse();
+        metaResponse.setTitle(menu.getMenuName());
+        metaResponse.setIcon(menu.getMenuIcon());
+        metaResponse.setLinkStatus(Objects.requireNonNullElse(menu.getFrameFlag(), MenuLinkEnums.NO).getStatus());
+        metaResponse.setMenuType(menu.getMenuType().getValue());
+        metaResponse.setActiveMenuPath(menu.getActiveMenuPath());
+        metaResponse.setHiddenStatus(Objects.requireNonNullElse(menu.getMenuHidden(), MenuHiddenEnums.SHOW).getHidden());
+        metaResponse.setKeepAliveStatus(Objects.requireNonNullElse(menu.getMenuCache(), MenuCacheEnums.YES).getStatus());
+        metaResponse.setRoles(StrUtil.splitTrim(menu.getMenuAuthority(), ","));//perms
+        metaResponse.setRank(menu.getMenuSort());
+        return metaResponse;
     }
 
     /**
@@ -85,7 +85,7 @@ public class AuthorityServiceImpl implements IAuthorityService {
         if (Objects.isNull(sysUserVO)) {
             return vo;
         }
-        List<SysPostResp> postResponses = sysUserPostDao.getPostByUserId(user.getUserId());
+        List<SysPostResponse> postResponses = sysUserPostDao.getPostByUserId(user.getUserId());
         sysUserVO.setPostInfos(postResponses);
         sysUserVO.setPassWord(null);
         sysUserVO.setPassWordSalt(null);
@@ -114,12 +114,12 @@ public class AuthorityServiceImpl implements IAuthorityService {
     @Override
     public List<INode<Long>> getRouters() {
         BasicUserDetails user = SecurityUtils.getUser();
-        List<SysMenuResp> menus = sysRoleMenuDao.findRouterByUserId(user.getUserId());
+        List<SysMenuResponse> menus = sysRoleMenuDao.findRouterByUserId(user.getUserId());
         if (CollectionUtils.isEmpty(menus)) {
             return Collections.emptyList();
         }
         List<INode<Long>> result = new ArrayList<>(menus.size());
-        for (SysMenuResp menu : menus) {
+        for (SysMenuResponse menu : menus) {
             RouterVo routerVo = new RouterVo();
             routerVo.setPath(menu.getMenuPath());
             routerVo.setName(StringUtils.emptyToDefault(menu.getViewName(), menu.getId() + ""));

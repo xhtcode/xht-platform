@@ -7,7 +7,7 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTemplateDao;
 import com.xht.generate.dao.mapper.GenTemplateMapper;
 import com.xht.generate.domain.entity.GenTemplateEntity;
-import com.xht.generate.domain.form.GenTemplateForm;
+import com.xht.generate.domain.form.GenTemplateBasicForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +32,7 @@ public class GenTemplateDaoImpl extends MapperRepositoryImpl<GenTemplateMapper, 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFormRequest(GenTemplateForm form) {
+    public void updateFormRequest(GenTemplateBasicForm form) {
         LambdaUpdateWrapper<GenTemplateEntity> updateWrapper = lambdaUpdateWrapper();
         // @formatter:off
         updateWrapper

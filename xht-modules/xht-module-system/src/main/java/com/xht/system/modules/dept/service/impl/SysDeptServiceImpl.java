@@ -9,9 +9,9 @@ import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import com.xht.system.modules.dept.converter.SysDeptConverter;
 import com.xht.system.modules.dept.dao.SysDeptDao;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
-import com.xht.system.modules.dept.domain.request.SysDeptForm;
-import com.xht.system.modules.dept.domain.request.SysDeptTreeQuery;
-import com.xht.system.modules.dept.domain.response.SysDeptResp;
+import com.xht.system.modules.dept.domain.form.SysDeptBasicForm;
+import com.xht.system.modules.dept.domain.query.SysDeptTreeBasicQuery;
+import com.xht.system.modules.dept.domain.response.SysDeptResponse;
 import com.xht.system.modules.dept.service.ISysDeptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @param form 部门表单请求参数
      */
     @Override
-    public void create(SysDeptForm form) {
+    public void create(SysDeptBasicForm form) {
         String deptCode = form.getDeptCode();
         SysDeptEntity parentDept = sysDeptDao.getDefaultParentDeptByParentId(form.getParentId());
         ThrowUtils.throwIf(Objects.isNull(parentDept), BusinessErrorCode.DATA_NOT_EXIST, "父部门不存在");
@@ -71,7 +71,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @param form 部门更新请求参数
      */
     @Override
-    public void updateById(SysDeptForm form) {
+    public void updateById(SysDeptBasicForm form) {
         // 1.校验部门是否存在
         SysDeptEntity dbDept = sysDeptDao.findById(form.getId());
         ThrowUtils.throwIf(Objects.isNull(dbDept), BusinessErrorCode.DATA_NOT_EXIST, "修改的部门不存在");
@@ -109,7 +109,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @return 部门信息
      */
     @Override
-    public SysDeptResp findById(Long id) {
+    public SysDeptResponse findById(Long id) {
         return sysDeptConverter.toResponse(sysDeptDao.findById(id));
     }
 
@@ -120,7 +120,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @return 部门树形结构
      */
     @Override
-    public List<INode<Long>> getDeptTree(SysDeptTreeQuery query) {
+    public List<INode<Long>> getDeptTree(SysDeptTreeBasicQuery query) {
         List<SysDeptEntity> list = sysDeptDao.queryListRequest(query);
         List<INode<Long>> treeNodeList = new ArrayList<>();
         for (SysDeptEntity entity : list) {

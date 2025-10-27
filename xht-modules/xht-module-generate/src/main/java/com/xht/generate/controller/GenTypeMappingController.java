@@ -3,9 +3,9 @@ package com.xht.generate.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
-import com.xht.generate.domain.form.GenTypeMappingForm;
-import com.xht.generate.domain.query.GenTypeMappingQuery;
-import com.xht.generate.domain.response.GenTypeMappingResp;
+import com.xht.generate.domain.form.GenTypeMappingBasicForm;
+import com.xht.generate.domain.query.GenTypeMappingBasicQuery;
+import com.xht.generate.domain.response.GenTypeMappingResponse;
 import com.xht.generate.service.IGenTypeMappingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -39,7 +39,7 @@ public class GenTypeMappingController {
      */
     @Operation(summary = "创建字段映射", description = "根据提供的请求参数创建一个新的字段映射")
     @PostMapping("/create")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTypeMappingForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTypeMappingBasicForm form) {
         genTypeMappingService.create(form);
         return R.ok();
     }
@@ -65,7 +65,7 @@ public class GenTypeMappingController {
      */
     @Operation(summary = "根据ID更新字段映射", description = "根据提供的字段映射更新请求参数更新字段映射")
     @PostMapping("/update")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTypeMappingForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTypeMappingBasicForm form) {
         genTypeMappingService.updateById(form);
         return R.ok();
     }
@@ -78,7 +78,7 @@ public class GenTypeMappingController {
      */
     @Operation(summary = "根据ID查询字段映射", description = "根据提供的字段映射ID查询字段映射信息")
     @GetMapping("/get/{id}")
-    public R<GenTypeMappingResp> findById(@PathVariable @Parameter(description = "字段映射ID", required = true) Long id) {
+    public R<GenTypeMappingResponse> findById(@PathVariable @Parameter(description = "字段映射ID", required = true) Long id) {
         return R.ok(genTypeMappingService.findById(id));
     }
 
@@ -90,7 +90,7 @@ public class GenTypeMappingController {
      */
     @Operation(summary = "分页查询字段映射", description = "根据提供的查询请求参数分页查询字段映射信息")
     @GetMapping("/page")
-    public R<PageResponse<GenTypeMappingResp>>findPageList(GenTypeMappingQuery query) {
+    public R<PageResponse<GenTypeMappingResponse>>findPageList(GenTypeMappingBasicQuery query) {
         return R.ok(genTypeMappingService.findPageList(query));
     }
 
@@ -102,7 +102,7 @@ public class GenTypeMappingController {
      */
     @Operation(summary = "根据数据库类型和目标编程语言类型查询所有的映射关系", description = "根据提供的数据库类型和目标编程语言类型查询所有的映射关系")
     @GetMapping("/list")
-    public R<List<GenTypeMappingResp>> findAll(@Validated GenTypeMappingQuery query) {
+    public R<List<GenTypeMappingResponse>> findAll(@Validated GenTypeMappingBasicQuery query) {
         return R.ok(genTypeMappingService.findAll(query));
     }
 

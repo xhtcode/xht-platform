@@ -1,9 +1,9 @@
 package com.xht.cloud.oauth2.service;
 
-import com.xht.boot.oauth2.domain.dto.OAuth2RegisteredClientDTO;
-import com.xht.boot.oauth2.function.OAuth2RegisteredClientFunction;
+import com.xht.api.system.oauth2.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.oauth2.feign.RemoteRegisteredClientService;
 import com.xht.boot.oauth2.service.RedisRegisteredClientService;
-import com.xht.cloud.oauth2.feign.RemoteRegisteredClientService;
+import com.xht.cloud.oauth2.function.OAuth2RegisteredClientFunction;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.ROptional;
 import jakarta.annotation.Resource;

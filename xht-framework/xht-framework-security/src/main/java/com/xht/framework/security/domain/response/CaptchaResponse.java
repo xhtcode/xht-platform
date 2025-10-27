@@ -1,6 +1,7 @@
 package com.xht.framework.security.domain.response;
 
-import com.xht.framework.core.domain.response.IResponse;
+import com.xht.framework.core.domain.dto.BasicDTO;
+import com.xht.framework.core.domain.response.BasicResponse;
 import lombok.Data;
 
 /**
@@ -9,7 +10,7 @@ import lombok.Data;
  * @author xht
  **/
 @Data
-public class CaptchaResponse implements IResponse {
+public class CaptchaResponse extends BasicResponse {
 
     /**
      * 验证码key

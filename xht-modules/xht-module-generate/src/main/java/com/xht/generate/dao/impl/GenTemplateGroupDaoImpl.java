@@ -8,8 +8,8 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTemplateGroupDao;
 import com.xht.generate.dao.mapper.GenTemplateGroupMapper;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
-import com.xht.generate.domain.form.GenTemplateGroupForm;
-import com.xht.generate.domain.query.GenTemplateGroupQuery;
+import com.xht.generate.domain.form.GenTemplateGroupBasicForm;
+import com.xht.generate.domain.query.GenTemplateGroupBasicQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +32,7 @@ public class GenTemplateGroupDaoImpl extends MapperRepositoryImpl<GenTemplateGro
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFormRequest(GenTemplateGroupForm form) {
+    public void updateFormRequest(GenTemplateGroupBasicForm form) {
         LambdaUpdateWrapper<GenTemplateGroupEntity> updateWrapper = lambdaUpdateWrapper();
         updateWrapper.set(condition(form.getGroupName()), GenTemplateGroupEntity::getGroupName, form.getGroupName());
         updateWrapper.set(condition(form.getGroupSort()), GenTemplateGroupEntity::getGroupSort, form.getGroupSort());
@@ -49,7 +49,7 @@ public class GenTemplateGroupDaoImpl extends MapperRepositoryImpl<GenTemplateGro
      * @return 代码生成模板组列表响应结果
      */
     @Override
-    public Page<GenTemplateGroupEntity> findPageList(Page<GenTemplateGroupEntity> page, GenTemplateGroupQuery query) {
+    public Page<GenTemplateGroupEntity> findPageList(Page<GenTemplateGroupEntity> page, GenTemplateGroupBasicQuery query) {
         LambdaQueryWrapper<GenTemplateGroupEntity> queryWrapper = lambdaQueryWrapper();
         queryWrapper.eq(condition(query.getGroupName()), GenTemplateGroupEntity::getGroupName, query.getGroupName());
         return page(page, queryWrapper);

@@ -3,8 +3,8 @@ package com.xht.system.modules.log.converter;
 import com.xht.framework.log.domain.dto.LogDTO;
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.system.modules.log.domian.entity.SysLogEntity;
-import com.xht.system.modules.log.domian.request.SysLogForm;
-import com.xht.system.modules.log.domian.response.SysLogResp;
+import com.xht.system.modules.log.domian.request.SysLogBasicForm;
+import com.xht.system.modules.log.domian.response.SysLogResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -15,7 +15,7 @@ import org.mapstruct.ReportingPolicy;
  * @author xht
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SysLogConverter extends BasicConverter<SysLogEntity, SysLogForm, SysLogResp> {
+public interface SysLogConverter extends BasicConverter<SysLogEntity, SysLogBasicForm, SysLogResponse> {
 
     /**
      * 将LogDTO对象转换为SysLogEntity对象

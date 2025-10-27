@@ -6,12 +6,12 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.framework.security.constant.enums.LoginTypeEnums;
+import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.dao.SysUserDao;
 import com.xht.system.modules.user.dao.mapper.SysUserMapper;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.request.SysUserQuery;
+import com.xht.system.modules.user.domain.query.SysUserBasicQuery;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -64,7 +64,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @return 分页查询结果
      */
     @Override
-    public Page<SysUserEntity> findPageList(Page<SysUserEntity> page, SysUserQuery query) {
+    public Page<SysUserEntity> findPageList(Page<SysUserEntity> page, SysUserBasicQuery query) {
         LambdaQueryWrapper<SysUserEntity> queryWrapper = lambdaQueryWrapper();
         return page(page, queryWrapper);
     }

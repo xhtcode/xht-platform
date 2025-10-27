@@ -10,8 +10,8 @@ import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
 import com.xht.system.modules.authority.dao.SysRoleDao;
 import com.xht.system.modules.authority.dao.mapper.SysRoleMapper;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
-import com.xht.system.modules.authority.domain.request.SysRoleForm;
-import com.xht.system.modules.authority.domain.request.SysRoleQuery;
+import com.xht.system.modules.authority.domain.form.SysRoleBasicForm;
+import com.xht.system.modules.authority.domain.query.SysRoleBasicQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +35,7 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFormRequest(SysRoleForm form) {
+    public void updateFormRequest(SysRoleBasicForm form) {
         LambdaUpdateWrapper<SysRoleEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(condition(form.getRoleCode()), SysRoleEntity::getRoleCode, form.getRoleCode());
         updateWrapper.set(condition(form.getRoleName()), SysRoleEntity::getRoleName, form.getRoleName());
@@ -85,7 +85,7 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
      * @return 角色分页信息
      */
     @Override
-    public Page<SysRoleEntity> findPageList(Page<SysRoleEntity> page, SysRoleQuery query) {
+    public Page<SysRoleEntity> findPageList(Page<SysRoleEntity> page, SysRoleBasicQuery query) {
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(

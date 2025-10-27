@@ -3,7 +3,7 @@ package com.xht.generate.service.impl;
 import com.xht.generate.converter.GenTableColumnConverter;
 import com.xht.generate.dao.GenTableColumnDao;
 import com.xht.generate.domain.entity.GenTableColumnEntity;
-import com.xht.generate.domain.response.GenTableColumnResp;
+import com.xht.generate.domain.response.GenTableColumnResponse;
 import com.xht.generate.service.IGenTableColumnService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class GenTableColumnServiceImpl implements IGenTableColumnService {
      * @return 字段信息信息
      */
     @Override
-    public GenTableColumnResp findById(Long id) {
+    public GenTableColumnResponse findById(Long id) {
         return genTableColumnConverter.toResponse(genTableColumnDao.findById(id));
     }
 
@@ -44,7 +44,7 @@ public class GenTableColumnServiceImpl implements IGenTableColumnService {
      * @return 字段信息分页信息
      */
     @Override
-    public List<GenTableColumnResp> listByTableId(String tableId) {
+    public List<GenTableColumnResponse> listByTableId(String tableId) {
         List<GenTableColumnEntity> page = genTableColumnDao.findList(GenTableColumnEntity::getTableId, tableId);
         return genTableColumnConverter.toResponse(page);
     }

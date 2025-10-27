@@ -2,7 +2,8 @@ package com.xht.framework.security.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xht.framework.core.domain.response.IResponse;
+import com.xht.framework.core.domain.dto.BasicDTO;
+import com.xht.framework.core.domain.response.BasicResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -18,7 +19,7 @@ import java.util.Set;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "token返回值")
-public class TokenResponse implements IResponse, Serializable {
+public class TokenResponse extends BasicResponse implements Serializable {
 
     /**
      * 访问令牌

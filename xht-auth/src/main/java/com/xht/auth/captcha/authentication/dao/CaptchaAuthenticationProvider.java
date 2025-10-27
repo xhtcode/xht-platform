@@ -5,7 +5,7 @@ import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.framework.cache.service.RedisService;
 import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.security.constant.enums.LoginTypeEnums;
+import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.security.domain.RequestUserBO;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;

@@ -4,9 +4,9 @@ import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
-import com.xht.system.modules.authority.domain.request.SysRoleForm;
-import com.xht.system.modules.authority.domain.request.SysRoleQuery;
-import com.xht.system.modules.authority.domain.response.SysRoleResp;
+import com.xht.system.modules.authority.domain.form.SysRoleBasicForm;
+import com.xht.system.modules.authority.domain.query.SysRoleBasicQuery;
+import com.xht.system.modules.authority.domain.response.SysRoleResponse;
 import com.xht.system.modules.authority.service.ISysRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -40,7 +40,7 @@ public class SysRoleController {
      */
     @Operation(summary = "创建角色", description = "根据提供的请求参数创建一个新的角色")
     @PostMapping("/create")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysRoleForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysRoleBasicForm form) {
         sysRoleService.create(form);
         return R.ok();
     }
@@ -79,7 +79,7 @@ public class SysRoleController {
      */
     @Operation(summary = "根据ID更新角色", description = "根据提供的角色更新请求参数更新角色")
     @PostMapping("/update")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysRoleForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysRoleBasicForm form) {
         sysRoleService.updateById(form);
         return R.ok();
     }
@@ -107,7 +107,7 @@ public class SysRoleController {
      */
     @Operation(summary = "根据ID查询角色", description = "根据提供的角色ID查询角色信息")
     @GetMapping("/get/{id}")
-    public R<SysRoleResp> findById(@PathVariable @Parameter(description = "角色ID", required = true) Long id) {
+    public R<SysRoleResponse> findById(@PathVariable @Parameter(description = "角色ID", required = true) Long id) {
         return R.ok(sysRoleService.findById(id));
     }
 
@@ -119,7 +119,7 @@ public class SysRoleController {
      */
     @Operation(summary = "分页查询角色", description = "根据提供的查询请求参数分页查询角色信息")
     @GetMapping("/page")
-    public R<PageResponse<SysRoleResp>>findPageList(SysRoleQuery query) {
+    public R<PageResponse<SysRoleResponse>>findPageList(SysRoleBasicQuery query) {
         return R.ok(sysRoleService.findPageList(query));
     }
 
@@ -130,7 +130,7 @@ public class SysRoleController {
      */
     @Operation(summary = "查询全部角色", description = "查询全部角色")
     @GetMapping("/list")
-    public R<List<SysRoleResp>> list() {
+    public R<List<SysRoleResponse>> list() {
         return R.ok(sysRoleService.list());
     }
 }

@@ -1,6 +1,6 @@
 package com.xht.framework.security.core.userdetails;
 
-import com.xht.framework.security.constant.enums.LoginTypeEnums;
+import com.xht.framework.core.enums.LoginTypeEnums;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**

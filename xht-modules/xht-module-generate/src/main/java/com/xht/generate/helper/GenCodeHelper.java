@@ -10,7 +10,7 @@ import com.xht.generate.domain.bo.GenCodeCoreBo;
 import com.xht.generate.domain.entity.GenTableColumnEntity;
 import com.xht.generate.domain.entity.GenTableEntity;
 import com.xht.generate.domain.entity.GenTemplateEntity;
-import com.xht.generate.domain.request.GenCodeCoreRequest;
+import com.xht.generate.domain.form.GenCodeCoreForm;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.springframework.util.CollectionUtils;
@@ -47,7 +47,7 @@ public final class GenCodeHelper {
      * @param tableColumns 表列信息实体列表
      * @param codeCore     解析后的代码核心业务对象列表
      */
-    public static List<GenCodeCoreBo> generateCode(GenCodeCoreRequest request, GenTableEntity table, List<GenTableColumnEntity> tableColumns, List<GenCodeCoreBo> codeCore) {
+    public static List<GenCodeCoreBo> generateCode(GenCodeCoreForm request, GenTableEntity table, List<GenTableColumnEntity> tableColumns, List<GenCodeCoreBo> codeCore) {
         List<GenCodeCoreBo> result = new ArrayList<>();
         if (CollectionUtils.isEmpty(codeCore)) {
             return Collections.emptyList();

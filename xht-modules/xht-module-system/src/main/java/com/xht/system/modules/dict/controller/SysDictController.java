@@ -3,9 +3,9 @@ package com.xht.system.modules.dict.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
-import com.xht.system.modules.dict.domain.request.SysDictForm;
-import com.xht.system.modules.dict.domain.request.SysDictQuery;
-import com.xht.system.modules.dict.domain.response.SysDictResp;
+import com.xht.system.modules.dict.domain.form.SysDictBasicForm;
+import com.xht.system.modules.dict.domain.query.SysDictBasicQuery;
+import com.xht.system.modules.dict.domain.response.SysDictResponse;
 import com.xht.system.modules.dict.service.ISysDictService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,7 +36,7 @@ public class SysDictController {
      */
     @Operation(summary = "创建字典类型")
     @PostMapping("/create")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictBasicForm form) {
         sysDictService.create(form);
         return R.ok();
     }
@@ -62,7 +62,7 @@ public class SysDictController {
      */
     @Operation(summary = "修改字典类型")
     @PostMapping("/update")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictBasicForm form) {
         sysDictService.updateById(form);
         return R.ok();
     }
@@ -75,7 +75,7 @@ public class SysDictController {
      */
     @Operation(summary = "获取字典类型详情")
     @GetMapping("/get/{id}")
-    public R<SysDictResp> findById(@PathVariable Long id) {
+    public R<SysDictResponse> findById(@PathVariable Long id) {
         return R.ok(sysDictService.findById(id));
     }
 
@@ -87,7 +87,7 @@ public class SysDictController {
      */
     @Operation(summary = "分页查询字典类型")
     @GetMapping("/page")
-    public R<PageResponse<SysDictResp>>findPageList(SysDictQuery query) {
+    public R<PageResponse<SysDictResponse>>findPageList(SysDictBasicQuery query) {
         return R.ok(sysDictService.findPageList(query));
     }
 

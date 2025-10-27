@@ -3,7 +3,7 @@ package com.xht.generate.controller;
 import cn.hutool.core.io.IoUtil;
 import com.xht.framework.core.domain.R;
 import com.xht.generate.domain.bo.GenCodeCoreBo;
-import com.xht.generate.domain.request.GenCodeCoreRequest;
+import com.xht.generate.domain.form.GenCodeCoreForm;
 import com.xht.generate.service.IGenCodeCoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,25 +36,25 @@ public class GenCodeCoreController {
     /**
      * 生成代码
      *
-     * @param genCodeCoreRequest 代码生成核心请求参数
+     * @param genCodeCoreForm 代码生成核心请求参数
      */
     @Operation(summary = "生成代码")
     @PostMapping("/generate")
-    public void generateCode(@Validated @RequestBody GenCodeCoreRequest genCodeCoreRequest, HttpServletResponse response) throws IOException {
-        byte[] bytes = genCodeCoreService.generateCode(genCodeCoreRequest);
+    public void generateCode(@Validated @RequestBody GenCodeCoreForm genCodeCoreForm, HttpServletResponse response) throws IOException {
+        byte[] bytes = genCodeCoreService.generateCode(genCodeCoreForm);
         IoUtil.write(response.getOutputStream(), true, bytes);
     }
 
     /**
      * 预览代码
      *
-     * @param genCodeCoreRequest 代码生成核心请求参数
+     * @param genCodeCoreForm 代码生成核心请求参数
      * @return 代码列表
      */
     @Operation(summary = "生成代码")
     @PostMapping("/view")
-    public R<List<GenCodeCoreBo>> viewCode(@Validated @RequestBody GenCodeCoreRequest genCodeCoreRequest) {
-        return R.ok(genCodeCoreService.viewCode(genCodeCoreRequest));
+    public R<List<GenCodeCoreBo>> viewCode(@Validated @RequestBody GenCodeCoreForm genCodeCoreForm) {
+        return R.ok(genCodeCoreService.viewCode(genCodeCoreForm));
     }
 
 }

@@ -3,8 +3,8 @@ package com.xht.generate.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.generate.domain.entity.GenTypeMappingEntity;
-import com.xht.generate.domain.form.GenTypeMappingForm;
-import com.xht.generate.domain.query.GenTypeMappingQuery;
+import com.xht.generate.domain.form.GenTypeMappingBasicForm;
+import com.xht.generate.domain.query.GenTypeMappingBasicQuery;
 
 
 /**
@@ -19,7 +19,7 @@ public interface GenTypeMappingDao extends MapperRepository<GenTypeMappingEntity
      *
      * @param form 菜单信息
      */
-    void updateFormRequest(GenTypeMappingForm form);
+    void updateFormRequest(GenTypeMappingBasicForm form);
 
     /**
      * 分页查询菜单
@@ -28,6 +28,6 @@ public interface GenTypeMappingDao extends MapperRepository<GenTypeMappingEntity
      * @param query 菜单查询请求参数
      * @return 菜单分页信息
      */
-    Page<GenTypeMappingEntity> findPageList(Page<GenTypeMappingEntity> page, GenTypeMappingQuery query);
+    Page<GenTypeMappingEntity> findPageList(Page<GenTypeMappingEntity> page, GenTypeMappingBasicQuery query);
 
 }

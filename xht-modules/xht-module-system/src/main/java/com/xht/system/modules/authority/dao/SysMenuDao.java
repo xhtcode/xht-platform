@@ -4,8 +4,8 @@ import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
 import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
-import com.xht.system.modules.authority.domain.request.SysMenuForm;
-import com.xht.system.modules.authority.domain.request.SysMenuQuery;
+import com.xht.system.modules.authority.domain.form.SysMenuBasicForm;
+import com.xht.system.modules.authority.domain.query.SysMenuBasicQuery;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public interface SysMenuDao extends MapperRepository<SysMenuEntity> {
      *
      * @param form 菜单信息
      */
-    void updateFormRequest(SysMenuForm form);
+    void updateFormRequest(SysMenuBasicForm form);
 
     /**
      * 更新菜单状态
@@ -53,7 +53,7 @@ public interface SysMenuDao extends MapperRepository<SysMenuEntity> {
      * @param query 查询请求参数
      * @return LambdaQueryWrapper<SysMenuEntity>
      */
-    List<SysMenuEntity> getMenuList(SysMenuQuery query);
+    List<SysMenuEntity> getMenuList(SysMenuBasicQuery query);
 
     /**
      * 查询可用菜单并构建树形结构

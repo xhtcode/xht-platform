@@ -2,9 +2,9 @@ package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.web.validation.Groups;
-import com.xht.generate.domain.form.GenDataSourceForm;
-import com.xht.generate.domain.query.GenDataSourceQuery;
-import com.xht.generate.domain.response.GenDataSourceResp;
+import com.xht.generate.domain.form.GenDataSourceBasicForm;
+import com.xht.generate.domain.query.GenDataSourceBasicQuery;
+import com.xht.generate.domain.response.GenDataSourceResponse;
 import com.xht.generate.service.IGenDataSourceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -38,7 +38,7 @@ public class GenDataSourceController {
      */
     @Operation(summary = "创建数据源", description = "根据提供的请求参数创建一个新的数据源")
     @PostMapping("/create")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenDataSourceForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenDataSourceBasicForm form) {
         genDataSourceService.create(form);
         return R.ok();
     }
@@ -64,7 +64,7 @@ public class GenDataSourceController {
      */
     @Operation(summary = "根据ID更新数据源", description = "根据提供的数据源更新请求参数更新数据源")
     @PostMapping("/update")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenDataSourceForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenDataSourceBasicForm form) {
         genDataSourceService.updateById(form);
         return R.ok();
     }
@@ -77,7 +77,7 @@ public class GenDataSourceController {
      */
     @Operation(summary = "根据ID查询数据源", description = "根据提供的数据源ID查询数据源信息")
     @GetMapping("/get/{id}")
-    public R<GenDataSourceResp> findById(@PathVariable @Parameter(description = "数据源ID", required = true) Long id) {
+    public R<GenDataSourceResponse> findById(@PathVariable @Parameter(description = "数据源ID", required = true) Long id) {
         return R.ok(genDataSourceService.findById(id));
     }
 
@@ -89,7 +89,7 @@ public class GenDataSourceController {
      */
     @Operation(summary = "按条件查询数据源", description = "根据提供的查询请求参数按条件查询数据源信息")
     @GetMapping("/list")
-    public R<List<GenDataSourceResp>> findList(GenDataSourceQuery query) {
+    public R<List<GenDataSourceResponse>> findList(GenDataSourceBasicQuery query) {
         return R.ok(genDataSourceService.findList(query));
     }
 

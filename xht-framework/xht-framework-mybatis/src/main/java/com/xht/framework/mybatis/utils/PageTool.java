@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.core.domain.request.PageQueryRequest;
+import com.xht.framework.core.domain.query.PageBasicQuery;
 import com.xht.framework.core.domain.response.PageResponse;
 import org.springframework.util.StringUtils;
 
@@ -32,7 +32,7 @@ public final class PageTool {
      * @param <T>   泛型对象
      * @return IPage
      */
-    public static <T> Page<T> getPage(PageQueryRequest query) {
+    public static <T> Page<T> getPage(PageBasicQuery query) {
         String[] ascArr = StringUtils.delimitedListToStringArray(query.getAscName(), ",");
         String[] descArr = StringUtils.delimitedListToStringArray(query.getDescName(), ",");
         return getPage(query.getCurrent(), query.getSize(), ascArr, descArr);

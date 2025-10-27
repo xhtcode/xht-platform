@@ -1,10 +1,10 @@
 package com.xht.system.modules.oauth2.service;
 
-import com.xht.boot.oauth2.domain.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.oauth2.dto.OAuth2RegisteredClientDTO;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientForm;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQuery;
-import com.xht.system.modules.oauth2.domian.response.SysOauth2ClientResp;
+import com.xht.system.modules.oauth2.domain.form.SysOauth2ClientBasicForm;
+import com.xht.system.modules.oauth2.domain.query.SysOauth2ClientBasicQuery;
+import com.xht.system.modules.oauth2.domain.response.SysOauth2ClientResp;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface ISysOauth2ClientService {
      *
      * @param form OAuth2客户端信息
      */
-    void create(SysOauth2ClientForm form);
+    void create(SysOauth2ClientBasicForm form);
 
     /**
      * 删除OAuth2客户端
@@ -34,7 +34,7 @@ public interface ISysOauth2ClientService {
      *
      * @param form OAuth2客户端信息
      */
-    void updateById(SysOauth2ClientForm form);
+    void updateById(SysOauth2ClientBasicForm form);
 
     /**
      * 获取OAuth2客户端详情
@@ -50,7 +50,7 @@ public interface ISysOauth2ClientService {
      * @param query 查询请求参数
      * @return 分页结果
      */
-    PageResponse<SysOauth2ClientResp>findPageList(SysOauth2ClientQuery query);
+    PageResponse<SysOauth2ClientResp> findPageList(SysOauth2ClientBasicQuery query);
 
     /**
      *  根据clientId 获取客户端详情

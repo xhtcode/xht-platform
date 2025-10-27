@@ -1,7 +1,8 @@
 package com.xht.framework.oauth2.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xht.framework.core.domain.response.IResponse;
+import com.xht.framework.core.domain.dto.BasicDTO;
+import com.xht.framework.core.domain.response.BasicResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
@@ -11,7 +12,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
  **/
 @Data
 @Schema(description = "OAuth2错误响应")
-public class OAuth2ErrorResponse implements IResponse {
+public class OAuth2ErrorResponse extends BasicResponse {
 
     /**
      * 错误码

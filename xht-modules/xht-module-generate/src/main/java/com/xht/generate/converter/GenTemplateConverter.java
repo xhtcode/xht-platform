@@ -2,8 +2,8 @@ package com.xht.generate.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.generate.domain.entity.GenTemplateEntity;
-import com.xht.generate.domain.form.GenTemplateForm;
-import com.xht.generate.domain.response.GenTemplateResp;
+import com.xht.generate.domain.form.GenTemplateBasicForm;
+import com.xht.generate.domain.response.GenTemplateResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -14,6 +14,6 @@ import org.mapstruct.ReportingPolicy;
  * @author xht
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface GenTemplateConverter extends BasicConverter<GenTemplateEntity, GenTemplateForm, GenTemplateResp> {
+public interface GenTemplateConverter extends BasicConverter<GenTemplateEntity, GenTemplateBasicForm, GenTemplateResponse> {
 
 }

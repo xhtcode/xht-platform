@@ -1,12 +1,12 @@
 package com.xht.system.modules.user.service;
 
-import com.xht.cloud.oauth2.dto.UserInfoDTO;
+import com.xht.api.system.user.dto.UserInfoDTO;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.security.constant.enums.LoginTypeEnums;
+import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
-import com.xht.system.modules.user.domain.request.SysUserForm;
-import com.xht.system.modules.user.domain.request.SysUserQuery;
-import com.xht.system.modules.user.domain.request.UpdatePwdFrom;
+import com.xht.system.modules.user.domain.form.SysUserBasicForm;
+import com.xht.system.modules.user.domain.form.UpdatePwdFrom;
+import com.xht.system.modules.user.domain.query.SysUserBasicQuery;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 
@@ -22,7 +22,7 @@ public interface IUserService {
      *
      * @param form 用户创建请求对象
      */
-    void create(SysUserForm form);
+    void create(SysUserBasicForm form);
 
     /**
      * 删除用户
@@ -36,7 +36,7 @@ public interface IUserService {
      *
      * @param userForm 用户更新请求对象
      */
-    void update(SysUserForm userForm);
+    void update(SysUserBasicForm userForm);
 
     /**
      * 根据ID查找用户
@@ -52,7 +52,7 @@ public interface IUserService {
      * @param query 用户查询请求对象
      * @return 用户对象分页结果
      */
-    PageResponse<SysUserResponse> findPageList(SysUserQuery query);
+    PageResponse<SysUserResponse> findPageList(SysUserBasicQuery query);
 
     /**
      * 重置密码

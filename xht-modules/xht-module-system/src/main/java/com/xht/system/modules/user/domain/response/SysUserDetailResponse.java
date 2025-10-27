@@ -1,6 +1,6 @@
 package com.xht.system.modules.user.domain.response;
 
-import com.xht.framework.core.domain.response.IResponse;
+import com.xht.framework.core.domain.response.BasicResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -13,7 +13,13 @@ import java.time.LocalDate;
  **/
 @Data
 @Schema(description = "用户详细响应信息")
-public final class SysUserDetailResponse implements IResponse {
+public final class SysUserDetailResponse extends BasicResponse {
+
+    /**
+     * 用户id
+     */
+    @Schema(description = "用户id")
+    private Long userId;
 
     /**
      * 真实姓名

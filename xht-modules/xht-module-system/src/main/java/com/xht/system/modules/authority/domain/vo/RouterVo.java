@@ -1,7 +1,8 @@
 package com.xht.system.modules.authority.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.xht.framework.core.domain.response.IResponse;
+import com.xht.framework.core.domain.vo.IVO;
+import com.xht.system.modules.authority.domain.response.MetaResponse;
 import lombok.Data;
 
 /**
@@ -12,7 +13,7 @@ import lombok.Data;
  **/
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class RouterVo implements IResponse {
+public class RouterVo implements IVO {
 
     /**
      * 组件名称
@@ -36,6 +37,6 @@ public class RouterVo implements IResponse {
     /**
      * 其他元素
      */
-    private MetaVo meta;
+    private MetaResponse meta;
 
 }

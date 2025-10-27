@@ -3,8 +3,8 @@ package com.xht.system.modules.dict.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.system.modules.dict.domain.entity.SysDictEntity;
-import com.xht.system.modules.dict.domain.request.SysDictForm;
-import com.xht.system.modules.dict.domain.request.SysDictQuery;
+import com.xht.system.modules.dict.domain.form.SysDictBasicForm;
+import com.xht.system.modules.dict.domain.query.SysDictBasicQuery;
 
 /**
  * 系统字典管理
@@ -19,7 +19,7 @@ public interface SysDictDao extends MapperRepository<SysDictEntity> {
      * @param form             系统字典修改参数
      * @param updateItemStatus 是否更新字典项状态
      */
-    void updateRequest(SysDictForm form, boolean updateItemStatus);
+    void updateRequest(SysDictBasicForm form, boolean updateItemStatus);
 
     /**
      * 根据字典ID和字典项编码检查是否存在相同的字典项编码
@@ -37,5 +37,5 @@ public interface SysDictDao extends MapperRepository<SysDictEntity> {
      * @param query 系统字典查询参数
      * @return 系统字典列表
      */
-    Page<SysDictEntity> findPageList(Page<SysDictEntity> page, SysDictQuery query);
+    Page<SysDictEntity> findPageList(Page<SysDictEntity> page, SysDictBasicQuery query);
 }

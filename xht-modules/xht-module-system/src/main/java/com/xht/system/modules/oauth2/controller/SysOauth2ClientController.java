@@ -3,9 +3,9 @@ package com.xht.system.modules.oauth2.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientForm;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQuery;
-import com.xht.system.modules.oauth2.domian.response.SysOauth2ClientResp;
+import com.xht.system.modules.oauth2.domain.form.SysOauth2ClientBasicForm;
+import com.xht.system.modules.oauth2.domain.query.SysOauth2ClientBasicQuery;
+import com.xht.system.modules.oauth2.domain.response.SysOauth2ClientResp;
 import com.xht.system.modules.oauth2.service.ISysOauth2ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,7 +36,7 @@ public class SysOauth2ClientController {
      */
     @Operation(summary = "创建OAuth2客户端")
     @PostMapping("/create")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysOauth2ClientForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysOauth2ClientBasicForm form) {
         sysOauth2ClientService.create(form);
         return R.ok();
     }
@@ -62,7 +62,7 @@ public class SysOauth2ClientController {
      */
     @Operation(summary = "修改OAuth2客户端")
     @PostMapping("/update")
-    public R<Void> updateById(@RequestBody SysOauth2ClientForm form) {
+    public R<Void> updateById(@RequestBody SysOauth2ClientBasicForm form) {
         sysOauth2ClientService.updateById(form);
         return R.ok();
     }
@@ -87,7 +87,7 @@ public class SysOauth2ClientController {
      */
     @Operation(summary = "分页查询OAuth2客户端")
     @GetMapping("/page")
-    public R<PageResponse<SysOauth2ClientResp>>findPageList(SysOauth2ClientQuery query) {
+    public R<PageResponse<SysOauth2ClientResp>>findPageList(SysOauth2ClientBasicQuery query) {
         return R.ok(sysOauth2ClientService.findPageList(query));
     }
 

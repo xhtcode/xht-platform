@@ -2,8 +2,8 @@ package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.web.validation.Groups;
-import com.xht.generate.domain.form.GenTemplateForm;
-import com.xht.generate.domain.response.GenTemplateResp;
+import com.xht.generate.domain.form.GenTemplateBasicForm;
+import com.xht.generate.domain.response.GenTemplateResponse;
 import com.xht.generate.service.IGenTemplateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,7 +37,7 @@ public class GenTemplateController {
      */
     @Operation(summary = "创建模板", description = "根据提供的请求参数创建一个新的模板")
     @PostMapping("/create")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTemplateForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTemplateBasicForm form) {
         genTemplateService.create(form);
         return R.ok();
     }
@@ -63,7 +63,7 @@ public class GenTemplateController {
      */
     @Operation(summary = "根据ID更新模板", description = "根据提供的模板更新请求参数更新模板")
     @PostMapping("/update")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTemplateForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTemplateBasicForm form) {
         genTemplateService.updateById(form);
         return R.ok();
     }
@@ -76,7 +76,7 @@ public class GenTemplateController {
      */
     @Operation(summary = "根据ID查询模板", description = "根据提供的模板ID查询模板信息")
     @GetMapping("/get/{id}")
-    public R<GenTemplateResp> findById(@PathVariable @Parameter(description = "模板ID", required = true) Long id) {
+    public R<GenTemplateResponse> findById(@PathVariable @Parameter(description = "模板ID", required = true) Long id) {
         return R.ok(genTemplateService.findById(id));
     }
 
@@ -87,7 +87,7 @@ public class GenTemplateController {
      * @return 模板响应列表
      */
     @GetMapping("/list/{groupId}")
-    public R<List<GenTemplateResp>> listByGroupId(@PathVariable("groupId") String groupId) {
+    public R<List<GenTemplateResponse>> listByGroupId(@PathVariable("groupId") String groupId) {
         return R.ok(genTemplateService.listByGroupId(groupId));
     }
 

@@ -5,9 +5,9 @@ import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
-import com.xht.system.modules.authority.domain.request.SysMenuForm;
-import com.xht.system.modules.authority.domain.request.SysMenuQuery;
-import com.xht.system.modules.authority.domain.response.SysMenuResp;
+import com.xht.system.modules.authority.domain.form.SysMenuBasicForm;
+import com.xht.system.modules.authority.domain.query.SysMenuBasicQuery;
+import com.xht.system.modules.authority.domain.response.SysMenuResponse;
 import com.xht.system.modules.authority.service.ISysMenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -41,7 +41,7 @@ public class SysMenuController {
      */
     @Operation(summary = "创建菜单", description = "根据提供的请求参数创建一个新的菜单")
     @PostMapping("/create")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysMenuForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysMenuBasicForm form) {
         sysMenuService.create(form);
         return R.ok();
     }
@@ -67,7 +67,7 @@ public class SysMenuController {
      */
     @Operation(summary = "根据ID更新菜单", description = "根据提供的菜单更新请求参数更新菜单")
     @PostMapping("/update")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysMenuForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysMenuBasicForm form) {
         sysMenuService.updateById(form);
         return R.ok();
     }
@@ -95,7 +95,7 @@ public class SysMenuController {
      */
     @Operation(summary = "根据ID查询菜单", description = "根据提供的菜单ID查询菜单信息")
     @GetMapping("/get/{id}")
-    public R<SysMenuResp> findById(@PathVariable @Parameter(description = "菜单ID", required = true) Long id) {
+    public R<SysMenuResponse> findById(@PathVariable @Parameter(description = "菜单ID", required = true) Long id) {
         return R.ok(sysMenuService.findById(id));
     }
 
@@ -107,7 +107,7 @@ public class SysMenuController {
      */
     @Operation(summary = "查询菜单列表(树形结构)", description = "根据提供的查询请求参数查询菜单列表(树形结构)信息")
     @GetMapping("/tree")
-    public R<List<INode<Long>>> findTree(SysMenuQuery query) {
+    public R<List<INode<Long>>> findTree(SysMenuBasicQuery query) {
         return R.ok(sysMenuService.findTree(query));
     }
 

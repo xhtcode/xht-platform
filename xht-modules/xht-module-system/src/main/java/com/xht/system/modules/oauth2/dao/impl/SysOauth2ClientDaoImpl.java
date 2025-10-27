@@ -8,9 +8,9 @@ import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.oauth2.dao.SysOauth2ClientDao;
 import com.xht.system.modules.oauth2.dao.mapper.SysOauth2ClientMapper;
-import com.xht.system.modules.oauth2.domian.entity.SysOauth2ClientEntity;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientForm;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientQuery;
+import com.xht.system.modules.oauth2.domain.entity.SysOauth2ClientEntity;
+import com.xht.system.modules.oauth2.domain.form.SysOauth2ClientBasicForm;
+import com.xht.system.modules.oauth2.domain.query.SysOauth2ClientBasicQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -33,7 +33,7 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
      * @param form OAuth2客户端修改信息
      */
     @Override
-    public void updateFormRequest(SysOauth2ClientForm form) {
+    public void updateFormRequest(SysOauth2ClientBasicForm form) {
         LambdaUpdateWrapper<SysOauth2ClientEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
@@ -77,7 +77,7 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
      * @return 分页结果
      */
     @Override
-    public Page<SysOauth2ClientEntity> findPageList(Page<SysOauth2ClientEntity> page, SysOauth2ClientQuery query) {
+    public Page<SysOauth2ClientEntity> findPageList(Page<SysOauth2ClientEntity> page, SysOauth2ClientBasicQuery query) {
         LambdaQueryWrapper<SysOauth2ClientEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(

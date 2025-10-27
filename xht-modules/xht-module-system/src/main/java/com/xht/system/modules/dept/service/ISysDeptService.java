@@ -2,9 +2,9 @@ package com.xht.system.modules.dept.service;
 
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
-import com.xht.system.modules.dept.domain.request.SysDeptForm;
-import com.xht.system.modules.dept.domain.request.SysDeptTreeQuery;
-import com.xht.system.modules.dept.domain.response.SysDeptResp;
+import com.xht.system.modules.dept.domain.form.SysDeptBasicForm;
+import com.xht.system.modules.dept.domain.query.SysDeptTreeBasicQuery;
+import com.xht.system.modules.dept.domain.response.SysDeptResponse;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface ISysDeptService {
      *
      * @param form 部门表单请求参数
      */
-    void create(SysDeptForm form);
+    void create(SysDeptBasicForm form);
 
     /**
      * 根据ID删除部门
@@ -34,7 +34,7 @@ public interface ISysDeptService {
      *
      * @param form 部门更新请求参数
      */
-    void updateById(SysDeptForm form);
+    void updateById(SysDeptBasicForm form);
 
     /**
      * 更新部门状态
@@ -50,7 +50,7 @@ public interface ISysDeptService {
      * @param id 部门ID
      * @return 部门信息
      */
-    SysDeptResp findById(Long id);
+    SysDeptResponse findById(Long id);
 
     /**
      * 获取部门树形结构
@@ -58,5 +58,5 @@ public interface ISysDeptService {
      * @param treeRequest 部门树形结构请求参数
      * @return 部门树形结构
      */
-    List<INode<Long>> getDeptTree(SysDeptTreeQuery treeRequest);
+    List<INode<Long>> getDeptTree(SysDeptTreeBasicQuery treeRequest);
 }

@@ -9,9 +9,9 @@ import com.xht.generate.cache.TypeMappingCache;
 import com.xht.generate.converter.GenTypeMappingConverter;
 import com.xht.generate.dao.GenTypeMappingDao;
 import com.xht.generate.domain.entity.GenTypeMappingEntity;
-import com.xht.generate.domain.form.GenTypeMappingForm;
-import com.xht.generate.domain.query.GenTypeMappingQuery;
-import com.xht.generate.domain.response.GenTypeMappingResp;
+import com.xht.generate.domain.form.GenTypeMappingBasicForm;
+import com.xht.generate.domain.query.GenTypeMappingBasicQuery;
+import com.xht.generate.domain.response.GenTypeMappingResponse;
 import com.xht.generate.service.IGenTypeMappingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +42,7 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
      * @param form 字段映射表单请求参数
      */
     @Override
-    public void create(GenTypeMappingForm form) {
+    public void create(GenTypeMappingBasicForm form) {
         GenTypeMappingEntity entity = genTypeMappingConverter.toEntity(form);
         genTypeMappingDao.saveTransactional(entity);
     }
@@ -64,7 +64,7 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
      * @param form 字段映射更新请求参数
      */
     @Override
-    public void updateById(GenTypeMappingForm form) {
+    public void updateById(GenTypeMappingBasicForm form) {
         Boolean menuExists = genTypeMappingDao.exists(GenTypeMappingEntity::getId, form.getId());
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "字段映射不存在");
         genTypeMappingDao.updateFormRequest(form);
@@ -77,7 +77,7 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
      * @return 字段映射信息
      */
     @Override
-    public GenTypeMappingResp findById(Long id) {
+    public GenTypeMappingResponse findById(Long id) {
         return genTypeMappingConverter.toResponse(genTypeMappingDao.findById(id));
     }
 
@@ -88,7 +88,7 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
      * @return 字段映射分页信息
      */
     @Override
-    public PageResponse<GenTypeMappingResp>findPageList(GenTypeMappingQuery query) {
+    public PageResponse<GenTypeMappingResponse>findPageList(GenTypeMappingBasicQuery query) {
         Page<GenTypeMappingEntity> page = genTypeMappingDao.findPageList(PageTool.getPage(query), query);
         return genTypeMappingConverter.toResponse(page);
     }
@@ -100,7 +100,7 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
      * @return 字段映射信息
      */
     @Override
-    public List<GenTypeMappingResp> findAll(GenTypeMappingQuery query) {
+    public List<GenTypeMappingResponse> findAll(GenTypeMappingBasicQuery query) {
         List<GenTypeMappingEntity> typeMappingList = typeMappingCache.getTypeMappingList(query.getDbType(), query.getTargetLanguage());
         return genTypeMappingConverter.toResponse(typeMappingList);
     }

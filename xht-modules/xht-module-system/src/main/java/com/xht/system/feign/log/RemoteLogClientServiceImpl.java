@@ -1,6 +1,6 @@
 package com.xht.system.feign.log;
 
-import com.xht.cloud.log.feign.RemoteLogClientService;
+import com.xht.api.system.log.feign.RemoteLogClientService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.log.domain.dto.LogDTO;
 import com.xht.framework.openfeign.annotation.NoAuthentication;

@@ -10,7 +10,7 @@ import com.xht.generate.domain.bo.GenCodeCoreBo;
 import com.xht.generate.domain.entity.GenTableColumnEntity;
 import com.xht.generate.domain.entity.GenTableEntity;
 import com.xht.generate.domain.entity.GenTemplateEntity;
-import com.xht.generate.domain.request.GenCodeCoreRequest;
+import com.xht.generate.domain.form.GenCodeCoreForm;
 import com.xht.generate.helper.GenCodeHelper;
 import com.xht.generate.service.IGenCodeCoreService;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +50,7 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
      * @return byte[] 生成的代码文件字节数组
      */
     @Override
-    public byte[] generateCode(GenCodeCoreRequest request) {
+    public byte[] generateCode(GenCodeCoreForm request) {
         return generateZipPackage(viewCode(request));
     }
 
@@ -58,13 +58,13 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
      * 预览代码
      * 根据请求参数预览将要生成的代码内容，返回代码预览信息列表
      *
-     * @param genCodeCoreRequest 代码生成核心请求参数，包含生成代码所需的配置信息
+     * @param genCodeCoreForm 代码生成核心请求参数，包含生成代码所需的配置信息
      * @return List<GenCodeCoreBo> 代码预览信息列表，包含各个代码文件的内容
      */
     @Override
-    public List<GenCodeCoreBo> viewCode(GenCodeCoreRequest genCodeCoreRequest) {
+    public List<GenCodeCoreBo> viewCode(GenCodeCoreForm genCodeCoreForm) {
         // 1. 校验并获取基础数据
-        List<String> tableIds = genCodeCoreRequest.getTableIds();
+        List<String> tableIds = genCodeCoreForm.getTableIds();
         List<GenTableEntity> tableEntities = tableInfoDao.findList(GenTableEntity::getId, tableIds);
         ThrowUtils.notEmpty(tableEntities, "请选择要生成的表");
         // 2. 按分组整理数据
@@ -80,7 +80,7 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
                 // 为每个表生成代码
                 for (GenTableEntity table : genTableEntities) {
                     List<GenTableColumnEntity> tableColumns = columnInfoDao.findList(GenTableColumnEntity::getTableId, table.getId());
-                    List<GenCodeCoreBo> codeCoreBoList = GenCodeHelper.generateCode(genCodeCoreRequest, table, tableColumns, originalList);
+                    List<GenCodeCoreBo> codeCoreBoList = GenCodeHelper.generateCode(genCodeCoreForm, table, tableColumns, originalList);
                     codeList.addAll(codeCoreBoList);
                 }
             } catch (Exception e) {

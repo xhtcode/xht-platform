@@ -11,8 +11,8 @@ import com.xht.system.modules.dict.dao.mapper.SysDictItemMapper;
 import com.xht.system.modules.dict.dao.mapper.SysDictMapper;
 import com.xht.system.modules.dict.domain.entity.SysDictEntity;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
-import com.xht.system.modules.dict.domain.request.SysDictForm;
-import com.xht.system.modules.dict.domain.request.SysDictQuery;
+import com.xht.system.modules.dict.domain.form.SysDictBasicForm;
+import com.xht.system.modules.dict.domain.query.SysDictBasicQuery;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -40,7 +40,7 @@ public class SysDictDaoImpl extends MapperRepositoryImpl<SysDictMapper, SysDictE
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateRequest(SysDictForm form, boolean updateItemStatus) {
+    public void updateRequest(SysDictBasicForm form, boolean updateItemStatus) {
         LambdaUpdateWrapper<SysDictEntity> updateWrapper = new LambdaUpdateWrapper<>();
         //@formatter:off
         updateWrapper
@@ -87,7 +87,7 @@ public class SysDictDaoImpl extends MapperRepositoryImpl<SysDictMapper, SysDictE
      * @return 系统字典列表
      */
     @Override
-    public Page<SysDictEntity> findPageList(Page<SysDictEntity> page, SysDictQuery query) {
+    public Page<SysDictEntity> findPageList(Page<SysDictEntity> page, SysDictBasicQuery query) {
         LambdaQueryWrapper<SysDictEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.and(condition(query.getKeyWord()), wrapper -> wrapper
                 .like(SysDictEntity::getDictCode, query.getKeyWord())

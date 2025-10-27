@@ -1,10 +1,10 @@
 package com.xht.system.modules.oauth2.converter;
 
-import com.xht.boot.oauth2.domain.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.oauth2.dto.OAuth2RegisteredClientDTO;
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.system.modules.oauth2.domian.entity.SysOauth2ClientEntity;
-import com.xht.system.modules.oauth2.domian.request.SysOauth2ClientForm;
-import com.xht.system.modules.oauth2.domian.response.SysOauth2ClientResp;
+import com.xht.system.modules.oauth2.domain.entity.SysOauth2ClientEntity;
+import com.xht.system.modules.oauth2.domain.form.SysOauth2ClientBasicForm;
+import com.xht.system.modules.oauth2.domain.response.SysOauth2ClientResp;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -15,7 +15,7 @@ import org.mapstruct.ReportingPolicy;
  * @author xht
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SysOauth2ClientConverter extends BasicConverter<SysOauth2ClientEntity, SysOauth2ClientForm, SysOauth2ClientResp> {
+public interface SysOauth2ClientConverter extends BasicConverter<SysOauth2ClientEntity, SysOauth2ClientBasicForm, SysOauth2ClientResp> {
 
     /**
      * 实体类转DTO

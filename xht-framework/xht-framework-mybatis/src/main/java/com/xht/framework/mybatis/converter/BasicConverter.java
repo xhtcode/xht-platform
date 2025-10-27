@@ -1,8 +1,8 @@
 package com.xht.framework.mybatis.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.core.domain.request.FormRequest;
-import com.xht.framework.core.domain.response.IResponse;
+import com.xht.framework.core.domain.form.BasicForm;
+import com.xht.framework.core.domain.response.BasicResponse;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.mybatis.domain.entity.Entity;
 import org.springframework.util.CollectionUtils;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * @param <Response> 响应对象类型，继承自IResponse
  * @author xht
  */
-public interface BasicConverter<T extends Entity, Form extends FormRequest, Response extends IResponse> {
+public interface BasicConverter<T extends Entity, Form extends BasicForm, Response extends BasicResponse> {
 
     /**
      * 将创建请求对象转换为实体对象

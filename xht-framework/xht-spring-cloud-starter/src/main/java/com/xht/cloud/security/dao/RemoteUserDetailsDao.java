@@ -1,12 +1,12 @@
 package com.xht.cloud.security.dao;
 
-import com.xht.cloud.oauth2.dto.UserInfoDTO;
-import com.xht.cloud.security.feign.RemoteUserService;
+import com.xht.api.system.user.dto.UserInfoDTO;
+import com.xht.api.system.user.feign.RemoteUserService;
 import com.xht.framework.core.domain.R;
+import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.utils.ROptional;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.security.constant.SecurityConstant;
-import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.UserDetailsDao;
 import com.xht.framework.security.properties.SecurityProperties;
@@ -17,7 +17,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**

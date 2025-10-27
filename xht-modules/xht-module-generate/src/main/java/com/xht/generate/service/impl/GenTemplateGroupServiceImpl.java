@@ -10,9 +10,9 @@ import com.xht.generate.dao.GenTemplateDao;
 import com.xht.generate.dao.GenTemplateGroupDao;
 import com.xht.generate.domain.entity.GenTemplateEntity;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
-import com.xht.generate.domain.form.GenTemplateGroupForm;
-import com.xht.generate.domain.query.GenTemplateGroupQuery;
-import com.xht.generate.domain.response.GenTemplateGroupResp;
+import com.xht.generate.domain.form.GenTemplateGroupBasicForm;
+import com.xht.generate.domain.query.GenTemplateGroupBasicQuery;
+import com.xht.generate.domain.response.GenTemplateGroupResponse;
 import com.xht.generate.service.IGenTemplateGroupService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +43,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      * @param form 项目表单请求参数
      */
     @Override
-    public void create(GenTemplateGroupForm form) {
+    public void create(GenTemplateGroupBasicForm form) {
         GenTemplateGroupEntity entity = genTemplateGroupConverter.toEntity(form);
         entity.setTemplateCount(0);
         genTemplateGroupDao.saveTransactional(entity);
@@ -68,7 +68,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      * @param form 项目更新请求参数
      */
     @Override
-    public void updateById(GenTemplateGroupForm form) {
+    public void updateById(GenTemplateGroupBasicForm form) {
         Boolean menuExists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, form.getId());
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "项目不存在");
         genTemplateGroupDao.updateFormRequest(form);
@@ -81,7 +81,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      * @return 项目信息
      */
     @Override
-    public GenTemplateGroupResp findById(Long id) {
+    public GenTemplateGroupResponse findById(Long id) {
         return genTemplateGroupConverter.toResponse(genTemplateGroupDao.findById(id));
     }
 
@@ -90,7 +90,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      *
      * @return 代码生成模板组列表响应结果
      */
-    public List<GenTemplateGroupResp> findAll() {
+    public List<GenTemplateGroupResponse> findAll() {
         List<GenTemplateGroupEntity> entityList = genTemplateGroupDao.findAllBy();
         return genTemplateGroupConverter.toResponse(entityList);
     }
@@ -103,7 +103,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      * @return 代码生成模板组列表响应结果
      */
     @Override
-    public PageResponse<GenTemplateGroupResp>findPageList(GenTemplateGroupQuery query) {
+    public PageResponse<GenTemplateGroupResponse>findPageList(GenTemplateGroupBasicQuery query) {
         Page<GenTemplateGroupEntity> page = genTemplateGroupDao.findPageList(PageTool.getPage(query), query);
         return genTemplateGroupConverter.toResponse(page);
     }

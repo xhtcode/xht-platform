@@ -1,7 +1,7 @@
 package com.xht.system.modules.oauth2.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
-import com.xht.system.modules.oauth2.domian.entity.SysOauth2ClientEntity;
+import com.xht.system.modules.oauth2.domain.entity.SysOauth2ClientEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

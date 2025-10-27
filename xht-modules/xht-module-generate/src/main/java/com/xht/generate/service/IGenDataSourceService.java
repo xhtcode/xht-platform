@@ -1,8 +1,8 @@
 package com.xht.generate.service;
 
-import com.xht.generate.domain.form.GenDataSourceForm;
-import com.xht.generate.domain.query.GenDataSourceQuery;
-import com.xht.generate.domain.response.GenDataSourceResp;
+import com.xht.generate.domain.form.GenDataSourceBasicForm;
+import com.xht.generate.domain.query.GenDataSourceBasicQuery;
+import com.xht.generate.domain.response.GenDataSourceResponse;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface IGenDataSourceService {
      *
      * @param form 数据源表单请求参数
      */
-    void create(GenDataSourceForm form);
+    void create(GenDataSourceBasicForm form);
 
     /**
      * 根据ID删除数据源
@@ -33,7 +33,7 @@ public interface IGenDataSourceService {
      *
      * @param form 数据源更新请求参数
      */
-    void updateById(GenDataSourceForm form);
+    void updateById(GenDataSourceBasicForm form);
 
     /**
      * 根据ID查询数据源
@@ -41,7 +41,7 @@ public interface IGenDataSourceService {
      * @param id 数据源ID
      * @return 数据源信息
      */
-    GenDataSourceResp findById(Long id);
+    GenDataSourceResponse findById(Long id);
 
     /**
      * 按条件查询数据源
@@ -49,7 +49,7 @@ public interface IGenDataSourceService {
      * @param query 数据源查询请求参数
      * @return 数据源分页信息
      */
-    List<GenDataSourceResp> findList(GenDataSourceQuery query);
+    List<GenDataSourceResponse> findList(GenDataSourceBasicQuery query);
 
     /**
      * 测试链接

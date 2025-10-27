@@ -1,10 +1,10 @@
 package com.xht.system.feign.security;
 
-import com.xht.cloud.oauth2.dto.UserInfoDTO;
-import com.xht.cloud.security.feign.RemoteUserService;
+import com.xht.api.system.user.dto.UserInfoDTO;
+import com.xht.api.system.user.feign.RemoteUserService;
 import com.xht.framework.core.domain.R;
+import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.openfeign.annotation.NoAuthentication;
-import com.xht.framework.security.constant.enums.LoginTypeEnums;
 import com.xht.system.modules.user.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

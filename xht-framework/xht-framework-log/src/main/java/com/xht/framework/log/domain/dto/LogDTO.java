@@ -1,6 +1,6 @@
 package com.xht.framework.log.domain.dto;
 
-import com.xht.framework.core.domain.dto.IDto;
+import com.xht.framework.core.domain.dto.BasicDTO;
 import com.xht.framework.log.enums.LogStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.Data;
  **/
 @Data
 @Schema(description = "日志信息DTO")
-public class LogDTO implements IDto {
+public class LogDTO extends BasicDTO {
 
 
     /**

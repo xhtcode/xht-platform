@@ -3,9 +3,9 @@ package com.xht.system.modules.authority.service;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
-import com.xht.system.modules.authority.domain.request.SysMenuForm;
-import com.xht.system.modules.authority.domain.request.SysMenuQuery;
-import com.xht.system.modules.authority.domain.response.SysMenuResp;
+import com.xht.system.modules.authority.domain.form.SysMenuBasicForm;
+import com.xht.system.modules.authority.domain.query.SysMenuBasicQuery;
+import com.xht.system.modules.authority.domain.response.SysMenuResponse;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public interface ISysMenuService {
      *
      * @param form 菜单表单请求参数
      */
-    void create(SysMenuForm form);
+    void create(SysMenuBasicForm form);
 
     /**
      * 根据ID删除菜单
@@ -36,7 +36,7 @@ public interface ISysMenuService {
      *
      * @param form 菜单更新请求参数
      */
-    void updateById(SysMenuForm form);
+    void updateById(SysMenuBasicForm form);
 
     /**
      * 更新菜单状态
@@ -52,7 +52,7 @@ public interface ISysMenuService {
      * @param id 菜单ID
      * @return 菜单信息
      */
-    SysMenuResp findById(Long id);
+    SysMenuResponse findById(Long id);
 
     /**
      * 查询菜单列表(树形结构)
@@ -60,7 +60,7 @@ public interface ISysMenuService {
      * @param query 菜单查询请求参数
      * @return 菜单分页信息
      */
-    List<INode<Long>> findTree(SysMenuQuery query);
+    List<INode<Long>> findTree(SysMenuBasicQuery query);
 
     /**
      * 根据菜单类型查询菜单列表(树形结构)

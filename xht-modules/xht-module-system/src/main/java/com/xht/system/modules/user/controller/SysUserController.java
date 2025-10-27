@@ -4,9 +4,9 @@ import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
-import com.xht.system.modules.user.domain.request.SysUserForm;
-import com.xht.system.modules.user.domain.request.SysUserQuery;
-import com.xht.system.modules.user.domain.request.UpdatePwdFrom;
+import com.xht.system.modules.user.domain.form.SysUserBasicForm;
+import com.xht.system.modules.user.domain.query.SysUserBasicQuery;
+import com.xht.system.modules.user.domain.form.UpdatePwdFrom;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import com.xht.system.modules.user.service.IUserService;
@@ -38,7 +38,7 @@ public class SysUserController {
      */
     @Operation(summary = "用户添加", description = "用户添加")
     @PostMapping("/create")
-    public R<Void> create(@Valid @RequestBody SysUserForm userForm) {
+    public R<Void> create(@Valid @RequestBody SysUserBasicForm userForm) {
         userService.create(userForm);
         return R.ok();
     }
@@ -56,7 +56,6 @@ public class SysUserController {
         return R.ok();
     }
 
-
     /**
      * 根据ID更新用户信息
      *
@@ -65,33 +64,9 @@ public class SysUserController {
      */
     @Operation(summary = "更新用户信息", description = "根据ID更新用户信息")
     @PostMapping("/update")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysUserForm userForm) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysUserBasicForm userForm) {
         userService.update(userForm);
         return R.ok();
-    }
-
-    /**
-     * 根据ID获取用户详情
-     *
-     * @param id 用户唯一标识符
-     * @return 返回一个R对象，其中包含SysUserVO对象，表示用户详情信息
-     */
-    @Operation(summary = "获取用户详情", description = "根据ID获取用户详情")
-    @GetMapping("/get/{id}")
-    public R<SysUserVO> findById(@PathVariable Long id) {
-        return R.ok(userService.findByUserId(id));
-    }
-
-    /**
-     * 分页获取用户列表
-     *
-     * @param query 查询请求参数，可以包含分页信息、排序信息或过滤条件等
-     * @return 返回一个R对象，其中包含Page<SysUserVO>对象，表示分页用户列表信息
-     */
-    @Operation(summary = "分页获取用户列表", description = "分页获取用户列表")
-    @GetMapping("/page")
-    public R<PageResponse<SysUserResponse>> findPageList(SysUserQuery query) {
-        return R.ok(userService.findPageList(query));
     }
 
     /**
@@ -132,6 +107,30 @@ public class SysUserController {
     public R<Void> updateStatus(@PathVariable("userId") Long userId, @PathVariable("status") UserStatusEnums status) {
         userService.updateStatus(userId, status);
         return R.ok();
+    }
+
+    /**
+     * 根据ID获取用户详情
+     *
+     * @param id 用户唯一标识符
+     * @return 返回一个R对象，其中包含SysUserVO对象，表示用户详情信息
+     */
+    @Operation(summary = "获取用户详情", description = "根据ID获取用户详情")
+    @GetMapping("/get/{id}")
+    public R<SysUserVO> findById(@PathVariable Long id) {
+        return R.ok(userService.findByUserId(id));
+    }
+
+    /**
+     * 分页获取用户列表
+     *
+     * @param query 查询请求参数，可以包含分页信息、排序信息或过滤条件等
+     * @return 返回一个R对象，其中包含Page<SysUserVO>对象，表示分页用户列表信息
+     */
+    @Operation(summary = "分页获取用户列表", description = "分页获取用户列表")
+    @GetMapping("/page")
+    public R<PageResponse<SysUserResponse>> findPageList(SysUserBasicQuery query) {
+        return R.ok(userService.findPageList(query));
     }
 
 }

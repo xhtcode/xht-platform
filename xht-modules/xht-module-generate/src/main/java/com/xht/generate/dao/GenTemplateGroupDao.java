@@ -3,8 +3,8 @@ package com.xht.generate.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
-import com.xht.generate.domain.form.GenTemplateGroupForm;
-import com.xht.generate.domain.query.GenTemplateGroupQuery;
+import com.xht.generate.domain.form.GenTemplateGroupBasicForm;
+import com.xht.generate.domain.query.GenTemplateGroupBasicQuery;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public interface GenTemplateGroupDao extends MapperRepository<GenTemplateGroupEn
      *
      * @param form 菜单信息
      */
-    void updateFormRequest(GenTemplateGroupForm form);
+    void updateFormRequest(GenTemplateGroupBasicForm form);
 
     /**
      * 根据提供的查询请求参数分页查询代码生成模板组信息
@@ -30,7 +30,7 @@ public interface GenTemplateGroupDao extends MapperRepository<GenTemplateGroupEn
      * @param query 查询参数
      * @return 代码生成模板组列表响应结果
      */
-    Page<GenTemplateGroupEntity> findPageList(Page<GenTemplateGroupEntity> page, GenTemplateGroupQuery query);
+    Page<GenTemplateGroupEntity> findPageList(Page<GenTemplateGroupEntity> page, GenTemplateGroupBasicQuery query);
 
     /**
      * 查询所有

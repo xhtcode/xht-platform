@@ -31,8 +31,6 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
 
     private final OAuth2AuthorizationService authorizationService;
 
-    private final UserDetailsService userDetailsService;
-
     /**
      * @param token 令牌
      * @return OAuth2AuthenticatedPrincipal

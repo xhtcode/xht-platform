@@ -10,8 +10,8 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.dept.dao.SysPostDao;
 import com.xht.system.modules.dept.dao.mapper.SysPostMapper;
 import com.xht.system.modules.dept.domain.entity.SysPostEntity;
-import com.xht.system.modules.dept.domain.request.SysPostForm;
-import com.xht.system.modules.dept.domain.request.SysPostQuery;
+import com.xht.system.modules.dept.domain.form.SysPostBasicForm;
+import com.xht.system.modules.dept.domain.query.SysPostBasicQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +50,7 @@ public class SysPostDaoImpl extends MapperRepositoryImpl<SysPostMapper, SysPostE
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFormRequest(SysPostForm form) {
+    public void updateFormRequest(SysPostBasicForm form) {
         LambdaUpdateWrapper<SysPostEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
@@ -104,7 +104,7 @@ public class SysPostDaoImpl extends MapperRepositoryImpl<SysPostMapper, SysPostE
      * @return 分页数据
      */
     @Override
-    public Page<SysPostEntity> findPageList(Page<SysPostEntity> page, SysPostQuery query) {
+    public Page<SysPostEntity> findPageList(Page<SysPostEntity> page, SysPostBasicQuery query) {
         LambdaQueryWrapper<SysPostEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(

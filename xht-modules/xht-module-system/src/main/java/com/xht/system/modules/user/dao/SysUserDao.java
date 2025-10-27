@@ -2,10 +2,10 @@ package com.xht.system.modules.user.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.framework.security.constant.enums.LoginTypeEnums;
+import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.request.SysUserQuery;
+import com.xht.system.modules.user.domain.query.SysUserBasicQuery;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 
 
@@ -13,6 +13,7 @@ import com.xht.system.modules.user.domain.vo.SysUserVO;
  * @author xht
  **/
 public interface SysUserDao extends MapperRepository<SysUserEntity> {
+
     /**
      * 更新密码
      *
@@ -36,7 +37,7 @@ public interface SysUserDao extends MapperRepository<SysUserEntity> {
      * @param query 查询请求参数
      * @return 分页查询结果
      */
-    Page<SysUserEntity> findPageList(Page<SysUserEntity> page, SysUserQuery query);
+    Page<SysUserEntity> findPageList(Page<SysUserEntity> page, SysUserBasicQuery query);
 
     /**
      * 根据用户ID查询用户信息
@@ -63,4 +64,5 @@ public interface SysUserDao extends MapperRepository<SysUserEntity> {
      * @return true：存在；false：不存在
      */
     boolean checkUserPhoneExists(String userPhone, Long neUserId);
+
 }

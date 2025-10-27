@@ -7,7 +7,7 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.log.dao.SysLogDao;
 import com.xht.system.modules.log.dao.mapper.SysLogMapper;
 import com.xht.system.modules.log.domian.entity.SysLogEntity;
-import com.xht.system.modules.log.domian.request.SysLogQuery;
+import com.xht.system.modules.log.domian.request.SysLogBasicQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +28,7 @@ public class SysLogDaoImpl extends MapperRepositoryImpl<SysLogMapper, SysLogEnti
      * @return 分页查询系统日志
      */
     @Override
-    public Page<SysLogEntity> findPageList(Page<SysLogEntity> page, SysLogQuery query) {
+    public Page<SysLogEntity> findPageList(Page<SysLogEntity> page, SysLogBasicQuery query) {
         LambdaQueryWrapper<SysLogEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(

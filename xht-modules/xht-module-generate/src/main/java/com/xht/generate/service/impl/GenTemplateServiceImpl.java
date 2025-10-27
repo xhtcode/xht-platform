@@ -7,8 +7,8 @@ import com.xht.generate.dao.GenTemplateDao;
 import com.xht.generate.dao.GenTemplateGroupDao;
 import com.xht.generate.domain.entity.GenTemplateEntity;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
-import com.xht.generate.domain.form.GenTemplateForm;
-import com.xht.generate.domain.response.GenTemplateResp;
+import com.xht.generate.domain.form.GenTemplateBasicForm;
+import com.xht.generate.domain.response.GenTemplateResponse;
 import com.xht.generate.service.IGenTemplateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,7 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      * @param form 模板表单请求参数
      */
     @Override
-    public void create(GenTemplateForm form) {
+    public void create(GenTemplateBasicForm form) {
         Boolean exists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, form.getGroupId());
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "模板组不存在");
         GenTemplateEntity entity = genTemplateConverter.toEntity(form);
@@ -63,7 +63,7 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      * @param form 模板更新请求参数
      */
     @Override
-    public void updateById(GenTemplateForm form) {
+    public void updateById(GenTemplateBasicForm form) {
         Boolean exists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, form.getGroupId());
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "模板组不存在");
         Boolean menuExists = genTemplateDao.exists(GenTemplateEntity::getId, form.getId());
@@ -78,7 +78,7 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      * @return 模板信息
      */
     @Override
-    public GenTemplateResp findById(Long id) {
+    public GenTemplateResponse findById(Long id) {
         return genTemplateConverter.toResponse(genTemplateDao.findById(id));
     }
 
@@ -89,7 +89,7 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      * @return 模板响应列表
      */
     @Override
-    public List<GenTemplateResp> listByGroupId(String groupId) {
+    public List<GenTemplateResponse> listByGroupId(String groupId) {
         return genTemplateConverter.toResponse(genTemplateDao.findByGroupId(groupId));
     }
 

@@ -4,9 +4,9 @@ import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
-import com.xht.system.modules.dept.domain.request.SysDeptForm;
-import com.xht.system.modules.dept.domain.request.SysDeptTreeQuery;
-import com.xht.system.modules.dept.domain.response.SysDeptResp;
+import com.xht.system.modules.dept.domain.form.SysDeptBasicForm;
+import com.xht.system.modules.dept.domain.query.SysDeptTreeBasicQuery;
+import com.xht.system.modules.dept.domain.response.SysDeptResponse;
 import com.xht.system.modules.dept.service.ISysDeptService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -38,7 +38,7 @@ public class SysDeptController {
      */
     @PostMapping("/create")
     @Operation(summary = "创建部门")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDeptForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDeptBasicForm form) {
         sysDeptService.create(form);
         return R.ok();
     }
@@ -65,7 +65,7 @@ public class SysDeptController {
      */
     @PostMapping("/update")
     @Operation(summary = "更新部门")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDeptForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDeptBasicForm form) {
         sysDeptService.updateById(form);
         return R.ok();
     }
@@ -95,7 +95,7 @@ public class SysDeptController {
     @GetMapping("/get/{id}")
     @Operation(summary = "查询部门详情")
     @Parameter(name = "id", description = "部门ID")
-    public R<SysDeptResp> findById(@PathVariable Long id) {
+    public R<SysDeptResponse> findById(@PathVariable Long id) {
         return R.ok(sysDeptService.findById(id));
     }
 
@@ -107,7 +107,7 @@ public class SysDeptController {
      */
     @GetMapping("/tree")
     @Operation(summary = "获取部门树形结构")
-    public R<List<INode<Long>>> getDeptTree(SysDeptTreeQuery treeRequest) {
+    public R<List<INode<Long>>> getDeptTree(SysDeptTreeBasicQuery treeRequest) {
         return R.ok(sysDeptService.getDeptTree(treeRequest));
     }
 }

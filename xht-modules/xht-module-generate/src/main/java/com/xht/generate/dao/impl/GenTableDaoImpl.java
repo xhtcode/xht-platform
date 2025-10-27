@@ -9,8 +9,8 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTableDao;
 import com.xht.generate.dao.mapper.GenTableMapper;
 import com.xht.generate.domain.entity.GenTableEntity;
-import com.xht.generate.domain.form.GenTableInfoForm;
-import com.xht.generate.domain.query.GenTableInfoQuery;
+import com.xht.generate.domain.form.GenTableInfoBasicForm;
+import com.xht.generate.domain.query.GenTableInfoBasicQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -32,7 +32,7 @@ public class GenTableDaoImpl extends MapperRepositoryImpl<GenTableMapper, GenTab
      * @param form 菜单信息
      */
     @Override
-    public void updateFormRequest(GenTableInfoForm form) {
+    public void updateFormRequest(GenTableInfoBasicForm form) {
         LambdaUpdateWrapper<GenTableEntity> updateWrapper = lambdaUpdateWrapper();
         updateWrapper.set(condition(form.getGroupId()), GenTableEntity::getGroupId, form.getGroupId());
         updateWrapper.set(condition(form.getDataSourceId()), GenTableEntity::getDataSourceId, form.getDataSourceId());
@@ -64,7 +64,7 @@ public class GenTableDaoImpl extends MapperRepositoryImpl<GenTableMapper, GenTab
      * @return 菜单分页信息
      */
     @Override
-    public Page<GenTableEntity> findPageList(Page<GenTableEntity> page, GenTableInfoQuery query) {
+    public Page<GenTableEntity> findPageList(Page<GenTableEntity> page, GenTableInfoBasicQuery query) {
         LambdaQueryWrapper<GenTableEntity> queryWrapper = lambdaQueryWrapper();
         queryWrapper.eq(condition(query.getGroupId()), GenTableEntity::getGroupId, query.getGroupId());
         queryWrapper.eq(condition(query.getDataSourceId()), GenTableEntity::getDataSourceId, query.getDataSourceId());

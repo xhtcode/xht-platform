@@ -16,14 +16,14 @@ public class TableColumnForm {
 
     @Valid
     @Schema(description = "表信息")
-    private GenTableInfoForm tableInfo;
+    private GenTableInfoBasicForm tableInfo;
 
     @Valid
     @Schema(description = "字段信息")
-    private List<GenColumnInfoForm> columnInfos;
+    private List<GenColumnInfoBasicForm> columnInfos;
 
     @Valid
     @Schema(description = "查询字段信息")
-    private List<GenTableColumnQueryForm> queryColumns;
+    private List<GenTableColumnQueryBasicForm> queryColumns;
 
 }

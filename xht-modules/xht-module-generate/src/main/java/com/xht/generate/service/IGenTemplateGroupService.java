@@ -1,9 +1,9 @@
 package com.xht.generate.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.generate.domain.form.GenTemplateGroupForm;
-import com.xht.generate.domain.query.GenTemplateGroupQuery;
-import com.xht.generate.domain.response.GenTemplateGroupResp;
+import com.xht.generate.domain.form.GenTemplateGroupBasicForm;
+import com.xht.generate.domain.query.GenTemplateGroupBasicQuery;
+import com.xht.generate.domain.response.GenTemplateGroupResponse;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface IGenTemplateGroupService {
      *
      * @param form 项目表单请求参数
      */
-    void create(GenTemplateGroupForm form);
+    void create(GenTemplateGroupBasicForm form);
 
     /**
      * 根据ID删除项目
@@ -34,7 +34,7 @@ public interface IGenTemplateGroupService {
      *
      * @param form 项目更新请求参数
      */
-    void updateById(GenTemplateGroupForm form);
+    void updateById(GenTemplateGroupBasicForm form);
 
     /**
      * 根据ID查询项目
@@ -42,14 +42,14 @@ public interface IGenTemplateGroupService {
      * @param id 项目ID
      * @return 项目信息
      */
-    GenTemplateGroupResp findById(Long id);
+    GenTemplateGroupResponse findById(Long id);
 
     /**
      * 获取代码生成模板组列表
      *
      * @return 代码生成模板组列表响应结果
      */
-    List<GenTemplateGroupResp> findAll();
+    List<GenTemplateGroupResponse> findAll();
 
     /**
      * 根据提供的查询请求参数分页查询代码生成模板组信息
@@ -57,5 +57,5 @@ public interface IGenTemplateGroupService {
      * @param query 查询参数
      * @return 代码生成模板组列表响应结果
      */
-    PageResponse<GenTemplateGroupResp>findPageList(GenTemplateGroupQuery query);
+    PageResponse<GenTemplateGroupResponse>findPageList(GenTemplateGroupBasicQuery query);
 }
