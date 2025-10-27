@@ -36,5 +36,5 @@ public interface SysOauth2ClientDao extends MapperRepository<SysOauth2ClientEnti
      * @param query 查询参数
      * @return 分页结果
      */
-    Page<SysOauth2ClientEntity> queryPageRequest(Page<SysOauth2ClientEntity> page, SysOauth2ClientQuery query);
+    Page<SysOauth2ClientEntity> findPageList(Page<SysOauth2ClientEntity> page, SysOauth2ClientQuery query);
 }

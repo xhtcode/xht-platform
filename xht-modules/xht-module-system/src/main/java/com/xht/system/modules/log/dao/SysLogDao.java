@@ -19,5 +19,5 @@ public interface SysLogDao extends MapperRepository<SysLogEntity> {
      * @param query 系统日志管理查询请求参数
      * @return 分页查询系统日志
      */
-    Page<SysLogEntity> queryPageRequest(Page<SysLogEntity> page, SysLogQuery query);
+    Page<SysLogEntity> findPageList(Page<SysLogEntity> page, SysLogQuery query);
 }

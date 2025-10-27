@@ -30,7 +30,7 @@ public interface GenTemplateGroupDao extends MapperRepository<GenTemplateGroupEn
      * @param query 查询参数
      * @return 代码生成模板组列表响应结果
      */
-    Page<GenTemplateGroupEntity> queryPageRequest(Page<GenTemplateGroupEntity> page, GenTemplateGroupQuery query);
+    Page<GenTemplateGroupEntity> findPageList(Page<GenTemplateGroupEntity> page, GenTemplateGroupQuery query);
 
     /**
      * 查询所有

@@ -57,7 +57,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void removeById(Long id) {
-        sysRoleDao.deleteById(id);
+        sysRoleDao.removeById(id);
     }
 
     /**
@@ -69,7 +69,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Transactional(rollbackFor = Exception.class)
     public void removeByIds(List<Long> ids) {
         ThrowUtils.notNull(ids, BusinessErrorCode.PARAM_ERROR);
-        sysRoleDao.deleteAllById(ids);
+        sysRoleDao.removeAllById(ids);
     }
 
     /**
@@ -118,8 +118,8 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @return 角色分页信息
      */
     @Override
-    public PageResponse<SysRoleResp> pageList(SysRoleQuery query) {
-        Page<SysRoleEntity> page = sysRoleDao.queryPageRequest(PageTool.getPage(query), query);
+    public PageResponse<SysRoleResp>findPageList(SysRoleQuery query) {
+        Page<SysRoleEntity> page = sysRoleDao.findPageList(PageTool.getPage(query), query);
         return sysRoleConverter.toResponse(page);
     }
 

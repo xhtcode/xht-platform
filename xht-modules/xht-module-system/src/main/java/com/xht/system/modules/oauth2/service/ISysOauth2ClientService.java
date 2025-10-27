@@ -50,7 +50,7 @@ public interface ISysOauth2ClientService {
      * @param query 查询请求参数
      * @return 分页结果
      */
-    PageResponse<SysOauth2ClientResp> pageList(SysOauth2ClientQuery query);
+    PageResponse<SysOauth2ClientResp>findPageList(SysOauth2ClientQuery query);
 
     /**
      *  根据clientId 获取客户端详情

@@ -168,7 +168,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void removeById(Long tableId) {
-        genTableDao.deleteById(tableId);
+        genTableDao.removeById(tableId);
         genTableColumnDao.deleteByTableId(tableId);
     }
 
@@ -223,7 +223,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
      */
     @Override
     public PageResponse<GenTableResp> selectExistsPage(GenTableInfoQuery query) {
-        Page<GenTableEntity> page = genTableDao.queryPageRequest(PageTool.getPage(query), query);
+        Page<GenTableEntity> page = genTableDao.findPageList(PageTool.getPage(query), query);
         return genTableConverter.toResponse(page);
     }
 

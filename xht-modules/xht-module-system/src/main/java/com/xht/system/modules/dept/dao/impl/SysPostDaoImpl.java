@@ -104,7 +104,7 @@ public class SysPostDaoImpl extends MapperRepositoryImpl<SysPostMapper, SysPostE
      * @return 分页数据
      */
     @Override
-    public Page<SysPostEntity> queryPageRequest(Page<SysPostEntity> page, SysPostQuery query) {
+    public Page<SysPostEntity> findPageList(Page<SysPostEntity> page, SysPostQuery query) {
         LambdaQueryWrapper<SysPostEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(

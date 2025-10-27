@@ -64,7 +64,7 @@ public class GenTableDaoImpl extends MapperRepositoryImpl<GenTableMapper, GenTab
      * @return 菜单分页信息
      */
     @Override
-    public Page<GenTableEntity> queryPageRequest(Page<GenTableEntity> page, GenTableInfoQuery query) {
+    public Page<GenTableEntity> findPageList(Page<GenTableEntity> page, GenTableInfoQuery query) {
         LambdaQueryWrapper<GenTableEntity> queryWrapper = lambdaQueryWrapper();
         queryWrapper.eq(condition(query.getGroupId()), GenTableEntity::getGroupId, query.getGroupId());
         queryWrapper.eq(condition(query.getDataSourceId()), GenTableEntity::getDataSourceId, query.getDataSourceId());

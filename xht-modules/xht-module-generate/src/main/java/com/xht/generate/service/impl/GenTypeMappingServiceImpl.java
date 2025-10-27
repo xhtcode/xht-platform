@@ -88,8 +88,8 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
      * @return 字段映射分页信息
      */
     @Override
-    public PageResponse<GenTypeMappingResp> pageList(GenTypeMappingQuery query) {
-        Page<GenTypeMappingEntity> page = genTypeMappingDao.queryPageRequest(PageTool.getPage(query), query);
+    public PageResponse<GenTypeMappingResp>findPageList(GenTypeMappingQuery query) {
+        Page<GenTypeMappingEntity> page = genTypeMappingDao.findPageList(PageTool.getPage(query), query);
         return genTypeMappingConverter.toResponse(page);
     }
 

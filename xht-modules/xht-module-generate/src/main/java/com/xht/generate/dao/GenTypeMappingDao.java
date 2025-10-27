@@ -28,6 +28,6 @@ public interface GenTypeMappingDao extends MapperRepository<GenTypeMappingEntity
      * @param query 菜单查询请求参数
      * @return 菜单分页信息
      */
-    Page<GenTypeMappingEntity> queryPageRequest(Page<GenTypeMappingEntity> page, GenTypeMappingQuery query);
+    Page<GenTypeMappingEntity> findPageList(Page<GenTypeMappingEntity> page, GenTypeMappingQuery query);
 
 }

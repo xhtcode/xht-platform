@@ -30,7 +30,7 @@ public interface GenTableDao extends MapperRepository<GenTableEntity> {
      * @param query 菜单查询请求参数
      * @return 菜单分页信息
      */
-    Page<GenTableEntity> queryPageRequest(Page<GenTableEntity> page, GenTableInfoQuery query);
+    Page<GenTableEntity> findPageList(Page<GenTableEntity> page, GenTableInfoQuery query);
 
     /**
      * 根据数据源id查询表名

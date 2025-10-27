@@ -46,7 +46,7 @@ public interface SysRoleDao extends MapperRepository<SysRoleEntity> {
      * @param query 角色查询请求参数
      * @return 角色分页信息
      */
-    Page<SysRoleEntity> queryPageRequest(Page<SysRoleEntity> page, SysRoleQuery query);
+    Page<SysRoleEntity> findPageList(Page<SysRoleEntity> page, SysRoleQuery query);
 
     /**
      * 根据角色状态查询角色列表

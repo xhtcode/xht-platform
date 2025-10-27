@@ -63,7 +63,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeById(List<Long> ids) {
-        return sysDictItemDao.deleteAllById(ids);
+        return sysDictItemDao.removeAllById(ids);
     }
 
     /**
@@ -103,11 +103,11 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      * @return 分页响应结果，包含系统字典项响应信息
      */
     @Override
-    public PageResponse<SysDictItemResp> pageList(SysDictItemQuery query) {
+    public PageResponse<SysDictItemResp>findPageList(SysDictItemQuery query) {
         if (Objects.isNull(query.getDictId())) {
             return PageTool.empty();
         }
-        Page<SysDictItemEntity> page = sysDictItemDao.queryPageRequest(PageTool.getPage(query), query);
+        Page<SysDictItemEntity> page = sysDictItemDao.findPageList(PageTool.getPage(query), query);
         return sysDictItemConverter.toResponse(page);
     }
 

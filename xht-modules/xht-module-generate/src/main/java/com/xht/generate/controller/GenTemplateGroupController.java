@@ -96,8 +96,8 @@ public class GenTemplateGroupController {
      */
     @Operation(summary = "分页查询", description = "根据提供的查询请求参数分页查询代码生成模板组信息")
     @GetMapping("/page")
-    public R<PageResponse<GenTemplateGroupResp>> pageList(GenTemplateGroupQuery query) {
-        return R.ok(genTemplateGroupService.pageList(query));
+    public R<PageResponse<GenTemplateGroupResp>>findPageList(GenTemplateGroupQuery query) {
+        return R.ok(genTemplateGroupService.findPageList(query));
     }
 
     /**

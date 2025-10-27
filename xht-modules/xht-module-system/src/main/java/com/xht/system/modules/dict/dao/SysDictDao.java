@@ -37,5 +37,5 @@ public interface SysDictDao extends MapperRepository<SysDictEntity> {
      * @param query 系统字典查询参数
      * @return 系统字典列表
      */
-    Page<SysDictEntity> queryPageRequest(Page<SysDictEntity> page, SysDictQuery query);
+    Page<SysDictEntity> findPageList(Page<SysDictEntity> page, SysDictQuery query);
 }

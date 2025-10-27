@@ -87,7 +87,7 @@ public class SysDictDaoImpl extends MapperRepositoryImpl<SysDictMapper, SysDictE
      * @return 系统字典列表
      */
     @Override
-    public Page<SysDictEntity> queryPageRequest(Page<SysDictEntity> page, SysDictQuery query) {
+    public Page<SysDictEntity> findPageList(Page<SysDictEntity> page, SysDictQuery query) {
         LambdaQueryWrapper<SysDictEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.and(condition(query.getKeyWord()), wrapper -> wrapper
                 .like(SysDictEntity::getDictCode, query.getKeyWord())

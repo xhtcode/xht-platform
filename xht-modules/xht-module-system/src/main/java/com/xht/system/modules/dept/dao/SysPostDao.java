@@ -57,6 +57,6 @@ public interface SysPostDao extends MapperRepository<SysPostEntity> {
      * @param query 查询请求参数
      * @return 分页数据
      */
-    Page<SysPostEntity> queryPageRequest(Page<SysPostEntity> page, SysPostQuery query);
+    Page<SysPostEntity> findPageList(Page<SysPostEntity> page, SysPostQuery query);
 
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.xht.framework.core.enums.GenderEnums;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import lombok.Data;
 
@@ -16,19 +17,13 @@ import java.time.LocalDate;
  * @author xht
  */
 @Data
-@TableName(value = "sys_user_admin")
-public class SysUserAdminEntity extends BasicEntity implements Serializable {
-
-    /**
-     * 信息ID
-     */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+@TableName(value = "sys_user_detail")
+public class SysUserDetailEntity extends BasicEntity implements Serializable {
 
     /**
      * 用户ID
      */
-    @TableField(value = "user_id")
+    @TableId(value = "user_id", type = IdType.ASSIGN_ID)
     private Long userId;
 
     /**
@@ -47,7 +42,7 @@ public class SysUserAdminEntity extends BasicEntity implements Serializable {
      * 用户性别
      */
     @TableField(value = "gender")
-    private Integer gender;
+    private GenderEnums gender;
 
     /**
      * 出生日期

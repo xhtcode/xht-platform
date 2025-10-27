@@ -49,7 +49,7 @@ public class GenTypeMappingDaoImpl extends MapperRepositoryImpl<GenTypeMappingMa
      * @return 菜单分页信息
      */
     @Override
-    public Page<GenTypeMappingEntity> queryPageRequest(Page<GenTypeMappingEntity> page, GenTypeMappingQuery query) {
+    public Page<GenTypeMappingEntity> findPageList(Page<GenTypeMappingEntity> page, GenTypeMappingQuery query) {
         LambdaQueryWrapper<GenTypeMappingEntity> queryWrapper = lambdaQueryWrapper();
         queryWrapper.eq(condition(query.getDbType()), GenTypeMappingEntity::getDbType, query.getDbType());
         queryWrapper.eq(condition(query.getTargetLanguage()), GenTypeMappingEntity::getTargetLanguage, query.getTargetLanguage());

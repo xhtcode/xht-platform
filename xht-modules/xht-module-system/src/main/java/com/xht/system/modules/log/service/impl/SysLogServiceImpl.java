@@ -60,12 +60,12 @@ public class SysLogServiceImpl implements ISysLogService {
      * @return 系统日志岗位分页信息
      */
     @Override
-    public PageResponse<SysLogResp> pageList(SysLogQuery query) {
+    public PageResponse<SysLogResp>findPageList(SysLogQuery query) {
         if (Objects.isNull(query)) {
             return PageTool.empty();
         }
         // @formatter:on
-        Page<SysLogEntity> page = sysLogDao.queryPageRequest(PageTool.getPage(query), query);
+        Page<SysLogEntity> page = sysLogDao.findPageList(PageTool.getPage(query), query);
         return sysLogConverter.toResponse(page);
     }
 }

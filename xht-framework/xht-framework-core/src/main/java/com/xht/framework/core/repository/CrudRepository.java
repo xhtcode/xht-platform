@@ -35,7 +35,7 @@ public interface CrudRepository<T> {
      * @param id 实体ID
      * @return 是否删除成功 true:成功 false:失败
      */
-    boolean deleteById(Serializable id);
+    boolean removeById(Serializable id);
 
 
     /**
@@ -44,7 +44,7 @@ public interface CrudRepository<T> {
      * @param idList ID列表
      * @return 是否删除成功 true:成功 false:失败
      */
-    boolean deleteAllById(Collection<? extends Serializable> idList);
+    boolean removeAllById(Collection<? extends Serializable> idList);
 
     /**
      * 根据实体列表删除所有实体
@@ -52,7 +52,7 @@ public interface CrudRepository<T> {
      * @param entityList 实体列表
      * @return 是否删除成功 true:成功 false:失败
      */
-    boolean deleteAll(Collection<T> entityList);
+    boolean removeAll(Collection<T> entityList);
 
     /**
      * 根据ID更新实体

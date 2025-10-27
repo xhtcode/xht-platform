@@ -7,11 +7,8 @@ import com.xht.system.modules.user.common.enums.UserStatusEnums;
 import com.xht.system.modules.user.domain.request.SysUserForm;
 import com.xht.system.modules.user.domain.request.SysUserQuery;
 import com.xht.system.modules.user.domain.request.UpdatePwdFrom;
-import com.xht.system.modules.user.domain.response.SysUserAdminResponse;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
-
-import java.util.List;
 
 /**
  * 用户服务接口
@@ -30,23 +27,16 @@ public interface IUserService {
     /**
      * 删除用户
      *
-     * @param id 用户ID
+     * @param userId 用户ID
      */
-    void delete(Long id);
-
-    /**
-     * 根据ID批量删除用户
-     *
-     * @param ids 用户ID
-     */
-    void removeByIds(List<Long> ids);
+    void removeByUserId(Long userId);
 
     /**
      * 更新用户信息
      *
-     * @param form 用户更新请求对象
+     * @param userForm 用户更新请求对象
      */
-    void update(SysUserForm form);
+    void update(SysUserForm userForm);
 
     /**
      * 根据ID查找用户
@@ -54,7 +44,7 @@ public interface IUserService {
      * @param userId 用户ID
      * @return 找到的用户对象，不存在时返回null
      */
-    SysUserVO<SysUserAdminResponse> findByUserId(Long userId);
+    SysUserVO findByUserId(Long userId);
 
     /**
      * 根据查询条件分页查找用户
@@ -62,7 +52,7 @@ public interface IUserService {
      * @param query 用户查询请求对象
      * @return 用户对象分页结果
      */
-    PageResponse<SysUserResponse> pageList(SysUserQuery query);
+    PageResponse<SysUserResponse> findPageList(SysUserQuery query);
 
     /**
      * 重置密码
@@ -94,4 +84,5 @@ public interface IUserService {
      * @return 用户信息
      */
     UserInfoDTO loadUserByUsername(String username, LoginTypeEnums loginType);
+
 }

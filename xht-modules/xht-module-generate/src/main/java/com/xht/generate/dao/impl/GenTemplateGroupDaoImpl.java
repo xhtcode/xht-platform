@@ -49,7 +49,7 @@ public class GenTemplateGroupDaoImpl extends MapperRepositoryImpl<GenTemplateGro
      * @return 代码生成模板组列表响应结果
      */
     @Override
-    public Page<GenTemplateGroupEntity> queryPageRequest(Page<GenTemplateGroupEntity> page, GenTemplateGroupQuery query) {
+    public Page<GenTemplateGroupEntity> findPageList(Page<GenTemplateGroupEntity> page, GenTemplateGroupQuery query) {
         LambdaQueryWrapper<GenTemplateGroupEntity> queryWrapper = lambdaQueryWrapper();
         queryWrapper.eq(condition(query.getGroupName()), GenTemplateGroupEntity::getGroupName, query.getGroupName());
         return page(page, queryWrapper);

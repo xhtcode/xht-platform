@@ -2,13 +2,12 @@ package com.xht.system.modules.user.converter;
 
 import com.xht.cloud.oauth2.dto.UserInfoDTO;
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.system.modules.user.domain.entity.SysUserAdminEntity;
+import com.xht.system.modules.user.domain.entity.SysUserDetailEntity;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
+import com.xht.system.modules.user.domain.request.SysUserDetailForm;
 import com.xht.system.modules.user.domain.request.SysUserForm;
-import com.xht.system.modules.user.domain.request.SysUserAdminForm;
-import com.xht.system.modules.user.domain.response.SysUserAdminResponse;
+import com.xht.system.modules.user.domain.response.SysUserDetailResponse;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
-import com.xht.system.modules.user.domain.response.UserInfoBasicResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -31,7 +30,7 @@ public interface SysUserConverter extends BasicConverter<SysUserEntity, SysUserF
      * @param sysUserEntity 包含用户详细信息的SysUserEntity对象
      * @return 包含用户基本信息的SysUserVO对象
      */
-    <T extends UserInfoBasicResponse> SysUserVO<T> toVo(SysUserEntity sysUserEntity);
+    SysUserVO toVo(SysUserEntity sysUserEntity);
 
     /**
      * 将SysUserProfilesEntity对象转换为SysUserProfilesResponse对象。
@@ -41,7 +40,7 @@ public interface SysUserConverter extends BasicConverter<SysUserEntity, SysUserF
      * @param profilesEntity 包含用户配置文件详细信息的SysUserProfilesEntity对象
      * @return 包含用户配置文件基本信息的SysUserProfilesResponse对象
      */
-    SysUserAdminResponse toResponse(SysUserAdminEntity profilesEntity);
+    SysUserDetailResponse toResponse(SysUserDetailEntity profilesEntity);
 
     /**
      * 将SysUserVO对象转换为UserInfoDTO对象
@@ -49,13 +48,13 @@ public interface SysUserConverter extends BasicConverter<SysUserEntity, SysUserF
      * @param sysUserVO 系统用户VO对象，包含用户的基本信息
      * @return UserInfoDTO 用户信息DTO对象，用于数据传输
      */
-    <T extends UserInfoBasicResponse> UserInfoDTO convertToDto(SysUserVO<T> sysUserVO);
+    UserInfoDTO convertToDto(SysUserVO sysUserVO);
 
     /**
      * 将SysUserProfileForm对象转换为SysUserProfilesEntity对象
      *
      * @param profileForm 用户配置文件表单对象，包含用户配置文件的信息
-     * @return SysUserAdminEntity 用户配置文件实体对象，用于数据存储
+     * @return SysUserDetailEntity 用户配置文件实体对象，用于数据存储
      */
-    SysUserAdminEntity toEntity(SysUserAdminForm profileForm);
+    SysUserDetailEntity toEntity(SysUserDetailForm profileForm);
 }

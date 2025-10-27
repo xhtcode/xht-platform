@@ -77,7 +77,7 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
      * @return 分页结果
      */
     @Override
-    public Page<SysOauth2ClientEntity> queryPageRequest(Page<SysOauth2ClientEntity> page, SysOauth2ClientQuery query) {
+    public Page<SysOauth2ClientEntity> findPageList(Page<SysOauth2ClientEntity> page, SysOauth2ClientQuery query) {
         LambdaQueryWrapper<SysOauth2ClientEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(

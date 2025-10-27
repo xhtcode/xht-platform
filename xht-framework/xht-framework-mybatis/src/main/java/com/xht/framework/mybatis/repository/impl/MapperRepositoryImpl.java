@@ -97,7 +97,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否删除成功 true:成功 false:失败
      */
     @Override
-    public final boolean deleteById(Serializable id) {
+    public final boolean removeById(Serializable id) {
         return removeById(id);
     }
 
@@ -119,7 +119,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否删除成功 true:成功 false:失败
      */
     @Override
-    public final boolean deleteAllById(Collection<? extends Serializable> idList) {
+    public final boolean removeAllById(Collection<? extends Serializable> idList) {
         return removeByIds(idList);
     }
 
@@ -130,7 +130,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否删除成功 true:成功 false:失败
      */
     @Override
-    public final boolean deleteAll(Collection<T> entityList) {
+    public final boolean removeAll(Collection<T> entityList) {
         return removeByIds(entityList);
     }
 

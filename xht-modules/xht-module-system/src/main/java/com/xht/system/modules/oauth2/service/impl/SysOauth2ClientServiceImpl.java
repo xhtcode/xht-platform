@@ -55,7 +55,7 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void removeById(List<Long> ids) {
-        sysOauth2ClientDao.deleteAllById(ids);
+        sysOauth2ClientDao.removeAllById(ids);
     }
 
     /**
@@ -91,11 +91,11 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      * @return 分页结果
      */
     @Override
-    public PageResponse<SysOauth2ClientResp> pageList(SysOauth2ClientQuery query) {
+    public PageResponse<SysOauth2ClientResp>findPageList(SysOauth2ClientQuery query) {
         if (Objects.isNull(query)) {
             return PageTool.empty();
         }
-        return sysOauth2ClientConverter.toResponse(sysOauth2ClientDao.queryPageRequest(PageTool.getPage(query), query));
+        return sysOauth2ClientConverter.toResponse(sysOauth2ClientDao.findPageList(PageTool.getPage(query), query));
     }
 
     /**

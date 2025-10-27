@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author xht
  */
-@SuppressWarnings("ALL")
+@SuppressWarnings("all")
 public interface ISysDictItemService {
     /**
      * 根据创建请求创建系统字典项
@@ -53,7 +53,7 @@ public interface ISysDictItemService {
      * @param query 系统字典项查询请求参数
      * @return 分页响应结果，包含系统字典项响应信息
      */
-    PageResponse<SysDictItemResp> pageList(SysDictItemQuery query);
+    PageResponse<SysDictItemResp>findPageList(SysDictItemQuery query);
 
     /**
      * 根据字典编码获取系统字典项列表

@@ -40,7 +40,7 @@ public interface SysDictItemDao extends MapperRepository<SysDictItemEntity> {
      * @param query 字典项查询请求参数
      * @return 分页字典项列表
      */
-    Page<SysDictItemEntity> queryPageRequest(Page<SysDictItemEntity> page, SysDictItemQuery query);
+    Page<SysDictItemEntity> findPageList(Page<SysDictItemEntity> page, SysDictItemQuery query);
 
     /**
      * 根据字典id查询字典项列表

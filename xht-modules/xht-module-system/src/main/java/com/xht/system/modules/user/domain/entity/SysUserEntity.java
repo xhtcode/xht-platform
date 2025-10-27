@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import com.xht.system.modules.user.common.enums.UserStatusEnums;
+import com.xht.system.modules.user.common.enums.UserTypeEnums;
 import lombok.Data;
 
 import java.io.Serial;
@@ -26,14 +27,14 @@ public class SysUserEntity extends BasicEntity implements Serializable {
     /**
      * 用户ID
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
      * 用户类型
      */
     @TableField(value = "user_type")
-    private Integer userType;
+    private UserTypeEnums userType;
 
     /**
      * 用户账号

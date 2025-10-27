@@ -48,8 +48,8 @@ public class SysLogController {
      */
     @Operation(summary = "分页查询系统日志岗位", description = "根据提供的查询请求参数分页查询系统日志岗位信息")
     @GetMapping("/page")
-    public R<PageResponse<SysLogResp>> pageList(@Valid SysLogQuery query) {
-        return R.ok(sysLogService.pageList(query));
+    public R<PageResponse<SysLogResp>>findPageList(@Valid SysLogQuery query) {
+        return R.ok(sysLogService.findPageList(query));
     }
 
 }

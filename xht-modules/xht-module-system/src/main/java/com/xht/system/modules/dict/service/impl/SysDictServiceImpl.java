@@ -63,7 +63,7 @@ public class SysDictServiceImpl implements ISysDictService {
         ThrowUtils.notEmpty(ids, "参数错误");
         long dictItemCount = sysDictItemDao.count(SysDictItemEntity::getDictId, ids);
         ThrowUtils.throwIf(dictItemCount > 0, BusinessErrorCode.DATA_NOT_EXIST, "所选字典类型下有关联字典项，不能删除");
-        sysDictDao.deleteAllById(ids);
+        sysDictDao.removeAllById(ids);
     }
 
     /**
@@ -105,8 +105,8 @@ public class SysDictServiceImpl implements ISysDictService {
      * @return 分页结果
      */
     @Override
-    public PageResponse<SysDictResp> pageList(SysDictQuery query) {
-        Page<SysDictEntity> page = sysDictDao.queryPageRequest(PageTool.getPage(query), query);
+    public PageResponse<SysDictResp>findPageList(SysDictQuery query) {
+        Page<SysDictEntity> page = sysDictDao.findPageList(PageTool.getPage(query), query);
         return sysDictConverter.toResponse(page);
     }
 

@@ -86,7 +86,7 @@ public class AuthorityServiceImpl implements IAuthorityService {
             return vo;
         }
         List<SysPostResp> postResponses = sysUserPostDao.getPostByUserId(user.getUserId());
-        sysUserVO.setPost(postResponses);
+        sysUserVO.setPostInfos(postResponses);
         sysUserVO.setPassWord(null);
         sysUserVO.setPassWordSalt(null);
         vo.setUserInfo(sysUserVO);

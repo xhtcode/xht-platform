@@ -28,7 +28,7 @@ public class SysLogDaoImpl extends MapperRepositoryImpl<SysLogMapper, SysLogEnti
      * @return 分页查询系统日志
      */
     @Override
-    public Page<SysLogEntity> queryPageRequest(Page<SysLogEntity> page, SysLogQuery query) {
+    public Page<SysLogEntity> findPageList(Page<SysLogEntity> page, SysLogQuery query) {
         LambdaQueryWrapper<SysLogEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(

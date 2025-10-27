@@ -95,12 +95,10 @@ public final class IdCardUtils {
      */
     public static boolean isValid(String idCard) {
         // 快速校验空值和空白
-        if (idCard == null || idCard.trim().isEmpty()) {
+        if (StringUtils.isEmpty(idCard)) {
             return false;
         }
-
         String trimmedId = idCard.trim();
-
         // 基本格式校验
         if (!ID_CARD_PATTERN.matcher(trimmedId).matches()) {
             return false;

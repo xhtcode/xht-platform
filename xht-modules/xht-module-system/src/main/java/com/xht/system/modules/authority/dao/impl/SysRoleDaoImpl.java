@@ -85,7 +85,7 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
      * @return 角色分页信息
      */
     @Override
-    public Page<SysRoleEntity> queryPageRequest(Page<SysRoleEntity> page, SysRoleQuery query) {
+    public Page<SysRoleEntity> findPageList(Page<SysRoleEntity> page, SysRoleQuery query) {
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.and(

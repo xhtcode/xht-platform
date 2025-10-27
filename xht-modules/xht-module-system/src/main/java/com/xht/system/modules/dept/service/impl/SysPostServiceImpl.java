@@ -59,7 +59,7 @@ public class SysPostServiceImpl implements ISysPostService {
     public void removeById(Long id) {
         Boolean systemFlag = sysPostDao.validateSystemFlag(id, SystemFlagEnums.YES);
         ThrowUtils.throwIf(systemFlag, BusinessErrorCode.DATA_TYPE_ERROR, "系统内置岗位，禁止删除");
-        sysPostDao.deleteById(id);
+        sysPostDao.removeById(id);
     }
 
     /**
@@ -73,7 +73,7 @@ public class SysPostServiceImpl implements ISysPostService {
         ThrowUtils.notNull(ids, BusinessErrorCode.PARAM_ERROR);
         Boolean systemFlag = sysPostDao.validateSystemFlag(ids, SystemFlagEnums.YES);
         ThrowUtils.throwIf(systemFlag, BusinessErrorCode.DATA_TYPE_ERROR, "选择得到的数据中存在系统内置岗位，禁止删除");
-        sysPostDao.deleteAllById(ids);
+        sysPostDao.removeAllById(ids);
     }
 
     /**
@@ -109,11 +109,11 @@ public class SysPostServiceImpl implements ISysPostService {
      * @return 部门岗位分页信息
      */
     @Override
-    public PageResponse<SysPostResp> pageList(SysPostQuery query) {
+    public PageResponse<SysPostResp>findPageList(SysPostQuery query) {
         if (Objects.isNull(query)) {
             return PageTool.empty();
         }
-        Page<SysPostEntity> page = sysPostDao.queryPageRequest(PageTool.getPage(query), query);
+        Page<SysPostEntity> page = sysPostDao.findPageList(PageTool.getPage(query), query);
         return sysPostConverter.toResponse(page);
     }
 
