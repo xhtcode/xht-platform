@@ -32,10 +32,6 @@ public abstract class AbstractAuthenticationToken extends OAuth2AuthorizationGra
      */
     private final Map<String, Object> additionalParameters;
 
-    /**
-     * 认证方式
-     */
-    private final AuthorizationGrantType authorizationGrantType;
 
     public AbstractAuthenticationToken(AuthorizationGrantType authorizationGrantType,
                                        Authentication clientPrincipal,
@@ -45,7 +41,6 @@ public abstract class AbstractAuthenticationToken extends OAuth2AuthorizationGra
         this.scopes = scopes;
         this.clientPrincipal = clientPrincipal;
         this.additionalParameters = additionalParameters;
-        this.authorizationGrantType = authorizationGrantType;
     }
 
 }

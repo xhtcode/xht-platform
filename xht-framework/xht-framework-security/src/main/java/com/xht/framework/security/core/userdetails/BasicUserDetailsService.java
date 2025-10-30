@@ -1,38 +1,30 @@
 package com.xht.framework.security.core.userdetails;
 
-import com.xht.framework.core.utils.ServletUtil;
-import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.core.enums.LoginTypeEnums;
-import com.xht.framework.security.exception.BasicAuthenticationException;
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
+ * 用户查询dao
+ *
  * @author xht
  **/
-@Slf4j
-@RequiredArgsConstructor
-public class BasicUserDetailsService implements UserDetailsService {
-
-    @Resource
-    private UserDetailsDao userDetailsDao;
+public abstract class BasicUserDetailsService implements UserDetailsService {
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        HttpServletRequest httpServletRequest = ServletUtil.getHttpServletRequest();
-        String loginTypeStr = ServletUtil.getParams(httpServletRequest, SecurityConstant.REQUEST_LOGIN_TYPE);
-        LoginTypeEnums loginType = LoginTypeEnums.of(loginTypeStr);
-        if (loginType == null) {
-            throw new BasicAuthenticationException("错误的登录方式");
-        }
-        BasicUserDetails basicUserDetails = userDetailsDao.loadUserByUsername(username, loginType);
-        basicUserDetails.setLoginType(loginType);
-        return basicUserDetails;
+    public final UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return loadUserByUsername(username, LoginTypeEnums.PASSWORD);
     }
+
+    /**
+     * 根据用户名和登录类型查询用户信息
+     *
+     * @param username  用户名
+     * @param loginType 登录类型
+     * @return 用户信息
+     * @throws UsernameNotFoundException 异常
+     */
+    public abstract BasicUserDetails loadUserByUsername(String username, LoginTypeEnums loginType) throws UsernameNotFoundException;
 
 }

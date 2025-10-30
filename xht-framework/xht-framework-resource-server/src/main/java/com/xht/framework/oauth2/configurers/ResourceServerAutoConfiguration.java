@@ -5,13 +5,17 @@ import com.xht.framework.oauth2.handler.ResourceAuthenticationEntryPoint;
 import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
 import com.xht.framework.oauth2.introspection.ResourceOpaqueTokenIntrospector;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+
+import java.util.Objects;
 
 /**
+ * 资源服务器自动配置
  * @author xht
  **/
+@Slf4j
 public class ResourceServerAutoConfiguration {
 
     /**
@@ -35,8 +39,18 @@ public class ResourceServerAutoConfiguration {
         return new ResourceBearerTokenResolver(permitAllUrlProperties);
     }
 
+    /**
+     * 资源服务器token验证
+     *
+     * @return ResourceOpaqueTokenIntrospector
+     */
     @Bean
-    public ResourceOpaqueTokenIntrospector resourceServerConfigurer(OAuth2AuthorizationService authorizationService) {
-        return new ResourceOpaqueTokenIntrospector(authorizationService);
+    public ResourceOpaqueTokenIntrospector resourceServerConfigurer(OAuth2ResourceServerProperties resourceServerProperties) throws Exception {
+        OAuth2ResourceServerProperties.Opaquetoken opaquetoken = resourceServerProperties.getOpaquetoken();
+        if (Objects.isNull(opaquetoken)) {
+            log.error("未配置Opaque Token相关属性，无法注入 ResourceOpaqueTokenIntrospector.");
+            throw new Exception("未配置Opaque Token相关属性，无法注入 ResourceOpaqueTokenIntrospector.");
+        }
+        return new ResourceOpaqueTokenIntrospector(opaquetoken);
     }
 }

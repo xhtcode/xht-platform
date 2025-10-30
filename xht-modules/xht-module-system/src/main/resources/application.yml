@@ -9,6 +9,13 @@ spring:
   # 激活的配置文件
   profiles:
     active: dev
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken:
+          introspection-uri: http://127.0.0.1:8080/auth/oauth2/introspect
+          client-id: oidc-client
+          client-secret: secret
   # 数据源配置
   datasource:
     password: 123456

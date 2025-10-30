@@ -1,9 +1,9 @@
 package com.xht.framework.security.domain;
 
 import cn.hutool.core.map.MapUtil;
+import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.security.constant.SecurityConstant;
-import com.xht.framework.core.enums.LoginTypeEnums;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -83,7 +83,28 @@ public class RequestUserBO implements Serializable {
         ThrowUtils.notNull(this.loginType, "loginType must not be null");
     }
 
+    /**
+     * 检查用户名是否为空
+     * 如果用户名为空，则抛出异常
+     */
+    public void checkUserName() {
+        ThrowUtils.hasText(this.userName, "用户名不能为空");
+    }
 
+    /**
+     * 检查密码是否为空
+     * 如果密码为空，则抛出异常
+     */
+    public void checkPassWord() {
+        ThrowUtils.hasText(this.passWord, "密码不能为空");
+    }
+
+    /**
+     * 生成验证码在Redis中的键值
+     * 将验证码前缀与验证码key拼接生成完整的Redis键
+     *
+     * @return 验证码在Redis中的完整键值
+     */
     public String generateCaptchaKey() {
         return String.format("%s%s", SecurityConstant.REDIS_CAPTCHA_CODE_KEY_PREFIX, captchaKey);
     }

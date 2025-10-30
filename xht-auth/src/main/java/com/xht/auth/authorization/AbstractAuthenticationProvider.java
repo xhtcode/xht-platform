@@ -1,9 +1,8 @@
 package com.xht.auth.authorization;
 
-import com.xht.auth.captcha.exception.CaptchaException;
+import com.xht.auth.constant.ErrorConstant;
 import com.xht.framework.security.domain.RequestUserBO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -28,9 +27,6 @@ import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.xht.auth.constant.ErrorConstant.ERROR_MSG_CAPTCHA_AUTHENTICATION;
-import static com.xht.auth.constant.ErrorConstant.ERROR_MSG_PASSWORD_ERROR;
-
 
 /**
  * 描述 ：抽象认证处理器
@@ -44,17 +40,11 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
 
     protected static final OAuth2TokenType ID_TOKEN_TOKEN_TYPE = new OAuth2TokenType(OidcParameterNames.ID_TOKEN);
 
-    protected final AuthorizationGrantType authorizationGrantType;
-
-    protected final AuthenticationManager authenticationManager;
-
     protected final OAuth2AuthorizationService authorizationService;
 
     protected final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
 
-    public AbstractAuthenticationProvider(AuthorizationGrantType authorizationGrantType, AuthenticationManager authenticationManager, OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
-        this.authorizationGrantType = authorizationGrantType;
-        this.authenticationManager = authenticationManager;
+    public AbstractAuthenticationProvider(OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
         this.authorizationService = authorizationService;
         this.tokenGenerator = tokenGenerator;
     }
@@ -62,6 +52,16 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
     @Override
     public final Authentication authenticate(Authentication authentication) throws AuthenticationException {
         AbstractAuthenticationToken authenticationToken = (AbstractAuthenticationToken) authentication;
+        RequestUserBO requestUserBO = RequestUserBO.builderUser(authenticationToken.getAdditionalParameters());
+        Authentication principal;
+        try {
+            principal = getAuthenticatedPrincipal(requestUserBO);
+        } catch (Exception e) {
+            throw new OAuth2AuthenticationException(new OAuth2Error("-1"), e);
+        }
+        if (!principal.isAuthenticated()) {
+            throw new OAuth2AuthenticationException(ErrorConstant.ERROR_MSG_PASSWORD_ERROR);
+        }
         OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(authenticationToken);
         RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
         if (Objects.isNull(registeredClient)) {
@@ -72,31 +72,20 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
         }
         // 验证scope
         Set<String> authorizedScopes = getAuthorizedScopes(registeredClient, authenticationToken.getScopes());
-        RequestUserBO requestUserBO = RequestUserBO.builderUser(authenticationToken.getAdditionalParameters());
-        Authentication authenticate;
-        try {
-            authenticate = doAuthenticate(requestUserBO);
-        } catch (CaptchaException e) {
-            log.error("认证失败：验证码错误:{}", e.getMessage(), e);
-            throw new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.INVALID_REQUEST, ERROR_MSG_CAPTCHA_AUTHENTICATION, ERROR_URI));
-        } catch (Exception e) {
-            log.error("认证失败：账号或密码错误:{}", e.getMessage(), e);
-            throw new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.INVALID_REQUEST, ERROR_MSG_PASSWORD_ERROR, ERROR_URI));
-        }
         // @formatter:off
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .authorizedScopes(authorizedScopes)
-                .principalName(authenticate.getName())
-                .authorizationGrantType(authorizationGrantType)
-                .attribute(Principal.class.getName(), authenticate)
+                .principalName(principal.getName())
+                .authorizationGrantType(getGrantType())
+                .attribute(Principal.class.getName(), principal)
                 ;
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .registeredClient(registeredClient)
-                .principal(clientPrincipal)
+                .principal(principal)
                 .authorizationServerContext(AuthorizationServerContextHolder.getContext())
                 .authorizedScopes(authorizedScopes)
-                .authorizationGrantType(authorizationGrantType)
-                .authorizationGrant(authenticate);
+                .authorizationGrantType(getGrantType())
+                .authorizationGrant(clientPrincipal);
         // @formatter:on
         OAuth2AccessToken accessToken = generateAccessToken(tokenContextBuilder, authorizationBuilder);
         OAuth2RefreshToken refreshToken = generateOAuth2RefreshToken(tokenContextBuilder, authorizationBuilder, tokenGenerator, clientPrincipal, registeredClient);
@@ -109,7 +98,7 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
             additionalParameters.put(OidcParameterNames.ID_TOKEN, oidcIdToken.getTokenValue());
         }
         // Save the OAuth2Authorization
-        authorizationBuilder.id(authenticate.getName());
+        authorizationBuilder.id(principal.getName());
         OAuth2Authorization authorization = authorizationBuilder.build();
         this.authorizationService.save(authorization);
         return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken, additionalParameters);
@@ -259,6 +248,13 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
      * @param requestUserBO 用户请求信息
      * @return 认证信息
      */
-    protected abstract Authentication doAuthenticate(RequestUserBO requestUserBO) throws AuthenticationException;
+    protected abstract Authentication getAuthenticatedPrincipal(final RequestUserBO requestUserBO) throws AuthenticationException;
+
+    /**
+     * 获取认证类型.
+     *
+     * @return 认证类型
+     */
+    protected abstract AuthorizationGrantType getGrantType();
 
 }

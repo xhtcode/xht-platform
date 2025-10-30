@@ -4,6 +4,7 @@ import com.xht.api.system.log.feign.RemoteLogClientService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.log.domain.dto.LogDTO;
 import com.xht.framework.openfeign.annotation.NoAuthentication;
+import com.xht.framework.security.annotation.InnerAuth;
 import com.xht.system.modules.log.service.ISysLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ public class RemoteLogClientServiceImpl implements RemoteLogClientService {
     @Override
     @PostMapping("/api/sys/log/save")
     @NoAuthentication
+    @InnerAuth
     public R<Void> saveLog(@RequestBody LogDTO logDTO) {
         sysLogService.create(logDTO);
         return R.ok();

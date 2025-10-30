@@ -24,7 +24,7 @@ public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        log.error("请求未认证的接口 {} : {}", request.getRequestURI(), authException.getMessage());
+        log.debug("请求未认证的接口 {} : {}", request.getRequestURI(), authException.getMessage(), authException);
         SecurityServletUtils.writeString(response, HttpStatus.UNAUTHORIZED, R.errorData(GlobalErrorStatusCode.UNAUTHORIZED, authException.getMessage()));
     }
 }

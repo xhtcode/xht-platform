@@ -1,11 +1,16 @@
 package com.xht.framework.oauth2.configurers;
 
 import cn.hutool.core.util.IdUtil;
+import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.JWSKeySelector;
+import com.nimbusds.jose.proc.JWSVerificationKeySelector;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
+import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import com.xht.framework.oauth2.handler.ResourceAuthenticationEntryPoint;
 import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
 import com.xht.framework.oauth2.introspection.ResourceOpaqueTokenIntrospector;
@@ -14,23 +19,29 @@ import com.xht.framework.security.configurers.CustomAuthorizeHttpRequestsConfigu
 import com.xht.framework.security.properties.PermitAllUrlProperties;
 import com.xht.framework.security.web.Http401UnauthorizedEntryPoint;
 import com.xht.framework.security.web.access.Http401AccessDeniedHandler;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
+import java.io.IOException;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-
-import static com.xht.framework.security.constant.SecurityConstant.RESOURCE_SERVER_BEAN_NAME;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 资源服务器配置
@@ -38,7 +49,7 @@ import static com.xht.framework.security.constant.SecurityConstant.RESOURCE_SERV
  * @author xht
  **/
 @Slf4j
-@Configuration(value = RESOURCE_SERVER_BEAN_NAME)
+@Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class ResourceServerConfiguration {
@@ -51,6 +62,7 @@ public class ResourceServerConfiguration {
     private final ResourceBearerTokenResolver resourceBearerTokenResolver;
 
     private final ResourceOpaqueTokenIntrospector resourceOpaqueTokenIntrospector;
+
 
     public ResourceServerConfiguration(PermitAllUrlProperties permitAllUrlProperties,
                                        ResourceAuthenticationEntryPoint resourceAuthenticationEntryPoint,
@@ -78,9 +90,16 @@ public class ResourceServerConfiguration {
         // @formatter:off
         http
                 .authorizeHttpRequests(requestsConfigurer)
+                .requestCache(AbstractHttpConfigurer::disable)
+                .securityContext(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(configurer -> {
-                    configurer.opaqueToken((token) -> token.introspector(resourceOpaqueTokenIntrospector));
+                    configurer.opaqueToken((token) -> {
+                        token.introspector(resourceOpaqueTokenIntrospector);
+                    });
+                    configurer.accessDeniedHandler((request,response,accessDeniedException)-> log.error(">>>>>>资源服务器权限不足 <<<<<<,",accessDeniedException));
                     configurer.authenticationEntryPoint(resourceAuthenticationEntryPoint);
                     configurer.bearerTokenResolver(resourceBearerTokenResolver);
                 })
@@ -92,7 +111,6 @@ public class ResourceServerConfiguration {
         // @formatter:on
         return http.build();
     }
-
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
@@ -110,6 +128,19 @@ public class ResourceServerConfiguration {
 
     @Bean
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+        Set<JWSAlgorithm> jwsAlgs = new HashSet<>();
+        jwsAlgs.addAll(JWSAlgorithm.Family.RSA);
+        jwsAlgs.addAll(JWSAlgorithm.Family.EC);
+        jwsAlgs.addAll(JWSAlgorithm.Family.HMAC_SHA);
+        ConfigurableJWTProcessor<SecurityContext> jwtProcessor = new DefaultJWTProcessor<>();
+        JWSKeySelector<SecurityContext> jwsKeySelector = new JWSVerificationKeySelector<>(jwsAlgs, jwkSource);
+        jwtProcessor.setJWSKeySelector(jwsKeySelector);
+        // Override the default Nimbus claims set verifier as NimbusJwtDecoder handles it
+        // instead
+        jwtProcessor.setJWTClaimsSetVerifier((claims, context) -> {
+        });
+        return new NimbusJwtDecoder(jwtProcessor);
     }
+
+
 }

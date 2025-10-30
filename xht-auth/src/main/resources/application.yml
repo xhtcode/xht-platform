@@ -5,6 +5,13 @@ spring:
     active: dev
   application:
     name: xht-auth
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken:
+          introspection-uri: http://127.0.0.1:8080/auth/oauth2/introspect
+          client-id: oidc-client
+          client-secret: secret
   cloud:
     nacos:
       discovery:
@@ -31,7 +38,7 @@ spring:
     redis:
       host: localhost
       port: 6379
-      database: 0
+      database: 2
       timeout: 10000
       jedis:
         pool:

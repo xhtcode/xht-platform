@@ -22,10 +22,10 @@ public class TokenRevocationAuthenticationSuccessHandler implements Authenticati
     /**
      * Called when a user has been successfully authenticated.
      *
-     * @param request        the request which caused the successful authentication
+     * @param request        the request which caused the successful getAuthenticatedPrincipal
      * @param response       the response
      * @param authentication the <tt>Authentication</tt> object which was created during
-     *                       the authentication process.
+     *                       the getAuthenticatedPrincipal process.
      */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {

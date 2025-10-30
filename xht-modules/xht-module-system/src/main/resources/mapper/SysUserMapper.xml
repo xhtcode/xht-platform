@@ -64,7 +64,7 @@
         t3.dept_status, t3.dept_sort,t3.ancestors,t3.phone,t3.email,t3.remark,
         t3.create_by,t3.create_time,t3.update_by,t3.update_time
         FROM sys_user t1
-        LEFT JOIN sys_user_admin t2 ON t2.user_id = t1.id
+        LEFT JOIN sys_user_detail t2 ON t2.user_id = t1.id
         left join sys_dept t3 on t3.id = t1.dept_id
         WHERE t1.del_flag = #{delFlag}
         and t3.del_flag = #{delFlag}
@@ -77,10 +77,10 @@
 
     <select id="findByUsernameAndLoginType" resultMap="BaseResultMap">
         <include refid="BaseQuerySQL"/>
-        <if test="loginType == @com.xht.framework.security.constant.enums.LoginTypeEnums@PASSWORD.value">
+        <if test="loginType == @com.xht.framework.core.enums.LoginTypeEnums@PASSWORD.value">
             and t1.user_name = #{userName}
         </if>
-        <if test="loginType == @com.xht.framework.security.constant.enums.LoginTypeEnums@SMS_CODE.value">
+        <if test="loginType == @com.xht.framework.core.enums.LoginTypeEnums@SMS_CODE.value">
             AND t1.user_phone = #{userName}
         </if>
     </select>

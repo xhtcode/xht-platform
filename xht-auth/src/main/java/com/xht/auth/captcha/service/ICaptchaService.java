@@ -22,4 +22,12 @@ public interface ICaptchaService {
      * @param id 验证码id
      */
     void removeCaptcha(String id);
+
+    /**
+     * 校验验证码
+     *
+     * @param requestKey 验证码key
+     * @param requestCaptcha    验证码
+     */
+    void checkCaptcha(String requestKey, String requestCaptcha);
 }

@@ -1,8 +1,5 @@
 package com.xht.auth.authorization.token;
 
-import com.xht.auth.convet.OAuth2ErrorConvert;
-import com.xht.framework.oauth2.domain.response.OAuth2ErrorResponse;
-import com.xht.framework.core.converter.IConverter;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.ServletUtil;
 import jakarta.servlet.ServletException;
@@ -25,17 +22,12 @@ import java.io.IOException;
 @SuppressWarnings("all")
 public class TokenRevocationAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-
-    private static final IConverter<OAuth2Error, OAuth2ErrorResponse> ERROR_CONVERTER = new OAuth2ErrorConvert();
-
-
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         log.debug("Authentication failure");
         if (exception instanceof OAuth2AuthenticationException oAuth2AuthenticationException) {
             OAuth2Error error = oAuth2AuthenticationException.getError();
-            OAuth2ErrorResponse errorResponse = ERROR_CONVERTER.convert(error);
-            ServletUtil.write(response, R.errorMsgData(errorResponse.getErrorDescription(), errorResponse));
+            ServletUtil.write(response, R.errorMsgData(error.getDescription(), error));
         } else {
             log.warn(AuthenticationException.class.getSimpleName() + " must be of type "
                     + OAuth2AuthenticationException.class.getName() + " but was "

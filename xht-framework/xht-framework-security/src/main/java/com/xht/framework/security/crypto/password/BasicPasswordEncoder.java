@@ -38,17 +38,17 @@ public class BasicPasswordEncoder implements PasswordEncoder {
      */
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        log.info("rawPassword:{},encodedPassword:{}", rawPassword, encodedPassword);
+        log.debug("rawPassword:{},encodedPassword:{}", rawPassword, encodedPassword);
         if (!StringUtils.hasText(rawPassword)) {
             throw new IllegalArgumentException("rawPassword cannot be null");
         }
         if (!StringUtils.hasText(encodedPassword)) {
-            log.warn("Empty encoded password");
+            log.debug("Empty encoded password");
             return false;
         }
         String[] passWord = StringUtils.split(encodedPassword, SecurityConstant.PASSWORD_JOIN_SALT);
         if (Objects.isNull(passWord) || passWord.length != 2) {
-            log.warn("Invalid encoded password");
+            log.debug("Invalid encoded password");
             return StringUtils.equals(encodedPassword, MD5Utils.generateSignature(rawPassword.toString()));
         }
         return StringUtils.equals(passWord[0], MD5Utils.generateSignature(rawPassword + passWord[1]));

@@ -11,8 +11,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *
  * @author xht
  **/
-@EnableOpenFeignClients
 @EnableResourceServer
+@EnableOpenFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication
 public class AuthApplication {

@@ -47,6 +47,7 @@ public class ResourceAuthenticationEntryPoint implements AuthenticationEntryPoin
             response.setStatus(GlobalErrorStatusCode.TOKEN_EXPIRED.getCode());
             result.setMsg("请求令牌已过期");
         }
+        log.error("认证失败: {}", authException.getMessage(), authException);
         PrintWriter printWriter = response.getWriter();
         printWriter.append(objectMapper.writeValueAsString(result));
     }

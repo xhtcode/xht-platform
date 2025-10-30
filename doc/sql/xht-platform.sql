@@ -111,10 +111,10 @@ CREATE TABLE `sys_user_dept_post`
   ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Table structure for sys_user_admins
+-- Table structure for sys_user_details
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_user_admins`;
-CREATE TABLE `sys_user_admins`
+DROP TABLE IF EXISTS `sys_user_details`;
+CREATE TABLE `sys_user_details`
 (
     `id`             bigint                                                        NOT NULL AUTO_INCREMENT COMMENT '信息ID',
     `user_id`        bigint                                                        NOT NULL COMMENT '关联用户ID',

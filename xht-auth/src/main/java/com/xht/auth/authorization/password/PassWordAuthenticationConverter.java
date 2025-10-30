@@ -1,17 +1,19 @@
 package com.xht.auth.authorization.password;
 
 import com.xht.auth.authorization.AbstractAuthenticationConverter;
-import com.xht.framework.oauth2.constant.CustomAuthorizationGrantType;
+import com.xht.auth.constant.CustomAuthorizationGrantType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 
 import java.util.Map;
 import java.util.Set;
 
 /**
+ * 描述 ： 密码模式转换器
  * @author xht
  **/
+@Slf4j
 public class PassWordAuthenticationConverter extends AbstractAuthenticationConverter {
-
 
     /**
      * 子类实现转换.

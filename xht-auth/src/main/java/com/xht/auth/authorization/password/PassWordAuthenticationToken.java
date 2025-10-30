@@ -1,7 +1,8 @@
 package com.xht.auth.authorization.password;
 
 import com.xht.auth.authorization.AbstractAuthenticationToken;
-import com.xht.framework.oauth2.constant.CustomAuthorizationGrantType;
+import com.xht.auth.constant.CustomAuthorizationGrantType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 
 import java.util.Map;
@@ -12,7 +13,8 @@ import java.util.Set;
  *
  * @author xht
  **/
-public class PassWordAuthenticationToken extends AbstractAuthenticationToken {
+@Slf4j
+class PassWordAuthenticationToken extends AbstractAuthenticationToken {
 
 
     /**
