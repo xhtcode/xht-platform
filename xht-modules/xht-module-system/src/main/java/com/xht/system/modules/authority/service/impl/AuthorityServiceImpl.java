@@ -7,7 +7,7 @@ import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.core.utils.tree.TreeNode;
 import com.xht.framework.core.utils.tree.TreeUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
-import com.xht.framework.security.utils.SecurityUtils;
+import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.system.modules.authority.common.enums.MenuCacheEnums;
 import com.xht.system.modules.authority.common.enums.MenuHiddenEnums;
 import com.xht.system.modules.authority.common.enums.MenuLinkEnums;

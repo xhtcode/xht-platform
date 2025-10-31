@@ -1,12 +1,18 @@
 package com.xht.auth.redis.converter;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.xht.auth.redis.entity.Oauth2AuthorizationEntity;
 import com.xht.framework.core.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.security.jackson2.CoreJackson2Module;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
@@ -39,13 +45,20 @@ public final class Oauth2AuthorizationConverter implements IConverter<OAuth2Auth
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private final RegisteredClientRepository registeredClientRepository;
-
+    private final TypeReference<Map<String, Object>> typeRef = new TypeReference<>() {
+    };
     public Oauth2AuthorizationConverter(RegisteredClientRepository registeredClientRepository) {
         Assert.notNull(registeredClientRepository, "registeredClientRepository cannot be null");
         this.registeredClientRepository = registeredClientRepository;
+        // 序列化所有字段
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        // 此项必须配置，否则如果序列化的对象里边还有对象，会报如下错误：
+        objectMapper.activateDefaultTyping(objectMapper.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+
         ClassLoader classLoader = Oauth2AuthorizationConverter.class.getClassLoader();
         List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
         this.objectMapper.registerModules(securityModules);
+        this.objectMapper.registerModule(new CoreJackson2Module());
         this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
     }
 
@@ -279,8 +292,9 @@ public final class Oauth2AuthorizationConverter implements IConverter<OAuth2Auth
      */
     private Map<String, Object> parseMap(String data) {
         try {
-            return this.objectMapper.readValue(data, new TypeReference<>() {
-            });
+            TypeFactory typeFactory = objectMapper.getTypeFactory();
+            JavaType javaType = typeFactory.constructType(typeRef.getType());
+            return this.objectMapper.readValue(data, javaType);
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex.getMessage(), ex);
         }

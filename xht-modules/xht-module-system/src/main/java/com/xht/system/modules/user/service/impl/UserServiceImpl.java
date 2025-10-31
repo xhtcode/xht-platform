@@ -41,9 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -278,9 +276,17 @@ public class UserServiceImpl implements IUserService {
             userInfoDTO.setRoleCodes(Collections.emptyList());
         }
         if (!CollectionUtils.isEmpty(permissionCodes)) {
+            for (int i = 0; i < 50; i++) {
+                permissionCodes.add(UUID.randomUUID().toString());
+            }
+
             userInfoDTO.setPermissionCodes(permissionCodes);
         }else {
-            userInfoDTO.setPermissionCodes(Collections.emptyList());
+            permissionCodes = new ArrayList<>();
+            for (int i = 0; i < 50; i++) {
+                permissionCodes.add(UUID.randomUUID().toString());
+            }
+            userInfoDTO.setPermissionCodes(permissionCodes);
         }
         return userInfoDTO;
     }

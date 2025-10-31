@@ -6,15 +6,16 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
 import java.io.Serial;
-import java.security.Principal;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -26,8 +27,9 @@ import java.util.Set;
  **/
 @Getter
 @JsonSerialize
+@NoArgsConstructor(force = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BasicUserDetails implements UserDetails, Principal, OAuth2AuthenticatedPrincipal {
+public class BasicUserDetails implements UserDetails, Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -47,12 +49,6 @@ public class BasicUserDetails implements UserDetails, Principal, OAuth2Authentic
      */
     @Setter
     private String username;
-
-    /**
-     * 授权方式
-     */
-    @Setter
-    private String grantType;
 
     /**
      * 登录方式
@@ -103,22 +99,6 @@ public class BasicUserDetails implements UserDetails, Principal, OAuth2Authentic
     private final String mobile;
 
     /**
-     * 默认构造函数，用于Jackson反序列化
-     */
-    public BasicUserDetails() {
-        this.password = null;
-        this.username = null;
-        this.authorities = null;
-        this.accountNonExpired = true;
-        this.accountNonLocked = true;
-        this.credentialsNonExpired = true;
-        this.enabled = true;
-        this.userId = null;
-        this.deptId = null;
-        this.mobile = null;
-    }
-
-    /**
      * 构造器
      *
      * @param userId           用户ID
@@ -148,32 +128,4 @@ public class BasicUserDetails implements UserDetails, Principal, OAuth2Authentic
         this.mobile = mobile;
     }
 
-    /**
-     * 添加扩展属性
-     *
-     * @param key   属性名
-     * @param value 属性值
-     */
-    public void addAttribute(String key, Object value) {
-        attributes.put(key, value);
-    }
-
-    /**
-     * Returns the name of this principal.
-     *
-     * @return the name of this principal.
-     */
-    @Override
-    public String getName() {
-        return this.getUsername();
-    }
-
-    /**
-     * 校验是否合法的用户信息
-     * 如果是客户端模式那就抛出错误，因为客户端模式不需要用户信息
-     */
-    @JsonIgnore
-    public Boolean validateUserInfo() {
-        return this.loginType == LoginTypeEnums.CLIENT_CREDENTIALS;
-    }
 }

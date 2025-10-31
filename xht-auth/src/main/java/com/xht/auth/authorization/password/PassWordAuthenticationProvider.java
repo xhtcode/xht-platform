@@ -52,9 +52,12 @@ public class PassWordAuthenticationProvider extends AbstractAuthenticationProvid
             requestUserBO.checkUserName();
             requestUserBO.checkPassWord();
             requestUserBO.checkLoginType();
-         //   iCaptchaService.checkCaptcha(requestUserBO.getCaptchaKey(), requestUserBO.getCaptcha());
+        //    iCaptchaService.checkCaptcha(requestUserBO.getCaptchaKey(), requestUserBO.getCaptcha());
             BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), requestUserBO.getLoginType());
-            return UsernamePasswordAuthenticationToken.authenticated(basicUserDetails.getUsername(), basicUserDetails.getPassword(), basicUserDetails.getAuthorities());
+            basicUserDetails.setLoginType(requestUserBO.getLoginType());
+            UsernamePasswordAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(basicUserDetails.getUsername(), basicUserDetails.getPassword(), basicUserDetails.getAuthorities());
+            authenticated.setDetails(basicUserDetails);
+            return authenticated;
         } catch (CaptchaException e) {
             throw new BadCredentialsException(ErrorConstant.ERROR_MSG_CAPTCHA_AUTHENTICATION);
         } catch (Exception e) {

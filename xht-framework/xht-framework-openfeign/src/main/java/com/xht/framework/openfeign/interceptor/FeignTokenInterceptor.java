@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.properties.SecurityHeaderProperties;
 import com.xht.framework.core.utils.ServletUtil;
+import com.xht.framework.core.utils.StringUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,7 +43,7 @@ public class FeignTokenInterceptor implements RequestInterceptor {
         }
         HttpServletRequest request = optRequest.get();
         String token = request.getHeader(AUTHORIZATION.getValue());
-        if (StrUtil.isBlank(token)) {
+        if (StringUtils.isEmpty(token)) {
             log.debug("请求头中未包含认证信息, 跳过token拦截器");
             return;
         }
