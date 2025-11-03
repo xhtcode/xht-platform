@@ -4,11 +4,16 @@ import com.xht.api.system.user.dto.UserInfoDTO;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.enums.UserStatusEnums;
+import com.xht.framework.core.utils.tree.INode;
+import com.xht.framework.oauth2.utils.SecurityUtils;
+import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.system.modules.user.domain.form.SysUserBasicForm;
 import com.xht.system.modules.user.domain.form.UpdatePwdFrom;
 import com.xht.system.modules.user.domain.query.SysUserBasicQuery;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
+
+import java.util.List;
 
 /**
  * 用户服务接口
@@ -77,6 +82,16 @@ public interface IUserService {
     void updateStatus(Long userId, UserStatusEnums status);
 
     /**
+     * 获取当前登录的用户信息
+     *
+     * @return 用户信息
+     */
+    default UserInfoDTO getUserProfileInfo() {
+        BasicUserDetails user = SecurityUtils.getUser();
+        return loadUserByUsername(user.getUsername(), user.getLoginType());
+    }
+
+    /**
      * 根据用户名和登录类型获取用户信息
      *
      * @param username  用户名
@@ -85,4 +100,11 @@ public interface IUserService {
      */
     UserInfoDTO loadUserByUsername(String username, LoginTypeEnums loginType);
 
+
+    /**
+     * 获取当前登录用户的路由信息
+     *
+     * @return 路由信息
+     */
+    List<INode<Long>> getRouters();
 }

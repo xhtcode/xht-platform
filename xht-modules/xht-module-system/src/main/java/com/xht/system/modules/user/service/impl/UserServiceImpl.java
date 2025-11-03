@@ -1,11 +1,15 @@
 package com.xht.system.modules.user.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.api.system.user.dto.UserInfoDTO;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.enums.GenderEnums;
 import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.core.enums.UserStatusEnums;
+import com.xht.framework.core.enums.UserTypeEnums;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.code.UserErrorCode;
@@ -13,13 +17,22 @@ import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.IdCardUtils;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.secret.MD5Utils;
+import com.xht.framework.core.utils.tree.INode;
+import com.xht.framework.core.utils.tree.TreeNode;
+import com.xht.framework.core.utils.tree.TreeUtils;
 import com.xht.framework.mybatis.utils.PageTool;
+import com.xht.framework.oauth2.utils.SecurityUtils;
+import com.xht.framework.security.core.userdetails.BasicUserDetails;
+import com.xht.system.modules.authority.common.enums.MenuCacheEnums;
+import com.xht.system.modules.authority.common.enums.MenuHiddenEnums;
+import com.xht.system.modules.authority.common.enums.MenuLinkEnums;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
 import com.xht.system.modules.authority.dao.SysUserRoleDao;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
+import com.xht.system.modules.authority.domain.response.MetaResponse;
+import com.xht.system.modules.authority.domain.response.SysMenuResponse;
+import com.xht.system.modules.authority.domain.vo.RouterVo;
 import com.xht.system.modules.dept.domain.response.SysPostResponse;
-import com.xht.framework.core.enums.UserStatusEnums;
-import com.xht.framework.core.enums.UserTypeEnums;
 import com.xht.system.modules.user.converter.SysUserConverter;
 import com.xht.system.modules.user.converter.SysUserDetailConverter;
 import com.xht.system.modules.user.dao.SysUserDao;
@@ -41,6 +54,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -284,4 +298,49 @@ public class UserServiceImpl implements IUserService {
         return userInfoDTO;
     }
 
+
+    /**
+     * 获取路由信息
+     *
+     * @return 路由信息
+     */
+    @Override
+    public List<INode<Long>> getRouters() {
+        BasicUserDetails user = SecurityUtils.getUser();
+        List<SysMenuResponse> menus = sysRoleMenuDao.findRouterByUserId(user.getUserId());
+        if (CollectionUtils.isEmpty(menus)) {
+            return Collections.emptyList();
+        }
+        List<INode<Long>> result = new ArrayList<>(menus.size());
+        for (SysMenuResponse menu : menus) {
+            RouterVo routerVo = new RouterVo();
+            routerVo.setPath(menu.getMenuPath());
+            routerVo.setName(StringUtils.emptyToDefault(menu.getViewName(), menu.getId() + ""));
+            routerVo.setComponent(menu.getViewPath());
+            routerVo.setMeta(getMetaVo(menu));
+            result.add(new TreeNode<>(menu.getId(), menu.getParentId(), menu.getMenuSort()).setExtra(BeanUtil.beanToMap(routerVo)));
+        }
+        return TreeUtils.buildList(result, Boolean.FALSE);
+    }
+
+
+    /**
+     * 获取菜单元数据
+     *
+     * @param menu 菜单信息
+     * @return 菜单元数据
+     */
+    private static MetaResponse getMetaVo(SysMenuResponse menu) {
+        MetaResponse metaResponse = new MetaResponse();
+        metaResponse.setTitle(menu.getMenuName());
+        metaResponse.setIcon(menu.getMenuIcon());
+        metaResponse.setLinkStatus(Objects.requireNonNullElse(menu.getFrameFlag(), MenuLinkEnums.NO).getStatus());
+        metaResponse.setMenuType(menu.getMenuType().getValue());
+        metaResponse.setActiveMenuPath(menu.getActiveMenuPath());
+        metaResponse.setHiddenStatus(Objects.requireNonNullElse(menu.getMenuHidden(), MenuHiddenEnums.SHOW).getHidden());
+        metaResponse.setKeepAliveStatus(Objects.requireNonNullElse(menu.getMenuCache(), MenuCacheEnums.YES).getStatus());
+        metaResponse.setRoles(StrUtil.splitTrim(menu.getMenuAuthority(), ","));//perms
+        metaResponse.setRank(menu.getMenuSort());
+        return metaResponse;
+    }
 }

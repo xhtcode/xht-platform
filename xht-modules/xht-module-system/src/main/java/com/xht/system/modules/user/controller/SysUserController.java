@@ -1,12 +1,14 @@
 package com.xht.system.modules.user.controller;
 
+import com.xht.api.system.user.dto.UserInfoDTO;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.web.validation.Groups;
 import com.xht.framework.core.enums.UserStatusEnums;
+import com.xht.framework.core.utils.tree.INode;
+import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.user.domain.form.SysUserBasicForm;
-import com.xht.system.modules.user.domain.query.SysUserBasicQuery;
 import com.xht.system.modules.user.domain.form.UpdatePwdFrom;
+import com.xht.system.modules.user.domain.query.SysUserBasicQuery;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import com.xht.system.modules.user.service.IUserService;
@@ -16,6 +18,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 用户管理相关的API
@@ -131,6 +135,28 @@ public class SysUserController {
     @GetMapping("/page")
     public R<PageResponse<SysUserResponse>> findPageList(SysUserBasicQuery query) {
         return R.ok(userService.findPageList(query));
+    }
+
+    /**
+     * 获取当前登录用户的信息
+     *
+     * @return 登录用户信息
+     */
+    @Operation(summary = "获取当前登录的用户信息", description = "获取当前登录的用户信息")
+    @GetMapping("/profile")
+    public R<UserInfoDTO> getUserProfileInfo() {
+        return R.ok(userService.getUserProfileInfo());
+    }
+
+    /**
+     * 获取当前登录用户所拥有的路由
+     *
+     * @return 当前登录用户所拥有的路由
+     */
+    @Operation(summary = "获取当前登录用户所拥有的路由", description = "获取当前登录用户所拥有的路由")
+    @GetMapping("/profile/routers")
+    public R<List<INode<Long>>> getRouters() {
+        return R.ok(userService.getRouters());
     }
 
 }
