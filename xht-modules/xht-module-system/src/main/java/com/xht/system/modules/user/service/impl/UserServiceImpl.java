@@ -190,36 +190,6 @@ public class UserServiceImpl implements IUserService {
     }
 
     /**
-     * 根据ID查找用户
-     *
-     * @param userId 用户ID
-     * @return 找到的用户对象，不存在时返回null
-     */
-    @Override
-    public SysUserVO findByUserId(Long userId) {
-        ThrowUtils.notNull(userId, "用户ID不能为空");
-        SysUserVO sysUserVO = sysUserDao.findInfoByUserId(userId);
-        ThrowUtils.notNull(sysUserVO, "查询不到用户信息!");
-        List<SysPostResponse> deptPostVo = sysUserPostDao.getPostByUserId(userId);
-        sysUserVO.setPostInfos(deptPostVo);
-        sysUserVO.setPassWord(null);
-        sysUserVO.setPassWordSalt(null);
-        return sysUserVO;
-    }
-
-    /**
-     * 根据查询条件分页查找用户
-     *
-     * @param query 用户查询请求对象
-     * @return 用户对象分页结果
-     */
-    @Override
-    public PageResponse<SysUserResponse> findPageList(SysUserBasicQuery query) {
-        Page<SysUserEntity> sysUserEntityPage = sysUserDao.findPageList(PageTool.getPage(query), query);
-        return sysUserConverter.toResponse(sysUserEntityPage);
-    }
-
-    /**
      * 重置密码
      *
      * @param userId 用户ID
@@ -265,6 +235,36 @@ public class UserServiceImpl implements IUserService {
         Boolean exists = sysUserDao.exists(SysUserEntity::getId, userId);
         ThrowUtils.throwIf(exists, UserErrorCode.DATA_NOT_EXIST, "用户不存在");
         sysUserDao.updateStatus(userId, status);
+    }
+
+    /**
+     * 根据ID查找用户
+     *
+     * @param userId 用户ID
+     * @return 找到的用户对象，不存在时返回null
+     */
+    @Override
+    public SysUserVO findByUserId(Long userId) {
+        ThrowUtils.notNull(userId, "用户ID不能为空");
+        SysUserVO sysUserVO = sysUserDao.findInfoByUserId(userId);
+        ThrowUtils.notNull(sysUserVO, "查询不到用户信息!");
+        List<SysPostResponse> deptPostVo = sysUserPostDao.getPostByUserId(userId);
+        sysUserVO.setPostInfos(deptPostVo);
+        sysUserVO.setPassWord(null);
+        sysUserVO.setPassWordSalt(null);
+        return sysUserVO;
+    }
+
+    /**
+     * 根据查询条件分页查找用户
+     *
+     * @param query 用户查询请求对象
+     * @return 用户对象分页结果
+     */
+    @Override
+    public PageResponse<SysUserResponse> findPageList(SysUserBasicQuery query) {
+        Page<SysUserEntity> sysUserEntityPage = sysUserDao.findPageList(PageTool.getPage(query), query);
+        return sysUserConverter.toResponse(sysUserEntityPage);
     }
 
     /**

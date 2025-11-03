@@ -44,22 +44,6 @@ public interface IUserService {
     void update(SysUserBasicForm userForm);
 
     /**
-     * 根据ID查找用户
-     *
-     * @param userId 用户ID
-     * @return 找到的用户对象，不存在时返回null
-     */
-    SysUserVO findByUserId(Long userId);
-
-    /**
-     * 根据查询条件分页查找用户
-     *
-     * @param query 用户查询请求对象
-     * @return 用户对象分页结果
-     */
-    PageResponse<SysUserResponse> findPageList(SysUserBasicQuery query);
-
-    /**
      * 重置密码
      *
      * @param userId 用户ID
@@ -80,6 +64,22 @@ public interface IUserService {
      * @param status 状态
      */
     void updateStatus(Long userId, UserStatusEnums status);
+
+    /**
+     * 根据ID查找用户
+     *
+     * @param userId 用户ID
+     * @return 找到的用户对象，不存在时返回null
+     */
+    SysUserVO findByUserId(Long userId);
+
+    /**
+     * 根据查询条件分页查找用户
+     *
+     * @param query 用户查询请求对象
+     * @return 用户对象分页结果
+     */
+    PageResponse<SysUserResponse> findPageList(SysUserBasicQuery query);
 
     /**
      * 获取当前登录的用户信息
