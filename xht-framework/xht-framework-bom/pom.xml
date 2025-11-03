@@ -71,6 +71,12 @@
                 <artifactId>xht-framework-security</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- 短信模块依赖 -->
+            <dependency>
+                <groupId>com.xht</groupId>
+                <artifactId>xht-framework-sms</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!-- swagger模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>

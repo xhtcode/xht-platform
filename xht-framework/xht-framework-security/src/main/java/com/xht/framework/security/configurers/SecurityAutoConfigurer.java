@@ -4,6 +4,7 @@ import com.xht.framework.core.properties.SecurityHeaderProperties;
 import com.xht.framework.security.aspect.InnerAuthAspect;
 import com.xht.framework.security.crypto.password.BasicPasswordEncoder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @author xht
  **/
 @Slf4j
-@Configuration
+@AutoConfiguration
 public class SecurityAutoConfigurer {
 
     /**
