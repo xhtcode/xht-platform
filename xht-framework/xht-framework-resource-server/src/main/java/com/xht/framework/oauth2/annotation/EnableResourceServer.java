@@ -1,7 +1,7 @@
 package com.xht.framework.oauth2.annotation;
 
+import com.xht.framework.oauth2.configurers.SecurityAutoConfiguration;
 import com.xht.framework.oauth2.configurers.ResourceServerAutoConfiguration;
-import com.xht.framework.oauth2.configurers.ResourceServerConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Inherited
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Import(value = {ResourceServerAutoConfiguration.class, ResourceServerConfiguration.class})
+@Import(value = {SecurityAutoConfiguration.class, ResourceServerAutoConfiguration.class})
 public @interface EnableResourceServer {
 
 }

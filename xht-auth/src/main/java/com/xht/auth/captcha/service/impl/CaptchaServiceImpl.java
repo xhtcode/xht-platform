@@ -37,7 +37,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
      */
     @Override
     public CaptchaResponse generateCaptcha(String captchaKey) {
-        removeCaptcha(captchaKey);
+        removeCaptcha( String.format("%s%s", REDIS_CAPTCHA_CODE_KEY_PREFIX, captchaKey));
         String id = IdUtil.objectId();
         ArithmeticCaptcha arithmeticCaptcha = new ArithmeticCaptcha(150, 40);
         CaptchaResponse response = new CaptchaResponse();
@@ -47,23 +47,6 @@ public class CaptchaServiceImpl implements ICaptchaService {
         redisTemplate.opsForValue().set(key, code, CAPTCHA_EXPIRE_TIME, TimeUnit.SECONDS);
         response.setCode(arithmeticCaptcha.getBase64());
         return response;
-    }
-
-    /**
-     * 删除验证码
-     *
-     * @param id 验证码id
-     */
-    @Override
-    public void removeCaptcha(String id) {
-        try {
-            if (StringUtils.hasText(id)) {
-                String key = String.format("%s%s", REDIS_CAPTCHA_CODE_KEY_PREFIX, id);
-                redisTemplate.delete(key);
-            }
-        } catch (Exception e) {
-            log.warn("删除验证码失败", e);
-        }
     }
 
     /**
@@ -97,6 +80,22 @@ public class CaptchaServiceImpl implements ICaptchaService {
         } finally {
             removeCaptcha(requestKey);
         }
-
     }
+
+
+    /**
+     * 删除验证码
+     *
+     * @param requestKey 验证码requestKey
+     */
+    public void removeCaptcha(String requestKey) {
+        try {
+            if (StringUtils.hasText(requestKey)) {
+                redisTemplate.delete(requestKey);
+            }
+        } catch (Exception e) {
+            log.warn("删除验证码失败", e);
+        }
+    }
+
 }

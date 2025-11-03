@@ -5,16 +5,17 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import com.xht.auth.auth2.server.authorization.token.JwtTokenCustomizer;
-import com.xht.auth.auth2.server.authorization.token.OpaqueTokenClaimsCustomizer;
-import com.xht.auth.authorization.password.PassWordAuthenticationConverter;
-import com.xht.auth.authorization.password.PassWordAuthenticationProvider;
-import com.xht.auth.authorization.token.TokenAuthenticationFailureHandler;
-import com.xht.auth.authorization.token.TokenAuthenticationSuccessHandler;
-import com.xht.auth.authorization.token.TokenRevocationAuthenticationFailureHandler;
-import com.xht.auth.authorization.token.TokenRevocationAuthenticationSuccessHandler;
 import com.xht.auth.captcha.service.ICaptchaService;
-import com.xht.framework.oauth2.utils.JwtUtils;
+import com.xht.auth.security.oatuh2.server.authorization.password.PassWordAuthenticationConverter;
+import com.xht.auth.security.oatuh2.server.authorization.password.PassWordAuthenticationProvider;
+import com.xht.auth.security.oatuh2.server.authorization.token.JwtTokenCustomizer;
+import com.xht.auth.security.oatuh2.server.authorization.token.OpaqueTokenClaimsCustomizer;
+import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2AccessTokenGenerator;
+import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2RefreshTokenGenerator;
+import com.xht.auth.security.web.authentication.TokenAuthenticationFailureHandler;
+import com.xht.auth.security.web.authentication.TokenAuthenticationSuccessHandler;
+import com.xht.auth.security.web.authentication.TokenRevocationAuthenticationFailureHandler;
+import com.xht.auth.security.web.authentication.TokenRevocationAuthenticationSuccessHandler;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,12 +32,15 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-import org.springframework.security.oauth2.server.authorization.token.*;
+import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
+import org.springframework.security.oauth2.server.authorization.token.JwtGenerator;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
@@ -56,36 +60,6 @@ public class AuthorizationServerAutoConfiguration {
     private final ICaptchaService iCaptchaService;
 
     @Bean
-    public JWKSource<SecurityContext> jwkSource() {
-        KeyPair keyPair = JwtUtils.generateRsaKey();
-        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-        RSAKey rsaKey = new RSAKey.Builder(publicKey)
-                .privateKey(privateKey)
-                .keyID(UUID.randomUUID().toString())
-                .build();
-        JWKSet jwkSet = new JWKSet(rsaKey);
-        return new ImmutableJWKSet<>(jwkSet);
-    }
-
-
-    @Bean
-    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
-    }
-
-    /**
-     * jwt编码器.
-     *
-     * @param jwkSource jwk来源
-     * @return jwt编码器
-     */
-    @Bean
-    JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
-        return new NimbusJwtEncoder(jwkSource);
-    }
-
-    @Bean
     @Order(1)
     // @formatter:off
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http,
@@ -103,12 +77,8 @@ public class AuthorizationServerAutoConfiguration {
                                 .tokenEndpoint(tokenEndpoint -> {
                                     tokenEndpoint.accessTokenResponseHandler(new TokenAuthenticationSuccessHandler());
                                     tokenEndpoint.errorResponseHandler(new TokenAuthenticationFailureHandler());
-                                    tokenEndpoint.authenticationProviders(providers -> {
-                                        providers.add(passWordAuthenticationProvider);
-                                    });
-                                    tokenEndpoint.accessTokenRequestConverters((converters) -> {
-                                        converters.add(passWordAuthenticationConverter);
-                                    });
+                                    tokenEndpoint.authenticationProviders(providers -> providers.add(passWordAuthenticationProvider));
+                                    tokenEndpoint.accessTokenRequestConverters((converters) -> converters.add(passWordAuthenticationConverter));
                                 })
                                 .tokenRevocationEndpoint(tokenEndpoint ->{
                                     tokenEndpoint.revocationResponseHandler(new TokenRevocationAuthenticationSuccessHandler());
@@ -142,9 +112,53 @@ public class AuthorizationServerAutoConfiguration {
     ) {
         JwtGenerator jwtGenerator = new JwtGenerator(new NimbusJwtEncoder(jwkSource));
         jwtGenerator.setJwtCustomizer(jwtTokenCustomizer);
-        OAuth2AccessTokenGenerator accessTokenGenerator = new OAuth2AccessTokenGenerator();
+        XhtOAuth2AccessTokenGenerator accessTokenGenerator = new XhtOAuth2AccessTokenGenerator();
         accessTokenGenerator.setAccessTokenCustomizer(opaqueTokenClaimsCustomizer);
-        OAuth2RefreshTokenGenerator refreshTokenGenerator = new OAuth2RefreshTokenGenerator();
+        XhtOAuth2RefreshTokenGenerator refreshTokenGenerator = new XhtOAuth2RefreshTokenGenerator();
         return new DelegatingOAuth2TokenGenerator(jwtGenerator, accessTokenGenerator, refreshTokenGenerator);
     }
+
+
+    private KeyPair generateRsaKey() {
+        KeyPair keyPair;
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(2048);
+            keyPair = keyPairGenerator.generateKeyPair();
+        } catch (Exception ex) {
+            throw new IllegalStateException(ex);
+        }
+        return keyPair;
+    }
+
+    @Bean
+    public JWKSource<SecurityContext> jwkSource() {
+        KeyPair keyPair = generateRsaKey();
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+        RSAKey rsaKey = new RSAKey.Builder(publicKey)
+                .privateKey(privateKey)
+                .keyID(UUID.randomUUID().toString())
+                .build();
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        return new ImmutableJWKSet<>(jwkSet);
+    }
+
+
+    @Bean
+    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+    }
+
+    /**
+     * jwt编码器.
+     *
+     * @param jwkSource jwk来源
+     * @return jwt编码器
+     */
+    @Bean
+    public JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
+        return new NimbusJwtEncoder(jwkSource);
+    }
+
 }

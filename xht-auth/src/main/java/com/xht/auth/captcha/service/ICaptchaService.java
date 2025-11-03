@@ -17,13 +17,6 @@ public interface ICaptchaService {
     CaptchaResponse generateCaptcha(String captchaKey);
 
     /**
-     * 删除验证码
-     *
-     * @param id 验证码id
-     */
-    void removeCaptcha(String id);
-
-    /**
      * 校验验证码
      *
      * @param requestKey 验证码key

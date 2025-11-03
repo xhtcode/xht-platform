@@ -6,9 +6,7 @@ import com.xht.framework.security.exception.BasicAuthenticationException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -29,7 +27,6 @@ public final class SecurityUtils {
      */
     public static Authentication getAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        getUserDetails();
         // 匿名接口直接返回
         if (authentication instanceof AnonymousAuthenticationToken) {
             return null;
@@ -59,16 +56,6 @@ public final class SecurityUtils {
         }
         return userName;
     }
-
-    private static Map<String, Object> getUserDetails() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof JwtAuthenticationToken jwt) {
-            return jwt.getTokenAttributes();
-        }
-        return null;
-    }
-
-
 
     /**
      * 获取 spring security 当前的用户

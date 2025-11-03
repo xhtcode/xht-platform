@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -29,7 +29,7 @@ import java.util.Set;
 @JsonSerialize
 @NoArgsConstructor(force = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BasicUserDetails implements UserDetails, Serializable {
+public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincipal, Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -42,6 +42,7 @@ public class BasicUserDetails implements UserDetails, Serializable {
     /**
      * 用户密码
      */
+    @JsonIgnore
     private final String password;
 
     /**
@@ -128,4 +129,9 @@ public class BasicUserDetails implements UserDetails, Serializable {
         this.mobile = mobile;
     }
 
+
+    @Override
+    public String getName() {
+        return this.username;
+    }
 }

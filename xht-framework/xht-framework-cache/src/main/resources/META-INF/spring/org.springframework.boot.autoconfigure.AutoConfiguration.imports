@@ -1,1 +1,1 @@
-com.xht.framework.cache.configurers.RedisConfiguration
+com.xht.framework.cache.configurers.RedisAutoConfiguration
