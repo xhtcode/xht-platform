@@ -57,15 +57,23 @@ public class RemoteBasicUserDetailsService extends BasicUserDetailsService {
         // 转换为Spring Security所需的权限对象
         Set<GrantedAuthority> authorities = createAuthorityList(authoritiesSet);
         // 构建并返回用户详情对象
-        return new BasicUserDetails(
-                userInfo.getId(),
-                userInfo.getDeptId(),
+        BasicUserDetails basicUserDetails = new BasicUserDetails(userInfo.getUserId(),
+                userInfo.getUserType(),
                 userInfo.getUserName(),
-                securityProperties.buildSalt(userInfo.getPassWord(), userInfo.getSalt()),
-                userInfo.getMobile(),
-                true,
+                userInfo.getNickName(),
+                securityProperties.buildSalt(userInfo.getPassWord(), userInfo.getPassWordSalt()),
                 authorities
         );
+        basicUserDetails.setUserStatus(userInfo.getUserStatus());
+        basicUserDetails.setUserPhone(userInfo.getUserPhone());
+        basicUserDetails.setUserAvatar(userInfo.getUserAvatar());
+        basicUserDetails.setDeptId(userInfo.getDeptId());
+        basicUserDetails.setDeptName(userInfo.getDeptName());
+        basicUserDetails.setRegisterDate(userInfo.getRegisterDate());
+        basicUserDetails.setRoleCodes(userInfo.getRoleCodes());
+        basicUserDetails.setPermissionCodes(userInfo.getPermissionCodes());
+        basicUserDetails.setDataScope(userInfo.getDataScope());
+        return basicUserDetails;
         // @formatter:on
     }
 

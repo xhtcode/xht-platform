@@ -1,4 +1,4 @@
-package com.xht.system.modules.user.common.enums;
+package com.xht.framework.core.enums;
 
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;

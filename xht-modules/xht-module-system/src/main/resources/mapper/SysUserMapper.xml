@@ -50,7 +50,20 @@
             <result property="updateTime" column="update_time"/>
         </association>
     </resultMap>
-
+    <resultMap id="DtoResultMap" type="com.xht.api.system.user.dto.UserInfoDTO">
+        <id property="userId" column="id"/>
+        <result property="userType" column="user_type"/>
+        <result property="userName" column="user_name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="passWord" column="pass_word"/>
+        <result property="passWordSalt" column="pass_word_salt"/>
+        <result property="userStatus" column="user_status"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userAvatar" column="user_avatar"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="registerDate" column="create_time"/>
+    </resultMap>
     <sql id="BaseQuerySQL">
         <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         SELECT
@@ -75,8 +88,13 @@
         and t1.id = #{userId}
     </select>
 
-    <select id="findByUsernameAndLoginType" resultMap="BaseResultMap">
-        <include refid="BaseQuerySQL"/>
+    <select id="findByUsernameAndLoginType" resultMap="DtoResultMap">
+        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
+        SELECT
+        t1.id,t1.user_type,t1.user_name,t1.nick_name,t1.pass_word,t1.pass_word_salt,
+        t1.user_status,t1.user_phone,t1.user_avatar,t1.dept_id,t1.dept_name,
+        t1.create_time
+        FROM sys_user t1 where t1.del_flag = #{delFlag}
         <if test="loginType == @com.xht.framework.core.enums.LoginTypeEnums@PASSWORD.value">
             and t1.user_name = #{userName}
         </if>

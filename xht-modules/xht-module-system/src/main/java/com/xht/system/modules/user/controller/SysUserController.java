@@ -3,7 +3,7 @@ package com.xht.system.modules.user.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
-import com.xht.system.modules.user.common.enums.UserStatusEnums;
+import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.system.modules.user.domain.form.SysUserBasicForm;
 import com.xht.system.modules.user.domain.query.SysUserBasicQuery;
 import com.xht.system.modules.user.domain.form.UpdatePwdFrom;

@@ -1,8 +1,8 @@
 package com.xht.system.modules.user.domain.query;
 
 import com.xht.framework.core.domain.query.PageBasicQuery;
-import com.xht.system.modules.user.common.enums.UserStatusEnums;
-import com.xht.system.modules.user.common.enums.UserTypeEnums;
+import com.xht.framework.core.enums.UserStatusEnums;
+import com.xht.framework.core.enums.UserTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

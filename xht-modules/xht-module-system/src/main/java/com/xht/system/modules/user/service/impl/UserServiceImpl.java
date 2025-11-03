@@ -18,8 +18,8 @@ import com.xht.system.modules.authority.dao.SysRoleMenuDao;
 import com.xht.system.modules.authority.dao.SysUserRoleDao;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.dept.domain.response.SysPostResponse;
-import com.xht.system.modules.user.common.enums.UserStatusEnums;
-import com.xht.system.modules.user.common.enums.UserTypeEnums;
+import com.xht.framework.core.enums.UserStatusEnums;
+import com.xht.framework.core.enums.UserTypeEnums;
 import com.xht.system.modules.user.converter.SysUserConverter;
 import com.xht.system.modules.user.converter.SysUserDetailConverter;
 import com.xht.system.modules.user.dao.SysUserDao;
@@ -41,7 +41,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -263,30 +265,21 @@ public class UserServiceImpl implements IUserService {
         if (Objects.isNull(loginType) || Objects.equals(loginType, LoginTypeEnums.WECHAT) || Objects.equals(loginType, LoginTypeEnums.QQ)) {
             return null;
         }
-        SysUserVO sysUserVO = sysUserDao.findByUsernameAndLoginType(username, loginType);
-        if (Objects.isNull(sysUserVO)) {
+        UserInfoDTO userInfoDTO = sysUserDao.findByUsernameAndLoginType(username, loginType);
+        if (Objects.isNull(userInfoDTO)) {
             return null;
         }
-        List<SysRoleEntity> roles = sysUserRoleDao.findRoleListByUserId(sysUserVO.getId());
-        List<String> permissionCodes = sysRoleMenuDao.findPermissionCodeByUserId(sysUserVO.getId());
-        UserInfoDTO userInfoDTO = sysUserConverter.convertToDto(sysUserVO);
+        List<SysRoleEntity> roles = sysUserRoleDao.findRoleListByUserId(userInfoDTO.getUserId());
+        List<String> permissionCodes = sysRoleMenuDao.findPermissionCodeByUserId(userInfoDTO.getUserId());
         if (!CollectionUtils.isEmpty(roles)) {
             userInfoDTO.setRoleCodes(roles.stream().map(SysRoleEntity::getRoleCode).collect(Collectors.toList()));
         }else {
             userInfoDTO.setRoleCodes(Collections.emptyList());
         }
         if (!CollectionUtils.isEmpty(permissionCodes)) {
-            for (int i = 0; i < 50; i++) {
-                permissionCodes.add(UUID.randomUUID().toString());
-            }
-
             userInfoDTO.setPermissionCodes(permissionCodes);
         }else {
-            permissionCodes = new ArrayList<>();
-            for (int i = 0; i < 50; i++) {
-                permissionCodes.add(UUID.randomUUID().toString());
-            }
-            userInfoDTO.setPermissionCodes(permissionCodes);
+            userInfoDTO.setPermissionCodes(Collections.emptyList());
         }
         return userInfoDTO;
     }

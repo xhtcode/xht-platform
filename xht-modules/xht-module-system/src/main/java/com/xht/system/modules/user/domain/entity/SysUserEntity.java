@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.system.modules.user.common.enums.UserStatusEnums;
-import com.xht.system.modules.user.common.enums.UserTypeEnums;
+import com.xht.framework.core.enums.UserStatusEnums;
+import com.xht.framework.core.enums.UserTypeEnums;
 import lombok.Data;
 
 import java.io.Serial;

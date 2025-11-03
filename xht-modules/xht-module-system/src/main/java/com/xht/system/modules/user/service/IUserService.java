@@ -3,7 +3,7 @@ package com.xht.system.modules.user.service;
 import com.xht.api.system.user.dto.UserInfoDTO;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.enums.LoginTypeEnums;
-import com.xht.system.modules.user.common.enums.UserStatusEnums;
+import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.system.modules.user.domain.form.SysUserBasicForm;
 import com.xht.system.modules.user.domain.form.UpdatePwdFrom;
 import com.xht.system.modules.user.domain.query.SysUserBasicQuery;

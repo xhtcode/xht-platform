@@ -1,8 +1,8 @@
 package com.xht.system.modules.user.domain.response;
 
 import com.xht.framework.core.domain.response.MetaResponse;
-import com.xht.system.modules.user.common.enums.UserStatusEnums;
-import com.xht.system.modules.user.common.enums.UserTypeEnums;
+import com.xht.framework.core.enums.UserStatusEnums;
+import com.xht.framework.core.enums.UserTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

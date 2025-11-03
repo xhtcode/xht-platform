@@ -1,10 +1,13 @@
 package com.xht.api.system.user.dto;
 
 import com.xht.framework.core.domain.dto.BasicDTO;
+import com.xht.framework.core.enums.UserStatusEnums;
+import com.xht.framework.core.enums.UserTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serial;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -23,13 +26,26 @@ public class UserInfoDTO extends BasicDTO {
      * 用户ID
      */
     @Schema(description = "用户ID")
-    private Long id;
+    private Long userId;
+
+    /**
+     * 用户类型
+     */
+    @Schema(description = "用户类型")
+    private UserTypeEnums userType;
 
     /**
      * 用户名
      */
     @Schema(description = "用户名")
     private String userName;
+
+
+    /**
+     * 用户昵称
+     */
+    @Schema(description = "用户昵称")
+    private String nickName;
 
     /**
      * 密码
@@ -41,31 +57,26 @@ public class UserInfoDTO extends BasicDTO {
      * 密码盐值
      */
     @Schema(description = "密码盐值")
-    private String salt;
+    private String passWordSalt;
 
-    /**
-     * 用户昵称
-     */
-    @Schema(description = "用户昵称")
-    private String nickName;
-
-    /**
-     * 手机号
-     */
-    @Schema(description = "手机号")
-    private String mobile;
-
-    /**
-     * 头像地址
-     */
-    @Schema(description = "头像地址")
-    private String avatarUrl;
 
     /**
      * 账号状态(1-正常,2-锁定,3-禁用,4-过期)
      */
     @Schema(description = "账号状态(1-正常,2-锁定,3-禁用,4-过期)")
-    private Integer userStatus;
+    private UserStatusEnums userStatus;
+
+    /**
+     * 手机号
+     */
+    @Schema(description = "手机号")
+    private String userPhone;
+
+    /**
+     * 头像
+     */
+    @Schema(description = "头像")
+    private String userAvatar;
 
     /**
      * 部门id
@@ -74,10 +85,16 @@ public class UserInfoDTO extends BasicDTO {
     private Long deptId;
 
     /**
-     * 岗位id
+     * 部门名称
      */
-    @Schema(description = "岗位id")
-    private Long postId;
+    @Schema(description = "部门名称")
+    private Long deptName;
+
+    /**
+     * 注册日期
+     */
+    @Schema(description = "注册日期")
+    private LocalDateTime registerDate;
 
     /**
      * 角色列表

@@ -8,8 +8,6 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.security.oatuh2.server.authorization.password.PassWordAuthenticationConverter;
 import com.xht.auth.security.oatuh2.server.authorization.password.PassWordAuthenticationProvider;
-import com.xht.auth.security.oatuh2.server.authorization.token.JwtTokenCustomizer;
-import com.xht.auth.security.oatuh2.server.authorization.token.OpaqueTokenClaimsCustomizer;
 import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2AccessTokenGenerator;
 import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2RefreshTokenGenerator;
 import com.xht.auth.security.web.authentication.TokenAuthenticationFailureHandler;
@@ -106,14 +104,9 @@ public class AuthorizationServerAutoConfiguration {
     }
 
     @Bean
-    public OAuth2TokenGenerator<?> tokenGenerator(JWKSource<SecurityContext> jwkSource,
-                                                  JwtTokenCustomizer jwtTokenCustomizer,
-                                                  OpaqueTokenClaimsCustomizer opaqueTokenClaimsCustomizer
-    ) {
+    public OAuth2TokenGenerator<?> tokenGenerator(JWKSource<SecurityContext> jwkSource) {
         JwtGenerator jwtGenerator = new JwtGenerator(new NimbusJwtEncoder(jwkSource));
-        jwtGenerator.setJwtCustomizer(jwtTokenCustomizer);
         XhtOAuth2AccessTokenGenerator accessTokenGenerator = new XhtOAuth2AccessTokenGenerator();
-        accessTokenGenerator.setAccessTokenCustomizer(opaqueTokenClaimsCustomizer);
         XhtOAuth2RefreshTokenGenerator refreshTokenGenerator = new XhtOAuth2RefreshTokenGenerator();
         return new DelegatingOAuth2TokenGenerator(jwtGenerator, accessTokenGenerator, refreshTokenGenerator);
     }

@@ -1,10 +1,11 @@
 package com.xht.framework.security.core.userdetails;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.core.enums.UserStatusEnums;
+import com.xht.framework.core.enums.UserTypeEnums;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +15,9 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,93 +43,124 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
     private final Map<String, Object> attributes = new HashMap<>();
 
     /**
-     * 用户密码
+     * 用户ID
      */
-    @JsonIgnore
-    private final String password;
+    @Schema(description = "用户ID")
+    private final Long userId;
+
+    /**
+     * 用户类型
+     */
+    @Schema(description = "用户类型")
+    private final UserTypeEnums userType;
 
     /**
      * 用户名
      */
+    @Schema(description = "用户名")
+    private final String username;
+
+    /**
+     * 用户昵称
+     */
+    @Schema(description = "用户昵称")
+    private final String nickName;
+
+    /**
+     * 密码
+     */
+    @Schema(description = "密码")
+    private final String password;
+
+    /**
+     * 账号状态(1-正常,2-锁定,3-禁用,4-过期)
+     */
     @Setter
-    private String username;
-
-    /**
-     * 登录方式
-     */
-    @Setter
-    private LoginTypeEnums loginType;
-
-    /**
-     * 用户权限集合
-     */
-    private final Set<GrantedAuthority> authorities;
-
-    /**
-     * 账户是否未过期
-     */
-    private final boolean accountNonExpired;
-
-    /**
-     * 账户是否未锁定
-     */
-    private final boolean accountNonLocked;
-
-    /**
-     * 凭证是否未过期
-     */
-    private final boolean credentialsNonExpired;
-
-    /**
-     * 账户是否启用
-     */
-    private final boolean enabled;
-    
-    /**
-     * 用户ID
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private final Long userId;
-
-    /**
-     * 部门ID
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private final Long deptId;
+    @Schema(description = "账号状态(1-正常,2-锁定,3-禁用,4-过期)")
+    private UserStatusEnums userStatus;
 
     /**
      * 手机号
      */
-    private final String mobile;
+    @Setter
+    @Schema(description = "手机号")
+    private String userPhone;
 
     /**
-     * 构造器
-     *
-     * @param userId           用户ID
-     * @param deptId           部门ID
-     * @param username         用户名
-     * @param password         密码
-     * @param mobile           手机号
-     * @param accountNonLocked 账户是否未锁定
-     * @param authorities      权限列表
+     * 头像
      */
-    public BasicUserDetails(Long userId,
-                            Long deptId,
-                            String username,
-                            String password,
-                            String mobile,
-                            boolean accountNonLocked,
-                            Set<GrantedAuthority> authorities) {
-        this.password = password;
-        this.username = username;
-        this.authorities = authorities;
-        this.accountNonExpired = true;
-        this.accountNonLocked = accountNonLocked;
-        this.credentialsNonExpired = true;
-        this.enabled = true;
+    @Setter
+    @Schema(description = "头像")
+    private String userAvatar;
+
+    /**
+     * 部门id
+     */
+    @Setter
+    @Schema(description = "部门id")
+    private Long deptId;
+
+    /**
+     * 部门名称
+     */
+    @Setter
+    @Schema(description = "部门名称")
+    private Long deptName;
+
+    /**
+     * 注册日期
+     */
+    @Setter
+    @Schema(description = "注册日期")
+    private LocalDateTime registerDate;
+
+    /**
+     * 岗位id
+     */
+    @Setter
+    @Schema(description = "岗位id")
+    private Long postId;
+
+    /**
+     * 角色列表
+     */
+    @Setter
+    @Schema(description = "角色列表")
+    private List<String> roleCodes;
+
+    /**
+     * 权限列表
+     */
+    @Setter
+    @Schema(description = "权限列表")
+    private List<String> permissionCodes;
+    /**
+     * 用户权限集合
+     */
+    private final Set<GrantedAuthority> authorities;
+    /**
+     * 数据范围(1-全部数据权限,2-自定数据权限,3-本部门数据权限,4-本部门及以下数据权限,5-仅本人数据权限)
+     */
+    @Setter
+    @Schema(description = "数据范围")
+    private Integer dataScope;
+
+
+    /**
+     * 登录类型
+     */
+    @Setter
+    @Schema(description = "登录类型")
+    private LoginTypeEnums loginType;
+
+
+    public BasicUserDetails(Long userId, UserTypeEnums userType, String username, String nickName, String password, Set<GrantedAuthority> authorities) {
         this.userId = userId;
-        this.deptId = deptId;
-        this.mobile = mobile;
+        this.userType = userType;
+        this.username = username;
+        this.nickName = nickName;
+        this.password = password;
+        this.authorities = authorities;
     }
 
 
@@ -134,4 +168,48 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
     public String getName() {
         return this.username;
     }
+
+
+    /**
+     * 指示用户的账户是否已过期。过期的账户无法进行身份验证。
+     *
+     * @return <code>true</code> 如果用户的账户有效（即未过期），
+     * <code>false</code> 如果不再有效（即已过期）
+     */
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserStatusEnums.EXPIRED.equals(this.userStatus);
+    }
+
+    /**
+     * 指示用户是锁定还是未锁定。锁定的用户无法进行身份验证。
+     *
+     * @return <code>true</code> 如果用户未被锁定，否则返回 <code>false</code>
+     */
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserStatusEnums.LOCKED.equals(this.userStatus);
+    }
+
+    /**
+     * 指示用户的凭据（密码）是否已过期。过期的凭据会阻止身份验证。
+     *
+     * @return <code>true</code> 如果用户的凭据有效（即未过期），
+     * <code>false</code> 如果不再有效（即已过期）
+     */
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    /**
+     * 指示用户是启用还是禁用。禁用的用户无法进行身份验证。
+     *
+     * @return <code>true</code> 如果用户已启用，否则返回 <code>false</code>
+     */
+    @Override
+    public boolean isEnabled() {
+        return UserStatusEnums.DISABLED.equals(this.userStatus);
+    }
+
 }
