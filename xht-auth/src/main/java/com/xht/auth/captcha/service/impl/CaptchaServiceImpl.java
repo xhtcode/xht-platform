@@ -147,11 +147,9 @@ public class CaptchaServiceImpl implements ICaptchaService {
             if (!StringUtils.equalsIgnoreCase(captchaCode, requestCaptcha)) {
                 throw new CaptchaException("验证码错误.");
             }
-        } catch (CaptchaException e) {
-            throw new CaptchaException(e.getMessage());
         } catch (Exception e) {
             log.error("验证码认证失败. {}", e.getMessage(), e);
-            throw new CaptchaException("验证码认证失败.");
+            throw new CaptchaException(e.getMessage());
         } finally {
             removeCaptcha(requestKey);
         }

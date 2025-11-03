@@ -29,4 +29,5 @@ public interface ICaptchaService {
      * @param requestCaptcha    验证码
      */
     void checkCaptcha(String requestKey, String requestCaptcha);
+
 }

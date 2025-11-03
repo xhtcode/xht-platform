@@ -22,7 +22,7 @@ public class TokenAuthenticationFailureHandler implements AuthenticationFailureH
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        log.debug("Authentication failure", exception);
+        log.error("Authentication failure:{}", exception.getMessage(), exception);
         ServletUtil.write(response, R.errorMsg(exception.getMessage()));
     }
 

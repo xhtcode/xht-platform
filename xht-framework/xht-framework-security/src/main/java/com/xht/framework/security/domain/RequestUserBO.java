@@ -56,6 +56,7 @@ public class RequestUserBO implements Serializable {
     /**
      * 验证码key
      */
+    @Getter(AccessLevel.PRIVATE)
     private final String captchaKey;
 
 

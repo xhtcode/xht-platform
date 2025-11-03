@@ -1,10 +1,10 @@
 package com.xht.auth.security.oatuh2.server.authorization.password;
 
-import com.xht.auth.security.oatuh2.server.authorization.AbstractAuthenticationProvider;
 import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.constant.CustomAuthorizationGrantType;
 import com.xht.auth.constant.ErrorConstant;
+import com.xht.auth.security.oatuh2.server.authorization.AbstractAuthenticationProvider;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.domain.RequestUserBO;
@@ -52,17 +52,17 @@ public class PassWordAuthenticationProvider extends AbstractAuthenticationProvid
             requestUserBO.checkUserName();
             requestUserBO.checkPassWord();
             requestUserBO.checkLoginType();
-            iCaptchaService.checkCaptcha(requestUserBO.getCaptchaKey(), requestUserBO.getCaptcha());
+            iCaptchaService.checkCaptcha(requestUserBO.generateCaptchaKey(), requestUserBO.getCaptcha());
             BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), requestUserBO.getLoginType());
             basicUserDetails.setLoginType(requestUserBO.getLoginType());
             UsernamePasswordAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(basicUserDetails.getUsername(), basicUserDetails.getPassword(), basicUserDetails.getAuthorities());
             authenticated.setDetails(basicUserDetails);
             return authenticated;
         } catch (CaptchaException e) {
-            throw new BadCredentialsException(ErrorConstant.ERROR_MSG_CAPTCHA_AUTHENTICATION);
+            throw new BadCredentialsException(ErrorConstant.ERROR_MSG_CAPTCHA_AUTHENTICATION, e);
         } catch (Exception e) {
             log.error("用户认证失败. {}", e.getMessage(), e);
-            throw new BadCredentialsException(ErrorConstant.ERROR_MSG_PASSWORD_ERROR);
+            throw new BadCredentialsException(ErrorConstant.ERROR_MSG_PASSWORD_ERROR, e);
         }
     }
 
