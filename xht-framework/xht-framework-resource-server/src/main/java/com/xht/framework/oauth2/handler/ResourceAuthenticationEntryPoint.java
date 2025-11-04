@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.exception.code.GlobalErrorStatusCode;
+import com.xht.framework.core.utils.ServletUtil;
+import com.xht.framework.core.utils.StringUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,8 +30,6 @@ import java.io.PrintWriter;
 @RequiredArgsConstructor
 public class ResourceAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    private final ObjectMapper objectMapper;
-
     @Override
     @SuppressWarnings("all")
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
@@ -37,9 +37,8 @@ public class ResourceAuthenticationEntryPoint implements AuthenticationEntryPoin
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         R<String> result = R.error(GlobalErrorStatusCode.UNAUTHORIZED);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        if (authException != null) {
-            result.setMsg("error");
-            result.setData(authException.getMessage());
+        if (StringUtils.hasText(authException.getMessage())) {
+            result.setMsg(authException.getMessage());
         }
         // 针对令牌过期返回特殊的 424
         if (authException instanceof InvalidBearerTokenException
@@ -48,7 +47,6 @@ public class ResourceAuthenticationEntryPoint implements AuthenticationEntryPoin
             result.setMsg("请求令牌已过期");
         }
         log.error("认证失败: {}", authException.getMessage(), authException);
-        PrintWriter printWriter = response.getWriter();
-        printWriter.append(objectMapper.writeValueAsString(result));
+        ServletUtil.write(response, HttpStatus.UNAUTHORIZED, result);
     }
 }

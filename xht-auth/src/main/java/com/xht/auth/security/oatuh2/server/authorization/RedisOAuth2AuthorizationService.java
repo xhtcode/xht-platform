@@ -1,10 +1,12 @@
 package com.xht.auth.security.oatuh2.server.authorization;
 
+import com.xht.framework.oauth2.constant.Oauth2Constant;
 import com.xht.framework.oauth2.redis.converter.Oauth2AuthorizationConverter;
 import com.xht.framework.oauth2.redis.entity.Oauth2AuthorizationEntity;
 import com.xht.framework.oauth2.redis.repository.Oauth2AuthorizationRepository;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
@@ -12,8 +14,10 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 认证信息
@@ -26,6 +30,9 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
 
     @Resource
     private Oauth2AuthorizationRepository authorizationRepository;
+
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     private final Oauth2AuthorizationConverter authorizationConverter = new Oauth2AuthorizationConverter();
 
@@ -41,6 +48,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         Oauth2AuthorizationEntity entity = authorizationConverter.convert(authorization);
         authorizationRepository.save(entity);
     }
+
 
     /**
      * 删除 {@link OAuth2Authorization}。
@@ -105,4 +113,41 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         }
         return result.map(authorizationConverter::reverse).orElse(null);
     }
+
+    private List<String> keys(Oauth2AuthorizationEntity entity) {
+        if (Objects.isNull(entity)) {
+            return Collections.emptyList();
+        }
+        List<String> result = new ArrayList<>();
+        String state = entity.getState();
+        if (StringUtils.hasText(state)) {
+            result.add(String.format("%s:state:%s", Oauth2Constant.AUTHORIZATION_KEY_PREFIX, state));
+        }
+        String authorizationCodeValue = entity.getAuthorizationCodeValue();
+        if (StringUtils.hasText(authorizationCodeValue)) {
+            result.add(String.format("%s:authorizationCodeValue:%s", Oauth2Constant.AUTHORIZATION_KEY_PREFIX, authorizationCodeValue));
+        }
+        String accessTokenValue = entity.getAccessTokenValue();
+        if (StringUtils.hasText(accessTokenValue)) {
+            result.add(String.format("%s:accessTokenValue:%s", Oauth2Constant.AUTHORIZATION_KEY_PREFIX, accessTokenValue));
+        }
+        String oidcIdTokenValue = entity.getOidcIdTokenValue();
+        if (StringUtils.hasText(oidcIdTokenValue)) {
+            result.add(String.format("%s:oidcIdTokenValue:%s", Oauth2Constant.AUTHORIZATION_KEY_PREFIX, oidcIdTokenValue));
+        }
+        String refreshTokenValue = entity.getRefreshTokenValue();
+        if (StringUtils.hasText(refreshTokenValue)) {
+            result.add(String.format("%s:refreshTokenValue:%s", Oauth2Constant.AUTHORIZATION_KEY_PREFIX, refreshTokenValue));
+        }
+        String userCodeValue = entity.getUserCodeValue();
+        if (StringUtils.hasText(userCodeValue)) {
+            result.add(String.format("%s:userCodeValue:%s", Oauth2Constant.AUTHORIZATION_KEY_PREFIX, userCodeValue));
+        }
+        String deviceCodeValue = entity.getDeviceCodeValue();
+        if (StringUtils.hasText(state)) {
+            result.add(String.format("%s:deviceCodeValue:%s", Oauth2Constant.AUTHORIZATION_KEY_PREFIX, deviceCodeValue));
+        }
+        return result;
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.xht.framework.oauth2.configurers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xht.framework.oauth2.handler.ResourceAuthenticationEntryPoint;
 import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
 import com.xht.framework.oauth2.redis.repository.Oauth2AuthorizationRepository;
@@ -8,6 +7,7 @@ import com.xht.framework.oauth2.server.resource.introspection.ResourceOpaqueToke
 import com.xht.framework.security.properties.PermitAllUrlProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.core.RedisKeyValueAdapter;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
 /**
@@ -16,18 +16,17 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
  * @author xht
  **/
 @Slf4j
-@EnableRedisRepositories(basePackages = "com.xht.framework.oauth2.redis.repository")
+@EnableRedisRepositories(basePackages = "com.xht.framework.oauth2.redis.repository",enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
 public class SecurityAutoConfiguration {
 
     /**
      * 资源服务器异常处理
      *
-     * @param objectMapper jackson 输出对象
      * @return ResourceAuthenticationEntryPoint
      */
     @Bean
-    public ResourceAuthenticationEntryPoint permitAllUrlProperties(ObjectMapper objectMapper) {
-        return new ResourceAuthenticationEntryPoint(objectMapper);
+    public ResourceAuthenticationEntryPoint permitAllUrlProperties() {
+        return new ResourceAuthenticationEntryPoint();
     }
 
     /**

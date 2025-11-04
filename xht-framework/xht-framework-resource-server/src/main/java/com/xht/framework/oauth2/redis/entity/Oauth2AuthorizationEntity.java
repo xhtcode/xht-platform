@@ -1,5 +1,6 @@
 package com.xht.framework.oauth2.redis.entity;
 
+import com.xht.framework.oauth2.constant.Oauth2Constant;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @author xht
  */
 @Data
-@RedisHash("oauth2:authorization")
+@RedisHash(Oauth2Constant.AUTHORIZATION_KEY_PREFIX)
 public class Oauth2AuthorizationEntity implements Serializable {
 
     @Serial
@@ -205,7 +206,7 @@ public class Oauth2AuthorizationEntity implements Serializable {
     /**
      * 当前对象在Redis中的过期时间
      */
-    @TimeToLive(unit = TimeUnit.SECONDS)
+    @TimeToLive(unit = TimeUnit.MINUTES)
     private Long timeout;
 
 }
