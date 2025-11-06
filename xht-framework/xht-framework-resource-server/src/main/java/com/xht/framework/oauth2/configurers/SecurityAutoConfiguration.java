@@ -7,12 +7,10 @@ import com.xht.framework.oauth2.token.RedisTokenInfoLightningCache;
 import com.xht.framework.oauth2.token.TokenInfoLightningCache;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Objects;
@@ -24,6 +22,9 @@ import java.util.Objects;
  **/
 @Slf4j
 public class SecurityAutoConfiguration {
+    public SecurityAutoConfiguration() {
+        log.info("开始加载资源服务器异常处理");
+    }
 
     /**
      * 资源服务器异常处理
@@ -47,8 +48,8 @@ public class SecurityAutoConfiguration {
 
 
     @Bean
-    @ConditionalOnBean(RedisConnectionFactory.class)
     @ConditionalOnMissingBean(TokenInfoLightningCache.class)
+    @ConditionalOnClass(RedisTemplate.class)
     public TokenInfoLightningCache tokenInfoLightningCache(RedisTemplate<String, Object> redisTemplate) {
         return new RedisTokenInfoLightningCache(redisTemplate);
     }

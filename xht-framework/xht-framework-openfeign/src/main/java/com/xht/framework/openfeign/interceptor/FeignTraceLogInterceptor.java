@@ -22,11 +22,6 @@ import java.util.Objects;
 @Slf4j
 public class FeignTraceLogInterceptor implements RequestInterceptor {
 
-
-    public FeignTraceLogInterceptor() {
-        log.debug(">>>>>>openfeign-start 自定义拦截器 <<<<<<");
-    }
-
     public void apply(RequestTemplate template) {
         HttpServletRequest request = ServletUtil.getHttpServletRequest();
         if (Objects.isNull(request)) return;

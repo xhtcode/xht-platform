@@ -1,8 +1,8 @@
 package com.xht.auth.security.web.authentication;
 
-import com.xht.framework.security.domain.response.TokenResponse;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.ServletUtil;
+import com.xht.framework.security.domain.response.TokenResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
+ * 描述 ：认证成功处理
  * @author xht
  **/
 @Slf4j
@@ -37,11 +38,17 @@ public class TokenAuthenticationSuccessHandler implements AuthenticationSuccessH
         ServletUtil.write(response, R.ok(tokenResponse));
     }
 
+    /**
+     * 构建token返回值
+     *
+     * @param accessToken          访问令牌
+     * @param refreshToken         刷新令牌
+     * @param additionalParameters 额外的参数
+     * @return TokenResponse
+     */
     private TokenResponse convertToTokenResponse(OAuth2AccessToken accessToken, OAuth2RefreshToken refreshToken, Map<String, Object> additionalParameters) {
         TokenResponse tokenResponse = new TokenResponse();
-        tokenResponse.setTokenType(accessToken.getTokenType().getValue());
         tokenResponse.setAccessToken(accessToken.getTokenValue());
-        tokenResponse.setScopes(accessToken.getScopes());
         if (Objects.nonNull(refreshToken)) {
             tokenResponse.setRefreshToken(refreshToken.getTokenValue());
         }
@@ -57,7 +64,7 @@ public class TokenAuthenticationSuccessHandler implements AuthenticationSuccessH
      * @return token的过期时间
      */
     private static long getExpiresIn(OAuth2AccessToken accessToken) {
-        if (accessToken.getExpiresAt() != null) {
+        if (Objects.nonNull(accessToken.getExpiresAt())) {
             return ChronoUnit.SECONDS.between(Instant.now(), accessToken.getExpiresAt());
         }
         return -1;

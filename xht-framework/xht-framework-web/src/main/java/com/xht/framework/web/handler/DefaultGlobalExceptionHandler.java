@@ -49,10 +49,6 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public DefaultGlobalExceptionHandler() {
-        log.debug(">>>>>>web-start 自定义 Controller 全局 异常 拦截<<<<<<");
-    }
-
     /**
      * 捕获 {@link Exception} 异常
      */

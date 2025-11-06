@@ -36,20 +36,6 @@ public class TokenResponse extends BasicResponse implements Serializable {
     private String refreshToken;
 
     /**
-     * 授权范围
-     */
-    @Schema(name = "scopes", defaultValue = "授权范围")
-    @JsonProperty(value = "scopes")
-    private Set<String> scopes;
-
-    /**
-     * 访问令牌类型
-     */
-    @Schema(name = "token_type", defaultValue = "访问令牌类型")
-    @JsonProperty(value = "token_type")
-    private String tokenType;
-
-    /**
      * 令牌过期时间
      */
     @Schema(name = "expires_in", defaultValue = "令牌过期时间")
