@@ -23,10 +23,10 @@
     <dependencyManagement>
         <!-- 管理项目的依赖版本，避免在各个子模块中重复定义 -->
         <dependencies>
-            <!-- cache缓存模块依赖 -->
+            <!-- redis缓存模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-framework-cache</artifactId>
+                <artifactId>xht-framework-redis</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- core核心模块依赖 -->

@@ -21,7 +21,7 @@
         <module>xht-framework-mybatis</module>
         <module>xht-framework-security</module>
         <module>xht-framework-resource-server</module>
-        <module>xht-framework-cache</module>
+        <module>xht-framework-redis</module>
         <module>xht-framework-openfeign</module>
         <module>xht-spring-boot-starter</module>
         <module>xht-spring-cloud-starter</module>

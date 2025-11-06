@@ -9,10 +9,10 @@
         <version>${revision}</version>
     </parent>
 
-    <name>xht-framework-cache</name>
-    <artifactId>xht-framework-cache</artifactId>
+    <name>xht-framework-redis</name>
+    <artifactId>xht-framework-redis</artifactId>
     <packaging>jar</packaging>
-    <description>xht-framework-cache 缓存模块</description>
+    <description>xht-framework-redis redis缓存模块</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

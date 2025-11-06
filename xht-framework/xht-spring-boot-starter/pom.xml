@@ -19,11 +19,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
-        <!-- 缓存模块依赖 -->
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-framework-cache</artifactId>
-        </dependency>
         <!-- 核心模块依赖 -->
         <dependency>
             <groupId>com.xht</groupId>

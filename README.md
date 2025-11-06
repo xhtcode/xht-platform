@@ -47,7 +47,7 @@ xht-platform
 ├── xht-demo             # 示例模块
 ├── xht-framework        # 框架核心
 │   ├── xht-framework-bom               # BOM管理
-│   ├── xht-framework-cache             # 缓存模块
+│   ├── xht-framework-redis             # redis缓存模块
 │   ├── xht-framework-core              # 核心模块
 │   ├── xht-framework-log               # 日志模块
 │   ├── xht-framework-mybatis           # MyBatis扩展

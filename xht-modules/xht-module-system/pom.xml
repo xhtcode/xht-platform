@@ -20,6 +20,10 @@
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
+            <artifactId>xht-framework-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
             <artifactId>xht-spring-cloud-starter</artifactId>
         </dependency>
         <dependency>

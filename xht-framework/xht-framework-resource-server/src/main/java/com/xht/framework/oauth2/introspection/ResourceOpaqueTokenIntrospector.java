@@ -3,6 +3,7 @@ package com.xht.framework.oauth2.introspection;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.core.enums.UserTypeEnums;
+import com.xht.framework.oauth2.token.TokenInfoLightningCache;
 import com.xht.framework.security.constant.TokenCustomizerIdConstant;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import lombok.extern.slf4j.Slf4j;
@@ -12,9 +13,10 @@ import org.springframework.security.oauth2.server.resource.introspection.OAuth2I
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.oauth2.server.resource.introspection.SpringOpaqueTokenIntrospector;
 
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 import static com.xht.framework.core.utils.ConverterUtils.strToLong;
 
@@ -28,21 +30,36 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
 
     private final SpringOpaqueTokenIntrospector opaqueTokenIntrospector;
 
-    public ResourceOpaqueTokenIntrospector(OAuth2ResourceServerProperties.Opaquetoken opaquetoken) {
+    private final TokenInfoLightningCache tokenInfoLightningCache;
+
+    private final static String TOKEN_KEY_PREFIX = "opaque:token:";
+
+
+    public ResourceOpaqueTokenIntrospector(TokenInfoLightningCache tokenInfoLightningCache, OAuth2ResourceServerProperties.Opaquetoken opaquetoken) {
+        this.tokenInfoLightningCache = tokenInfoLightningCache;
         this.opaqueTokenIntrospector = SpringOpaqueTokenIntrospector.withIntrospectionUri(opaquetoken.getIntrospectionUri()).clientId(opaquetoken.getClientId()).clientSecret(opaquetoken.getClientSecret()).build();
     }
 
     /**
+     * 验证令牌
+     *
      * @param token 令牌
      * @return OAuth2AuthenticatedPrincipal
      */
     @Override
     public OAuth2AuthenticatedPrincipal introspect(String token) {
         log.info(">>>>>>资源服务器Opaque Token Introspector 验证令牌 {} <<<<<<", token);
+        String key = TOKEN_KEY_PREFIX + token;
+        BasicUserDetails tokenInfo = tokenInfoLightningCache.getTokenInfo(key);
+        if (Objects.nonNull(tokenInfo)) {
+            return tokenInfo;
+        }
         OAuth2AuthenticatedPrincipal introspect = opaqueTokenIntrospector.introspect(token);
-        Map<String, Object> attributes = introspect.getAttributes();
         if (introspect instanceof OAuth2IntrospectionAuthenticatedPrincipal principal) {
-            return convert(principal);
+            Instant expiresAt = principal.getExpiresAt();
+            BasicUserDetails convert = convert(principal);
+            tokenInfoLightningCache.setTokenInfo(key, expiresAt, convert);
+            return convert;
         }
         return introspect;
     }
