@@ -1,8 +1,8 @@
 package com.xht.auth.security.oatuh2.server.authorization;
 
-import com.xht.framework.oauth2.redis.converter.Oauth2AuthorizationConsentConverter;
-import com.xht.framework.oauth2.redis.entity.Oauth2AuthorizationConsentEntity;
-import com.xht.framework.oauth2.redis.repository.Oauth2AuthorizationConsentRepository;
+import com.xht.auth.redis.converter.Oauth2AuthorizationConsentConverter;
+import com.xht.auth.redis.entity.Oauth2AuthorizationConsentEntity;
+import com.xht.auth.redis.repository.Oauth2AuthorizationConsentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;

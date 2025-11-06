@@ -2,13 +2,13 @@ package com.xht.framework.oauth2.configurers;
 
 import com.xht.framework.oauth2.handler.ResourceAuthenticationEntryPoint;
 import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
-import com.xht.framework.oauth2.redis.repository.Oauth2AuthorizationRepository;
-import com.xht.framework.oauth2.server.resource.introspection.ResourceOpaqueTokenIntrospector;
+import com.xht.framework.oauth2.introspection.ResourceOpaqueTokenIntrospector;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.redis.core.RedisKeyValueAdapter;
-import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+
+import java.util.Objects;
 
 /**
  * 资源服务器自动配置
@@ -16,7 +16,6 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
  * @author xht
  **/
 @Slf4j
-@EnableRedisRepositories(basePackages = "com.xht.framework.oauth2.redis.repository",enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
 public class SecurityAutoConfiguration {
 
     /**
@@ -42,11 +41,15 @@ public class SecurityAutoConfiguration {
     /**
      * 资源服务器token验证
      *
-     * @return ResourceOpaqueTokenIntrospector
+     * @return OpaqueTokenIntrospector
      */
     @Bean
-    @SuppressWarnings("all")
-    public ResourceOpaqueTokenIntrospector resourceServerConfigurer(Oauth2AuthorizationRepository oauth2AuthorizationRepository) throws Exception {
-        return new ResourceOpaqueTokenIntrospector(oauth2AuthorizationRepository);
+    public ResourceOpaqueTokenIntrospector resourceServerConfigurer(OAuth2ResourceServerProperties resourceServerProperties) throws Exception {
+        OAuth2ResourceServerProperties.Opaquetoken opaquetoken = resourceServerProperties.getOpaquetoken();
+        if (Objects.isNull(opaquetoken)) {
+            log.error("未配置Opaque Token相关属性，无法注入 ResourceOpaqueTokenIntrospector.");
+            throw new Exception("未配置Opaque Token相关属性，无法注入 ResourceOpaqueTokenIntrospector.");
+        }
+        return new ResourceOpaqueTokenIntrospector(opaquetoken);
     }
 }

@@ -73,7 +73,7 @@ public class RequestUserBO implements Serializable {
         String loginType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_LOGIN_TYPE);
         String captchaCode = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CAPTCHA_CODE);
         String captchaKey = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CAPTCHA_CODE_KEY);
-        return new RequestUserBO(username, password, grantType, LoginTypeEnums.of(loginType), captchaCode, captchaKey);
+        return new RequestUserBO(username, password, grantType, LoginTypeEnums.getByValue(loginType), captchaCode, captchaKey);
     }
 
 

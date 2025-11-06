@@ -2,7 +2,6 @@ package com.xht.framework.oauth2.configurers;
 
 import com.xht.framework.oauth2.handler.ResourceAuthenticationEntryPoint;
 import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
-import com.xht.framework.oauth2.server.resource.introspection.ResourceOpaqueTokenIntrospector;
 import com.xht.framework.security.configurers.CustomAuthorizeHttpRequestsConfigurer;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
 import com.xht.framework.security.web.Http401UnauthorizedEntryPoint;
@@ -15,6 +14,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -35,18 +35,18 @@ public class ResourceServerAutoConfiguration {
 
     private final ResourceBearerTokenResolver resourceBearerTokenResolver;
 
-    private final ResourceOpaqueTokenIntrospector resourceOpaqueTokenIntrospector;
+    private final OpaqueTokenIntrospector opaqueTokenIntrospector;
 
 
     public ResourceServerAutoConfiguration(PermitAllUrlProperties permitAllUrlProperties,
                                            ResourceAuthenticationEntryPoint resourceAuthenticationEntryPoint,
                                            ResourceBearerTokenResolver resourceBearerTokenResolver,
-                                           ResourceOpaqueTokenIntrospector resourceOpaqueTokenIntrospector
+                                           OpaqueTokenIntrospector opaqueTokenIntrospector
     ) {
         this.permitAllUrlProperties = permitAllUrlProperties;
         this.resourceAuthenticationEntryPoint = resourceAuthenticationEntryPoint;
         this.resourceBearerTokenResolver = resourceBearerTokenResolver;
-        this.resourceOpaqueTokenIntrospector = resourceOpaqueTokenIntrospector;
+        this.opaqueTokenIntrospector = opaqueTokenIntrospector;
         log.info(">>>>>>资源服务器配置 初始化 ... <<<<<<");
     }
 
@@ -70,7 +70,7 @@ public class ResourceServerAutoConfiguration {
                 .cors(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(configurer -> {
-                    configurer.opaqueToken(opaqueToken -> opaqueToken.introspector(resourceOpaqueTokenIntrospector));
+                    configurer.opaqueToken(opaqueToken -> opaqueToken.introspector(opaqueTokenIntrospector));
                     configurer.authenticationEntryPoint(resourceAuthenticationEntryPoint);
                     configurer.bearerTokenResolver(resourceBearerTokenResolver);
                 })

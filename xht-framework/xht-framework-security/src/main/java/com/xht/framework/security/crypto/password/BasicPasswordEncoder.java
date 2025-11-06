@@ -43,12 +43,10 @@ public class BasicPasswordEncoder implements PasswordEncoder {
             throw new IllegalArgumentException("rawPassword cannot be null");
         }
         if (!StringUtils.hasText(encodedPassword)) {
-            log.debug("Empty encoded password");
             return false;
         }
         String[] passWord = StringUtils.split(encodedPassword, SecurityConstant.PASSWORD_JOIN_SALT);
         if (Objects.isNull(passWord) || passWord.length != 2) {
-            log.debug("Invalid encoded password");
             return StringUtils.equals(encodedPassword, MD5Utils.generateSignature(rawPassword.toString()));
         }
         return StringUtils.equals(passWord[0], MD5Utils.generateSignature(rawPassword + passWord[1]));

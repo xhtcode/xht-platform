@@ -14,8 +14,9 @@ import java.lang.annotation.*;
 public @interface InnerAuth {
 
     /**
-     * 是否匿名认证
-     * true：不需要认证，false：需要认证
+     * 是否是匿名接口
+     * <li>true：是  不需要额外的认证，</li>
+     * <li>false：否 需要额外的认证</li>
      */
     boolean isAnonymous() default true;
 

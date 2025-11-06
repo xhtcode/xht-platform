@@ -283,17 +283,16 @@ public class UserServiceImpl implements IUserService {
         if (Objects.isNull(userInfoDTO)) {
             return null;
         }
+        if (Objects.equals(userInfoDTO.getUserType(), UserTypeEnums.ADMIN)) {
+            return userInfoDTO;
+        }
         List<SysRoleEntity> roles = sysUserRoleDao.findRoleListByUserId(userInfoDTO.getUserId());
         List<String> permissionCodes = sysRoleMenuDao.findPermissionCodeByUserId(userInfoDTO.getUserId());
         if (!CollectionUtils.isEmpty(roles)) {
             userInfoDTO.setRoleCodes(roles.stream().map(SysRoleEntity::getRoleCode).collect(Collectors.toList()));
-        }else {
-            userInfoDTO.setRoleCodes(Collections.emptyList());
         }
         if (!CollectionUtils.isEmpty(permissionCodes)) {
             userInfoDTO.setPermissionCodes(permissionCodes);
-        }else {
-            userInfoDTO.setPermissionCodes(Collections.emptyList());
         }
         return userInfoDTO;
     }

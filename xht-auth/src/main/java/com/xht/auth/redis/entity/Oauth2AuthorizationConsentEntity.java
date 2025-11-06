@@ -1,4 +1,4 @@
-package com.xht.framework.oauth2.redis.entity;
+package com.xht.auth.redis.entity;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

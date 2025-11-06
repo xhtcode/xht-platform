@@ -1,6 +1,6 @@
-package com.xht.framework.oauth2.redis.repository;
+package com.xht.auth.redis.repository;
 
-import com.xht.framework.oauth2.redis.entity.Oauth2AuthorizationConsentEntity;
+import com.xht.auth.redis.entity.Oauth2AuthorizationConsentEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
