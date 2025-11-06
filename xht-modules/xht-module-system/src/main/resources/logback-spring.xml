@@ -117,9 +117,10 @@
     </appender>
     <!-- Spring日志级别控制  -->
     <logger name="org.springframework" level="warn"/>
+    <logger name="com.xht" level="debug"/>
     <!-- 多环境配置 按照active profile选择分支 -->
     <springProfile name="dev">
-        <root level="debug">
+        <root level="info">
             <appender-ref ref="console"/>
             <appender-ref ref="file_info"/>
             <appender-ref ref="file_warn"/>

@@ -1,4 +1,4 @@
-package com.xht.framework.oauth2.redis.converter;
+package com.xht.auth.redis.converter;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -8,8 +8,8 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.xht.auth.redis.entity.Oauth2AuthorizationEntity;
 import com.xht.framework.core.converter.IConverter;
-import com.xht.framework.oauth2.redis.entity.Oauth2AuthorizationEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.security.jackson2.CoreJackson2Module;
@@ -156,6 +156,7 @@ public final class Oauth2AuthorizationConverter implements IConverter<OAuth2Auth
             // 转为分钟
             maxTimeout = between.toMinutes();
         }
+        entity.setCreateTime(LocalDateTime.now());
         entity.setTimeout(maxTimeout);
         return entity;
     }
@@ -290,6 +291,9 @@ public final class Oauth2AuthorizationConverter implements IConverter<OAuth2Auth
      */
     private Map<String, Object> parseMap(String data) {
         try {
+            if (Objects.isNull(data)) {
+                return Collections.emptyMap();
+            }
             TypeFactory typeFactory = objectMapper.getTypeFactory();
             JavaType javaType = typeFactory.constructType(typeRef.getType());
             return this.objectMapper.readValue(data, javaType);

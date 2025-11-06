@@ -3,8 +3,7 @@ package com.xht.system.feign.oauth2;
 import com.xht.api.system.oauth2.dto.OAuth2RegisteredClientDTO;
 import com.xht.api.system.oauth2.feign.RemoteRegisteredClientService;
 import com.xht.framework.core.domain.R;
-import com.xht.framework.openfeign.annotation.NoAuthentication;
-import com.xht.framework.security.annotation.InnerAuth;
+import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.system.modules.oauth2.service.ISysOauth2ClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,8 +32,7 @@ public class RemoteRegisteredClientServiceImpl implements RemoteRegisteredClient
      */
     @Override
     @GetMapping("/api/sys/oauth2/client/{clientId}")
-    @InnerAuth
-    @NoAuthentication
+    @IgnoreAuth
     public R<OAuth2RegisteredClientDTO> getClientDetailsById(@PathVariable("clientId") String clientId) {
         return R.ok(sysOauth2ClientService.getClient(clientId));
     }

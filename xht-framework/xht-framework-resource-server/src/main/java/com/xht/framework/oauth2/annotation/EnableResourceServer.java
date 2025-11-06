@@ -1,7 +1,7 @@
 package com.xht.framework.oauth2.annotation;
 
-import com.xht.framework.oauth2.configurers.SecurityAutoConfiguration;
 import com.xht.framework.oauth2.configurers.ResourceServerAutoConfiguration;
+import com.xht.framework.oauth2.configurers.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

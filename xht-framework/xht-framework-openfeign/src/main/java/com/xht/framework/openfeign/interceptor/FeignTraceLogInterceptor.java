@@ -1,9 +1,8 @@
 package com.xht.framework.openfeign.interceptor;
 
 
-import com.xht.framework.core.properties.SecurityHeaderProperties;
-import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.core.utils.IpUtils;
+import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.log.constat.LogConstant;
 import com.xht.framework.log.utils.TraceIdUtils;
@@ -23,18 +22,14 @@ import java.util.Objects;
 @Slf4j
 public class FeignTraceLogInterceptor implements RequestInterceptor {
 
-    private final SecurityHeaderProperties rpcHeaderValue;
 
-
-    public FeignTraceLogInterceptor(SecurityHeaderProperties rpcHeaderValue) {
-        this.rpcHeaderValue = rpcHeaderValue;
+    public FeignTraceLogInterceptor() {
         log.debug(">>>>>>openfeign-start 自定义拦截器 <<<<<<");
     }
 
     public void apply(RequestTemplate template) {
         HttpServletRequest request = ServletUtil.getHttpServletRequest();
         if (Objects.isNull(request)) return;
-        template.header(rpcHeaderValue.getAuthKey(), rpcHeaderValue.getAuthValue());
         String traceId = request.getHeader(LogConstant.REQUEST_TRACE_ID);
         if (StringUtils.isEmpty(traceId)) {
             traceId = TraceIdUtils.generateTraceId();

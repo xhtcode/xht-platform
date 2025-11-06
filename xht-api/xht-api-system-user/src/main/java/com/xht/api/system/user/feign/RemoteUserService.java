@@ -5,6 +5,7 @@ import com.xht.api.system.user.feign.factory.RemoteUserServiceFallbackFactory;
 import com.xht.framework.core.constant.ServiceNameConstant;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ public interface RemoteUserService {
      * @param loginType 登录类型
      * @return 用户信息
      */
+    @FeignIgnoreAuth
     @ResponseBody
     @GetMapping("/api/sys/user/{username}/{loginType}")
     R<UserInfoDTO> loadUserByUsername(@PathVariable("username") String username, @PathVariable("loginType") LoginTypeEnums loginType);

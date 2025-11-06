@@ -1,10 +1,9 @@
 package com.xht.framework.security.properties;
 
 import cn.hutool.core.util.ReUtil;
-import com.xht.framework.core.jackson.JsonUtils;
 import com.xht.framework.core.properties.IProperties;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
-import com.xht.framework.security.annotation.InnerAuth;
+import com.xht.framework.security.annotation.IgnoreAuth;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -53,20 +52,19 @@ public class PermitAllUrlProperties implements InitializingBean, IProperties {
         mappingHandlerMethods.keySet().forEach(info -> {
             HandlerMethod handlerMethod = mappingHandlerMethods.get(info);
             // 获取方法上边的注解 替代path variable 为 *
-            InnerAuth method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), InnerAuth.class);
+            IgnoreAuth method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), IgnoreAuth.class);
             Optional.ofNullable(method)
-                    .ifPresent(inner -> Objects.requireNonNull(info.getPathPatternsCondition())
+                    .ifPresent(ignore -> Objects.requireNonNull(info.getPathPatternsCondition())
                             .getPatternValues()
                             .forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
 
             // 获取类上边的注解, 替代path variable 为 *
-            InnerAuth controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), InnerAuth.class);
+            IgnoreAuth controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), IgnoreAuth.class);
             Optional.ofNullable(controller)
-                    .ifPresent(inner -> Objects.requireNonNull(info.getPathPatternsCondition())
+                    .ifPresent(ignore -> Objects.requireNonNull(info.getPathPatternsCondition())
                             .getPatternValues()
                             .forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
         });
-        log.debug("PermitAllUrlProperties runner success, \nurls: \n\t{}\n", JsonUtils.toJsonString(urls));
     }
 
 }

@@ -87,13 +87,6 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
     private String userPhone;
 
     /**
-     * 头像
-     */
-    @Setter
-    @Schema(description = "头像")
-    private String userAvatar;
-
-    /**
      * 部门id
      */
     @Setter
@@ -105,14 +98,7 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
      */
     @Setter
     @Schema(description = "部门名称")
-    private Long deptName;
-
-    /**
-     * 注册日期
-     */
-    @Setter
-    @Schema(description = "注册日期")
-    private LocalDateTime registerDate;
+    private String deptName;
 
     /**
      * 岗位id

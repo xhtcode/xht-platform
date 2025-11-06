@@ -1,7 +1,6 @@
 package com.xht.framework.openfeign.interceptor;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.properties.SecurityHeaderProperties;
 import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.core.utils.StringUtils;

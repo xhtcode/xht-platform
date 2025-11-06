@@ -79,4 +79,21 @@ public enum UserStatusEnums implements IEnum<Integer> {
      */
     private final String desc;
 
+    /**
+     * 根据值获取对应的用户状态枚举
+     *
+     * @param value 用户状态值
+     * @return 匹配的用户状态枚举，如果未找到则返回null
+     */
+    public static UserStatusEnums getByValue(Integer value) {
+        // 遍历所有枚举值，查找与给定值匹配的枚举项
+        for (UserStatusEnums item : values()) {
+            if (item.getValue().equals(value)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+
 }

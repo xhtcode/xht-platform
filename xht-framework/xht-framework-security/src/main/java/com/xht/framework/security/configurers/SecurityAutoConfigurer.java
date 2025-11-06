@@ -1,13 +1,13 @@
 package com.xht.framework.security.configurers;
 
 import com.xht.framework.core.properties.SecurityHeaderProperties;
-import com.xht.framework.security.aspect.InnerAuthAspect;
+import com.xht.framework.security.aspect.IgnoreAuthAspect;
 import com.xht.framework.security.crypto.password.BasicPasswordEncoder;
+import com.xht.framework.security.handler.SecurityExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -34,7 +34,18 @@ public class SecurityAutoConfigurer {
      * @return 配置切面
      */
     @Bean
-    public InnerAuthAspect innerAuthAspect(SecurityHeaderProperties securityHeaderProperties) {
-        return new InnerAuthAspect(securityHeaderProperties);
+    public IgnoreAuthAspect ignoreAuthAspect(SecurityHeaderProperties securityHeaderProperties) {
+        return new IgnoreAuthAspect(securityHeaderProperties);
     }
+
+    /**
+     * 安全异常处理器
+     *
+     * @return 安全异常处理器
+     */
+    @Bean
+    public SecurityExceptionHandler securityExceptionHandler() {
+        return new SecurityExceptionHandler();
+    }
+
 }

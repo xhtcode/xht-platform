@@ -4,8 +4,7 @@ import com.xht.api.system.user.dto.UserInfoDTO;
 import com.xht.api.system.user.feign.RemoteUserService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.enums.LoginTypeEnums;
-import com.xht.framework.openfeign.annotation.NoAuthentication;
-import com.xht.framework.security.annotation.InnerAuth;
+import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.system.modules.user.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +33,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
      */
     @Override
     @GetMapping("/api/sys/user/{username}/{loginType}")
-    @NoAuthentication
-    @InnerAuth
+    @IgnoreAuth
     public R<UserInfoDTO> loadUserByUsername(@PathVariable("username") String username, @PathVariable("loginType") LoginTypeEnums loginType) {
         return R.ok(userService.loadUserByUsername(username, loginType));
     }

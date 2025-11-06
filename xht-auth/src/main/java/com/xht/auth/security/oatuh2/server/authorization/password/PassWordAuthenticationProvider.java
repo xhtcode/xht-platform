@@ -52,7 +52,7 @@ public class PassWordAuthenticationProvider extends AbstractAuthenticationProvid
             requestUserBO.checkUserName();
             requestUserBO.checkPassWord();
             requestUserBO.checkLoginType();
-          //  iCaptchaService.checkCaptcha(requestUserBO.generateCaptchaKey(), requestUserBO.getCaptcha());
+            iCaptchaService.checkCaptcha(requestUserBO.generateCaptchaKey(), requestUserBO.getCaptcha());
             BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), requestUserBO.getLoginType());
             basicUserDetails.setLoginType(requestUserBO.getLoginType());
             UsernamePasswordAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(basicUserDetails.getUsername(), basicUserDetails.getPassword(), basicUserDetails.getAuthorities());

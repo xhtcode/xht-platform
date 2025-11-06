@@ -66,10 +66,8 @@ public class RemoteBasicUserDetailsService extends BasicUserDetailsService {
         );
         basicUserDetails.setUserStatus(userInfo.getUserStatus());
         basicUserDetails.setUserPhone(userInfo.getUserPhone());
-        basicUserDetails.setUserAvatar(userInfo.getUserAvatar());
         basicUserDetails.setDeptId(userInfo.getDeptId());
         basicUserDetails.setDeptName(userInfo.getDeptName());
-        basicUserDetails.setRegisterDate(userInfo.getRegisterDate());
         basicUserDetails.setRoleCodes(userInfo.getRoleCodes());
         basicUserDetails.setPermissionCodes(userInfo.getPermissionCodes());
         basicUserDetails.setDataScope(userInfo.getDataScope());

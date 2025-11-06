@@ -1,4 +1,4 @@
-package com.xht.framework.oauth2.redis.entity;
+package com.xht.auth.redis.entity;
 
 import com.xht.framework.oauth2.constant.Oauth2Constant;
 import lombok.Data;
@@ -208,5 +208,7 @@ public class Oauth2AuthorizationEntity implements Serializable {
      */
     @TimeToLive(unit = TimeUnit.MINUTES)
     private Long timeout;
+
+    private LocalDateTime createTime;
 
 }

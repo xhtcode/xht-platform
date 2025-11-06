@@ -9,12 +9,13 @@ import java.io.Serial;
  *
  * @author xht
  */
-public class InnerAuthException extends AccessDeniedException {
+public class IgnoreAuthException extends AccessDeniedException {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public InnerAuthException(String message) {
+    public IgnoreAuthException(String message) {
         super(message);
     }
+
 }

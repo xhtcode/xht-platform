@@ -2,21 +2,22 @@ package com.xht.framework.security.annotation;
 
 import java.lang.annotation.*;
 
-
 /**
- * 内部接口权限注解
+ * 接口权限注解
  *
  * @author xht
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
-public @interface InnerAuth {
+public @interface IgnoreAuth {
 
     /**
-     * 是否匿名认证
-     * true：不需要认证，false：需要认证
+     * 是否启用aop拦截
+     *
+     * <li>true：是  ，</li>
+     * <li>false：否 </li>
      */
-    boolean isAnonymous() default true;
+    boolean aop() default true;
 
 }
