@@ -48,8 +48,8 @@ public class SecurityAutoConfiguration {
 
 
     @Bean
-    @ConditionalOnMissingBean(TokenInfoLightningCache.class)
     @ConditionalOnClass(RedisTemplate.class)
+    @ConditionalOnMissingBean(TokenInfoLightningCache.class)
     public TokenInfoLightningCache tokenInfoLightningCache(RedisTemplate<String, Object> redisTemplate) {
         return new RedisTokenInfoLightningCache(redisTemplate);
     }
