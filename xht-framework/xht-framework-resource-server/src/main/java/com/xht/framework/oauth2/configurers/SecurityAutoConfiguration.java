@@ -1,5 +1,6 @@
 package com.xht.framework.oauth2.configurers;
 
+import com.xht.framework.oauth2.handler.PermissionCheckHandler;
 import com.xht.framework.oauth2.handler.ResourceAuthenticationEntryPoint;
 import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
 import com.xht.framework.oauth2.introspection.ResourceOpaqueTokenIntrospector;
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
 
 import java.util.Objects;
 
@@ -69,4 +71,27 @@ public class SecurityAutoConfiguration {
         }
         return new ResourceOpaqueTokenIntrospector(tokenInfoLightningCache, opaquetoken);
     }
+
+    /**
+     * 创建并配置OAuth2权限检查处理器Bean
+     *
+     * @return PermissionCheckHandler 权限检查处理器实例
+     */
+    @Bean("oauth2")
+    public PermissionCheckHandler permissionCheckHandler() {
+        return new PermissionCheckHandler();
+    }
+
+    /**
+     * <a href="https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html#use-intercept-methods">参考地址<a/>
+     * <p>
+     * 创建注解模板表达式默认配置Bean
+     *
+     * @return AnnotationTemplateExpressionDefaults 注解模板表达式默认配置实例
+     */
+    @Bean
+    static AnnotationTemplateExpressionDefaults templateExpressionDefaults() {
+        return new AnnotationTemplateExpressionDefaults();
+    }
+
 }

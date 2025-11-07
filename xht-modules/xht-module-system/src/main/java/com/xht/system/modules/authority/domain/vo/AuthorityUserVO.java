@@ -5,7 +5,6 @@ import com.xht.system.modules.user.domain.vo.SysUserVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +32,7 @@ public class AuthorityUserVO implements IVO {
      * 权限列表
      */
     @Schema(description = "权限列表")
-    private List<String> permissionCodes;
+    private List<String> menuButtonCodes;
 
     /**
      * 数据范围(1-全部数据权限,2-自定数据权限,3-本部门数据权限,4-本部门及以下数据权限,5-仅本人数据权限)

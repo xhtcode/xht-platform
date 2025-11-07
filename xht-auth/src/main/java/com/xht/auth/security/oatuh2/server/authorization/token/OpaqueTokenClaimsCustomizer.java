@@ -51,7 +51,7 @@ public class OpaqueTokenClaimsCustomizer implements OAuth2TokenCustomizer<OAuth2
                 addClaims(claims, DEPT_NAME, details::getDeptName);
                 addClaims(claims, POST_ID, details::getPostId);
                 addClaims(claims, ROLE_CODES, details::getRoleCodes);
-                addClaims(claims, PERMISSION_CODES, details::getPermissionCodes);
+                addClaims(claims, MENU_BUTTON_CODE, details::getMenuButtonCodes);
                 addClaims(claims, DATA_SCOPE, details::getDataScope);
                 addClaims(claims, LOGIN_TYPE, details::getLoginType);
             }

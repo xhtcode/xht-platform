@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Objects;
+
 /**
  * 用户类型枚举
  *
@@ -46,6 +48,16 @@ public enum UserTypeEnums implements IEnum<Integer> {
             }
         }
         return null;
+    }
+
+    /**
+     * 判断给定的用户类型枚举是否为管理员类型
+     *
+     * @param userType 用户类型枚举
+     * @return 如果用户类型为管理员类型，则返回true；否则返回false
+     */
+    public static boolean isAdmin(UserTypeEnums userType) {
+        return Objects.equals(userType, UserTypeEnums.ADMIN);
     }
 
 }

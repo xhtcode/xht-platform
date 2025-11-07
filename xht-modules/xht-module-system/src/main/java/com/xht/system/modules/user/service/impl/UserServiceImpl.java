@@ -56,10 +56,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -290,12 +287,12 @@ public class UserServiceImpl implements IUserService {
             throw new BusinessException("用户名或密码错误.");
         }
         List<SysRoleEntity> roles = sysUserRoleDao.findRoleListByUserId(userInfoDTO.getUserId());
-        List<String> permissionCodes = sysRoleMenuDao.findPermissionCodeByUserId(userInfoDTO.getUserId());
+        Set<String> menuButtonCodes = sysRoleMenuDao.findPermissionCodeByUserId(userInfoDTO.getUserId());
         if (!CollectionUtils.isEmpty(roles)) {
-            userInfoDTO.setRoleCodes(roles.stream().map(SysRoleEntity::getRoleCode).collect(Collectors.toList()));
+            userInfoDTO.setRoleCodes(roles.stream().map(SysRoleEntity::getRoleCode).collect(Collectors.toSet()));
         }
-        if (!CollectionUtils.isEmpty(permissionCodes)) {
-            userInfoDTO.setPermissionCodes(permissionCodes);
+        if (!CollectionUtils.isEmpty(menuButtonCodes)) {
+            userInfoDTO.setMenuButtonCodes(menuButtonCodes);
         }
         return userInfoDTO;
     }

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 角色菜单关系Dao
@@ -60,7 +61,7 @@ public class SysRoleMenuDaoImpl extends MapperRepositoryImpl<SysRoleMenuMapper, 
      * @return 菜单集合
      */
     @Override
-    public List<String> findPermissionCodeByUserId(Long userId) {
+    public Set<String> findPermissionCodeByUserId(Long userId) {
         return baseMapper.findPermissionCodeByUserId(userId);
     }
 

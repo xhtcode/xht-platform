@@ -94,7 +94,7 @@ public class RemoteBasicUserDetailsService extends BasicUserDetailsService {
         basicUserDetails.setDeptId(userInfo.getDeptId());
         basicUserDetails.setDeptName(userInfo.getDeptName());
         basicUserDetails.setRoleCodes(userInfo.getRoleCodes());
-        basicUserDetails.setPermissionCodes(userInfo.getPermissionCodes());
+        basicUserDetails.setMenuButtonCodes(userInfo.getMenuButtonCodes());
         basicUserDetails.setDataScope(userInfo.getDataScope());
         basicUserDetails.setLoginType(loginType);
         return basicUserDetails;
@@ -129,14 +129,14 @@ public class RemoteBasicUserDetailsService extends BasicUserDetailsService {
     private Set<String> buildAuthoritiesSet(UserInfoDTO userInfo) {
         Set<String> authoritiesSet = new HashSet<>();
         // 添加角色权限（带角色前缀）
-        List<String> roleCodes = userInfo.getRoleCodes();
+        Set<String> roleCodes = userInfo.getRoleCodes();
         if (!CollectionUtils.isEmpty(roleCodes)) {
             roleCodes.forEach(role -> authoritiesSet.add(SecurityConstant.ROLE_PREFIX + role));
         }
         // 添加功能权限
-        List<String> permissionCodes = userInfo.getPermissionCodes();
-        if (!CollectionUtils.isEmpty(permissionCodes)) {
-            authoritiesSet.addAll(permissionCodes);
+        Set<String> menuButtonCodes = userInfo.getMenuButtonCodes();
+        if (!CollectionUtils.isEmpty(menuButtonCodes)) {
+            authoritiesSet.addAll(menuButtonCodes);
         }
 
         return authoritiesSet;

@@ -9,7 +9,7 @@ import lombok.Data;
 import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 /**
  * 用户信息DTO
@@ -101,13 +101,13 @@ public class UserInfoDTO extends BasicDTO {
      * 角色列表
      */
     @Schema(description = "角色列表")
-    private List<String> roleCodes = Collections.emptyList();
+    private Set<String> roleCodes = Collections.emptySet();
 
     /**
      * 权限列表
      */
     @Schema(description = "权限列表")
-    private List<String> permissionCodes = Collections.emptyList();
+    private Set<String> menuButtonCodes = Collections.emptySet();
 
     /**
      * 数据范围(1-全部数据权限,2-自定数据权限,3-本部门数据权限,4-本部门及以下数据权限,5-仅本人数据权限)

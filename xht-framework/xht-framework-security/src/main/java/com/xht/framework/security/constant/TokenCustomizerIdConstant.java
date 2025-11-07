@@ -65,7 +65,7 @@ public interface TokenCustomizerIdConstant {
     /**
      * 权限列表
      */
-    String PERMISSION_CODES = "permissionCodes";
+    String MENU_BUTTON_CODE = "menuButtonCodes";
 
 
     /**

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 角色菜单关系表 数据层接口
@@ -32,7 +33,7 @@ public interface SysRoleMenuMapper extends BaseMapperX<SysRoleMenuEntity> {
      * @param userId 用户id
      * @return 菜单集合
      */
-    List<String> findPermissionCodeByUserId(@Param("userId") Long userId);
+    Set<String> findPermissionCodeByUserId(@Param("userId") Long userId);
 
     /**
      * 根据用户ID获取路由菜单集合

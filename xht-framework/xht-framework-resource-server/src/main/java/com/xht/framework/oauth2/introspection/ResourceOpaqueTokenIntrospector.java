@@ -12,9 +12,11 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.server.resource.introspection.OAuth2IntrospectionAuthenticatedPrincipal;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.oauth2.server.resource.introspection.SpringOpaqueTokenIntrospector;
+import org.springframework.util.CollectionUtils;
 
 import java.time.Instant;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -81,7 +83,7 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
         String deptName = principal.getClaimAsString(TokenCustomizerIdConstant.DEPT_NAME);
         Long postId = strToLong(principal.getClaimAsString(TokenCustomizerIdConstant.POST_ID));
         List<String> roleCodes = principal.getClaimAsStringList(TokenCustomizerIdConstant.ROLE_CODES);
-        List<String> permissionCodes = principal.getClaimAsStringList(TokenCustomizerIdConstant.PERMISSION_CODES);
+        List<String> menuButtonCodes = principal.getClaimAsStringList(TokenCustomizerIdConstant.MENU_BUTTON_CODE);
         Integer dataScope = principal.getAttribute(TokenCustomizerIdConstant.DATA_SCOPE);
         LoginTypeEnums loginType = LoginTypeEnums.getByValue(principal.getClaimAsString(TokenCustomizerIdConstant.LOGIN_TYPE));
         BasicUserDetails details = new BasicUserDetails(userId, userType, username, nickName, null, Collections.emptySet());
@@ -90,8 +92,16 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
         details.setDeptId(deptId);
         details.setDeptName(deptName);
         details.setPostId(postId);
-        details.setRoleCodes(roleCodes);
-        details.setPermissionCodes(permissionCodes);
+        if (!CollectionUtils.isEmpty(roleCodes)) {
+            details.setRoleCodes(new HashSet<>(roleCodes));
+        } else {
+            details.setRoleCodes(Collections.emptySet());
+        }
+        if (!CollectionUtils.isEmpty(menuButtonCodes)) {
+            details.setMenuButtonCodes(new HashSet<>(menuButtonCodes));
+        } else {
+            details.setMenuButtonCodes(Collections.emptySet());
+        }
         details.setDataScope(dataScope);
         details.setLoginType(loginType);
         return details;

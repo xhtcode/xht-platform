@@ -5,6 +5,7 @@ import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.core.utils.tree.INode;
+import com.xht.framework.oauth2.annotation.IsAdmin;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.user.domain.form.SysUserBasicForm;
 import com.xht.system.modules.user.domain.form.UpdatePwdFrom;
@@ -144,6 +145,7 @@ public class SysUserController {
      */
     @Operation(summary = "获取当前登录的用户信息", description = "获取当前登录的用户信息")
     @GetMapping("/profile")
+    @IsAdmin
     public R<UserInfoDTO> getUserProfileInfo() {
         return R.ok(userService.getUserProfileInfo());
     }

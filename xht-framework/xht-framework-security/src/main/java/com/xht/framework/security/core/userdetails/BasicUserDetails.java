@@ -15,7 +15,6 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,14 +111,14 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
      */
     @Setter
     @Schema(description = "角色列表")
-    private List<String> roleCodes;
+    private Set<String> roleCodes;
 
     /**
      * 权限列表
      */
     @Setter
     @Schema(description = "权限列表")
-    private List<String> permissionCodes;
+    private Set<String> menuButtonCodes;
     /**
      * 用户权限集合
      */
