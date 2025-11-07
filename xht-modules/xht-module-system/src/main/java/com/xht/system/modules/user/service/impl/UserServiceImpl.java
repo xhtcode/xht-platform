@@ -5,8 +5,9 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.api.system.user.dto.UserInfoDTO;
+import com.xht.framework.cache.service.RedisService;
+import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.core.enums.GenderEnums;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.core.enums.UserTypeEnums;
@@ -14,7 +15,6 @@ import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.code.UserErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.framework.core.utils.IdCardUtils;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.secret.MD5Utils;
 import com.xht.framework.core.utils.tree.INode;
@@ -22,6 +22,7 @@ import com.xht.framework.core.utils.tree.TreeNode;
 import com.xht.framework.core.utils.tree.TreeUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
+import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.system.modules.authority.common.enums.MenuCacheEnums;
 import com.xht.system.modules.authority.common.enums.MenuHiddenEnums;
@@ -33,8 +34,8 @@ import com.xht.system.modules.authority.domain.response.MetaResponse;
 import com.xht.system.modules.authority.domain.response.SysMenuResponse;
 import com.xht.system.modules.authority.domain.vo.RouterVo;
 import com.xht.system.modules.dept.domain.response.SysPostResponse;
+import com.xht.system.modules.user.SysUserHelper;
 import com.xht.system.modules.user.converter.SysUserConverter;
-import com.xht.system.modules.user.converter.SysUserDetailConverter;
 import com.xht.system.modules.user.dao.SysUserDao;
 import com.xht.system.modules.user.dao.SysUserDetailDao;
 import com.xht.system.modules.user.dao.SysUserPostDao;
@@ -49,15 +50,17 @@ import com.xht.system.modules.user.domain.vo.SysUserVO;
 import com.xht.system.modules.user.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -82,7 +85,9 @@ public class UserServiceImpl implements IUserService {
 
     private final SysUserDetailDao sysUserDetailDao;
 
-    private final SysUserDetailConverter sysUserDetailConverter;
+    private final PasswordEncoder passwordEncoder;
+
+    private final RedisService redisService;
 
 
     /**
@@ -101,55 +106,56 @@ public class UserServiceImpl implements IUserService {
         boolean userIdCardExists = sysUserDetailDao.checkUserIdCardExists(idCard, null);
         ThrowUtils.throwIf(userIdCardExists, BusinessErrorCode.DATA_EXIST, "该身份证号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
         // 格式化数据类型
-        SysUserEntity sysUser = formatUser(userForm);
-        SysUserDetailEntity adminEntity = formatUser(detail, idCard, sysUser.getId());
-        sysUserDetailDao.saveUserInfo(sysUser, adminEntity);
+        SysUserEntity sysUser = SysUserHelper.formatUser(userForm);
+        SysUserDetailEntity detailEntity = SysUserHelper.formatUser(detail, idCard, sysUser.getId());
+        sysUserDetailDao.saveUserInfo(sysUser, detailEntity);
     }
 
-
     /**
-     * 将表单对象转换为系统用户实体对象
+     * 注册手机用户
      *
-     * @param form 表单对象，用于接收前端传入的用户数据
-     * @return 转换后的系统用户实体对象，如果转换失败则返回null
+     * @param phone 手机号
+     * @return 注册用户信息
      */
-    protected final SysUserEntity formatUser(SysUserBasicForm form) {
+    @Override
+    public UserInfoDTO registerPhoneUser(String phone) {
+        String key = Keys.createKey(SecurityConstant.USER_REGISTER_PHONE_KEY_PREFIX, phone);
+        Long expire = redisService.getExpire(key);
+        if (expire < 0) {
+            throw new BusinessException("改手机号无法注册用户，请联系系统客服!");
+        }
+        boolean userPhoneExists = sysUserDao.checkUserPhoneExists(phone, null);
+        ThrowUtils.throwIf(userPhoneExists, BusinessErrorCode.DATA_EXIST, "该手机号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
+        long userId = IdUtil.getSnowflakeNextId();
         SysUserEntity entity = new SysUserEntity();
-        entity.setId(IdUtil.getSnowflakeNextId());
-        entity.setUserType(UserTypeEnums.BUSINESS);
-        entity.setUserName("虚假账号");
-        entity.setNickName(form.getNickName());
-        entity.setPassWord(MD5Utils.generateSignature("123456"));
-        entity.setPassWordSalt(MD5Utils.generateSignature("123456"));
-        entity.setUserStatus(UserStatusEnums.NORMAL);
-        entity.setUserPhone(form.getUserPhone());
-        entity.setUserAvatar("/images/user/avatar.png");
-        entity.setDeptId(form.getDeptId());
-        entity.setDeptName(form.getDeptName());
-        return entity;
+        entity.setId(userId);
+        entity.setUserType(UserTypeEnums.USER);
+        entity.setUserName(IdUtil.fastSimpleUUID());
+        entity.setNickName(phone);
+        entity.setPassWord(passwordEncoder.encode("123456123456"));
+        entity.setPassWordSalt("123456");
+        entity.setUserStatus(UserStatusEnums.UNACTIVATED);
+        entity.setUserPhone(phone);
+        entity.setUserAvatar(null);
+        entity.setDeptId(null);
+        entity.setDeptName(null);
+        SysUserDetailEntity detailEntity = new SysUserDetailEntity();
+        detailEntity.setUserId(userId);
+        sysUserDetailDao.saveUserInfo(entity, detailEntity);
+        UserInfoDTO infoDTO = new UserInfoDTO();
+        infoDTO.setUserId(userId);
+        infoDTO.setUserType(entity.getUserType());
+        infoDTO.setUserName(entity.getUserName());
+        infoDTO.setNickName(entity.getNickName());
+        infoDTO.setPassWord(entity.getPassWord());
+        infoDTO.setPassWordSalt(entity.getPassWordSalt());
+        infoDTO.setUserStatus(entity.getUserStatus());
+        infoDTO.setUserPhone(phone);
+        infoDTO.setRegisterDate(LocalDateTime.now());
+        return infoDTO;
     }
 
-    /**
-     * 格式化用户信息，将表单数据转换为实体对象并填充身份证相关信息
-     *
-     * @param detail 用户表单数据
-     * @param idCard 身份证号码
-     * @param userId 用户ID
-     * @return 格式化后的用户实体对象
-     */
-    private SysUserDetailEntity formatUser(SysUserDetailBasicForm detail, String idCard, Long userId) {
-        SysUserDetailEntity adminEntity = sysUserDetailConverter.toEntity(detail);
-        LocalDate now = LocalDate.now();
-        // 从身份证中提取性别和出生日期信息
-        GenderEnums gender = IdCardUtils.getGender(idCard);
-        LocalDate birthDate = IdCardUtils.getBirthday(idCard).orElse(now);
-        // 设置用户基本信息
-        adminEntity.setUserId(userId);
-        adminEntity.setGender(gender);
-        adminEntity.setBirthDate(birthDate);
-        adminEntity.setAge(now.getYear() - birthDate.getYear());
-        return adminEntity;
-    }
+
     /**
      * 删除用户
      *
@@ -184,9 +190,9 @@ public class UserServiceImpl implements IUserService {
         boolean userIdCardExists = sysUserDetailDao.checkUserIdCardExists(idCard, userId);
         ThrowUtils.throwIf(userIdCardExists, BusinessErrorCode.DATA_EXIST, "该身份证号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
         // 格式化数据类型
-        SysUserEntity sysUser = formatUser(userForm);
-        SysUserDetailEntity adminEntity = formatUser(detail, idCard, userId);
-        sysUserDetailDao.updateUserInfo(sysUser, adminEntity);
+        SysUserEntity sysUser = SysUserHelper.formatUser(userForm);
+        SysUserDetailEntity detailEntity = SysUserHelper.formatUser(detail, idCard, userId);
+        sysUserDetailDao.updateUserInfo(sysUser, detailEntity);
     }
 
     /**
@@ -277,14 +283,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserInfoDTO loadUserByUsername(String username, LoginTypeEnums loginType) {
         if (Objects.isNull(loginType) || Objects.equals(loginType, LoginTypeEnums.WECHAT) || Objects.equals(loginType, LoginTypeEnums.QQ)) {
-            return null;
+            throw new BusinessException("用户名或密码错误.");
         }
         UserInfoDTO userInfoDTO = sysUserDao.findByUsernameAndLoginType(username, loginType);
         if (Objects.isNull(userInfoDTO)) {
-            return null;
-        }
-        if (Objects.equals(userInfoDTO.getUserType(), UserTypeEnums.ADMIN)) {
-            return userInfoDTO;
+            throw new BusinessException("用户名或密码错误.");
         }
         List<SysRoleEntity> roles = sysUserRoleDao.findRoleListByUserId(userInfoDTO.getUserId());
         List<String> permissionCodes = sysRoleMenuDao.findPermissionCodeByUserId(userInfoDTO.getUserId());
@@ -320,6 +323,21 @@ public class UserServiceImpl implements IUserService {
             result.add(new TreeNode<>(menu.getId(), menu.getParentId(), menu.getMenuSort()).setExtra(BeanUtil.beanToMap(routerVo)));
         }
         return TreeUtils.buildList(result, Boolean.FALSE);
+    }
+
+    /**
+     * 验证手机号是否存在
+     *
+     * @param phone 手机号
+     * @return 是否存在
+     */
+    @Override
+    public Boolean checkPhoneExists(String phone) {
+        Boolean exists = sysUserDao.exists(SysUserEntity::getUserPhone, phone);
+        if (!exists) {
+            redisService.set(Keys.createKey(SecurityConstant.USER_REGISTER_PHONE_KEY_PREFIX, phone), phone, SecurityConstant.CAPTCHA_EXPIRE_TIME, TimeUnit.SECONDS);
+        }
+        return exists;
     }
 
 

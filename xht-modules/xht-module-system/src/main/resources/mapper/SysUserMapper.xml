@@ -98,7 +98,7 @@
         <if test="loginType == @com.xht.framework.core.enums.LoginTypeEnums@PASSWORD.value">
             and t1.user_name = #{userName}
         </if>
-        <if test="loginType == @com.xht.framework.core.enums.LoginTypeEnums@SMS_CODE.value">
+        <if test="loginType == @com.xht.framework.core.enums.LoginTypeEnums@PHONE.value">
             AND t1.user_phone = #{userName}
         </if>
     </select>

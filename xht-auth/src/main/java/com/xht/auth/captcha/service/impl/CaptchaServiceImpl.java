@@ -1,11 +1,16 @@
 package com.xht.auth.captcha.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.xht.api.system.user.feign.RemoteUserService;
 import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.auth.captcha.handler.captcha.ArithmeticCaptcha;
 import com.xht.auth.captcha.service.ICaptchaService;
+import com.xht.framework.cache.utils.Keys;
+import com.xht.framework.core.domain.R;
 import com.xht.framework.core.exception.BusinessException;
+import com.xht.framework.core.utils.ROptional;
 import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.security.domain.response.CaptchaResponse;
 import com.xht.framework.sms.exception.SmsException;
 import com.xht.framework.sms.utils.SmsUtils;
@@ -16,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.xht.framework.security.constant.SecurityConstant.CAPTCHA_EXPIRE_TIME;
 import static com.xht.framework.security.constant.SecurityConstant.REDIS_CAPTCHA_CODE_KEY_PREFIX;
 
 /**
@@ -27,83 +33,11 @@ import static com.xht.framework.security.constant.SecurityConstant.REDIS_CAPTCHA
 @RequiredArgsConstructor
 public class CaptchaServiceImpl implements ICaptchaService {
 
-    /**
-     * 验证码请求间隔限制（秒）
-     */
-    private static final long CAPTCHA_INTERVAL = 60;
-    /**
-     * 验证码过期时间
-     */
-    private static final long CAPTCHA_EXPIRE_TIME = 60 * 2;
+
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    /**
-     * 获取手机验证码
-     *
-     * @param phone 手机号
-     */
-    @Override
-    public void getPhoneCaptcha(String phone) {
-        // 1. 验证手机号格式
-        if (!SmsUtils.validMobilePhone(phone)) {
-            throw new SmsException("无效的手机号格式");
-        }
-        // 2. 判断手机号是否存在于系统中
-        if (!isPhoneExists(phone)) {
-            log.warn("手机号不存在于系统中: {}", phone);
-            throw new BusinessException("该手机号未注册");  // 假设存在自定义业务异常
-        }
-        // 3. 生成Redis键名（区分验证码内容和发送时间）
-        String captchaKey = "captcha:phone:" + phone;
-        String sendTimeKey = "captcha:phone:sendTime:" + phone;
-
-        // 4. 检查短时间内是否已发送过验证码
-        Object lastSendTimeObj = redisTemplate.opsForValue().get(sendTimeKey);
-        if (lastSendTimeObj != null) {
-            long lastSendTime = (long) lastSendTimeObj;
-            long currentTime = System.currentTimeMillis() / 1000;
-            if (currentTime - lastSendTime < CAPTCHA_INTERVAL) {
-                long remaining = CAPTCHA_INTERVAL - (currentTime - lastSendTime);
-                log.warn("手机号{}请求验证码过于频繁，剩余{}秒", phone, remaining);
-                throw new BusinessException("验证码发送过于频繁，请" + remaining + "秒后再试");
-            }
-        }
-        // 5. 生成6位数字验证码
-        String captcha = "123456";
-        log.info("为手机号{}生成验证码: {}", phone, captcha);  // 实际生产环境建议去掉明文日志
-        // 6. 发送验证码（此处仅为示例，实际需调用短信服务商API）
-        boolean sendSuccess = sendSms(phone, captcha);
-        if (!sendSuccess) {
-            throw new BusinessException("验证码发送失败，请稍后重试");
-        }
-        // 7. 存储验证码和发送时间到Redis
-        redisTemplate.opsForValue().set(captchaKey, captcha, CAPTCHA_EXPIRE_TIME, TimeUnit.SECONDS);
-        redisTemplate.opsForValue().set(sendTimeKey, System.currentTimeMillis() / 1000, CAPTCHA_EXPIRE_TIME, TimeUnit.SECONDS);
-    }
-
-
-    /**
-     * 检查手机号是否存在于系统中
-     */
-    private boolean isPhoneExists(String phone) {
-        return true;
-    }
-
-
-    /**
-     * 发送短信验证码（实际实现需对接短信服务商）
-     */
-    private boolean sendSms(String phone, String captcha) {
-        try {
-            // 示例：调用短信API发送验证码
-            log.info("向手机号{}发送短信验证码: {}", phone, captcha);
-            return true;
-        } catch (Exception e) {
-            log.error("发送短信失败", e);
-            return false;
-        }
-    }
+    private final RemoteUserService remoteUserService;
 
     /***
      * 生成图片验证码
@@ -134,18 +68,18 @@ public class CaptchaServiceImpl implements ICaptchaService {
     public void checkCaptcha(String requestKey, String requestCaptcha) {
         try {
             if (StringUtils.isEmpty(requestCaptcha)) {
-                throw new CaptchaException("请输入验证码.");
+                throw new CaptchaException("请输入验证码");
             }
             if (StringUtils.isEmpty(requestKey)) {
-                throw new CaptchaException("验证码校验失败");
+                throw new CaptchaException("请输入验证码");
             }
             Long expire = redisTemplate.getExpire(requestKey);
             if (expire <= 0) {
-                throw new CaptchaException("验证码已过期.");
+                throw new CaptchaException("验证码已过期，请重新获取验证码.");
             }
             String captchaCode = (String) redisTemplate.opsForValue().get(requestKey);
             if (!StringUtils.equalsIgnoreCase(captchaCode, requestCaptcha)) {
-                throw new CaptchaException("验证码错误.");
+                throw new CaptchaException("输入的验证码不正确");
             }
         } catch (Exception e) {
             log.error("验证码认证失败. {}", e.getMessage(), e);
@@ -169,6 +103,72 @@ public class CaptchaServiceImpl implements ICaptchaService {
         } catch (Exception e) {
             log.warn("删除验证码失败", e);
         }
+    }
+
+    /**
+     * 获取手机验证码
+     *
+     * @param phone 手机号
+     */
+    @Override
+    public void getPhoneCaptcha(String phone) {
+        if (!SmsUtils.validMobilePhone(phone)) {
+            throw new SmsException("无效的手机号格式");
+        }
+        String captchaKey = Keys.createKey(SecurityConstant.REDIS_PHONE_CODE_KEY_PREFIX, phone);
+        Boolean phoneExists = redisTemplate.hasKey(captchaKey);
+        if (phoneExists) {
+            throw new BusinessException("验证码发送过于频繁，请请注意查收短信！");
+        }
+        String captcha = SmsUtils.generatePhoneCode();
+        log.info("为手机号{}生成验证码: {}", phone, captcha);  // 实际生产环境建议去掉明文日志
+        sendSms(phone, captcha);
+        redisTemplate.opsForValue().set(captchaKey, captcha, CAPTCHA_EXPIRE_TIME, TimeUnit.SECONDS);
+    }
+
+    /**
+     * 校验手机号 验证码
+     *
+     * @param phone   手机号
+     * @param captcha 验证码
+     */
+    @Override
+    public boolean checkPhoneCode(String phone, String captcha) {
+        if (!SmsUtils.validMobilePhone(phone)) {
+            throw new CaptchaException("无效的手机号格式");
+        }
+        if (StringUtils.isEmpty(captcha)) {
+            throw new CaptchaException("请输入验证码");
+        }
+        String captchaKey = Keys.createKey(SecurityConstant.REDIS_PHONE_CODE_KEY_PREFIX, phone);
+        Long expire = redisTemplate.getExpire(captchaKey);
+        if (expire <= 0) {
+            throw new CaptchaException("验证码已过期，请重新获取验证码");
+        }
+        String phoneCode = (String) redisTemplate.opsForValue().get(captchaKey);
+        if (!StringUtils.equals(captcha, phoneCode)) {
+            throw new CaptchaException("输入的验证码不正确");
+        }
+        boolean phoneExists = isPhoneExists(phone);
+        removeCaptcha(captchaKey);
+        return phoneExists;
+    }
+
+
+    /**
+     * 检查手机号是否存在于系统中
+     */
+    private boolean isPhoneExists(String phone) {
+        R<Boolean> booleanR = remoteUserService.checkPhoneExists(phone);
+        return ROptional.of(booleanR).get().orElse(false);
+    }
+
+
+    /**
+     * 发送短信验证码（实际实现需对接短信服务商）
+     */
+    private void sendSms(String phone, String captcha) {
+        log.info("向手机号{}发送短信验证码: {}", phone, captcha);
     }
 
 }

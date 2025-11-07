@@ -8,6 +8,8 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.security.oatuh2.server.authorization.password.PassWordAuthenticationConverter;
 import com.xht.auth.security.oatuh2.server.authorization.password.PassWordAuthenticationProvider;
+import com.xht.auth.security.oatuh2.server.authorization.phone.PhoneAuthenticationConverter;
+import com.xht.auth.security.oatuh2.server.authorization.phone.PhoneAuthenticationProvider;
 import com.xht.auth.security.oatuh2.server.authorization.token.OpaqueTokenClaimsCustomizer;
 import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2AccessTokenGenerator;
 import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2RefreshTokenGenerator;
@@ -68,6 +70,8 @@ public class AuthorizationServerAutoConfiguration {
     ) throws Exception {
         PassWordAuthenticationProvider passWordAuthenticationProvider = new PassWordAuthenticationProvider(authorizationService, tokenGenerator, basicUserDetailsService, iCaptchaService);
         PassWordAuthenticationConverter passWordAuthenticationConverter = new PassWordAuthenticationConverter();
+        PhoneAuthenticationProvider phoneAuthenticationProvider = new PhoneAuthenticationProvider(authorizationService, tokenGenerator, basicUserDetailsService, iCaptchaService);
+        PhoneAuthenticationConverter phoneAuthenticationConverter = new PhoneAuthenticationConverter();
         OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer.authorizationServer();
         http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .with(authorizationServerConfigurer, (authorizationServer) ->
@@ -76,8 +80,14 @@ public class AuthorizationServerAutoConfiguration {
                                 .tokenEndpoint(tokenEndpoint -> {
                                     tokenEndpoint.accessTokenResponseHandler(new TokenAuthenticationSuccessHandler());
                                     tokenEndpoint.errorResponseHandler(new TokenAuthenticationFailureHandler());
-                                    tokenEndpoint.authenticationProviders(providers -> providers.add(passWordAuthenticationProvider));
-                                    tokenEndpoint.accessTokenRequestConverters((converters) -> converters.add(passWordAuthenticationConverter));
+                                    tokenEndpoint.authenticationProviders(providers -> {
+                                        providers.add(passWordAuthenticationProvider);
+                                        providers.add(phoneAuthenticationProvider);
+                                    });
+                                    tokenEndpoint.accessTokenRequestConverters((converters) -> {
+                                        converters.add(passWordAuthenticationConverter);
+                                        converters.add(phoneAuthenticationConverter);
+                                    });
                                 })
                                 .tokenRevocationEndpoint(tokenEndpoint ->{
                                     tokenEndpoint.revocationResponseHandler(new TokenRevocationAuthenticationSuccessHandler());

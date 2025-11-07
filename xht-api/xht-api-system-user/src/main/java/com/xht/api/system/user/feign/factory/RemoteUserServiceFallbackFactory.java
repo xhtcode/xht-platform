@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
 
 /**
- * 用户查询服务降级工厂
+ * 用户服务降级工厂
  *
  * @author xht
  **/
@@ -17,6 +17,7 @@ public class RemoteUserServiceFallbackFactory implements FallbackFactory<RemoteU
 
     @Override
     public RemoteUserService create(Throwable cause) {
+        log.error("用户查询服务调用失败:{}", cause.getMessage(), cause);
         return new RemoteUserService() {
 
             /**
@@ -28,8 +29,29 @@ public class RemoteUserServiceFallbackFactory implements FallbackFactory<RemoteU
              */
             @Override
             public R<UserInfoDTO> loadUserByUsername(String username, LoginTypeEnums loginType) {
-                log.error("客户端认证服务调用失败: {}", cause.getMessage(), cause);
-                return R.errorMsg("客户端认证服务调用失败:");
+                return R.errorMsg("客户端认证服务调用失败");
+            }
+
+            /**
+             * 注册手机用户
+             *
+             * @param phone 手机号
+             * @return 注册用户信息
+             */
+            @Override
+            public R<UserInfoDTO> registerPhoneUser(String phone) {
+                return R.errorMsg("用户注册失败");
+            }
+
+            /**
+             * 验证手机号是否存在
+             *
+             * @param phone 手机号
+             * @return 是否存在
+             */
+            @Override
+            public R<Boolean> checkPhoneExists(String phone) {
+                return R.errorData(false);
             }
         };
     }

@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
@@ -25,13 +26,12 @@ public class TokenRevocationAuthenticationFailureHandler implements Authenticati
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         log.debug("Authentication failure");
-        if (exception instanceof OAuth2AuthenticationException oAuth2AuthenticationException) {
-            OAuth2Error error = oAuth2AuthenticationException.getError();
-            ServletUtil.write(response, R.errorMsgData(error.getDescription(), error));
-        } else {
-            log.warn(AuthenticationException.class.getSimpleName() + " must be of type "
-                    + OAuth2AuthenticationException.class.getName() + " but was "
-                    + exception.getClass().getName());
+        log.error("Authentication failure:{}", exception.getMessage(), exception);
+        String message = exception.getMessage();
+        if (exception instanceof OAuth2AuthenticationException) {
+            OAuth2Error error = ((OAuth2AuthenticationException) exception).getError();
+            message = error.getErrorCode();
         }
+        ServletUtil.write(response, HttpStatus.INTERNAL_SERVER_ERROR, R.errorMsg(message));
     }
 }

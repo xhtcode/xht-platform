@@ -50,6 +50,31 @@ public class RemoteBasicUserDetailsService extends BasicUserDetailsService {
     public BasicUserDetails loadUserByUsername(String username, LoginTypeEnums loginType) throws UsernameNotFoundException {
         // 远程获取用户信息
         R<UserInfoDTO> userDetailsR = remoteUserService.loadUserByUsername(username, loginType);
+        return convert(userDetailsR, loginType);
+    }
+
+    /**
+     * 注册手机用户
+     *
+     * @param phone 手机号
+     * @return 注册用户信息
+     */
+    @Override
+    public BasicUserDetails registerPhoneUser(String phone) {
+        R<UserInfoDTO> userDetailsR = remoteUserService.registerPhoneUser(phone);
+        return convert(userDetailsR, LoginTypeEnums.PHONE);
+    }
+
+    /**
+     * 将远程获取的用户信息转换为Spring Security所需的用户详情对象
+     *
+     * @param userDetailsR 远程获取的用户信息响应对象，包含用户详细信息
+     * @param loginType    登录类型枚举，标识用户的登录方式
+     * @return 转换后的BasicUserDetails对象，用于Spring Security认证授权
+     * @throws UsernameNotFoundException 当远程获取用户信息失败时抛出此异常
+     */
+    private BasicUserDetails convert(R<UserInfoDTO> userDetailsR, LoginTypeEnums loginType) {
+        // @formatter:off
         UserInfoDTO userInfo = ROptional.of(userDetailsR)
                 .orElseThrow(() -> new UsernameNotFoundException("远程获取用户信息失败"));
         // 构建权限集合
@@ -71,6 +96,7 @@ public class RemoteBasicUserDetailsService extends BasicUserDetailsService {
         basicUserDetails.setRoleCodes(userInfo.getRoleCodes());
         basicUserDetails.setPermissionCodes(userInfo.getPermissionCodes());
         basicUserDetails.setDataScope(userInfo.getDataScope());
+        basicUserDetails.setLoginType(loginType);
         return basicUserDetails;
         // @formatter:on
     }
@@ -81,7 +107,7 @@ public class RemoteBasicUserDetailsService extends BasicUserDetailsService {
      * @param authorities 权限字符串集合，可为null或空集合
      * @return 转换后的GrantedAuthority列表，若输入为null则返回空列表
      */
-    public Set<GrantedAuthority> createAuthorityList(Set<String> authorities) {
+    private Set<GrantedAuthority> createAuthorityList(Set<String> authorities) {
         // @formatter:off
         if (authorities == null) {
             return Collections.emptySet();

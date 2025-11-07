@@ -20,5 +20,5 @@ public interface CustomAuthorizationGrantType {
     /**
      * 手机号验证码
      */
-    AuthorizationGrantType PHONE_SMS = new AuthorizationGrantType("phone_sms");
+    AuthorizationGrantType PHONE = new AuthorizationGrantType("phone");
 }

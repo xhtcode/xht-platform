@@ -1,4 +1,4 @@
-package com.xht.auth.security.oatuh2.server.authorization.password;
+package com.xht.auth.security.oatuh2.server.authorization.phone;
 
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.constant.CustomAuthorizationGrantType;
@@ -21,16 +21,16 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
  * @author xht
  **/
 @Slf4j
-public class PassWordAuthenticationProvider extends AbstractAuthenticationProvider {
+public class PhoneAuthenticationProvider extends AbstractAuthenticationProvider {
 
     private final BasicUserDetailsService basicUserDetailsService;
 
     private final ICaptchaService iCaptchaService;
 
-    public PassWordAuthenticationProvider(OAuth2AuthorizationService authorizationService,
-                                          OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
-                                          BasicUserDetailsService basicUserDetailsService,
-                                          ICaptchaService iCaptchaService) {
+    public PhoneAuthenticationProvider(OAuth2AuthorizationService authorizationService,
+                                       OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
+                                       BasicUserDetailsService basicUserDetailsService,
+                                       ICaptchaService iCaptchaService) {
         super(authorizationService, tokenGenerator);
         this.basicUserDetailsService = basicUserDetailsService;
         this.iCaptchaService = iCaptchaService;
@@ -46,9 +46,13 @@ public class PassWordAuthenticationProvider extends AbstractAuthenticationProvid
     @Override
     protected Authentication getAuthenticatedPrincipal(RequestUserBO requestUserBO) {
         requestUserBO.checkUserName();
-        requestUserBO.checkPassWord();
-        iCaptchaService.checkCaptcha(requestUserBO.generateCaptchaKey(), requestUserBO.getCaptcha());
-        BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnums.PASSWORD);
+        boolean registerUser = iCaptchaService.checkPhoneCode(requestUserBO.getUserName(), requestUserBO.getCaptcha());
+        BasicUserDetails basicUserDetails;
+        if (registerUser) {
+            basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnums.PHONE);
+        } else {
+            basicUserDetails = basicUserDetailsService.registerPhoneUser(requestUserBO.getUserName());
+        }
         UsernamePasswordAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(basicUserDetails.getUsername(), basicUserDetails.getPassword(), basicUserDetails.getAuthorities());
         authenticated.setDetails(basicUserDetails);
         return authenticated;
@@ -61,12 +65,12 @@ public class PassWordAuthenticationProvider extends AbstractAuthenticationProvid
      */
     @Override
     protected AuthorizationGrantType getGrantType() {
-        return CustomAuthorizationGrantType.PASSWORD;
+        return CustomAuthorizationGrantType.PHONE;
     }
 
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return PassWordAuthenticationToken.class.isAssignableFrom(authentication);
+        return PhoneAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }

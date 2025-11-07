@@ -32,9 +32,35 @@ public class RemoteUserServiceImpl implements RemoteUserService {
      * @return 用户信息
      */
     @Override
-    @GetMapping("/api/sys/user/{username}/{loginType}")
     @IgnoreAuth
+    @GetMapping("/api/sys/user/{username}/{loginType}")
     public R<UserInfoDTO> loadUserByUsername(@PathVariable("username") String username, @PathVariable("loginType") LoginTypeEnums loginType) {
         return R.ok(userService.loadUserByUsername(username, loginType));
+    }
+
+    /**
+     * 注册手机用户
+     *
+     * @param phone 手机号
+     * @return 注册用户信息
+     */
+    @Override
+    @IgnoreAuth
+    @GetMapping("/api/sys/user/register/{phone}")
+    public R<UserInfoDTO> registerPhoneUser(@PathVariable("phone") String phone) {
+        return R.ok(userService.registerPhoneUser(phone));
+    }
+
+    /**
+     * 验证手机号是否存在
+     *
+     * @param phone 手机号
+     * @return 是否存在
+     */
+    @Override
+    @IgnoreAuth
+    @GetMapping("/api/sys/user/exists/{phone}")
+    public R<Boolean> checkPhoneExists(@PathVariable("phone") String phone) {
+        return R.ok(userService.checkPhoneExists(phone));
     }
 }

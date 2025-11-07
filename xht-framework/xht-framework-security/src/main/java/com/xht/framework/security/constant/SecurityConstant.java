@@ -8,14 +8,9 @@ package com.xht.framework.security.constant;
 public interface SecurityConstant {
 
     /**
-     * 资源服务器bean名称
+     * 验证码过期时间
      */
-    String RESOURCE_SERVER_BEAN_NAME = "resourceServer";
-
-    /**
-     * 客户端ID
-     */
-    String OAUTH2_CLIENT_ID = "clientId";
+    long CAPTCHA_EXPIRE_TIME = 60 * 2;
 
     /**
      * oauth2授权类型类型
@@ -33,11 +28,6 @@ public interface SecurityConstant {
     String REQUEST_PASSWORD = "password";
 
     /**
-     * 登录方式
-     */
-    String REQUEST_LOGIN_TYPE = "login_type";
-
-    /**
      * 验证码
      */
     String REQUEST_CAPTCHA_CODE = "captcha_code";
@@ -53,6 +43,16 @@ public interface SecurityConstant {
      * 验证码 redis key 前缀
      */
     String REDIS_CAPTCHA_CODE_KEY_PREFIX = "captcha:code:";
+
+    /**
+     * 手机验证码 redis key 前缀
+     */
+    String REDIS_PHONE_CODE_KEY_PREFIX = "captcha:phone";
+
+    /**
+     * 用户手机验证码 redis key 前缀
+     */
+    String USER_REGISTER_PHONE_KEY_PREFIX = "user:register:phone";
 
     /**
      * 角色前缀

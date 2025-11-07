@@ -2,7 +2,6 @@ package com.xht.framework.core.enums;
 
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.xht.framework.core.utils.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -30,7 +29,7 @@ public enum LoginTypeEnums implements IEnum<String>, Serializable {
     /**
      * 短信验证码
      */
-    SMS_CODE("sms_code"),
+    PHONE("phone"),
 
     /**
      * 微信
@@ -56,9 +55,6 @@ public enum LoginTypeEnums implements IEnum<String>, Serializable {
      * @return 登录类型枚举类 默认是验证码登录类型
      */
     public static LoginTypeEnums getByValue(String code) {
-        if (StringUtils.isEmpty(code)) {
-            return LoginTypeEnums.PASSWORD;
-        }
         for (LoginTypeEnums e : LoginTypeEnums.values()) {
             if (e.getValue().equals(code)) {
                 return e;

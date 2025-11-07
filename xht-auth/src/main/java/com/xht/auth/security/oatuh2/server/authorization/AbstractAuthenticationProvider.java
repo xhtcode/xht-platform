@@ -1,6 +1,6 @@
 package com.xht.auth.security.oatuh2.server.authorization;
 
-import com.xht.auth.constant.ErrorConstant;
+import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.framework.security.domain.RequestUserBO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -56,11 +56,15 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
         Authentication principal;
         try {
             principal = getAuthenticatedPrincipal(requestUserBO);
+        } catch (CaptchaException e) {
+            OAuth2Error oAuth2Error = new OAuth2Error(e.getMessage());
+            throw new OAuth2AuthenticationException(oAuth2Error, e);
         } catch (Exception e) {
-            throw new OAuth2AuthenticationException(new OAuth2Error("-1"), e);
+            OAuth2Error oAuth2Error = new OAuth2Error("用户名或密码错误", e.getMessage(), ERROR_URI);
+            throw new OAuth2AuthenticationException(oAuth2Error, e);
         }
         if (!principal.isAuthenticated()) {
-            throw new OAuth2AuthenticationException(ErrorConstant.ERROR_MSG_PASSWORD_ERROR);
+            throw new OAuth2AuthenticationException("用户名或密码错误");
         }
         OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(authenticationToken);
         RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
@@ -248,7 +252,7 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
      * @param requestUserBO 用户请求信息
      * @return 认证信息
      */
-    protected abstract Authentication getAuthenticatedPrincipal(final RequestUserBO requestUserBO) throws AuthenticationException;
+    protected abstract Authentication getAuthenticatedPrincipal(final RequestUserBO requestUserBO);
 
     /**
      * 获取认证类型.

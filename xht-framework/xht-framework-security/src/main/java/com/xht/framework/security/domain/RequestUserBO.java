@@ -1,7 +1,6 @@
 package com.xht.framework.security.domain;
 
 import cn.hutool.core.map.MapUtil;
-import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.security.constant.SecurityConstant;
 import lombok.AccessLevel;
@@ -44,11 +43,6 @@ public class RequestUserBO implements Serializable {
     private final String grantType;
 
     /**
-     * 登录类型
-     */
-    private final LoginTypeEnums loginType;
-
-    /**
      * 验证码
      */
     private final String captcha;
@@ -70,19 +64,11 @@ public class RequestUserBO implements Serializable {
         String username = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_USERNAME);
         String password = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_PASSWORD);
         String grantType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_OAUTH2_GRANT_TYPE);
-        String loginType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_LOGIN_TYPE);
         String captchaCode = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CAPTCHA_CODE);
         String captchaKey = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CAPTCHA_CODE_KEY);
-        return new RequestUserBO(username, password, grantType, LoginTypeEnums.getByValue(loginType), captchaCode, captchaKey);
+        return new RequestUserBO(username, password, grantType, captchaCode, captchaKey);
     }
 
-
-    /**
-     * 校验当前登录类型是否为空
-     */
-    public void checkLoginType() {
-        ThrowUtils.notNull(this.loginType, "loginType must not be null");
-    }
 
     /**
      * 检查用户名是否为空

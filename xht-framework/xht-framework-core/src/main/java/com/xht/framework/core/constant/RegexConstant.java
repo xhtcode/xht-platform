@@ -10,7 +10,7 @@ public final class RegexConstant {
     /**
      * 手机号码
      */
-    public final static String MOBILE_PHONE = "/^[1](([3][0-9])|([4][0,1,4-9])|([5][0-3,5-9])|([6][2,5,6,7])|([7][0-8])|([8][0-9])|([9][0-3,5-9]))[0-9]{8}$/";
+    public final static String MOBILE_PHONE = "^1[3-9]\\d{9}$";
 
     /**
      * 身份证号(1代,15位数字)

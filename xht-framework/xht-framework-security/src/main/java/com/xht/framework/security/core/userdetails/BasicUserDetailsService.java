@@ -27,4 +27,11 @@ public abstract class BasicUserDetailsService implements UserDetailsService {
      */
     public abstract BasicUserDetails loadUserByUsername(String username, LoginTypeEnums loginType) throws UsernameNotFoundException;
 
+    /**
+     * 注册手机用户
+     *
+     * @param phone 手机号
+     * @return 注册用户信息
+     */
+    public abstract BasicUserDetails registerPhoneUser(String phone);
 }

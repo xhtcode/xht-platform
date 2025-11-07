@@ -30,6 +30,15 @@ public interface IUserService {
     void create(SysUserBasicForm form);
 
     /**
+     * 注册手机用户
+     *
+     * @param phone 手机号
+     * @return 注册用户信息
+     */
+    UserInfoDTO registerPhoneUser(String phone);
+
+
+    /**
      * 删除用户
      *
      * @param userId 用户ID
@@ -107,4 +116,12 @@ public interface IUserService {
      * @return 路由信息
      */
     List<INode<Long>> getRouters();
+
+    /**
+     * 验证手机号是否存在
+     *
+     * @param phone 手机号
+     * @return 是否存在
+     */
+    Boolean checkPhoneExists(String phone);
 }

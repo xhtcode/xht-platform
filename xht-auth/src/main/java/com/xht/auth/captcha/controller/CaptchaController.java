@@ -43,7 +43,7 @@ public class CaptchaController {
      */
     @PostMapping("/login/smsCode")
     @Operation(summary = "生成手机号验证码", description = "生成手机号验证码")
-    public R<Void> getPhoneCaptcha(@RequestParam String phone) {
+    public R<Void> getPhoneCaptcha(@RequestParam(value = "phone") String phone) {
         captchaService.getPhoneCaptcha(phone);
         return R.ok();
     }

@@ -3,6 +3,7 @@ package com.xht.framework.core.utils;
 import com.xht.framework.core.constant.basic.RConstants;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.enums.DataTypeEnum;
+import com.xht.framework.core.exception.BusinessException;
 import lombok.Data;
 
 import java.util.Objects;
@@ -55,23 +56,19 @@ public final class ROptional<T> {
 
     // ---------- 值存在性检查 ----------
     public void ifPresent(Consumer<T> consumer) {
-        if (isSuccess() && Objects.nonNull(this.data)) {
+        if (isSuccess()) {
             consumer.accept(data);
         }
     }
 
     // ---------- 安全获取值 ----------
     public Optional<T> get() {
-        return orElseGet(() -> null);
+        if (isSuccess()) {
+            return Optional.ofNullable(value.getData());
+        }
+        throw new BusinessException("data is error!");
     }
 
-    public Optional<T> orElse(T defaultValue) {
-        return orElseGet(() -> defaultValue);
-    }
-
-    public Optional<T> orElseGet(Supplier<? extends T> supplier) {
-        return Optional.ofNullable(isSuccess() ? value.getData() : supplier.get());
-    }
 
     public <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
         if (isSuccess()) {
@@ -91,15 +88,6 @@ public final class ROptional<T> {
      */
     public boolean isSuccess() {
         return Objects.equals(ok, Boolean.TRUE) && Objects.equals(code, RConstants.SUCCESS);
-    }
-
-    /**
-     * 判断当前操作是否失败
-     *
-     * @return true：失败，false：成功
-     */
-    public boolean isFailure() {
-        return !isSuccess();
     }
 
 }

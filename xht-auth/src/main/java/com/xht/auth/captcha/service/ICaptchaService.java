@@ -9,12 +9,6 @@ import com.xht.framework.security.domain.response.CaptchaResponse;
  **/
 public interface ICaptchaService {
 
-    /**
-     * 获取手机验证码
-     * @param phone 手机号
-     */
-    void getPhoneCaptcha(String phone);
-
     /***
      * 生成图片验证码
      * @param captchaKey 验证码key
@@ -30,4 +24,18 @@ public interface ICaptchaService {
      */
     void checkCaptcha(String requestKey, String requestCaptcha);
 
+    /**
+     * 获取手机验证码
+     *
+     * @param phone 手机号
+     */
+    void getPhoneCaptcha(String phone);
+
+    /**
+     * 校验手机号 验证码
+     *
+     * @param phone   手机号
+     * @param captcha 验证码
+     */
+    boolean checkPhoneCode(String phone, String captcha);
 }
