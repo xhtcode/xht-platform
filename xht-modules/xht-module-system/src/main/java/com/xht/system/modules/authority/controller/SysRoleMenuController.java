@@ -1,6 +1,7 @@
 package com.xht.system.modules.authority.controller;
 
 import com.xht.framework.core.domain.R;
+import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.system.modules.authority.domain.form.SysRoleMenuBindBasicForm;
 import com.xht.system.modules.authority.service.ISysRoleMenuService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,8 +33,9 @@ public class SysRoleMenuController {
      * @param bindRequest 角色菜单绑定请求
      * @return 成功、失败
      */
-    @Operation(summary = "角色绑定菜单", description = "角色绑定菜单")
+    @CheckMenu("sys:role:menu:bind")
     @PostMapping("/bind")
+    @Operation(summary = "角色绑定菜单", description = "角色绑定菜单")
     public R<Void> roleMenuBind(@Valid @RequestBody SysRoleMenuBindBasicForm bindRequest) {
         sysRoleMenuService.roleMenuBind(bindRequest);
         return R.ok();
@@ -46,9 +48,10 @@ public class SysRoleMenuController {
      * @param roleId 角色ID
      * @return 菜单ID列表
      */
-    @Operation(summary = "获取当前角色拥有的菜单ID列表", description = "获取当前角色拥有的菜单ID列表")
     @GetMapping("/{roleId}")
+    @Operation(summary = "获取当前角色拥有的菜单ID列表", description = "获取当前角色拥有的菜单ID列表")
     public R<List<Long>> selectMenuIdByRoleId(@PathVariable("roleId") String roleId) {
         return R.ok(sysRoleMenuService.selectMenuIdByRoleId(roleId));
     }
+
 }

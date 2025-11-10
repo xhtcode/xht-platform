@@ -20,7 +20,7 @@ public @interface CheckMenu {
     /**
      * 菜单权限
      */
-    String[] value();
+    String[] value() default {};
 
 
 }

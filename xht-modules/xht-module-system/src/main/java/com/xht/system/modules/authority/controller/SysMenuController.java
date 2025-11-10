@@ -2,6 +2,7 @@ package com.xht.system.modules.authority.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.tree.INode;
+import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
@@ -39,8 +40,9 @@ public class SysMenuController {
      * @param form 菜单表单请求参数
      * @return 统一响应结果
      */
-    @Operation(summary = "创建菜单", description = "根据提供的请求参数创建一个新的菜单")
+    @CheckMenu("sys:menu:create")
     @PostMapping("/create")
+    @Operation(summary = "创建菜单", description = "根据提供的请求参数创建一个新的菜单")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysMenuBasicForm form) {
         sysMenuService.create(form);
         return R.ok();
@@ -52,8 +54,9 @@ public class SysMenuController {
      * @param id 菜单ID
      * @return 统一响应结果
      */
-    @Operation(summary = "根据ID删除菜单", description = "根据提供的菜单ID删除菜单")
+    @CheckMenu("sys:menu:remove")
     @PostMapping("/remove/{id}")
+    @Operation(summary = "根据ID删除菜单", description = "根据提供的菜单ID删除菜单")
     public R<Void> removeById(@PathVariable @Parameter(description = "菜单ID", required = true) Long id) {
         sysMenuService.removeById(id);
         return R.ok();
@@ -65,8 +68,9 @@ public class SysMenuController {
      * @param form 菜单更新请求参数
      * @return 统一响应结果
      */
-    @Operation(summary = "根据ID更新菜单", description = "根据提供的菜单更新请求参数更新菜单")
+    @CheckMenu("sys:menu:update")
     @PostMapping("/update")
+    @Operation(summary = "根据ID更新菜单", description = "根据提供的菜单更新请求参数更新菜单")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysMenuBasicForm form) {
         sysMenuService.updateById(form);
         return R.ok();
@@ -79,8 +83,9 @@ public class SysMenuController {
      * @param status 菜单状态
      * @return 统一响应结果 成功：true 失败：false
      */
-    @Operation(summary = "修改菜单状态", description = "根据提供的菜单ID和状态修改菜单状态")
+    @CheckMenu("sys:menu:update")
     @PostMapping("/updateStatus/{id}/{status}")
+    @Operation(summary = "修改菜单状态", description = "根据提供的菜单ID和状态修改菜单状态")
     public R<Void> updateStatus(@PathVariable("id") @Parameter(description = "菜单ID", required = true) Long id,
                                    @PathVariable("status") @Parameter(description = "菜单状态", required = true) MenuStatusEnums status) {
         sysMenuService.updateStatus(id, status);
@@ -93,8 +98,8 @@ public class SysMenuController {
      * @param id 菜单ID
      * @return 菜单信息
      */
-    @Operation(summary = "根据ID查询菜单", description = "根据提供的菜单ID查询菜单信息")
     @GetMapping("/get/{id}")
+    @Operation(summary = "根据ID查询菜单", description = "根据提供的菜单ID查询菜单信息")
     public R<SysMenuResponse> findById(@PathVariable @Parameter(description = "菜单ID", required = true) Long id) {
         return R.ok(sysMenuService.findById(id));
     }
@@ -105,8 +110,8 @@ public class SysMenuController {
      * @param query 菜单查询请求参数
      * @return 菜单树形结构信息
      */
-    @Operation(summary = "查询菜单列表(树形结构)", description = "根据提供的查询请求参数查询菜单列表(树形结构)信息")
     @GetMapping("/tree")
+    @Operation(summary = "查询菜单列表(树形结构)", description = "根据提供的查询请求参数查询菜单列表(树形结构)信息")
     public R<List<INode<Long>>> findTree(SysMenuBasicQuery query) {
         return R.ok(sysMenuService.findTree(query));
     }
@@ -117,9 +122,10 @@ public class SysMenuController {
      * @param menuType 菜单类型
      * @return 菜单树形结构信息
      */
-    @Operation(summary = "根据菜单类型查询菜单列表(树形结构)", description = "根据菜单类型查询菜单列表(树形结构)信息")
     @GetMapping("/tree/{menuType}")
+    @Operation(summary = "根据菜单类型查询菜单列表(树形结构)", description = "根据菜单类型查询菜单列表(树形结构)信息")
     public R<List<INode<Long>>> findSystemTree(@PathVariable @Parameter(description = "菜单类型", required = true) MenuTypeEnums menuType) {
         return R.ok(sysMenuService.findSystemTree(menuType));
     }
+
 }

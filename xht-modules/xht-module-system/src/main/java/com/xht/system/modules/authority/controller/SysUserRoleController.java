@@ -1,6 +1,7 @@
 package com.xht.system.modules.authority.controller;
 
 import com.xht.framework.core.domain.R;
+import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.system.modules.authority.domain.form.UserBindRoleBasicForm;
 import com.xht.system.modules.authority.service.IUserRoleService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,8 +33,9 @@ public class SysUserRoleController {
      * @param bindRequest 绑定请求
      * @return 成功或失败
      */
-    @Operation(description = "绑定角色", summary = "绑定角色")
+    @CheckMenu("sys:user:role:bind")
     @PostMapping("/bind")
+    @Operation(description = "绑定角色", summary = "绑定角色")
     public R<Void> userBindRole(@Valid @RequestBody UserBindRoleBasicForm bindRequest) {
         userRoleService.userBindRole(bindRequest.getUserId(), bindRequest.getRoleIds());
         return R.ok();
@@ -45,8 +47,8 @@ public class SysUserRoleController {
      * @param userId 用户ID
      * @return 角色ID列表
      */
-    @Operation(summary = "获取当前用户拥有的角色ID列表", description = "获取当前用户拥有的角色ID列表")
     @GetMapping("/{userId}")
+    @Operation(summary = "获取当前用户拥有的角色ID列表", description = "获取当前用户拥有的角色ID列表")
     public R<List<Long>> selectRoleIdByUserId(@PathVariable("userId") String userId) {
         return R.ok(userRoleService.selectRoleIdByUserId(userId));
     }

@@ -34,8 +34,8 @@ public class SysLogController {
      * @param id 系统日志ID
      * @return 系统日志详情
      */
-    @Operation(summary = "获取系统日志详情")
     @GetMapping("/get/{id}")
+    @Operation(summary = "获取系统日志详情")
     public R<SysLogResponse> findById(@PathVariable Long id) {
         return R.ok(sysLogService.findById(id));
     }
@@ -46,8 +46,8 @@ public class SysLogController {
      * @param query 系统日志岗位查询请求参数
      * @return 系统日志岗位分页信息
      */
-    @Operation(summary = "分页查询系统日志岗位", description = "根据提供的查询请求参数分页查询系统日志岗位信息")
     @GetMapping("/page")
+    @Operation(summary = "分页查询系统日志岗位", description = "根据提供的查询请求参数分页查询系统日志岗位信息")
     public R<PageResponse<SysLogResponse>>findPageList(@Valid SysLogBasicQuery query) {
         return R.ok(sysLogService.findPageList(query));
     }

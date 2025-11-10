@@ -2,6 +2,7 @@ package com.xht.system.modules.dept.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.tree.INode;
+import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import com.xht.system.modules.dept.domain.form.SysDeptBasicForm;
@@ -36,6 +37,7 @@ public class SysDeptController {
      * @param form 部门表单请求参数
      * @return 统一响应结果
      */
+    @CheckMenu("sys:dept:create")
     @PostMapping("/create")
     @Operation(summary = "创建部门")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDeptBasicForm form) {
@@ -49,6 +51,7 @@ public class SysDeptController {
      * @param id 部门ID
      * @return 统一响应结果
      */
+    @CheckMenu("sys:dept:remove")
     @PostMapping("/remove/{id}")
     @Operation(summary = "删除部门")
     @Parameter(name = "id", description = "部门ID")
@@ -63,6 +66,7 @@ public class SysDeptController {
      * @param form 部门更新请求参数
      * @return 统一响应结果
      */
+    @CheckMenu("sys:dept:update")
     @PostMapping("/update")
     @Operation(summary = "更新部门")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDeptBasicForm form) {
@@ -77,10 +81,9 @@ public class SysDeptController {
      * @param status 部门状态
      * @return 统一响应结果
      */
+    @CheckMenu("sys:dept:update")
     @PostMapping("/{id}/status/{status}")
     @Operation(summary = "更新部门状态")
-    @Parameter(name = "id", description = "部门ID")
-    @Parameter(name = "status", description = "部门状态")
     public R<Void> updateStatus(@PathVariable Long id, @PathVariable DeptStatusEnums status) {
         sysDeptService.updateStatus(id, status);
         return R.ok();
@@ -94,7 +97,6 @@ public class SysDeptController {
      */
     @GetMapping("/get/{id}")
     @Operation(summary = "查询部门详情")
-    @Parameter(name = "id", description = "部门ID")
     public R<SysDeptResponse> findById(@PathVariable Long id) {
         return R.ok(sysDeptService.findById(id));
     }
@@ -110,4 +112,5 @@ public class SysDeptController {
     public R<List<INode<Long>>> getDeptTree(SysDeptTreeBasicQuery treeRequest) {
         return R.ok(sysDeptService.getDeptTree(treeRequest));
     }
+
 }

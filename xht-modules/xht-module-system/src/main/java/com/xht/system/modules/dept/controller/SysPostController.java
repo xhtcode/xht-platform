@@ -2,6 +2,7 @@ package com.xht.system.modules.dept.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.dept.domain.form.SysPostBasicForm;
 import com.xht.system.modules.dept.domain.query.SysPostBasicQuery;
@@ -36,8 +37,9 @@ public class SysPostController {
      * @param form 部门岗位表单请求参数
      * @return 统一响应结果
      */
-    @Operation(summary = "创建部门岗位", description = "根据提供的请求参数创建一个新的部门岗位")
+    @CheckMenu("sys:post:create")
     @PostMapping("/create")
+    @Operation(summary = "创建部门岗位", description = "根据提供的请求参数创建一个新的部门岗位")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysPostBasicForm form) {
         sysDeptPostService.create(form);
         return R.ok();
@@ -49,8 +51,9 @@ public class SysPostController {
      * @param id 部门岗位ID
      * @return 统一响应结果
      */
-    @Operation(summary = "根据ID删除部门岗位", description = "根据提供的部门岗位ID删除部门岗位")
+    @CheckMenu("sys:post:remove")
     @PostMapping("/remove/{id}")
+    @Operation(summary = "根据ID删除部门岗位", description = "根据提供的部门岗位ID删除部门岗位")
     public R<Void> removeById(@PathVariable Long id) {
         sysDeptPostService.removeById(id);
         return R.ok();
@@ -62,8 +65,9 @@ public class SysPostController {
      * @param ids 部门岗位ID
      * @return 统一响应结果
      */
-    @Operation(summary = "根据ID删除部门岗位", description = "根据提供的部门岗位ID删除部门岗位")
+    @CheckMenu("sys:post:remove")
     @PostMapping("/remove/")
+    @Operation(summary = "根据ID删除部门岗位", description = "根据提供的部门岗位ID删除部门岗位")
     public R<Void> removeByIds(@RequestBody List<Long> ids) {
         sysDeptPostService.removeByIds(ids);
         return R.ok();
@@ -75,8 +79,9 @@ public class SysPostController {
      * @param form 部门岗位更新请求参数
      * @return 统一响应结果
      */
-    @Operation(summary = "根据ID更新部门岗位", description = "根据提供的部门岗位更新请求参数更新部门岗位")
+    @CheckMenu("sys:post:update")
     @PostMapping("/update")
+    @Operation(summary = "根据ID更新部门岗位", description = "根据提供的部门岗位更新请求参数更新部门岗位")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysPostBasicForm form) {
         sysDeptPostService.updateById(form);
         return R.ok();
@@ -88,8 +93,8 @@ public class SysPostController {
      * @param id 部门岗位ID
      * @return 部门岗位信息
      */
-    @Operation(summary = "根据ID查询部门岗位", description = "根据提供的部门岗位ID查询部门岗位信息")
     @GetMapping("/get/{id}")
+    @Operation(summary = "根据ID查询部门岗位", description = "根据提供的部门岗位ID查询部门岗位信息")
     public R<SysPostResponse> findById(@PathVariable @Parameter(description = "部门岗位ID", required = true) Long id) {
         return R.ok(sysDeptPostService.findById(id));
     }
@@ -100,11 +105,10 @@ public class SysPostController {
      * @param query 部门岗位查询请求参数
      * @return 部门岗位分页信息
      */
-    @Operation(summary = "分页查询部门岗位", description = "根据提供的查询请求参数分页查询部门岗位信息")
     @GetMapping("/page")
+    @Operation(summary = "分页查询部门岗位", description = "根据提供的查询请求参数分页查询部门岗位信息")
     public R<PageResponse<SysPostResponse>>findPageList(@Valid SysPostBasicQuery query) {
         return R.ok(sysDeptPostService.findPageList(query));
     }
-
 
 }

@@ -2,6 +2,7 @@ package com.xht.system.modules.dict.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.dict.domain.form.SysDictItemBasicForm;
 import com.xht.system.modules.dict.domain.query.SysDictItemBasicQuery;
@@ -35,8 +36,9 @@ public class SysDictItemController {
      * @param form 字典项创建参数
      * @return true成功、false失败
      */
-    @Operation(summary = "创建字典项")
+    @CheckMenu("sys:dict:item:create")
     @PostMapping("/create")
+    @Operation(summary = "创建字典项")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictItemBasicForm form) {
         sysDictItemService.create(form);
         return R.ok();
@@ -48,8 +50,9 @@ public class SysDictItemController {
      * @param ids 字典项ID
      * @return true成功、false失败
      */
-    @Operation(summary = "删除字典项")
+    @CheckMenu("sys:dict:item:remove")
     @PostMapping("/remove")
+    @Operation(summary = "删除字典项")
     public R<Void> removeById(@RequestBody List<Long> ids) {
         sysDictItemService.removeById(ids);
         return R.ok();
@@ -61,8 +64,9 @@ public class SysDictItemController {
      * @param form 字典项修改参数
      * @return true成功、false失败
      */
-    @Operation(summary = "修改字典项")
+    @CheckMenu("sys:dict:item:update")
     @PostMapping("/update")
+    @Operation(summary = "修改字典项")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictItemBasicForm form) {
         sysDictItemService.updateById(form);
         return R.ok();
@@ -74,8 +78,8 @@ public class SysDictItemController {
      * @param id 字典项ID
      * @return 字典项详情
      */
-    @Operation(summary = "获取字典项详情")
     @GetMapping("/get/{id}")
+    @Operation(summary = "获取字典项详情")
     public R<SysDictItemResponse> findById(@PathVariable Long id) {
         return R.ok(sysDictItemService.findById(id));
     }
@@ -86,8 +90,8 @@ public class SysDictItemController {
      * @param query 字典项查询参数
      * @return 分页字典项
      */
-    @Operation(summary = "分页查询字典项")
     @GetMapping("/page")
+    @Operation(summary = "分页查询字典项")
     public R<PageResponse<SysDictItemResponse>> page(SysDictItemBasicQuery query) {
         return R.ok(sysDictItemService.findPageList(query));
     }
@@ -98,8 +102,8 @@ public class SysDictItemController {
      * @param dictCode 字典编码
      * @return 字典项列表
      */
-    @Operation(summary = "根据字典编码查询")
     @GetMapping("/code/{dictCode}")
+    @Operation(summary = "根据字典编码查询")
     public R<SysDictVo> getByDictCode(@PathVariable String dictCode) {
         return R.ok(sysDictItemService.getByDictCode(dictCode));
     }
