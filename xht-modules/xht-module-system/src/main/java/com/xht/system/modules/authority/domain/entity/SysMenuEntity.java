@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @author xht
  */
 @Data
-@TableName(value = "sys_menu")
+@TableName(value = "sys_menu_copy1")
 public class SysMenuEntity extends BasicEntity implements Serializable {
 
     /**

@@ -120,6 +120,7 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
                 .eq(condition(query.getMenuStatus()), SysMenuEntity::getMenuStatus, query.getMenuStatus())
                 .like(condition(query.getMenuName()), SysMenuEntity::getMenuName, query.getMenuName());
         // @formatter:on
+        lambdaQueryWrapper.orderByAsc(SysMenuEntity::getMenuSort);
         return list(lambdaQueryWrapper);
     }
 
@@ -145,6 +146,7 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
                 .ne(!Objects.equals(MenuTypeEnums.ALL, menuType), SysMenuEntity::getMenuType, MenuTypeEnums.B)
                 .eq(SysMenuEntity::getMenuStatus, MenuStatusEnums.NORMAL);
         // @formatter:on
+        lambdaQueryWrapper.orderByAsc(SysMenuEntity::getMenuSort);
         return list(lambdaQueryWrapper);
     }
 

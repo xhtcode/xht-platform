@@ -81,6 +81,7 @@
         WHERE sys_menu.del_flag = #{delFlag}
           and sys_menu.menu_type != #{menuType}
           and sys_menu.menu_status = #{menuStatus}
+        order by sys_menu.menu_sort
     </select>
 
 
