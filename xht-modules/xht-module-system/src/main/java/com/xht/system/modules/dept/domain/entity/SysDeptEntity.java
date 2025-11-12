@@ -14,8 +14,8 @@ import java.io.Serializable;
  *
  * @author xht
  */
-@TableName(value = "sys_dept")
 @Data
+@TableName(value = "sys_dept")
 public class SysDeptEntity extends BasicEntity implements Serializable {
     /**
      * 部门id

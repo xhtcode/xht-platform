@@ -15,8 +15,8 @@ import java.io.Serializable;
  *
  * @author xht
  */
-@TableName(value = "sys_dict")
 @Data
+@TableName(value = "sys_dict")
 public class SysDictEntity extends BasicEntity implements Serializable {
 
     /**

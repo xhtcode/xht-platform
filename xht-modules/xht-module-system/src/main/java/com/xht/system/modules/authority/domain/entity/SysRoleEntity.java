@@ -15,8 +15,8 @@ import java.io.Serializable;
  *
  * @author xht
  */
-@TableName(value = "sys_role")
 @Data
+@TableName(value = "sys_role")
 public class SysRoleEntity extends BasicEntity implements Serializable {
     /**
      * 主键
