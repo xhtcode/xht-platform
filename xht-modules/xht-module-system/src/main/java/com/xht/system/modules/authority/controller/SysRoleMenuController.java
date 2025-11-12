@@ -2,7 +2,7 @@ package com.xht.system.modules.authority.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.oauth2.annotation.CheckMenu;
-import com.xht.system.modules.authority.domain.form.SysRoleMenuBindBasicForm;
+import com.xht.system.modules.authority.domain.form.SysRoleMenuBindForm;
 import com.xht.system.modules.authority.service.ISysRoleMenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,7 +36,7 @@ public class SysRoleMenuController {
     @CheckMenu("sys:role:menu:bind")
     @PostMapping("/bind")
     @Operation(summary = "角色绑定菜单", description = "角色绑定菜单")
-    public R<Void> roleMenuBind(@Valid @RequestBody SysRoleMenuBindBasicForm bindRequest) {
+    public R<Void> roleMenuBind(@Valid @RequestBody SysRoleMenuBindForm bindRequest) {
         sysRoleMenuService.roleMenuBind(bindRequest);
         return R.ok();
     }

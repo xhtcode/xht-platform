@@ -50,7 +50,7 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
      */
     @Override
     public OAuth2AuthenticatedPrincipal introspect(String token) {
-        log.info(">>>>>>资源服务器Opaque Token Introspector 验证令牌 {} <<<<<<", token);
+        log.debug(">>>>>>资源服务器Opaque Token Introspector 验证令牌 {} <<<<<<", token);
         String key = TOKEN_KEY_PREFIX + token;
         BasicUserDetails tokenInfo = tokenInfoLightningCache.getTokenInfo(key);
         if (Objects.nonNull(tokenInfo)) {

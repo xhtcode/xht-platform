@@ -7,7 +7,7 @@ import com.xht.generate.dao.GenTemplateDao;
 import com.xht.generate.dao.GenTemplateGroupDao;
 import com.xht.generate.domain.entity.GenTemplateEntity;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
-import com.xht.generate.domain.form.GenTemplateBasicForm;
+import com.xht.generate.domain.form.GenTemplateForm;
 import com.xht.generate.domain.response.GenTemplateResponse;
 import com.xht.generate.service.IGenTemplateService;
 import lombok.RequiredArgsConstructor;
@@ -39,11 +39,12 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      * @param form 模板表单请求参数
      */
     @Override
-    public void create(GenTemplateBasicForm form) {
+    public Long create(GenTemplateForm form) {
         Boolean exists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, form.getGroupId());
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "模板组不存在");
         GenTemplateEntity entity = genTemplateConverter.toEntity(form);
         genTemplateDao.saveTransactional(entity);
+        return entity.getId();
     }
 
 
@@ -63,7 +64,7 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      * @param form 模板更新请求参数
      */
     @Override
-    public void updateById(GenTemplateBasicForm form) {
+    public void updateById(GenTemplateForm form) {
         Boolean exists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, form.getGroupId());
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "模板组不存在");
         Boolean menuExists = genTemplateDao.exists(GenTemplateEntity::getId, form.getId());

@@ -2,7 +2,7 @@ package com.xht.system.modules.dict.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
-import com.xht.system.modules.dict.domain.form.SysDictItemBasicForm;
+import com.xht.system.modules.dict.domain.form.SysDictItemForm;
 import com.xht.system.modules.dict.domain.response.SysDictItemResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -14,6 +14,6 @@ import org.mapstruct.ReportingPolicy;
  * @author xht
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SysDictItemConverter extends BasicConverter<SysDictItemEntity, SysDictItemBasicForm, SysDictItemResponse> {
+public interface SysDictItemConverter extends BasicConverter<SysDictItemEntity, SysDictItemForm, SysDictItemResponse> {
 
 }

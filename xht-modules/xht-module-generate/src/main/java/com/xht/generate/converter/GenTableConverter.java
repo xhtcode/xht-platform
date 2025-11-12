@@ -3,7 +3,7 @@ package com.xht.generate.converter;
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.generate.domain.bo.TableBo;
 import com.xht.generate.domain.entity.GenTableEntity;
-import com.xht.generate.domain.form.GenTableInfoBasicForm;
+import com.xht.generate.domain.form.GenTableInfoForm;
 import com.xht.generate.domain.response.GenTableResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,7 +21,7 @@ import java.util.List;
  * @author xht
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface GenTableConverter extends BasicConverter<GenTableEntity, GenTableInfoBasicForm, GenTableResponse> {
+public interface GenTableConverter extends BasicConverter<GenTableEntity, GenTableInfoForm, GenTableResponse> {
 
     /**
      * 将表信息业务对象转换为表信息响应对象

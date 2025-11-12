@@ -63,12 +63,6 @@ public class SysUserDetailEntity extends BasicEntity implements Serializable {
     private String address;
 
     /**
-     * 邮政编码
-     */
-    @TableField(value = "postal_code")
-    private String postalCode;
-
-    /**
      * 紧急联系人
      */
     @TableField(value = "emergency_contact")

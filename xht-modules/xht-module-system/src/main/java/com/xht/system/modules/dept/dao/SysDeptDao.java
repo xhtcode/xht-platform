@@ -3,7 +3,7 @@ package com.xht.system.modules.dept.dao;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import com.xht.system.modules.dept.domain.entity.SysDeptEntity;
-import com.xht.system.modules.dept.domain.query.SysDeptTreeBasicQuery;
+import com.xht.system.modules.dept.domain.query.SysDeptTreeQuery;
 
 import java.util.List;
 
@@ -59,6 +59,6 @@ public interface SysDeptDao extends MapperRepository<SysDeptEntity> {
      * @param query 查询请求参数
      * @return 部门列表
      */
-    List<SysDeptEntity> queryListRequest(SysDeptTreeBasicQuery query);
+    List<SysDeptEntity> queryListRequest(SysDeptTreeQuery query);
 
 }

@@ -3,8 +3,8 @@ package com.xht.system.modules.authority.service;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
-import com.xht.system.modules.authority.domain.form.SysMenuBasicForm;
-import com.xht.system.modules.authority.domain.query.SysMenuBasicQuery;
+import com.xht.system.modules.authority.domain.form.SysMenuForm;
+import com.xht.system.modules.authority.domain.query.SysMenuQuery;
 import com.xht.system.modules.authority.domain.response.SysMenuResponse;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public interface ISysMenuService {
      *
      * @param form 菜单表单请求参数
      */
-    void create(SysMenuBasicForm form);
+    void create(SysMenuForm form);
 
     /**
      * 根据ID删除菜单
@@ -36,7 +36,7 @@ public interface ISysMenuService {
      *
      * @param form 菜单更新请求参数
      */
-    void updateById(SysMenuBasicForm form);
+    void updateById(SysMenuForm form);
 
     /**
      * 更新菜单状态
@@ -60,7 +60,7 @@ public interface ISysMenuService {
      * @param query 菜单查询请求参数
      * @return 菜单分页信息
      */
-    List<INode<Long>> findTree(SysMenuBasicQuery query);
+    List<INode<Long>> findTree(SysMenuQuery query);
 
     /**
      * 根据菜单类型查询菜单列表(树形结构)

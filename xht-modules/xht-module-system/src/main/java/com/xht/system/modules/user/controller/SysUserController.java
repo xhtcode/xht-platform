@@ -8,9 +8,9 @@ import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.oauth2.annotation.IsAdmin;
 import com.xht.framework.web.validation.Groups;
-import com.xht.system.modules.user.domain.form.SysUserBasicForm;
+import com.xht.system.modules.user.domain.form.SysUserForm;
 import com.xht.system.modules.user.domain.form.UpdatePwdFrom;
-import com.xht.system.modules.user.domain.query.SysUserBasicQuery;
+import com.xht.system.modules.user.domain.query.SysUserQuery;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import com.xht.system.modules.user.service.IUserService;
@@ -45,7 +45,7 @@ public class SysUserController {
     @CheckMenu("sys:user:create")
     @PostMapping("/create")
     @Operation(summary = "用户添加", description = "用户添加")
-    public R<Void> create(@Valid @RequestBody SysUserBasicForm userForm) {
+    public R<Void> create(@Valid @RequestBody SysUserForm userForm) {
         userService.create(userForm);
         return R.ok();
     }
@@ -73,7 +73,7 @@ public class SysUserController {
     @CheckMenu("sys:user:update")
     @PostMapping("/update")
     @Operation(summary = "更新用户信息", description = "根据ID更新用户信息")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysUserBasicForm userForm) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysUserForm userForm) {
         userService.update(userForm);
         return R.ok();
     }
@@ -141,7 +141,7 @@ public class SysUserController {
      */
     @GetMapping("/page")
     @Operation(summary = "分页获取用户列表", description = "分页获取用户列表")
-    public R<PageResponse<SysUserResponse>> findPageList(SysUserBasicQuery query) {
+    public R<PageResponse<SysUserResponse>> findPageList(SysUserQuery query) {
         return R.ok(userService.findPageList(query));
     }
 

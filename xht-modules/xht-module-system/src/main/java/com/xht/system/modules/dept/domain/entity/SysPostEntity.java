@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import com.xht.system.modules.dept.common.enums.DeptPostStatusEnums;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,12 @@ public class SysPostEntity extends BasicEntity implements Serializable {
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
+
+    /**
+     * 部门id
+     */
+    @TableField(value = "dept_id")
+    private Long deptId;
 
     /**
      * 岗位编码

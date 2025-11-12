@@ -56,27 +56,20 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
         Authentication principal;
         try {
             principal = getAuthenticatedPrincipal(requestUserBO);
-        } catch (CaptchaException e) {
-            OAuth2Error oAuth2Error = new OAuth2Error(e.getMessage());
-            throw new OAuth2AuthenticationException(oAuth2Error, e);
-        } catch (Exception e) {
-            OAuth2Error oAuth2Error = new OAuth2Error("用户名或密码错误", e.getMessage(), ERROR_URI);
-            throw new OAuth2AuthenticationException(oAuth2Error, e);
-        }
-        if (!principal.isAuthenticated()) {
-            throw new OAuth2AuthenticationException("用户名或密码错误");
-        }
-        OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(authenticationToken);
-        RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
-        if (Objects.isNull(registeredClient)) {
-            throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
-        }
-        if (!registeredClient.getAuthorizationGrantTypes().contains(authenticationToken.getGrantType())) {
-            throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
-        }
-        // 验证scope
-        Set<String> authorizedScopes = getAuthorizedScopes(registeredClient, authenticationToken.getScopes());
-        // @formatter:off
+            if (!principal.isAuthenticated()) {
+                throw new OAuth2AuthenticationException("用户名或密码错误");
+            }
+            OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(authenticationToken);
+            RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
+            if (Objects.isNull(registeredClient)) {
+                throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
+            }
+            if (!registeredClient.getAuthorizationGrantTypes().contains(authenticationToken.getGrantType())) {
+                throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
+            }
+            // 验证scope
+            Set<String> authorizedScopes = getAuthorizedScopes(registeredClient, authenticationToken.getScopes());
+            // @formatter:off
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .authorizedScopes(authorizedScopes)
                 .principalName(principal.getName())
@@ -91,22 +84,34 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
                 .authorizationGrantType(getGrantType())
                 .authorizationGrant(clientPrincipal);
         // @formatter:on
-        OAuth2AccessToken accessToken = generateAccessToken(tokenContextBuilder, authorizationBuilder);
-        OAuth2RefreshToken refreshToken = generateOAuth2RefreshToken(tokenContextBuilder, authorizationBuilder, tokenGenerator, clientPrincipal, registeredClient);
-        OidcIdToken oidcIdToken = null;
-        if (authorizedScopes.contains(OidcScopes.OPENID)) {
-            oidcIdToken = generateOidcIdToken(tokenContextBuilder, authorizationBuilder, tokenGenerator);
+            OAuth2AccessToken accessToken = generateAccessToken(tokenContextBuilder, authorizationBuilder);
+            OAuth2RefreshToken refreshToken = generateOAuth2RefreshToken(tokenContextBuilder, authorizationBuilder, tokenGenerator, clientPrincipal, registeredClient);
+            OidcIdToken oidcIdToken = null;
+            if (authorizedScopes.contains(OidcScopes.OPENID)) {
+                oidcIdToken = generateOidcIdToken(tokenContextBuilder, authorizationBuilder, tokenGenerator);
+            }
+            Map<String, Object> additionalParameters = new HashMap<>(1);
+            if (Objects.nonNull(oidcIdToken)) {
+                additionalParameters.put(OidcParameterNames.ID_TOKEN, oidcIdToken.getTokenValue());
+            }
+            // Save the OAuth2Authorization
+            authorizationBuilder.id(principal.getName());
+            OAuth2Authorization authorization = authorizationBuilder.build();
+            this.authorizationService.save(authorization);
+            return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken, additionalParameters);
+        } catch (CaptchaException e) {
+            OAuth2Error oAuth2Error = new OAuth2Error(e.getMessage());
+            throw new OAuth2AuthenticationException(oAuth2Error, e);
+        } catch (Exception e) {
+            OAuth2Error oAuth2Error = new OAuth2Error("用户名或密码错误", e.getMessage(), ERROR_URI);
+            throw new OAuth2AuthenticationException(oAuth2Error, e);
         }
-        Map<String, Object> additionalParameters = new HashMap<>(1);
-        if (Objects.nonNull(oidcIdToken)) {
-            additionalParameters.put(OidcParameterNames.ID_TOKEN, oidcIdToken.getTokenValue());
-        }
-        // Save the OAuth2Authorization
-        authorizationBuilder.id(principal.getName());
-        OAuth2Authorization authorization = authorizationBuilder.build();
-        this.authorizationService.save(authorization);
-        return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken, additionalParameters);
     }
+
+    protected final void saveSuccess() {
+
+    }
+
 
     /**
      * 获取已认证的客户端

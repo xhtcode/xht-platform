@@ -2,7 +2,7 @@ package com.xht.generate.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.generate.domain.entity.GenTemplateEntity;
-import com.xht.generate.domain.form.GenTemplateBasicForm;
+import com.xht.generate.domain.form.GenTemplateForm;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface GenTemplateDao extends MapperRepository<GenTemplateEntity> {
      *
      * @param form 模板信息
      */
-    void updateFormRequest(GenTemplateBasicForm form);
+    void updateFormRequest(GenTemplateForm form);
 
     /**
      * 根据分组查询模板信息

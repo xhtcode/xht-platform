@@ -1,6 +1,6 @@
 package com.xht.system.modules.authority.service;
 
-import com.xht.system.modules.authority.domain.form.SysRoleMenuBindBasicForm;
+import com.xht.system.modules.authority.domain.form.SysRoleMenuBindForm;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface ISysRoleMenuService {
      *
      * @param bindRequest 角色菜单绑定请求
      */
-    void roleMenuBind(SysRoleMenuBindBasicForm bindRequest);
+    void roleMenuBind(SysRoleMenuBindForm bindRequest);
 
     /**
      * 根据角色ID获取菜单ID

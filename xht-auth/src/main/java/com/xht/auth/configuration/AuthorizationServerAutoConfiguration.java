@@ -13,10 +13,7 @@ import com.xht.auth.security.oatuh2.server.authorization.phone.PhoneAuthenticati
 import com.xht.auth.security.oatuh2.server.authorization.token.OpaqueTokenClaimsCustomizer;
 import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2AccessTokenGenerator;
 import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2RefreshTokenGenerator;
-import com.xht.auth.security.web.authentication.TokenAuthenticationFailureHandler;
-import com.xht.auth.security.web.authentication.TokenAuthenticationSuccessHandler;
-import com.xht.auth.security.web.authentication.TokenRevocationAuthenticationFailureHandler;
-import com.xht.auth.security.web.authentication.TokenRevocationAuthenticationSuccessHandler;
+import com.xht.auth.security.web.authentication.*;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -73,6 +70,7 @@ public class AuthorizationServerAutoConfiguration {
         PhoneAuthenticationProvider phoneAuthenticationProvider = new PhoneAuthenticationProvider(authorizationService, tokenGenerator, basicUserDetailsService, iCaptchaService);
         PhoneAuthenticationConverter phoneAuthenticationConverter = new PhoneAuthenticationConverter();
         OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer.authorizationServer();
+        authorizationServerConfigurer.clientAuthentication(configurer-> configurer.errorResponseHandler(new OAuth2ClientAuthenticationFailureHandler()));
         http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .with(authorizationServerConfigurer, (authorizationServer) ->
                         authorizationServer

@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
-import com.xht.system.modules.authority.domain.form.SysRoleBasicForm;
-import com.xht.system.modules.authority.domain.query.SysRoleBasicQuery;
+import com.xht.system.modules.authority.domain.form.SysRoleForm;
+import com.xht.system.modules.authority.domain.query.SysRoleQuery;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public interface SysRoleDao extends MapperRepository<SysRoleEntity> {
      *
      * @param form 角色信息
      */
-    void updateFormRequest(SysRoleBasicForm form);
+    void updateFormRequest(SysRoleForm form);
     /**
      * 更新角色状态
      *
@@ -46,7 +46,7 @@ public interface SysRoleDao extends MapperRepository<SysRoleEntity> {
      * @param query 角色查询请求参数
      * @return 角色分页信息
      */
-    Page<SysRoleEntity> findPageList(Page<SysRoleEntity> page, SysRoleBasicQuery query);
+    Page<SysRoleEntity> findPageList(Page<SysRoleEntity> page, SysRoleQuery query);
 
     /**
      * 根据角色状态查询角色列表

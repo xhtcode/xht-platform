@@ -22,8 +22,8 @@ import com.xht.generate.domain.entity.GenDataSourceEntity;
 import com.xht.generate.domain.entity.GenTableColumnEntity;
 import com.xht.generate.domain.entity.GenTableEntity;
 import com.xht.generate.domain.form.*;
-import com.xht.generate.domain.query.DataBaseBasicQuery;
-import com.xht.generate.domain.query.GenTableInfoBasicQuery;
+import com.xht.generate.domain.query.DataBaseQuery;
+import com.xht.generate.domain.query.GenTableInfoQuery;
 import com.xht.generate.domain.response.GenTableColumnQueryResponse;
 import com.xht.generate.domain.response.GenTableColumnResponse;
 import com.xht.generate.domain.response.GenTableResponse;
@@ -78,7 +78,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void importTable(ImportTableBasicForm form) {
+    public void importTable(ImportTableForm form) {
         List<String> tableNames = form.getTableNames();
         Long dataSourceId = form.getDataSourceId();
         GenDataSourceEntity dataSourceEntity = genDataSourceDao.findById(dataSourceId);
@@ -180,13 +180,13 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateById(TableColumnForm form) {
-        GenTableInfoBasicForm tableInfo = form.getTableInfo();
-        List<GenColumnInfoBasicForm> columns = form.getColumnInfos();
-        List<GenTableColumnQueryBasicForm> queryColumns = form.getQueryColumns();
+        GenTableInfoForm tableInfo = form.getTableInfo();
+        List<GenColumnInfoForm> columns = form.getColumnInfos();
+        List<GenTableColumnQueryForm> queryColumns = form.getQueryColumns();
         ThrowUtils.notEmpty(columns, "字段信息不能为空");
         Boolean menuExists = genTableDao.exists(GenTableEntity::getId, tableInfo.getId());
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "表信息不存在");
-        for (GenColumnInfoBasicForm column : columns) {
+        for (GenColumnInfoForm column : columns) {
             genTableColumnDao.updateFormRequest(column);
         }
         genTableColumnQueryDao.deleteByTableId(tableInfo.getId());
@@ -222,7 +222,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
      * @return 分页结果封装对象，包含表信息列表和分页信息
      */
     @Override
-    public PageResponse<GenTableResponse> selectExistsPage(GenTableInfoBasicQuery query) {
+    public PageResponse<GenTableResponse> selectExistsPage(GenTableInfoQuery query) {
         Page<GenTableEntity> page = genTableDao.findPageList(PageTool.getPage(query), query);
         return genTableConverter.toResponse(page);
     }
@@ -234,7 +234,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
      * @return 分页结果封装对象，包含表信息列表和分页信息
      */
     @Override
-    public List<GenTableResponse> selectNoExistsList(DataBaseBasicQuery query) {
+    public List<GenTableResponse> selectNoExistsList(DataBaseQuery query) {
         String tableName = query.getTableName();
         Long dataSourceId = query.getDataSourceId();
         GenDataSourceEntity dataSourceEntity = genDataSourceDao.findById(dataSourceId);

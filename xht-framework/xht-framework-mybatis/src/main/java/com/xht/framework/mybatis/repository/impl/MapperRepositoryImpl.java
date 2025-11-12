@@ -98,7 +98,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      */
     @Override
     public final boolean removeById(Serializable id) {
-        return removeById(id);
+        return super.removeById(id);
     }
 
     /**

@@ -9,8 +9,6 @@
         <result property="userType" column="user_type"/>
         <result property="userName" column="user_name"/>
         <result property="nickName" column="nick_name"/>
-        <result property="passWord" column="pass_word"/>
-        <result property="passWordSalt" column="pass_word_salt"/>
         <result property="userStatus" column="user_status"/>
         <result property="userPhone" column="user_phone"/>
         <result property="userAvatar" column="user_avatar"/>
@@ -28,26 +26,9 @@
             <result property="birthDate" column="birth_date"/>
             <result property="age" column="age"/>
             <result property="address" column="address"/>
-            <result property="postalCode" column="postal_code"/>
             <result property="emergencyContact" column="emergency_contact"/>
             <result property="emergencyPhone" column="emergency_phone"/>
             <result property="nation" column="nation"/>
-        </association>
-        <association property="deptInfo" javaType="com.xht.system.modules.dept.domain.response.SysDeptResponse">
-            <result property="parentId" column="parent_id"/>
-            <result property="deptCode" column="dept_code"/>
-            <result property="deptName" column="dept_name"/>
-            <result property="deptLevel" column="dept_level"/>
-            <result property="deptStatus" column="dept_status"/>
-            <result property="deptSort" column="dept_sort"/>
-            <result property="ancestors" column="ancestors"/>
-            <result property="phone" column="phone"/>
-            <result property="email" column="email"/>
-            <result property="remark" column="remark"/>
-            <result property="createBy" column="create_by"/>
-            <result property="createTime" column="create_time"/>
-            <result property="updateBy" column="update_by"/>
-            <result property="updateTime" column="update_time"/>
         </association>
     </resultMap>
     <resultMap id="DtoResultMap" type="com.xht.api.system.user.dto.UserInfoDTO">
@@ -67,20 +48,15 @@
     <sql id="BaseQuerySQL">
         <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         SELECT
-        t1.id,t1.user_type,t1.user_name,t1.nick_name,t1.pass_word,t1.pass_word_salt,
-        t1.user_status,t1.user_phone,t1.user_avatar,t1.dept_id,t1.dept_name,
-        t1.create_by,t1.create_time,t1.update_by,t1.update_time,
-        t2.user_id,t2.real_name,t2.id_card,t2.gender,t2.birth_date,
-        t2.age,t2.address,t2.postal_code,t2.emergency_contact,t2.emergency_phone,
-        t2.nation,t2.create_by,t2.create_time,t2.update_by, t2.update_time,
-        t3.id, t3.parent_id, t3.dept_code, t3.dept_name, t3.dept_level,
-        t3.dept_status, t3.dept_sort,t3.ancestors,t3.phone,t3.email,t3.remark,
-        t3.create_by,t3.create_time,t3.update_by,t3.update_time
+            t1.id,t1.user_type,t1.user_name,t1.nick_name,t1.pass_word,t1.pass_word_salt,
+            t1.user_status,t1.user_phone,t1.user_avatar,t1.dept_id,t1.dept_name,
+            t1.create_by,t1.create_time,t1.update_by,t1.update_time,
+            t2.user_id,t2.real_name,t2.id_card,t2.gender,t2.birth_date,
+            t2.age,t2.address,t2.emergency_contact,t2.emergency_phone,
+            t2.nation,t2.create_by,t2.create_time,t2.update_by, t2.update_time
         FROM sys_user t1
         LEFT JOIN sys_user_detail t2 ON t2.user_id = t1.id
-        left join sys_dept t3 on t3.id = t1.dept_id
         WHERE t1.del_flag = #{delFlag}
-        and t3.del_flag = #{delFlag}
     </sql>
 
     <select id="findInfoByUserId" resultMap="BaseResultMap">

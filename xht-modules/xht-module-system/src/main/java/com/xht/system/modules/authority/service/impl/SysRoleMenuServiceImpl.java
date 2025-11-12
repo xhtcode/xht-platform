@@ -7,7 +7,7 @@ import com.xht.system.modules.authority.dao.SysRoleDao;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.authority.domain.entity.SysRoleMenuEntity;
-import com.xht.system.modules.authority.domain.form.SysRoleMenuBindBasicForm;
+import com.xht.system.modules.authority.domain.form.SysRoleMenuBindForm;
 import com.xht.system.modules.authority.service.ISysRoleMenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
      * @param bindRequest 角色菜单绑定请求
      */
     @Override
-    public void roleMenuBind(SysRoleMenuBindBasicForm bindRequest) {
+    public void roleMenuBind(SysRoleMenuBindForm bindRequest) {
         Long roleId = bindRequest.getRoleId();
         Boolean roleExists = sysRoleDao.exists(SysRoleEntity::getId, roleId);
         ThrowUtils.throwIf(!roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");

@@ -1,7 +1,13 @@
 package com.xht.system.modules.user.domain.vo;
+import java.time.LocalDate;
+import com.alibaba.nacos.shaded.com.google.common.collect.Lists;
+import com.alibaba.nacos.shaded.io.grpc.internal.JsonUtil;
+import com.xht.framework.core.enums.UserTypeEnums;
+import com.xht.framework.core.enums.UserStatusEnums;
+import java.time.LocalDateTime;
 
 import com.xht.framework.core.domain.vo.IVO;
-import com.xht.system.modules.dept.domain.response.SysDeptResponse;
+import com.xht.framework.core.jackson.JsonUtils;
 import com.xht.system.modules.dept.domain.response.SysPostResponse;
 import com.xht.system.modules.user.domain.response.SysUserDetailResponse;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
@@ -24,12 +30,6 @@ public class SysUserVO extends SysUserResponse implements IVO {
      */
     @Schema(description = "用户详细信息")
     private SysUserDetailResponse profile;
-
-    /**
-     * 用户所在的部门信息
-     */
-    @Schema(description = "用户所在的部门信息")
-    private SysDeptResponse deptInfo;
 
     /**
      * 用户所在的岗位信息

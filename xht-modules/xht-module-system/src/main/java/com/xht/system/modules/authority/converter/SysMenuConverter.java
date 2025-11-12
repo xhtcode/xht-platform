@@ -2,7 +2,7 @@ package com.xht.system.modules.authority.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
-import com.xht.system.modules.authority.domain.form.SysMenuBasicForm;
+import com.xht.system.modules.authority.domain.form.SysMenuForm;
 import com.xht.system.modules.authority.domain.response.SysMenuResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -18,7 +18,7 @@ import java.util.Map;
  * @author xht
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SysMenuConverter extends BasicConverter<SysMenuEntity, SysMenuBasicForm, SysMenuResponse> {
+public interface SysMenuConverter extends BasicConverter<SysMenuEntity, SysMenuForm, SysMenuResponse> {
 
     /**
      * 转换为Map

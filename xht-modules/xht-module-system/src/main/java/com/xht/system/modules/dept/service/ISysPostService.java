@@ -1,8 +1,8 @@
 package com.xht.system.modules.dept.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.system.modules.dept.domain.form.SysPostBasicForm;
-import com.xht.system.modules.dept.domain.query.SysPostBasicQuery;
+import com.xht.system.modules.dept.domain.form.SysPostForm;
+import com.xht.system.modules.dept.domain.query.SysPostQuery;
 import com.xht.system.modules.dept.domain.response.SysPostResponse;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public interface ISysPostService {
      *
      * @param form 部门岗位表单请求参数
      */
-    void create(SysPostBasicForm form);
+    void create(SysPostForm form);
 
     /**
      * 根据ID删除部门岗位
@@ -40,7 +40,7 @@ public interface ISysPostService {
      *
      * @param form 部门岗位更新请求参数
      */
-    void updateById(SysPostBasicForm form);
+    void updateById(SysPostForm form);
 
     /**
      * 根据ID查询部门岗位
@@ -56,6 +56,6 @@ public interface ISysPostService {
      * @param query 部门岗位查询请求参数
      * @return 部门岗位分页信息
      */
-    PageResponse<SysPostResponse>findPageList(SysPostBasicQuery query);
+    PageResponse<SysPostResponse>findPageList(SysPostQuery query);
 
 }

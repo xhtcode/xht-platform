@@ -8,8 +8,8 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.generate.dao.GenTypeMappingDao;
 import com.xht.generate.dao.mapper.GenTypeMappingMapper;
 import com.xht.generate.domain.entity.GenTypeMappingEntity;
-import com.xht.generate.domain.form.GenTypeMappingBasicForm;
-import com.xht.generate.domain.query.GenTypeMappingBasicQuery;
+import com.xht.generate.domain.form.GenTypeMappingForm;
+import com.xht.generate.domain.query.GenTypeMappingQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +30,7 @@ public class GenTypeMappingDaoImpl extends MapperRepositoryImpl<GenTypeMappingMa
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFormRequest(GenTypeMappingBasicForm form) {
+    public void updateFormRequest(GenTypeMappingForm form) {
         LambdaUpdateWrapper<GenTypeMappingEntity> updateWrapper = lambdaUpdateWrapper();
         updateWrapper.set(condition(form.getDbType()), GenTypeMappingEntity::getDbType, form.getDbType());
         updateWrapper.set(condition(form.getDbDataType()), GenTypeMappingEntity::getDbDataType, form.getDbDataType());
@@ -49,7 +49,7 @@ public class GenTypeMappingDaoImpl extends MapperRepositoryImpl<GenTypeMappingMa
      * @return 菜单分页信息
      */
     @Override
-    public Page<GenTypeMappingEntity> findPageList(Page<GenTypeMappingEntity> page, GenTypeMappingBasicQuery query) {
+    public Page<GenTypeMappingEntity> findPageList(Page<GenTypeMappingEntity> page, GenTypeMappingQuery query) {
         LambdaQueryWrapper<GenTypeMappingEntity> queryWrapper = lambdaQueryWrapper();
         queryWrapper.eq(condition(query.getDbType()), GenTypeMappingEntity::getDbType, query.getDbType());
         queryWrapper.eq(condition(query.getTargetLanguage()), GenTypeMappingEntity::getTargetLanguage, query.getTargetLanguage());

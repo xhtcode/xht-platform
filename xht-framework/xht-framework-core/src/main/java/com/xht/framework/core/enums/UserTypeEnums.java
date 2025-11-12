@@ -26,7 +26,7 @@ public enum UserTypeEnums implements IEnum<Integer> {
     /**
      * 普通用户
      */
-    USER(3, "商家用户"),
+    USER(3, "普通用户"),
 
     ;
     @JsonValue

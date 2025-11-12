@@ -1,8 +1,8 @@
 package com.xht.system.modules.dict.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.system.modules.dict.domain.form.SysDictBasicForm;
-import com.xht.system.modules.dict.domain.query.SysDictBasicQuery;
+import com.xht.system.modules.dict.domain.form.SysDictForm;
+import com.xht.system.modules.dict.domain.query.SysDictQuery;
 import com.xht.system.modules.dict.domain.response.SysDictResponse;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public interface ISysDictService {
      *
      * @param form 创建请求
      */
-    void create(SysDictBasicForm form);
+    void create(SysDictForm form);
 
     /**
      * 删除字典类型
@@ -33,7 +33,7 @@ public interface ISysDictService {
      *
      * @param form 更新请求
      */
-    void updateById(SysDictBasicForm form);
+    void updateById(SysDictForm form);
 
     /**
      * 获取字典类型详情
@@ -49,7 +49,7 @@ public interface ISysDictService {
      * @param query 系统字典查询参数
      * @return 分页结果
      */
-    PageResponse<SysDictResponse>findPageList(SysDictBasicQuery query);
+    PageResponse<SysDictResponse>findPageList(SysDictQuery query);
 
 
 }

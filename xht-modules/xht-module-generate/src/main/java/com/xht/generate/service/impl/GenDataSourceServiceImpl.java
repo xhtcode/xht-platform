@@ -5,8 +5,8 @@ import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.generate.converter.GenDataSourceConverter;
 import com.xht.generate.dao.GenDataSourceDao;
 import com.xht.generate.domain.entity.GenDataSourceEntity;
-import com.xht.generate.domain.form.GenDataSourceBasicForm;
-import com.xht.generate.domain.query.GenDataSourceBasicQuery;
+import com.xht.generate.domain.form.GenDataSourceForm;
+import com.xht.generate.domain.query.GenDataSourceQuery;
 import com.xht.generate.domain.response.GenDataSourceResponse;
 import com.xht.generate.service.IGenDataSourceService;
 import com.xht.generate.utils.JDBCConfig;
@@ -41,7 +41,7 @@ public class GenDataSourceServiceImpl implements IGenDataSourceService {
      * @param form 数据源表单请求参数
      */
     @Override
-    public void create(GenDataSourceBasicForm form) {
+    public void create(GenDataSourceForm form) {
         GenDataSourceEntity entity = genDataSourceConverter.toEntity(form);
         genDataSourceDao.saveTransactional(entity);
     }
@@ -63,7 +63,7 @@ public class GenDataSourceServiceImpl implements IGenDataSourceService {
      * @param form 数据源更新请求参数
      */
     @Override
-    public void updateById(GenDataSourceBasicForm form) {
+    public void updateById(GenDataSourceForm form) {
         Boolean menuExists = genDataSourceDao.exists(GenDataSourceEntity::getId, form.getId());
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "数据源不存在");
         genDataSourceDao.updateFormRequest(form);
@@ -87,7 +87,7 @@ public class GenDataSourceServiceImpl implements IGenDataSourceService {
      * @return 数据源分页信息
      */
     @Override
-    public List<GenDataSourceResponse> findList(GenDataSourceBasicQuery query) {
+    public List<GenDataSourceResponse> findList(GenDataSourceQuery query) {
         List<GenDataSourceEntity> page = genDataSourceDao.findList(query);
         return genDataSourceConverter.toResponse(page);
     }

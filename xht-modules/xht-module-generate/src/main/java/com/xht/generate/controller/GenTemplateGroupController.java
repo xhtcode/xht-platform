@@ -3,8 +3,8 @@ package com.xht.generate.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
-import com.xht.generate.domain.form.GenTemplateGroupBasicForm;
-import com.xht.generate.domain.query.GenTemplateGroupBasicQuery;
+import com.xht.generate.domain.form.GenTemplateGroupForm;
+import com.xht.generate.domain.query.GenTemplateGroupQuery;
 import com.xht.generate.domain.response.GenTemplateGroupResponse;
 import com.xht.generate.service.IGenTemplateGroupService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,7 +41,7 @@ public class GenTemplateGroupController {
      */
     @Operation(summary = "创建项目", description = "根据提供的请求参数创建一个新的项目")
     @PostMapping("/create")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTemplateGroupBasicForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTemplateGroupForm form) {
         // 调用服务层创建项目
         genTemplateGroupService.create(form);
         return R.ok();
@@ -69,7 +69,7 @@ public class GenTemplateGroupController {
      */
     @Operation(summary = "根据ID更新项目", description = "根据提供的项目更新请求参数更新项目")
     @PostMapping("/update")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTemplateGroupBasicForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTemplateGroupForm form) {
         genTemplateGroupService.updateById(form);
         return R.ok();
     }
@@ -96,7 +96,7 @@ public class GenTemplateGroupController {
      */
     @Operation(summary = "分页查询", description = "根据提供的查询请求参数分页查询代码生成模板组信息")
     @GetMapping("/page")
-    public R<PageResponse<GenTemplateGroupResponse>>findPageList(GenTemplateGroupBasicQuery query) {
+    public R<PageResponse<GenTemplateGroupResponse>>findPageList(GenTemplateGroupQuery query) {
         return R.ok(genTemplateGroupService.findPageList(query));
     }
 

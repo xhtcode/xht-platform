@@ -3,10 +3,10 @@ package com.xht.generate.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.web.validation.Groups;
-import com.xht.generate.domain.form.ImportTableBasicForm;
+import com.xht.generate.domain.form.ImportTableForm;
 import com.xht.generate.domain.form.TableColumnForm;
-import com.xht.generate.domain.query.DataBaseBasicQuery;
-import com.xht.generate.domain.query.GenTableInfoBasicQuery;
+import com.xht.generate.domain.query.DataBaseQuery;
+import com.xht.generate.domain.query.GenTableInfoQuery;
 import com.xht.generate.domain.response.GenTableResponse;
 import com.xht.generate.domain.vo.TableColumnVo;
 import com.xht.generate.service.IGenTableService;
@@ -42,7 +42,7 @@ public class GenTableController {
      */
     @Operation(summary = "创建表信息")
     @PostMapping("/import")
-    public R<Void> importTable(@Validated @RequestBody ImportTableBasicForm form) {
+    public R<Void> importTable(@Validated @RequestBody ImportTableForm form) {
         genTableInfoService.importTable(form);
         return R.ok();
     }
@@ -106,7 +106,7 @@ public class GenTableController {
      */
     @Operation(summary = "分页查询表信息")
     @GetMapping("/exists/page")
-    public R<PageResponse<GenTableResponse>> selectExistsPage(GenTableInfoBasicQuery query) {
+    public R<PageResponse<GenTableResponse>> selectExistsPage(GenTableInfoQuery query) {
         return R.ok(genTableInfoService.selectExistsPage(query));
     }
 
@@ -118,7 +118,7 @@ public class GenTableController {
      */
     @Operation(summary = "分页查询表信息")
     @GetMapping("/no/exists/page")
-    public R<List<GenTableResponse>> selectNoExistsList(DataBaseBasicQuery query) {
+    public R<List<GenTableResponse>> selectNoExistsList(DataBaseQuery query) {
         return R.ok(genTableInfoService.selectNoExistsList(query));
     }
 

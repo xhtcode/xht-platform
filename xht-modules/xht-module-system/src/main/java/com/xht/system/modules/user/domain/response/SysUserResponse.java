@@ -40,18 +40,6 @@ public class SysUserResponse extends MetaResponse {
     private String nickName;
 
     /**
-     * 用户密码
-     */
-    @Schema(description = "用户密码")
-    private String passWord;
-
-    /**
-     * 密码盐值
-     */
-    @Schema(description = "密码盐值")
-    private String passWordSalt;
-
-    /**
      * 账号状态
      */
     @Schema(description = "账号状态")

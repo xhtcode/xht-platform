@@ -4,8 +4,8 @@ import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.web.validation.Groups;
-import com.xht.system.modules.dict.domain.form.SysDictItemBasicForm;
-import com.xht.system.modules.dict.domain.query.SysDictItemBasicQuery;
+import com.xht.system.modules.dict.domain.form.SysDictItemForm;
+import com.xht.system.modules.dict.domain.query.SysDictItemQuery;
 import com.xht.system.modules.dict.domain.response.SysDictItemResponse;
 import com.xht.system.modules.dict.domain.vo.SysDictVo;
 import com.xht.system.modules.dict.service.ISysDictItemService;
@@ -39,7 +39,7 @@ public class SysDictItemController {
     @CheckMenu("sys:dict:item:create")
     @PostMapping("/create")
     @Operation(summary = "创建字典项")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictItemBasicForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictItemForm form) {
         sysDictItemService.create(form);
         return R.ok();
     }
@@ -67,7 +67,7 @@ public class SysDictItemController {
     @CheckMenu("sys:dict:item:update")
     @PostMapping("/update")
     @Operation(summary = "修改字典项")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictItemBasicForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictItemForm form) {
         sysDictItemService.updateById(form);
         return R.ok();
     }
@@ -92,7 +92,7 @@ public class SysDictItemController {
      */
     @GetMapping("/page")
     @Operation(summary = "分页查询字典项")
-    public R<PageResponse<SysDictItemResponse>> page(SysDictItemBasicQuery query) {
+    public R<PageResponse<SysDictItemResponse>> page(SysDictItemQuery query) {
         return R.ok(sysDictItemService.findPageList(query));
     }
 

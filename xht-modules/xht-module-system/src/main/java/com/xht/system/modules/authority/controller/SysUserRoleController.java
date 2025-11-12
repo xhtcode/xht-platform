@@ -2,7 +2,7 @@ package com.xht.system.modules.authority.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.oauth2.annotation.CheckMenu;
-import com.xht.system.modules.authority.domain.form.UserBindRoleBasicForm;
+import com.xht.system.modules.authority.domain.form.UserBindRoleForm;
 import com.xht.system.modules.authority.service.IUserRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,7 +36,7 @@ public class SysUserRoleController {
     @CheckMenu("sys:user:role:bind")
     @PostMapping("/bind")
     @Operation(description = "绑定角色", summary = "绑定角色")
-    public R<Void> userBindRole(@Valid @RequestBody UserBindRoleBasicForm bindRequest) {
+    public R<Void> userBindRole(@Valid @RequestBody UserBindRoleForm bindRequest) {
         userRoleService.userBindRole(bindRequest.getUserId(), bindRequest.getRoleIds());
         return R.ok();
     }

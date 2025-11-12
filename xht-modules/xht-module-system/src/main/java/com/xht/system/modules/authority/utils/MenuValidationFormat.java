@@ -5,7 +5,7 @@ import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.system.modules.authority.common.enums.*;
-import com.xht.system.modules.authority.domain.form.SysMenuBasicForm;
+import com.xht.system.modules.authority.domain.form.SysMenuForm;
 
 import java.util.Objects;
 
@@ -51,7 +51,7 @@ public final class MenuValidationFormat {
      * @param form 菜单表单请求参数
      * @throws ValidationException 校验异常
      */
-    public static void validationFormat(SysMenuBasicForm form) {
+    public static void validationFormat(SysMenuForm form) {
         ThrowUtils.notNull(form, "请求参数不能为空");
         Long parentId = form.getParentId();
         MenuTypeEnums menuType = form.getMenuType();

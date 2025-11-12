@@ -5,8 +5,8 @@ import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
-import com.xht.system.modules.authority.domain.form.SysRoleBasicForm;
-import com.xht.system.modules.authority.domain.query.SysRoleBasicQuery;
+import com.xht.system.modules.authority.domain.form.SysRoleForm;
+import com.xht.system.modules.authority.domain.query.SysRoleQuery;
 import com.xht.system.modules.authority.domain.response.SysRoleResponse;
 import com.xht.system.modules.authority.service.ISysRoleService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,7 +43,7 @@ public class SysRoleController {
     @CheckMenu("sys:role:create")
     @PostMapping("/create")
     @Operation(summary = "创建角色", description = "根据提供的请求参数创建一个新的角色")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysRoleBasicForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysRoleForm form) {
         sysRoleService.create(form);
         return R.ok();
     }
@@ -88,7 +88,7 @@ public class SysRoleController {
     @CheckMenu("sys:role:update")
     @PostMapping("/update")
     @Operation(summary = "根据ID更新角色", description = "根据提供的角色更新请求参数更新角色")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysRoleBasicForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysRoleForm form) {
         sysRoleService.updateById(form);
         return R.ok();
     }
@@ -130,7 +130,7 @@ public class SysRoleController {
      */
     @GetMapping("/page")
     @Operation(summary = "分页查询角色", description = "根据提供的查询请求参数分页查询角色信息")
-    public R<PageResponse<SysRoleResponse>>findPageList(SysRoleBasicQuery query) {
+    public R<PageResponse<SysRoleResponse>>findPageList(SysRoleQuery query) {
         return R.ok(sysRoleService.findPageList(query));
     }
 

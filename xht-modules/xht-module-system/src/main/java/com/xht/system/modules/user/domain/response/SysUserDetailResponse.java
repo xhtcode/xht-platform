@@ -58,12 +58,6 @@ public final class SysUserDetailResponse extends BasicResponse {
     private String address;
 
     /**
-     * 邮政编码
-     */
-    @Schema(description = "邮政编码")
-    private String postalCode;
-
-    /**
      * 紧急联系人
      */
     @Schema(description = "紧急联系人")

@@ -9,8 +9,8 @@ import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
 import com.xht.system.modules.authority.converter.SysRoleConverter;
 import com.xht.system.modules.authority.dao.SysRoleDao;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
-import com.xht.system.modules.authority.domain.form.SysRoleBasicForm;
-import com.xht.system.modules.authority.domain.query.SysRoleBasicQuery;
+import com.xht.system.modules.authority.domain.form.SysRoleForm;
+import com.xht.system.modules.authority.domain.query.SysRoleQuery;
 import com.xht.system.modules.authority.domain.response.SysRoleResponse;
 import com.xht.system.modules.authority.service.ISysRoleService;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @param form 角色表单请求参数
      */
     @Override
-    public void create(SysRoleBasicForm form) {
+    public void create(SysRoleForm form) {
         Boolean exists = sysRoleDao.existsRoleCode(null, form.getRoleCode());
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
         SysRoleEntity entity = sysRoleConverter.toEntity(form);
@@ -78,7 +78,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @param form 角色更新请求参数
      */
     @Override
-    public void updateById(SysRoleBasicForm form) {
+    public void updateById(SysRoleForm form) {
         Boolean exists = sysRoleDao.existsRoleCode(form.getId(), form.getRoleCode());
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
         Boolean roleExists = sysRoleDao.exists(SysRoleEntity::getId, form.getId());
@@ -118,7 +118,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @return 角色分页信息
      */
     @Override
-    public PageResponse<SysRoleResponse>findPageList(SysRoleBasicQuery query) {
+    public PageResponse<SysRoleResponse>findPageList(SysRoleQuery query) {
         Page<SysRoleEntity> page = sysRoleDao.findPageList(PageTool.getPage(query), query);
         return sysRoleConverter.toResponse(page);
     }

@@ -1,8 +1,8 @@
 package com.xht.generate.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.generate.domain.form.GenTemplateGroupBasicForm;
-import com.xht.generate.domain.query.GenTemplateGroupBasicQuery;
+import com.xht.generate.domain.form.GenTemplateGroupForm;
+import com.xht.generate.domain.query.GenTemplateGroupQuery;
 import com.xht.generate.domain.response.GenTemplateGroupResponse;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public interface IGenTemplateGroupService {
      *
      * @param form 项目表单请求参数
      */
-    void create(GenTemplateGroupBasicForm form);
+    void create(GenTemplateGroupForm form);
 
     /**
      * 根据ID删除项目
@@ -34,7 +34,7 @@ public interface IGenTemplateGroupService {
      *
      * @param form 项目更新请求参数
      */
-    void updateById(GenTemplateGroupBasicForm form);
+    void updateById(GenTemplateGroupForm form);
 
     /**
      * 根据ID查询项目
@@ -57,5 +57,5 @@ public interface IGenTemplateGroupService {
      * @param query 查询参数
      * @return 代码生成模板组列表响应结果
      */
-    PageResponse<GenTemplateGroupResponse>findPageList(GenTemplateGroupBasicQuery query);
+    PageResponse<GenTemplateGroupResponse>findPageList(GenTemplateGroupQuery query);
 }

@@ -6,13 +6,14 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.api.system.user.dto.UserInfoDTO;
-import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.enums.UserStatusEnums;
+import com.xht.framework.core.enums.UserTypeEnums;
+import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.system.modules.user.dao.SysUserDao;
 import com.xht.system.modules.user.dao.mapper.SysUserMapper;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.query.SysUserBasicQuery;
+import com.xht.system.modules.user.domain.query.SysUserQuery;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -65,8 +66,27 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @return 分页查询结果
      */
     @Override
-    public Page<SysUserEntity> findPageList(Page<SysUserEntity> page, SysUserBasicQuery query) {
+    public Page<SysUserEntity> findPageList(Page<SysUserEntity> page, SysUserQuery query) {
+        UserTypeEnums userType = query.getUserType();
+        String userName = query.getUserName();
+        String nickName = query.getNickName();
+        UserStatusEnums userStatus = query.getUserStatus();
+        String userPhone = query.getUserPhone();
         LambdaQueryWrapper<SysUserEntity> queryWrapper = lambdaQueryWrapper();
+        queryWrapper.and(
+                condition(query.getKeyWord()), wrapper -> wrapper.or()
+                        .like(SysUserEntity::getUserName, query.getKeyWord())
+                        .or()
+                        .like(SysUserEntity::getNickName, query.getKeyWord())
+                        .or()
+                        .like(SysUserEntity::getUserPhone, query.getKeyWord())
+        );
+        queryWrapper.like(condition(userName), SysUserEntity::getUserName, userName);
+        queryWrapper.like(condition(nickName), SysUserEntity::getNickName, nickName);
+        queryWrapper.eq(condition(userType), SysUserEntity::getUserType, userType);
+        queryWrapper.eq(condition(userStatus), SysUserEntity::getUserStatus, userStatus);
+        queryWrapper.like(condition(userPhone), SysUserEntity::getUserPhone, userPhone);
+        queryWrapper.eq(condition(query.getDeptId()), SysUserEntity::getDeptId, query.getDeptId());
         return page(page, queryWrapper);
     }
 

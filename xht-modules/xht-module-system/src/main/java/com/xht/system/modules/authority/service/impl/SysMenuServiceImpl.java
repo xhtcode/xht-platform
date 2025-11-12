@@ -10,8 +10,8 @@ import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
 import com.xht.system.modules.authority.converter.SysMenuConverter;
 import com.xht.system.modules.authority.dao.SysMenuDao;
 import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
-import com.xht.system.modules.authority.domain.form.SysMenuBasicForm;
-import com.xht.system.modules.authority.domain.query.SysMenuBasicQuery;
+import com.xht.system.modules.authority.domain.form.SysMenuForm;
+import com.xht.system.modules.authority.domain.query.SysMenuQuery;
 import com.xht.system.modules.authority.domain.response.SysMenuResponse;
 import com.xht.system.modules.authority.service.ISysMenuService;
 import com.xht.system.modules.authority.utils.MenuValidationFormat;
@@ -45,7 +45,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param form 菜单表单请求参数
      */
     @Override
-    public void create(SysMenuBasicForm form) {
+    public void create(SysMenuForm form) {
         MenuValidationFormat.validationFormat(form);
         checkExitsParentMenu(form);
         SysMenuEntity entity = sysMenuConverter.toEntity(form);
@@ -57,7 +57,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      *
      * @param form 菜单表单请求参数
      */
-    private void checkExitsParentMenu(SysMenuBasicForm form) {
+    private void checkExitsParentMenu(SysMenuForm form) {
         if (Objects.equals(DEFAULT_PARENT_ID, form.getParentId())) {
             MenuValidationFormat.checkParentType(MenuTypeEnums.M, form.getMenuType());
         } else {
@@ -85,7 +85,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param form 菜单更新请求参数
      */
     @Override
-    public void updateById(SysMenuBasicForm form) {
+    public void updateById(SysMenuForm form) {
         MenuValidationFormat.validationFormat(form);
         checkExitsParentMenu(form);
         Boolean menuExists = sysMenuDao.exists(SysMenuEntity::getId, form.getId());
@@ -124,7 +124,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return 菜单分页信息
      */
     @Override
-    public List<INode<Long>> findTree(SysMenuBasicQuery query) {
+    public List<INode<Long>> findTree(SysMenuQuery query) {
         List<SysMenuEntity> list = sysMenuDao.getMenuList(query);
         List<INode<Long>> treeNodeList = new ArrayList<>();
         for (SysMenuEntity entity : list) {

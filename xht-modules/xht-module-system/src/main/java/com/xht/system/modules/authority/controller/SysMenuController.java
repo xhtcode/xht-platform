@@ -6,8 +6,8 @@ import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
-import com.xht.system.modules.authority.domain.form.SysMenuBasicForm;
-import com.xht.system.modules.authority.domain.query.SysMenuBasicQuery;
+import com.xht.system.modules.authority.domain.form.SysMenuForm;
+import com.xht.system.modules.authority.domain.query.SysMenuQuery;
 import com.xht.system.modules.authority.domain.response.SysMenuResponse;
 import com.xht.system.modules.authority.service.ISysMenuService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,7 +43,7 @@ public class SysMenuController {
     @CheckMenu("sys:menu:create")
     @PostMapping("/create")
     @Operation(summary = "创建菜单", description = "根据提供的请求参数创建一个新的菜单")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysMenuBasicForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysMenuForm form) {
         sysMenuService.create(form);
         return R.ok();
     }
@@ -71,7 +71,7 @@ public class SysMenuController {
     @CheckMenu("sys:menu:update")
     @PostMapping("/update")
     @Operation(summary = "根据ID更新菜单", description = "根据提供的菜单更新请求参数更新菜单")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysMenuBasicForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysMenuForm form) {
         sysMenuService.updateById(form);
         return R.ok();
     }
@@ -112,7 +112,7 @@ public class SysMenuController {
      */
     @GetMapping("/tree")
     @Operation(summary = "查询菜单列表(树形结构)", description = "根据提供的查询请求参数查询菜单列表(树形结构)信息")
-    public R<List<INode<Long>>> findTree(SysMenuBasicQuery query) {
+    public R<List<INode<Long>>> findTree(SysMenuQuery query) {
         return R.ok(sysMenuService.findTree(query));
     }
 

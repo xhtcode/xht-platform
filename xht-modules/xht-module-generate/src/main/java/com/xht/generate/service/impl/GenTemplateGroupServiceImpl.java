@@ -10,8 +10,8 @@ import com.xht.generate.dao.GenTemplateDao;
 import com.xht.generate.dao.GenTemplateGroupDao;
 import com.xht.generate.domain.entity.GenTemplateEntity;
 import com.xht.generate.domain.entity.GenTemplateGroupEntity;
-import com.xht.generate.domain.form.GenTemplateGroupBasicForm;
-import com.xht.generate.domain.query.GenTemplateGroupBasicQuery;
+import com.xht.generate.domain.form.GenTemplateGroupForm;
+import com.xht.generate.domain.query.GenTemplateGroupQuery;
 import com.xht.generate.domain.response.GenTemplateGroupResponse;
 import com.xht.generate.service.IGenTemplateGroupService;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      * @param form 项目表单请求参数
      */
     @Override
-    public void create(GenTemplateGroupBasicForm form) {
+    public void create(GenTemplateGroupForm form) {
         GenTemplateGroupEntity entity = genTemplateGroupConverter.toEntity(form);
         entity.setTemplateCount(0);
         genTemplateGroupDao.saveTransactional(entity);
@@ -68,7 +68,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      * @param form 项目更新请求参数
      */
     @Override
-    public void updateById(GenTemplateGroupBasicForm form) {
+    public void updateById(GenTemplateGroupForm form) {
         Boolean menuExists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, form.getId());
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "项目不存在");
         genTemplateGroupDao.updateFormRequest(form);
@@ -103,7 +103,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      * @return 代码生成模板组列表响应结果
      */
     @Override
-    public PageResponse<GenTemplateGroupResponse>findPageList(GenTemplateGroupBasicQuery query) {
+    public PageResponse<GenTemplateGroupResponse>findPageList(GenTemplateGroupQuery query) {
         Page<GenTemplateGroupEntity> page = genTemplateGroupDao.findPageList(PageTool.getPage(query), query);
         return genTemplateGroupConverter.toResponse(page);
     }

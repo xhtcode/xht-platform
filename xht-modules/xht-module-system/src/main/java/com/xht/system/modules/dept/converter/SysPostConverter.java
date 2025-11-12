@@ -2,7 +2,7 @@ package com.xht.system.modules.dept.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.system.modules.dept.domain.entity.SysPostEntity;
-import com.xht.system.modules.dept.domain.form.SysPostBasicForm;
+import com.xht.system.modules.dept.domain.form.SysPostForm;
 import com.xht.system.modules.dept.domain.response.SysPostResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -14,7 +14,7 @@ import org.mapstruct.ReportingPolicy;
  * @author xht
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SysPostConverter extends BasicConverter<SysPostEntity, SysPostBasicForm, SysPostResponse> {
+public interface SysPostConverter extends BasicConverter<SysPostEntity, SysPostForm, SysPostResponse> {
 
     /**
      * 将创建请求对象转换为实体对象。
@@ -23,6 +23,6 @@ public interface SysPostConverter extends BasicConverter<SysPostEntity, SysPostB
      * @return 转换后的实体对象
      */
     @Override
-    SysPostEntity toEntity(SysPostBasicForm form);
+    SysPostEntity toEntity(SysPostForm form);
 
 }

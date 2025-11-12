@@ -4,8 +4,8 @@ import com.xht.api.system.user.dto.UserInfoDTO;
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.system.modules.user.domain.entity.SysUserDetailEntity;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.form.SysUserBasicForm;
-import com.xht.system.modules.user.domain.form.SysUserDetailBasicForm;
+import com.xht.system.modules.user.domain.form.SysUserForm;
+import com.xht.system.modules.user.domain.form.SysUserDetailForm;
 import com.xht.system.modules.user.domain.response.SysUserDetailResponse;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
@@ -20,7 +20,7 @@ import org.mapstruct.ReportingPolicy;
  **/
 @SuppressWarnings("unused")
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SysUserConverter extends BasicConverter<SysUserEntity, SysUserBasicForm, SysUserResponse> {
+public interface SysUserConverter extends BasicConverter<SysUserEntity, SysUserForm, SysUserResponse> {
 
     /**
      * 将SysUserEntity对象转换为SysUserVO对象。
@@ -56,5 +56,5 @@ public interface SysUserConverter extends BasicConverter<SysUserEntity, SysUserB
      * @param profileForm 用户配置文件表单对象，包含用户配置文件的信息
      * @return SysUserDetailEntity 用户配置文件实体对象，用于数据存储
      */
-    SysUserDetailEntity toEntity(SysUserDetailBasicForm profileForm);
+    SysUserDetailEntity toEntity(SysUserDetailForm profileForm);
 }

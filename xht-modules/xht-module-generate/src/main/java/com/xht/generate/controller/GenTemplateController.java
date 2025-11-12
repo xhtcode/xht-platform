@@ -2,7 +2,7 @@ package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.web.validation.Groups;
-import com.xht.generate.domain.form.GenTemplateBasicForm;
+import com.xht.generate.domain.form.GenTemplateForm;
 import com.xht.generate.domain.response.GenTemplateResponse;
 import com.xht.generate.service.IGenTemplateService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,9 +37,8 @@ public class GenTemplateController {
      */
     @Operation(summary = "创建模板", description = "根据提供的请求参数创建一个新的模板")
     @PostMapping("/create")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTemplateBasicForm form) {
-        genTemplateService.create(form);
-        return R.ok();
+    public R<Long> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTemplateForm form) {
+        return R.ok(genTemplateService.create(form));
     }
 
     /**
@@ -63,7 +62,7 @@ public class GenTemplateController {
      */
     @Operation(summary = "根据ID更新模板", description = "根据提供的模板更新请求参数更新模板")
     @PostMapping("/update")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTemplateBasicForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTemplateForm form) {
         genTemplateService.updateById(form);
         return R.ok();
     }

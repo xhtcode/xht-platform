@@ -11,8 +11,8 @@ import com.xht.system.modules.dict.dao.SysDictDao;
 import com.xht.system.modules.dict.dao.SysDictItemDao;
 import com.xht.system.modules.dict.domain.entity.SysDictEntity;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
-import com.xht.system.modules.dict.domain.form.SysDictBasicForm;
-import com.xht.system.modules.dict.domain.query.SysDictBasicQuery;
+import com.xht.system.modules.dict.domain.form.SysDictForm;
+import com.xht.system.modules.dict.domain.query.SysDictQuery;
 import com.xht.system.modules.dict.domain.response.SysDictResponse;
 import com.xht.system.modules.dict.service.ISysDictService;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +45,7 @@ public class SysDictServiceImpl implements ISysDictService {
      * @param form 创建请求
      */
     @Override
-    public void create(SysDictBasicForm form) {
+    public void create(SysDictForm form) {
         Boolean checkDictCode = sysDictDao.checkDictCode(null, form.getDictCode());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
         SysDictEntity entity = sysDictConverter.toEntity(form);
@@ -72,7 +72,7 @@ public class SysDictServiceImpl implements ISysDictService {
      * @param form 更新请求
      */
     @Override
-    public void updateById(SysDictBasicForm form) {
+    public void updateById(SysDictForm form) {
         Long id = form.getId();
         ThrowUtils.notNull(id);
         // 检查系统字典管理器中是否存在指定ID的字典项
@@ -105,7 +105,7 @@ public class SysDictServiceImpl implements ISysDictService {
      * @return 分页结果
      */
     @Override
-    public PageResponse<SysDictResponse>findPageList(SysDictBasicQuery query) {
+    public PageResponse<SysDictResponse>findPageList(SysDictQuery query) {
         Page<SysDictEntity> page = sysDictDao.findPageList(PageTool.getPage(query), query);
         return sysDictConverter.toResponse(page);
     }

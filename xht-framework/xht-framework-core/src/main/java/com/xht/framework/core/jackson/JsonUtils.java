@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.xht.framework.core.exception.UtilException;
 import com.xht.framework.core.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +39,6 @@ public final class JsonUtils {
         // 忽略未知属性，防止json字符串中存在，java对象中不存在对应属性的情况出现错误
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.registerModule(new Jdk8Module());
-        objectMapper.registerModule(new JavaTimeModule());
         objectMapper.registerModules(new CustomJacksonModule());
     }
 

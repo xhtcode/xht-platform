@@ -9,8 +9,8 @@ import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
 import com.xht.system.modules.authority.dao.SysMenuDao;
 import com.xht.system.modules.authority.dao.mapper.SysMenuMapper;
 import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
-import com.xht.system.modules.authority.domain.form.SysMenuBasicForm;
-import com.xht.system.modules.authority.domain.query.SysMenuBasicQuery;
+import com.xht.system.modules.authority.domain.form.SysMenuForm;
+import com.xht.system.modules.authority.domain.query.SysMenuQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +34,7 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFormRequest(SysMenuBasicForm form) {
+    public void updateFormRequest(SysMenuForm form) {
         LambdaUpdateWrapper<SysMenuEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
@@ -106,7 +106,7 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
      * @return LambdaQueryWrapper<SysMenuEntity>
      */
     @Override
-    public List<SysMenuEntity> getMenuList(SysMenuBasicQuery query) {
+    public List<SysMenuEntity> getMenuList(SysMenuQuery query) {
         // @formatter:off
         LambdaQueryWrapper<SysMenuEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.and(condition(query.getKeyWord()), wrapper ->

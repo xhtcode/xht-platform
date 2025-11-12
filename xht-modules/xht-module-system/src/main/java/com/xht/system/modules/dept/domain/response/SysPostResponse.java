@@ -1,6 +1,5 @@
 package com.xht.system.modules.dept.domain.response;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.xht.framework.core.domain.response.MetaResponse;
 import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.system.modules.dept.common.enums.DeptPostStatusEnums;
@@ -19,8 +18,14 @@ public class SysPostResponse extends MetaResponse {
     /**
      * 岗位ID
      */
-    @TableId(value = "岗位ID")
+    @Schema(description = "岗位ID")
     private Long id;
+
+    /**
+     * 部门id
+     */
+    @Schema(description = "部门id")
+    private Long deptId;
 
     /**
      * 岗位编码

@@ -5,8 +5,8 @@ import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
-import com.xht.system.modules.dept.domain.form.SysDeptBasicForm;
-import com.xht.system.modules.dept.domain.query.SysDeptTreeBasicQuery;
+import com.xht.system.modules.dept.domain.form.SysDeptForm;
+import com.xht.system.modules.dept.domain.query.SysDeptTreeQuery;
 import com.xht.system.modules.dept.domain.response.SysDeptResponse;
 import com.xht.system.modules.dept.service.ISysDeptService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,7 +40,7 @@ public class SysDeptController {
     @CheckMenu("sys:dept:create")
     @PostMapping("/create")
     @Operation(summary = "创建部门")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDeptBasicForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDeptForm form) {
         sysDeptService.create(form);
         return R.ok();
     }
@@ -69,7 +69,7 @@ public class SysDeptController {
     @CheckMenu("sys:dept:update")
     @PostMapping("/update")
     @Operation(summary = "更新部门")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDeptBasicForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDeptForm form) {
         sysDeptService.updateById(form);
         return R.ok();
     }
@@ -109,7 +109,7 @@ public class SysDeptController {
      */
     @GetMapping("/tree")
     @Operation(summary = "获取部门树形结构")
-    public R<List<INode<Long>>> getDeptTree(SysDeptTreeBasicQuery treeRequest) {
+    public R<List<INode<Long>>> getDeptTree(SysDeptTreeQuery treeRequest) {
         return R.ok(sysDeptService.getDeptTree(treeRequest));
     }
 

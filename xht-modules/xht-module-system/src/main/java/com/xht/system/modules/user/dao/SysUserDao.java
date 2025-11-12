@@ -6,7 +6,7 @@ import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.query.SysUserBasicQuery;
+import com.xht.system.modules.user.domain.query.SysUserQuery;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 
 
@@ -38,7 +38,7 @@ public interface SysUserDao extends MapperRepository<SysUserEntity> {
      * @param query 查询请求参数
      * @return 分页查询结果
      */
-    Page<SysUserEntity> findPageList(Page<SysUserEntity> page, SysUserBasicQuery query);
+    Page<SysUserEntity> findPageList(Page<SysUserEntity> page, SysUserQuery query);
 
     /**
      * 根据用户ID查询用户信息

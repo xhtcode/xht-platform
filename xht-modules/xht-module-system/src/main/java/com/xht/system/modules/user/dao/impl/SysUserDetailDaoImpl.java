@@ -66,7 +66,6 @@ public class SysUserDetailDaoImpl extends MapperRepositoryImpl<SysUserDetailMapp
                 .set(condition(sysUserDetailEntity.getBirthDate()), SysUserDetailEntity::getBirthDate, sysUserDetailEntity.getBirthDate())
                 .set(condition(sysUserDetailEntity.getAge()), SysUserDetailEntity::getAge, sysUserDetailEntity.getAge())
                 .set(condition(sysUserDetailEntity.getAddress()), SysUserDetailEntity::getAddress, sysUserDetailEntity.getAddress())
-                .set(condition(sysUserDetailEntity.getPostalCode()), SysUserDetailEntity::getPostalCode, sysUserDetailEntity.getPostalCode())
                 .set(condition(sysUserDetailEntity.getEmergencyContact()), SysUserDetailEntity::getEmergencyContact, sysUserDetailEntity.getEmergencyContact())
                 .set(condition(sysUserDetailEntity.getEmergencyPhone()), SysUserDetailEntity::getEmergencyPhone, sysUserDetailEntity.getEmergencyPhone())
                 .set(condition(sysUserDetailEntity.getNation()), SysUserDetailEntity::getNation, sysUserDetailEntity.getNation())

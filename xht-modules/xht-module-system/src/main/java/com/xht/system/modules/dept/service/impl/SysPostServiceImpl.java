@@ -9,8 +9,8 @@ import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.modules.dept.converter.SysPostConverter;
 import com.xht.system.modules.dept.dao.SysPostDao;
 import com.xht.system.modules.dept.domain.entity.SysPostEntity;
-import com.xht.system.modules.dept.domain.form.SysPostBasicForm;
-import com.xht.system.modules.dept.domain.query.SysPostBasicQuery;
+import com.xht.system.modules.dept.domain.form.SysPostForm;
+import com.xht.system.modules.dept.domain.query.SysPostQuery;
 import com.xht.system.modules.dept.domain.response.SysPostResponse;
 import com.xht.system.modules.dept.service.ISysPostService;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class SysPostServiceImpl implements ISysPostService {
      * @param form 部门岗位表单请求参数
      */
     @Override
-    public void create(SysPostBasicForm form) {
+    public void create(SysPostForm form) {
         Boolean postCodeExists = sysPostDao.existsPostCode(form.getPostCode(), null);
         ThrowUtils.throwIf(postCodeExists, BusinessErrorCode.DATA_NOT_EXIST, "岗位编码已存在");
         SysPostEntity sysPostEntity = sysPostConverter.toEntity(form);
@@ -82,7 +82,7 @@ public class SysPostServiceImpl implements ISysPostService {
      * @param form 部门岗位更新请求参数
      */
     @Override
-    public void updateById(SysPostBasicForm form) {
+    public void updateById(SysPostForm form) {
         Boolean systemFlag = sysPostDao.validateSystemFlag(form.getId(), SystemFlagEnums.YES);
         ThrowUtils.throwIf(systemFlag, BusinessErrorCode.DATA_TYPE_ERROR, "系统内置岗位禁止修改");
         Boolean postCodeExists = sysPostDao.existsPostCode(form.getPostCode(), form.getId());
@@ -109,8 +109,8 @@ public class SysPostServiceImpl implements ISysPostService {
      * @return 部门岗位分页信息
      */
     @Override
-    public PageResponse<SysPostResponse>findPageList(SysPostBasicQuery query) {
-        if (Objects.isNull(query)) {
+    public PageResponse<SysPostResponse>findPageList(SysPostQuery query) {
+        if (Objects.isNull(query) || Objects.isNull(query.getDeptId())) {
             return PageTool.empty();
         }
         Page<SysPostEntity> page = sysPostDao.findPageList(PageTool.getPage(query), query);

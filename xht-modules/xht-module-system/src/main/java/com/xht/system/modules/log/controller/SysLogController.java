@@ -2,7 +2,7 @@ package com.xht.system.modules.log.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.system.modules.log.domian.request.SysLogBasicQuery;
+import com.xht.system.modules.log.domian.request.SysLogQuery;
 import com.xht.system.modules.log.domian.response.SysLogResponse;
 import com.xht.system.modules.log.service.ISysLogService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,7 +48,7 @@ public class SysLogController {
      */
     @GetMapping("/page")
     @Operation(summary = "分页查询系统日志岗位", description = "根据提供的查询请求参数分页查询系统日志岗位信息")
-    public R<PageResponse<SysLogResponse>>findPageList(@Valid SysLogBasicQuery query) {
+    public R<PageResponse<SysLogResponse>>findPageList(@Valid SysLogQuery query) {
         return R.ok(sysLogService.findPageList(query));
     }
 

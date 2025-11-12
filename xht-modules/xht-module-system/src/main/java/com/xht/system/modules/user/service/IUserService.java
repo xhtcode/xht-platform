@@ -7,9 +7,9 @@ import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
-import com.xht.system.modules.user.domain.form.SysUserBasicForm;
+import com.xht.system.modules.user.domain.form.SysUserForm;
 import com.xht.system.modules.user.domain.form.UpdatePwdFrom;
-import com.xht.system.modules.user.domain.query.SysUserBasicQuery;
+import com.xht.system.modules.user.domain.query.SysUserQuery;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 
@@ -27,7 +27,7 @@ public interface IUserService {
      *
      * @param form 用户创建请求对象
      */
-    void create(SysUserBasicForm form);
+    void create(SysUserForm form);
 
     /**
      * 注册手机用户
@@ -50,7 +50,7 @@ public interface IUserService {
      *
      * @param userForm 用户更新请求对象
      */
-    void update(SysUserBasicForm userForm);
+    void update(SysUserForm userForm);
 
     /**
      * 重置密码
@@ -88,7 +88,7 @@ public interface IUserService {
      * @param query 用户查询请求对象
      * @return 用户对象分页结果
      */
-    PageResponse<SysUserResponse> findPageList(SysUserBasicQuery query);
+    PageResponse<SysUserResponse> findPageList(SysUserQuery query);
 
     /**
      * 获取当前登录的用户信息

@@ -1,6 +1,6 @@
 package com.xht.generate.service;
 
-import com.xht.generate.domain.form.GenTemplateBasicForm;
+import com.xht.generate.domain.form.GenTemplateForm;
 import com.xht.generate.domain.response.GenTemplateResponse;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public interface IGenTemplateService {
      *
      * @param form 模板表单请求参数
      */
-    void create(GenTemplateBasicForm form);
+    Long create(GenTemplateForm form);
 
     /**
      * 根据ID删除模板
@@ -31,7 +31,7 @@ public interface IGenTemplateService {
      *
      * @param form 模板更新请求参数
      */
-    void updateById(GenTemplateBasicForm form);
+    void updateById(GenTemplateForm form);
 
     /**
      * 根据ID查询模板

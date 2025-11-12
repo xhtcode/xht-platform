@@ -11,8 +11,8 @@ import com.xht.system.modules.dict.dao.SysDictDao;
 import com.xht.system.modules.dict.dao.SysDictItemDao;
 import com.xht.system.modules.dict.domain.entity.SysDictEntity;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
-import com.xht.system.modules.dict.domain.form.SysDictItemBasicForm;
-import com.xht.system.modules.dict.domain.query.SysDictItemBasicQuery;
+import com.xht.system.modules.dict.domain.form.SysDictItemForm;
+import com.xht.system.modules.dict.domain.query.SysDictItemQuery;
 import com.xht.system.modules.dict.domain.response.SysDictItemResponse;
 import com.xht.system.modules.dict.domain.vo.SysDictVo;
 import com.xht.system.modules.dict.service.ISysDictItemService;
@@ -47,7 +47,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      * @return 创建的系统字典项实体
      */
     @Override
-    public Boolean create(SysDictItemBasicForm form) {
+    public Boolean create(SysDictItemForm form) {
         Boolean checkDictCode = sysDictItemDao.checkDictValue(null, form.getDictId(), form.getItemValue());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项值已存在");
         SysDictItemEntity entity = sysDictItemConverter.toEntity(form);
@@ -73,7 +73,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      * @return 更新是否成功
      */
     @Override
-    public boolean updateById(SysDictItemBasicForm form) {
+    public boolean updateById(SysDictItemForm form) {
         Long id = form.getId();
         ThrowUtils.notNull(id);
         // 校验数据是否存在
@@ -103,7 +103,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      * @return 分页响应结果，包含系统字典项响应信息
      */
     @Override
-    public PageResponse<SysDictItemResponse>findPageList(SysDictItemBasicQuery query) {
+    public PageResponse<SysDictItemResponse>findPageList(SysDictItemQuery query) {
         if (Objects.isNull(query.getDictId())) {
             return PageTool.empty();
         }

@@ -2,8 +2,8 @@ package com.xht.generate.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.generate.domain.entity.GenDataSourceEntity;
-import com.xht.generate.domain.form.GenDataSourceBasicForm;
-import com.xht.generate.domain.query.GenDataSourceBasicQuery;
+import com.xht.generate.domain.form.GenDataSourceForm;
+import com.xht.generate.domain.query.GenDataSourceQuery;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface GenDataSourceDao extends MapperRepository<GenDataSourceEntity> 
      *
      * @param form 数据源信息
      */
-    void updateFormRequest(GenDataSourceBasicForm form);
+    void updateFormRequest(GenDataSourceForm form);
 
     /**
      * 分页查询数据源
@@ -28,7 +28,7 @@ public interface GenDataSourceDao extends MapperRepository<GenDataSourceEntity> 
      * @param query 数据源查询请求参数
      * @return 数据源分页信息
      */
-    List<GenDataSourceEntity> findList(GenDataSourceBasicQuery query);
+    List<GenDataSourceEntity> findList(GenDataSourceQuery query);
 
 
 }

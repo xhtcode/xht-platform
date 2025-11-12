@@ -2,14 +2,13 @@ package com.xht.system.modules.user;
 
 import cn.hutool.core.util.IdUtil;
 import com.xht.framework.core.enums.GenderEnums;
-import com.xht.framework.core.enums.UserStatusEnums;
-import com.xht.framework.core.enums.UserTypeEnums;
 import com.xht.framework.core.utils.IdCardUtils;
+import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.system.modules.user.converter.SysUserDetailConverter;
 import com.xht.system.modules.user.domain.entity.SysUserDetailEntity;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.form.SysUserBasicForm;
-import com.xht.system.modules.user.domain.form.SysUserDetailBasicForm;
+import com.xht.system.modules.user.domain.form.SysUserForm;
+import com.xht.system.modules.user.domain.form.SysUserDetailForm;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * 用户帮助类
@@ -41,15 +41,17 @@ public final class SysUserHelper implements ApplicationContextAware {
      * @param form 表单对象，用于接收前端传入的用户数据
      * @return 转换后的系统用户实体对象，如果转换失败则返回null
      */
-    public static SysUserEntity formatUser(SysUserBasicForm form) {
+    public static SysUserEntity formatUser(SysUserForm form) {
         SysUserEntity entity = new SysUserEntity();
         entity.setId(IdUtil.getSnowflakeNextId());
-        entity.setUserType(UserTypeEnums.BUSINESS);
-        entity.setUserName("虚假账号");
+        if (SecurityUtils.isAdmin()) {
+            entity.setUserName(form.getUserName());
+            entity.setUserType(form.getUserType());
+            entity.setUserStatus(form.getUserStatus());
+        }
         entity.setNickName(form.getNickName());
         entity.setPassWord(passwordEncoder.encode("123456"));
         entity.setPassWordSalt(passwordEncoder.encode("123456"));
-        entity.setUserStatus(UserStatusEnums.NORMAL);
         entity.setUserPhone(form.getUserPhone());
         entity.setUserAvatar("/images/user/avatar.png");
         entity.setDeptId(form.getDeptId());
@@ -66,7 +68,7 @@ public final class SysUserHelper implements ApplicationContextAware {
      * @param userId 用户ID
      * @return 格式化后的用户实体对象
      */
-    public static SysUserDetailEntity formatUser(SysUserDetailBasicForm detail, String idCard, Long userId) {
+    public static SysUserDetailEntity formatUser(SysUserDetailForm detail, String idCard, Long userId) {
         SysUserDetailEntity detailEntity = sysUserDetailConverter.toEntity(detail);
         LocalDate now = LocalDate.now();
         // 从身份证中提取性别和出生日期信息
@@ -74,9 +76,9 @@ public final class SysUserHelper implements ApplicationContextAware {
         LocalDate birthDate = IdCardUtils.getBirthday(idCard).orElse(now);
         // 设置用户基本信息
         detailEntity.setUserId(userId);
-        detailEntity.setGender(gender);
-        detailEntity.setBirthDate(birthDate);
-        detailEntity.setAge(now.getYear() - birthDate.getYear());
+        detailEntity.setGender(Objects.requireNonNullElse(detail.getGender(), gender));
+        detailEntity.setBirthDate(Objects.requireNonNullElse(detail.getBirthDate(), birthDate));
+        detailEntity.setAge(Objects.requireNonNullElse(detail.getAge(), now.getYear() - birthDate.getYear()));
         return detailEntity;
     }
 

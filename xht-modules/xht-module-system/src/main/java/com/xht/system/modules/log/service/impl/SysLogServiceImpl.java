@@ -7,7 +7,7 @@ import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.system.modules.log.converter.SysLogConverter;
 import com.xht.system.modules.log.dao.SysLogDao;
 import com.xht.system.modules.log.domian.entity.SysLogEntity;
-import com.xht.system.modules.log.domian.request.SysLogBasicQuery;
+import com.xht.system.modules.log.domian.request.SysLogQuery;
 import com.xht.system.modules.log.domian.response.SysLogResponse;
 import com.xht.system.modules.log.service.ISysLogService;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +60,7 @@ public class SysLogServiceImpl implements ISysLogService {
      * @return 系统日志岗位分页信息
      */
     @Override
-    public PageResponse<SysLogResponse>findPageList(SysLogBasicQuery query) {
+    public PageResponse<SysLogResponse>findPageList(SysLogQuery query) {
         if (Objects.isNull(query)) {
             return PageTool.empty();
         }

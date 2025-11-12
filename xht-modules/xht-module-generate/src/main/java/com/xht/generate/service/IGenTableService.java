@@ -1,10 +1,10 @@
 package com.xht.generate.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.generate.domain.form.ImportTableBasicForm;
+import com.xht.generate.domain.form.ImportTableForm;
 import com.xht.generate.domain.form.TableColumnForm;
-import com.xht.generate.domain.query.DataBaseBasicQuery;
-import com.xht.generate.domain.query.GenTableInfoBasicQuery;
+import com.xht.generate.domain.query.DataBaseQuery;
+import com.xht.generate.domain.query.GenTableInfoQuery;
 import com.xht.generate.domain.response.GenTableResponse;
 import com.xht.generate.domain.vo.TableColumnVo;
 
@@ -22,7 +22,7 @@ public interface IGenTableService {
      *
      * @param form 表信息表单请求参数
      */
-    void importTable(ImportTableBasicForm form);
+    void importTable(ImportTableForm form);
 
     /**
      * 同步表信息
@@ -60,7 +60,7 @@ public interface IGenTableService {
      * @param query 查询条件封装对象，包含分页参数和查询条件
      * @return 分页结果封装对象，包含表信息列表和分页信息
      */
-    PageResponse<GenTableResponse> selectExistsPage(GenTableInfoBasicQuery query);
+    PageResponse<GenTableResponse> selectExistsPage(GenTableInfoQuery query);
 
     /**
      * 分页查询不存在的表信息
@@ -68,6 +68,6 @@ public interface IGenTableService {
      * @param query 数据库查询条件封装对象，包含分页参数和数据库连接信息
      * @return 分页结果封装对象，包含表信息列表和分页信息
      */
-    List<GenTableResponse> selectNoExistsList(DataBaseBasicQuery query);
+    List<GenTableResponse> selectNoExistsList(DataBaseQuery query);
 
 }

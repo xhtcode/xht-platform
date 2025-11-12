@@ -4,8 +4,8 @@ import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.web.validation.Groups;
-import com.xht.system.modules.dept.domain.form.SysPostBasicForm;
-import com.xht.system.modules.dept.domain.query.SysPostBasicQuery;
+import com.xht.system.modules.dept.domain.form.SysPostForm;
+import com.xht.system.modules.dept.domain.query.SysPostQuery;
 import com.xht.system.modules.dept.domain.response.SysPostResponse;
 import com.xht.system.modules.dept.service.ISysPostService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,7 +40,7 @@ public class SysPostController {
     @CheckMenu("sys:post:create")
     @PostMapping("/create")
     @Operation(summary = "创建部门岗位", description = "根据提供的请求参数创建一个新的部门岗位")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysPostBasicForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysPostForm form) {
         sysDeptPostService.create(form);
         return R.ok();
     }
@@ -82,7 +82,7 @@ public class SysPostController {
     @CheckMenu("sys:post:update")
     @PostMapping("/update")
     @Operation(summary = "根据ID更新部门岗位", description = "根据提供的部门岗位更新请求参数更新部门岗位")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysPostBasicForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysPostForm form) {
         sysDeptPostService.updateById(form);
         return R.ok();
     }
@@ -107,7 +107,7 @@ public class SysPostController {
      */
     @GetMapping("/page")
     @Operation(summary = "分页查询部门岗位", description = "根据提供的查询请求参数分页查询部门岗位信息")
-    public R<PageResponse<SysPostResponse>>findPageList(@Valid SysPostBasicQuery query) {
+    public R<PageResponse<SysPostResponse>>findPageList(@Valid SysPostQuery query) {
         return R.ok(sysDeptPostService.findPageList(query));
     }
 

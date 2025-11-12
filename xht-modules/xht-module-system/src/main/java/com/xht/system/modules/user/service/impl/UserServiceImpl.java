@@ -41,10 +41,11 @@ import com.xht.system.modules.user.dao.SysUserDetailDao;
 import com.xht.system.modules.user.dao.SysUserPostDao;
 import com.xht.system.modules.user.domain.entity.SysUserDetailEntity;
 import com.xht.system.modules.user.domain.entity.SysUserEntity;
-import com.xht.system.modules.user.domain.form.SysUserBasicForm;
-import com.xht.system.modules.user.domain.form.SysUserDetailBasicForm;
+import com.xht.system.modules.user.domain.form.SysUserDetailForm;
+import com.xht.system.modules.user.domain.form.SysUserForm;
 import com.xht.system.modules.user.domain.form.UpdatePwdFrom;
-import com.xht.system.modules.user.domain.query.SysUserBasicQuery;
+import com.xht.system.modules.user.domain.query.SysUserQuery;
+import com.xht.system.modules.user.domain.response.SysUserDetailResponse;
 import com.xht.system.modules.user.domain.response.SysUserResponse;
 import com.xht.system.modules.user.domain.vo.SysUserVO;
 import com.xht.system.modules.user.service.IUserService;
@@ -93,8 +94,8 @@ public class UserServiceImpl implements IUserService {
      * @param userForm 用户创建请求对象
      */
     @Override
-    public void create(SysUserBasicForm userForm) {
-        SysUserDetailBasicForm detail = userForm.getDetail();
+    public void create(SysUserForm userForm) {
+        SysUserDetailForm detail = userForm.getProfile();
         String idCard = detail.getIdCard();
         String userPhone = userForm.getUserPhone();
         // 校验当前用户信息是否已经注册过
@@ -119,7 +120,7 @@ public class UserServiceImpl implements IUserService {
         String key = Keys.createKey(SecurityConstant.USER_REGISTER_PHONE_KEY_PREFIX, phone);
         Long expire = redisService.getExpire(key);
         if (expire < 0) {
-            throw new BusinessException("改手机号无法注册用户，请联系系统客服!");
+            throw new BusinessException("改手机号无法注册用户，请稍后重试!");
         }
         boolean userPhoneExists = sysUserDao.checkUserPhoneExists(phone, null);
         ThrowUtils.throwIf(userPhoneExists, BusinessErrorCode.DATA_EXIST, "该手机号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
@@ -172,9 +173,9 @@ public class UserServiceImpl implements IUserService {
      * @param userForm 用户更新请求对象
      */
     @Override
-    public void update(SysUserBasicForm userForm) {
+    public void update(SysUserForm userForm) {
         Long userId = userForm.getId();
-        SysUserDetailBasicForm detail = userForm.getDetail();
+        SysUserDetailForm detail = userForm.getProfile();
         String idCard = detail.getIdCard();
         String userPhone = userForm.getUserPhone();
         Boolean userExists = sysUserDao.exists(SysUserEntity::getId, userId);
@@ -251,10 +252,13 @@ public class UserServiceImpl implements IUserService {
         ThrowUtils.notNull(userId, "用户ID不能为空");
         SysUserVO sysUserVO = sysUserDao.findInfoByUserId(userId);
         ThrowUtils.notNull(sysUserVO, "查询不到用户信息!");
+        if (Objects.isNull(sysUserVO.getProfile())) {
+            SysUserDetailResponse sysUserDetailResponse = new SysUserDetailResponse();
+            sysUserDetailResponse.setUserId(sysUserVO.getId());
+            sysUserVO.setProfile(sysUserDetailResponse);
+        }
         List<SysPostResponse> deptPostVo = sysUserPostDao.getPostByUserId(userId);
         sysUserVO.setPostInfos(deptPostVo);
-        sysUserVO.setPassWord(null);
-        sysUserVO.setPassWordSalt(null);
         return sysUserVO;
     }
 
@@ -265,7 +269,7 @@ public class UserServiceImpl implements IUserService {
      * @return 用户对象分页结果
      */
     @Override
-    public PageResponse<SysUserResponse> findPageList(SysUserBasicQuery query) {
+    public PageResponse<SysUserResponse> findPageList(SysUserQuery query) {
         Page<SysUserEntity> sysUserEntityPage = sysUserDao.findPageList(PageTool.getPage(query), query);
         return sysUserConverter.toResponse(sysUserEntityPage);
     }

@@ -14,7 +14,7 @@ public class CaptchaException extends AuthenticationException {
      * Constructs an {@code AuthenticationException} with the specified message and no
      * root cause.
      *
-     * @param msg the detail message
+     * @param msg the profile message
      */
     public CaptchaException(String msg) {
         super(msg);
