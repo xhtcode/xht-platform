@@ -13,7 +13,3 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SysRoleMapper extends BaseMapperX<SysRoleEntity> {
 
 }
-
-
-
-

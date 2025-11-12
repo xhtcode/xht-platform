@@ -28,4 +28,5 @@ public interface GenTemplateDao extends MapperRepository<GenTemplateEntity> {
      * @return 模板信息
      */
     List<GenTemplateEntity> findByGroupId(String groupId);
+
 }

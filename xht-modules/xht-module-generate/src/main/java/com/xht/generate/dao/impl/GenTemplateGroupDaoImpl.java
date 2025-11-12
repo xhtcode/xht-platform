@@ -74,6 +74,22 @@ public class GenTemplateGroupDaoImpl extends MapperRepositoryImpl<GenTemplateGro
     }
 
     /**
+     * 根据ID更新模板数量
+     *
+     * @param id               模板组ID
+     * @param templateCountOld 模板数量
+     * @param templateCountNew 新的模板数量
+     */
+    @Override
+    public void updateTemplateCountById(Long id, Integer templateCountOld, int templateCountNew) {
+        LambdaUpdateWrapper<GenTemplateGroupEntity> updateWrapper = lambdaUpdateWrapper();
+        updateWrapper.set(GenTemplateGroupEntity::getTemplateCount, templateCountNew);
+        updateWrapper.eq(GenTemplateGroupEntity::getId, id);
+        updateWrapper.eq(GenTemplateGroupEntity::getTemplateCount, templateCountOld);
+        update(updateWrapper);
+    }
+
+    /**
      * 获取主键字段名
      *
      * @return 主键字段名

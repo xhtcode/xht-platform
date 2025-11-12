@@ -65,7 +65,7 @@ public interface ISysRoleService {
      * @param query 角色查询请求参数
      * @return 角色分页信息
      */
-    PageResponse<SysRoleResponse>findPageList(SysRoleQuery query);
+    PageResponse<SysRoleResponse> findPageList(SysRoleQuery query);
 
     /***
      * 查询所有角色

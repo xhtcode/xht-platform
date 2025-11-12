@@ -1,5 +1,6 @@
 package com.xht.generate.service.impl;
 
+import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.generate.converter.GenTemplateConverter;
@@ -13,8 +14,10 @@ import com.xht.generate.service.IGenTemplateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -39,11 +42,12 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      * @param form 模板表单请求参数
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Long create(GenTemplateForm form) {
-        Boolean exists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, form.getGroupId());
-        ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "模板组不存在");
+        GenTemplateGroupEntity groupEntity = genTemplateGroupDao.findOneOptional(GenTemplateGroupEntity::getId, form.getGroupId()).orElseThrow(() -> new BusinessException("模板组不存在"));
         GenTemplateEntity entity = genTemplateConverter.toEntity(form);
-        genTemplateDao.saveTransactional(entity);
+        genTemplateDao.save(entity);
+        genTemplateGroupDao.updateTemplateCountById(groupEntity.getId(), groupEntity.getTemplateCount(), groupEntity.getTemplateCount() + 1);
         return entity.getId();
     }
 
@@ -54,8 +58,14 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      * @param id 模板ID
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void removeById(Long id) {
-        genTemplateDao.removeByIdTransactional(id);
+        GenTemplateEntity genTemplate = genTemplateDao.findById(id);
+        if (Objects.nonNull(genTemplate)) {
+            GenTemplateGroupEntity groupEntity = genTemplateGroupDao.findOneOptional(GenTemplateGroupEntity::getId, genTemplate.getGroupId()).orElseThrow(() -> new BusinessException("模板组不存在"));
+            genTemplateDao.removeById(id);
+            genTemplateGroupDao.updateTemplateCountById(groupEntity.getId(), groupEntity.getTemplateCount(), groupEntity.getTemplateCount() - 1);
+        }
     }
 
     /**

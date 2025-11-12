@@ -39,4 +39,12 @@ public interface GenTemplateGroupDao extends MapperRepository<GenTemplateGroupEn
      */
     List<GenTemplateGroupEntity> findAllBy();
 
+    /**
+     * 根据ID更新模板数量
+     *
+     * @param id               模板组ID
+     * @param templateCountOld 模板数量
+     * @param templateCountNew 新的模板数量
+     */
+    void updateTemplateCountById(Long id, Integer templateCountOld, int templateCountNew);
 }

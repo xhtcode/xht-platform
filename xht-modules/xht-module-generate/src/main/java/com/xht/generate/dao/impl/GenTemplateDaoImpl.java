@@ -60,7 +60,7 @@ public class GenTemplateDaoImpl extends MapperRepositoryImpl<GenTemplateMapper, 
         // @formatter:off
         LambdaQueryWrapper<GenTemplateEntity> queryWrapper = lambdaQueryWrapper()
                 .eq(GenTemplateEntity::getGroupId, groupId)
-                .orderByDesc(GenTemplateEntity::getGroupId);
+                .orderByAsc(GenTemplateEntity::getTemplateSort);
         // @formatter:on
         return list(queryWrapper);
     }
