@@ -2,13 +2,13 @@ package com.xht.framework.core.utils;
 
 import cn.hutool.core.collection.ArrayIter;
 import cn.hutool.core.collection.IterUtil;
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.map.CaseInsensitiveMap;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.*;
-import com.xht.framework.core.constant.HttpConstants;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
+import com.xht.framework.core.enums.CharacterEnums;
 import com.xht.framework.core.jackson.JsonUtils;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.Cookie;
@@ -22,7 +22,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -278,8 +277,8 @@ public final class ServletUtil {
             response.setHeader("Access-Control-Allow-Origin", "*");
             // 允许自定义请求头token(允许head跨域)
             response.setHeader("Access-Control-Allow-Headers", "token, Accept, Origin, X-Requested-With, Content-Type, Last-Modified");
-            response.setContentType(HttpConstants.ContentType.APPLICATION_JSON_UTF8_VALUE.getValue());
-            response.setCharacterEncoding(HttpConstants.Character.UTF8.getValue());
+            response.setContentType("application/json;charset=UTF-8");
+            response.setCharacterEncoding(CharacterEnums.UTF_8.getValue());
             writer = response.getWriter();
             writer.print(JsonUtils.toJsonString(obj));
         } catch (IOException e) {
@@ -290,29 +289,12 @@ public final class ServletUtil {
                     writer.flush();
                     writer.close();
                 } catch (Exception ignored) {
-
+                    log.debug("流关闭失败 {}", ignored.getMessage(), ignored);
                 }
             }
         }
     }
 
 
-    /**
-     * 返回数据给客户端
-     *
-     * @param response    响应对象{@link HttpServletResponse}
-     * @param in          需要返回客户端的内容
-     * @param contentType 返回的类型，可以使用{@link FileUtil#getMimeType(String)}获取对应扩展名的MIME信息
-     * @param fileName    文件名，自动添加双引号
-     * @since 4.1.15
-     */
-    public static void write(HttpServletResponse response, InputStream in, HttpConstants.ContentType contentType, String fileName) {
-        final String charset = ObjectUtil.defaultIfNull(response.getCharacterEncoding(), CharsetUtil.UTF_8);
-        final String encodeText = URLUtil.encodeAll(fileName, CharsetUtil.charset(charset));
-        response.setHeader("Content-Disposition",
-                StrUtil.format("attachment;filename=\"{}\";filename*={}''{}", encodeText, charset, encodeText));
-        response.setContentType(contentType.getValue());
-        write(response, in);
-    }
     // --------------------------------------------------------- Response end
 }

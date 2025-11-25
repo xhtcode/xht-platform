@@ -1,8 +1,7 @@
 package com.xht.framework.oauth2.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.domain.R;
+import com.xht.framework.core.enums.CharacterEnums;
 import com.xht.framework.core.exception.code.GlobalErrorStatusCode;
 import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.core.utils.StringUtils;
@@ -19,7 +18,6 @@ import org.springframework.security.oauth2.server.resource.InvalidBearerTokenExc
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * 资源认证异常处理入口点，用于身份认证失效处理等
@@ -33,7 +31,7 @@ public class ResourceAuthenticationEntryPoint implements AuthenticationEntryPoin
     @Override
     @SuppressWarnings("all")
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.setCharacterEncoding(HttpConstants.Character.UTF8.getValue());
+        response.setCharacterEncoding(CharacterEnums.UTF_8.getValue());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         R<String> result = R.error(GlobalErrorStatusCode.UNAUTHORIZED);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());

@@ -11,6 +11,7 @@ import com.xht.generate.domain.entity.GenTableColumnEntity;
 import com.xht.generate.domain.entity.GenTableEntity;
 import com.xht.generate.domain.entity.GenTemplateEntity;
 import com.xht.generate.domain.form.GenCodeCoreForm;
+import com.xht.generate.domain.vo.GenCodeCoreVo;
 import com.xht.generate.helper.GenCodeHelper;
 import com.xht.generate.service.IGenCodeCoreService;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -51,7 +50,7 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
      */
     @Override
     public byte[] generateCode(GenCodeCoreForm request) {
-        return generateZipPackage(viewCode(request));
+        return generateZipPackage(generateCodeOriginal(request));
     }
 
     /**
@@ -62,7 +61,30 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
      * @return List<GenCodeCoreBo> 代码预览信息列表，包含各个代码文件的内容
      */
     @Override
-    public List<GenCodeCoreBo> viewCode(GenCodeCoreForm genCodeCoreForm) {
+    public List<GenCodeCoreVo> viewCode(GenCodeCoreForm genCodeCoreForm) {
+        if (Objects.isNull(genCodeCoreForm) || genCodeCoreForm.getTableIds().isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<GenCodeCoreVo> result = new ArrayList<>();
+        List<GenCodeCoreBo> codeCoreBoList = generateCodeOriginal(genCodeCoreForm);
+        Map<String, List<GenCodeCoreBo>> collect = codeCoreBoList.stream().collect(Collectors.groupingBy(GenCodeCoreBo::getTableName));
+        collect.forEach((k, v) -> {
+            GenCodeCoreVo vo = new GenCodeCoreVo();
+            vo.setTableName(k);
+            vo.setCodes(v);
+            result.add(vo);
+        });
+        return result;
+    }
+
+    /**
+     * 预览代码
+     * 根据请求参数预览将要生成的代码内容，返回代码预览信息列表
+     *
+     * @param genCodeCoreForm 代码生成核心请求参数，包含生成代码所需的配置信息
+     * @return List<GenCodeCoreBo> 代码预览信息列表，包含各个代码文件的内容
+     */
+    public List<GenCodeCoreBo> generateCodeOriginal(GenCodeCoreForm genCodeCoreForm) {
         // 1. 校验并获取基础数据
         List<String> tableIds = genCodeCoreForm.getTableIds();
         List<GenTableEntity> tableEntities = tableInfoDao.findList(GenTableEntity::getId, tableIds);
@@ -84,7 +106,7 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
                     codeList.addAll(codeCoreBoList);
                 }
             } catch (Exception e) {
-                String errorMsg = String.format("模板分组id: %s 代码生成失败: %s", groupId, e.getMessage());
+                String errorMsg = String.format("代码生成失败: %s", e.getMessage());
                 log.error(errorMsg, e);
                 throw new BusinessException(errorMsg);
             }

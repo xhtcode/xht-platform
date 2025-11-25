@@ -1,6 +1,7 @@
 package com.xht.framework.security.utils;
 
 import com.xht.framework.core.constant.HttpConstants;
+import com.xht.framework.core.enums.CharacterEnums;
 import com.xht.framework.core.jackson.JsonUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public final class SecurityServletUtils {
         response.setHeader("Access-Control-Allow-Origin", "*");
         // 允许自定义请求头token(允许head跨域)
         response.setHeader("Access-Control-Allow-Headers", "token, Accept, Origin, X-Requested-With, Content-Type, Last-Modified");
-        response.setCharacterEncoding(HttpConstants.Character.UTF8.getValue());
+        response.setCharacterEncoding(CharacterEnums.UTF_8.getValue());
         try {
             response.setContentType(HttpConstants.ContentType.APPLICATION_JSON_UTF8_VALUE.getValue());
             response.getWriter().write(JsonUtils.toJsonString(data));

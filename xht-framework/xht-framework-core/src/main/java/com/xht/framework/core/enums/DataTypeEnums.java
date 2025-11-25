@@ -11,7 +11,7 @@ import lombok.Getter;
  **/
 @Getter
 @AllArgsConstructor
-public enum DataTypeEnum implements IEnum<Integer> {
+public enum DataTypeEnums implements IEnum<Integer> {
 
     /**
      * 普通数据

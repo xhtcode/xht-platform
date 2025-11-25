@@ -2,7 +2,7 @@ package com.xht.framework.core.utils;
 
 import com.xht.framework.core.constant.basic.RConstants;
 import com.xht.framework.core.domain.R;
-import com.xht.framework.core.enums.DataTypeEnum;
+import com.xht.framework.core.enums.DataTypeEnums;
 import com.xht.framework.core.exception.BusinessException;
 import lombok.Data;
 
@@ -30,7 +30,7 @@ public final class ROptional<T> {
 
     private final T data;
 
-    private final DataTypeEnum dataType;
+    private final DataTypeEnums dataType;
 
     private ROptional(R<T> value) {
         if (value == null) {

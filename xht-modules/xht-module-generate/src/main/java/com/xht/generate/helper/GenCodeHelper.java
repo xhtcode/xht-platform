@@ -3,8 +3,10 @@ package com.xht.generate.helper;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.UtilException;
 import com.xht.framework.core.utils.StringUtils;
+import com.xht.generate.constant.GenConstant;
 import com.xht.generate.constant.enums.IdPrimaryKeyEnums;
 import com.xht.generate.domain.bo.GenCodeCoreBo;
 import com.xht.generate.domain.entity.GenTableColumnEntity;
@@ -87,11 +89,16 @@ public final class GenCodeHelper {
             context.put("packages", importClassNames);
             // 渲染文件路径
             String resolvedPath = renderTemplate(context, "filePathTemplate", item.getFilePath());
+            // 渲染文件路径
+            String fileName = renderTemplate(context, "fileName", item.getFileName());
             // 渲染文件内容
             String resolvedCode = renderTemplate(context, "codeTemplate", item.getCode());
             GenCodeCoreBo genCodeCoreBo = new GenCodeCoreBo(item.getIgnoreField());
-            genCodeCoreBo.setFilePath(resolvedPath);
+            genCodeCoreBo.setFilePath(String.format("%s.%s", StringUtils.replace(resolvedPath, GenConstant.POINT, GenConstant.PATH_SEPARATOR), item.getFileType()));
+            genCodeCoreBo.setFileName(fileName);
+            genCodeCoreBo.setTableName(table.getTableName());
             genCodeCoreBo.setCode(resolvedCode);
+            genCodeCoreBo.setFileType(item.getFileType());
             result.add(genCodeCoreBo);
         }
         return result;
@@ -182,14 +189,16 @@ public final class GenCodeHelper {
      * @return 代码核心业务对象列表，包含文件路径和模板内容
      */
     public static List<GenCodeCoreBo> parseTemplates(List<GenTemplateEntity> templateList) {
-        if (Objects.isNull(templateList) || templateList.isEmpty()) {
-            return Collections.emptyList();
+        if (CollectionUtils.isEmpty(templateList)) {
+            throw new BusinessException("模板列表不能为空");
         }
         return templateList.stream()
                 .map((template) -> {
                     GenCodeCoreBo genCodeCoreBo = new GenCodeCoreBo(template.getTemplateIgnoreField());
-                    genCodeCoreBo.setFilePath(String.format("%s%s.%s", template.getTemplateFilePath(), template.getTemplateFileName(), template.getTemplateFileType()));
+                    genCodeCoreBo.setFilePath(String.format("%s%s", template.getTemplateFilePath(), template.getTemplateFileName()));
+                    genCodeCoreBo.setFileName(String.format("%s.%s", template.getTemplateFileName(), template.getTemplateFileType()));
                     genCodeCoreBo.setCode(template.getTemplateContent());
+                    genCodeCoreBo.setFileType(template.getTemplateFileType());
                     return genCodeCoreBo;
                 })
                 .collect(Collectors.toList());

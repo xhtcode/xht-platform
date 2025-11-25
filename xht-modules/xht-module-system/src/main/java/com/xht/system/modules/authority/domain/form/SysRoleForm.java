@@ -16,6 +16,7 @@ import lombok.Data;
  * @author xht
  **/
 @Data
+@Schema(description = "系统角色表单请求参数")
 public class SysRoleForm extends BasicForm {
 
     /**

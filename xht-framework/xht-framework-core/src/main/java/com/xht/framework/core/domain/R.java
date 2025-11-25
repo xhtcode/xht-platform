@@ -1,6 +1,6 @@
 package com.xht.framework.core.domain;
 
-import com.xht.framework.core.enums.DataTypeEnum;
+import com.xht.framework.core.enums.DataTypeEnums;
 import com.xht.framework.core.exception.code.ErrorCode;
 import com.xht.framework.core.utils.StringUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,7 +33,7 @@ public class R<T> {
     private T data;
 
     @Schema(description = "数据类型")
-    private DataTypeEnum dataType;
+    private DataTypeEnums dataType;
 
     public R() {
     }
@@ -51,7 +51,7 @@ public class R<T> {
         this.ok = ok;
         this.msg = msg;
         this.data = data;
-        this.dataType = DataTypeEnum.NORMAL;
+        this.dataType = DataTypeEnums.NORMAL;
     }
 
     /**
@@ -65,7 +65,7 @@ public class R<T> {
         this.code = code;
         this.ok = ok;
         this.msg = msg;
-        this.dataType = DataTypeEnum.NORMAL;
+        this.dataType = DataTypeEnums.NORMAL;
     }
 
     /**
@@ -85,7 +85,7 @@ public class R<T> {
             this.msg = errorCode.getMsg();
         }
         this.data = data;
-        this.dataType = DataTypeEnum.NORMAL;
+        this.dataType = DataTypeEnums.NORMAL;
     }
 
     /**

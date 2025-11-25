@@ -2,8 +2,10 @@ package com.xht.generate.service;
 
 import com.xht.generate.domain.bo.GenCodeCoreBo;
 import com.xht.generate.domain.form.GenCodeCoreForm;
+import com.xht.generate.domain.vo.GenCodeCoreVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 代码生成核心服务
@@ -28,5 +30,5 @@ public interface IGenCodeCoreService {
      * @param genCodeCoreForm 代码生成核心请求参数，包含生成代码所需的配置信息
      * @return List<GenCodeCoreBo> 代码预览信息列表，包含各个代码文件的内容
      */
-    List<GenCodeCoreBo> viewCode(GenCodeCoreForm genCodeCoreForm);
+    List<GenCodeCoreVo> viewCode(GenCodeCoreForm genCodeCoreForm);
 }

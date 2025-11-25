@@ -22,6 +22,7 @@ public interface SysRoleDao extends MapperRepository<SysRoleEntity> {
      * @param form 角色信息
      */
     void updateFormRequest(SysRoleForm form);
+
     /**
      * 更新角色状态
      *
@@ -42,7 +43,7 @@ public interface SysRoleDao extends MapperRepository<SysRoleEntity> {
     /**
      * 分页查询角色
      *
-     * @param page         分页信息
+     * @param page  分页信息
      * @param query 角色查询请求参数
      * @return 角色分页信息
      */

@@ -6,7 +6,7 @@ package com.xht.generate.constant;
 public class GenConstant {
 
     public static final String PATH_SEPARATOR = "/";
-
+    public static final String POINT = ".";
     /**
      * 等于
      */

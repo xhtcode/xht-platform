@@ -23,10 +23,28 @@ public final class GenCodeCoreBo {
     private String filePath;
 
     /**
+     * 文件名
+     */
+    @Setter
+    private String fileName;
+
+    /**
+     * 表名
+     */
+    @Setter
+    private String tableName;
+
+    /**
      * 生成的代码内容
      */
     @Setter
     private String code;
+
+    /**
+     * 文件类型
+     */
+    @Setter
+    private String fileType;
 
     /**
      * 忽略的字段 逗号分割

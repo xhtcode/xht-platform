@@ -16,7 +16,7 @@ import java.util.List;
  * @author xht
  */
 @Data
-@TableName(value = "gen_template")
+@TableName(value = "gen_template", autoResultMap = true)
 public class GenTemplateEntity extends BasicEntity implements Serializable {
 
     /**

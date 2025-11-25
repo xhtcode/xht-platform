@@ -1,8 +1,10 @@
 package com.xht.generate.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.generate.constant.GenConstant;
 import com.xht.generate.converter.GenTemplateConverter;
 import com.xht.generate.dao.GenTemplateDao;
 import com.xht.generate.dao.GenTemplateGroupDao;
@@ -44,6 +46,7 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long create(GenTemplateForm form) {
+        formatTemplate(form);
         GenTemplateGroupEntity groupEntity = genTemplateGroupDao.findOneOptional(GenTemplateGroupEntity::getId, form.getGroupId()).orElseThrow(() -> new BusinessException("模板组不存在"));
         GenTemplateEntity entity = genTemplateConverter.toEntity(form);
         genTemplateDao.save(entity);
@@ -75,12 +78,20 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      */
     @Override
     public void updateById(GenTemplateForm form) {
+        formatTemplate(form);
         Boolean exists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, form.getGroupId());
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "模板组不存在");
         Boolean menuExists = genTemplateDao.exists(GenTemplateEntity::getId, form.getId());
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "模板不存在");
         genTemplateDao.updateFormRequest(form);
     }
+
+    private void formatTemplate(GenTemplateForm form) {
+        form.setTemplateFilePath(StrUtil.addSuffixIfNot(form.getTemplateFilePath(), GenConstant.PATH_SEPARATOR));
+        form.setTemplateFilePath(StrUtil.addPrefixIfNot(form.getTemplateFilePath(), GenConstant.PATH_SEPARATOR));
+        form.setTemplateFileName(StrUtil.removeAllPrefix(form.getTemplateFilePath(), GenConstant.PATH_SEPARATOR));
+    }
+
 
     /**
      * 根据ID查询模板
