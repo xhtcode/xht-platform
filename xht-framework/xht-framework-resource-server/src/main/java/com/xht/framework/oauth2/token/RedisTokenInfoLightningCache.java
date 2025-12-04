@@ -1,5 +1,6 @@
 package com.xht.framework.oauth2.token;
 
+import com.xht.framework.security.properties.TokenLightningCacheProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,10 +22,7 @@ public class RedisTokenInfoLightningCache implements TokenInfoLightningCache {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    /**
-     * 默认超时时间 5分钟
-     */
-    private final static Long DEFAULT_TIME_OUT = 60 * 5L;
+    private final TokenLightningCacheProperties tokenLightningCacheProperties;
 
     /**
      * 根据键获取token信息
@@ -50,11 +48,11 @@ public class RedisTokenInfoLightningCache implements TokenInfoLightningCache {
      */
     @Override
     public <T> void setTokenInfo(String key, Instant expiresAt, T value) {
-        long timeOut = DEFAULT_TIME_OUT;
-        if (Objects.isNull(expiresAt)) {
+        long timeOut = tokenLightningCacheProperties.getExpired();
+        if (Objects.nonNull(expiresAt)) {
             Duration between = Duration.between(Instant.now(), expiresAt);
             long emp = between.getSeconds() - 1;//减去1秒 程序默认耗时 为1秒 实际不到1秒
-            if (emp <= DEFAULT_TIME_OUT) {
+            if (emp <= tokenLightningCacheProperties.getExpired()) {
                 timeOut = emp;
             }
         }

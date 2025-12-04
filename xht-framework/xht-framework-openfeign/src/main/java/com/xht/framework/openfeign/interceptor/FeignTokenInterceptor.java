@@ -9,6 +9,7 @@ import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -30,7 +31,7 @@ public class FeignTokenInterceptor implements RequestInterceptor {
     public void apply(RequestTemplate requestTemplate) {
         Collection<String> authValues = requestTemplate.headers().get(securityHeaderProperties.getAuthKey());
         // 带 authKeys请求直接跳过
-        if (CollUtil.isNotEmpty(authValues) && authValues.contains(securityHeaderProperties.getAuthValue())) {
+        if (!CollectionUtils.isEmpty(authValues) && authValues.contains(securityHeaderProperties.getAuthValue())) {
             log.debug("请求头中包含认证信息, 跳过token拦截器");
             return;
         }

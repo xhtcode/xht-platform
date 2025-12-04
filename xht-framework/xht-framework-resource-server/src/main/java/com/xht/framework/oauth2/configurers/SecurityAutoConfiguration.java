@@ -7,6 +7,7 @@ import com.xht.framework.oauth2.introspection.ResourceOpaqueTokenIntrospector;
 import com.xht.framework.oauth2.token.RedisTokenInfoLightningCache;
 import com.xht.framework.oauth2.token.TokenInfoLightningCache;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
+import com.xht.framework.security.properties.TokenLightningCacheProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -24,6 +25,7 @@ import java.util.Objects;
  **/
 @Slf4j
 public class SecurityAutoConfiguration {
+
     public SecurityAutoConfiguration() {
         log.info("开始加载资源服务器异常处理");
     }
@@ -52,8 +54,8 @@ public class SecurityAutoConfiguration {
     @Bean
     @ConditionalOnClass(RedisTemplate.class)
     @ConditionalOnMissingBean(TokenInfoLightningCache.class)
-    public TokenInfoLightningCache tokenInfoLightningCache(RedisTemplate<String, Object> redisTemplate) {
-        return new RedisTokenInfoLightningCache(redisTemplate);
+    public TokenInfoLightningCache tokenInfoLightningCache(RedisTemplate<String, Object> redisTemplate, TokenLightningCacheProperties tokenLightningCacheProperties) {
+        return new RedisTokenInfoLightningCache(redisTemplate, tokenLightningCacheProperties);
     }
 
 

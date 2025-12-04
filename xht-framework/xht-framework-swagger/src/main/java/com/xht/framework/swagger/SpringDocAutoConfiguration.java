@@ -30,6 +30,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @EnableConfigurationProperties(SwaggerProperties.class)
 @ConditionalOnProperty(name = "springdoc.api-docs.enabled", havingValue = "true", matchIfMissing = true)
 public class SpringDocAutoConfiguration {
+
     private final SwaggerProperties swaggerProperties;
 
     public SpringDocAutoConfiguration(SwaggerProperties swaggerProperties) {

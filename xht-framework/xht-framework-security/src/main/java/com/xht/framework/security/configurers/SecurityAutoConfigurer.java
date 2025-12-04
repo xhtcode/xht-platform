@@ -4,9 +4,12 @@ import com.xht.framework.core.properties.SecurityHeaderProperties;
 import com.xht.framework.security.aspect.IgnoreAuthAspect;
 import com.xht.framework.security.crypto.password.BasicPasswordEncoder;
 import com.xht.framework.security.handler.SecurityExceptionHandler;
+import com.xht.framework.security.properties.SecurityProperties;
+import com.xht.framework.security.properties.TokenLightningCacheProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -15,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  **/
 @Slf4j
 @AutoConfiguration
+@EnableConfigurationProperties({SecurityProperties.class, TokenLightningCacheProperties.class})
 public class SecurityAutoConfigurer {
 
     /**

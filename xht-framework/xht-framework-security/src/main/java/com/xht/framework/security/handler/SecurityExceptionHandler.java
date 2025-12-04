@@ -39,4 +39,5 @@ public class SecurityExceptionHandler {
         log.debug(" {} 权限不足: {}", request.getRequestURI(), e.getMessage(), e);
         return R.error(GlobalErrorStatusCode.FORBIDDEN);
     }
+
 }
