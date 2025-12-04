@@ -69,16 +69,16 @@ public class TableBo implements Serializable {
     // ========================= 格式化属性方法 =========================
 
     /**
-     * 获取业务名称（表名的第一个下划线前的部分，小写）
-     * 示例：tableName=sys_user → serviceName=sys；tableName=order → serviceName=order
+     * 获取业务名称（表名的第一个下划线后的部分，小写）
+     * 示例：tableName=sys_user → serviceName=use；tableName=order → serviceName=order
      *
      * @return 业务名称
      */
     public String getServiceName() {
         // 从起始位置截取到第一个下划线（无下划线则截取整个表名）
-        int firstUnderlineIndex = this.tableName.indexOf("_");
-        int endIndex = firstUnderlineIndex > 0 ? firstUnderlineIndex : this.tableName.length();
-        return StrUtil.sub(this.tableName, 0, endIndex).toLowerCase();
+        int firstUnderlineIndex = this.tableName.lastIndexOf("_");
+        int startIndex = Math.max(firstUnderlineIndex, 0);
+        return StrUtil.sub(this.tableName, startIndex, this.tableName.length()).toLowerCase();
     }
 
     /**

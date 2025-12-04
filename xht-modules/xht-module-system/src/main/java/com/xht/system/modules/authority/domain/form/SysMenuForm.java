@@ -49,28 +49,24 @@ public class SysMenuForm extends BasicForm {
     /**
      * 菜单图标
      */
-    @NotBlank(message = "菜单图标参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "菜单图标", example = "icon-system")
     private String menuIcon;
 
     /**
      * 路由地址
      */
-    @NotBlank(message = "路由地址参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "路由地址", example = "/system")
     private String menuPath;
 
     /**
      * 显示状态 (0显示 1隐藏)
      */
-    @NotNull(message = "显示状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "显示状态 (0显示 1隐藏)", example = "0")
     private MenuHiddenEnums menuHidden;
 
     /**
      * 是否缓存 （0是 1否）
      */
-    @NotNull(message = "是否缓存参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "是否缓存 （0是 1否）", example = "0")
     private MenuCacheEnums menuCache;
 

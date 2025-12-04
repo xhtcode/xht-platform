@@ -2,12 +2,15 @@ package com.xht.system.modules.authority.service.impl;
 
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.system.modules.authority.converter.SysMenuConverter;
 import com.xht.system.modules.authority.dao.SysMenuDao;
 import com.xht.system.modules.authority.dao.SysRoleDao;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
+import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
 import com.xht.system.modules.authority.domain.entity.SysRoleMenuEntity;
 import com.xht.system.modules.authority.domain.form.SysRoleMenuBindForm;
+import com.xht.system.modules.authority.domain.response.RoleSelectedMenuResponse;
 import com.xht.system.modules.authority.service.ISysRoleMenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +37,8 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
 
     private final SysMenuDao sysMenuDao;
 
+    private final SysMenuConverter sysMenuConverter;
+
     /**
      * 角色绑定菜单
      *
@@ -46,7 +51,7 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
         ThrowUtils.throwIf(!roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
         List<Long> menuIds = bindRequest.getMenuIds();
         List<SysRoleMenuEntity> roleMenuEntities = new ArrayList<>();
-        if (CollectionUtils.isEmpty(menuIds)) {
+        if (!CollectionUtils.isEmpty(menuIds)) {
             Boolean menuExists = sysMenuDao.existsMenuIds(menuIds);
             ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "菜单不存在");
             for (Long item : menuIds) {
@@ -63,11 +68,21 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
      * 根据角色ID获取菜单ID
      *
      * @param roleId 角色ID
-     * @return 菜单ID列表
+     * @return {@link RoleSelectedMenuResponse}
      */
     @Override
-    public List<Long> selectMenuIdByRoleId(String roleId) {
+    public RoleSelectedMenuResponse selectMenuIdByRoleId(String roleId) {
         ThrowUtils.hasText(roleId, "角色ID不能为空");
-        return sysRoleMenuDao.getRoleId(roleId);
+        RoleSelectedMenuResponse response = new RoleSelectedMenuResponse();
+        List<Long> menuIdByRoleId = sysRoleMenuDao.findMenuIdByRoleId(roleId);
+        List<SysMenuEntity> menuEntityList = sysMenuDao.getMenuTreeSystemTool(true);
+        if (!CollectionUtils.isEmpty(menuIdByRoleId) && !CollectionUtils.isEmpty(menuEntityList)) {
+            response.setCheckAll(menuIdByRoleId.size() == menuEntityList.size());
+        } else {
+            response.setCheckAll(false);
+        }
+        response.setCheckedKeys(menuIdByRoleId);
+        response.setMenuList(sysMenuConverter.toTree(menuEntityList, true));
+        return response;
     }
 }

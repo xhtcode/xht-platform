@@ -3,8 +3,6 @@ package com.xht.system.modules.authority.service.impl;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.tree.INode;
-import com.xht.framework.core.utils.tree.TreeNode;
-import com.xht.framework.core.utils.tree.TreeUtils;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
 import com.xht.system.modules.authority.converter.SysMenuConverter;
@@ -19,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -126,31 +123,18 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public List<INode<Long>> findTree(SysMenuQuery query) {
         List<SysMenuEntity> list = sysMenuDao.getMenuList(query);
-        List<INode<Long>> treeNodeList = new ArrayList<>();
-        for (SysMenuEntity entity : list) {
-            TreeNode<Long> node = new TreeNode<>(entity.getId(), entity.getParentId(), entity.getMenuSort());
-            node.setExtra(sysMenuConverter.toMap(entity, true));
-            treeNodeList.add(node);
-        }
-        return TreeUtils.buildList(treeNodeList, false);
+        return sysMenuConverter.toTree(list, false);
     }
 
     /**
-     * 根据菜单类型查询菜单列表(树形结构)
+     * 根据条件查询是否包含菜单类型为button菜单列表(树形结构)
      *
-     * @param menuType 菜单类型
      * @return 菜单树形结构信息
      */
     @Override
-    public List<INode<Long>> findSystemTree(MenuTypeEnums menuType) {
-        List<SysMenuEntity> list = sysMenuDao.listMenuTree(menuType);
-        List<INode<Long>> treeNodeList = new ArrayList<>();
-        for (SysMenuEntity entity : list) {
-            TreeNode<Long> node = new TreeNode<>(entity.getId(), entity.getParentId(), entity.getMenuSort());
-            node.setExtra(sysMenuConverter.toMap(entity, false));
-            treeNodeList.add(node);
-        }
-        return TreeUtils.buildList(treeNodeList, false);
+    public List<INode<Long>> getMenuTreeSystemTool() {
+        List<SysMenuEntity> list = sysMenuDao.getMenuTreeSystemTool(false);
+        return sysMenuConverter.toTree(list, false);
     }
 
 

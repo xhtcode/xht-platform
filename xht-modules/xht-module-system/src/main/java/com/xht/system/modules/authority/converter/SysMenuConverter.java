@@ -1,5 +1,8 @@
 package com.xht.system.modules.authority.converter;
 
+import com.xht.framework.core.utils.tree.INode;
+import com.xht.framework.core.utils.tree.TreeNode;
+import com.xht.framework.core.utils.tree.TreeUtils;
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.system.modules.authority.domain.entity.SysMenuEntity;
 import com.xht.system.modules.authority.domain.form.SysMenuForm;
@@ -8,9 +11,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 菜单转换器
@@ -21,13 +22,29 @@ import java.util.Map;
 public interface SysMenuConverter extends BasicConverter<SysMenuEntity, SysMenuForm, SysMenuResponse> {
 
     /**
+     * 转换为树形结构
+     *
+     * @param menuList 菜单列表
+     * @return 树形结构
+     */
+    default List<INode<Long>> toTree(List<SysMenuEntity> menuList, boolean isSelect) {
+        List<INode<Long>> treeNodeList = new ArrayList<>();
+        for (SysMenuEntity entity : menuList) {
+            TreeNode<Long> node = new TreeNode<>(entity.getId(), entity.getParentId(), entity.getMenuSort());
+            node.setExtra(toMap(entity, isSelect));
+            treeNodeList.add(node);
+        }
+        return TreeUtils.buildList(treeNodeList, false);
+    }
+
+    /**
      * 转换为Map
      *
      * @param entity 实体
      * @param isSelect 是否为选择菜单
      * @return Map
      */
-    default Map<String, Object> toMap(SysMenuEntity entity, boolean isSelect) {
+    private Map<String, Object> toMap(SysMenuEntity entity, boolean isSelect) {
         if (entity == null) {
             return Collections.emptyMap();
         }
@@ -36,6 +53,7 @@ public interface SysMenuConverter extends BasicConverter<SysMenuEntity, SysMenuF
         map.put("menuName", entity.getMenuName());    // 菜单名称
         map.put("menuIcon", entity.getMenuIcon());    // 菜单图标
         map.put("menuSort", entity.getMenuSort());    // 菜单排序
+        map.put("frameFlag", entity.getFrameFlag());    // 是否为外链
         if (!isSelect) {
             map.put("expanded", false);
         }
@@ -47,7 +65,6 @@ public interface SysMenuConverter extends BasicConverter<SysMenuEntity, SysMenuF
             map.put("menuAuthority", entity.getMenuAuthority());    // 菜单权限字符串
             map.put("viewName", entity.getViewName());    // 组件视图名称
             map.put("viewPath", entity.getViewPath());    // 组件视图路径
-            map.put("frameFlag", entity.getFrameFlag());    // 是否为外链
             map.put("createTime", entity.getCreateTime());    // 创建时间
             map.put("updateTime", entity.getUpdateTime());    // 更新时间
             map.put("createBy", entity.getCreateBy());    // 创建人

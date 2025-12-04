@@ -58,9 +58,8 @@ public interface SysMenuDao extends MapperRepository<SysMenuEntity> {
     /**
      * 查询可用菜单并构建树形结构
      *
-     * @param menuType 菜单类型过滤条件
      * @return 菜单树结构
      */
-    List<SysMenuEntity> listMenuTree(MenuTypeEnums menuType);
+    List<SysMenuEntity> getMenuTreeSystemTool(boolean button);
 
 }

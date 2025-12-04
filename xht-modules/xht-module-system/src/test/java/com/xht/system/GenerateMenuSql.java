@@ -34,14 +34,14 @@ public class GenerateMenuSql {
         list.add("TRUNCATE table sys_menu;");
         for (int i = 0; i < menuEntityList.size(); i++) {
             SysMenuEntity sysMenuEntity = menuEntityList.get(i);
-            int p1 = print(list, sysMenuEntity, index++, 0, i);
+            int p1 = print(list, sysMenuEntity, index++, 0, i+1);
             List<SysMenuEntity> itemList = sysMenuMapper.selectList(new LambdaQueryWrapper<SysMenuEntity>().eq(SysMenuEntity::getParentId, sysMenuEntity.getId()).orderByAsc(SysMenuEntity::getMenuSort));
             for (int j = 0; j < itemList.size(); j++) {
                 SysMenuEntity sysMenuEntity1 = itemList.get(j);
-                int p2 = print(list, sysMenuEntity1, index++, p1, j);
+                int p2 = print(list, sysMenuEntity1, index++, p1, j+1);
                 List<SysMenuEntity> itemList2 = sysMenuMapper.selectList(new LambdaQueryWrapper<SysMenuEntity>().eq(SysMenuEntity::getParentId, sysMenuEntity1.getId()).orderByAsc(SysMenuEntity::getMenuSort));
                 for (int k = 0; k < itemList2.size(); k++) {
-                    print(list, itemList2.get(k), index++, p2, k);
+                    print(list, itemList2.get(k), index++, p2, k+1);
 
                 }
             }

@@ -5,7 +5,6 @@ import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
-import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
 import com.xht.system.modules.authority.domain.form.SysMenuForm;
 import com.xht.system.modules.authority.domain.query.SysMenuQuery;
 import com.xht.system.modules.authority.domain.response.SysMenuResponse;
@@ -117,15 +116,14 @@ public class SysMenuController {
     }
 
     /**
-     * 根据菜单类型查询菜单列表(树形结构)
+     * 根据条件查询是否包含菜单类型为button菜单列表(树形结构)
      *
-     * @param menuType 菜单类型
      * @return 菜单树形结构信息
      */
-    @GetMapping("/tree/{menuType}")
-    @Operation(summary = "根据菜单类型查询菜单列表(树形结构)", description = "根据菜单类型查询菜单列表(树形结构)信息")
-    public R<List<INode<Long>>> findSystemTree(@PathVariable @Parameter(description = "菜单类型", required = true) MenuTypeEnums menuType) {
-        return R.ok(sysMenuService.findSystemTree(menuType));
+    @GetMapping("/tree/system")
+    @Operation(summary = "根据条件查询是否包含菜单类型为button菜单列表(树形结构)", description = "根据条件查询是否包含菜单类型为button菜单列表(树形结构)信息")
+    public R<List<INode<Long>>> getMenuTreeSystemTool() {
+        return R.ok(sysMenuService.getMenuTreeSystemTool());
     }
 
 }

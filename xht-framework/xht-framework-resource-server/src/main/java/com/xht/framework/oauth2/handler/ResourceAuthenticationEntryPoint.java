@@ -42,6 +42,7 @@ public class ResourceAuthenticationEntryPoint implements AuthenticationEntryPoin
         if (authException instanceof InvalidBearerTokenException
                 || authException instanceof InsufficientAuthenticationException) {
             response.setStatus(GlobalErrorStatusCode.TOKEN_EXPIRED.getCode());
+            result.setCode(GlobalErrorStatusCode.TOKEN_EXPIRED.getCode());
             result.setMsg("请求令牌已过期");
         }
         log.error("认证失败: {}", authException.getMessage(), authException);

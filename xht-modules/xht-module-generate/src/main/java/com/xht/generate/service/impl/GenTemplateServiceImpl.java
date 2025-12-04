@@ -89,7 +89,7 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
     private void formatTemplate(GenTemplateForm form) {
         form.setTemplateFilePath(StrUtil.addSuffixIfNot(form.getTemplateFilePath(), GenConstant.PATH_SEPARATOR));
         form.setTemplateFilePath(StrUtil.addPrefixIfNot(form.getTemplateFilePath(), GenConstant.PATH_SEPARATOR));
-        form.setTemplateFileName(StrUtil.removeAllPrefix(form.getTemplateFilePath(), GenConstant.PATH_SEPARATOR));
+        form.setTemplateFileName(StrUtil.removeAllPrefix(form.getTemplateFileName(), GenConstant.PATH_SEPARATOR));
     }
 
 

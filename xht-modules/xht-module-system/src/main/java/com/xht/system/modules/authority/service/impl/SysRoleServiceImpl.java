@@ -82,7 +82,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         Boolean exists = sysRoleDao.existsRoleCode(form.getId(), form.getRoleCode());
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
         Boolean roleExists = sysRoleDao.exists(SysRoleEntity::getId, form.getId());
-        ThrowUtils.throwIf(roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
+        ThrowUtils.throwIf(!roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
         sysRoleDao.updateFormRequest(form);
     }
 

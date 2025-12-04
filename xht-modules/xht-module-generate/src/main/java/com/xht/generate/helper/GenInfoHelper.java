@@ -57,7 +57,7 @@ public final class GenInfoHelper {
         tableEntity.setFrontEndAuthor("xht");
         tableEntity.setUrlPrefix(tableBo.getUrlPrefix());
         tableEntity.setPermissionPrefix(tableBo.getPermissionPrefix());
-        tableEntity.setParentMenuId(-1L);
+        tableEntity.setParentMenuId(0L);
         tableEntity.setPageStyle(PageStyleEnums.DRAWER);
         tableEntity.setPageStyleWidth(45);
         tableEntity.setFromNumber(2);

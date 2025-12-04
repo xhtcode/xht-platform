@@ -2,7 +2,7 @@ package com.xht.system.modules.authority.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.xht.framework.core.domain.vo.IVO;
-import com.xht.system.modules.authority.domain.response.MetaResponse;
+import com.xht.system.modules.authority.domain.response.RouterMetaResponse;
 import lombok.Data;
 
 /**
@@ -37,6 +37,6 @@ public class RouterVo implements IVO {
     /**
      * 其他元素
      */
-    private MetaResponse meta;
+    private RouterMetaResponse meta;
 
 }

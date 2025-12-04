@@ -280,13 +280,13 @@ public final class ServletUtil {
             response.setContentType("application/json;charset=UTF-8");
             response.setCharacterEncoding(CharacterEnums.UTF_8.getValue());
             writer = response.getWriter();
-            writer.print(JsonUtils.toJsonString(obj));
+            writer.write(JsonUtils.toJsonString(obj));
+            writer.flush();
         } catch (IOException e) {
             log.error("响应错误 {}", e.getMessage(), e);
         } finally {
             if (Objects.nonNull(writer)) {
                 try {
-                    writer.flush();
                     writer.close();
                 } catch (Exception ignored) {
                     log.debug("流关闭失败 {}", ignored.getMessage(), ignored);

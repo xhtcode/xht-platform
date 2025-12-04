@@ -18,7 +18,6 @@ import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicReference;
 
-@SuppressWarnings("unused")
 public class WebFluxUtils {
 
     /**
@@ -67,19 +66,7 @@ public class WebFluxUtils {
      * @return Mono<Void>
      */
     public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, Object value) {
-        return webFluxResponseWriter(response, HttpStatus.OK, value, 500);
-    }
-
-    /**
-     * 设置webflux模型响应
-     *
-     * @param response ServerHttpResponse
-     * @param code     响应状态码
-     * @param value    响应内容
-     * @return Mono<Void>
-     */
-    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, Object value, int code) {
-        return webFluxResponseWriter(response, HttpStatus.OK, value, code);
+        return webFluxResponseWriter(response, HttpStatus.OK, value);
     }
 
     /**
@@ -87,12 +74,11 @@ public class WebFluxUtils {
      *
      * @param response ServerHttpResponse
      * @param status   http状态码
-     * @param code     响应状态码
      * @param value    响应内容
      * @return Mono<Void>
      */
-    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, HttpStatus status, Object value, int code) {
-        return webFluxResponseWriter(response, MediaType.APPLICATION_JSON_VALUE, status, value, code);
+    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, HttpStatus status, Object value) {
+        return webFluxResponseWriter(response, MediaType.APPLICATION_JSON_VALUE, status, value);
     }
 
     /**
@@ -101,11 +87,10 @@ public class WebFluxUtils {
      * @param response    ServerHttpResponse
      * @param contentType content-type
      * @param status      http状态码
-     * @param code        响应状态码
      * @param value       响应内容
      * @return Mono<Void>
      */
-    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, String contentType, HttpStatus status, Object value, int code) {
+    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, String contentType, HttpStatus status, Object value) {
         response.setStatusCode(status);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, contentType);
         DataBuffer dataBuffer = response.bufferFactory().wrap(JsonUtils.toJsonString(value).getBytes());

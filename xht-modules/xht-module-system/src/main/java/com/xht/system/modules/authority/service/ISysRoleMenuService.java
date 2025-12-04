@@ -1,8 +1,7 @@
 package com.xht.system.modules.authority.service;
 
 import com.xht.system.modules.authority.domain.form.SysRoleMenuBindForm;
-
-import java.util.List;
+import com.xht.system.modules.authority.domain.response.RoleSelectedMenuResponse;
 
 /**
  * 角色菜单Service接口
@@ -21,7 +20,7 @@ public interface ISysRoleMenuService {
      * 根据角色ID获取菜单ID
      *
      * @param roleId 角色ID
-     * @return 菜单ID列表
+     * @return {@link RoleSelectedMenuResponse}
      */
-    List<Long> selectMenuIdByRoleId(String roleId);
+    RoleSelectedMenuResponse selectMenuIdByRoleId(String roleId);
 }

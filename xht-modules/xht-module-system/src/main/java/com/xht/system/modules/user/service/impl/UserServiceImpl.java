@@ -30,7 +30,7 @@ import com.xht.system.modules.authority.common.enums.MenuLinkEnums;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
 import com.xht.system.modules.authority.dao.SysUserRoleDao;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
-import com.xht.system.modules.authority.domain.response.MetaResponse;
+import com.xht.system.modules.authority.domain.response.RouterMetaResponse;
 import com.xht.system.modules.authority.domain.response.SysMenuResponse;
 import com.xht.system.modules.authority.domain.vo.RouterVo;
 import com.xht.system.modules.dept.domain.response.SysPostResponse;
@@ -348,17 +348,17 @@ public class UserServiceImpl implements IUserService {
      * @param menu 菜单信息
      * @return 菜单元数据
      */
-    private static MetaResponse getMetaVo(SysMenuResponse menu) {
-        MetaResponse metaResponse = new MetaResponse();
-        metaResponse.setTitle(menu.getMenuName());
-        metaResponse.setIcon(menu.getMenuIcon());
-        metaResponse.setLinkStatus(Objects.requireNonNullElse(menu.getFrameFlag(), MenuLinkEnums.NO).getStatus());
-        metaResponse.setMenuType(menu.getMenuType().getValue());
-        metaResponse.setActiveMenuPath(menu.getActiveMenuPath());
-        metaResponse.setHiddenStatus(Objects.requireNonNullElse(menu.getMenuHidden(), MenuHiddenEnums.SHOW).getHidden());
-        metaResponse.setKeepAliveStatus(Objects.requireNonNullElse(menu.getMenuCache(), MenuCacheEnums.YES).getStatus());
-        metaResponse.setRoles(StrUtil.splitTrim(menu.getMenuAuthority(), ","));//perms
-        metaResponse.setRank(menu.getMenuSort());
-        return metaResponse;
+    private static RouterMetaResponse getMetaVo(SysMenuResponse menu) {
+        RouterMetaResponse routerMetaResponse = new RouterMetaResponse();
+        routerMetaResponse.setTitle(menu.getMenuName());
+        routerMetaResponse.setIcon(menu.getMenuIcon());
+        routerMetaResponse.setLinkStatus(Objects.requireNonNullElse(menu.getFrameFlag(), MenuLinkEnums.NO).getStatus());
+        routerMetaResponse.setMenuType(menu.getMenuType().getValue());
+        routerMetaResponse.setActiveMenuPath(menu.getActiveMenuPath());
+        routerMetaResponse.setHiddenStatus(Objects.requireNonNullElse(menu.getMenuHidden(), MenuHiddenEnums.SHOW).getHidden());
+        routerMetaResponse.setKeepAliveStatus(Objects.requireNonNullElse(menu.getMenuCache(), MenuCacheEnums.YES).getStatus());
+        routerMetaResponse.setRoles(StrUtil.splitTrim(menu.getMenuAuthority(), ","));//perms
+        routerMetaResponse.setRank(menu.getMenuSort());
+        return routerMetaResponse;
     }
 }

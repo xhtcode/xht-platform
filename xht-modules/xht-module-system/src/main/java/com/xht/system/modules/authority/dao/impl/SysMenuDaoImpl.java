@@ -42,15 +42,15 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
                 .set(condition(form.getMenuType()), SysMenuEntity::getMenuType, form.getMenuType())
                 .set(condition(form.getMenuStatus()), SysMenuEntity::getMenuStatus, form.getMenuStatus())
                 .set(condition(form.getMenuName()), SysMenuEntity::getMenuName, form.getMenuName())
-                .set(condition(form.getMenuIcon()), SysMenuEntity::getMenuIcon, form.getMenuIcon())
-                .set(condition(form.getMenuPath()), SysMenuEntity::getMenuPath, form.getMenuPath())
-                .set(condition(form.getMenuHidden()), SysMenuEntity::getMenuHidden, form.getMenuHidden())
-                .set(condition(form.getMenuCache()), SysMenuEntity::getMenuCache, form.getMenuCache())
-                .set(condition(form.getMenuAuthority()), SysMenuEntity::getMenuAuthority, form.getMenuAuthority())
+                .set(SysMenuEntity::getMenuIcon, form.getMenuIcon())
+                .set(SysMenuEntity::getMenuPath, form.getMenuPath())
+                .set(SysMenuEntity::getMenuHidden, form.getMenuHidden())
+                .set(SysMenuEntity::getMenuCache, form.getMenuCache())
+                .set(SysMenuEntity::getMenuAuthority, form.getMenuAuthority())
                 .set(condition(form.getMenuSort()), SysMenuEntity::getMenuSort, form.getMenuSort())
-                .set(condition(form.getViewName()), SysMenuEntity::getViewName, form.getViewName())
-                .set(condition(form.getViewPath()), SysMenuEntity::getViewPath, form.getViewPath())
-                .set(condition(form.getFrameFlag()), SysMenuEntity::getFrameFlag, form.getFrameFlag())
+                .set(SysMenuEntity::getViewName, form.getViewName())
+                .set(SysMenuEntity::getViewPath, form.getViewPath())
+                .set(SysMenuEntity::getFrameFlag, form.getFrameFlag())
                 .eq(SysMenuEntity::getId, form.getId());
         // @formatter:on
         updateWrapper.eq(SysMenuEntity::getId, form.getId());
@@ -127,11 +127,10 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
     /**
      * 查询可用菜单并构建树形结构
      *
-     * @param menuType 菜单类型过滤条件
      * @return 菜单树结构
      */
     @Override
-    public List<SysMenuEntity> listMenuTree(MenuTypeEnums menuType) {
+    public List<SysMenuEntity> getMenuTreeSystemTool(boolean button) {
         // @formatter:off
         LambdaQueryWrapper<SysMenuEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.select(
@@ -140,10 +139,11 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
                 SysMenuEntity::getMenuType,
                 SysMenuEntity::getMenuName,
                 SysMenuEntity::getMenuIcon,
+                SysMenuEntity::getFrameFlag,
                 SysMenuEntity::getMenuSort
         );
         lambdaQueryWrapper
-                .ne(!Objects.equals(MenuTypeEnums.ALL, menuType), SysMenuEntity::getMenuType, MenuTypeEnums.B)
+                .ne(Objects.equals(Boolean.FALSE,button),SysMenuEntity::getMenuType, MenuTypeEnums.B)
                 .eq(SysMenuEntity::getMenuStatus, MenuStatusEnums.NORMAL);
         // @formatter:on
         lambdaQueryWrapper.orderByAsc(SysMenuEntity::getMenuSort);

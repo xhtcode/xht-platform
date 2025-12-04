@@ -2,7 +2,6 @@ package com.xht.system.modules.authority.service;
 
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
-import com.xht.system.modules.authority.common.enums.MenuTypeEnums;
 import com.xht.system.modules.authority.domain.form.SysMenuForm;
 import com.xht.system.modules.authority.domain.query.SysMenuQuery;
 import com.xht.system.modules.authority.domain.response.SysMenuResponse;
@@ -63,11 +62,10 @@ public interface ISysMenuService {
     List<INode<Long>> findTree(SysMenuQuery query);
 
     /**
-     * 根据菜单类型查询菜单列表(树形结构)
+     * 根据条件查询是否包含菜单类型为button菜单列表(树形结构)
      *
-     * @param menuType 菜单类型
      * @return 菜单树形结构信息
      */
-    List<INode<Long>> findSystemTree(MenuTypeEnums menuType);
+    List<INode<Long>> getMenuTreeSystemTool();
 
 }

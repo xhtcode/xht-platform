@@ -61,7 +61,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public void removeById(Long id) {
         Boolean existsDeptPost = sysDeptDao.exists(SysDeptEntity::getId, id);
-        ThrowUtils.throwIf(existsDeptPost, BusinessErrorCode.DATA_NOT_EXIST, "该部门下已有部门，不能删除");
+        ThrowUtils.throwIf(!existsDeptPost, BusinessErrorCode.DATA_NOT_EXIST, "该部门下已有部门，不能删除");
         sysDeptDao.removeById(id);
     }
 

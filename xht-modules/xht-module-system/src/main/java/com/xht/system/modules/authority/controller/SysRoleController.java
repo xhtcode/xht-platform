@@ -1,17 +1,22 @@
 package com.xht.system.modules.authority.controller;
 
+import cn.hutool.core.thread.ThreadUtil;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.authority.common.enums.RoleStatusEnums;
 import com.xht.system.modules.authority.domain.form.SysRoleForm;
+import com.xht.system.modules.authority.domain.form.SysRoleMenuBindForm;
 import com.xht.system.modules.authority.domain.query.SysRoleQuery;
+import com.xht.system.modules.authority.domain.response.RoleSelectedMenuResponse;
 import com.xht.system.modules.authority.domain.response.SysRoleResponse;
+import com.xht.system.modules.authority.service.ISysRoleMenuService;
 import com.xht.system.modules.authority.service.ISysRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -32,6 +37,8 @@ import java.util.List;
 public class SysRoleController {
 
     private final ISysRoleService sysRoleService;
+
+    private final ISysRoleMenuService sysRoleMenuService;
 
     /**
      * 创建角色
@@ -143,6 +150,36 @@ public class SysRoleController {
     @Operation(summary = "查询全部角色", description = "查询全部角色")
     public R<List<SysRoleResponse>> list() {
         return R.ok(sysRoleService.list());
+    }
+
+
+    //-----------------------------角色菜单管理---------------------------------
+
+    /**
+     * 角色绑定菜单
+     *
+     * @param bindRequest 角色菜单绑定请求
+     * @return 成功、失败
+     */
+    @CheckMenu("sys:role:menu:bind")
+    @PostMapping("/menu/bind")
+    @Operation(summary = "角色绑定菜单", description = "角色绑定菜单")
+    public R<Void> roleMenuBind(@Valid @RequestBody SysRoleMenuBindForm bindRequest) {
+        sysRoleMenuService.roleMenuBind(bindRequest);
+        return R.ok();
+    }
+
+
+    /**
+     * 获取当前角色拥有的菜单ID列表
+     *
+     * @param roleId 角色ID
+     * @return 菜单ID列表
+     */
+    @GetMapping("/select/menu/{roleId}")
+    @Operation(summary = "获取当前角色拥有的菜单ID列表", description = "获取当前角色拥有的菜单ID列表")
+    public R<RoleSelectedMenuResponse> selectMenuIdByRoleId(@PathVariable("roleId") String roleId) {
+        return R.ok(sysRoleMenuService.selectMenuIdByRoleId(roleId));
     }
 
 }

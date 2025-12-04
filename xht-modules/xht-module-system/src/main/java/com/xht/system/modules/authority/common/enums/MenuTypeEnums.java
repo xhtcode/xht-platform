@@ -16,10 +16,10 @@ import lombok.Getter;
 public enum MenuTypeEnums implements IEnum<String> {
 
     M("M", "目录"),
-    C("C", "菜单"),
-    B("B", "按钮"),
 
-    ALL("ALL", "全部");
+    C("C", "菜单"),
+
+    B("B", "按钮");
 
     @JsonValue
     private final String value;
