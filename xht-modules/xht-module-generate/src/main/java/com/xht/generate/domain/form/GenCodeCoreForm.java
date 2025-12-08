@@ -22,7 +22,7 @@ public class GenCodeCoreForm extends BasicForm {
      */
     @NotEmpty(message = "表id不能为空")
     @Schema(description = "表ID列表")
-    private List<String> tableIds;
+    private List<Long> tableIds;
 
     /**
      * 包名称

@@ -2,6 +2,8 @@ package com.xht.generate.domain.bo;
 
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.constant.StringConstant;
+import com.xht.framework.core.utils.StringUtils;
+import com.xht.generate.constant.GenConstant;
 import lombok.Data;
 
 import java.io.Serial;
@@ -76,9 +78,11 @@ public class TableBo implements Serializable {
      */
     public String getServiceName() {
         // 从起始位置截取到第一个下划线（无下划线则截取整个表名）
-        int firstUnderlineIndex = this.tableName.lastIndexOf("_");
-        int startIndex = Math.max(firstUnderlineIndex, 0);
-        return StrUtil.sub(this.tableName, startIndex, this.tableName.length()).toLowerCase();
+        if (StringUtils.isEmpty(this.tableName)) {
+            return StringConstant.EMPTY;
+        }
+        String[] split = StrUtil.splitToArray(this.tableName, GenConstant.UNDERLINE);
+        return split[split.length - 1].toLowerCase();
     }
 
     /**
@@ -119,6 +123,6 @@ public class TableBo implements Serializable {
      * @return 权限前缀
      */
     public String getPermissionPrefix() {
-        return StrUtil.replace(tableName, "_", ":");
+        return StrUtil.replace(tableName, GenConstant.UNDERLINE, GenConstant.COLON);
     }
 }

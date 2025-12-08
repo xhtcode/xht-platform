@@ -27,9 +27,25 @@ public class GenTableColumnQueryDaoImpl extends MapperRepositoryImpl<GenTableCol
     @Override
     public List<GenTableColumnQueryEntity> findByTableId(Long tableId) {
         LambdaQueryWrapper<GenTableColumnQueryEntity> queryWrapper = lambdaQueryWrapper();
-        queryWrapper.eq(GenTableColumnQueryEntity::getTableId, tableId)
+        queryWrapper
+                .eq(GenTableColumnQueryEntity::getTableId, tableId)
                 .orderByAsc(GenTableColumnQueryEntity::getSortOrder);
-        return List.of();
+        return list(queryWrapper);
+    }
+
+    /**
+     * 根据表ID查询字段信息
+     *
+     * @param tableIds 表ID
+     * @return 字段信息
+     */
+    @Override
+    public List<GenTableColumnQueryEntity> findByTableId(List<Long> tableIds) {
+        LambdaQueryWrapper<GenTableColumnQueryEntity> queryWrapper = lambdaQueryWrapper();
+        queryWrapper
+                .in(GenTableColumnQueryEntity::getTableId, tableIds)
+                .orderByAsc(GenTableColumnQueryEntity::getSortOrder);
+        return list(queryWrapper);
     }
 
     /**

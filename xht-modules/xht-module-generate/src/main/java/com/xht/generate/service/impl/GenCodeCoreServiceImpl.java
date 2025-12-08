@@ -4,10 +4,13 @@ import cn.hutool.core.io.IoUtil;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.generate.dao.GenTableColumnDao;
+import com.xht.generate.dao.GenTableColumnQueryDao;
 import com.xht.generate.dao.GenTableDao;
 import com.xht.generate.dao.GenTemplateDao;
 import com.xht.generate.domain.bo.GenCodeCoreBo;
+import com.xht.generate.domain.bo.TableInfoBo;
 import com.xht.generate.domain.entity.GenTableColumnEntity;
+import com.xht.generate.domain.entity.GenTableColumnQueryEntity;
 import com.xht.generate.domain.entity.GenTableEntity;
 import com.xht.generate.domain.entity.GenTemplateEntity;
 import com.xht.generate.domain.form.GenCodeCoreForm;
@@ -35,9 +38,11 @@ import java.util.zip.ZipOutputStream;
 @RequiredArgsConstructor
 public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
 
+    private final GenTableDao tableInfoDao;
+
     private final GenTableColumnDao columnInfoDao;
 
-    private final GenTableDao tableInfoDao;
+    private final GenTableColumnQueryDao columnQueryDao;
 
     private final GenTemplateDao templateDao;
 
@@ -85,13 +90,17 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
      * @return List<GenCodeCoreBo> 代码预览信息列表，包含各个代码文件的内容
      */
     public List<GenCodeCoreBo> generateCodeOriginal(GenCodeCoreForm genCodeCoreForm) {
-        // 1. 校验并获取基础数据
-        List<String> tableIds = genCodeCoreForm.getTableIds();
+        // 校验并获取基础数据
+        List<Long> tableIds = genCodeCoreForm.getTableIds();
         List<GenTableEntity> tableEntities = tableInfoDao.findList(GenTableEntity::getId, tableIds);
         ThrowUtils.notEmpty(tableEntities, "请选择要生成的表");
-        // 2. 按分组整理数据
+        // 查询查询字段
+        List<GenTableColumnQueryEntity> columnQueryEntities = columnQueryDao.findByTableId(tableIds);
+        // 按表ID进行分组
+        Map<Long, List<GenTableColumnQueryEntity>> columnQueryMap = columnQueryEntities.stream().collect(Collectors.groupingBy(GenTableColumnQueryEntity::getTableId));
+        // 按分组整理数据
         Map<Long, List<GenTableEntity>> tablesByGroup = tableEntities.stream().collect(Collectors.groupingBy(GenTableEntity::getGroupId));
-        // 3. 解析模板并生成代码
+        // 解析模板并生成代码
         List<GenCodeCoreBo> codeList = new ArrayList<>();
         for (Long groupId : tablesByGroup.keySet()) {
             List<GenTableEntity> genTableEntities = tablesByGroup.get(groupId);
@@ -102,7 +111,8 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
                 // 为每个表生成代码
                 for (GenTableEntity table : genTableEntities) {
                     List<GenTableColumnEntity> tableColumns = columnInfoDao.findList(GenTableColumnEntity::getTableId, table.getId());
-                    List<GenCodeCoreBo> codeCoreBoList = GenCodeHelper.generateCode(genCodeCoreForm, table, tableColumns, originalList);
+                    TableInfoBo tableInfoBo = new TableInfoBo(table, tableColumns, columnQueryMap.getOrDefault(table.getId(), Collections.emptyList()));
+                    List<GenCodeCoreBo> codeCoreBoList = GenCodeHelper.generateCode(genCodeCoreForm, tableInfoBo, originalList);
                     codeList.addAll(codeCoreBoList);
                 }
             } catch (Exception e) {

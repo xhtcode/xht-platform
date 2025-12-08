@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.xht.framework.mybatis.domain.entity.BasicEntity;
+import com.xht.framework.mybatis.domain.entity.NoneDeleteEntity;
 import com.xht.generate.constant.enums.GenStatusEnums;
 import com.xht.generate.constant.enums.IdPrimaryKeyEnums;
 import lombok.Data;
@@ -17,7 +17,7 @@ import java.io.Serializable;
  */
 @Data
 @TableName(value ="gen_table_column")
-public class GenTableColumnEntity extends BasicEntity implements Serializable {
+public class GenTableColumnEntity extends NoneDeleteEntity implements Serializable {
 
     /**
      * 主键

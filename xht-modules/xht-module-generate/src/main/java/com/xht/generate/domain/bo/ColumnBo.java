@@ -11,6 +11,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 
 import static com.xht.generate.constant.GenConstant.COLUMN_NOT_FORM;
 import static com.xht.generate.constant.GenConstant.COLUMN_NOT_LIST;
@@ -98,6 +99,9 @@ public class ColumnBo implements Serializable {
      * @return 设置 表单新增
      */
     public GenStatusEnums getFromInsert() {
+        if (Objects.equals(IdPrimaryKeyEnums.YES, this.dbPrimary)) {
+            return GenStatusEnums.NO;
+        }
         return determineIncluded(COLUMN_NOT_FORM);
     }
 
@@ -105,6 +109,9 @@ public class ColumnBo implements Serializable {
      * @return 设置 表单更新
      */
     public GenStatusEnums getFromUpdate() {
+        if (Objects.equals(IdPrimaryKeyEnums.YES, this.dbPrimary)) {
+            return GenStatusEnums.NO;
+        }
         return determineIncluded(COLUMN_NOT_FORM);
     }
 

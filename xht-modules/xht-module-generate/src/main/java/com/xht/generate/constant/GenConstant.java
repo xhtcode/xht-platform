@@ -6,7 +6,12 @@ package com.xht.generate.constant;
 public class GenConstant {
 
     public static final String PATH_SEPARATOR = "/";
+
+    public static final String UNDERLINE = "_";
+
     public static final String POINT = ".";
+
+    public static final String  COLON = ":";
     /**
      * 等于
      */
@@ -32,4 +37,5 @@ public class GenConstant {
             "update_time", "del_flag", "version", "tenant_id"};
 
 
+    public static final String EMPTY = "";
 }

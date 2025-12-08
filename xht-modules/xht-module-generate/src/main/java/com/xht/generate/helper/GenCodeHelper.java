@@ -7,10 +7,8 @@ import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.UtilException;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.generate.constant.GenConstant;
-import com.xht.generate.constant.enums.IdPrimaryKeyEnums;
 import com.xht.generate.domain.bo.GenCodeCoreBo;
-import com.xht.generate.domain.entity.GenTableColumnEntity;
-import com.xht.generate.domain.entity.GenTableEntity;
+import com.xht.generate.domain.bo.TableInfoBo;
 import com.xht.generate.domain.entity.GenTemplateEntity;
 import com.xht.generate.domain.form.GenCodeCoreForm;
 import org.apache.velocity.VelocityContext;
@@ -18,7 +16,10 @@ import org.apache.velocity.app.Velocity;
 import org.springframework.util.CollectionUtils;
 
 import java.io.StringWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -44,12 +45,11 @@ public final class GenCodeHelper {
     /**
      * 生成代码文件
      *
-     * @param request      代码生成核心请求参数
-     * @param table        表信息实体
-     * @param tableColumns 表列信息实体列表
-     * @param codeCore     解析后的代码核心业务对象列表
+     * @param request     代码生成核心请求参数
+     * @param tableInfoBo 表信息业务对象
+     * @param codeCore    解析后的代码核心业务对象列表
      */
-    public static List<GenCodeCoreBo> generateCode(GenCodeCoreForm request, GenTableEntity table, List<GenTableColumnEntity> tableColumns, List<GenCodeCoreBo> codeCore) {
+    public static List<GenCodeCoreBo> generateCode(GenCodeCoreForm request, TableInfoBo tableInfoBo, List<GenCodeCoreBo> codeCore) {
         List<GenCodeCoreBo> result = new ArrayList<>();
         if (CollectionUtils.isEmpty(codeCore)) {
             return Collections.emptyList();
@@ -57,36 +57,10 @@ public final class GenCodeHelper {
         VelocityContext context = new VelocityContext();
         context.put("packageName", request.getPackageName());
         context.put("nowDate", DateUtil.now());
-        context.put("tableId", table.getId());
-        context.put("groupId", table.getGroupId());
-        context.put("dataSourceId", table.getDataSourceId());
-        context.put("dataBaseType", table.getDataBaseType());
-        context.put("engineName", table.getEngineName());
-        context.put("tableName", table.getTableName());
-        context.put("tableComment", table.getTableComment());
-        context.put("moduleName", table.getModuleName());
-        context.put("serviceName", table.getServiceName());
-        context.put("codeName", StrUtil.lowerFirst(table.getCodeName()));
-        context.put("codeNameUpperFirst", StrUtil.upperFirst(table.getCodeName()));
-        context.put("codeComment", table.getCodeComment());
-        context.put("backEndAuthor", table.getBackEndAuthor());
-        context.put("frontEndAuthor", table.getFrontEndAuthor());
-        context.put("urlPrefix", table.getUrlPrefix());
-        context.put("permissionPrefix", table.getPermissionPrefix());
-        context.put("parentMenuId", table.getParentMenuId());
-        context.put("pageStyle", table.getPageStyle());
-        context.put("pageStyleWidth", table.getPageStyleWidth());
-        context.put("fromNumber", table.getFromNumber());
-        Set<String> allPackages = new HashSet<>();
-        context.put("allColumns", convertColumnToMap(tableColumns, allPackages));
-        context.put("allPackages", allPackages);
-        context.put("pkColumn", filterPkColumnToMap(tableColumns));
         addIdGenerators(context);
         for (GenCodeCoreBo item : codeCore) {
-            List<GenTableColumnEntity> filter = item.filter(tableColumns);
-            Set<String> importClassNames = new HashSet<>();
-            context.put("column", convertColumnToMap(filter, importClassNames));
-            context.put("packages", importClassNames);
+            Set<String> ignoreField = item.getIgnoreField();
+            tableInfoBo.fillVelocityContext(context, ignoreField);
             // 渲染文件路径
             String resolvedPath = renderTemplate(context, "filePathTemplate", item.getFilePath());
             // 渲染文件路径
@@ -96,7 +70,7 @@ public final class GenCodeHelper {
             GenCodeCoreBo genCodeCoreBo = new GenCodeCoreBo(item.getIgnoreField());
             genCodeCoreBo.setFilePath(String.format("%s.%s", StringUtils.replace(resolvedPath, GenConstant.POINT, GenConstant.PATH_SEPARATOR), item.getFileType()));
             genCodeCoreBo.setFileName(fileName);
-            genCodeCoreBo.setTableName(table.getTableName());
+            genCodeCoreBo.setTableName(tableInfoBo.getTableName());
             genCodeCoreBo.setCode(resolvedCode);
             genCodeCoreBo.setFileType(item.getFileType());
             result.add(genCodeCoreBo);
@@ -104,71 +78,6 @@ public final class GenCodeHelper {
         return result;
     }
 
-
-    /**
-     * 将表列信息实体列表转换为Map列表
-     *
-     * @param tableColumns 表列信息实体列表
-     * @return 转换后的Map列表，每个Map代表一列的信息
-     */
-    private static List<Map<String, Object>> convertColumnToMap(List<GenTableColumnEntity> tableColumns, Set<String> importClassNames) {
-        List<Map<String, Object>> columnMaps = new ArrayList<>();
-        for (GenTableColumnEntity tableColumn : tableColumns) {
-            columnMaps.add(convertColumnToMap(tableColumn));
-            if (StringUtils.hasText(tableColumn.getCodeJavaPackage())) {
-                importClassNames.add(tableColumn.getFromComponent());
-            }
-        }
-        return columnMaps;
-    }
-
-    /**
-     * 将表列信息实体转换为Map
-     *
-     * @param tableColumn 表列信息实体
-     * @return 转换后的Map
-     */
-    private static Map<String, Object> convertColumnToMap(GenTableColumnEntity tableColumn) {
-        Map<String, Object> columnMap = new HashMap<>();
-        columnMap.put("id", tableColumn.getId());
-        columnMap.put("dbName", tableColumn.getDbName());
-        columnMap.put("dbType", tableColumn.getDbType());
-        columnMap.put("dbPrimary", tableColumn.getDbPrimary().getValue());
-        columnMap.put("dbRequired", tableColumn.getDbRequired().getValue());
-        columnMap.put("dbComment", tableColumn.getDbComment());
-        columnMap.put("dbLength", tableColumn.getDbLength());
-        columnMap.put("codeName", StrUtil.lowerFirst(tableColumn.getCodeName()));
-        columnMap.put("codeNameUpperFirst", StrUtil.upperFirst(tableColumn.getCodeName()));
-        columnMap.put("codeComment", tableColumn.getCodeComment());
-        columnMap.put("fromInsert", tableColumn.getFromInsert().getValue());
-        columnMap.put("fromUpdate", tableColumn.getFromUpdate().getValue());
-        columnMap.put("fromLength", tableColumn.getFromLength());
-        columnMap.put("fromFill", tableColumn.getFromFill().getValue());
-        columnMap.put("fromComponent", tableColumn.getFromComponent());
-        columnMap.put("listShow", tableColumn.getListShow().getValue());
-        columnMap.put("listComment", tableColumn.getListComment());
-        columnMap.put("listDisabled", tableColumn.getListDisabled().getValue());
-        columnMap.put("listHidden", tableColumn.getListHidden().getValue());
-        columnMap.put("codeJava", tableColumn.getCodeJava());
-        columnMap.put("codeJavaPackage", tableColumn.getCodeJavaPackage());
-        columnMap.put("codeTs", tableColumn.getCodeTs());
-        columnMap.put("sortOrder", tableColumn.getSortOrder());
-        return columnMap;
-    }
-
-    /**
-     * 从表列信息列表中筛选主键列并转换为Map
-     *
-     * @param tableColumns 表列信息实体列表
-     * @return 主键列信息转换后的Map，如果没有找到主键列则返回空实体转换的Map
-     */
-    private static Map<String, Object> filterPkColumnToMap(List<GenTableColumnEntity> tableColumns) {
-        GenTableColumnEntity pkColumn = tableColumns.stream()
-                .filter(col -> IdPrimaryKeyEnums.YES.equals(col.getDbPrimary()))
-                .findFirst()
-                .orElse(new GenTableColumnEntity());
-        return convertColumnToMap(pkColumn);
-    }
 
 
     /**
@@ -205,7 +114,6 @@ public final class GenCodeHelper {
     }
 
 
-
     /**
      * 使用Velocity模板引擎渲染模板内容
      *
@@ -225,6 +133,5 @@ public final class GenCodeHelper {
             throw new UtilException("模板渲染失败，模板名称：" + templateName, e);
         }
     }
-
 
 }

@@ -1,12 +1,12 @@
 package com.xht.generate.domain.bo;
 
-import com.xht.generate.domain.entity.GenTableColumnEntity;
+import cn.hutool.core.util.StrUtil;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 代码生成核心业务对象
@@ -49,20 +49,14 @@ public final class GenCodeCoreBo {
     /**
      * 忽略的字段 逗号分割
      */
-    private final List<String> ignoreField;
+    private final Set<String> ignoreField;
 
-    public GenCodeCoreBo(List<String> ignoreField) {
-        this.ignoreField = Objects.requireNonNullElseGet(ignoreField, Collections::emptyList);
-    }
-
-    /**
-     * 根据忽略字段过滤表列实体列表
-     *
-     * @param columnEntityList 表列实体列表
-     * @return 过滤后的表列实体列表，如果execute为true则返回包含忽略字段的列，否则返回原列表
-     */
-    public List<GenTableColumnEntity> filter(List<GenTableColumnEntity> columnEntityList) {
-        return columnEntityList.stream().filter(column -> this.ignoreField.contains(column.getCodeName())).toList();
+    public GenCodeCoreBo(Collection<String> ignoreField) {
+        this.ignoreField = new HashSet<>();
+        for (String item : ignoreField) {
+            String camelCase = StrUtil.toCamelCase(item);
+            this.ignoreField.add(StrUtil.toLowerCase(camelCase));
+        }
     }
 
 }
