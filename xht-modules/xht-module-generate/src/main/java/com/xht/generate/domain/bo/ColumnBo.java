@@ -100,6 +100,9 @@ public class ColumnBo implements Serializable {
         if (i < 0) {
             i = this.dbComment.indexOf("(");
         }
+        if (i < 0) {
+            return this.dbComment;
+        }
         return this.dbComment.substring(0, i);
     }
 

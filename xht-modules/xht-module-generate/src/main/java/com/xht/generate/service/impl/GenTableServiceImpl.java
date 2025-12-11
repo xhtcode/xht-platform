@@ -149,11 +149,12 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
             tableBo.setTableId(tableId);
             List<ColumnBo> genColumnInfoEntities = dataBaseQuery.selectTableColumnsByTableName(jdbcTemplate, tableName);
             genTableColumnDao.deleteByTableId(tableId);
+            genTableColumnQueryDao.deleteByTableId(tableId);
             genTableDao.updateById(tableEntity);
             genTableColumnDao.saveAll(GenInfoHelper.parseColumnInfos(dataSourceEntity, tableBo, genColumnInfoEntities));
         } catch (Exception e) {
-            log.error("数据库连接失败 {}", e.getMessage(), e);
-            throw new BusinessException("数据库连接失败");
+            log.error("表同步失败 {}", e.getMessage(), e);
+            throw new BusinessException(e);
         } finally {
             if (Objects.nonNull(jdbcUtils)) {
                 jdbcUtils.close();

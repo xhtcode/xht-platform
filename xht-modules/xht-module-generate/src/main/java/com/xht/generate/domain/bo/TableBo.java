@@ -109,6 +109,9 @@ public class TableBo implements Serializable {
         if (i < 0) {
             i = this.tableComment.indexOf("(");
         }
+        if (i < 0) {
+            return this.tableComment;
+        }
         return this.tableComment.substring(0, i);
     }
 
