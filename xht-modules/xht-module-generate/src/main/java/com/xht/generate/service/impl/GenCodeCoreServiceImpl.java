@@ -116,9 +116,8 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
                     codeList.addAll(codeCoreBoList);
                 }
             } catch (Exception e) {
-                String errorMsg = String.format("代码生成失败: %s", e.getMessage());
-                log.error(errorMsg, e);
-                throw new BusinessException(errorMsg);
+                log.error("代码生成失败: {}", e.getMessage(), e);
+                throw new BusinessException(e);
             }
         }
         return codeList;

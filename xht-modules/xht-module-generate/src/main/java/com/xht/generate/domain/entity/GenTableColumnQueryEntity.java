@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.xht.framework.mybatis.domain.entity.BasicEntity;
+import com.xht.framework.mybatis.domain.entity.NoneDeleteEntity;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,7 +16,7 @@ import java.io.Serializable;
  */
 @Data
 @TableName(value = "gen_table_column_query")
-public class GenTableColumnQueryEntity extends BasicEntity implements Serializable {
+public class GenTableColumnQueryEntity extends NoneDeleteEntity implements Serializable {
 
     /**
      * 主键
@@ -67,7 +67,7 @@ public class GenTableColumnQueryEntity extends BasicEntity implements Serializab
     private String conditionLabel;
 
     /**
-     * 字段值（条件值）
+     * 字段值（字段命名）
      */
     @TableField(value = "condition_value")
     private String conditionValue;

@@ -77,6 +77,7 @@ public class ColumnQueryBo {
      * 代码名称
      */
     private String codeName;
+    private String codeNameUpperFirst;
 
     /**
      * 代码注释

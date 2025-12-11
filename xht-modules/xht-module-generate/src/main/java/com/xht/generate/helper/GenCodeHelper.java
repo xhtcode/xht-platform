@@ -128,7 +128,7 @@ public final class GenCodeHelper {
         }
         try (StringWriter writer = new StringWriter()) {
             Velocity.evaluate(context, writer, templateName, templateContent);
-            return writer.toString().trim(); // 去除首尾空白
+            return writer.toString();
         } catch (Exception e) {
             throw new UtilException("模板渲染失败，模板名称：" + templateName, e);
         }

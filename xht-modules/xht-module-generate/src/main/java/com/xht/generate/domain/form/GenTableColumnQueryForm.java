@@ -12,12 +12,6 @@ import lombok.Data;
 public class GenTableColumnQueryForm extends BasicForm {
 
     /**
-     * 主键
-     */
-    @Schema(description = "主键")
-    private Long id;
-
-    /**
      * 表id
      */
     @Schema(description = "表id")
@@ -60,9 +54,9 @@ public class GenTableColumnQueryForm extends BasicForm {
     private String conditionLabel;
 
     /**
-     * 字段值（条件值）
+     * 字段值（字段命名）
      */
-    @Schema(description = "字段值")
+    @Schema(description = "字段值（字段命名）")
     private String conditionValue;
 
     /**

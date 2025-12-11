@@ -102,7 +102,14 @@ public class TableBo implements Serializable {
      * @return 代码注释（不会返回null）
      */
     public String getCodeComment() {
-        return StrUtil.emptyToDefault(this.tableComment, StringConstant.EMPTY);
+        if (StringUtils.isEmpty(this.tableComment)) {
+            return StringConstant.EMPTY;
+        }
+        int i = this.tableComment.indexOf("（");
+        if (i < 0) {
+            i = this.tableComment.indexOf("(");
+        }
+        return this.tableComment.substring(0, i);
     }
 
     /**

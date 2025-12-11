@@ -61,7 +61,6 @@ public class SysRoleController {
      * @param id 角色ID
      * @return 统一响应结果
      */
-
     @CheckMenu("sys:role:remove")
     @PostMapping("/remove/{id}")
     @Operation(summary = "根据ID删除角色", description = "根据提供的角色ID删除角色")

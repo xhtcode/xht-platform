@@ -3,6 +3,7 @@ package com.xht.generate.domain.bo;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.constant.StringConstant;
+import com.xht.framework.core.utils.StringUtils;
 import com.xht.generate.constant.GenConstant;
 import com.xht.generate.constant.enums.GenStatusEnums;
 import com.xht.generate.constant.enums.IdPrimaryKeyEnums;
@@ -92,7 +93,14 @@ public class ColumnBo implements Serializable {
      * @return 代码注释
      */
     public String getCodeComment() {
-        return StrUtil.emptyToDefault(this.getDbComment(), StringConstant.EMPTY);
+        if (StringUtils.isEmpty(this.dbComment)) {
+            return StringConstant.EMPTY;
+        }
+        int i = this.dbComment.indexOf("（");
+        if (i < 0) {
+            i = this.dbComment.indexOf("(");
+        }
+        return this.dbComment.substring(0, i);
     }
 
     /**

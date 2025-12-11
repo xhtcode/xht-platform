@@ -60,7 +60,7 @@ public final class GenInfoHelper {
         tableEntity.setParentMenuId(0L);
         tableEntity.setPageStyle(PageStyleEnums.DRAWER);
         tableEntity.setPageStyleWidth(45);
-        tableEntity.setFromNumber(2);
+        tableEntity.setFromNumber(4);
         tableEntity.setTableCreateTime(tableBo.getTableCreateTime());
         tableEntity.setTableUpdateTime(tableBo.getTableUpdateTime());
         return tableEntity;

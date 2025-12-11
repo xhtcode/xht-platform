@@ -134,6 +134,7 @@ public final class TableInfoBo {
         columnQueryBo.setDbComment(column.getDbComment());
         columnQueryBo.setDbLength(column.getDbLength());
         columnQueryBo.setCodeName(column.getCodeName());
+        columnQueryBo.setCodeNameUpperFirst(StrUtil.upperFirst(column.getCodeName()));
         columnQueryBo.setCodeComment(column.getCodeComment());
         columnQueryBo.setFromComponent(column.getFromComponent());
         columnQueryBo.setCodeJava(column.getCodeJava());
@@ -180,8 +181,8 @@ public final class TableInfoBo {
         columnMap.put("fromComponent", tableColumn.getFromComponent());
         columnMap.put("listShow", tableColumn.getListShow().getValue());
         columnMap.put("listComment", tableColumn.getListComment());
-        columnMap.put("listDisabled", tableColumn.getListDisabled().getValue());
-        columnMap.put("listHidden", tableColumn.getListHidden().getValue());
+        columnMap.put("listDisabled", Objects.equals(GenStatusEnums.YES, tableColumn.getListDisabled()));
+        columnMap.put("listHidden", Objects.equals(GenStatusEnums.YES, tableColumn.getListHidden()));
         columnMap.put("codeJava", tableColumn.getCodeJava());
         columnMap.put("codeJavaPackage", tableColumn.getCodeJavaPackage());
         columnMap.put("codeTs", tableColumn.getCodeTs());
@@ -201,6 +202,7 @@ public final class TableInfoBo {
         this.formColumnsPackage.clear();
         this.listColumns.clear();
         this.listColumnsPackage.clear();
+        this.formListDifferenceColumns.clear();
         for (GenTableColumnEntity column : this.allColumns) {
             if (ignoreField.contains(StrUtil.toLowerCase(column.getCodeName()))) {
                 continue;
@@ -214,7 +216,7 @@ public final class TableInfoBo {
                 if (StringUtils.isEmpty(column.getCodeJavaPackage())) {
                     this.formColumnsPackage.add(column.getCodeJavaPackage());
                 }
-                if (!Objects.equals(column.getListShow(), GenStatusEnums.YES)) {
+                if (!Objects.equals(column.getListShow(), GenStatusEnums.YES) && Objects.equals(column.getDbPrimary(), IdPrimaryKeyEnums.NO)) {
                     this.formListDifferenceColumns.add(column);
                 }
             }
@@ -223,7 +225,7 @@ public final class TableInfoBo {
                 if (StringUtils.isEmpty(column.getCodeJavaPackage())) {
                     this.listColumnsPackage.add(column.getCodeJavaPackage());
                 }
-                if (!(Objects.equals(column.getFromInsert(), GenStatusEnums.YES) || Objects.equals(column.getFromUpdate(), GenStatusEnums.YES))) {
+                if (!(Objects.equals(column.getFromInsert(), GenStatusEnums.YES) || Objects.equals(column.getFromUpdate(), GenStatusEnums.YES)) && Objects.equals(column.getDbPrimary(), IdPrimaryKeyEnums.NO)) {
                     this.formListDifferenceColumns.add(column);
                 }
             }
@@ -246,7 +248,7 @@ public final class TableInfoBo {
         context.put("urlPrefix", table.getUrlPrefix());
         context.put("permissionPrefix", table.getPermissionPrefix());
         context.put("parentMenuId", table.getParentMenuId());
-        context.put("pageStyle", table.getPageStyle());
+        context.put("pageStyle", table.getPageStyle().getValue());
         context.put("pageStyleWidth", table.getPageStyleWidth());
         context.put("fromNumber", table.getFromNumber());
         context.put("pkColumn", convertColumnToMap(this.pkColumn));

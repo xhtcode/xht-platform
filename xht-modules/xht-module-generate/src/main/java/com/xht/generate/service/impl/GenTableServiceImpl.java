@@ -43,6 +43,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 
 /**
@@ -191,7 +192,12 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
         }
         genTableColumnQueryDao.deleteByTableId(tableInfo.getId());
         if (!CollectionUtils.isEmpty(queryColumns)){
-            genTableColumnQueryDao.saveAll(genTableColumnQueryConverter.toEntity(queryColumns));
+            List<GenTableColumnQueryForm> saveQueryColumns = new ArrayList<>();
+            Map<String, List<GenTableColumnQueryForm>> collect = queryColumns.stream().collect(Collectors.groupingBy(item -> item.getColumnId() + item.getQueryType()));
+            collect.forEach((k, v) -> {
+                saveQueryColumns.add(v.get(0));
+            });
+            genTableColumnQueryDao.saveAll(genTableColumnQueryConverter.toEntity(saveQueryColumns));
         }
         genTableDao.updateFormRequest(form.getTableInfo());
     }
