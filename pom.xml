@@ -27,11 +27,10 @@
         <spring-boot.version>3.5.8</spring-boot.version>
         <spring-boot-admin.version>3.5.5</spring-boot-admin.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
-        <spring-cloud-alibaba.version>2025.0.0.0-preview</spring-cloud-alibaba.version>
-        <hutool.version>5.8.40</hutool.version>
+        <spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
+        <hutool.version>5.8.42</hutool.version>
         <lombok.version>1.18.36</lombok.version>
         <mapstruct.version>1.6.3</mapstruct.version>
-        <commons-lang3.version>3.18.0</commons-lang3.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
     </properties>
 
@@ -86,12 +85,6 @@
                 <version>${hutool.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <!-- commons-lang3 覆盖其他包中的警告信息-->
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3.version}</version>
             </dependency>
             <!-- 自定义的api暴露接口 -->
             <dependency>

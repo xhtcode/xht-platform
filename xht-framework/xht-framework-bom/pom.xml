@@ -13,10 +13,9 @@
     <properties>
         <revision>1.0.0</revision>
         <mysql.version>9.4.0</mysql.version>
-        <mybatis-plus.version>3.5.14</mybatis-plus.version>
+        <mybatis-plus.version>3.5.15</mybatis-plus.version>
         <knife4j-springdoc.version>4.5.0</knife4j-springdoc.version>
-        <swagger.core.version>2.2.37</swagger.core.version>
-        <common.io.version>2.18.0</common.io.version>
+        <swagger.core.version>2.2.39</swagger.core.version>
         <velocity.version>2.4</velocity.version>
     </properties>
 
@@ -124,12 +123,6 @@
                 <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-annotations-jakarta</artifactId>
                 <version>${swagger.core.version}</version>
-            </dependency>
-            <!-- commons.io  -->
-            <dependency>
-                <artifactId>commons-io</artifactId>
-                <groupId>commons-io</groupId>
-                <version>${common.io.version}</version>
             </dependency>
             <!-- 代码生成使用模板 -->
             <dependency>
