@@ -36,6 +36,37 @@ CREATE TABLE `sys_dept`
   ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for sys_login_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_login_log`;
+CREATE TABLE `sys_login_log`
+(
+    `id`            bigint                                                        NOT NULL COMMENT '日志ID',
+    `user_name`     varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NOT NULL COMMENT '用户名',
+    `ip_address`    varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL     DEFAULT NULL COMMENT '登录IP地址',
+    `device_info`   text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci          NULL COMMENT '登录设备信息',
+    `login_status`  tinyint                                                        NOT NULL DEFAULT 0 COMMENT '登录状态（0：失败，1：成功）',
+    `failure_reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL     DEFAULT NULL COMMENT '失败原因',
+    `login_type`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL     DEFAULT NULL COMMENT '登录方式',
+    `grant_type`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL     DEFAULT NULL COMMENT '授权方式',
+    `login_location` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL     DEFAULT NULL COMMENT '登录地点',
+    `browser`       varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL     DEFAULT NULL COMMENT '浏览器类型',
+    `os`            varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL     DEFAULT NULL COMMENT '操作系统',
+    `create_time`   datetime                                                      NULL     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time`   datetime                                                      NULL     DEFAULT NULL COMMENT '更新时间',
+    `create_by`     varchar(65) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL     DEFAULT NULL COMMENT '创建者',
+    `update_by`     varchar(65) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL     DEFAULT NULL COMMENT '更新者',
+    `del_flag`      tinyint                                                        NOT NULL DEFAULT 0 COMMENT '删除标志(0正常 1删除)',
+    PRIMARY KEY (`id`) USING BTREE,
+    INDEX `idx_user_name` (`user_name`) USING BTREE,
+    INDEX `idx_login_status` (`login_status`) USING BTREE,
+    INDEX `idx_create_time` (`create_time`) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci COMMENT = '登录日志表'
+  ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for sys_dept_post
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dept_post`;

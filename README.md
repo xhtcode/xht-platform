@@ -17,7 +17,7 @@ xht-platform 是一个基于 Spring Cloud Alibaba 的微服务架构平台，专
 ![架构图]()
 
 ### 技术栈
-- **核心框架**：Spring Boot 2.7.x、Spring Cloud Alibaba 2021.x
+- **核心框架**：Spring Boot 3.5.8、Spring Cloud 2025.0.0、Spring Cloud Alibaba 2025.0.0.0-preview
 - **认证授权**：OAuth2、Spring Security
 - **数据访问**：MyBatis Plus、MySQL
 - **缓存存储**：Redis
@@ -39,26 +39,45 @@ xht-platform
 ├── README.md
 ├── doc                  # 文档目录
 │   ├── sql              # SQL脚本
-│   └── 开发需求.md       # 开发需求文档
+│   │   ├── datatabase.sql
+│   │   ├── xht-generate.sql
+│   │   ├── xht-platform.sql
+│   │   └── xht_nacos.sql
+│   ├── 开发规范和编码指南.md
+│   └── 开发需求.md
 ├── lombok.config
 ├── pom.xml
 ├── xht-api              # API 定义
+│   ├── xht-api-system-log       # 系统日志API
+│   ├── xht-api-system-oauth2    # OAuth2 API
+│   ├── xht-api-system-user      # 用户管理API
+│   └── pom.xml
 ├── xht-auth             # 认证中心
+│   ├── src
+│   └── pom.xml
 ├── xht-demo             # 示例模块
+│   ├── src
+│   └── pom.xml
 ├── xht-framework        # 框架核心
 │   ├── xht-framework-bom               # BOM管理
-│   ├── xht-framework-redis             # redis缓存模块
 │   ├── xht-framework-core              # 核心模块
 │   ├── xht-framework-log               # 日志模块
 │   ├── xht-framework-mybatis           # MyBatis扩展
 │   ├── xht-framework-openfeign         # OpenFeign扩展
+│   ├── xht-framework-redis             # Redis缓存模块
 │   ├── xht-framework-resource-server   # 资源服务器
 │   ├── xht-framework-security          # 安全模块
+│   ├── xht-framework-sms               # 短信模块
 │   ├── xht-framework-swagger           # Swagger扩展
 │   ├── xht-framework-web               # Web扩展
 │   ├── xht-spring-boot-starter         # Spring Boot启动器
-│   └── xht-spring-cloud-starter        # Spring Cloud启动器
+│   ├── xht-spring-cloud-starter        # Spring Cloud启动器
+│   └── pom.xml
 ├── xht-gateway          # 网关服务
+│   ├── src
+│   └── pom.xml
 └── xht-modules          # 业务模块
-    └── xht-module-system               # 系统管理模块
+    ├── xht-module-generate        # 代码生成模块
+    ├── xht-module-system          # 系统管理模块
+    └── pom.xml
 ```
