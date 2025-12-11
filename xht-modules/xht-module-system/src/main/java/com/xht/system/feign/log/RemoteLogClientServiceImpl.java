@@ -30,8 +30,8 @@ public class RemoteLogClientServiceImpl implements RemoteLogClientService {
      * @return 保存结果
      */
     @Override
-    @PostMapping("/api/sys/log/save")
     @IgnoreAuth
+    @PostMapping("/api/sys/log/save")
     public R<Void> saveLog(@RequestBody LogDTO logDTO) {
         sysLogService.create(logDTO);
         return R.ok();

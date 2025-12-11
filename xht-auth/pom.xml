@@ -52,22 +52,7 @@
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-framework-openfeign</artifactId>
-        </dependency>
-        <!-- bootstrap 启动器 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
-        </dependency>
-        <!--注册中心客户端-->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-        <!--配置中心客户端-->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <artifactId>xht-spring-cloud-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
@@ -76,6 +61,10 @@
         <dependency>
             <groupId>com.xht</groupId>
             <artifactId>xht-api-system-user</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-api-system-log</artifactId>
         </dependency>
     </dependencies>
     <build>

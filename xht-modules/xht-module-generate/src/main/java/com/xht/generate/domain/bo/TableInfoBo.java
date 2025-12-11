@@ -81,6 +81,12 @@ public final class TableInfoBo {
      */
     private final Set<String> listColumnsPackage = new HashSet<>();
 
+
+    /**
+     * 表单 字段列表信息
+     */
+    private final List<GenTableColumnEntity> formListDifferenceColumns = new ArrayList<>();
+
     /**
      * 构造表信息业务对象
      *
@@ -208,14 +214,21 @@ public final class TableInfoBo {
                 if (StringUtils.isEmpty(column.getCodeJavaPackage())) {
                     this.formColumnsPackage.add(column.getCodeJavaPackage());
                 }
+                if (!Objects.equals(column.getListShow(), GenStatusEnums.YES)) {
+                    this.formListDifferenceColumns.add(column);
+                }
             }
             if (Objects.equals(column.getListShow(), GenStatusEnums.YES)) {
                 this.listColumns.add(column);
                 if (StringUtils.isEmpty(column.getCodeJavaPackage())) {
                     this.listColumnsPackage.add(column.getCodeJavaPackage());
                 }
+                if (!(Objects.equals(column.getFromInsert(), GenStatusEnums.YES) || Objects.equals(column.getFromUpdate(), GenStatusEnums.YES))) {
+                    this.formListDifferenceColumns.add(column);
+                }
             }
         }
+
         context.put("tableId", table.getId());
         context.put("groupId", table.getGroupId());
         context.put("dataSourceId", table.getDataSourceId());
@@ -247,6 +260,7 @@ public final class TableInfoBo {
         context.put("formColumnsPackage", this.formColumnsPackage);
         context.put("listColumns", convertColumnToMap(this.listColumns));
         context.put("listColumnsPackage", this.listColumnsPackage);
+        context.put("formListDifferenceColumns", convertColumnToMap(this.formListDifferenceColumns));
     }
 
 
