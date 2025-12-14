@@ -118,12 +118,6 @@ public class GenTableColumnResponse extends MetaResponse {
     private GenStatusEnums listShow;
 
     /**
-     * 列表描述
-     */
-    @Schema(description = "列表描述")
-    private String listComment;
-
-    /**
      * 显示切换禁用：0-不禁用，1-禁用
      */
     @Schema(description = "显示切换禁用：0-不禁用，1-禁用")
@@ -152,6 +146,12 @@ public class GenTableColumnResponse extends MetaResponse {
      */
     @Schema(description = "ts类型")
     private String codeTs;
+
+    /**
+     * 字典编码
+     */
+    @Schema(description = "dict_code")
+    private String dictCode;
 
     /**
      * 字段排序

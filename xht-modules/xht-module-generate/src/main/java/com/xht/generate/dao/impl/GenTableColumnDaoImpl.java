@@ -55,12 +55,12 @@ public class GenTableColumnDaoImpl extends MapperRepositoryImpl<GenTableColumnMa
                 .set(condition(column.getFromFill()), GenTableColumnEntity::getFromFill, column.getFromFill())
                 .set(condition(column.getFromComponent()), GenTableColumnEntity::getFromComponent, column.getFromComponent())
                 .set(condition(column.getListShow()), GenTableColumnEntity::getListShow, column.getListShow())
-                .set(condition(column.getListComment()), GenTableColumnEntity::getListComment, column.getListComment())
                 .set(condition(column.getListDisabled()), GenTableColumnEntity::getListDisabled, column.getListDisabled())
                 .set(condition(column.getListHidden()), GenTableColumnEntity::getListHidden, column.getListHidden())
                 .set(condition(column.getCodeJava()), GenTableColumnEntity::getCodeJava, column.getCodeJava())
                 .set(condition(column.getCodeJavaPackage()), GenTableColumnEntity::getCodeJavaPackage, column.getCodeJavaPackage())
                 .set(condition(column.getCodeTs()), GenTableColumnEntity::getCodeTs, column.getCodeTs())
+                .set(GenTableColumnEntity::getDictCode, column.getDictCode())
                 .set(condition(column.getSortOrder()), GenTableColumnEntity::getSortOrder, column.getSortOrder())
         ;
         // @formatter:on

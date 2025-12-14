@@ -73,6 +73,18 @@ public class GenTableColumnQueryEntity extends NoneDeleteEntity implements Seria
     private String conditionValue;
 
     /**
+     * 表单组件
+     */
+    @TableField(value = "from_component")
+    private String fromComponent;
+
+    /**
+     * 字典编码
+     */
+    @TableField(value = "dict_code")
+    private String dictCode;
+
+    /**
      * 字段排序
      */
     @TableField(value = "sort_order")

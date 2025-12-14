@@ -122,12 +122,6 @@ public class GenTableColumnEntity extends NoneDeleteEntity implements Serializab
     private GenStatusEnums listShow;
 
     /**
-     * 列表描述
-     */
-    @TableField(value = "list_comment")
-    private String listComment;
-
-    /**
      * 显示切换禁用：0-不禁用，1-禁用
      */
     @TableField(value = "list_disabled")
@@ -156,6 +150,12 @@ public class GenTableColumnEntity extends NoneDeleteEntity implements Serializab
      */
     @TableField(value = "code_ts")
     private String codeTs;
+
+    /**
+     * 字典编码
+     */
+    @TableField(value = "dict_code")
+    private String dictCode;
 
     /**
      * 字段排序

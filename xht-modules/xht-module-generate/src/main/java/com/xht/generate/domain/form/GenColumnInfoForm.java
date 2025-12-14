@@ -142,13 +142,6 @@ public class GenColumnInfoForm extends BasicForm {
     private GenStatusEnums listShow;
 
     /**
-     * 列表描述
-     */
-    @NotNull(message = "列表描述不能为空")
-    @Schema(description = "列表描述")
-    private String listComment;
-
-    /**
      * 显示切换禁用：0-不禁用，1-禁用
      */
     @NotNull(message = "显示切换禁用不能为空")
@@ -182,6 +175,12 @@ public class GenColumnInfoForm extends BasicForm {
     @NotNull(message = "ts类型不能为空")
     @Schema(description = "ts类型")
     private String codeTs;
+
+    /**
+     * 字典编码
+     */
+    @Schema(description = "dict_code")
+    private String dictCode;
 
     /**
      * 字段排序

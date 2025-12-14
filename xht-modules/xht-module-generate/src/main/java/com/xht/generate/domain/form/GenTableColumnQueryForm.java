@@ -1,5 +1,6 @@
 package com.xht.generate.domain.form;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.xht.framework.core.domain.form.BasicForm;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -58,6 +59,18 @@ public class GenTableColumnQueryForm extends BasicForm {
      */
     @Schema(description = "字段值（字段命名）")
     private String conditionValue;
+
+    /**
+     * 表单组件
+     */
+    @Schema(description = "表单组件")
+    private String fromComponent;
+
+    /**
+     * 字典编码
+     */
+    @Schema(description = "字典编码")
+    private String dictCode;
 
     /**
      * 字段排序

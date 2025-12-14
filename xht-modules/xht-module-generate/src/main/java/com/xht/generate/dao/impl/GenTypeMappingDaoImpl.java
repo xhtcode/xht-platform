@@ -34,9 +34,9 @@ public class GenTypeMappingDaoImpl extends MapperRepositoryImpl<GenTypeMappingMa
         LambdaUpdateWrapper<GenTypeMappingEntity> updateWrapper = lambdaUpdateWrapper();
         updateWrapper.set(condition(form.getDbType()), GenTypeMappingEntity::getDbType, form.getDbType());
         updateWrapper.set(condition(form.getDbDataType()), GenTypeMappingEntity::getDbDataType, form.getDbDataType());
-        updateWrapper.set(condition(form.getTargetLanguage()), GenTypeMappingEntity::getTargetLanguage, form.getTargetLanguage());
-        updateWrapper.set(condition(form.getTargetDataType()), GenTypeMappingEntity::getTargetDataType, form.getTargetDataType());
+        updateWrapper.set(condition(form.getJavaType()), GenTypeMappingEntity::getJavaType, form.getJavaType());
         updateWrapper.set(condition(form.getImportPackage()), GenTypeMappingEntity::getImportPackage, form.getImportPackage());
+        updateWrapper.set(condition(form.getTsType()), GenTypeMappingEntity::getTsType, form.getTsType());
         updateWrapper.eq(GenTypeMappingEntity::getId, form.getId());
         update(updateWrapper);
     }
@@ -52,7 +52,7 @@ public class GenTypeMappingDaoImpl extends MapperRepositoryImpl<GenTypeMappingMa
     public Page<GenTypeMappingEntity> findPageList(Page<GenTypeMappingEntity> page, GenTypeMappingQuery query) {
         LambdaQueryWrapper<GenTypeMappingEntity> queryWrapper = lambdaQueryWrapper();
         queryWrapper.eq(condition(query.getDbType()), GenTypeMappingEntity::getDbType, query.getDbType());
-        queryWrapper.eq(condition(query.getTargetLanguage()), GenTypeMappingEntity::getTargetLanguage, query.getTargetLanguage());
+        queryWrapper.eq(condition(query.getDbDataType()), GenTypeMappingEntity::getDbDataType, query.getDbDataType());
         return page(page, queryWrapper);
     }
 

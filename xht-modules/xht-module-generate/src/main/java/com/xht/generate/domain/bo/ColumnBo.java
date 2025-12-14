@@ -110,9 +110,6 @@ public class ColumnBo implements Serializable {
      * @return 设置 表单新增
      */
     public GenStatusEnums getFromInsert() {
-        if (Objects.equals(IdPrimaryKeyEnums.YES, this.dbPrimary)) {
-            return GenStatusEnums.NO;
-        }
         return determineIncluded(COLUMN_NOT_FORM);
     }
 
@@ -120,9 +117,6 @@ public class ColumnBo implements Serializable {
      * @return 设置 表单更新
      */
     public GenStatusEnums getFromUpdate() {
-        if (Objects.equals(IdPrimaryKeyEnums.YES, this.dbPrimary)) {
-            return GenStatusEnums.NO;
-        }
         return determineIncluded(COLUMN_NOT_FORM);
     }
 
@@ -155,24 +149,17 @@ public class ColumnBo implements Serializable {
     }
 
     /**
-     * @return 设置 列表描述
-     */
-    public String getListComment() {
-        return this.dbComment;
-    }
-
-    /**
      * @return 设置 显示切换禁用
      */
     public GenStatusEnums getListDisabled() {
-        return GenStatusEnums.NO;
+        return determineIncluded(COLUMN_NOT_LIST);
     }
 
     /**
      * @return 设置 默认隐藏
      */
     public GenStatusEnums getListHidden() {
-        return GenStatusEnums.NO;
+        return determineIncluded(COLUMN_NOT_LIST);
     }
 
     /**
@@ -182,7 +169,7 @@ public class ColumnBo implements Serializable {
      * @return 若列名不在排除数组中则返回YES，否则返回NO
      */
     private GenStatusEnums determineIncluded(String[] excludedColumns) {
-        if (StrUtil.isBlank(this.dbName) || ArrayUtil.isEmpty(excludedColumns)) {
+        if (StrUtil.isBlank(this.dbName) || Objects.equals(IdPrimaryKeyEnums.YES, this.dbPrimary) || ArrayUtil.isEmpty(excludedColumns)) {
             return GenStatusEnums.NO;
         }
         return ArrayUtil.contains(excludedColumns, this.dbName)

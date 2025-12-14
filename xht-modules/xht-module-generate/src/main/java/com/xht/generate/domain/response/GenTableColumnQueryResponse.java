@@ -68,6 +68,18 @@ public class GenTableColumnQueryResponse extends MetaResponse {
     private String conditionValue;
 
     /**
+     * 表单组件
+     */
+    @Schema(description = "表单组件")
+    private String fromComponent;
+
+    /**
+     * 字典编码
+     */
+    @Schema(description = "字典编码")
+    private String dictCode;
+
+    /**
      * 字段排序
      */
     @Schema(description = "字段排序")

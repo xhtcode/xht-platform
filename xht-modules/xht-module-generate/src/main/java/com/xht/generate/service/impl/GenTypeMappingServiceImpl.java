@@ -88,7 +88,7 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
      * @return 字段映射分页信息
      */
     @Override
-    public PageResponse<GenTypeMappingResponse>findPageList(GenTypeMappingQuery query) {
+    public PageResponse<GenTypeMappingResponse> findPageList(GenTypeMappingQuery query) {
         Page<GenTypeMappingEntity> page = genTypeMappingDao.findPageList(PageTool.getPage(query), query);
         return genTypeMappingConverter.toResponse(page);
     }
@@ -101,7 +101,7 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
      */
     @Override
     public List<GenTypeMappingResponse> findAll(GenTypeMappingQuery query) {
-        List<GenTypeMappingEntity> typeMappingList = typeMappingCache.getTypeMappingList(query.getDbType(), query.getTargetLanguage());
+        List<GenTypeMappingEntity> typeMappingList = typeMappingCache.getTypeMappingList(query.getDbType());
         return genTypeMappingConverter.toResponse(typeMappingList);
     }
 

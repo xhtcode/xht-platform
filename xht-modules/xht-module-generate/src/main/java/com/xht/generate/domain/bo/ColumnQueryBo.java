@@ -1,8 +1,5 @@
 package com.xht.generate.domain.bo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.xht.generate.constant.enums.GenStatusEnums;
-import com.xht.generate.constant.enums.IdPrimaryKeyEnums;
 import lombok.Data;
 
 /**
@@ -54,6 +51,22 @@ public class ColumnQueryBo {
     private String conditionValue;
 
     /**
+     * 字典编码
+     */
+    private String dictCode;
+
+    /**
+     * 字典状态
+     */
+    private Boolean dictStatus;
+    /**
+     * 表单组件
+     */
+    private String fromComponent;
+
+
+
+    /**
      * 字段名
      */
     private String dbName;
@@ -77,6 +90,10 @@ public class ColumnQueryBo {
      * 代码名称
      */
     private String codeName;
+
+    /**
+     * 代码名称首字母大写
+     */
     private String codeNameUpperFirst;
 
     /**
@@ -84,10 +101,6 @@ public class ColumnQueryBo {
      */
     private String codeComment;
 
-    /**
-     * 表单组件
-     */
-    private String fromComponent;
 
     /**
      * java类型

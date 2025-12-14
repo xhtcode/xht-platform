@@ -2,7 +2,6 @@ package com.xht.generate.domain.query;
 
 import com.xht.framework.core.domain.query.PageBasicQuery;
 import com.xht.generate.constant.enums.DataBaseTypeEnums;
-import com.xht.generate.constant.enums.LanguageTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -24,10 +23,9 @@ public class GenTypeMappingQuery extends PageBasicQuery {
     private DataBaseTypeEnums dbType;
 
     /**
-     * 目标编程语言（Java/TypeScript）
+     * 数据库数据类型（如：INT/VARCHAR2）
      */
-    @NotNull(message = "数据库类型不能为空")
-    @Schema(description = "目标编程语言")
-    private LanguageTypeEnums targetLanguage;
+    @Schema(description = "数据库数据类型")
+    private String dbDataType;
 
 }

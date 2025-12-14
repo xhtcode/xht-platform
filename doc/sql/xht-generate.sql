@@ -601,7 +601,6 @@ CREATE TABLE `gen_table_column`  (
                                      `from_fill` tinyint NOT NULL DEFAULT 0 COMMENT '表单必填：0-非必填，1-必填',
                                      `from_component` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '表单组件',
                                      `list_show` tinyint NOT NULL DEFAULT 1 COMMENT '列表显示：0-不显示，1-显示',
-                                     `list_comment` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '列表描述',
                                      `list_disabled` tinyint NOT NULL DEFAULT 0 COMMENT '显示切换禁用：0-不禁用，1-禁用',
                                      `list_hidden` tinyint NOT NULL DEFAULT 0 COMMENT '默认隐藏：0-不隐藏，1-隐藏',
                                      `code_java` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'java类型',

@@ -129,6 +129,9 @@ public final class TableInfoBo {
         columnQueryBo.setQueryType(queryColumns.getQueryType());
         columnQueryBo.setConditionLabel(queryColumns.getConditionLabel());
         columnQueryBo.setConditionValue(queryColumns.getConditionValue());
+        columnQueryBo.setFromComponent(queryColumns.getFromComponent());
+        columnQueryBo.setDictCode(queryColumns.getDictCode());
+        columnQueryBo.setDictStatus(StringUtils.hasText(queryColumns.getDictCode()));
         columnQueryBo.setDbName(column.getDbName());
         columnQueryBo.setDbType(column.getDbType());
         columnQueryBo.setDbComment(column.getDbComment());
@@ -136,7 +139,6 @@ public final class TableInfoBo {
         columnQueryBo.setCodeName(column.getCodeName());
         columnQueryBo.setCodeNameUpperFirst(StrUtil.upperFirst(column.getCodeName()));
         columnQueryBo.setCodeComment(column.getCodeComment());
-        columnQueryBo.setFromComponent(column.getFromComponent());
         columnQueryBo.setCodeJava(column.getCodeJava());
         columnQueryBo.setCodeJavaPackage(column.getCodeJavaPackage());
         columnQueryBo.setCodeTs(column.getCodeTs());
@@ -180,12 +182,13 @@ public final class TableInfoBo {
         columnMap.put("fromFill", tableColumn.getFromFill().getValue());
         columnMap.put("fromComponent", tableColumn.getFromComponent());
         columnMap.put("listShow", tableColumn.getListShow().getValue());
-        columnMap.put("listComment", tableColumn.getListComment());
         columnMap.put("listDisabled", Objects.equals(GenStatusEnums.YES, tableColumn.getListDisabled()));
         columnMap.put("listHidden", Objects.equals(GenStatusEnums.YES, tableColumn.getListHidden()));
         columnMap.put("codeJava", tableColumn.getCodeJava());
         columnMap.put("codeJavaPackage", tableColumn.getCodeJavaPackage());
         columnMap.put("codeTs", tableColumn.getCodeTs());
+        columnMap.put("dictCode", tableColumn.getDictCode());
+        columnMap.put("dictStatus", StringUtils.hasText(tableColumn.getDictCode()));
         columnMap.put("sortOrder", tableColumn.getSortOrder());
         return columnMap;
     }
