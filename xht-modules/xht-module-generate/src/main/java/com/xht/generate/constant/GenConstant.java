@@ -12,11 +12,6 @@ public class GenConstant {
     public static final String POINT = ".";
 
     public static final String  COLON = ":";
-    /**
-     * 等于
-     */
-    public static final String EQ = "eq";
-
 
     /**
      * 输入框
@@ -27,14 +22,12 @@ public class GenConstant {
      * 不需要表单字段
      */
     public static final String[] COLUMN_NOT_FORM = {"id","create_by", "create_time", "update_by",
-            "update_time", "del_flag", "version", "tenant_id"};
+            "update_time", "version", "tenant_id", "del_flag"};
 
 
     /**
      * 不需要返回字段
      */
-    public static final String[] COLUMN_NOT_LIST = {"id", "del_flag", "version", "tenant_id"};
+    public static final String[] COLUMN_NOT_LIST = {"id", "version", "tenant_id", "del_flag"};
 
-
-    public static final String EMPTY = "";
 }
