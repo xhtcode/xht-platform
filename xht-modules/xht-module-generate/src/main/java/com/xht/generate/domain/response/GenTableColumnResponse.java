@@ -118,6 +118,12 @@ public class GenTableColumnResponse extends MetaResponse {
     private GenStatusEnums listShow;
 
     /**
+     * 字段排序
+     */
+    @Schema(description = "字段排序")
+    private GenStatusEnums listSortable;
+
+    /**
      * 显示切换禁用：0-不禁用，1-禁用
      */
     @Schema(description = "显示切换禁用：0-不禁用，1-禁用")

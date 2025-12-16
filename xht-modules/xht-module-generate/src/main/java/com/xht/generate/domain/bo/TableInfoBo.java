@@ -184,6 +184,7 @@ public final class TableInfoBo {
         columnMap.put("listShow", tableColumn.getListShow().getValue());
         columnMap.put("listDisabled", Objects.equals(GenStatusEnums.YES, tableColumn.getListDisabled()));
         columnMap.put("listHidden", Objects.equals(GenStatusEnums.YES, tableColumn.getListHidden()));
+        columnMap.put("listSortable", Objects.equals(GenStatusEnums.YES, tableColumn.getListSortable()));
         columnMap.put("codeJava", tableColumn.getCodeJava());
         columnMap.put("codeJavaPackage", tableColumn.getCodeJavaPackage());
         columnMap.put("codeTs", tableColumn.getCodeTs());
@@ -251,7 +252,7 @@ public final class TableInfoBo {
         context.put("urlPrefix", table.getUrlPrefix());
         context.put("permissionPrefix", table.getPermissionPrefix());
         context.put("parentMenuId", table.getParentMenuId());
-        context.put("pageStyle", table.getPageStyle().getValue());
+        context.put("pageStyle", table.getPageStyle().getDesc());
         context.put("pageStyleWidth", table.getPageStyleWidth());
         context.put("fromNumber", table.getFromNumber());
         context.put("pkColumn", convertColumnToMap(this.pkColumn));

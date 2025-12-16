@@ -77,6 +77,7 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
      * @param form 模板更新请求参数
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateById(GenTemplateForm form) {
         formatTemplate(form);
         Boolean exists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, form.getGroupId());

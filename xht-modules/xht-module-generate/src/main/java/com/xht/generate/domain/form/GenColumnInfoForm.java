@@ -156,6 +156,13 @@ public class GenColumnInfoForm extends BasicForm {
     private GenStatusEnums listHidden;
 
     /**
+     * 字段排序
+     */
+    @NotNull(message = "字段排序不能为空")
+    @Schema(description = "字段排序")
+    private GenStatusEnums listSortable;
+
+    /**
      * java类型
      */
     @NotNull(message = "java类型不能为空")

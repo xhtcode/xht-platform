@@ -134,6 +134,12 @@ public class GenTableColumnEntity extends NoneDeleteEntity implements Serializab
     private GenStatusEnums listHidden;
 
     /**
+     * 字段排序
+     */
+    @TableField(value = "list_sortable")
+    private GenStatusEnums listSortable;
+
+    /**
      * java类型
      */
     @TableField(value = "code_java")
