@@ -9,10 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 系统日志
@@ -26,6 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class SysLogController {
 
     private final ISysLogService sysLogService;
+
+    @PostMapping("/save")
+    @Operation(summary = "保存系统日志")
+    public R<Void> saveLog(@RequestBody String json) {
+        System.out.println("日志记录：" + json);
+        return R.ok();
+    }
 
 
     /**
@@ -48,7 +52,7 @@ public class SysLogController {
      */
     @GetMapping("/page")
     @Operation(summary = "分页查询系统日志岗位", description = "根据提供的查询请求参数分页查询系统日志岗位信息")
-    public R<PageResponse<SysLogResponse>>findPageList(@Valid SysLogQuery query) {
+    public R<PageResponse<SysLogResponse>> findPageList(@Valid SysLogQuery query) {
         return R.ok(sysLogService.findPageList(query));
     }
 

@@ -105,9 +105,20 @@ public class SysDictServiceImpl implements ISysDictService {
      * @return 分页结果
      */
     @Override
-    public PageResponse<SysDictResponse>findPageList(SysDictQuery query) {
+    public PageResponse<SysDictResponse> findPageList(SysDictQuery query) {
         Page<SysDictEntity> page = sysDictDao.findPageList(PageTool.getPage(query), query);
         return sysDictConverter.toResponse(page);
+    }
+
+    /**
+     * 查询所有字典类型
+     *
+     * @return 字典列表
+     */
+    @Override
+    public List<SysDictResponse> findAll() {
+        List<SysDictEntity> allByStatus = sysDictDao.findAllByStatus();
+        return List.of();
     }
 
 

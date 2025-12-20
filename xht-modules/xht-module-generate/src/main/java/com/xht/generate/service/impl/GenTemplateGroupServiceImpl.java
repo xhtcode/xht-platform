@@ -103,7 +103,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
      * @return 代码生成模板组列表响应结果
      */
     @Override
-    public PageResponse<GenTemplateGroupResponse>findPageList(GenTemplateGroupQuery query) {
+    public PageResponse<GenTemplateGroupResponse> findPageList(GenTemplateGroupQuery query) {
         Page<GenTemplateGroupEntity> page = genTemplateGroupDao.findPageList(PageTool.getPage(query), query);
         return genTemplateGroupConverter.toResponse(page);
     }

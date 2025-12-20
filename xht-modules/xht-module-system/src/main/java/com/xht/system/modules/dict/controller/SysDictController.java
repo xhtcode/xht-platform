@@ -92,8 +92,20 @@ public class SysDictController {
      */
     @GetMapping("/page")
     @Operation(summary = "分页查询字典类型")
-    public R<PageResponse<SysDictResponse>>findPageList(SysDictQuery query) {
+    public R<PageResponse<SysDictResponse>> findPageList(SysDictQuery query) {
         return R.ok(sysDictService.findPageList(query));
+    }
+
+
+    /**
+     * 获取所有字典类型
+     *
+     * @return 字典类型列表
+     */
+    @GetMapping("/all")
+    @Operation(summary = "获取所有字典类型")
+    public R<List<SysDictResponse>> findAll(){
+    	return R.ok(sysDictService.findAll());
     }
 
 }

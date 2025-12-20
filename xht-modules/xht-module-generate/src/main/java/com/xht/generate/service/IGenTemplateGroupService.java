@@ -57,5 +57,5 @@ public interface IGenTemplateGroupService {
      * @param query 查询参数
      * @return 代码生成模板组列表响应结果
      */
-    PageResponse<GenTemplateGroupResponse>findPageList(GenTemplateGroupQuery query);
+    PageResponse<GenTemplateGroupResponse> findPageList(GenTemplateGroupQuery query);
 }

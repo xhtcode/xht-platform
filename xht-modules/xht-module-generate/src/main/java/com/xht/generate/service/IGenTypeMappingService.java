@@ -49,7 +49,7 @@ public interface IGenTypeMappingService {
      * @param query 字段映射查询请求参数
      * @return 字段映射分页信息
      */
-    PageResponse<GenTypeMappingResponse>findPageList(GenTypeMappingQuery query);
+    PageResponse<GenTypeMappingResponse> findPageList(GenTypeMappingQuery query);
 
     /**
      * 根据数据库类型和目标编程语言类型查询所有的映射关系

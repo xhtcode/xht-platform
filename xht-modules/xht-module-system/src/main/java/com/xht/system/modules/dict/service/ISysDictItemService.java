@@ -4,7 +4,7 @@ import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.system.modules.dict.domain.form.SysDictItemForm;
 import com.xht.system.modules.dict.domain.query.SysDictItemQuery;
 import com.xht.system.modules.dict.domain.response.SysDictItemResponse;
-import com.xht.system.modules.dict.domain.vo.SysDictVo;
+import com.xht.system.modules.dict.domain.vo.DictVo;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public interface ISysDictItemService {
      * @param query 系统字典项查询请求参数
      * @return 分页响应结果，包含系统字典项响应信息
      */
-    PageResponse<SysDictItemResponse>findPageList(SysDictItemQuery query);
+    PageResponse<SysDictItemResponse> findPageList(SysDictItemQuery query);
 
     /**
      * 根据字典编码获取系统字典项列表
@@ -61,6 +61,6 @@ public interface ISysDictItemService {
      * @param dictCode 字典编码
      * @return 系统字典项VO列表
      */
-    SysDictVo getByDictCode(String dictCode);
+    List<DictVo> getByDictCode(String dictCode);
 
 }

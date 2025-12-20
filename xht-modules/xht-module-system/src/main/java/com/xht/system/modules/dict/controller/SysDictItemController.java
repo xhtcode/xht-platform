@@ -7,7 +7,7 @@ import com.xht.framework.web.validation.Groups;
 import com.xht.system.modules.dict.domain.form.SysDictItemForm;
 import com.xht.system.modules.dict.domain.query.SysDictItemQuery;
 import com.xht.system.modules.dict.domain.response.SysDictItemResponse;
-import com.xht.system.modules.dict.domain.vo.SysDictVo;
+import com.xht.system.modules.dict.domain.vo.DictVo;
 import com.xht.system.modules.dict.service.ISysDictItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -104,7 +104,7 @@ public class SysDictItemController {
      */
     @GetMapping("/code/{dictCode}")
     @Operation(summary = "根据字典编码查询")
-    public R<SysDictVo> getByDictCode(@PathVariable String dictCode) {
+    public R<List<DictVo>> getByDictCode(@PathVariable String dictCode) {
         return R.ok(sysDictItemService.getByDictCode(dictCode));
     }
 

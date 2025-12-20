@@ -60,7 +60,7 @@ public class SysLogServiceImpl implements ISysLogService {
      * @return 系统日志岗位分页信息
      */
     @Override
-    public PageResponse<SysLogResponse>findPageList(SysLogQuery query) {
+    public PageResponse<SysLogResponse> findPageList(SysLogQuery query) {
         if (Objects.isNull(query)) {
             return PageTool.empty();
         }

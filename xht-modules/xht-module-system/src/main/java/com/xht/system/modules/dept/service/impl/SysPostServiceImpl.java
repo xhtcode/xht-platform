@@ -109,7 +109,7 @@ public class SysPostServiceImpl implements ISysPostService {
      * @return 部门岗位分页信息
      */
     @Override
-    public PageResponse<SysPostResponse>findPageList(SysPostQuery query) {
+    public PageResponse<SysPostResponse> findPageList(SysPostQuery query) {
         if (Objects.isNull(query) || Objects.isNull(query.getDeptId())) {
             return PageTool.empty();
         }

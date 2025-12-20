@@ -106,21 +106,4 @@ public interface MapperRepository<T> extends CrudRepository<T> {
      */
     long count(SFunction<T, ?> field, Collection<?> value);
 
-    /**
-     * 获取 LambdaUpdateWrapper 实例，用于构建更新条件。
-     *
-     * @return LambdaUpdateWrapper 对象
-     */
-    default LambdaUpdateWrapper<T> lambdaUpdateWrapper() {
-        return new LambdaUpdateWrapper<>();
-    }
-
-    /**
-     * 获取 LambdaQueryWrapper 实例，用于构建查询条件。
-     *
-     * @return LambdaQueryWrapper 对象
-     */
-    default LambdaQueryWrapper<T> lambdaQueryWrapper() {
-        return new LambdaQueryWrapper<>();
-    }
 }

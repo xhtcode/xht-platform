@@ -32,7 +32,7 @@ public class GenDataSourceDaoImpl extends MapperRepositoryImpl<GenDataSourceMapp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateFormRequest(GenDataSourceForm form) {
-        LambdaUpdateWrapper<GenDataSourceEntity> updateWrapper = lambdaUpdateWrapper();
+        LambdaUpdateWrapper<GenDataSourceEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(condition(form.getName()), GenDataSourceEntity::getName, form.getName());
         updateWrapper.set(condition(form.getDbType()), GenDataSourceEntity::getDbType, form.getDbType());
         updateWrapper.set(condition(form.getUrl()), GenDataSourceEntity::getUrl, form.getUrl());
@@ -48,7 +48,7 @@ public class GenDataSourceDaoImpl extends MapperRepositoryImpl<GenDataSourceMapp
      */
     @Override
     public List<GenDataSourceEntity> findList(GenDataSourceQuery query) {
-        LambdaQueryWrapper<GenDataSourceEntity> queryWrapper = lambdaQueryWrapper();
+        LambdaQueryWrapper<GenDataSourceEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(condition(query.getName()), GenDataSourceEntity::getName, query.getName());
         queryWrapper.eq(condition(query.getDbType()), GenDataSourceEntity::getDbType, query.getDbType());
         return list(queryWrapper);

@@ -29,7 +29,7 @@ public class GenTableColumnDaoImpl extends MapperRepositoryImpl<GenTableColumnMa
      */
     @Override
     public void deleteByTableId(Long tableId) {
-        LambdaQueryWrapper<GenTableColumnEntity> queryWrapper = lambdaQueryWrapper();
+        LambdaQueryWrapper<GenTableColumnEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(GenTableColumnEntity::getTableId, tableId);
         remove(queryWrapper);
     }
@@ -41,7 +41,7 @@ public class GenTableColumnDaoImpl extends MapperRepositoryImpl<GenTableColumnMa
      */
     @Override
     public void updateFormRequest(GenColumnInfoForm column) {
-        LambdaUpdateWrapper<GenTableColumnEntity> updateWrapper = lambdaUpdateWrapper();
+        LambdaUpdateWrapper<GenTableColumnEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
                 .set(condition(column.getDbRequired()), GenTableColumnEntity::getDbRequired, column.getDbRequired())
@@ -57,6 +57,7 @@ public class GenTableColumnDaoImpl extends MapperRepositoryImpl<GenTableColumnMa
                 .set(condition(column.getListShow()), GenTableColumnEntity::getListShow, column.getListShow())
                 .set(condition(column.getListDisabled()), GenTableColumnEntity::getListDisabled, column.getListDisabled())
                 .set(condition(column.getListHidden()), GenTableColumnEntity::getListHidden, column.getListHidden())
+                .set(condition(column.getListSortable()), GenTableColumnEntity::getListSortable, column.getListSortable())
                 .set(condition(column.getCodeJava()), GenTableColumnEntity::getCodeJava, column.getCodeJava())
                 .set(condition(column.getCodeJavaPackage()), GenTableColumnEntity::getCodeJavaPackage, column.getCodeJavaPackage())
                 .set(condition(column.getCodeTs()), GenTableColumnEntity::getCodeTs, column.getCodeTs())
@@ -76,7 +77,7 @@ public class GenTableColumnDaoImpl extends MapperRepositoryImpl<GenTableColumnMa
      */
     @Override
     public List<GenTableColumnEntity> findByTableId(Long tableId) {
-        LambdaQueryWrapper<GenTableColumnEntity> queryWrapper = lambdaQueryWrapper();
+        LambdaQueryWrapper<GenTableColumnEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(GenTableColumnEntity::getTableId, tableId)
                 .orderByAsc(GenTableColumnEntity::getSortOrder);
         return list(queryWrapper);

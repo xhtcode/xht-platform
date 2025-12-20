@@ -107,7 +107,7 @@ public class SysPostController {
      */
     @GetMapping("/page")
     @Operation(summary = "分页查询部门岗位", description = "根据提供的查询请求参数分页查询部门岗位信息")
-    public R<PageResponse<SysPostResponse>>findPageList(@Valid SysPostQuery query) {
+    public R<PageResponse<SysPostResponse>> findPageList(@Valid SysPostQuery query) {
         return R.ok(sysDeptPostService.findPageList(query));
     }
 

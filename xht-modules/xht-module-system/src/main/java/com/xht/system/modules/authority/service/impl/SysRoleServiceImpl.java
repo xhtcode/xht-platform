@@ -118,7 +118,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @return 角色分页信息
      */
     @Override
-    public PageResponse<SysRoleResponse>findPageList(SysRoleQuery query) {
+    public PageResponse<SysRoleResponse> findPageList(SysRoleQuery query) {
         Page<SysRoleEntity> page = sysRoleDao.findPageList(PageTool.getPage(query), query);
         return sysRoleConverter.toResponse(page);
     }

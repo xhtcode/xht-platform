@@ -19,9 +19,10 @@ public interface SysDictItemDao extends MapperRepository<SysDictItemEntity> {
      * 根据更新请求更新指定ID的字典项实体
      *
      * @param form 更新请求
+     * @param dictCode 字典项编码
      * @return 更新结果
      */
-    boolean updateFormRequest(SysDictItemForm form);
+    boolean updateFormRequest(SysDictItemForm form, String dictCode);
 
     /**
      * 检查字典项值是否存在
@@ -43,10 +44,10 @@ public interface SysDictItemDao extends MapperRepository<SysDictItemEntity> {
     Page<SysDictItemEntity> findPageList(Page<SysDictItemEntity> page, SysDictItemQuery query);
 
     /**
-     * 根据字典id查询字典项列表
+     * 根据字典编码查询字典项列表
      *
-     * @param dictId 字典id
+     * @param dictCode 字典编码
      * @return 字典项列表
      */
-    List<SysDictItemEntity> selectByDictId(Long dictId);
+    List<SysDictItemEntity> findByDictCode(String dictCode);
 }

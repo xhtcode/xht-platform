@@ -26,7 +26,7 @@ public class GenTableColumnQueryDaoImpl extends MapperRepositoryImpl<GenTableCol
      */
     @Override
     public List<GenTableColumnQueryEntity> findByTableId(Long tableId) {
-        LambdaQueryWrapper<GenTableColumnQueryEntity> queryWrapper = lambdaQueryWrapper();
+        LambdaQueryWrapper<GenTableColumnQueryEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper
                 .eq(GenTableColumnQueryEntity::getTableId, tableId)
                 .orderByAsc(GenTableColumnQueryEntity::getSortOrder);
@@ -41,7 +41,7 @@ public class GenTableColumnQueryDaoImpl extends MapperRepositoryImpl<GenTableCol
      */
     @Override
     public List<GenTableColumnQueryEntity> findByTableId(List<Long> tableIds) {
-        LambdaQueryWrapper<GenTableColumnQueryEntity> queryWrapper = lambdaQueryWrapper();
+        LambdaQueryWrapper<GenTableColumnQueryEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper
                 .in(GenTableColumnQueryEntity::getTableId, tableIds)
                 .orderByAsc(GenTableColumnQueryEntity::getSortOrder);
@@ -55,7 +55,7 @@ public class GenTableColumnQueryDaoImpl extends MapperRepositoryImpl<GenTableCol
      */
     @Override
     public void deleteByTableId(Long tableId) {
-        LambdaQueryWrapper<GenTableColumnQueryEntity> queryWrapper = lambdaQueryWrapper();
+        LambdaQueryWrapper<GenTableColumnQueryEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(GenTableColumnQueryEntity::getTableId, tableId);
         remove(queryWrapper);
     }

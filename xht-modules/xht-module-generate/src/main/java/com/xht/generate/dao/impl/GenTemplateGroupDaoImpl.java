@@ -33,7 +33,7 @@ public class GenTemplateGroupDaoImpl extends MapperRepositoryImpl<GenTemplateGro
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateFormRequest(GenTemplateGroupForm form) {
-        LambdaUpdateWrapper<GenTemplateGroupEntity> updateWrapper = lambdaUpdateWrapper();
+        LambdaUpdateWrapper<GenTemplateGroupEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(condition(form.getGroupName()), GenTemplateGroupEntity::getGroupName, form.getGroupName());
         updateWrapper.set(condition(form.getGroupSort()), GenTemplateGroupEntity::getGroupSort, form.getGroupSort());
         updateWrapper.set(condition(form.getGroupDesc()), GenTemplateGroupEntity::getGroupDesc, form.getGroupDesc());
@@ -50,7 +50,7 @@ public class GenTemplateGroupDaoImpl extends MapperRepositoryImpl<GenTemplateGro
      */
     @Override
     public Page<GenTemplateGroupEntity> findPageList(Page<GenTemplateGroupEntity> page, GenTemplateGroupQuery query) {
-        LambdaQueryWrapper<GenTemplateGroupEntity> queryWrapper = lambdaQueryWrapper();
+        LambdaQueryWrapper<GenTemplateGroupEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(condition(query.getGroupName()), GenTemplateGroupEntity::getGroupName, query.getGroupName());
         return page(page, queryWrapper);
     }
@@ -62,7 +62,7 @@ public class GenTemplateGroupDaoImpl extends MapperRepositoryImpl<GenTemplateGro
      */
     @Override
     public List<GenTemplateGroupEntity> findAllBy() {
-        LambdaQueryWrapper<GenTemplateGroupEntity> queryWrapper = lambdaQueryWrapper();
+        LambdaQueryWrapper<GenTemplateGroupEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(
                 GenTemplateGroupEntity::getId,
                 GenTemplateGroupEntity::getGroupName,
@@ -82,7 +82,7 @@ public class GenTemplateGroupDaoImpl extends MapperRepositoryImpl<GenTemplateGro
      */
     @Override
     public void updateTemplateCountById(Long id, Integer templateCountOld, int templateCountNew) {
-        LambdaUpdateWrapper<GenTemplateGroupEntity> updateWrapper = lambdaUpdateWrapper();
+        LambdaUpdateWrapper<GenTemplateGroupEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(GenTemplateGroupEntity::getTemplateCount, templateCountNew);
         updateWrapper.eq(GenTemplateGroupEntity::getId, id);
         updateWrapper.eq(GenTemplateGroupEntity::getTemplateCount, templateCountOld);

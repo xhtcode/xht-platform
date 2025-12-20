@@ -72,7 +72,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
         String nickName = query.getNickName();
         UserStatusEnums userStatus = query.getUserStatus();
         String userPhone = query.getUserPhone();
-        LambdaQueryWrapper<SysUserEntity> queryWrapper = lambdaQueryWrapper();
+        LambdaQueryWrapper<SysUserEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.and(
                 condition(query.getKeyWord()), wrapper -> wrapper.or()
                         .like(SysUserEntity::getUserName, query.getKeyWord())
@@ -123,7 +123,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      */
     @Override
     public boolean checkUserPhoneExists(String userPhone, Long neUserId) {
-        LambdaQueryWrapper<SysUserEntity> queryWrapper = lambdaQueryWrapper();
+        LambdaQueryWrapper<SysUserEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper
                 .select(SysUserEntity::getUserStatus)

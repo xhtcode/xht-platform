@@ -33,7 +33,7 @@ public class GenTableDaoImpl extends MapperRepositoryImpl<GenTableMapper, GenTab
      */
     @Override
     public void updateFormRequest(GenTableInfoForm form) {
-        LambdaUpdateWrapper<GenTableEntity> updateWrapper = lambdaUpdateWrapper();
+        LambdaUpdateWrapper<GenTableEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(condition(form.getGroupId()), GenTableEntity::getGroupId, form.getGroupId());
         updateWrapper.set(condition(form.getDataSourceId()), GenTableEntity::getDataSourceId, form.getDataSourceId());
         updateWrapper.set(condition(form.getDataBaseType()), GenTableEntity::getDataBaseType, form.getDataBaseType());
@@ -65,7 +65,7 @@ public class GenTableDaoImpl extends MapperRepositoryImpl<GenTableMapper, GenTab
      */
     @Override
     public Page<GenTableEntity> findPageList(Page<GenTableEntity> page, GenTableInfoQuery query) {
-        LambdaQueryWrapper<GenTableEntity> queryWrapper = lambdaQueryWrapper();
+        LambdaQueryWrapper<GenTableEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(condition(query.getGroupId()), GenTableEntity::getGroupId, query.getGroupId());
         queryWrapper.eq(condition(query.getDataSourceId()), GenTableEntity::getDataSourceId, query.getDataSourceId());
         queryWrapper.like(condition(query.getTableName()), GenTableEntity::getTableName, query.getTableName());
@@ -80,7 +80,7 @@ public class GenTableDaoImpl extends MapperRepositoryImpl<GenTableMapper, GenTab
      */
     @Override
     public List<String> findTableNameByDbId(Long dataSourceId) {
-        LambdaQueryWrapper<GenTableEntity> queryWrapper = lambdaQueryWrapper();
+        LambdaQueryWrapper<GenTableEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(GenTableEntity::getTableName);
         queryWrapper.eq(GenTableEntity::getDataSourceId, dataSourceId);
         List<GenTableEntity> list = list(queryWrapper);

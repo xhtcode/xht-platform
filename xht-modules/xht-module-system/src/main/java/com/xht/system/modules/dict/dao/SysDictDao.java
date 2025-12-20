@@ -5,6 +5,9 @@ import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.system.modules.dict.domain.entity.SysDictEntity;
 import com.xht.system.modules.dict.domain.form.SysDictForm;
 import com.xht.system.modules.dict.domain.query.SysDictQuery;
+import org.w3c.dom.stylesheets.LinkStyle;
+
+import java.util.List;
 
 /**
  * 系统字典管理
@@ -38,4 +41,11 @@ public interface SysDictDao extends MapperRepository<SysDictEntity> {
      * @return 系统字典列表
      */
     Page<SysDictEntity> findPageList(Page<SysDictEntity> page, SysDictQuery query);
+
+    /**
+     * 查询所有字典项
+     *
+     * @return 字典项列表
+     */
+    List<SysDictEntity> findAllByStatus();
 }

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
+import com.xht.system.modules.dict.common.enums.DictStatusEnums;
 import com.xht.system.modules.dict.dao.SysDictItemDao;
 import com.xht.system.modules.dict.dao.mapper.SysDictItemMapper;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
@@ -31,16 +32,18 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
     /**
      * 根据更新请求更新指定ID的字典项实体
      *
-     * @param form 更新请求
+     * @param form     更新请求
+     * @param dictCode 字典编码
      * @return 更新结果
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean updateFormRequest(SysDictItemForm form) {
+    public boolean updateFormRequest(SysDictItemForm form, String dictCode) {
         // @formatter:off
         LambdaUpdateWrapper<SysDictItemEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper
-                .set(condition(form.getDictId()), SysDictItemEntity::getDictId, form.getDictId())
+                .set(SysDictItemEntity::getDictId, form.getDictId())
+                .set(SysDictItemEntity::getDictId, dictCode)
                 .set(condition(form.getItemLabel()), SysDictItemEntity::getItemLabel, form.getItemLabel())
                 .set(condition(form.getItemValue()), SysDictItemEntity::getItemValue, form.getItemValue())
                 .set(condition(form.getItemColor()), SysDictItemEntity::getItemColor, form.getItemColor())
@@ -99,15 +102,20 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
     }
 
     /**
-     * 根据字典id查询字典项列表
+     * 根据字典编码查询字典项列表
      *
-     * @param dictId 字典id
+     * @param dictCode 字典编码
      * @return 字典项列表
      */
     @Override
-    public List<SysDictItemEntity> selectByDictId(Long dictId) {
-        return findList(SysDictItemEntity::getDictId, dictId);
+    public List<SysDictItemEntity> findByDictCode(String dictCode) {
+        LambdaQueryWrapper<SysDictItemEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysDictItemEntity::getDictCode, dictCode);
+        queryWrapper.eq(SysDictItemEntity::getStatus, DictStatusEnums.ENABLE);
+        queryWrapper.orderByDesc(SysDictItemEntity::getSortOrder);
+        return list(queryWrapper);
     }
+
 
     /**
      * 获取主键字段名

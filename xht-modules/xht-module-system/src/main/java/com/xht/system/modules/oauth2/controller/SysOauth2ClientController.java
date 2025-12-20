@@ -91,7 +91,7 @@ public class SysOauth2ClientController {
      */
     @GetMapping("/page")
     @Operation(summary = "分页查询OAuth2客户端")
-    public R<PageResponse<SysOauth2ClientResponse>>findPageList(SysOauth2ClientQuery query) {
+    public R<PageResponse<SysOauth2ClientResponse>> findPageList(SysOauth2ClientQuery query) {
         return R.ok(sysOauth2ClientService.findPageList(query));
     }
 

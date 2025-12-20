@@ -31,7 +31,7 @@ public class GenTypeMappingDaoImpl extends MapperRepositoryImpl<GenTypeMappingMa
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateFormRequest(GenTypeMappingForm form) {
-        LambdaUpdateWrapper<GenTypeMappingEntity> updateWrapper = lambdaUpdateWrapper();
+        LambdaUpdateWrapper<GenTypeMappingEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(condition(form.getDbType()), GenTypeMappingEntity::getDbType, form.getDbType());
         updateWrapper.set(condition(form.getDbDataType()), GenTypeMappingEntity::getDbDataType, form.getDbDataType());
         updateWrapper.set(condition(form.getJavaType()), GenTypeMappingEntity::getJavaType, form.getJavaType());
@@ -50,7 +50,7 @@ public class GenTypeMappingDaoImpl extends MapperRepositoryImpl<GenTypeMappingMa
      */
     @Override
     public Page<GenTypeMappingEntity> findPageList(Page<GenTypeMappingEntity> page, GenTypeMappingQuery query) {
-        LambdaQueryWrapper<GenTypeMappingEntity> queryWrapper = lambdaQueryWrapper();
+        LambdaQueryWrapper<GenTypeMappingEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(condition(query.getDbType()), GenTypeMappingEntity::getDbType, query.getDbType());
         queryWrapper.eq(condition(query.getDbDataType()), GenTypeMappingEntity::getDbDataType, query.getDbDataType());
         return page(page, queryWrapper);

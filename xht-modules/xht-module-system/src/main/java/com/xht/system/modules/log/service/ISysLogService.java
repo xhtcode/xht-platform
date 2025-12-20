@@ -33,5 +33,5 @@ public interface ISysLogService {
      * @param query 系统日志岗位查询请求参数
      * @return 系统日志岗位分页信息
      */
-    PageResponse<SysLogResponse>findPageList(SysLogQuery query);
+    PageResponse<SysLogResponse> findPageList(SysLogQuery query);
 }

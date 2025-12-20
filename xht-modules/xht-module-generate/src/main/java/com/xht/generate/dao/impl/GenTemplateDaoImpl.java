@@ -33,7 +33,7 @@ public class GenTemplateDaoImpl extends MapperRepositoryImpl<GenTemplateMapper, 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateFormRequest(GenTemplateForm form) {
-        LambdaUpdateWrapper<GenTemplateEntity> updateWrapper = lambdaUpdateWrapper();
+        LambdaUpdateWrapper<GenTemplateEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
                 .set(condition(form.getGroupId()), GenTemplateEntity::getGroupId, form.getGroupId())
@@ -57,11 +57,9 @@ public class GenTemplateDaoImpl extends MapperRepositoryImpl<GenTemplateMapper, 
      */
     @Override
     public List<GenTemplateEntity> findByGroupId(String groupId) {
-        // @formatter:off
-        LambdaQueryWrapper<GenTemplateEntity> queryWrapper = lambdaQueryWrapper()
-                .eq(GenTemplateEntity::getGroupId, groupId)
-                .orderByAsc(GenTemplateEntity::getTemplateSort);
-        // @formatter:on
+        LambdaQueryWrapper<GenTemplateEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(GenTemplateEntity::getGroupId, groupId);
+        queryWrapper.orderByAsc(GenTemplateEntity::getTemplateSort);
         return list(queryWrapper);
     }
 

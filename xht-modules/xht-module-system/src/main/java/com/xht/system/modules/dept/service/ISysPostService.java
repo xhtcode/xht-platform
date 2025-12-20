@@ -56,6 +56,6 @@ public interface ISysPostService {
      * @param query 部门岗位查询请求参数
      * @return 部门岗位分页信息
      */
-    PageResponse<SysPostResponse>findPageList(SysPostQuery query);
+    PageResponse<SysPostResponse> findPageList(SysPostQuery query);
 
 }

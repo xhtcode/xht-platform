@@ -49,8 +49,15 @@ public interface ISysDictService {
      * @param query 系统字典查询参数
      * @return 分页结果
      */
-    PageResponse<SysDictResponse>findPageList(SysDictQuery query);
+    PageResponse<SysDictResponse> findPageList(SysDictQuery query);
 
+
+    /**
+     * 查询所有字典类型
+     *
+     * @return 字典列表
+     */
+    List<SysDictResponse> findAll();
 
 }
 

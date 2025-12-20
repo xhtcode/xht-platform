@@ -90,7 +90,7 @@ public class GenTypeMappingController {
      */
     @Operation(summary = "分页查询字段映射", description = "根据提供的查询请求参数分页查询字段映射信息")
     @GetMapping("/page")
-    public R<PageResponse<GenTypeMappingResponse>>findPageList(GenTypeMappingQuery query) {
+    public R<PageResponse<GenTypeMappingResponse>> findPageList(GenTypeMappingQuery query) {
         return R.ok(genTypeMappingService.findPageList(query));
     }
 

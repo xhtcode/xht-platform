@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
+import com.xht.system.modules.dict.common.enums.DictStatusEnums;
 import com.xht.system.modules.dict.dao.SysDictDao;
 import com.xht.system.modules.dict.dao.mapper.SysDictItemMapper;
 import com.xht.system.modules.dict.dao.mapper.SysDictMapper;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -98,6 +100,24 @@ public class SysDictDaoImpl extends MapperRepositoryImpl<SysDictMapper, SysDictE
         queryWrapper.like(condition(query.getDictName()), SysDictEntity::getDictName, query.getDictName());
         queryWrapper.eq(condition(query.getStatus()), SysDictEntity::getStatus, query.getStatus());
         return page(page, queryWrapper);
+    }
+
+    /**
+     * 查询所有字典项
+     *
+     * @return 字典项列表
+     */
+    @Override
+    public List<SysDictEntity> findAllByStatus() {
+        LambdaQueryWrapper<SysDictEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(
+                SysDictEntity::getId,
+                SysDictEntity::getDictCode,
+                SysDictEntity::getDictCode
+        );
+        queryWrapper.eq(SysDictEntity::getStatus, DictStatusEnums.ENABLE);
+        queryWrapper.orderByAsc(SysDictEntity::getSortOrder);
+        return list(queryWrapper);
     }
 
     /**
