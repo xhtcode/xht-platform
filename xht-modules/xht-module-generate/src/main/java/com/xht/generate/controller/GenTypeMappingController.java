@@ -2,7 +2,7 @@ package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.web.validation.Groups;
+import com.xht.framework.core.validation.Groups;
 import com.xht.generate.domain.form.GenTypeMappingForm;
 import com.xht.generate.domain.query.GenTypeMappingQuery;
 import com.xht.generate.domain.response.GenTypeMappingResponse;

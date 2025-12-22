@@ -2,7 +2,7 @@ package com.xht.system.modules.dept.domain.form;
 
 import com.xht.framework.core.constant.RegexConstant;
 import com.xht.framework.core.domain.form.BasicForm;
-import com.xht.framework.web.validation.Groups;
+import com.xht.framework.core.validation.Groups;
 import com.xht.system.modules.dept.common.enums.DeptStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;

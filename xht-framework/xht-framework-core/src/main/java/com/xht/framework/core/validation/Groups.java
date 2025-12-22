@@ -1,4 +1,4 @@
-package com.xht.framework.web.validation;
+package com.xht.framework.core.validation;
 
 /**
  * 校验组接口

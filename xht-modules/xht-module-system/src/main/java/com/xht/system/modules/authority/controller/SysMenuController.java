@@ -3,7 +3,7 @@ package com.xht.system.modules.authority.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.oauth2.annotation.CheckMenu;
-import com.xht.framework.web.validation.Groups;
+import com.xht.framework.core.validation.Groups;
 import com.xht.system.modules.authority.common.enums.MenuStatusEnums;
 import com.xht.system.modules.authority.domain.form.SysMenuForm;
 import com.xht.system.modules.authority.domain.query.SysMenuQuery;

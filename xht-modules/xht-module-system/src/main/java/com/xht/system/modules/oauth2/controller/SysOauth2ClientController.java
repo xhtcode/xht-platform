@@ -3,7 +3,7 @@ package com.xht.system.modules.oauth2.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.oauth2.annotation.CheckMenu;
-import com.xht.framework.web.validation.Groups;
+import com.xht.framework.core.validation.Groups;
 import com.xht.system.modules.oauth2.domain.form.SysOauth2ClientForm;
 import com.xht.system.modules.oauth2.domain.query.SysOauth2ClientQuery;
 import com.xht.system.modules.oauth2.domain.response.SysOauth2ClientResponse;

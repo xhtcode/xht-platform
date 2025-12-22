@@ -2,7 +2,7 @@ package com.xht.generate.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.web.validation.Groups;
+import com.xht.framework.core.validation.Groups;
 import com.xht.generate.domain.form.ImportTableForm;
 import com.xht.generate.domain.form.TableColumnForm;
 import com.xht.generate.domain.query.DataBaseQuery;

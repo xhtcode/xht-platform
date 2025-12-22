@@ -7,7 +7,7 @@ import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.oauth2.annotation.IsAdmin;
-import com.xht.framework.web.validation.Groups;
+import com.xht.framework.core.validation.Groups;
 import com.xht.system.modules.user.domain.form.SysUserForm;
 import com.xht.system.modules.user.domain.form.UpdatePwdFrom;
 import com.xht.system.modules.user.domain.query.SysUserQuery;
