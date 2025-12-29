@@ -2,6 +2,7 @@ package com.xht.system.modules.dict.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
+import com.xht.system.modules.dict.common.enums.DictStatusEnums;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
 import com.xht.system.modules.dict.domain.form.SysDictItemForm;
 import com.xht.system.modules.dict.domain.query.SysDictItemQuery;
@@ -47,7 +48,8 @@ public interface SysDictItemDao extends MapperRepository<SysDictItemEntity> {
      * 根据字典编码查询字典项列表
      *
      * @param dictCode 字典编码
+     * @param dictStatus  字典状态
      * @return 字典项列表
      */
-    List<SysDictItemEntity> findByDictCode(String dictCode);
+    List<SysDictItemEntity> findByDictCode(String dictCode, DictStatusEnums dictStatus);
 }

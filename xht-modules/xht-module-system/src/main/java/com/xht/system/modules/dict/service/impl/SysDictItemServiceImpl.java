@@ -2,9 +2,11 @@ package com.xht.system.modules.dict.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
+import com.xht.system.modules.dict.common.enums.DictShowDisabledEnums;
 import com.xht.system.modules.dict.common.enums.DictStatusEnums;
 import com.xht.system.modules.dict.converter.SysDictItemConverter;
 import com.xht.system.modules.dict.dao.SysDictDao;
@@ -128,7 +130,11 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      */
     @Override
     public List<DictVo> getByDictCode(String dictCode) {
-        List<SysDictItemEntity> dictItemEntities = sysDictItemDao.findByDictCode(dictCode);
+        SysDictEntity sysDictEntity = sysDictDao.findOneOptional(SysDictEntity::getDictCode, dictCode)
+                .orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
+        DictShowDisabledEnums showDisabled = sysDictEntity.getShowDisabled();
+        DictStatusEnums dictStatusEnums = Objects.equals(DictShowDisabledEnums.SHOW, showDisabled) ? null : DictStatusEnums.ENABLE;
+        List<SysDictItemEntity> dictItemEntities = sysDictItemDao.findByDictCode(dictCode, dictStatusEnums);
         return sysDictItemConverter.toVo(dictItemEntities);
     }
 

@@ -17,32 +17,32 @@ public class SysDictItemQuery extends PageBasicQuery {
     /**
      * 所属字典ID
      */
-    @Schema(description = "所属字典ID", example = "101")
+    @Schema(description = "所属字典ID")
     private Long dictId;
 
     /**
      * 字典项编码
      */
-    @Schema(description = "字典项编码", example = "001")
+    @Schema(description = "字典项编码")
     private String dictCode;
 
     /**
      * 字典项标签
      */
-    @Schema(description = "字典项标签", example = "标签1")
+    @Schema(description = "字典项标签")
     private String itemLabel;
 
     /**
      * 字典项值
      */
-    @Schema(description = "字典项值", example = "值1")
+    @Schema(description = "字典项值")
     private String itemValue;
 
 
     /**
      * 状态(1:启用 0:禁用)
      */
-    @Schema(description = "状态(1:启用 0:禁用)", example = "1")
+    @Schema(description = "状态(1:启用 0:禁用)")
     private DictStatusEnums status;
 
 }

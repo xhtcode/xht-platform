@@ -21,7 +21,7 @@ public class DeleteIdForm<T extends Serializable> extends DeleteForm {
     /**
      * 删除记录的唯一标识符
      */
-    @Schema(name = "id", description = "ID", example = "101")
+    @Schema(name = "id", description = "ID")
     private T id;
 
 }

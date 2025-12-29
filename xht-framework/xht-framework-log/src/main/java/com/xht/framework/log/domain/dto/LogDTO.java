@@ -14,6 +14,11 @@ import lombok.Data;
 @Schema(description = "日志信息DTO")
 public class LogDTO extends BasicDTO {
 
+    /**
+     * 链路追踪id
+     */
+    @Schema(description = "链路追踪id")
+    private String traceId;
 
     /**
      * 日志名称
@@ -80,5 +85,6 @@ public class LogDTO extends BasicDTO {
      */
     @Schema(description = "异常信息")
     private String exception;
+
 
 }

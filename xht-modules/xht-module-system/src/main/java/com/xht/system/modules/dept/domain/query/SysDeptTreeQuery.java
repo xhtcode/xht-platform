@@ -17,42 +17,42 @@ public class SysDeptTreeQuery extends BasicQuery {
     /**
      * 关键字
      */
-    @Schema(name = "keyWord", description = "关键字", example = "关键字")
+    @Schema(name = "keyWord", description = "关键字")
     private String keyWord;
 
     /**
      * 父部门id
      */
-    @Schema(description = "父部门ID", example = "101")
+    @Schema(description = "父部门ID")
     private Long parentId;
 
     /**
      * 部门编码
      */
-    @Schema(description = "部门编码", example = "DEPT001")
+    @Schema(description = "部门编码")
     private String deptCode;
 
     /**
      * 部门名称
      */
-    @Schema(description = "部门名称", example = "技术部")
+    @Schema(description = "部门名称")
     private String deptName;
 
     /**
      * 状态（0正常 1停用）
      */
-    @Schema(description = "部门状态", example = "0")
+    @Schema(description = "部门状态")
     private DeptStatusEnums deptStatus;
 
     /**
      * 联系电话
      */
-    @Schema(description = "联系电话", example = "13800138000")
+    @Schema(description = "联系电话")
     private String phone;
 
     /**
      * 邮箱
      */
-    @Schema(description = "邮箱", example = "zhangsan@example.com")
+    @Schema(description = "邮箱")
     private String email;
 }

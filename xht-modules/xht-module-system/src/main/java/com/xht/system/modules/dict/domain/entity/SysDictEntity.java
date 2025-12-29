@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
+import com.xht.system.modules.dict.common.enums.DictShowDisabledEnums;
 import com.xht.system.modules.dict.common.enums.DictStatusEnums;
 import lombok.Data;
 
@@ -54,5 +55,11 @@ public class SysDictEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "status")
     private DictStatusEnums status;
+
+    /**
+     * 子节点是否显示禁用状态
+     */
+    @TableField(value = "show_disabled")
+    private DictShowDisabledEnums showDisabled;
 
 }

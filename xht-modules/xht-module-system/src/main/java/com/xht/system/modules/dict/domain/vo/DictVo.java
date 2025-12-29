@@ -14,19 +14,26 @@ public class DictVo implements IVO {
     /**
      * 字典项标签
      */
-    @Schema(description = "字典项标签", example = "标签1")
+    @Schema(description = "字典项标签")
     private String label;
 
     /**
      * 字典项值
      */
-    @Schema(description = "字典项值", example = "值1")
+    @Schema(description = "字典项值")
     private String value;
 
     /**
      * 显示颜色
      */
-    @Schema(description = "显示颜色", example = "#FFFFFF")
+    @Schema(description = "显示颜色")
     private String color;
+
+
+    /**
+     * 字典项是否禁用
+     */
+    @Schema(description = "字典项是否禁用")
+    private Boolean disabled;
 
 }

@@ -21,6 +21,12 @@ public class SysLogResponse extends MetaResponse {
     private Long id;
 
     /**
+     * 链路追踪id
+     */
+    @Schema(description = "链路追踪id")
+    private String traceId;
+
+    /**
      * 日志名称
      */
     @Schema(description ="日志名称")

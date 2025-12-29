@@ -20,7 +20,7 @@ public class DeleteBatchIdForm<T extends Serializable> extends DeleteForm {
     private static final long serialVersionUID = 1L;
 
 
-    @Schema(name = "ids", description = "ID列表", example = "101,102")
+    @Schema(name = "ids", description = "ID列表")
     private List<T> ids;
 
 }

@@ -105,13 +105,14 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
      * 根据字典编码查询字典项列表
      *
      * @param dictCode 字典编码
+     * @param dictStatus 字典状态
      * @return 字典项列表
      */
     @Override
-    public List<SysDictItemEntity> findByDictCode(String dictCode) {
+    public List<SysDictItemEntity> findByDictCode(String dictCode, DictStatusEnums dictStatus) {
         LambdaQueryWrapper<SysDictItemEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysDictItemEntity::getDictCode, dictCode);
-        queryWrapper.eq(SysDictItemEntity::getStatus, DictStatusEnums.ENABLE);
+        queryWrapper.eq(condition(dictStatus), SysDictItemEntity::getStatus, DictStatusEnums.ENABLE);
         queryWrapper.orderByDesc(SysDictItemEntity::getSortOrder);
         return list(queryWrapper);
     }

@@ -1,17 +1,17 @@
 package com.xht.system.modules.dict.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
+import com.xht.system.modules.dict.common.enums.DictStatusEnums;
 import com.xht.system.modules.dict.domain.entity.SysDictItemEntity;
 import com.xht.system.modules.dict.domain.form.SysDictItemForm;
 import com.xht.system.modules.dict.domain.response.SysDictItemResponse;
 import com.xht.system.modules.dict.domain.vo.DictVo;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 import org.springframework.util.CollectionUtils;
 
+import java.io.File;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -31,6 +31,7 @@ public interface SysDictItemConverter extends BasicConverter<SysDictItemEntity, 
     @Mapping(source = "itemLabel", target = "label")
     @Mapping(source = "itemValue", target = "value")
     @Mapping(source = "itemColor", target = "color")
+    @Mapping(source = "status", target = "disabled", qualifiedByName = "statusToDisabled")
     DictVo toVo(SysDictItemEntity dictItemEntities);
 
     /**
@@ -46,4 +47,15 @@ public interface SysDictItemConverter extends BasicConverter<SysDictItemEntity, 
         return dictItemEntities.stream().map(this::toVo).collect(Collectors.toList());
     }
 
+    @Named("statusToDisabled")
+    default Boolean statusToDisabled(DictStatusEnums status) {
+        return Objects.equals(status, DictStatusEnums.DISABLE);
+    }
+    public static boolean isDefaultFile() {
+        File File = new File("default.conf");
+        if (File.exists() && File.isFile()) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -6,30 +6,27 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 字典状态枚举
+ * 子节点是否显示禁用状态
  *
  * @author xht
  **/
 @Getter
 @AllArgsConstructor
-public enum DictStatusEnums implements IEnum<Integer> {
+public enum DictShowDisabledEnums implements IEnum<Integer> {
 
     /**
      * 禁用
      */
-    DISABLE(0),
+    DISABLED(0),
 
     /**
      * 启用
      */
-    ENABLE(1),
-
+    SHOW(1),
     ;
-
     /**
      * 字典状态
      */
     @JsonValue
     private final Integer value;
-
 }

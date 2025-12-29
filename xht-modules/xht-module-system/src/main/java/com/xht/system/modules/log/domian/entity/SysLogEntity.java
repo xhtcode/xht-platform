@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.log.enums.LogStatusEnums;
-import com.xht.framework.mybatis.domain.entity.BasicEntity;
+import com.xht.framework.mybatis.domain.entity.NoneDeleteEntity;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,13 +17,19 @@ import java.io.Serializable;
  **/
 @Data
 @TableName(value = "sys_log")
-public class SysLogEntity extends BasicEntity implements Serializable {
+public class SysLogEntity extends NoneDeleteEntity implements Serializable {
 
     /**
      * ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
+
+    /**
+     * 链路追踪id
+     */
+    @TableField(value = "trace_id")
+    private String traceId;
 
     /**
      * 日志名称
@@ -90,4 +96,5 @@ public class SysLogEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "exception")
     private String exception;
+
 }

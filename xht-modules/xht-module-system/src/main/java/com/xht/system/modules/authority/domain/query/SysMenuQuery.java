@@ -17,25 +17,25 @@ public class SysMenuQuery extends PageBasicQuery {
     /**
      * 父菜单ID
      */
-    @Schema(description = "父菜单ID", example = "1")
+    @Schema(description = "父菜单ID")
     private Long parentId;
 
     /**
      * 类型
      */
-    @Schema(description = "菜单类型", example = "1")
+    @Schema(description = "菜单类型")
     private MenuTypeEnums menuType;
 
     /**
      * 菜单名称
      */
-    @Schema(description = "菜单名称", example = "系统管理")
+    @Schema(description = "菜单名称")
     private String menuName;
 
     /**
      * 菜单状态 （0正常 1停用）
      */
-    @Schema(description = "菜单状态 （0正常 1停用）", example = "MenuStatusEnums.ACTIVE")
+    @Schema(description = "菜单状态 （0正常 1停用）")
     private MenuStatusEnums menuStatus;
 
 

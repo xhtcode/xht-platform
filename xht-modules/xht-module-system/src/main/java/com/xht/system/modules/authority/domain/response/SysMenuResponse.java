@@ -16,74 +16,74 @@ public class SysMenuResponse extends MetaResponse {
     /**
      * 父菜单ID
      */
-    @Schema(description = "父菜单ID", example = "1")
+    @Schema(description = "父菜单ID")
     private Long id;
     private Long parentId;
 
     /**
      * 类型
      */
-    @Schema(description = "菜单类型", example = "1")
+    @Schema(description = "菜单类型")
     private MenuTypeEnums menuType;
 
     /**
      * 菜单名称
      */
-    @Schema(description = "菜单名称", example = "系统管理")
+    @Schema(description = "菜单名称")
     private String menuName;
 
     /**
      * 菜单图标
      */
-    @Schema(description = "菜单图标", example = "icon-system")
+    @Schema(description = "菜单图标")
     private String menuIcon;
 
     /**
      * 路由地址
      */
-    @Schema(description = "路由地址", example = "/system")
+    @Schema(description = "路由地址")
     private String menuPath;
 
     /**
      * 显示状态 (0显示 1隐藏)
      */
-    @Schema(description = "显示状态 (0显示 1隐藏)", example = "0")
+    @Schema(description = "显示状态 (0显示 1隐藏)")
     private MenuHiddenEnums menuHidden;
 
     /**
      * 是否缓存 （0是 1否）
      */
-    @Schema(description = "是否缓存 （0是 1否）", example = "0")
+    @Schema(description = "是否缓存 （0是 1否）")
     private MenuCacheEnums menuCache;
 
     /**
      * 菜单状态 （0正常 1停用）
      */
-    @Schema(description = "菜单状态 （0正常 1停用）", example = "MenuStatusEnums.ACTIVE")
+    @Schema(description = "菜单状态 （0正常 1停用）")
     private MenuStatusEnums menuStatus;
 
     /**
      * 菜单权限字符串
      */
-    @Schema(description = "菜单权限字符串", example = "system:manage")
+    @Schema(description = "菜单权限字符串")
     private String menuAuthority;
 
     /**
      * 菜单排序
      */
-    @Schema(description = "菜单排序", example = "1")
+    @Schema(description = "菜单排序")
     private Integer menuSort;
 
     /**
      * 组件视图名称
      */
-    @Schema(description = "组件视图名称", example = "SystemManageView")
+    @Schema(description = "组件视图名称")
     private String viewName;
 
     /**
      * 组件视图路径
      */
-    @Schema(description = "组件视图路径", example = "/views/system/manage")
+    @Schema(description = "组件视图路径")
     private String viewPath;
 
     /**
@@ -95,7 +95,7 @@ public class SysMenuResponse extends MetaResponse {
     /**
      * 是否为外链
      */
-    @Schema(description = "是否为外链", example = "0")
+    @Schema(description = "是否为外链")
     private MenuLinkEnums frameFlag;
 
 }

@@ -17,70 +17,70 @@ import lombok.Data;
 public class SysMenuForm extends BasicForm {
 
     /**
-     * 菜单ID唯一标识
+     * 菜单`id`唯一标识
      */
-    @Null(message = "菜单ID唯一标识必须为空", groups = {Groups.Create.class})
-    @NotNull(message = "菜单ID唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "菜单ID唯一标识参数不合法", groups = {Groups.Update.class})
-    @Schema(description = "菜单ID唯一标识", example = "101")
+    @Null(message = "菜单`id`唯一标识必须为空", groups = {Groups.Create.class})
+    @NotNull(message = "菜单`id`唯一标识参数不合法", groups = {Groups.Update.class})
+    @Positive(message = "菜单`id`唯一标识参数不合法", groups = {Groups.Update.class})
+    @Schema(description = "菜单`id`唯一标识")
     private Long id;
 
     /**
-     * 父菜单ID
+     * 父菜单`id`
      */
-    @NotNull(message = "父菜单ID参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "父菜单ID", example = "1")
+    @NotNull(message = "父菜单`id`参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "父菜单`id`")
     private Long parentId;
 
     /**
      * 类型
      */
     @NotNull(groups = {Groups.Create.class, Groups.Update.class}, message = "菜单类型不能为空")
-    @Schema(description = "菜单类型", example = "1")
+    @Schema(description = "菜单类型")
     private MenuTypeEnums menuType;
 
     /**
      * 菜单名称
      */
     @NotBlank(message = "菜单名称参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "菜单名称", example = "系统管理")
+    @Schema(description = "菜单名称")
     private String menuName;
 
     /**
      * 菜单图标
      */
-    @Schema(description = "菜单图标", example = "icon-system")
+    @Schema(description = "菜单图标")
     private String menuIcon;
 
     /**
      * 路由地址
      */
-    @Schema(description = "路由地址", example = "/system")
+    @Schema(description = "路由地址")
     private String menuPath;
 
     /**
      * 显示状态 (0显示 1隐藏)
      */
-    @Schema(description = "显示状态 (0显示 1隐藏)", example = "0")
+    @Schema(description = "显示状态 (0显示 1隐藏)")
     private MenuHiddenEnums menuHidden;
 
     /**
      * 是否缓存 （0是 1否）
      */
-    @Schema(description = "是否缓存 （0是 1否）", example = "0")
+    @Schema(description = "是否缓存 （0是 1否）")
     private MenuCacheEnums menuCache;
 
     /**
      * 菜单状态 （0正常 1停用）
      */
     @NotNull(message = "菜单状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "菜单状态 （0正常 1停用）", example = "MenuStatusEnums.ACTIVE")
+    @Schema(description = "菜单状态 （0正常 1停用）")
     private MenuStatusEnums menuStatus;
 
     /**
      * 菜单权限字符串
      */
-    @Schema(description = "菜单权限字符串", example = "system:manage")
+    @Schema(description = "菜单权限字符串")
     private String menuAuthority;
 
     /**
@@ -88,19 +88,19 @@ public class SysMenuForm extends BasicForm {
      */
     @NotNull(message = "菜单排序参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @PositiveOrZero(message = "菜单排序必须为非负数", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "菜单排序", example = "1")
+    @Schema(description = "菜单排序")
     private Integer menuSort;
 
     /**
      * 组件视图名称
      */
-    @Schema(description = "组件视图名称", example = "SystemManageView")
+    @Schema(description = "组件视图名称")
     private String viewName;
 
     /**
      * 组件视图路径
      */
-    @Schema(description = "组件视图路径", example = "/views/system/manage")
+    @Schema(description = "组件视图路径")
     private String viewPath;
 
     /**
@@ -112,7 +112,7 @@ public class SysMenuForm extends BasicForm {
     /**
      * 是否为外链
      */
-    @Schema(description = "是否为外链", example = "0")
+    @Schema(description = "是否为外链")
     private MenuLinkEnums frameFlag;
 
 

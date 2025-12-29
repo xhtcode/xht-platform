@@ -22,7 +22,7 @@ public class SysPostForm extends BasicForm {
      * 部门岗位唯一标识
      */
     @Null(message = "ID唯一标识必须为空", groups = {Groups.Create.class})
-    @Schema(description = "部门岗位唯一标识", example = "101")
+    @Schema(description = "部门岗位唯一标识")
     private Long id;
 
     /**

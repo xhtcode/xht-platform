@@ -15,55 +15,55 @@ public class SysDictItemResponse extends MetaResponse {
     /**
      * 字典项ID
      */
-    @Schema(description = "字典项ID", example = "1")
+    @Schema(description = "字典项ID")
     private Long id;
 
     /**
      * 所属字典ID
      */
-    @Schema(description = "所属字典ID", example = "101")
+    @Schema(description = "所属字典ID")
     private Long dictId;
 
     /**
      * 字典项编码
      */
-    @Schema(description = "字典项编码", example = "001")
+    @Schema(description = "字典项编码")
     private String dictCode;
 
     /**
      * 字典项标签
      */
-    @Schema(description = "字典项标签", example = "标签1")
+    @Schema(description = "字典项标签")
     private String itemLabel;
 
     /**
      * 字典项值
      */
-    @Schema(description = "字典项值", example = "值1")
+    @Schema(description = "字典项值")
     private String itemValue;
 
     /**
      * 显示颜色
      */
-    @Schema(description = "显示颜色", example = "#FFFFFF")
+    @Schema(description = "显示颜色")
     private String itemColor;
 
     /**
      * 排序序号
      */
-    @Schema(description = "排序序号", example = "1")
+    @Schema(description = "排序序号")
     private Integer sortOrder;
 
     /**
      * 字典项描述
      */
-    @Schema(description = "字典项描述", example = "这是一个字典项")
+    @Schema(description = "字典项描述")
     private String remark;
 
     /**
      * 状态(1:启用 0:禁用)
      */
-    @Schema(description = "状态(1:启用 0:禁用)", example = "1")
+    @Schema(description = "状态(1:启用 0:禁用)")
     private DictStatusEnums status;
 
 }

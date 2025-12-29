@@ -51,6 +51,7 @@ public class SysDictDaoImpl extends MapperRepositoryImpl<SysDictMapper, SysDictE
                 .set(condition(form.getSortOrder()), SysDictEntity::getSortOrder, form.getSortOrder())
                 .set(condition(form.getRemark()), SysDictEntity::getRemark, form.getRemark())
                 .set(condition(form.getStatus()), SysDictEntity::getStatus, form.getStatus())
+                .set(condition(form.getShowDisabled()), SysDictEntity::getShowDisabled, form.getShowDisabled())
                 .eq(SysDictEntity::getId, form.getId());
         //@formatter:on
         if (updateItemStatus) {

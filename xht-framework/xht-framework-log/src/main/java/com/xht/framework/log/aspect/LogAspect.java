@@ -12,6 +12,7 @@ import com.xht.framework.log.domain.dto.LogDTO;
 import com.xht.framework.log.enums.LogStatusEnums;
 import com.xht.framework.log.properties.BasicLogProperties;
 import com.xht.framework.log.repository.LogRepository;
+import com.xht.framework.log.utils.TraceIdUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -51,6 +52,7 @@ public class LogAspect {
     @SneakyThrows
     public Object around(ProceedingJoinPoint point, Log sysLog) {
         LogDTO logDTO = new LogDTO();
+        logDTO.setTraceId(TraceIdUtils.getTraceId());
         logDTO.setTitle(sysLog.title());
         logDTO.setDescription(sysLog.description());
         logDTO.setServiceName(SpringContextUtils.getApplicationName());

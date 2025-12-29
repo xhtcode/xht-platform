@@ -20,7 +20,7 @@ public abstract class PageBasicQuery extends BasicQuery {
     /**
      * 关键字
      */
-    @Schema(name = "keyWord", description = "关键字", example = "关键字")
+    @Schema(name = "keyWord", description = "关键字")
     private String keyWord;
 
     /**
@@ -38,13 +38,13 @@ public abstract class PageBasicQuery extends BasicQuery {
     /**
      * 正序排序的字段名
      */
-    @Schema(name = "ascName", description = "正序排序的字段名", example = "字段1，字段2")
+    @Schema(name = "ascName", description = "正序排序的字段名")
     private String ascName;
 
     /**
      * 倒序排序字段名
      */
-    @Schema(name = "descName", description = "倒序排序字段名", example = "字段1，字段2")
+    @Schema(name = "descName", description = "倒序排序字段名")
     private String descName;
 
 }
