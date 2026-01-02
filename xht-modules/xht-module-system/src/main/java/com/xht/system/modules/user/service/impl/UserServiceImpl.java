@@ -24,9 +24,7 @@ import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
-import com.xht.system.modules.authority.common.enums.MenuCacheEnums;
-import com.xht.system.modules.authority.common.enums.MenuHiddenEnums;
-import com.xht.system.modules.authority.common.enums.MenuLinkEnums;
+import com.xht.system.modules.authority.common.enums.MenuCommonStatus;
 import com.xht.system.modules.authority.dao.SysRoleMenuDao;
 import com.xht.system.modules.authority.dao.SysUserRoleDao;
 import com.xht.system.modules.authority.domain.entity.SysRoleEntity;
@@ -352,11 +350,12 @@ public class UserServiceImpl implements IUserService {
         RouterMetaResponse routerMetaResponse = new RouterMetaResponse();
         routerMetaResponse.setTitle(menu.getMenuName());
         routerMetaResponse.setIcon(menu.getMenuIcon());
-        routerMetaResponse.setLinkStatus(Objects.requireNonNullElse(menu.getFrameFlag(), MenuLinkEnums.NO).getStatus());
+        routerMetaResponse.setLinkStatus(Objects.requireNonNullElse(menu.getFrameFlag(), MenuCommonStatus.NO).getStatus());
         routerMetaResponse.setMenuType(menu.getMenuType().getValue());
+        routerMetaResponse.setAffixStatus(Objects.requireNonNullElse(menu.getAffixStatus(), MenuCommonStatus.NO).getStatus());
         routerMetaResponse.setActiveMenuPath(menu.getActiveMenuPath());
-        routerMetaResponse.setHiddenStatus(Objects.requireNonNullElse(menu.getMenuHidden(), MenuHiddenEnums.SHOW).getHidden());
-        routerMetaResponse.setKeepAliveStatus(Objects.requireNonNullElse(menu.getMenuCache(), MenuCacheEnums.YES).getStatus());
+        routerMetaResponse.setHiddenStatus(Objects.requireNonNullElse(menu.getMenuHidden(), MenuCommonStatus.YES).getStatus());
+        routerMetaResponse.setKeepAliveStatus(Objects.requireNonNullElse(menu.getMenuCache(), MenuCommonStatus.YES).getStatus());
         routerMetaResponse.setRoles(StrUtil.splitTrim(menu.getMenuAuthority(), ","));//perms
         routerMetaResponse.setRank(menu.getMenuSort());
         return routerMetaResponse;

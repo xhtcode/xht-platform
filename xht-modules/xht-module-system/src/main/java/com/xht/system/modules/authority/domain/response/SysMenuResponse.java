@@ -14,10 +14,15 @@ import lombok.Data;
 @Schema(description = "系统菜单响应信息")
 public class SysMenuResponse extends MetaResponse {
     /**
+     * 菜单ID
+     */
+    @Schema(description = "菜单ID")
+    private Long id;
+
+    /**
      * 父菜单ID
      */
     @Schema(description = "父菜单ID")
-    private Long id;
     private Long parentId;
 
     /**
@@ -48,13 +53,13 @@ public class SysMenuResponse extends MetaResponse {
      * 显示状态 (0显示 1隐藏)
      */
     @Schema(description = "显示状态 (0显示 1隐藏)")
-    private MenuHiddenEnums menuHidden;
+    private MenuCommonStatus menuHidden;
 
     /**
      * 是否缓存 （0是 1否）
      */
     @Schema(description = "是否缓存 （0是 1否）")
-    private MenuCacheEnums menuCache;
+    private MenuCommonStatus menuCache;
 
     /**
      * 菜单状态 （0正常 1停用）
@@ -93,9 +98,15 @@ public class SysMenuResponse extends MetaResponse {
     private String activeMenuPath;
 
     /**
+     * 固定状态
+     */
+    @Schema(description = "固定状态")
+    private MenuCommonStatus affixStatus;
+
+    /**
      * 是否为外链
      */
     @Schema(description = "是否为外链")
-    private MenuLinkEnums frameFlag;
+    private MenuCommonStatus frameFlag;
 
 }

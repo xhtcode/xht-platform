@@ -54,15 +54,14 @@ public final class MenuValidationFormat {
         String menuName = form.getMenuName();
         String menuIcon = form.getMenuIcon();
         String menuPath = form.getMenuPath();
-        MenuHiddenEnums menuHidden = form.getMenuHidden();
-        MenuCacheEnums menuCache = form.getMenuCache();
+        MenuCommonStatus menuHidden = form.getMenuHidden();
         MenuStatusEnums menuStatus = form.getMenuStatus();
         Integer menuSort = form.getMenuSort();
         String viewName = form.getViewName();
         String viewPath = form.getViewPath();
         String activeMenuPath = form.getActiveMenuPath();
-        MenuLinkEnums frameFlag = form.getFrameFlag();
-        //公共字段的校验
+        MenuCommonStatus frameFlag = form.getFrameFlag();
+        // 公共字段的校验
         ThrowUtils.throwIf(Objects.isNull(parentId), () -> ex("parentId", "父菜单ID不能为空"));
         ThrowUtils.throwIf(Objects.isNull(menuType), () -> ex("menuType", "菜单类型不能为空"));
         ThrowUtils.throwIf(StringUtils.isEmpty(menuName), () -> ex("menuName", "菜单名称不能为空"));
@@ -72,28 +71,36 @@ public final class MenuValidationFormat {
             case M:
                 ThrowUtils.throwIf(StringUtils.isEmpty(menuIcon), () -> ex("menuIcon", "目录图标不能为空"));
                 ThrowUtils.throwIf(StringUtils.isEmpty(menuPath), () -> ex("menuPath", "路由地址不能为空"));
+                form.setViewName(null);
+                form.setViewPath(null);
                 form.setFrameFlag(null);
                 form.setMenuHidden(null);
                 form.setMenuCache(null);
                 form.setActiveMenuPath(null);
+                form.setAffixStatus(null);
                 break;
             case C:
                 ThrowUtils.throwIf(StringUtils.isEmpty(menuIcon), () -> ex("menuIcon", "菜单图标不能为空"));
                 ThrowUtils.throwIf(StringUtils.isEmpty(menuPath), () -> ex("menuPath", "路由地址不能为空"));
                 ThrowUtils.throwIf(Objects.isNull(frameFlag), () -> ex("frameFlag", "是否为外链不能为空"));
                 ThrowUtils.throwIf(Objects.isNull(menuHidden), () -> ex("menuHidden", "显示状态不能为空"));
-                if (MenuLinkEnums.YES.equals(frameFlag)) {
-                    ThrowUtils.throwIf(Objects.isNull(menuCache), () -> ex("menuCache", "是否缓存不能为空"));
-                    ThrowUtils.throwIf(StringUtils.isEmpty(viewName), () -> ex("viewName", "组件视图名称不能为空"));
-                    ThrowUtils.throwIf(StringUtils.isEmpty(viewPath), () -> ex("viewPath", "组件视图路径不能为空"));
-                    form.setMenuCache(null);
+                if (MenuCommonStatus.YES.equals(frameFlag)) {
                     form.setViewName(null);
                     form.setViewPath(null);
-                }
-                if (MenuHiddenEnums.HIDE.equals(menuHidden)) {
-                    ThrowUtils.throwIf(StringUtils.isEmpty(activeMenuPath), () -> ex("activeMenuPath", "菜单显示不能为空"));
+                    form.setMenuCache(null);
+                    form.setMenuHidden(null);
+                    form.setActiveMenuPath(null);
+                    form.setAffixStatus(null);
                 } else {
-                    form.setActiveMenuPath(form.getMenuPath());
+                    ThrowUtils.throwIf(StringUtils.isEmpty(viewName), () -> ex("viewName", "组件视图名称不能为空"));
+                    ThrowUtils.throwIf(StringUtils.isEmpty(viewPath), () -> ex("viewPath", "组件视图路径不能为空"));
+                    if (MenuCommonStatus.NO.equals(menuHidden)) {
+                        ThrowUtils.throwIf(StringUtils.isEmpty(activeMenuPath), () -> ex("activeMenuPath", "菜单显示不能为空"));
+                        form.setMenuCache(MenuCommonStatus.NO);
+                        form.setAffixStatus(MenuCommonStatus.NO);
+                    } else {
+                        form.setActiveMenuPath(StringUtils.emptyToDefault(form.getActiveMenuPath(), form.getMenuPath()));
+                    }
                 }
                 break;
             case B:
@@ -105,6 +112,7 @@ public final class MenuValidationFormat {
                 form.setViewPath(null);
                 form.setActiveMenuPath(null);
                 form.setFrameFlag(null);
+                form.setAffixStatus(null);
                 break;
             default:
                 break;

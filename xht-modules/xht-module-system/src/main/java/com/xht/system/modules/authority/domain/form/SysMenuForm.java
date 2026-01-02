@@ -1,5 +1,6 @@
 package com.xht.system.modules.authority.domain.form;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.xht.framework.core.domain.form.BasicForm;
 import com.xht.framework.core.validation.Groups;
 import com.xht.system.modules.authority.common.enums.*;
@@ -62,13 +63,13 @@ public class SysMenuForm extends BasicForm {
      * 显示状态 (0显示 1隐藏)
      */
     @Schema(description = "显示状态 (0显示 1隐藏)")
-    private MenuHiddenEnums menuHidden;
+    private MenuCommonStatus menuHidden;
 
     /**
      * 是否缓存 （0是 1否）
      */
     @Schema(description = "是否缓存 （0是 1否）")
-    private MenuCacheEnums menuCache;
+    private MenuCommonStatus menuCache;
 
     /**
      * 菜单状态 （0正常 1停用）
@@ -110,10 +111,16 @@ public class SysMenuForm extends BasicForm {
     private String activeMenuPath;
 
     /**
+     * 固定状态
+     */
+    @Schema(description = "固定状态")
+    private MenuCommonStatus affixStatus;
+
+    /**
      * 是否为外链
      */
     @Schema(description = "是否为外链")
-    private MenuLinkEnums frameFlag;
+    private MenuCommonStatus frameFlag;
 
 
 }

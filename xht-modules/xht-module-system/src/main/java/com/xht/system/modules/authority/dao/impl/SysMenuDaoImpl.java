@@ -50,6 +50,7 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
                 .set(condition(form.getMenuSort()), SysMenuEntity::getMenuSort, form.getMenuSort())
                 .set(SysMenuEntity::getViewName, form.getViewName())
                 .set(SysMenuEntity::getViewPath, form.getViewPath())
+                .set(SysMenuEntity::getActiveMenuPath, form.getActiveMenuPath())
                 .set(SysMenuEntity::getFrameFlag, form.getFrameFlag())
                 .eq(SysMenuEntity::getId, form.getId());
         // @formatter:on

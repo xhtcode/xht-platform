@@ -34,7 +34,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     @Override
     @IgnoreAuth
     @GetMapping("/api/sys/user/{username}/{loginType}")
-    public R<UserInfoDTO> loadUserByUsername(@PathVariable("username") String username, @PathVariable("loginType") LoginTypeEnums loginType) {
+    public R<UserInfoDTO> loadUserByUsername(@PathVariable String username, @PathVariable LoginTypeEnums loginType) {
         return R.ok(userService.loadUserByUsername(username, loginType));
     }
 
@@ -47,7 +47,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     @Override
     @IgnoreAuth
     @GetMapping("/api/sys/user/register/{phone}")
-    public R<UserInfoDTO> registerPhoneUser(@PathVariable("phone") String phone) {
+    public R<UserInfoDTO> registerPhoneUser(@PathVariable String phone) {
         return R.ok(userService.registerPhoneUser(phone));
     }
 
@@ -60,7 +60,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     @Override
     @IgnoreAuth
     @GetMapping("/api/sys/user/exists/{phone}")
-    public R<Boolean> checkPhoneExists(@PathVariable("phone") String phone) {
+    public R<Boolean> checkPhoneExists(@PathVariable String phone) {
         return R.ok(userService.checkPhoneExists(phone));
     }
 }

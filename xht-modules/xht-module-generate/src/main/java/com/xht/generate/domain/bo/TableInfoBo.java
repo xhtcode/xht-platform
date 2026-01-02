@@ -169,19 +169,19 @@ public final class TableInfoBo {
         columnMap.put("id", tableColumn.getId());
         columnMap.put("dbName", tableColumn.getDbName());
         columnMap.put("dbType", tableColumn.getDbType());
-        columnMap.put("dbPrimary", tableColumn.getDbPrimary().getValue());
-        columnMap.put("dbRequired", tableColumn.getDbRequired().getValue());
+        columnMap.put("dbPrimary", Objects.equals(IdPrimaryKeyEnums.YES, tableColumn.getDbPrimary()));
+        columnMap.put("dbRequired", Objects.equals(GenStatusEnums.YES, tableColumn.getDbRequired()));
         columnMap.put("dbComment", tableColumn.getDbComment());
         columnMap.put("dbLength", tableColumn.getDbLength());
         columnMap.put("codeName", StrUtil.lowerFirst(tableColumn.getCodeName()));
         columnMap.put("codeNameUpperFirst", StrUtil.upperFirst(tableColumn.getCodeName()));
         columnMap.put("codeComment", tableColumn.getCodeComment());
-        columnMap.put("fromInsert", tableColumn.getFromInsert().getValue());
-        columnMap.put("fromUpdate", tableColumn.getFromUpdate().getValue());
+        columnMap.put("fromInsert", Objects.equals(GenStatusEnums.YES, tableColumn.getFromInsert()));
+        columnMap.put("fromUpdate", Objects.equals(GenStatusEnums.YES, tableColumn.getFromUpdate()));
         columnMap.put("fromLength", tableColumn.getFromLength());
-        columnMap.put("fromFill", tableColumn.getFromFill().getValue());
+        columnMap.put("fromFill", Objects.equals(GenStatusEnums.YES, tableColumn.getFromFill()));
         columnMap.put("fromComponent", tableColumn.getFromComponent());
-        columnMap.put("listShow", tableColumn.getListShow().getValue());
+        columnMap.put("listShow", Objects.equals(GenStatusEnums.YES, tableColumn.getListShow()));
         columnMap.put("listDisabled", Objects.equals(GenStatusEnums.YES, tableColumn.getListDisabled()));
         columnMap.put("listHidden", Objects.equals(GenStatusEnums.YES, tableColumn.getListHidden()));
         columnMap.put("listSortable", Objects.equals(GenStatusEnums.YES, tableColumn.getListSortable()));
@@ -234,7 +234,6 @@ public final class TableInfoBo {
                 }
             }
         }
-
         context.put("tableId", table.getId());
         context.put("groupId", table.getGroupId());
         context.put("dataSourceId", table.getDataSourceId());

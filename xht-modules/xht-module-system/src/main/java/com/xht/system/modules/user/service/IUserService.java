@@ -41,7 +41,7 @@ public interface IUserService {
     /**
      * 删除用户
      *
-     * @param userId 用户ID
+     * @param userId 用户 ID
      */
     void removeByUserId(Long userId);
 
@@ -55,7 +55,7 @@ public interface IUserService {
     /**
      * 重置密码
      *
-     * @param userId 用户ID
+     * @param userId 用户 ID
      */
     void resetPassword(Long userId);
 
@@ -69,15 +69,15 @@ public interface IUserService {
     /**
      * 更新用户状态
      *
-     * @param userId 用户ID
+     * @param userId 用户 ID
      * @param status 状态
      */
     void updateStatus(Long userId, UserStatusEnums status);
 
     /**
-     * 根据ID查找用户
+     * 根据 ID 查找用户
      *
-     * @param userId 用户ID
+     * @param userId 用户 ID
      * @return 找到的用户对象，不存在时返回null
      */
     SysUserVO findByUserId(Long userId);
@@ -97,7 +97,10 @@ public interface IUserService {
      */
     default UserInfoDTO getUserProfileInfo() {
         BasicUserDetails user = SecurityUtils.getUser();
-        return loadUserByUsername(user.getUsername(), user.getLoginType());
+        UserInfoDTO userInfoDTO = loadUserByUsername(user.getUsername(), user.getLoginType());
+        userInfoDTO.setPassWord(null);
+        userInfoDTO.setPassWordSalt(null);
+        return userInfoDTO;
     }
 
     /**

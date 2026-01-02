@@ -19,6 +19,7 @@
         <result property="viewName" column="view_name" />
         <result property="viewPath" column="view_path" />
         <result property="activeMenuPath" column="active_menu_path" />
+        <result property="affixStatus" column="affix_status" />
         <result property="frameFlag" column="frame_flag" />
         <result property="createBy" column="create_by" />
         <result property="createTime" column="create_time" />
@@ -71,6 +72,7 @@
                sys_menu.view_name,
                sys_menu.view_path,
                sys_menu.active_menu_path,
+               sys_menu.affix_status,
                sys_menu.frame_flag,
                sys_menu.del_flag,
                sys_menu.create_by,

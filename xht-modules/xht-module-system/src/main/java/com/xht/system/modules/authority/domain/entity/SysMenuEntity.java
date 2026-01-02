@@ -58,13 +58,13 @@ public class SysMenuEntity extends BasicEntity implements Serializable {
      * 显示状态 (0显示 1隐藏)
      */
     @TableField(value = "menu_hidden")
-    private MenuHiddenEnums menuHidden;
+    private MenuCommonStatus menuHidden;
 
     /**
      * 是否缓存 （0是 1否）
      */
     @TableField(value = "menu_cache")
-    private MenuCacheEnums menuCache;
+    private MenuCommonStatus menuCache;
 
     /**
      * 菜单状态 （0正常 1停用）
@@ -102,11 +102,18 @@ public class SysMenuEntity extends BasicEntity implements Serializable {
     @TableField(value = "active_menu_path")
     private String activeMenuPath;
 
+
+    /**
+     * 固定状态
+     */
+    @TableField(value = "affix_status")
+    private MenuCommonStatus affixStatus;
+
     /**
      * 是否为外链
      */
     @TableField(value = "frame_flag")
-    private MenuLinkEnums frameFlag;
+    private MenuCommonStatus frameFlag;
 
 
 }
