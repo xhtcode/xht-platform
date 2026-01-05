@@ -137,5 +137,4 @@ public class SysMenuServiceImpl implements ISysMenuService {
         return sysMenuConverter.toTree(list);
     }
 
-
 }
