@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @author xht
  **/
-public class TreeIBuilder<E> implements Serializable {
+public class TreeBuilder<E> implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -33,7 +33,7 @@ public class TreeIBuilder<E> implements Serializable {
     private Boolean desc = false;
 
 
-    private TreeIBuilder() {
+    private TreeBuilder() {
         root = new TreeNode<>();
         this.nodeList = new HashMap<>();
     }
@@ -41,8 +41,8 @@ public class TreeIBuilder<E> implements Serializable {
     /**
      * 创建构造器
      */
-    public static <T> TreeIBuilder<T> of() {
-        return new TreeIBuilder<>();
+    public static <T> TreeBuilder<T> of() {
+        return new TreeBuilder<>();
     }
 
 
@@ -52,7 +52,7 @@ public class TreeIBuilder<E> implements Serializable {
      * @param tree 节点
      * @return this
      */
-    public TreeIBuilder<E> append(TreeNode<E> tree) {
+    public TreeBuilder<E> append(TreeNode<E> tree) {
         this.nodeList.put(tree.getId(), tree);
         return this;
     }
@@ -63,7 +63,7 @@ public class TreeIBuilder<E> implements Serializable {
      * @param trees 节点列表
      * @return this
      */
-    public TreeIBuilder<E> appendList(List<INode<E>> trees) {
+    public TreeBuilder<E> appendList(List<INode<E>> trees) {
         for (INode<E> tree : trees) {
             this.nodeList.put(tree.getId(), tree);
         }

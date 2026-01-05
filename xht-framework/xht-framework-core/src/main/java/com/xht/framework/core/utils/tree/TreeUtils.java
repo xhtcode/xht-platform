@@ -66,7 +66,7 @@ public final class TreeUtils {
         if (CollectionUtils.isEmpty(result)) {
             throw new IllegalArgumentException("构建树的节点列表不能为null或空");
         }
-        TreeIBuilder<T> of = TreeIBuilder.of();
+        TreeBuilder<T> of = TreeBuilder.of();
         return of.appendList(result).buildList(Boolean.TRUE);
     }
 
@@ -74,7 +74,7 @@ public final class TreeUtils {
         if (CollectionUtils.isEmpty(result)) {
             return Collections.emptyList();
         }
-        TreeIBuilder<T> of = TreeIBuilder.of();
+        TreeBuilder<T> of = TreeBuilder.of();
         return of.appendList(result).buildList(desc);
     }
 }

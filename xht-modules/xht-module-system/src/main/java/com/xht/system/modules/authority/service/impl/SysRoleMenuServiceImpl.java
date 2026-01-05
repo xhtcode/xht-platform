@@ -82,7 +82,7 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
             response.setCheckAll(false);
         }
         response.setCheckedKeys(menuIdByRoleId);
-        response.setMenuList(sysMenuConverter.toTree(menuEntityList, true));
+        response.setMenuList(sysMenuConverter.toTree(menuEntityList));
         return response;
     }
 }

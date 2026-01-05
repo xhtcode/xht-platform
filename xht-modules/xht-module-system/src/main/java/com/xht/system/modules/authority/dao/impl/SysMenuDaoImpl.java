@@ -120,6 +120,21 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
                 .eq(condition(query.getMenuType()), SysMenuEntity::getMenuType, query.getMenuType())
                 .eq(condition(query.getMenuStatus()), SysMenuEntity::getMenuStatus, query.getMenuStatus())
                 .like(condition(query.getMenuName()), SysMenuEntity::getMenuName, query.getMenuName());
+        lambdaQueryWrapper.select(
+                SysMenuEntity::getId,
+                SysMenuEntity::getParentId,
+                SysMenuEntity::getMenuType,
+                SysMenuEntity::getMenuName,
+                SysMenuEntity::getMenuIcon,
+                SysMenuEntity::getMenuSort,
+                SysMenuEntity::getFrameFlag,
+                SysMenuEntity::getMenuStatus,
+                SysMenuEntity::getMenuAuthority,
+                SysMenuEntity::getCreateTime,
+                SysMenuEntity::getUpdateTime,
+                SysMenuEntity::getCreateBy,
+                SysMenuEntity::getUpdateBy
+        );
         // @formatter:on
         lambdaQueryWrapper.orderByAsc(SysMenuEntity::getMenuSort);
         return list(lambdaQueryWrapper);

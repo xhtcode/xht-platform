@@ -123,7 +123,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public List<INode<Long>> findTree(SysMenuQuery query) {
         List<SysMenuEntity> list = sysMenuDao.getMenuList(query);
-        return sysMenuConverter.toTree(list, false);
+        return sysMenuConverter.toTree(list);
     }
 
     /**
@@ -134,7 +134,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public List<INode<Long>> getMenuTreeSystemTool() {
         List<SysMenuEntity> list = sysMenuDao.getMenuTreeSystemTool(false);
-        return sysMenuConverter.toTree(list, false);
+        return sysMenuConverter.toTree(list);
     }
 
 
