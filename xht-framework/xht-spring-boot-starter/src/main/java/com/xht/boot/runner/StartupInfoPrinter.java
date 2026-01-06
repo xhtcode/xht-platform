@@ -1,9 +1,10 @@
 package com.xht.boot.runner;
 
 import cn.hutool.core.date.DateUtil;
-import com.xht.framework.core.properties.GlobalConfigProperties;
+import com.xht.framework.core.properties.XhtConfigProperties;
 import com.xht.framework.core.utils.IpUtils;
 import com.xht.framework.core.utils.StringUtils;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -62,12 +63,13 @@ public class StartupInfoPrinter implements ApplicationRunner {
     @Value("${spring.profiles.active:dev}")
     private String activeProfile;
 
-    private final GlobalConfigProperties globalConfigProperties;
+    @Resource
+    private XhtConfigProperties xhtConfigProperties;
 
     @Override
     @SuppressWarnings("all")
     public void run(ApplicationArguments args) {
-        if (globalConfigProperties.isBanner()) {
+        if (xhtConfigProperties.isBanner()) {
             // 获取并校验本机IP地址（防止获取失败导致的空指针）
             String serverIp = IpUtils.getHostIp();
             if (!StringUtils.hasText(serverIp)) {

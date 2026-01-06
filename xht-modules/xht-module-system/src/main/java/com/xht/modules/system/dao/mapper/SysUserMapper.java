@@ -1,0 +1,39 @@
+package com.xht.modules.system.dao.mapper;
+
+import com.xht.api.system.user.dto.UserInfoDTO;
+import com.xht.framework.mybatis.mapper.BaseMapperX;
+import com.xht.modules.system.domain.entity.SysUserEntity;
+import com.xht.modules.system.domain.vo.SysUserVO;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+/**
+ * 用户Mapper
+ *
+ * @author xht
+ */
+@Mapper
+public interface SysUserMapper extends BaseMapperX<SysUserEntity> {
+
+    /**
+     * 根据用户ID查询用户信息
+     *
+     * @param userId 用户ID
+     * @return 用户信息
+     */
+    SysUserVO findInfoByUserId(Long userId);
+
+    /**
+     * 根据用户名和登录类型查询用户信息
+     *
+     * @param userName  用户名
+     * @param loginType 登录类型
+     * @return 用户信息
+     */
+    UserInfoDTO findByUsernameAndLoginType(@Param("userName") String userName, @Param("loginType") String loginType);
+
+}
+
+
+
+

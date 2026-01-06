@@ -35,12 +35,6 @@
             <artifactId>xht-framework-web</artifactId>
             <optional>true</optional>
         </dependency>
-        <!-- swagger模块依赖 -->
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-framework-swagger</artifactId>
-            <optional>true</optional>
-        </dependency>
         <!-- mybatis模块依赖 -->
         <dependency>
             <groupId>com.xht</groupId>

@@ -1,1 +1,2 @@
 com.xht.framework.mybatis.MybatisAutoConfiguration
+com.xht.framework.mybatis.blog.BlogAutoConfiguration

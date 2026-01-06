@@ -13,18 +13,14 @@
     <artifactId>xht-spring-cloud-starter</artifactId>
     <packaging>jar</packaging>
     <description>自定义SpringCloud 启动器</description>
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+
     <dependencies>
         <!-- 核心模块依赖 -->
         <dependency>
             <groupId>com.xht</groupId>
             <artifactId>xht-framework-core</artifactId>
         </dependency>
-        <!-- log日志记录模块依赖 -->
+        <!-- log 日志记录模块依赖 -->
         <dependency>
             <groupId>com.xht</groupId>
             <artifactId>xht-framework-log</artifactId>
@@ -47,16 +43,6 @@
         <dependency>
             <groupId>com.xht</groupId>
             <artifactId>xht-framework-openfeign</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-spring-boot-starter</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-framework-resource-server</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>

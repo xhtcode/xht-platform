@@ -1,7 +1,8 @@
 package com.xht.gateway.filter;
 
+import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.log.utils.TraceIdUtils;
+import com.xht.framework.core.utils.mdc.TraceIdUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -14,9 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import static com.xht.framework.log.constat.LogConstant.*;
-
-
 /**
  * 分布式请求链路过滤器.
  *
@@ -26,6 +24,20 @@ import static com.xht.framework.log.constat.LogConstant.*;
 @Component
 @RequiredArgsConstructor
 public class TraceFilter implements GlobalFilter, Ordered {
+    /**
+     * 分布式链路 ID
+     */
+    private final static String REQUEST_TRACE_ID = HttpConstants.Header.TRACE_ID.getValue();
+
+    /**
+     * 用户账号
+     */
+    private final static String REQUEST_USER_ACCOUNT = HttpConstants.Header.USER_ACCOUNT.getValue();
+
+    /**
+     * 用户 ID
+     */
+    private final static String REQUEST_USER_ID = HttpConstants.Header.USER_ID.getValue();
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -61,7 +73,7 @@ public class TraceFilter implements GlobalFilter, Ordered {
      * 获取请求路径URL.
      *
      * @param request 请求对象
-     * @return 路径URL
+     * @return 路径 URL
      */
     public static String getRequestURL(ServerHttpRequest request) {
         return request.getPath().pathWithinApplication().value();

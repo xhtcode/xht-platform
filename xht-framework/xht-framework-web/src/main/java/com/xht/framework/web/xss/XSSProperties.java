@@ -1,6 +1,6 @@
 package com.xht.framework.web.xss;
 
-import com.xht.framework.core.properties.EnableProperties;
+import com.xht.framework.core.properties.basic.EnableProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

@@ -23,10 +23,6 @@
             <artifactId>xht-framework-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-framework-log</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>

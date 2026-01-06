@@ -1,1 +1,1 @@
-com.xht.framework.log.configurers.LogAutoConfigurer
+com.xht.framework.log.LogAutoConfiguration

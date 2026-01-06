@@ -13,7 +13,6 @@
     <packaging>jar</packaging>
     <description>xht-framework-core核心模块</description>
 
-
     <dependencies>
         <!-- huTool 工具类库 核心包 -->
         <dependency>

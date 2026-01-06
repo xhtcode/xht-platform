@@ -1,6 +1,8 @@
 package com.xht.framework.web.interceptor;
 
-import com.xht.framework.log.utils.TraceIdUtils;
+import com.xht.framework.core.constant.HttpConstants;
+import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.core.utils.mdc.TraceIdUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -8,8 +10,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.HandlerInterceptor;
-
-import static com.xht.framework.log.constat.LogConstant.REQUEST_TRACE_ID;
 
 @Slf4j
 public class TraceIdInterceptor implements HandlerInterceptor {
@@ -32,8 +32,8 @@ public class TraceIdInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) {
-        String traceId = request.getHeader(REQUEST_TRACE_ID);
-        if (traceId == null) {
+        String traceId = request.getHeader(HttpConstants.Header.TRACE_ID.getValue());
+        if (StringUtils.isEmpty(traceId)) {
             traceId = TraceIdUtils.generateTraceId();
         }
         TraceIdUtils.putTraceId(traceId);

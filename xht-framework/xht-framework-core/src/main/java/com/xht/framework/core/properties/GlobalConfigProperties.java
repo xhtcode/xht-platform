@@ -1,8 +1,8 @@
 package com.xht.framework.core.properties;
 
+import com.xht.framework.core.properties.basic.EnableProperties;
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * 小糊涂项目启动公共属性
@@ -10,13 +10,9 @@ import org.springframework.stereotype.Component;
  * @author xht
  **/
 @Data
-@Component
-@ConfigurationProperties(prefix = "xht.global-config")
 public class GlobalConfigProperties {
 
-    /**
-     * 是否开启 banner LOGO
-     */
-    private boolean banner = true;
+    @NestedConfigurationProperty
+    private EnableProperties banner = new EnableProperties(true);
 
 }

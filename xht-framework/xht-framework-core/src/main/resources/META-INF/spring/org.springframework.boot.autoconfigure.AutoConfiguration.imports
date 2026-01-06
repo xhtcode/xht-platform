@@ -1,3 +1,4 @@
 com.xht.framework.core.utils.spring.SpringContextUtils
 com.xht.framework.core.properties.SecurityHeaderProperties
 com.xht.framework.core.properties.GlobalConfigProperties
+com.xht.framework.core.properties.XhtConfigProperties

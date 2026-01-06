@@ -14,6 +14,7 @@
         <revision>1.0.0</revision>
         <mysql.version>9.4.0</mysql.version>
         <mybatis-plus.version>3.5.15</mybatis-plus.version>
+        <hutool.version>5.8.42</hutool.version>
         <knife4j-springdoc.version>4.5.0</knife4j-springdoc.version>
         <swagger.core.version>2.2.39</swagger.core.version>
         <velocity.version>2.4</velocity.version>
@@ -105,6 +106,14 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-bom</artifactId>
                 <version>${mybatis-plus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- hutool 工具类库 -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-bom</artifactId>
+                <version>${hutool.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

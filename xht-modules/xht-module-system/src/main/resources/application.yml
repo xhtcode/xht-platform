@@ -53,9 +53,12 @@ springdoc:
     - /actuator/**
     - /favicon.ico
 xht:
-  safety:
-    xss:
-      enable: true
+  blog:
+    repository-type: feign
+  global:
+   banner:
+     enable: true
+
 mybatis-plus:
   global-config:
     db-config:

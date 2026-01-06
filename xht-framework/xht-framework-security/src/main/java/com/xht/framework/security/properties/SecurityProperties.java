@@ -6,6 +6,7 @@ import com.xht.framework.security.exception.BasicAuthenticationException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import static com.xht.framework.security.constant.SecurityConstant.PASSWORD_JOIN_SALT;
 
@@ -19,7 +20,7 @@ public class SecurityProperties {
 
     private static final String DEFAULT_SALT = "123456";
 
-
+    @NestedConfigurationProperty
     private Password password = new Password();
 
     public String getSalt() {

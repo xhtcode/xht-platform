@@ -21,14 +21,15 @@
     </properties>
 
     <dependencies>
+        <!-- xht-framework-core核心模块 -->
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-core</artifactId>
+        </dependency>
         <!-- Spring Aop -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-framework-core</artifactId>
         </dependency>
     </dependencies>
 

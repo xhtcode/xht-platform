@@ -1,2 +1,2 @@
 com.xht.boot.mybatisplus.configurers.MybatisPlusAutoMetaObjectAutoConfig
-com.xht.boot.runner.StartupInfoPrinter
+com.xht.boot.XhtBootAutoConfiguration

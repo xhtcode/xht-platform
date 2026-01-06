@@ -17,6 +17,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.xht.framework.core.jackson.CustomJacksonModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +28,6 @@ import org.springframework.context.annotation.Bean;
  * @author xht
  **/
 @Slf4j
-@SuppressWarnings("all")
 @AutoConfiguration
 @RequiredArgsConstructor
 public class MybatisAutoConfiguration implements CommandLineRunner {
@@ -47,6 +47,11 @@ public class MybatisAutoConfiguration implements CommandLineRunner {
         return interceptor;
     }
 
+    /**
+     * mybatis-plus全局配置
+     *
+     * @return mybatis-plus全局配置
+     */
     @Bean
     public MybatisPlusPropertiesCustomizer mybatisPlusPropertiesCustomizer() {
         return properties -> {
@@ -59,10 +64,9 @@ public class MybatisAutoConfiguration implements CommandLineRunner {
      * Callback used to run the bean.
      *
      * @param args incoming main method arguments
-     * @throws Exception on error
      */
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         ObjectMapper objectMapper = new ObjectMapper();
         // 对象的所有字段全部列入，还是其他的选项，可以忽略null等
         objectMapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
@@ -79,5 +83,18 @@ public class MybatisAutoConfiguration implements CommandLineRunner {
         objectMapper.registerModules(new CustomJacksonModule());
         JacksonTypeHandler.setObjectMapper(objectMapper);
     }
+
+    /**
+     * 通用Mapper扫描接口
+     *
+     * @return MapperScannerConfigurer
+     */
+    @Bean
+    public MapperScannerConfigurer commonMapperScannerConfigurer() {
+        MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
+        scannerConfigurer.setBasePackage("com.xht.framework.mybatis.mapper.common");
+        return scannerConfigurer;
+    }
+
 }
 
