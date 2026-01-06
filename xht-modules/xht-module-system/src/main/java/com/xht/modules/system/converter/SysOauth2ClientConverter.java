@@ -1,6 +1,6 @@
 package com.xht.modules.system.converter;
 
-import com.xht.api.system.oauth2.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.client.dto.OAuth2RegisteredClientDTO;
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.modules.system.domain.entity.SysOauth2ClientEntity;
 import com.xht.modules.system.domain.form.SysOauth2ClientForm;

@@ -48,9 +48,7 @@ xht-platform
 ├── lombok.config
 ├── pom.xml
 ├── xht-api              # API 定义
-│   ├── xht-api-system-log       # 系统日志API
-│   ├── xht-api-system-oauth2    # OAuth2 API
-│   ├── xht-api-system-user      # 用户管理API
+│   ├── xht-api-system       # 系统API
 │   └── pom.xml
 ├── xht-auth             # 认证中心
 │   ├── src

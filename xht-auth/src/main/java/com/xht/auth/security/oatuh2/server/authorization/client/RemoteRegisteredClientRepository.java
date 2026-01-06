@@ -1,7 +1,7 @@
 package com.xht.auth.security.oatuh2.server.authorization.client;
 
-import com.xht.api.system.oauth2.dto.OAuth2RegisteredClientDTO;
-import com.xht.api.system.oauth2.feign.RemoteRegisteredClientService;
+import com.xht.api.system.client.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.client.feign.RemoteRegisteredClientService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.ROptional;
 import lombok.RequiredArgsConstructor;

@@ -56,15 +56,7 @@
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-api-system-oauth2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-api-system-user</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-api-system-log</artifactId>
+            <artifactId>xht-api-system</artifactId>
         </dependency>
     </dependencies>
     <build>

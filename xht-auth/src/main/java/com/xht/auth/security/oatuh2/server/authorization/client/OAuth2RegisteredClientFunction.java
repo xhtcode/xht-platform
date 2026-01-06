@@ -1,7 +1,7 @@
 package com.xht.auth.security.oatuh2.server.authorization.client;
 
 import cn.hutool.core.util.BooleanUtil;
-import com.xht.api.system.oauth2.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.client.dto.OAuth2RegisteredClientDTO;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -49,6 +49,7 @@ public class OAuth2RegisteredClientFunction implements Function<OAuth2Registered
         }
         return localDateTime.atZone(ZoneId.systemDefault()).toInstant();
     }
+
     private TokenSettings tokenSettings(OAuth2RegisteredClientDTO clientDTO) {
         return TokenSettings.builder()
                 .accessTokenFormat(OAuth2TokenFormat.REFERENCE)

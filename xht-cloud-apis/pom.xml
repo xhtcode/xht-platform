@@ -15,9 +15,6 @@
     <description>xht-cloud-apis 通用 api 模块</description>
 
     <modules>
-        <module>xht-api-system-log</module>
-        <module>xht-api-system-user</module>
-        <module>xht-api-system-oauth2</module>
         <module>xht-api-system</module>
     </modules>
 

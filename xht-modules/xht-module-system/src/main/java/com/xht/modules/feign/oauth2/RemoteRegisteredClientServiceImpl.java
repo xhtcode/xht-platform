@@ -1,7 +1,7 @@
 package com.xht.modules.feign.oauth2;
 
-import com.xht.api.system.oauth2.dto.OAuth2RegisteredClientDTO;
-import com.xht.api.system.oauth2.feign.RemoteRegisteredClientService;
+import com.xht.api.system.client.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.client.feign.RemoteRegisteredClientService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.modules.system.service.ISysOauth2ClientService;

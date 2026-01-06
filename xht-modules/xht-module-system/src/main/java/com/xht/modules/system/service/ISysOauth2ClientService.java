@@ -1,6 +1,6 @@
 package com.xht.modules.system.service;
 
-import com.xht.api.system.oauth2.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.client.dto.OAuth2RegisteredClientDTO;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.modules.system.domain.form.SysOauth2ClientForm;
 import com.xht.modules.system.domain.query.SysOauth2ClientQuery;
@@ -53,7 +53,8 @@ public interface ISysOauth2ClientService {
     PageResponse<SysOauth2ClientResponse> findPageList(SysOauth2ClientQuery query);
 
     /**
-     *  根据clientId 获取客户端详情
+     * 根据clientId 获取客户端详情
+     *
      * @param clientId 客户端id
      * @return 客户端详情
      */

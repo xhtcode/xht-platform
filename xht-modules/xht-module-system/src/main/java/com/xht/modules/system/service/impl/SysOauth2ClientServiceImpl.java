@@ -1,6 +1,6 @@
 package com.xht.modules.system.service.impl;
 
-import com.xht.api.system.oauth2.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.client.dto.OAuth2RegisteredClientDTO;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
