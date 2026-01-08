@@ -1,5 +1,6 @@
 package com.xht.modules.feign.log;
 
+import com.xht.api.system.blog.feign.RemoteLogClientService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 import com.xht.framework.security.annotation.IgnoreAuth;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class RemoteLogClientServiceImpl {
+public class RemoteLogClientServiceImpl implements RemoteLogClientService {
 
     private final ISysLogService sysLogService;
 

@@ -10,12 +10,12 @@
     <description>xht-platform</description>
 
     <modules>
-        <module>xht-cloud-apis</module>
-        <module>xht-framework</module>
-        <module>xht-demo</module>
-        <module>xht-modules</module>
         <module>xht-auth</module>
+        <module>xht-cloud-apis</module>
+        <module>xht-demo</module>
+        <module>xht-framework</module>
         <module>xht-gateway</module>
+        <module>xht-modules</module>
     </modules>
 
     <properties>
