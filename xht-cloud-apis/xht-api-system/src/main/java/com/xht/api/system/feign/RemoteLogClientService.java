@@ -1,6 +1,6 @@
-package com.xht.api.system.blog.feign;
+package com.xht.api.system.feign;
 
-import com.xht.api.system.blog.factory.RemoteLogClientFallbackFactory;
+import com.xht.api.system.feign.factory.RemoteLogClientFallbackFactory;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;

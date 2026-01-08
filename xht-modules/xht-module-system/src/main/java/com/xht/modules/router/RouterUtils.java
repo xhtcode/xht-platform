@@ -1,4 +1,4 @@
-package com.xht.modules.router.utils;
+package com.xht.modules.router;
 
 import com.xht.api.system.domain.response.SysMenuResponse;
 import com.xht.api.system.enums.MenuCommonStatus;

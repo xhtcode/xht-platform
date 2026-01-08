@@ -1,7 +1,7 @@
-package com.xht.api.system.client.feign;
+package com.xht.api.system.feign;
 
-import com.xht.api.system.client.dto.OAuth2RegisteredClientDTO;
-import com.xht.api.system.client.factory.RemoteRegisteredClientFallbackFactory;
+import com.xht.api.system.domain.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.feign.factory.RemoteRegisteredClientFallbackFactory;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
 import org.springframework.cloud.openfeign.FeignClient;

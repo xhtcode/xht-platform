@@ -1,6 +1,6 @@
 package com.xht.api.system;
 
-import com.xht.api.system.blog.listener.BLogApplicationListener;
+import com.xht.api.system.listener.BLogApplicationListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 @Slf4j
 @ComponentScan(value = "com.xht.api.system.*.factory")
 @AutoConfiguration
-@EnableFeignClients(value = "com.xht.api.system.*.feign")
+@EnableFeignClients(value = "com.xht.api.system.feign")
 public class ApiSystemAutoConfiguration {
 
     /**

@@ -1,6 +1,6 @@
-package com.xht.api.system.blog.listener;
+package com.xht.api.system.listener;
 
-import com.xht.api.system.blog.feign.RemoteLogClientService;
+import com.xht.api.system.feign.RemoteLogClientService;
 import com.xht.framework.core.support.blog.BLogEvent;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 import jakarta.annotation.Resource;

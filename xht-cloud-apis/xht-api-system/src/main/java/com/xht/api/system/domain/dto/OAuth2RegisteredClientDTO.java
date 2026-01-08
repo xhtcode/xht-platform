@@ -1,4 +1,4 @@
-package com.xht.api.system.client.dto;
+package com.xht.api.system.domain.dto;
 
 import com.xht.framework.core.domain.dto.BasicDTO;
 import io.swagger.v3.oas.annotations.media.Schema;

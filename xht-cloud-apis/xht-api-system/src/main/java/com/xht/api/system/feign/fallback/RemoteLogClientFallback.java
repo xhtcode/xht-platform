@@ -1,6 +1,6 @@
-package com.xht.api.system.blog.fallback;
+package com.xht.api.system.feign.fallback;
 
-import com.xht.api.system.blog.feign.RemoteLogClientService;
+import com.xht.api.system.feign.RemoteLogClientService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 import com.xht.framework.openfeign.fallback.BasicFallback;

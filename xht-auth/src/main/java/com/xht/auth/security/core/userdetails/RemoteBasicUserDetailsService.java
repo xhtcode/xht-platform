@@ -1,7 +1,7 @@
 package com.xht.auth.security.core.userdetails;
 
-import com.xht.api.system.user.dto.UserInfoDTO;
-import com.xht.api.system.user.feign.RemoteUserService;
+import com.xht.api.system.dto.UserInfoDTO;
+import com.xht.api.system.feign.RemoteUserService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.utils.ROptional;

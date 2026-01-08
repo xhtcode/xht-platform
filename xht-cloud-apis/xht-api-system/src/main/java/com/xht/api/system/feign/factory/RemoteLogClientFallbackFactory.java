@@ -1,7 +1,7 @@
-package com.xht.api.system.blog.factory;
+package com.xht.api.system.feign.factory;
 
-import com.xht.api.system.blog.feign.RemoteLogClientService;
-import com.xht.api.system.blog.fallback.RemoteLogClientFallback;
+import com.xht.api.system.feign.RemoteLogClientService;
+import com.xht.api.system.feign.fallback.RemoteLogClientFallback;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
 package com.xht.auth.security.oatuh2.server.authorization.client;
 
 import cn.hutool.core.util.BooleanUtil;
-import com.xht.api.system.client.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.domain.dto.OAuth2RegisteredClientDTO;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;

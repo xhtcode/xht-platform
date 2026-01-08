@@ -1,7 +1,7 @@
-package com.xht.api.system.user.feign;
+package com.xht.api.system.feign;
 
-import com.xht.api.system.user.dto.UserInfoDTO;
-import com.xht.api.system.user.factory.RemoteUserServiceFallbackFactory;
+import com.xht.api.system.dto.UserInfoDTO;
+import com.xht.api.system.feign.factory.RemoteUserServiceFallbackFactory;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;

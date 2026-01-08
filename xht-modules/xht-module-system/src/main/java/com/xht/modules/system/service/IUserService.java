@@ -1,6 +1,6 @@
 package com.xht.modules.system.service;
 
-import com.xht.api.system.user.dto.UserInfoDTO;
+import com.xht.api.system.dto.UserInfoDTO;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.enums.UserStatusEnums;

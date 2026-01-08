@@ -31,7 +31,7 @@
             <result property="nation" column="nation"/>
         </association>
     </resultMap>
-    <resultMap id="DtoResultMap" type="com.xht.api.system.user.dto.UserInfoDTO">
+    <resultMap id="DtoResultMap" type="com.xht.api.system.dto.UserInfoDTO">
         <id property="userId" column="id"/>
         <result property="userType" column="user_type"/>
         <result property="userName" column="user_name"/>

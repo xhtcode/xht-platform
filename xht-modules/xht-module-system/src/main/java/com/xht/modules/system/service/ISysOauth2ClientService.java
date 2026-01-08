@@ -1,6 +1,6 @@
 package com.xht.modules.system.service;
 
-import com.xht.api.system.client.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.domain.dto.OAuth2RegisteredClientDTO;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.api.system.domain.form.SysOauth2ClientForm;
 import com.xht.api.system.domain.query.SysOauth2ClientQuery;

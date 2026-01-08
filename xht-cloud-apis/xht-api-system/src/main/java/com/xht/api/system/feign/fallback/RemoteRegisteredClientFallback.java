@@ -1,7 +1,7 @@
-package com.xht.api.system.client.fallback;
+package com.xht.api.system.feign.fallback;
 
-import com.xht.api.system.client.dto.OAuth2RegisteredClientDTO;
-import com.xht.api.system.client.feign.RemoteRegisteredClientService;
+import com.xht.api.system.domain.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.feign.RemoteRegisteredClientService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.openfeign.fallback.BasicFallback;
 

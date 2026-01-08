@@ -1,4 +1,4 @@
-package com.xht.api.system.user.dto;
+package com.xht.api.system.dto;
 
 import com.xht.framework.core.domain.dto.BasicDTO;
 import com.xht.framework.core.enums.UserStatusEnums;

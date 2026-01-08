@@ -1,7 +1,7 @@
 package com.xht.auth.captcha.service.impl;
 
 import cn.hutool.core.util.IdUtil;
-import com.xht.api.system.user.feign.RemoteUserService;
+import com.xht.api.system.feign.RemoteUserService;
 import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.auth.captcha.handler.captcha.ArithmeticCaptcha;
 import com.xht.auth.captcha.service.ICaptchaService;

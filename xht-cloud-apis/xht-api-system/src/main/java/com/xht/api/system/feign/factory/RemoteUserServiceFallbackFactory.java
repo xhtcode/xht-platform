@@ -1,7 +1,7 @@
-package com.xht.api.system.user.factory;
+package com.xht.api.system.feign.factory;
 
-import com.xht.api.system.user.fallback.RemoteUserServiceFallback;
-import com.xht.api.system.user.feign.RemoteUserService;
+import com.xht.api.system.feign.fallback.RemoteUserServiceFallback;
+import com.xht.api.system.feign.RemoteUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
