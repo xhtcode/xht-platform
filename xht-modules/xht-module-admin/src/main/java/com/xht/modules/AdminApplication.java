@@ -17,10 +17,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableResourceServer
 @EnableDiscoveryClient
 @SpringBootApplication
-public class SystemApplication {
+public class AdminApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SystemApplication.class, args);
+        SpringApplication.run(AdminApplication.class, args);
     }
 
 }
