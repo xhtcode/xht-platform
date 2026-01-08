@@ -1,6 +1,6 @@
 package com.xht.auth.security.oatuh2.server.authorization.client;
 
-import com.xht.api.system.domain.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.domain.response.SysOauth2ClientResponse;
 import com.xht.api.system.feign.RemoteRegisteredClientService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.ROptional;
@@ -34,11 +34,11 @@ public class RemoteRegisteredClientRepository implements RegisteredClientReposit
 
     @Override
     public RegisteredClient findByClientId(String clientId) {
-        R<OAuth2RegisteredClientDTO> clientDetailsById = remoteRegisteredClientService.getClientDetailsById(clientId);
+        R<SysOauth2ClientResponse> clientDetailsById = remoteRegisteredClientService.getClientDetailsById(clientId);
         if (clientDetailsById == null) {
             return null;
         }
-        ROptional<OAuth2RegisteredClientDTO> rOptional = ROptional.of(clientDetailsById);
+        ROptional<SysOauth2ClientResponse> rOptional = ROptional.of(clientDetailsById);
         return rOptional.get().map(new OAuth2RegisteredClientFunction()).orElse(null);
     }
 

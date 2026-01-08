@@ -1,14 +1,13 @@
 package com.xht.modules.system.converter;
 
-import com.xht.api.system.dto.UserInfoDTO;
-import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.modules.system.entity.SysUserDetailEntity;
-import com.xht.modules.system.entity.SysUserEntity;
-import com.xht.api.system.domain.form.SysUserForm;
 import com.xht.api.system.domain.form.SysUserDetailForm;
+import com.xht.api.system.domain.form.SysUserForm;
 import com.xht.api.system.domain.response.SysUserDetailResponse;
 import com.xht.api.system.domain.response.SysUserResponse;
 import com.xht.api.system.domain.vo.SysUserVO;
+import com.xht.framework.mybatis.converter.BasicConverter;
+import com.xht.modules.system.entity.SysUserDetailEntity;
+import com.xht.modules.system.entity.SysUserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -41,14 +40,6 @@ public interface SysUserConverter extends BasicConverter<SysUserEntity, SysUserF
      * @return 包含用户配置文件基本信息的SysUserProfilesResponse对象
      */
     SysUserDetailResponse toResponse(SysUserDetailEntity profilesEntity);
-
-    /**
-     * 将SysUserVO对象转换为UserInfoDTO对象
-     *
-     * @param sysUserVO 系统用户VO对象，包含用户的基本信息
-     * @return UserInfoDTO 用户信息DTO对象，用于数据传输
-     */
-    UserInfoDTO convertToDto(SysUserVO sysUserVO);
 
     /**
      * 将SysUserProfileForm对象转换为SysUserProfilesEntity对象

@@ -1,14 +1,11 @@
 package com.xht.auth.captcha.service.impl;
 
 import cn.hutool.core.util.IdUtil;
-import com.xht.api.system.feign.RemoteUserService;
 import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.auth.captcha.handler.captcha.ArithmeticCaptcha;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.framework.cache.utils.Keys;
-import com.xht.framework.core.domain.R;
 import com.xht.framework.core.exception.BusinessException;
-import com.xht.framework.core.utils.ROptional;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.security.domain.response.CaptchaResponse;
@@ -33,11 +30,7 @@ import static com.xht.framework.security.constant.SecurityConstant.REDIS_CAPTCHA
 @RequiredArgsConstructor
 public class CaptchaServiceImpl implements ICaptchaService {
 
-
-
     private final RedisTemplate<String, Object> redisTemplate;
-
-    private final RemoteUserService remoteUserService;
 
     /***
      * 生成图片验证码
@@ -133,7 +126,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
      * @param captcha 验证码
      */
     @Override
-    public boolean checkPhoneCode(String phone, String captcha) {
+    public void checkPhoneCode(String phone, String captcha) {
         if (!SmsUtils.validMobilePhone(phone)) {
             throw new CaptchaException("无效的手机号格式");
         }
@@ -149,20 +142,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
         if (!StringUtils.equals(captcha, phoneCode)) {
             throw new CaptchaException("输入的验证码不正确");
         }
-        boolean phoneExists = isPhoneExists(phone);
-        removeCaptcha(captchaKey);
-        return phoneExists;
     }
-
-
-    /**
-     * 检查手机号是否存在于系统中
-     */
-    private boolean isPhoneExists(String phone) {
-        R<Boolean> booleanR = remoteUserService.checkPhoneExists(phone);
-        return ROptional.of(booleanR).get().orElse(false);
-    }
-
 
     /**
      * 发送短信验证码（实际实现需对接短信服务商）

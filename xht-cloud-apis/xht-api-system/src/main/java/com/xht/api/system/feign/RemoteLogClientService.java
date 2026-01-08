@@ -29,5 +29,6 @@ public interface RemoteLogClientService {
     @FeignIgnoreAuth
     @PostMapping("/api/sys/log/save")
     R<Void> saveLog(@RequestBody BLogDTO bLogDTO);
+
 }
 // @formatter:on

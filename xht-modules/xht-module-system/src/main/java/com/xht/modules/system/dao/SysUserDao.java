@@ -1,13 +1,13 @@
 package com.xht.modules.system.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.api.system.dto.UserInfoDTO;
-import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.framework.core.enums.LoginTypeEnums;
-import com.xht.framework.core.enums.UserStatusEnums;
-import com.xht.modules.system.entity.SysUserEntity;
 import com.xht.api.system.domain.query.SysUserQuery;
 import com.xht.api.system.domain.vo.SysUserVO;
+import com.xht.api.system.domain.vo.UserLoginVo;
+import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.core.enums.UserStatusEnums;
+import com.xht.framework.mybatis.repository.MapperRepository;
+import com.xht.modules.system.entity.SysUserEntity;
 
 
 /**
@@ -55,7 +55,7 @@ public interface SysUserDao extends MapperRepository<SysUserEntity> {
      * @param loginType 登录类型
      * @return 用户信息
      */
-    UserInfoDTO findByUsernameAndLoginType(String username, LoginTypeEnums loginType);
+    UserLoginVo findByUsernameAndLoginType(String username, LoginTypeEnums loginType);
 
     /**
      * 根据手机号校验用户是否重复

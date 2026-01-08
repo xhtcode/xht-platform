@@ -1,7 +1,7 @@
 package com.xht.auth.security.oatuh2.server.authorization.client;
 
 import cn.hutool.core.util.BooleanUtil;
-import com.xht.api.system.domain.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.domain.response.SysOauth2ClientResponse;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -23,23 +23,23 @@ import java.util.stream.Collectors;
  *
  * @author xht
  */
-public class OAuth2RegisteredClientFunction implements Function<OAuth2RegisteredClientDTO, RegisteredClient> {
+public class OAuth2RegisteredClientFunction implements Function<SysOauth2ClientResponse, RegisteredClient> {
     @Override
-    public RegisteredClient apply(OAuth2RegisteredClientDTO clientDTO) {
-        RegisteredClient.Builder registeredClientBuilder = RegisteredClient.withId(String.valueOf(clientDTO.getClientId()))
-                .clientId(clientDTO.getClientId()).clientSecret(clientDTO.getClientSecret())
-                .clientIdIssuedAt(convertToInstant(clientDTO.getClientIdIssuedAt()))
-                .clientSecretExpiresAt(convertToInstant(clientDTO.getClientSecretExpiresAt()))
-                .clientName(clientDTO.getClientName())
+    public RegisteredClient apply(SysOauth2ClientResponse clientResponse) {
+        RegisteredClient.Builder registeredClientBuilder = RegisteredClient.withId(String.valueOf(clientResponse.getClientId()))
+                .clientId(clientResponse.getClientId()).clientSecret(clientResponse.getClientSecret())
+                .clientIdIssuedAt(convertToInstant(clientResponse.getClientIdIssuedAt()))
+                .clientSecretExpiresAt(convertToInstant(clientResponse.getClientSecretExpiresAt()))
+                .clientName(clientResponse.getClientName())
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .scopes(item -> item.addAll(clientDTO.getScopes()))
-                .redirectUris(item -> item.addAll(clientDTO.getRedirectUris()))
+                .scopes(item -> item.addAll(clientResponse.getScopes()))
+                .redirectUris(item -> item.addAll(clientResponse.getRedirectUris()))
                 .authorizationGrantTypes((authorizationGrantTypes) -> authorizationGrantTypes
-                        .addAll(formatAuthorizationGrantTypes(clientDTO.getAuthorizationGrantTypes())))
+                        .addAll(formatAuthorizationGrantTypes(clientResponse.getAuthorizationGrantTypes())))
                 .clientSettings(ClientSettings.builder()
-                        .requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDTO.getAutoApprove()))
+                        .requireAuthorizationConsent(!BooleanUtil.toBoolean(clientResponse.getAutoApprove()))
                         .build())
-                .tokenSettings(tokenSettings(clientDTO));
+                .tokenSettings(tokenSettings(clientResponse));
         return registeredClientBuilder.build();
     }
 
@@ -50,7 +50,7 @@ public class OAuth2RegisteredClientFunction implements Function<OAuth2Registered
         return localDateTime.atZone(ZoneId.systemDefault()).toInstant();
     }
 
-    private TokenSettings tokenSettings(OAuth2RegisteredClientDTO clientDTO) {
+    private TokenSettings tokenSettings(SysOauth2ClientResponse clientDTO) {
         return TokenSettings.builder()
                 .accessTokenFormat(OAuth2TokenFormat.REFERENCE)
                 .accessTokenTimeToLive(Duration.ofSeconds(clientDTO.getAccessTokenValidity()))

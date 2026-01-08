@@ -24,4 +24,5 @@ public class BLogApplicationListener implements ApplicationListener<BLogEvent> {
         BLogDTO bLogDTO = event.getBLogDTO();
         remoteLogClientService.saveLog(bLogDTO);
     }
+
 }

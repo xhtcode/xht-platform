@@ -1,6 +1,6 @@
 package com.xht.api.system.feign.fallback;
 
-import com.xht.api.system.domain.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.domain.response.SysOauth2ClientResponse;
 import com.xht.api.system.feign.RemoteRegisteredClientService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.openfeign.fallback.BasicFallback;
@@ -28,7 +28,7 @@ public class RemoteRegisteredClientFallback extends BasicFallback implements Rem
      * @return R
      */
     @Override
-    public R<OAuth2RegisteredClientDTO> getClientDetailsById(String clientId) {
+    public R<SysOauth2ClientResponse> getClientDetailsById(String clientId) {
         return error();
     }
 

@@ -1,6 +1,6 @@
 package com.xht.api.system.feign.fallback;
 
-import com.xht.api.system.dto.UserInfoDTO;
+import com.xht.api.system.domain.vo.UserLoginVo;
 import com.xht.api.system.feign.RemoteUserService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.enums.LoginTypeEnums;
@@ -29,29 +29,8 @@ public class RemoteUserServiceFallback extends BasicFallback implements RemoteUs
      * @return 用户信息
      */
     @Override
-    public R<UserInfoDTO> loadUserByUsername(String username, LoginTypeEnums loginType) {
+    public R<UserLoginVo> loadUserByUsername(String username, LoginTypeEnums loginType) {
         return error();
     }
 
-    /**
-     * 注册手机用户
-     *
-     * @param phone 手机号
-     * @return 注册用户信息
-     */
-    @Override
-    public R<UserInfoDTO> registerPhoneUser(String phone) {
-        return error();
-    }
-
-    /**
-     * 验证手机号是否存在
-     *
-     * @param phone 手机号
-     * @return 是否存在
-     */
-    @Override
-    public R<Boolean> checkPhoneExists(String phone) {
-        return R.errorData(Boolean.FALSE);
-    }
 }

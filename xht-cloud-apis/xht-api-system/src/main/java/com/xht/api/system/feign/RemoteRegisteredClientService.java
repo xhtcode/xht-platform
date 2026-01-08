@@ -1,6 +1,6 @@
 package com.xht.api.system.feign;
 
-import com.xht.api.system.domain.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.domain.response.SysOauth2ClientResponse;
 import com.xht.api.system.feign.factory.RemoteRegisteredClientFallbackFactory;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
@@ -31,7 +31,7 @@ public interface RemoteRegisteredClientService {
     @FeignIgnoreAuth
     @ResponseBody
     @GetMapping("/api/sys/oauth2/client/{clientId}")
-    R<OAuth2RegisteredClientDTO> getClientDetailsById(@PathVariable("clientId") String clientId);
+    R<SysOauth2ClientResponse> getClientDetailsById(@PathVariable("clientId") String clientId);
 
 }
 // @formatter:on

@@ -1,6 +1,6 @@
 package com.xht.modules.feign.security;
 
-import com.xht.api.system.dto.UserInfoDTO;
+import com.xht.api.system.domain.vo.UserLoginVo;
 import com.xht.api.system.feign.RemoteUserService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.enums.LoginTypeEnums;
@@ -34,33 +34,8 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     @Override
     @IgnoreAuth
     @GetMapping("/api/sys/user/{username}/{loginType}")
-    public R<UserInfoDTO> loadUserByUsername(@PathVariable String username, @PathVariable LoginTypeEnums loginType) {
+    public R<UserLoginVo> loadUserByUsername(@PathVariable String username, @PathVariable LoginTypeEnums loginType) {
         return R.ok(userService.loadUserByUsername(username, loginType));
     }
 
-    /**
-     * 注册手机用户
-     *
-     * @param phone 手机号
-     * @return 注册用户信息
-     */
-    @Override
-    @IgnoreAuth
-    @GetMapping("/api/sys/user/register/{phone}")
-    public R<UserInfoDTO> registerPhoneUser(@PathVariable String phone) {
-        return R.ok(userService.registerPhoneUser(phone));
-    }
-
-    /**
-     * 验证手机号是否存在
-     *
-     * @param phone 手机号
-     * @return 是否存在
-     */
-    @Override
-    @IgnoreAuth
-    @GetMapping("/api/sys/user/exists/{phone}")
-    public R<Boolean> checkPhoneExists(@PathVariable String phone) {
-        return R.ok(userService.checkPhoneExists(phone));
-    }
 }

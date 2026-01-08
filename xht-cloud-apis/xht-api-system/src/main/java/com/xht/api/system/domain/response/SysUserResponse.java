@@ -68,4 +68,5 @@ public class SysUserResponse extends MetaResponse {
      */
     @Schema(description = "部门名称")
     private String deptName;
+
 }

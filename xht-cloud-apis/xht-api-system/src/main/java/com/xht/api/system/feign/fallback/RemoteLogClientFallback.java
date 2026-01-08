@@ -16,6 +16,7 @@ public class RemoteLogClientFallback extends BasicFallback implements RemoteLogC
         super(cause);
     }
 
+
     /**
      * 存储日志
      *

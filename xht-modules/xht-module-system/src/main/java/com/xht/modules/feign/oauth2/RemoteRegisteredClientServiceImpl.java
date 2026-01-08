@@ -1,6 +1,6 @@
 package com.xht.modules.feign.oauth2;
 
-import com.xht.api.system.domain.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.domain.response.SysOauth2ClientResponse;
 import com.xht.api.system.feign.RemoteRegisteredClientService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.security.annotation.IgnoreAuth;
@@ -32,7 +32,7 @@ public class RemoteRegisteredClientServiceImpl implements RemoteRegisteredClient
     @Override
     @IgnoreAuth
     @GetMapping("/api/sys/oauth2/client/{clientId}")
-    public R<OAuth2RegisteredClientDTO> getClientDetailsById(@PathVariable("clientId") String clientId) {
+    public R<SysOauth2ClientResponse> getClientDetailsById(@PathVariable("clientId") String clientId) {
         return R.ok(sysOauth2ClientService.getClient(clientId));
     }
 

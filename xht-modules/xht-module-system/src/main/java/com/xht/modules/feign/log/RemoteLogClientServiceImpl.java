@@ -35,4 +35,5 @@ public class RemoteLogClientServiceImpl implements RemoteLogClientService {
         sysLogService.create(bLogDTO);
         return R.ok();
     }
+
 }

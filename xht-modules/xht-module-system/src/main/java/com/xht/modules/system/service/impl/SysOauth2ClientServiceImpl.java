@@ -1,6 +1,8 @@
 package com.xht.modules.system.service.impl;
 
-import com.xht.api.system.domain.dto.OAuth2RegisteredClientDTO;
+import com.xht.api.system.domain.form.SysOauth2ClientForm;
+import com.xht.api.system.domain.query.SysOauth2ClientQuery;
+import com.xht.api.system.domain.response.SysOauth2ClientResponse;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
@@ -8,9 +10,6 @@ import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.modules.system.converter.SysOauth2ClientConverter;
 import com.xht.modules.system.dao.SysOauth2ClientDao;
 import com.xht.modules.system.entity.SysOauth2ClientEntity;
-import com.xht.api.system.domain.form.SysOauth2ClientForm;
-import com.xht.api.system.domain.query.SysOauth2ClientQuery;
-import com.xht.api.system.domain.response.SysOauth2ClientResponse;
 import com.xht.modules.system.service.ISysOauth2ClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -105,8 +104,8 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      * @return 客户端详情
      */
     @Override
-    public OAuth2RegisteredClientDTO getClient(String clientId) {
+    public SysOauth2ClientResponse getClient(String clientId) {
         SysOauth2ClientEntity sysOauth2ClientEntity = sysOauth2ClientDao.findOneOptional(SysOauth2ClientEntity::getClientId, clientId).orElse(null);
-        return sysOauth2ClientConverter.toDto(sysOauth2ClientEntity);
+        return sysOauth2ClientConverter.toResponse(sysOauth2ClientEntity);
     }
 }

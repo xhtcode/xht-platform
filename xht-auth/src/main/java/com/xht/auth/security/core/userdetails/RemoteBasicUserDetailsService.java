@@ -1,6 +1,6 @@
 package com.xht.auth.security.core.userdetails;
 
-import com.xht.api.system.dto.UserInfoDTO;
+import com.xht.api.system.domain.vo.UserLoginVo;
 import com.xht.api.system.feign.RemoteUserService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.enums.LoginTypeEnums;
@@ -48,20 +48,8 @@ public class RemoteBasicUserDetailsService extends BasicUserDetailsService {
     @Override
     public BasicUserDetails loadUserByUsername(String username, LoginTypeEnums loginType) throws UsernameNotFoundException {
         // 远程获取用户信息
-        R<UserInfoDTO> userDetailsR = remoteUserService.loadUserByUsername(username, loginType);
+        R<UserLoginVo> userDetailsR = remoteUserService.loadUserByUsername(username, loginType);
         return convert(userDetailsR, loginType);
-    }
-
-    /**
-     * 注册手机用户
-     *
-     * @param phone 手机号
-     * @return 注册用户信息
-     */
-    @Override
-    public BasicUserDetails registerPhoneUser(String phone) {
-        R<UserInfoDTO> userDetailsR = remoteUserService.registerPhoneUser(phone);
-        return convert(userDetailsR, LoginTypeEnums.PHONE);
     }
 
     /**
@@ -72,29 +60,29 @@ public class RemoteBasicUserDetailsService extends BasicUserDetailsService {
      * @return 转换后的BasicUserDetails对象，用于Spring Security认证授权
      * @throws UsernameNotFoundException 当远程获取用户信息失败时抛出此异常
      */
-    private BasicUserDetails convert(R<UserInfoDTO> userDetailsR, LoginTypeEnums loginType) {
+    private BasicUserDetails convert(R<UserLoginVo> userDetailsR, LoginTypeEnums loginType) {
         // @formatter:off
-        UserInfoDTO userInfo = ROptional.of(userDetailsR)
+        UserLoginVo loginVo = ROptional.of(userDetailsR)
                 .orElseThrow(() -> new UsernameNotFoundException("远程获取用户信息失败"));
         // 构建权限集合
-        Set<String> authoritiesSet = buildAuthoritiesSet(userInfo);
+        Set<String> authoritiesSet = buildAuthoritiesSet(loginVo);
         // 转换为Spring Security所需的权限对象
         Set<GrantedAuthority> authorities = createAuthorityList(authoritiesSet);
         // 构建并返回用户详情对象
-        BasicUserDetails basicUserDetails = new BasicUserDetails(userInfo.getUserId(),
-                userInfo.getUserType(),
-                userInfo.getUserName(),
-                userInfo.getNickName(),
-                securityProperties.buildSalt(userInfo.getPassWord(), userInfo.getPassWordSalt()),
+        BasicUserDetails basicUserDetails = new BasicUserDetails(loginVo.getId(),
+                loginVo.getUserType(),
+                loginVo.getUserName(),
+                loginVo.getNickName(),
+                securityProperties.buildSalt(loginVo.getPassWord(), loginVo.getPassWordSalt()),
                 authorities
         );
-        basicUserDetails.setUserStatus(userInfo.getUserStatus());
-        basicUserDetails.setUserPhone(userInfo.getUserPhone());
-        basicUserDetails.setDeptId(userInfo.getDeptId());
-        basicUserDetails.setDeptName(userInfo.getDeptName());
-        basicUserDetails.setRoleCodes(userInfo.getRoleCodes());
-        basicUserDetails.setMenuButtonCodes(userInfo.getMenuButtonCodes());
-        basicUserDetails.setDataScope(userInfo.getDataScope());
+        basicUserDetails.setUserStatus(loginVo.getUserStatus());
+        basicUserDetails.setUserPhone(loginVo.getUserPhone());
+        basicUserDetails.setDeptId(loginVo.getDeptId());
+        basicUserDetails.setDeptName(loginVo.getDeptName());
+        basicUserDetails.setRoleCodes(loginVo.getRoleCodes());
+        basicUserDetails.setMenuButtonCodes(loginVo.getMenuButtonCodes());
+        basicUserDetails.setDataScope(loginVo.getDataScope());
         basicUserDetails.setLoginType(loginType);
         return basicUserDetails;
         // @formatter:on
@@ -118,25 +106,25 @@ public class RemoteBasicUserDetailsService extends BasicUserDetailsService {
         // @formatter:on
     }
 
-
     /**
      * 构建用户权限集合（包含角色和权限）
      *
-     * @param userInfo 用户信息DTO
+     * @param loginVo 用户信息
      * @return 包含角色前缀的权限集合
      */
-    private Set<String> buildAuthoritiesSet(UserInfoDTO userInfo) {
+    private Set<String> buildAuthoritiesSet(UserLoginVo loginVo) {
         Set<String> authoritiesSet = new HashSet<>();
         // 添加角色权限（带角色前缀）
-        Set<String> roleCodes = userInfo.getRoleCodes();
+        Set<String> roleCodes = loginVo.getRoleCodes();
         if (!CollectionUtils.isEmpty(roleCodes)) {
             roleCodes.forEach(role -> authoritiesSet.add(SecurityConstant.ROLE_PREFIX + role));
         }
         // 添加功能权限
-        Set<String> menuButtonCodes = userInfo.getMenuButtonCodes();
+        Set<String> menuButtonCodes = loginVo.getMenuButtonCodes();
         if (!CollectionUtils.isEmpty(menuButtonCodes)) {
             authoritiesSet.addAll(menuButtonCodes);
         }
         return authoritiesSet;
     }
+
 }

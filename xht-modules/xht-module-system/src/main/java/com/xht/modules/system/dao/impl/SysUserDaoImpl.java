@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.xht.api.system.dto.UserInfoDTO;
+import com.xht.api.system.domain.vo.UserLoginVo;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.core.enums.UserTypeEnums;
@@ -109,7 +109,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @return 用户信息
      */
     @Override
-    public UserInfoDTO findByUsernameAndLoginType(String username, LoginTypeEnums loginType) {
+    public UserLoginVo findByUsernameAndLoginType(String username, LoginTypeEnums loginType) {
         return baseMapper.findByUsernameAndLoginType(username, loginType.getValue());
     }
 

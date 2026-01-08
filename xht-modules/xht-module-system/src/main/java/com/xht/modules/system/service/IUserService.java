@@ -1,17 +1,15 @@
 package com.xht.modules.system.service;
 
-import com.xht.api.system.dto.UserInfoDTO;
-import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.core.enums.LoginTypeEnums;
-import com.xht.framework.core.enums.UserStatusEnums;
-import com.xht.framework.core.utils.tree.INode;
-import com.xht.framework.oauth2.utils.SecurityUtils;
-import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.api.system.domain.form.SysUserForm;
 import com.xht.api.system.domain.form.UpdatePwdFrom;
 import com.xht.api.system.domain.query.SysUserQuery;
 import com.xht.api.system.domain.response.SysUserResponse;
 import com.xht.api.system.domain.vo.SysUserVO;
+import com.xht.api.system.domain.vo.UserLoginVo;
+import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.core.enums.UserStatusEnums;
+import com.xht.framework.core.utils.tree.INode;
 
 import java.util.List;
 
@@ -28,15 +26,6 @@ public interface IUserService {
      * @param form 用户创建请求对象
      */
     void create(SysUserForm form);
-
-    /**
-     * 注册手机用户
-     *
-     * @param phone 手机号
-     * @return 注册用户信息
-     */
-    UserInfoDTO registerPhoneUser(String phone);
-
 
     /**
      * 删除用户
@@ -91,27 +80,13 @@ public interface IUserService {
     PageResponse<SysUserResponse> findPageList(SysUserQuery query);
 
     /**
-     * 获取当前登录的用户信息
-     *
-     * @return 用户信息
-     */
-    default UserInfoDTO getUserProfileInfo() {
-        BasicUserDetails user = SecurityUtils.getUser();
-        UserInfoDTO userInfoDTO = loadUserByUsername(user.getUsername(), user.getLoginType());
-        userInfoDTO.setPassWord(null);
-        userInfoDTO.setPassWordSalt(null);
-        return userInfoDTO;
-    }
-
-    /**
      * 根据用户名和登录类型获取用户信息
      *
      * @param username  用户名
      * @param loginType 登录类型
      * @return 用户信息
      */
-    UserInfoDTO loadUserByUsername(String username, LoginTypeEnums loginType);
-
+    UserLoginVo loadUserByUsername(String username, LoginTypeEnums loginType);
 
     /**
      * 获取当前登录用户的路由信息
@@ -120,11 +95,4 @@ public interface IUserService {
      */
     List<INode<Long>> getRouters();
 
-    /**
-     * 验证手机号是否存在
-     *
-     * @param phone 手机号
-     * @return 是否存在
-     */
-    Boolean checkPhoneExists(String phone);
 }

@@ -1,9 +1,9 @@
 package com.xht.modules.system.dao.mapper;
 
-import com.xht.api.system.dto.UserInfoDTO;
+import com.xht.api.system.domain.vo.SysUserVO;
+import com.xht.api.system.domain.vo.UserLoginVo;
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.modules.system.entity.SysUserEntity;
-import com.xht.api.system.domain.vo.SysUserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,7 +30,7 @@ public interface SysUserMapper extends BaseMapperX<SysUserEntity> {
      * @param loginType 登录类型
      * @return 用户信息
      */
-    UserInfoDTO findByUsernameAndLoginType(@Param("userName") String userName, @Param("loginType") String loginType);
+    UserLoginVo findByUsernameAndLoginType(@Param("userName") String userName, @Param("loginType") String loginType);
 
 }
 

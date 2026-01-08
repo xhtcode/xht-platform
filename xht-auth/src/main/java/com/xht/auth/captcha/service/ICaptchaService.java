@@ -37,5 +37,5 @@ public interface ICaptchaService {
      * @param phone   手机号
      * @param captcha 验证码
      */
-    boolean checkPhoneCode(String phone, String captcha);
+    void checkPhoneCode(String phone, String captcha);
 }

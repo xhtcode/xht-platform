@@ -46,13 +46,8 @@ public class PhoneAuthenticationProvider extends AbstractAuthenticationProvider 
     @Override
     protected Authentication getAuthenticatedPrincipal(RequestUserBO requestUserBO) {
         requestUserBO.checkUserName();
-        boolean registerUser = iCaptchaService.checkPhoneCode(requestUserBO.getUserName(), requestUserBO.getCaptcha());
-        BasicUserDetails basicUserDetails;
-        if (registerUser) {
-            basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnums.PHONE);
-        } else {
-            basicUserDetails = basicUserDetailsService.registerPhoneUser(requestUserBO.getUserName());
-        }
+        iCaptchaService.checkPhoneCode(requestUserBO.getUserName(), requestUserBO.getCaptcha());
+        BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnums.PHONE);
         UsernamePasswordAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(basicUserDetails.getUsername(), basicUserDetails.getPassword(), basicUserDetails.getAuthorities());
         authenticated.setDetails(basicUserDetails);
         return authenticated;
