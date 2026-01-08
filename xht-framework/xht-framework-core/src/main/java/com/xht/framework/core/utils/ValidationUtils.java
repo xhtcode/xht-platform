@@ -19,8 +19,11 @@ import java.util.function.Consumer;
  * @author : xht
  **/
 @Slf4j
-@SuppressWarnings("unused")
 public final class ValidationUtils {
+
+    private ValidationUtils() {
+        throw new UtilException("Utility class");
+    }
 
     /**
      * 校验对象
