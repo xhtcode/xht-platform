@@ -9,9 +9,9 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>xht-module-system</artifactId>
+    <artifactId>xht-module-admin</artifactId>
     <packaging>jar</packaging>
-    <description>xht-module-system系统模块</description>
+    <description>xht-module-admin 后台管理模块</description>
 
     <dependencies>
         <dependency>
