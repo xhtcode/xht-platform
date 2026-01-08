@@ -2,10 +2,10 @@ package com.xht.modules.system.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.common.enums.DictStatusEnums;
-import com.xht.modules.system.domain.entity.SysDictItemEntity;
-import com.xht.modules.system.domain.form.SysDictItemForm;
-import com.xht.modules.system.domain.query.SysDictItemQuery;
+import com.xht.api.system.enums.DictStatusEnums;
+import com.xht.modules.system.entity.SysDictItemEntity;
+import com.xht.api.system.domain.form.SysDictItemForm;
+import com.xht.api.system.domain.query.SysDictItemQuery;
 
 import java.util.List;
 

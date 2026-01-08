@@ -2,8 +2,8 @@ package com.xht.modules.system.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.modules.system.domain.request.SysLogQuery;
-import com.xht.modules.system.domain.response.SysLogResponse;
+import com.xht.api.system.domain.query.SysLogQuery;
+import com.xht.api.system.domain.response.SysLogResponse;
 import com.xht.modules.system.service.ISysLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

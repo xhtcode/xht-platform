@@ -3,10 +3,10 @@ package com.xht.modules.system.dao.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.modules.system.domain.response.SysPostResponse;
+import com.xht.api.system.domain.response.SysPostResponse;
 import com.xht.modules.system.dao.SysUserPostDao;
 import com.xht.modules.system.dao.mapper.SysUserPostMapper;
-import com.xht.modules.system.domain.entity.SysUserPostEntity;
+import com.xht.modules.system.entity.SysUserPostEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

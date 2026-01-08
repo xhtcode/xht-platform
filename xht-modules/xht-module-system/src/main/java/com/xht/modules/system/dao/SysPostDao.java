@@ -3,9 +3,9 @@ package com.xht.modules.system.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.system.domain.entity.SysPostEntity;
-import com.xht.modules.system.domain.form.SysPostForm;
-import com.xht.modules.system.domain.query.SysPostQuery;
+import com.xht.modules.system.entity.SysPostEntity;
+import com.xht.api.system.domain.form.SysPostForm;
+import com.xht.api.system.domain.query.SysPostQuery;
 
 import java.util.List;
 

@@ -2,8 +2,8 @@ package com.xht.modules.system.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.system.domain.entity.SysLogEntity;
-import com.xht.modules.system.domain.request.SysLogQuery;
+import com.xht.modules.system.entity.SysLogEntity;
+import com.xht.api.system.domain.query.SysLogQuery;
 
 /**
  * 系统日志

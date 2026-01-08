@@ -1,8 +1,8 @@
 package com.xht.modules.system.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.system.domain.entity.SysRoleMenuEntity;
-import com.xht.modules.system.domain.response.SysMenuResponse;
+import com.xht.modules.system.entity.SysRoleMenuEntity;
+import com.xht.api.system.domain.response.SysMenuResponse;
 
 import java.util.List;
 import java.util.Set;

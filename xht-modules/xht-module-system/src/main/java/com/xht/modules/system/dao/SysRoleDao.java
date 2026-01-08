@@ -2,10 +2,10 @@ package com.xht.modules.system.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.common.enums.RoleStatusEnums;
-import com.xht.modules.system.domain.entity.SysRoleEntity;
-import com.xht.modules.system.domain.form.SysRoleForm;
-import com.xht.modules.system.domain.query.SysRoleQuery;
+import com.xht.api.system.enums.RoleStatusEnums;
+import com.xht.modules.system.entity.SysRoleEntity;
+import com.xht.api.system.domain.form.SysRoleForm;
+import com.xht.api.system.domain.query.SysRoleQuery;
 
 import java.util.List;
 

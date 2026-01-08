@@ -1,9 +1,9 @@
 package com.xht.modules.system.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.modules.system.domain.form.SysPostForm;
-import com.xht.modules.system.domain.query.SysPostQuery;
-import com.xht.modules.system.domain.response.SysPostResponse;
+import com.xht.api.system.domain.form.SysPostForm;
+import com.xht.api.system.domain.query.SysPostQuery;
+import com.xht.api.system.domain.response.SysPostResponse;
 
 import java.util.List;
 

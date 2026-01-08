@@ -2,8 +2,16 @@ package com.xht.modules.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.api.system.domain.form.SysUserDetailForm;
+import com.xht.api.system.domain.form.SysUserForm;
+import com.xht.api.system.domain.form.UpdatePwdFrom;
+import com.xht.api.system.domain.query.SysUserQuery;
+import com.xht.api.system.domain.response.SysMenuResponse;
+import com.xht.api.system.domain.response.SysPostResponse;
+import com.xht.api.system.domain.response.SysUserDetailResponse;
+import com.xht.api.system.domain.response.SysUserResponse;
+import com.xht.api.system.domain.vo.SysUserVO;
 import com.xht.api.system.user.dto.UserInfoDTO;
 import com.xht.framework.cache.service.RedisService;
 import com.xht.framework.cache.utils.Keys;
@@ -24,28 +32,14 @@ import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
-import com.xht.modules.common.enums.MenuCommonStatus;
-import com.xht.modules.system.dao.SysRoleMenuDao;
-import com.xht.modules.system.dao.SysUserRoleDao;
-import com.xht.modules.system.domain.entity.SysRoleEntity;
-import com.xht.modules.system.domain.response.RouterMetaResponse;
-import com.xht.modules.system.domain.response.SysMenuResponse;
-import com.xht.modules.system.domain.vo.RouterVo;
-import com.xht.modules.system.domain.response.SysPostResponse;
-import com.xht.modules.system.helper.SysUserHelper;
+import com.xht.modules.router.vo.RouterVo;
+import com.xht.modules.router.utils.RouterUtils;
 import com.xht.modules.system.converter.SysUserConverter;
-import com.xht.modules.system.dao.SysUserDao;
-import com.xht.modules.system.dao.SysUserDetailDao;
-import com.xht.modules.system.dao.SysUserPostDao;
-import com.xht.modules.system.domain.entity.SysUserDetailEntity;
-import com.xht.modules.system.domain.entity.SysUserEntity;
-import com.xht.modules.system.domain.form.SysUserDetailForm;
-import com.xht.modules.system.domain.form.SysUserForm;
-import com.xht.modules.system.domain.form.UpdatePwdFrom;
-import com.xht.modules.system.domain.query.SysUserQuery;
-import com.xht.modules.system.domain.response.SysUserDetailResponse;
-import com.xht.modules.system.domain.response.SysUserResponse;
-import com.xht.modules.system.domain.vo.SysUserVO;
+import com.xht.modules.system.dao.*;
+import com.xht.modules.system.entity.SysRoleEntity;
+import com.xht.modules.system.entity.SysUserDetailEntity;
+import com.xht.modules.system.entity.SysUserEntity;
+import com.xht.modules.system.helper.SysUserHelper;
 import com.xht.modules.system.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -318,7 +312,7 @@ public class UserServiceImpl implements IUserService {
             routerVo.setPath(menu.getMenuPath());
             routerVo.setName(StringUtils.emptyToDefault(menu.getViewName(), menu.getId() + ""));
             routerVo.setComponent(menu.getViewPath());
-            routerVo.setMeta(getMetaVo(menu));
+            routerVo.setMeta(RouterUtils.generateRouter(menu));
             result.add(new TreeNode<>(menu.getId(), menu.getParentId(), menu.getMenuSort()).setExtra(BeanUtil.beanToMap(routerVo)));
         }
         return TreeUtils.buildList(result, Boolean.FALSE);
@@ -339,25 +333,4 @@ public class UserServiceImpl implements IUserService {
         return exists;
     }
 
-
-    /**
-     * 获取菜单元数据
-     *
-     * @param menu 菜单信息
-     * @return 菜单元数据
-     */
-    private static RouterMetaResponse getMetaVo(SysMenuResponse menu) {
-        RouterMetaResponse routerMetaResponse = new RouterMetaResponse();
-        routerMetaResponse.setTitle(menu.getMenuName());
-        routerMetaResponse.setIcon(menu.getMenuIcon());
-        routerMetaResponse.setLinkStatus(Objects.requireNonNullElse(menu.getFrameFlag(), MenuCommonStatus.NO).getStatus());
-        routerMetaResponse.setMenuType(menu.getMenuType().getValue());
-        routerMetaResponse.setAffixStatus(Objects.requireNonNullElse(menu.getAffixStatus(), MenuCommonStatus.NO).getStatus());
-        routerMetaResponse.setActiveMenuPath(menu.getActiveMenuPath());
-        routerMetaResponse.setHiddenStatus(Objects.requireNonNullElse(menu.getMenuHidden(), MenuCommonStatus.YES).getStatus());
-        routerMetaResponse.setKeepAliveStatus(Objects.requireNonNullElse(menu.getMenuCache(), MenuCommonStatus.YES).getStatus());
-        routerMetaResponse.setRoles(StrUtil.splitTrim(menu.getMenuAuthority(), ","));//perms
-        routerMetaResponse.setRank(menu.getMenuSort());
-        return routerMetaResponse;
-    }
 }

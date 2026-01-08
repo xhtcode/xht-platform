@@ -7,11 +7,11 @@ import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
-import com.xht.modules.system.domain.form.SysUserForm;
-import com.xht.modules.system.domain.form.UpdatePwdFrom;
-import com.xht.modules.system.domain.query.SysUserQuery;
-import com.xht.modules.system.domain.response.SysUserResponse;
-import com.xht.modules.system.domain.vo.SysUserVO;
+import com.xht.api.system.domain.form.SysUserForm;
+import com.xht.api.system.domain.form.UpdatePwdFrom;
+import com.xht.api.system.domain.query.SysUserQuery;
+import com.xht.api.system.domain.response.SysUserResponse;
+import com.xht.api.system.domain.vo.SysUserVO;
 
 import java.util.List;
 

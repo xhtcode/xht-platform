@@ -2,8 +2,8 @@ package com.xht.modules.system.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
-import com.xht.modules.system.domain.request.SysLogQuery;
-import com.xht.modules.system.domain.response.SysLogResponse;
+import com.xht.api.system.domain.query.SysLogQuery;
+import com.xht.api.system.domain.response.SysLogResponse;
 
 /**
  * 系统日志

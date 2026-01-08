@@ -1,9 +1,9 @@
 package com.xht.modules.system.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
-import com.xht.modules.common.enums.RoleStatusEnums;
-import com.xht.modules.system.domain.entity.SysRoleEntity;
-import com.xht.modules.system.domain.entity.SysUserRoleEntity;
+import com.xht.api.system.enums.RoleStatusEnums;
+import com.xht.modules.system.entity.SysRoleEntity;
+import com.xht.modules.system.entity.SysUserRoleEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

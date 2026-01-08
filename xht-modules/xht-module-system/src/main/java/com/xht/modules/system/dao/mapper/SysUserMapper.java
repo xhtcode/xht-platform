@@ -2,8 +2,8 @@ package com.xht.modules.system.dao.mapper;
 
 import com.xht.api.system.user.dto.UserInfoDTO;
 import com.xht.framework.mybatis.mapper.BaseMapperX;
-import com.xht.modules.system.domain.entity.SysUserEntity;
-import com.xht.modules.system.domain.vo.SysUserVO;
+import com.xht.modules.system.entity.SysUserEntity;
+import com.xht.api.system.domain.vo.SysUserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -1,7 +1,7 @@
 package com.xht.modules.system.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
-import com.xht.modules.system.domain.entity.SysDictEntity;
+import com.xht.modules.system.entity.SysDictEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

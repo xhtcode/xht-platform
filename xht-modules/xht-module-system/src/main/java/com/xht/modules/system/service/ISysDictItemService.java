@@ -1,10 +1,10 @@
 package com.xht.modules.system.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.modules.system.domain.form.SysDictItemForm;
-import com.xht.modules.system.domain.query.SysDictItemQuery;
-import com.xht.modules.system.domain.response.SysDictItemResponse;
-import com.xht.modules.system.domain.vo.DictVo;
+import com.xht.api.system.domain.form.SysDictItemForm;
+import com.xht.api.system.domain.query.SysDictItemQuery;
+import com.xht.api.system.domain.response.SysDictItemResponse;
+import com.xht.api.system.domain.vo.DictVo;
 
 import java.util.List;
 

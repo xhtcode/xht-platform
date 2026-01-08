@@ -1,11 +1,11 @@
 package com.xht.modules.system.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.modules.common.enums.DictStatusEnums;
-import com.xht.modules.system.domain.entity.SysDictItemEntity;
-import com.xht.modules.system.domain.form.SysDictItemForm;
-import com.xht.modules.system.domain.response.SysDictItemResponse;
-import com.xht.modules.system.domain.vo.DictVo;
+import com.xht.api.system.enums.DictStatusEnums;
+import com.xht.modules.system.entity.SysDictItemEntity;
+import com.xht.api.system.domain.form.SysDictItemForm;
+import com.xht.api.system.domain.response.SysDictItemResponse;
+import com.xht.api.system.domain.vo.DictVo;
 import org.mapstruct.*;
 import org.springframework.util.CollectionUtils;
 

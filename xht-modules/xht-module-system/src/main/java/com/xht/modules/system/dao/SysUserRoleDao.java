@@ -1,8 +1,8 @@
 package com.xht.modules.system.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.system.domain.entity.SysRoleEntity;
-import com.xht.modules.system.domain.entity.SysUserRoleEntity;
+import com.xht.modules.system.entity.SysRoleEntity;
+import com.xht.modules.system.entity.SysUserRoleEntity;
 
 import java.util.List;
 

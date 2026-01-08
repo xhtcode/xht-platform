@@ -2,9 +2,9 @@ package com.xht.modules.system.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.system.domain.entity.SysOauth2ClientEntity;
-import com.xht.modules.system.domain.form.SysOauth2ClientForm;
-import com.xht.modules.system.domain.query.SysOauth2ClientQuery;
+import com.xht.modules.system.entity.SysOauth2ClientEntity;
+import com.xht.api.system.domain.form.SysOauth2ClientForm;
+import com.xht.api.system.domain.query.SysOauth2ClientQuery;
 
 /**
  * OAuth2客户端管理

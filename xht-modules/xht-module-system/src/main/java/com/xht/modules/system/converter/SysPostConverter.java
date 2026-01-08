@@ -1,9 +1,9 @@
 package com.xht.modules.system.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.modules.system.domain.entity.SysPostEntity;
-import com.xht.modules.system.domain.form.SysPostForm;
-import com.xht.modules.system.domain.response.SysPostResponse;
+import com.xht.modules.system.entity.SysPostEntity;
+import com.xht.api.system.domain.form.SysPostForm;
+import com.xht.api.system.domain.response.SysPostResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;

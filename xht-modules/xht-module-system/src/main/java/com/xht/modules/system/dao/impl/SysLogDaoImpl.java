@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.system.dao.SysLogDao;
 import com.xht.modules.system.dao.mapper.SysLogMapper;
-import com.xht.modules.system.domain.entity.SysLogEntity;
-import com.xht.modules.system.domain.request.SysLogQuery;
+import com.xht.modules.system.entity.SysLogEntity;
+import com.xht.api.system.domain.query.SysLogQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

@@ -8,9 +8,9 @@ import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.system.dao.SysOauth2ClientDao;
 import com.xht.modules.system.dao.mapper.SysOauth2ClientMapper;
-import com.xht.modules.system.domain.entity.SysOauth2ClientEntity;
-import com.xht.modules.system.domain.form.SysOauth2ClientForm;
-import com.xht.modules.system.domain.query.SysOauth2ClientQuery;
+import com.xht.modules.system.entity.SysOauth2ClientEntity;
+import com.xht.api.system.domain.form.SysOauth2ClientForm;
+import com.xht.api.system.domain.query.SysOauth2ClientQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 package com.xht.modules.system.service;
 
-import com.xht.modules.system.domain.form.SysRoleMenuBindForm;
-import com.xht.modules.system.domain.response.RoleSelectedMenuResponse;
+import com.xht.api.system.domain.form.SysRoleMenuBindForm;
+import com.xht.api.system.domain.response.RoleSelectedMenuResponse;
 
 /**
  * 角色菜单Service接口

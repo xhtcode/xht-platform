@@ -1,10 +1,10 @@
 package com.xht.modules.system.service;
 
 import com.xht.framework.core.utils.tree.INode;
-import com.xht.modules.common.enums.DeptStatusEnums;
-import com.xht.modules.system.domain.form.SysDeptForm;
-import com.xht.modules.system.domain.query.SysDeptTreeQuery;
-import com.xht.modules.system.domain.response.SysDeptResponse;
+import com.xht.api.system.enums.DeptStatusEnums;
+import com.xht.api.system.domain.form.SysDeptForm;
+import com.xht.api.system.domain.query.SysDeptTreeQuery;
+import com.xht.api.system.domain.response.SysDeptResponse;
 
 import java.util.List;
 

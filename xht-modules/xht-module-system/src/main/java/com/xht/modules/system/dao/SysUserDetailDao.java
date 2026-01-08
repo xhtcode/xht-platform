@@ -1,8 +1,8 @@
 package com.xht.modules.system.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.system.domain.entity.SysUserDetailEntity;
-import com.xht.modules.system.domain.entity.SysUserEntity;
+import com.xht.modules.system.entity.SysUserDetailEntity;
+import com.xht.modules.system.entity.SysUserEntity;
 
 /**
  * 管理员用户信息 Dao

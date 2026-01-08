@@ -1,9 +1,9 @@
 package com.xht.modules.system.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.modules.system.domain.form.SysDictForm;
-import com.xht.modules.system.domain.query.SysDictQuery;
-import com.xht.modules.system.domain.response.SysDictResponse;
+import com.xht.api.system.domain.form.SysDictForm;
+import com.xht.api.system.domain.query.SysDictQuery;
+import com.xht.api.system.domain.response.SysDictResponse;
 
 import java.util.List;
 

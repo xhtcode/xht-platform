@@ -3,14 +3,14 @@ package com.xht.modules.system.service.impl;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.tree.INode;
-import com.xht.modules.common.enums.MenuStatusEnums;
-import com.xht.modules.common.enums.MenuTypeEnums;
+import com.xht.api.system.enums.MenuStatusEnums;
+import com.xht.api.system.enums.MenuTypeEnums;
 import com.xht.modules.system.converter.SysMenuConverter;
 import com.xht.modules.system.dao.SysMenuDao;
-import com.xht.modules.system.domain.entity.SysMenuEntity;
-import com.xht.modules.system.domain.form.SysMenuForm;
-import com.xht.modules.system.domain.query.SysMenuQuery;
-import com.xht.modules.system.domain.response.SysMenuResponse;
+import com.xht.modules.system.entity.SysMenuEntity;
+import com.xht.api.system.domain.form.SysMenuForm;
+import com.xht.api.system.domain.query.SysMenuQuery;
+import com.xht.api.system.domain.response.SysMenuResponse;
 import com.xht.modules.system.service.ISysMenuService;
 import com.xht.modules.system.utils.MenuValidationFormat;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
-import static com.xht.modules.common.constant.MenuConstant.DEFAULT_PARENT_ID;
+import static com.xht.modules.constant.MenuConstant.DEFAULT_PARENT_ID;
 
 /**
  * 菜单管理Service实现

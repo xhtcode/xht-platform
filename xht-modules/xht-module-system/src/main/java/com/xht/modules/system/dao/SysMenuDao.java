@@ -1,11 +1,11 @@
 package com.xht.modules.system.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.common.enums.MenuStatusEnums;
-import com.xht.modules.common.enums.MenuTypeEnums;
-import com.xht.modules.system.domain.entity.SysMenuEntity;
-import com.xht.modules.system.domain.form.SysMenuForm;
-import com.xht.modules.system.domain.query.SysMenuQuery;
+import com.xht.api.system.enums.MenuStatusEnums;
+import com.xht.api.system.enums.MenuTypeEnums;
+import com.xht.modules.system.entity.SysMenuEntity;
+import com.xht.api.system.domain.form.SysMenuForm;
+import com.xht.api.system.domain.query.SysMenuQuery;
 
 import java.util.List;
 
