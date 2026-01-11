@@ -1,9 +1,11 @@
 package com.xht.auth.security.oatuh2.server.authorization;
 
 import com.xht.auth.captcha.exception.CaptchaException;
+import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.domain.RequestUserBO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.*;
@@ -53,9 +55,11 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
     public final Authentication authenticate(Authentication authentication) throws AuthenticationException {
         AbstractAuthenticationToken authenticationToken = (AbstractAuthenticationToken) authentication;
         RequestUserBO requestUserBO = RequestUserBO.builderUser(authenticationToken.getAdditionalParameters());
-        Authentication principal;
+        UsernamePasswordAuthenticationToken principal;
         try {
-            principal = getAuthenticatedPrincipal(requestUserBO);
+            BasicUserDetails userDetails = getAuthenticatedPrincipal(requestUserBO, authentication);
+            principal = UsernamePasswordAuthenticationToken.authenticated(userDetails, authentication, userDetails.getAuthorities());
+            principal.setDetails(authentication.getDetails());
             if (!principal.isAuthenticated()) {
                 throw new OAuth2AuthenticationException("用户名或密码错误");
             }
@@ -74,7 +78,7 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
                 .authorizedScopes(authorizedScopes)
                 .principalName(principal.getName())
                 .authorizationGrantType(getGrantType())
-                .attribute(Principal.class.getName(), principal)
+                .attribute(Principal.class.getName(), principal.getPrincipal())
                 ;
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .registeredClient(registeredClient)
@@ -107,11 +111,6 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
             throw new OAuth2AuthenticationException(oAuth2Error, e);
         }
     }
-
-    protected final void saveSuccess() {
-
-    }
-
 
     /**
      * 获取已认证的客户端
@@ -255,9 +254,10 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
      * 获取认证过的用户信息
      *
      * @param requestUserBO 用户请求信息
+     * @param authentication 认证信息
      * @return 认证信息
      */
-    protected abstract Authentication getAuthenticatedPrincipal(final RequestUserBO requestUserBO);
+    protected abstract BasicUserDetails getAuthenticatedPrincipal(final RequestUserBO requestUserBO, final Authentication authentication);
 
     /**
      * 获取认证类型.

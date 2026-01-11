@@ -8,7 +8,6 @@ import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.domain.RequestUserBO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2Token;
@@ -41,16 +40,14 @@ public class PhoneAuthenticationProvider extends AbstractAuthenticationProvider 
      * 获取认证过的用户信息
      *
      * @param requestUserBO 用户请求信息
+     * @param authentication 认证信息
      * @return 认证信息
      */
     @Override
-    protected Authentication getAuthenticatedPrincipal(RequestUserBO requestUserBO) {
+    protected BasicUserDetails getAuthenticatedPrincipal(RequestUserBO requestUserBO, Authentication authentication) {
         requestUserBO.checkUserName();
         iCaptchaService.checkPhoneCode(requestUserBO.getUserName(), requestUserBO.getCaptcha());
-        BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnums.PHONE);
-        UsernamePasswordAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(basicUserDetails.getUsername(), basicUserDetails.getPassword(), basicUserDetails.getAuthorities());
-        authenticated.setDetails(basicUserDetails);
-        return authenticated;
+        return basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnums.PHONE);
     }
 
     /**

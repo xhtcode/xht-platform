@@ -4,6 +4,7 @@ import com.xht.api.system.feign.factory.RemoteLogClientFallbackFactory;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
+import com.xht.platform.common.constant.ServiceNameConstant;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 // @formatter:off
 @FeignClient(
         contextId = "remoteLogClientService",
-        value = "xht-system",
+        value = ServiceNameConstant.ADMIN_SERVICE,
         fallbackFactory = RemoteLogClientFallbackFactory.class
 )
 public interface RemoteLogClientService {

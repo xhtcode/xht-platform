@@ -11,7 +11,6 @@ import lombok.Getter;
  *
  * @author xht
  **/
-@SuppressWarnings("unused")
 @Getter
 @AllArgsConstructor
 public enum MenuStatusEnums implements IEnum<Integer> {

@@ -16,13 +16,13 @@ spring:
               - Path=/auth/**
             filters:
               - StripPrefix=1
-          - id: xht-system
-            uri: lb://xht-system #此处需要使用lb协议
+          - id: xht-admin
+            uri: lb://xht-admin #此处需要使用lb协议
             predicates:
               - Path=/admin/**
             filters:
               - StripPrefix=1
-          - id: xht-system
+          - id: xht-generate
             uri: lb://xht-generate #此处需要使用lb协议
             predicates:
               - Path=/generate/**

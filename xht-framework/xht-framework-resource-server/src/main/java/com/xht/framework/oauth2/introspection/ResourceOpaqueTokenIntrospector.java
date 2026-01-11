@@ -54,7 +54,7 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
         String key = TOKEN_KEY_PREFIX + token;
         BasicUserDetails tokenInfo = tokenInfoLightningCache.getTokenInfo(key);
         if (Objects.nonNull(tokenInfo)) {
-            return tokenInfo;
+         //   return tokenInfo;
         }
         OAuth2AuthenticatedPrincipal introspect = opaqueTokenIntrospector.introspect(token);
         if (introspect instanceof OAuth2IntrospectionAuthenticatedPrincipal principal) {

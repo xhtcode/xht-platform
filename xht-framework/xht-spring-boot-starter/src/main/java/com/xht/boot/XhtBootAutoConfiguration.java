@@ -3,9 +3,11 @@ package com.xht.boot;
 import com.xht.boot.runner.StartupInfoPrinter;
 import com.xht.boot.security.SecurityUserContextServiceImpl;
 import com.xht.framework.core.support.security.UserContextService;
+import com.xht.framework.mybatis.mapper.common.UtilsMapper;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 
@@ -34,7 +36,8 @@ public class XhtBootAutoConfiguration {
      * @return 用户上下文服务接口实现
      */
     @Bean
-    @ConditionalOnClass(SecurityUtils.class)
+    @ConditionalOnBean(value = UtilsMapper.class)
+    @ConditionalOnClass(value = {SecurityUtils.class})
     public UserContextService securityUserContextServiceImpl() {
         return new SecurityUserContextServiceImpl();
     }

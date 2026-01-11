@@ -42,6 +42,10 @@ public class Oauth2AuthorizationEntity implements Serializable {
     private String principalName;
 
     /**
+     * 认证用户id
+     */
+
+    /**
      * 认证时使用的模式
      * 如：authorization_code（授权码模式）、password（密码模式）、client_credentials（客户端模式）等
      */

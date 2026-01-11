@@ -4,6 +4,7 @@ import com.xht.api.system.domain.response.SysOauth2ClientResponse;
 import com.xht.api.system.feign.factory.RemoteRegisteredClientFallbackFactory;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
+import com.xht.platform.common.constant.ServiceNameConstant;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 // @formatter:off
 @FeignClient(
         contextId = "remoteRegisteredClientService",
-        value = "xht-system",
+        value = ServiceNameConstant.ADMIN_SERVICE,
         fallbackFactory = RemoteRegisteredClientFallbackFactory.class
 )
 public interface RemoteRegisteredClientService {

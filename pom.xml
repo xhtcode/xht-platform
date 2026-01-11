@@ -11,11 +11,12 @@
 
     <modules>
         <module>xht-auth</module>
-        <module>xht-cloud-apis</module>
+        <module>xht-modules-api</module>
         <module>xht-demo</module>
         <module>xht-framework</module>
         <module>xht-gateway</module>
         <module>xht-modules</module>
+        <module>xht-platform-common</module>
     </modules>
 
     <properties>
@@ -73,10 +74,16 @@
                 <artifactId>mapstruct</artifactId>
                 <version>${mapstruct.version}</version>
             </dependency>
+            <!-- 通用模块依赖配置 -->
+            <dependency>
+                <groupId>com.xht</groupId>
+                <artifactId>xht-platform-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!-- 自定义的api暴露接口 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-api-system</artifactId>
+                <artifactId>xht-module-api-admin</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>

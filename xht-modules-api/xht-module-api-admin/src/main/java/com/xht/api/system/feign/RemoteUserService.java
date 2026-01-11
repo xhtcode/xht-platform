@@ -5,6 +5,7 @@ import com.xht.api.system.feign.factory.RemoteUserServiceFallbackFactory;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
+import com.xht.platform.common.constant.ServiceNameConstant;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  **/
 @FeignClient(
         contextId = "remoteUserService",
-        value = "xht-system",
+        value = ServiceNameConstant.ADMIN_SERVICE,
         fallbackFactory = RemoteUserServiceFallbackFactory.class
 )
 public interface RemoteUserService {

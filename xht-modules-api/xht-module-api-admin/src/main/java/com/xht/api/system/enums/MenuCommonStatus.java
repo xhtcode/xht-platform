@@ -1,16 +1,15 @@
 package com.xht.api.system.enums;
 
-/**
- * 菜单通用状态枚举类
- *
- * @author xht
- **/
-
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * 菜单通用状态枚举类
+ *
+ * @author xht
+ **/
 @Getter
 @AllArgsConstructor
 public enum MenuCommonStatus implements IEnum<Integer> {

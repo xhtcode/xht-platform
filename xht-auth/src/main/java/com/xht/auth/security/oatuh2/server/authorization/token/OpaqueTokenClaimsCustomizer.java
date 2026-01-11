@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.server.authorization.authentication.O
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsSet;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -24,8 +23,6 @@ import static com.xht.framework.security.constant.TokenCustomizerIdConstant.*;
  * @author xht
  **/
 @Slf4j
-@Component
-@SuppressWarnings("all")
 public class OpaqueTokenClaimsCustomizer implements OAuth2TokenCustomizer<OAuth2TokenClaimsContext> {
 
     /**
@@ -38,10 +35,11 @@ public class OpaqueTokenClaimsCustomizer implements OAuth2TokenCustomizer<OAuth2
         OAuth2TokenClaimsSet.Builder claims = context.getClaims();
         Authentication principal = context.getPrincipal();
         if (OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
-            if (principal instanceof OAuth2ClientAuthenticationToken clientAuthenticationToken) {
+            if (principal instanceof OAuth2ClientAuthenticationToken) {
                 claims.claim(TokenCustomizerIdConstant.LOGIN_TYPE, LoginTypeEnums.CLIENT_CREDENTIALS);
             }
-            if (principal instanceof UsernamePasswordAuthenticationToken && (principal.getDetails() instanceof BasicUserDetails details)) {
+            if (principal instanceof UsernamePasswordAuthenticationToken && (principal.getPrincipal() instanceof BasicUserDetails details)) {
+                addClaims(claims, USER_ID, details::getUserId);
                 addClaims(claims, USER_TYPE, details::getUserType);
                 addClaims(claims, USER_NAME, details::getUsername);
                 addClaims(claims, NICK_NAME, details::getNickName);

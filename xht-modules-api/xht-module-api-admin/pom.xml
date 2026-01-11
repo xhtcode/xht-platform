@@ -5,15 +5,19 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.xht</groupId>
-        <artifactId>xht-cloud-apis</artifactId>
+        <artifactId>xht-modules-api</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <name>xht-api-system</name>
-    <artifactId>xht-api-system</artifactId>
+    <name>xht-module-api-admin</name>
+    <artifactId>xht-module-api-admin</artifactId>
     <packaging>jar</packaging>
     <description>系统 api 模块</description>
     <dependencies>
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-platform-common</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.xht</groupId>
             <artifactId>xht-framework-openfeign</artifactId>

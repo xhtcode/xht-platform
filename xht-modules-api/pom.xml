@@ -10,12 +10,12 @@
 
     <modelVersion>4.0.0</modelVersion>
     <name>xht-cloud-apis</name>
-    <artifactId>xht-cloud-apis</artifactId>
+    <artifactId>xht-modules-api</artifactId>
     <packaging>pom</packaging>
     <description>xht-cloud-apis 通用 api 模块</description>
 
     <modules>
-        <module>xht-api-system</module>
+        <module>xht-module-api-admin</module>
     </modules>
 
     <build>

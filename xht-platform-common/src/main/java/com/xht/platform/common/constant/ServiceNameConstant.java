@@ -1,4 +1,4 @@
-package com.xht.framework.core.constant;
+package com.xht.platform.common.constant;
 
 /**
  * 服务名称常量
@@ -6,14 +6,13 @@ package com.xht.framework.core.constant;
  * @author xht
  **/
 public interface ServiceNameConstant {
-
     /**
      * 认证服务的serviceName
      */
     String AUTH_SERVICE = "xht-auth";
 
     /**
-     * 系统服务的serviceName
+     * 后台管理服务的serviceName
      */
-    String SYSTEM_SERVICE = "xht-system";
+    String ADMIN_SERVICE = "xht-admin";
 }

@@ -25,6 +25,7 @@ import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2A
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.security.Principal;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -179,8 +180,9 @@ public final class Oauth2AuthorizationConverter implements IConverter<OAuth2Auth
         }
 
         // 初始化OAuth2Authorization构建器
+        OAuth2Authorization.withRegisteredClient(registeredClient)
+                .attribute(Principal.class.getName(), entity.getAuthorizationGrantType());
         OAuth2Authorization.Builder builder = OAuth2Authorization.withRegisteredClient(registeredClient);
-
         // 设置基本属性：ID、主体名称、授权类型和授权范围
         String id = entity.getId();
         String principalName = entity.getPrincipalName();

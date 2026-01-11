@@ -14,7 +14,7 @@ import java.util.Set;
  * @author xht
  **/
 @Slf4j
-class PassWordAuthenticationToken extends AbstractAuthenticationToken {
+public class PassWordAuthenticationToken extends AbstractAuthenticationToken {
 
 
     /**
