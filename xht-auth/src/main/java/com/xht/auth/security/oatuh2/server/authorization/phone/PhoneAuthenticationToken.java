@@ -14,7 +14,7 @@ import java.util.Set;
  * @author xht
  **/
 @Slf4j
-class PhoneAuthenticationToken extends AbstractAuthenticationToken {
+public class PhoneAuthenticationToken extends AbstractAuthenticationToken {
 
 
     /**
@@ -27,4 +27,5 @@ class PhoneAuthenticationToken extends AbstractAuthenticationToken {
     public PhoneAuthenticationToken(Authentication clientPrincipal, Set<String> scopes, Map<String, Object> additionalParameters) {
         super(CustomAuthorizationGrantType.PHONE, clientPrincipal, scopes, additionalParameters);
     }
+
 }

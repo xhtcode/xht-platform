@@ -8,6 +8,10 @@ package com.xht.framework.security.constant;
 public interface TokenCustomizerIdConstant {
 
     /**
+     * 用户信息
+     */
+    String USER_INFO = "details";
+    /**
      * 用户ID
      */
     String USER_ID = "userId";

@@ -10,6 +10,8 @@ import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.core.utils.tree.INode;
+import com.xht.framework.oauth2.utils.SecurityUtils;
+import com.xht.framework.security.core.userdetails.BasicUserDetails;
 
 import java.util.List;
 
@@ -62,6 +64,19 @@ public interface IUserService {
      * @param status 状态
      */
     void updateStatus(Long userId, UserStatusEnums status);
+
+    /**
+     * 获取当前登录的用户信息
+     *
+     * @return 用户信息
+     */
+    default UserLoginVo getUserProfileInfo() {
+        BasicUserDetails user = SecurityUtils.getUser();
+        UserLoginVo userInfoDTO = loadUserByUsername(user.getUsername(), user.getLoginType());
+        userInfoDTO.setPassWord(null);
+        userInfoDTO.setPassWordSalt(null);
+        return userInfoDTO;
+    }
 
     /**
      * 根据 ID 查找用户

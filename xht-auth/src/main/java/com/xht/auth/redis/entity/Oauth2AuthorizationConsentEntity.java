@@ -8,15 +8,13 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Set;
 
-import static com.xht.framework.oauth2.constant.Oauth2Constant.AUTHORIZATION_CONSENT_KEY_PREFIX;
-
 /**
  * oauth2认证确认信息
  *
  * @author xht
  */
 @Data
-@RedisHash(value = AUTHORIZATION_CONSENT_KEY_PREFIX, timeToLive = 10L)
+@RedisHash(value = "authorizationConsent", timeToLive = 10L)
 public class Oauth2AuthorizationConsentEntity {
 
     /**

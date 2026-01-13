@@ -1,6 +1,5 @@
-package com.xht.auth.security.controller;
+package com.xht.demo.support;
 
-import com.xht.framework.core.domain.R;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,16 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author xht
  **/
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 public class TokenController {
-    @GetMapping("/test01")
-    public String test01() {
-        return "test01";
-    }
 
     @GetMapping("/aaaa")
-    public R<Object> a() {
-        return R.ok(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    public Object a() {
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 }

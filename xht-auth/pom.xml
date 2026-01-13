@@ -28,10 +28,6 @@
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-framework-resource-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xht</groupId>
             <artifactId>xht-framework-security</artifactId>
         </dependency>
         <dependency>
@@ -61,6 +57,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-resource-server</artifactId>
         </dependency>
     </dependencies>
     <build>

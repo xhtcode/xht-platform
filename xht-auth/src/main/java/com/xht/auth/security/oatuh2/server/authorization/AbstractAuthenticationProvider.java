@@ -58,7 +58,7 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
         UsernamePasswordAuthenticationToken principal;
         try {
             BasicUserDetails userDetails = getAuthenticatedPrincipal(requestUserBO, authentication);
-            principal = UsernamePasswordAuthenticationToken.authenticated(userDetails, authentication, userDetails.getAuthorities());
+            principal = UsernamePasswordAuthenticationToken.authenticated(userDetails, userDetails.getUsername(), userDetails.getAuthorities());
             principal.setDetails(authentication.getDetails());
             if (!principal.isAuthenticated()) {
                 throw new OAuth2AuthenticationException("用户名或密码错误");

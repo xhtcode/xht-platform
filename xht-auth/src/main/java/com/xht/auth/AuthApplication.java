@@ -13,13 +13,14 @@ import static org.springframework.data.redis.core.RedisKeyValueAdapter.EnableKey
  *
  * @author xht
  **/
-@EnableRedisRepositories(enableKeyspaceEvents = ON_STARTUP)
 @EnableResourceServer
 @EnableDiscoveryClient
 @SpringBootApplication
+@EnableRedisRepositories(enableKeyspaceEvents = ON_STARTUP)
 public class AuthApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AuthApplication.class, args);
     }
+
 }

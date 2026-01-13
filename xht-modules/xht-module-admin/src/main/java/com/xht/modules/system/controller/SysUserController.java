@@ -5,6 +5,7 @@ import com.xht.api.system.domain.form.UpdatePwdFrom;
 import com.xht.api.system.domain.query.SysUserQuery;
 import com.xht.api.system.domain.response.SysUserResponse;
 import com.xht.api.system.domain.vo.SysUserVO;
+import com.xht.api.system.domain.vo.UserLoginVo;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.enums.UserStatusEnums;
@@ -12,7 +13,6 @@ import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.core.validation.Groups;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.oauth2.annotation.IsAdmin;
-import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.modules.system.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -152,8 +152,8 @@ public class SysUserController {
      */
     @GetMapping("/profile")
     @Operation(summary = "获取当前登录的用户信息", description = "获取当前登录的用户信息")
-    public R<SysUserVO> getUserProfileInfo() {
-        return R.ok(userService.findByUserId(SecurityUtils.getUserId()));
+    public R<UserLoginVo> getUserProfileInfo() {
+        return R.ok(userService.getUserProfileInfo());
     }
 
     /**

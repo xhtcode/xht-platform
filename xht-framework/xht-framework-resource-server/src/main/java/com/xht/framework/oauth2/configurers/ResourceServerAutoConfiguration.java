@@ -7,8 +7,10 @@ import com.xht.framework.security.properties.PermitAllUrlProperties;
 import com.xht.framework.security.web.Http401UnauthorizedEntryPoint;
 import com.xht.framework.security.web.access.Http401AccessDeniedHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,7 +29,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class ResourceServerAutoConfiguration {
-
 
     private final PermitAllUrlProperties permitAllUrlProperties;
 
@@ -58,8 +59,9 @@ public class ResourceServerAutoConfiguration {
      * @throws Exception 异常
      */
     @Bean
-    @Order(2)
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+    @Order(value = Ordered.LOWEST_PRECEDENCE - (Ordered.LOWEST_PRECEDENCE / 2))
+    @ConditionalOnMissingBean(SecurityFilterChain.class)
+    public SecurityFilterChain resourceServerSecurityFilterChain(HttpSecurity http) throws Exception {
         CustomAuthorizeHttpRequestsConfigurer requestsConfigurer = new CustomAuthorizeHttpRequestsConfigurer(permitAllUrlProperties);
         // @formatter:off
         http

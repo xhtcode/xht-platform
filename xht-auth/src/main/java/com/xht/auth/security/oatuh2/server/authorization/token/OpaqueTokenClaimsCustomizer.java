@@ -39,6 +39,7 @@ public class OpaqueTokenClaimsCustomizer implements OAuth2TokenCustomizer<OAuth2
                 claims.claim(TokenCustomizerIdConstant.LOGIN_TYPE, LoginTypeEnums.CLIENT_CREDENTIALS);
             }
             if (principal instanceof UsernamePasswordAuthenticationToken && (principal.getPrincipal() instanceof BasicUserDetails details)) {
+                addClaims(claims, USER_INFO, () -> details);
                 addClaims(claims, USER_ID, details::getUserId);
                 addClaims(claims, USER_TYPE, details::getUserType);
                 addClaims(claims, USER_NAME, details::getUsername);

@@ -5,6 +5,7 @@ import com.xht.framework.core.converter.IConverter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -29,11 +30,6 @@ public final class Oauth2AuthorizationConsentConverter implements IConverter<OAu
         entity.setId(id);
         entity.setRegisteredClientId(consent.getRegisteredClientId());
         entity.setPrincipalName(consent.getPrincipalName());
-        Set<GrantedAuthority> authorities = consent.getAuthorities();
-        System.out.println("类型查看 authorities");
-        for (GrantedAuthority authority : authorities) {
-            System.out.println(authority.getClass());
-        }
         entity.setAuthorities(consent.getAuthorities());
         return entity;
     }
@@ -46,6 +42,9 @@ public final class Oauth2AuthorizationConsentConverter implements IConverter<OAu
      */
     @Override
     public OAuth2AuthorizationConsent reverse(Oauth2AuthorizationConsentEntity entity) {
+        if (Objects.isNull(entity)){
+            return null;
+        }
         return OAuth2AuthorizationConsent.withId(entity.getId(), entity.getPrincipalName())
                 .authorities((authorities) -> authorities.addAll(entity.getAuthorities()))
                 .build();

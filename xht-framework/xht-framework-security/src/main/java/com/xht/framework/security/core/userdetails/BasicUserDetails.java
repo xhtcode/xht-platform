@@ -163,7 +163,7 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
      */
     @Override
     public boolean isAccountNonExpired() {
-        return UserStatusEnums.EXPIRED.equals(this.userStatus);
+        return !UserStatusEnums.EXPIRED.equals(this.userStatus);
     }
 
     /**
@@ -173,7 +173,7 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
      */
     @Override
     public boolean isAccountNonLocked() {
-        return UserStatusEnums.LOCKED.equals(this.userStatus);
+        return !UserStatusEnums.LOCKED.equals(this.userStatus);
     }
 
     /**
@@ -194,7 +194,7 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
      */
     @Override
     public boolean isEnabled() {
-        return UserStatusEnums.DISABLED.equals(this.userStatus);
+        return !UserStatusEnums.DISABLED.equals(this.userStatus);
     }
 
     /**

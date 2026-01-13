@@ -27,7 +27,6 @@ public class RedisOAuth2AuthorizationConsentService implements OAuth2Authorizati
     private final Oauth2AuthorizationConsentConverter consentConverter;
 
     @Autowired
-    @SuppressWarnings("all")
     public RedisOAuth2AuthorizationConsentService(Oauth2AuthorizationConsentRepository oauth2AuthorizationConsentRepository) {
         Assert.notNull(oauth2AuthorizationConsentRepository, "授权确认信息仓储 不能是空的");
         this.oauth2AuthorizationConsentRepository = oauth2AuthorizationConsentRepository;

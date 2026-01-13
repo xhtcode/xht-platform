@@ -1,6 +1,5 @@
 package com.xht.auth.redis.entity;
 
-import com.xht.framework.oauth2.constant.Oauth2Constant;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
@@ -18,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @author xht
  */
 @Data
-@RedisHash(Oauth2Constant.AUTHORIZATION_KEY_PREFIX)
+@RedisHash("authorization")
 public class Oauth2AuthorizationEntity implements Serializable {
 
     @Serial

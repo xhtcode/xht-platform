@@ -14,7 +14,12 @@ import com.xht.auth.security.oatuh2.server.authorization.token.OpaqueTokenClaims
 import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2AccessTokenGenerator;
 import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2RefreshTokenGenerator;
 import com.xht.auth.security.web.authentication.*;
+import com.xht.framework.oauth2.handler.ResourceAuthenticationEntryPoint;
+import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
+import com.xht.framework.security.configurers.CustomAuthorizeHttpRequestsConfigurer;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
+import com.xht.framework.security.properties.PermitAllUrlProperties;
+import com.xht.framework.security.web.access.Http401AccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +28,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
@@ -33,6 +39,7 @@ import org.springframework.security.oauth2.server.authorization.settings.Authori
 import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.JwtGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
@@ -56,6 +63,14 @@ public class AuthorizationServerAutoConfiguration {
     private final BasicUserDetailsService basicUserDetailsService;
 
     private final ICaptchaService iCaptchaService;
+
+    private final PermitAllUrlProperties permitAllUrlProperties;
+
+    private final ResourceAuthenticationEntryPoint resourceAuthenticationEntryPoint;
+
+    private final ResourceBearerTokenResolver resourceBearerTokenResolver;
+
+    private final OpaqueTokenIntrospector opaqueTokenIntrospector;
 
     @Bean
     @Order(1)
@@ -104,7 +119,26 @@ public class AuthorizationServerAutoConfiguration {
         return http.build();
     }
     // @formatter:on
-
+    @Bean
+    @Order(2)
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        CustomAuthorizeHttpRequestsConfigurer requestsConfigurer = new CustomAuthorizeHttpRequestsConfigurer(permitAllUrlProperties);
+        // 开启CORS配置，配合下边的CorsConfigurationSource配置实现跨域配置
+        http.cors(Customizer.withDefaults());
+        // 禁用csrf
+        http.csrf(AbstractHttpConfigurer::disable);
+        http.authorizeHttpRequests(requestsConfigurer);
+        http.formLogin(Customizer.withDefaults());
+        http.oauth2ResourceServer(configurer -> {
+            configurer.opaqueToken(opaqueToken -> opaqueToken.introspector(opaqueTokenIntrospector));
+            configurer.authenticationEntryPoint(resourceAuthenticationEntryPoint);
+            configurer.bearerTokenResolver(resourceBearerTokenResolver);
+        });
+        http.exceptionHandling(handlingConfigurer -> {
+            handlingConfigurer.accessDeniedHandler(new Http401AccessDeniedHandler());// 请求未授权的接口
+        });
+        return http.build();
+    }
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
