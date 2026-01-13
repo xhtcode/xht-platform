@@ -6,6 +6,7 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.xht.auth.captcha.service.ICaptchaService;
+import com.xht.auth.configuration.properties.XhtOauth2Properties;
 import com.xht.auth.security.oatuh2.server.authorization.password.PassWordAuthenticationConverter;
 import com.xht.auth.security.oatuh2.server.authorization.password.PassWordAuthenticationProvider;
 import com.xht.auth.security.oatuh2.server.authorization.phone.PhoneAuthenticationConverter;
@@ -140,9 +141,9 @@ public class AuthorizationServerAutoConfiguration {
         return http.build();
     }
     @Bean
-    public AuthorizationServerSettings authorizationServerSettings() {
+    public AuthorizationServerSettings authorizationServerSettings(XhtOauth2Properties xhtOauth2Properties) {
         return AuthorizationServerSettings.builder()
-                .issuer("http://127.0.0.1:9000")
+                .issuer(xhtOauth2Properties.getIssuer())
                 .build();
     }
 

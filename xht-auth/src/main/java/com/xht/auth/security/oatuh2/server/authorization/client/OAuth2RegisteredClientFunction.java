@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
  * @author xht
  */
 public class OAuth2RegisteredClientFunction implements Function<SysOauth2ClientResponse, RegisteredClient> {
+
     @Override
     public RegisteredClient apply(SysOauth2ClientResponse clientResponse) {
         RegisteredClient.Builder registeredClientBuilder = RegisteredClient.withId(String.valueOf(clientResponse.getClientId()))
@@ -50,11 +51,11 @@ public class OAuth2RegisteredClientFunction implements Function<SysOauth2ClientR
         return localDateTime.atZone(ZoneId.systemDefault()).toInstant();
     }
 
-    private TokenSettings tokenSettings(SysOauth2ClientResponse clientDTO) {
+    private TokenSettings tokenSettings(SysOauth2ClientResponse clientResponse) {
         return TokenSettings.builder()
                 .accessTokenFormat(OAuth2TokenFormat.REFERENCE)
-                .accessTokenTimeToLive(Duration.ofSeconds(clientDTO.getAccessTokenValidity()))
-                .refreshTokenTimeToLive(Duration.ofSeconds(clientDTO.getRefreshTokenValidity()))
+                .accessTokenTimeToLive(Duration.ofSeconds(clientResponse.getAccessTokenValidity()))
+                .refreshTokenTimeToLive(Duration.ofSeconds(clientResponse.getRefreshTokenValidity()))
                 .build();
     }
 

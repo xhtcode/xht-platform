@@ -57,6 +57,7 @@ xht:
   safety:
     xss:
       enable: true
+
 feign:
   sentinel:
     enabled: true

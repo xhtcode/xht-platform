@@ -21,6 +21,11 @@ public interface Oauth2Constant {
     String AUTHORIZATION_CONSENT_KEY_PREFIX = "authorizationConsent";
 
     /**
+     * 客户端信息缓存key前缀
+     */
+    String OAUTH2_CLIENT_KEY_PREFIX = "oauth2:client:";
+
+    /**
      * 密码模式
      */
     AuthorizationGrantType PASSWORD = new AuthorizationGrantType("password");
