@@ -3,7 +3,7 @@ package com.xht.auth.configuration.properties;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 /**
  * Oauth2属性
@@ -11,10 +11,9 @@ import org.springframework.context.annotation.Configuration;
  * @author xht
  **/
 @Data
-@Configuration
+@Component
 @ConfigurationProperties(prefix = "xht.security.oauth2")
 public class XhtOauth2Properties {
-
 
     /**
      * 认证服务器地址
@@ -32,12 +31,10 @@ public class XhtOauth2Properties {
      */
     @Data
     public static class Client {
-
+        /**
+         * 缓存超时时间
+         */
         private Long timeout = 60L;
-
-    }
-
-    public static class Authorization {
     }
 
 }

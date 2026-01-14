@@ -1,10 +1,8 @@
 package com.xht.auth.security.core.userdetails;
 
 import com.xht.api.system.domain.vo.UserLoginVo;
-import com.xht.api.system.feign.RemoteUserService;
-import com.xht.framework.core.domain.R;
+import com.xht.auth.authentication.dao.IAuthenticationDao;
 import com.xht.framework.core.enums.LoginTypeEnums;
-import com.xht.framework.core.utils.ROptional;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
@@ -31,9 +29,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class RemoteBasicUserDetailsService extends BasicUserDetailsService {
+public class Oauth2UserDetailsService extends BasicUserDetailsService {
 
-    private final RemoteUserService remoteUserService;
+    private final IAuthenticationDao authenticationDao;
 
     private final SecurityProperties securityProperties;
 
@@ -47,23 +45,27 @@ public class RemoteBasicUserDetailsService extends BasicUserDetailsService {
      */
     @Override
     public BasicUserDetails loadUserByUsername(String username, LoginTypeEnums loginType) throws UsernameNotFoundException {
-        // 远程获取用户信息
-        R<UserLoginVo> userDetailsR = remoteUserService.loadUserByUsername(username, loginType);
-        return convert(userDetailsR, loginType);
+        UserLoginVo loginVo = authenticationDao.findByUsernameAndLoginType(username, loginType);
+        if (loginVo == null) {
+            throw new UsernameNotFoundException("用户不存在.");
+        }
+        Set<String> roleCodes = authenticationDao.findRoleCodesByUserId(loginVo.getId());
+        Set<String> menuCodes = authenticationDao.findMenuCodesByUserId(loginVo.getId());
+        loginVo.setRoleCodes(roleCodes);
+        loginVo.setMenuButtonCodes(menuCodes);
+        return convert(loginVo, loginType);
     }
 
     /**
      * 将远程获取的用户信息转换为Spring Security所需的用户详情对象
      *
-     * @param userDetailsR 远程获取的用户信息响应对象，包含用户详细信息
-     * @param loginType    登录类型枚举，标识用户的登录方式
+     * @param loginVo   远程获取的用户信息响应对象，包含用户详细信息
+     * @param loginType 登录类型枚举，标识用户的登录方式
      * @return 转换后的BasicUserDetails对象，用于Spring Security认证授权
      * @throws UsernameNotFoundException 当远程获取用户信息失败时抛出此异常
      */
-    private BasicUserDetails convert(R<UserLoginVo> userDetailsR, LoginTypeEnums loginType) {
+    private BasicUserDetails convert(UserLoginVo loginVo, LoginTypeEnums loginType) {
         // @formatter:off
-        UserLoginVo loginVo = ROptional.of(userDetailsR)
-                .orElseThrow(() -> new UsernameNotFoundException("远程获取用户信息失败"));
         // 构建权限集合
         Set<String> authoritiesSet = buildAuthoritiesSet(loginVo);
         // 转换为Spring Security所需的权限对象

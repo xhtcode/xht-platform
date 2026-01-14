@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.core.enums.UserTypeEnums;
-import com.xht.framework.core.exception.utils.ThrowUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -195,14 +194,6 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
     @Override
     public boolean isEnabled() {
         return !UserStatusEnums.DISABLED.equals(this.userStatus);
-    }
-
-    /**
-     * 添加扩展属性
-     */
-    public void addAttributes(String key, Object value) {
-        ThrowUtils.hasText(key, "扩展属性key不能为空");
-        attributes.put(key, value);
     }
 
 }
