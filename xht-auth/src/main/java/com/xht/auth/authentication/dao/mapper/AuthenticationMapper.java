@@ -1,5 +1,6 @@
 package com.xht.auth.authentication.dao.mapper;
 
+import com.xht.api.system.domain.response.SysOauth2ClientResponse;
 import com.xht.api.system.domain.vo.UserLoginVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -41,4 +42,10 @@ public interface AuthenticationMapper {
      */
     Set<String> findMenuCodesByUserId(@Param("userId") Long userId);
 
+    /**
+     * 根据客户端ID查询客户端信息
+     * @param clientId 客户端ID
+     * @return 客户端信息
+     */
+    SysOauth2ClientResponse findClientDetailsById(@Param("clientId") String clientId);
 }

@@ -34,7 +34,7 @@ public class XhtOauth2Properties {
         /**
          * 缓存超时时间
          */
-        private Long timeout = 60L;
+        private Long timeout = 60L * 3;
     }
 
 }

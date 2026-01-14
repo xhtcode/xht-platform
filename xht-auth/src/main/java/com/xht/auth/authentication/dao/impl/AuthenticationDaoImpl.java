@@ -1,5 +1,6 @@
 package com.xht.auth.authentication.dao.impl;
 
+import com.xht.api.system.domain.response.SysOauth2ClientResponse;
 import com.xht.api.system.domain.vo.UserLoginVo;
 import com.xht.auth.authentication.dao.IAuthenticationDao;
 import com.xht.auth.authentication.dao.mapper.AuthenticationMapper;
@@ -61,4 +62,17 @@ public class AuthenticationDaoImpl implements IAuthenticationDao {
         Set<String> menuCodes = authenticationMapper.findMenuCodesByUserId(userId);
         return Optional.ofNullable(menuCodes).orElse(Collections.emptySet()).stream().filter(StringUtils::hasText).collect(Collectors.toSet());
     }
+
+    /**
+     * 根据客户端ID查询客户端信息
+     *
+     * @param clientId 客户端ID
+     * @return 客户端信息
+     */
+    @Override
+    public SysOauth2ClientResponse findClientDetailsById(String clientId) {
+        log.debug("根据客户端id:`{}`查询客户端", clientId);
+        return authenticationMapper.findClientDetailsById(clientId);
+    }
+
 }

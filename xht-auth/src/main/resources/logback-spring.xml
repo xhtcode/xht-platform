@@ -116,7 +116,7 @@
         </filter>
     </appender>
     <!-- Spring日志级别控制  -->
-    <logger name="org.springframework.security" level="trace"/>
+    <logger name="org.springframework" level="info"/>
     <logger name="com.xht" level="debug"/>
     <!-- 多环境配置 按照active profile选择分支 -->
     <springProfile name="dev">

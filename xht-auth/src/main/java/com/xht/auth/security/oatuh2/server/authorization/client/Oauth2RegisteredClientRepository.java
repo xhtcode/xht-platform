@@ -1,12 +1,10 @@
 package com.xht.auth.security.oatuh2.server.authorization.client;
 
 import com.xht.api.system.domain.response.SysOauth2ClientResponse;
-import com.xht.api.system.feign.RemoteRegisteredClientService;
+import com.xht.auth.authentication.dao.IAuthenticationDao;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
 import com.xht.framework.cache.service.RedisService;
 import com.xht.framework.cache.utils.Keys;
-import com.xht.framework.core.domain.R;
-import com.xht.framework.core.utils.ROptional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -14,6 +12,7 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static com.xht.framework.oauth2.constant.Oauth2Constant.OAUTH2_CLIENT_KEY_PREFIX;
@@ -26,9 +25,9 @@ import static com.xht.framework.oauth2.constant.Oauth2Constant.OAUTH2_CLIENT_KEY
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RemoteRegisteredClientRepository implements RegisteredClientRepository {
+public class Oauth2RegisteredClientRepository implements RegisteredClientRepository {
 
-    private final RemoteRegisteredClientService remoteRegisteredClientService;
+    private final IAuthenticationDao authenticationDao;
 
     private final RedisService redisService;
 
@@ -47,19 +46,17 @@ public class RemoteRegisteredClientRepository implements RegisteredClientReposit
     @Override
     public RegisteredClient findByClientId(String clientId) {
         String key = Keys.createKey(OAUTH2_CLIENT_KEY_PREFIX, clientId);
-        log.debug("根据客户端id:`{}`查询客户端 缓存key {}", clientId, key);
-        RegisteredClient catchRegisteredClient = redisService.get(key);
-        if (Objects.nonNull(catchRegisteredClient)) {
-            return catchRegisteredClient;
+        SysOauth2ClientResponse clientResponse = null;
+        Long expire = redisService.getExpire(key);
+        if (expire > 0) {
+            clientResponse = redisService.get(key);
         }
-        R<SysOauth2ClientResponse> clientDetailsById = remoteRegisteredClientService.getClientDetailsById(clientId);
-        if (clientDetailsById == null) {
-            return null;
+        clientResponse = Optional.ofNullable(clientResponse).orElseGet(() -> authenticationDao.findClientDetailsById(clientId));
+        if (Objects.nonNull(clientResponse)) {
+            redisService.set(key, clientResponse, xhtOauth2Properties.getClient().getTimeout(), TimeUnit.SECONDS);
         }
-        ROptional<SysOauth2ClientResponse> rOptional = ROptional.of(clientDetailsById);
-        RegisteredClient client = rOptional.get().map(new OAuth2RegisteredClientFunction()).orElse(null);
-        redisService.set(key, client, xhtOauth2Properties.getClient().getTimeout(), TimeUnit.SECONDS);
-        return client;
+        return Optional.ofNullable(clientResponse)
+                .map(new OAuth2RegisteredClientFunction()).orElse(null);
     }
 
 }

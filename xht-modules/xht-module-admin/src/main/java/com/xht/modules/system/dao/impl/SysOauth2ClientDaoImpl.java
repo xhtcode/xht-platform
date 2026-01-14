@@ -5,15 +5,17 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.xht.api.system.domain.form.SysOauth2ClientForm;
+import com.xht.api.system.domain.query.SysOauth2ClientQuery;
+import com.xht.api.system.enums.Oauth2ClientAutoApproveEnums;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.system.dao.SysOauth2ClientDao;
 import com.xht.modules.system.dao.mapper.SysOauth2ClientMapper;
 import com.xht.modules.system.entity.SysOauth2ClientEntity;
-import com.xht.api.system.domain.form.SysOauth2ClientForm;
-import com.xht.api.system.domain.query.SysOauth2ClientQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.Objects;
 
 import static com.xht.framework.mybatis.constant.MapperConstant.JACKSON_TYPE_HANDLER;
@@ -38,17 +40,20 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
         // @formatter:off
         updateWrapper
                 .set(condition(form.getClientId()), SysOauth2ClientEntity::getClientId, form.getClientId())
-                .set(condition(form.getClientName()), SysOauth2ClientEntity::getClientName, form.getClientName())
-                .set(condition(form.getClientSecret()), SysOauth2ClientEntity::getClientSecret, form.getClientSecret())
                 .set(condition(form.getClientIdIssuedAt()), SysOauth2ClientEntity::getClientIdIssuedAt, form.getClientIdIssuedAt())
+                .set(condition(form.getClientSecret()), SysOauth2ClientEntity::getClientSecret, form.getClientSecret())
                 .set(condition(form.getClientSecretExpiresAt()), SysOauth2ClientEntity::getClientSecretExpiresAt, form.getClientSecretExpiresAt())
+                .set(condition(form.getClientName()), SysOauth2ClientEntity::getClientName, form.getClientName())
+                .set(condition(form.getClientAuthenticationMethods()), SysOauth2ClientEntity::getClientAuthenticationMethods, form.getClientAuthenticationMethods(), JACKSON_TYPE_HANDLER)
                 .set(condition(form.getAuthorizationGrantTypes()), SysOauth2ClientEntity::getAuthorizationGrantTypes, form.getAuthorizationGrantTypes(), JACKSON_TYPE_HANDLER)
-                .set(condition(form.getScopes()), SysOauth2ClientEntity::getScopes, form.getScopes(), JACKSON_TYPE_HANDLER)
                 .set(condition(form.getRedirectUris()), SysOauth2ClientEntity::getRedirectUris, form.getRedirectUris(), JACKSON_TYPE_HANDLER)
+                .set(condition(form.getPostLogoutRedirectUris()), SysOauth2ClientEntity::getPostLogoutRedirectUris, form.getPostLogoutRedirectUris(), JACKSON_TYPE_HANDLER)
+                .set(condition(form.getScopes()), SysOauth2ClientEntity::getScopes, form.getScopes(), JACKSON_TYPE_HANDLER)
                 .set(condition(form.getAccessTokenValidity()), SysOauth2ClientEntity::getAccessTokenValidity, form.getAccessTokenValidity())
                 .set(condition(form.getRefreshTokenValidity()), SysOauth2ClientEntity::getRefreshTokenValidity, form.getRefreshTokenValidity())
-                .set(condition(form.getAdditionalInformation()), SysOauth2ClientEntity::getAdditionalInformation, form.getAdditionalInformation(), JACKSON_TYPE_HANDLER)
-                .set(condition(form.getAutoApprove()), SysOauth2ClientEntity::getAutoApprove, form.getAutoApprove());
+                .set(SysOauth2ClientEntity::getAdditionalInformation, Objects.requireNonNullElse(form.getAdditionalInformation(),Collections.emptyMap()), JACKSON_TYPE_HANDLER)
+                .set(SysOauth2ClientEntity::getAutoApprove, Objects.requireNonNullElse(form.getAutoApprove(), Oauth2ClientAutoApproveEnums.NO))
+                .set(SysOauth2ClientEntity::getRemark, form.getRemark());
         // @formatter:on
         updateWrapper.eq(SysOauth2ClientEntity::getId, form.getId());
         update(updateWrapper);

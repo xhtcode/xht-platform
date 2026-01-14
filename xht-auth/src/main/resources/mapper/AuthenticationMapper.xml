@@ -19,6 +19,31 @@
         <result property="registerDate" column="create_time"/>
     </resultMap>
 
+    <resultMap id="Oauth2ClientResultMap" type="com.xht.api.system.domain.response.SysOauth2ClientResponse">
+        <id property="id" column="id"/>
+        <result property="clientId" column="client_id"/>
+        <result property="clientIdIssuedAt" column="client_id_issued_at"/>
+        <result property="clientSecret" column="client_secret"/>
+        <result property="clientSecretExpiresAt" column="client_secret_expires_at"/>
+        <result property="clientName" column="client_name"/>
+        <result property="clientAuthenticationMethods" column="client_authentication_methods"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result property="authorizationGrantTypes" column="authorization_grant_types"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result property="redirectUris" column="redirect_uris"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result property="postLogoutRedirectUris" column="post_logout_redirect_uris"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result property="scopes" column="scopes"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result property="accessTokenValidity" column="access_token_validity"/>
+        <result property="refreshTokenValidity" column="refresh_token_validity"/>
+        <result property="additionalInformation" column="additional_information"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result property="autoApprove" column="auto_approve"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
     <!-- 根据用户名和登录类型查询用户信息 -->
     <select id="findByUsernameAndLoginType" resultMap="DtoResultMap">
         <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
@@ -28,7 +53,7 @@
         t1.create_time
         FROM sys_user t1 where t1.del_flag = #{delFlag}
         <if test="loginType == @com.xht.framework.core.enums.LoginTypeEnums@PASSWORD.value">
-            and t1.user_name = #{userName}
+            AND t1.user_name = #{userName}
         </if>
         <if test="loginType == @com.xht.framework.core.enums.LoginTypeEnums@PHONE.value">
             AND t1.user_phone = #{userName}
@@ -44,7 +69,7 @@
         sys_user_role
         LEFT JOIN sys_role ON sys_user_role.role_id = sys_role.id
         WHERE sys_role.del_flag = #{delFlag}
-        and sys_user_role.user_id = #{userId}
+        AND sys_user_role.user_id = #{userId}
     </select>
 
     <!-- 根据用户ID查询用户拥有的菜单编码集合 -->
@@ -58,9 +83,18 @@
         LEFT JOIN sys_role ON sys_role_menu.role_id = sys_role.id
         LEFT JOIN sys_user_role ON sys_role.id = sys_user_role.role_id
         WHERE sys_menu.del_flag = #{delFlag}
-        and sys_menu.menu_status = '0'
-        and sys_menu.menu_type = 'B'
-        and sys_user_role.user_id = #{userId}
+        AND sys_menu.menu_status = '0'
+        AND sys_menu.menu_type = 'B'
+        AND sys_user_role.user_id = #{userId}
+    </select>
+
+    <!-- 根据客户端ID查询客户端信息 -->
+    <select id="findClientDetailsById" resultMap="Oauth2ClientResultMap">
+        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
+        select id,client_id,client_id_issued_at,client_secret,client_secret_expires_at,client_name,
+        client_authentication_methods,authorization_grant_types,redirect_uris,scopes,access_token_validity,
+        refresh_token_validity,additional_information,auto_approve,remark,del_flag
+        from sys_oauth2_client where del_flag = #{delFlag} and client_id = #{clientId}
     </select>
 
 </mapper>

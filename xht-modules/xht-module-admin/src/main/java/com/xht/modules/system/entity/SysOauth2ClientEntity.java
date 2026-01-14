@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.xht.api.system.enums.Oauth2ClientAutoApproveEnums;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import lombok.Data;
 
@@ -35,10 +36,10 @@ public class SysOauth2ClientEntity extends BasicEntity implements Serializable {
     private String clientId;
 
     /**
-     * 客户端名称
+     * 客户端发布时间
      */
-    @TableField(value = "client_name")
-    private String clientName;
+    @TableField(value = "client_id_issued_at")
+    private LocalDateTime clientIdIssuedAt;
 
     /**
      * 客户端密钥
@@ -47,16 +48,22 @@ public class SysOauth2ClientEntity extends BasicEntity implements Serializable {
     private String clientSecret;
 
     /**
-     * 客户端发布时间
-     */
-    @TableField(value = "client_id_issued_at")
-    private LocalDateTime clientIdIssuedAt;
-
-    /**
      * 客户端过期时间
      */
     @TableField(value = "client_secret_expires_at")
     private LocalDateTime clientSecretExpiresAt;
+
+    /**
+     * 客户端名称
+     */
+    @TableField(value = "client_name")
+    private String clientName;
+
+    /**
+     * 客户认证方式
+     */
+    @TableField(value = "client_authentication_methods", typeHandler = JacksonTypeHandler.class)
+    private  Set<String> clientAuthenticationMethods;
 
     /**
      * 客户端授权类型
@@ -65,16 +72,23 @@ public class SysOauth2ClientEntity extends BasicEntity implements Serializable {
     private Set<String> authorizationGrantTypes;
 
     /**
+     * 授权后重定向 URI
+     */
+    @TableField(value = "redirect_uris", typeHandler = JacksonTypeHandler.class)
+    private Set<String> redirectUris;
+
+
+    /**
+     * 登出后重定向 URI
+     */
+    @TableField(value = "post_logout_redirect_uris", typeHandler = JacksonTypeHandler.class)
+    private Set<String> postLogoutRedirectUris;
+
+    /**
      * 客户端作用域
      */
     @TableField(value = "scopes", typeHandler = JacksonTypeHandler.class)
     private Set<String> scopes;
-
-    /**
-     * 回调地址
-     */
-    @TableField(value = "redirect_uris", typeHandler = JacksonTypeHandler.class)
-    private Set<String> redirectUris;
 
     /**
      * 请求令牌有效时间
@@ -98,7 +112,7 @@ public class SysOauth2ClientEntity extends BasicEntity implements Serializable {
      * 是否自动放行
      */
     @TableField(value = "auto_approve")
-    private String autoApprove;
+    private Oauth2ClientAutoApproveEnums autoApprove;
 
     /**
      * 备注

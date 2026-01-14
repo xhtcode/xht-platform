@@ -1,5 +1,6 @@
 package com.xht.api.system.domain.response;
 
+import com.xht.api.system.enums.Oauth2ClientAutoApproveEnums;
 import com.xht.framework.core.domain.response.MetaResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -30,10 +31,10 @@ public class SysOauth2ClientResponse extends MetaResponse {
     private String clientId;
 
     /**
-     * 客户端名称
+     * 客户端发布时间
      */
-    @Schema(description = "客户端名称")
-    private String clientName;
+    @Schema(description = "客户端发布时间")
+    private LocalDateTime clientIdIssuedAt;
 
     /**
      * 客户端密钥
@@ -42,17 +43,22 @@ public class SysOauth2ClientResponse extends MetaResponse {
     private String clientSecret;
 
     /**
-     * 客户端发布时间
-     */
-    @Schema(description = "客户端发布时间")
-
-    private LocalDateTime clientIdIssuedAt;
-
-    /**
      * 客户端过期时间
      */
     @Schema(description = "客户端过期时间")
     private LocalDateTime clientSecretExpiresAt;
+
+    /**
+     * 客户端名称
+     */
+    @Schema(description = "客户端名称")
+    private String clientName;
+
+    /**
+     * 客户认证方式
+     */
+    @Schema(description = "客户认证方式")
+    private Set<String> clientAuthenticationMethods;
 
     /**
      * 客户端授权类型
@@ -61,16 +67,23 @@ public class SysOauth2ClientResponse extends MetaResponse {
     private Set<String> authorizationGrantTypes;
 
     /**
+     * 授权后重定向 URI
+     */
+    @Schema(description = "授权后重定向 URI")
+    private Set<String> redirectUris;
+
+
+    /**
+     * 登出后重定向 URI
+     */
+    @Schema(description = "登出后重定向 URI")
+    private Set<String> postLogoutRedirectUris;
+
+    /**
      * 客户端作用域
      */
     @Schema(description = "客户端作用域")
     private Set<String> scopes;
-
-    /**
-     * 回调地址
-     */
-    @Schema(description = "回调地址")
-    private Set<String> redirectUris;
 
     /**
      * 请求令牌有效时间
@@ -94,11 +107,12 @@ public class SysOauth2ClientResponse extends MetaResponse {
      * 是否自动放行
      */
     @Schema(description = "是否自动放行")
-    private String autoApprove;
+    private Oauth2ClientAutoApproveEnums autoApprove;
 
     /**
      * 备注
      */
     @Schema(description = "备注")
     private String remark;
+
 }

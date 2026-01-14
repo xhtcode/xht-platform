@@ -23,7 +23,7 @@ public interface Oauth2Constant {
     /**
      * 客户端信息缓存key前缀
      */
-    String OAUTH2_CLIENT_KEY_PREFIX = "oauth2:client:";
+    String OAUTH2_CLIENT_KEY_PREFIX = "oauth2:client";
 
     /**
      * 密码模式
