@@ -7,7 +7,7 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.admin.audit.dao.BLogDao;
 import com.xht.modules.admin.audit.dao.mapper.BLogMapper;
 import com.xht.modules.admin.audit.entity.BLogEntity;
-import com.xht.api.system.domain.query.BLogQuery;
+import com.xht.modules.admin.audit.domain.query.BLogQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

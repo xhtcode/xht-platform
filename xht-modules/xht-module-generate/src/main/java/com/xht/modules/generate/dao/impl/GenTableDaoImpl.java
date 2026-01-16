@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.generate.dao.GenTableDao;
 import com.xht.modules.generate.dao.mapper.GenTableMapper;
-import com.xht.modules.generate.domain.entity.GenTableEntity;
+import com.xht.modules.generate.entity.GenTableEntity;
 import com.xht.modules.generate.domain.form.GenTableInfoForm;
 import com.xht.modules.generate.domain.query.GenTableInfoQuery;
 import lombok.extern.slf4j.Slf4j;

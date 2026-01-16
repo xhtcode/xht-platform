@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xht.modules.system.dao.mapper.SysUserMapper">
+<mapper namespace="com.xht.modules.admin.system.dao.mapper.SysUserMapper">
 
-    <resultMap id="BaseResultMap" type="com.xht.api.system.domain.vo.SysUserVO">
+    <resultMap id="BaseResultMap" type="com.xht.modules.admin.system.domain.vo.SysUserVO">
         <id property="id" column="id"/>
         <result property="userType" column="user_type"/>
         <result property="userName" column="user_name"/>
@@ -18,7 +18,7 @@
         <result property="createTime" column="create_time"/>
         <result property="updateBy" column="update_by"/>
         <result property="updateTime" column="update_time"/>
-        <association property="profile" javaType="com.xht.api.system.domain.response.SysUserDetailResponse">
+        <association property="profile" javaType="com.xht.modules.admin.system.domain.response.SysUserDetailResponse">
             <id property="userId" column="user_id"/>
             <result property="realName" column="real_name"/>
             <result property="idCard" column="id_card"/>
@@ -31,7 +31,7 @@
             <result property="nation" column="nation"/>
         </association>
     </resultMap>
-    <resultMap id="DtoResultMap" type="com.xht.api.system.domain.vo.UserLoginVo">
+    <resultMap id="DtoResultMap" type="com.xht.modules.admin.system.domain.vo.UserLoginVo">
         <id property="id" column="id"/>
         <result property="userType" column="user_type"/>
         <result property="userName" column="user_name"/>

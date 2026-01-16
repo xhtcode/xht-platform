@@ -1,6 +1,6 @@
 package com.xht.modules.admin.audit;
 
-import com.xht.api.system.feign.BLogClientService;
+import com.xht.modules.admin.audit.api.BLogClientService;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 import com.xht.framework.security.annotation.IgnoreAuth;

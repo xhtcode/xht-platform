@@ -9,7 +9,7 @@ import com.xht.framework.core.utils.StringUtils;
 import com.xht.modules.common.constant.GenConstant;
 import com.xht.modules.generate.domain.bo.GenCodeCoreBo;
 import com.xht.modules.generate.domain.bo.TableInfoBo;
-import com.xht.modules.generate.domain.entity.GenTemplateEntity;
+import com.xht.modules.generate.entity.GenTemplateEntity;
 import com.xht.modules.generate.domain.form.GenCodeCoreForm;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;

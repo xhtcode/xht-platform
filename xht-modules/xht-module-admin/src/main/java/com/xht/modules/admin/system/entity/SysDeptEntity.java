@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.api.system.enums.DeptStatusEnums;
+import com.xht.modules.admin.system.enums.DeptStatusEnums;
 import lombok.Data;
 
 import java.io.Serializable;

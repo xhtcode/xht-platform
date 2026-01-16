@@ -2,7 +2,7 @@ package com.xht.modules.admin.system.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.oauth2.annotation.CheckMenu;
-import com.xht.api.system.domain.form.UserBindRoleForm;
+import com.xht.modules.admin.system.domain.form.UserBindRoleForm;
 import com.xht.modules.admin.system.service.IUserRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

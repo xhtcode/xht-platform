@@ -1,8 +1,8 @@
 package com.xht.modules.admin.oauth2.service.impl;
 
-import com.xht.api.system.domain.form.SysOauth2ClientForm;
-import com.xht.api.system.domain.query.SysOauth2ClientQuery;
-import com.xht.api.system.domain.response.SysOauth2ClientResponse;
+import com.xht.modules.admin.oauth2.domain.form.SysOauth2ClientForm;
+import com.xht.modules.admin.oauth2.domain.query.SysOauth2ClientQuery;
+import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;

@@ -4,7 +4,7 @@ import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.modules.generate.converter.GenDataSourceConverter;
 import com.xht.modules.generate.dao.GenDataSourceDao;
-import com.xht.modules.generate.domain.entity.GenDataSourceEntity;
+import com.xht.modules.generate.entity.GenDataSourceEntity;
 import com.xht.modules.generate.domain.form.GenDataSourceForm;
 import com.xht.modules.generate.domain.query.GenDataSourceQuery;
 import com.xht.modules.generate.domain.response.GenDataSourceResponse;

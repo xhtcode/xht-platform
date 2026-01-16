@@ -1,7 +1,7 @@
 package com.xht.modules.admin.system.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.api.system.domain.response.SysPostResponse;
+import com.xht.modules.admin.system.domain.response.SysPostResponse;
 import com.xht.modules.admin.system.entity.SysUserPostEntity;
 
 import java.util.List;

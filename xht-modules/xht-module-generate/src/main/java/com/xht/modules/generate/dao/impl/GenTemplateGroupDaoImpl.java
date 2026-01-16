@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.generate.dao.GenTemplateGroupDao;
 import com.xht.modules.generate.dao.mapper.GenTemplateGroupMapper;
-import com.xht.modules.generate.domain.entity.GenTemplateGroupEntity;
+import com.xht.modules.generate.entity.GenTemplateGroupEntity;
 import com.xht.modules.generate.domain.form.GenTemplateGroupForm;
 import com.xht.modules.generate.domain.query.GenTemplateGroupQuery;
 import lombok.extern.slf4j.Slf4j;

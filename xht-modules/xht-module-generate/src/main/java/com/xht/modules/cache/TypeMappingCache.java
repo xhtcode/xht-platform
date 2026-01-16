@@ -3,7 +3,7 @@ package com.xht.modules.cache;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.modules.common.enums.DataBaseTypeEnums;
 import com.xht.modules.generate.dao.GenTypeMappingDao;
-import com.xht.modules.generate.domain.entity.GenTypeMappingEntity;
+import com.xht.modules.generate.entity.GenTypeMappingEntity;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

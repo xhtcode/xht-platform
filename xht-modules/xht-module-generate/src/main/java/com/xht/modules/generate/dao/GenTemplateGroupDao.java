@@ -2,7 +2,7 @@ package com.xht.modules.generate.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.generate.domain.entity.GenTemplateGroupEntity;
+import com.xht.modules.generate.entity.GenTemplateGroupEntity;
 import com.xht.modules.generate.domain.form.GenTemplateGroupForm;
 import com.xht.modules.generate.domain.query.GenTemplateGroupQuery;
 

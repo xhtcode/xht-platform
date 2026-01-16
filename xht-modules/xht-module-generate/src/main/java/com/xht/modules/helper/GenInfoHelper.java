@@ -7,10 +7,10 @@ import com.xht.modules.common.enums.DataBaseTypeEnums;
 import com.xht.modules.common.enums.PageStyleEnums;
 import com.xht.modules.generate.domain.bo.ColumnBo;
 import com.xht.modules.generate.domain.bo.TableBo;
-import com.xht.modules.generate.domain.entity.GenDataSourceEntity;
-import com.xht.modules.generate.domain.entity.GenTableColumnEntity;
-import com.xht.modules.generate.domain.entity.GenTableEntity;
-import com.xht.modules.generate.domain.entity.GenTypeMappingEntity;
+import com.xht.modules.generate.entity.GenDataSourceEntity;
+import com.xht.modules.generate.entity.GenTableColumnEntity;
+import com.xht.modules.generate.entity.GenTableEntity;
+import com.xht.modules.generate.entity.GenTypeMappingEntity;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;

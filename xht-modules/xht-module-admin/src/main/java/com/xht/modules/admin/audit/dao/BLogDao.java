@@ -3,7 +3,7 @@ package com.xht.modules.admin.audit.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.audit.entity.BLogEntity;
-import com.xht.api.system.domain.query.BLogQuery;
+import com.xht.modules.admin.audit.domain.query.BLogQuery;
 
 /**
  * 系统日志

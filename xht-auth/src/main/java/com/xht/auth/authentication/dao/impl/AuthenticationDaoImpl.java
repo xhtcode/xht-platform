@@ -1,7 +1,7 @@
 package com.xht.auth.authentication.dao.impl;
 
-import com.xht.api.system.domain.response.SysOauth2ClientResponse;
-import com.xht.api.system.domain.vo.UserLoginVo;
+import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
+import com.xht.modules.admin.system.domain.vo.UserLoginVo;
 import com.xht.auth.authentication.dao.IAuthenticationDao;
 import com.xht.auth.authentication.dao.mapper.AuthenticationMapper;
 import com.xht.framework.core.enums.LoginTypeEnums;

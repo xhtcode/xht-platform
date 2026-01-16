@@ -1,6 +1,6 @@
 package com.xht.auth.security.oatuh2.server.authorization.client;
 
-import com.xht.api.system.domain.response.SysOauth2ClientResponse;
+import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
 import com.xht.auth.authentication.dao.IAuthenticationDao;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
 import com.xht.framework.cache.service.RedisService;

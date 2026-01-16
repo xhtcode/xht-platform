@@ -2,8 +2,8 @@ package com.xht.modules.admin.audit.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.api.system.domain.query.BLogQuery;
-import com.xht.api.system.domain.response.BLogResponse;
+import com.xht.modules.admin.audit.domain.query.BLogQuery;
+import com.xht.modules.admin.audit.domain.response.BLogResponse;
 import com.xht.modules.admin.audit.service.IBLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

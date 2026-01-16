@@ -1,7 +1,7 @@
 package com.xht.modules.generate.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
-import com.xht.modules.generate.domain.entity.GenTableEntity;
+import com.xht.modules.generate.entity.GenTableEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

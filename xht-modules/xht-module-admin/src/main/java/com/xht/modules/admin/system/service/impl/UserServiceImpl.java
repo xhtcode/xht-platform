@@ -1,17 +1,6 @@
 package com.xht.modules.admin.system.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.api.system.domain.form.SysUserDetailForm;
-import com.xht.api.system.domain.form.SysUserForm;
-import com.xht.api.system.domain.form.UpdatePwdFrom;
-import com.xht.api.system.domain.query.SysUserQuery;
-import com.xht.api.system.domain.response.SysMenuResponse;
-import com.xht.api.system.domain.response.SysPostResponse;
-import com.xht.api.system.domain.response.SysUserDetailResponse;
-import com.xht.api.system.domain.response.SysUserResponse;
-import com.xht.api.system.domain.vo.SysUserVO;
-import com.xht.api.system.domain.vo.UserLoginVo;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.enums.UserStatusEnums;
@@ -28,9 +17,19 @@ import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.modules.admin.router.RouterUtils;
-import com.xht.modules.admin.router.vo.RouterVo;
+import com.xht.modules.admin.router.dto.RouterDTO;
 import com.xht.modules.admin.system.converter.SysUserConverter;
 import com.xht.modules.admin.system.dao.*;
+import com.xht.modules.admin.system.domain.form.SysUserDetailForm;
+import com.xht.modules.admin.system.domain.form.SysUserForm;
+import com.xht.modules.admin.system.domain.form.UpdatePwdFrom;
+import com.xht.modules.admin.system.domain.query.SysUserQuery;
+import com.xht.modules.admin.system.domain.response.SysMenuResponse;
+import com.xht.modules.admin.system.domain.response.SysPostResponse;
+import com.xht.modules.admin.system.domain.response.SysUserDetailResponse;
+import com.xht.modules.admin.system.domain.response.SysUserResponse;
+import com.xht.modules.admin.system.domain.vo.SysUserVO;
+import com.xht.modules.admin.system.domain.vo.UserLoginVo;
 import com.xht.modules.admin.system.entity.SysRoleEntity;
 import com.xht.modules.admin.system.entity.SysUserDetailEntity;
 import com.xht.modules.admin.system.entity.SysUserEntity;
@@ -250,12 +249,12 @@ public class UserServiceImpl implements IUserService {
         }
         List<INode<Long>> result = new ArrayList<>(menus.size());
         for (SysMenuResponse menu : menus) {
-            RouterVo routerVo = new RouterVo();
-            routerVo.setPath(menu.getMenuPath());
-            routerVo.setName(StringUtils.emptyToDefault(menu.getViewName(), menu.getId() + ""));
-            routerVo.setComponent(menu.getViewPath());
-            routerVo.setMeta(RouterUtils.generateRouter(menu));
-            result.add(new TreeNode<>(menu.getId(), menu.getParentId(), menu.getMenuSort()).setExtra(BeanUtil.beanToMap(routerVo)));
+            RouterDTO routerDTO = new RouterDTO();
+            routerDTO.setPath(menu.getMenuPath());
+            routerDTO.setName(StringUtils.emptyToDefault(menu.getViewName(), menu.getId() + ""));
+            routerDTO.setComponent(menu.getViewPath());
+            routerDTO.setMeta(RouterUtils.generateRouter(menu));
+            result.add(new TreeNode<>(menu.getId(), menu.getParentId(), menu.getMenuSort()).setExtra(routerDTO));
         }
         return TreeUtils.buildList(result, Boolean.FALSE);
     }

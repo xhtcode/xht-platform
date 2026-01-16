@@ -1,7 +1,7 @@
 package com.xht.modules.generate.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.modules.generate.domain.entity.GenTableColumnEntity;
+import com.xht.modules.generate.entity.GenTableColumnEntity;
 import com.xht.modules.generate.domain.form.GenColumnInfoForm;
 import com.xht.modules.generate.domain.response.GenTableColumnResponse;
 import org.mapstruct.Mapper;

@@ -1,7 +1,7 @@
 package com.xht.modules.admin.system.dao.mapper;
 
-import com.xht.api.system.domain.vo.SysUserVO;
-import com.xht.api.system.domain.vo.UserLoginVo;
+import com.xht.modules.admin.system.domain.vo.SysUserVO;
+import com.xht.modules.admin.system.domain.vo.UserLoginVo;
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.modules.admin.system.entity.SysUserEntity;
 import org.apache.ibatis.annotations.Mapper;

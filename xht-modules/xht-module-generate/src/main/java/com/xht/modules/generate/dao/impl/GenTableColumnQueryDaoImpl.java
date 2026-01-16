@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.generate.dao.GenTableColumnQueryDao;
 import com.xht.modules.generate.dao.mapper.GenTableColumnQueryMapper;
-import com.xht.modules.generate.domain.entity.GenTableColumnQueryEntity;
+import com.xht.modules.generate.entity.GenTableColumnQueryEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

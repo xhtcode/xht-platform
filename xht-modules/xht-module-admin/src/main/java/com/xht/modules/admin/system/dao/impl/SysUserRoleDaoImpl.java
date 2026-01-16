@@ -3,7 +3,7 @@ package com.xht.modules.admin.system.dao.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.api.system.enums.RoleStatusEnums;
+import com.xht.modules.admin.system.enums.RoleStatusEnums;
 import com.xht.modules.admin.system.dao.SysUserRoleDao;
 import com.xht.modules.admin.system.dao.mapper.SysUserRoleMapper;
 import com.xht.modules.admin.system.entity.SysRoleEntity;

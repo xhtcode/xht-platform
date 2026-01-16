@@ -3,7 +3,7 @@ package com.xht.modules.admin.system.dao.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.api.system.domain.response.SysPostResponse;
+import com.xht.modules.admin.system.domain.response.SysPostResponse;
 import com.xht.modules.admin.system.dao.SysUserPostDao;
 import com.xht.modules.admin.system.dao.mapper.SysUserPostMapper;
 import com.xht.modules.admin.system.entity.SysUserPostEntity;

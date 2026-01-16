@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.generate.dao.GenDataSourceDao;
 import com.xht.modules.generate.dao.mapper.GenDataSourceMapper;
-import com.xht.modules.generate.domain.entity.GenDataSourceEntity;
+import com.xht.modules.generate.entity.GenDataSourceEntity;
 import com.xht.modules.generate.domain.form.GenDataSourceForm;
 import com.xht.modules.generate.domain.query.GenDataSourceQuery;
 import lombok.extern.slf4j.Slf4j;

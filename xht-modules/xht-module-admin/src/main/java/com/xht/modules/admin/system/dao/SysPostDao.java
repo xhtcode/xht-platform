@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.system.entity.SysPostEntity;
-import com.xht.api.system.domain.form.SysPostForm;
-import com.xht.api.system.domain.query.SysPostQuery;
+import com.xht.modules.admin.system.domain.form.SysPostForm;
+import com.xht.modules.admin.system.domain.query.SysPostQuery;
 
 import java.util.List;
 

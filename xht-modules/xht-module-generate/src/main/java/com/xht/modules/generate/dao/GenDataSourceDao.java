@@ -1,7 +1,7 @@
 package com.xht.modules.generate.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.generate.domain.entity.GenDataSourceEntity;
+import com.xht.modules.generate.entity.GenDataSourceEntity;
 import com.xht.modules.generate.domain.form.GenDataSourceForm;
 import com.xht.modules.generate.domain.query.GenDataSourceQuery;
 

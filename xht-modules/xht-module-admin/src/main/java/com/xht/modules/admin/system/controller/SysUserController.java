@@ -1,11 +1,11 @@
 package com.xht.modules.admin.system.controller;
 
-import com.xht.api.system.domain.form.SysUserForm;
-import com.xht.api.system.domain.form.UpdatePwdFrom;
-import com.xht.api.system.domain.query.SysUserQuery;
-import com.xht.api.system.domain.response.SysUserResponse;
-import com.xht.api.system.domain.vo.SysUserVO;
-import com.xht.api.system.domain.vo.UserLoginVo;
+import com.xht.modules.admin.system.domain.form.SysUserForm;
+import com.xht.modules.admin.system.domain.form.UpdatePwdFrom;
+import com.xht.modules.admin.system.domain.query.SysUserQuery;
+import com.xht.modules.admin.system.domain.response.SysUserResponse;
+import com.xht.modules.admin.system.domain.vo.SysUserVO;
+import com.xht.modules.admin.system.domain.vo.UserLoginVo;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.enums.UserStatusEnums;

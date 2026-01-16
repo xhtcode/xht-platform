@@ -5,9 +5,9 @@ import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.modules.common.enums.GenStatusEnums;
 import com.xht.modules.common.enums.IdPrimaryKeyEnums;
-import com.xht.modules.generate.domain.entity.GenTableColumnEntity;
-import com.xht.modules.generate.domain.entity.GenTableColumnQueryEntity;
-import com.xht.modules.generate.domain.entity.GenTableEntity;
+import com.xht.modules.generate.entity.GenTableColumnEntity;
+import com.xht.modules.generate.entity.GenTableColumnQueryEntity;
+import com.xht.modules.generate.entity.GenTableEntity;
 import org.apache.velocity.VelocityContext;
 
 import java.util.*;

@@ -2,7 +2,7 @@ package com.xht.modules.admin.system.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.system.entity.SysRoleMenuEntity;
-import com.xht.api.system.domain.response.SysMenuResponse;
+import com.xht.modules.admin.system.domain.response.SysMenuResponse;
 
 import java.util.List;
 import java.util.Set;

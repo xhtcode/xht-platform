@@ -1,7 +1,7 @@
 package com.xht.auth.security.oatuh2.server.authorization.client;
 
-import com.xht.api.system.domain.response.SysOauth2ClientResponse;
-import com.xht.api.system.enums.Oauth2ClientAutoApproveEnums;
+import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
+import com.xht.modules.admin.oauth2.enums.Oauth2ClientAutoApproveEnums;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;

@@ -1,7 +1,7 @@
 package com.xht.auth.authentication.dao.mapper;
 
-import com.xht.api.system.domain.response.SysOauth2ClientResponse;
-import com.xht.api.system.domain.vo.UserLoginVo;
+import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
+import com.xht.modules.admin.system.domain.vo.UserLoginVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

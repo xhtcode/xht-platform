@@ -1,7 +1,7 @@
 package com.xht.modules.generate.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.modules.generate.domain.entity.GenTypeMappingEntity;
+import com.xht.modules.generate.entity.GenTypeMappingEntity;
 import com.xht.modules.generate.domain.form.GenTypeMappingForm;
 import com.xht.modules.generate.domain.response.GenTypeMappingResponse;
 import org.mapstruct.Mapper;

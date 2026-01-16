@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.generate.dao.GenTypeMappingDao;
 import com.xht.modules.generate.dao.mapper.GenTypeMappingMapper;
-import com.xht.modules.generate.domain.entity.GenTypeMappingEntity;
+import com.xht.modules.generate.entity.GenTypeMappingEntity;
 import com.xht.modules.generate.domain.form.GenTypeMappingForm;
 import com.xht.modules.generate.domain.query.GenTypeMappingQuery;
 import lombok.extern.slf4j.Slf4j;

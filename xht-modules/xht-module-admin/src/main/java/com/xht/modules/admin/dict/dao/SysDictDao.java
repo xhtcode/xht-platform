@@ -3,8 +3,8 @@ package com.xht.modules.admin.dict.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.dict.entity.SysDictEntity;
-import com.xht.api.system.domain.form.SysDictForm;
-import com.xht.api.system.domain.query.SysDictQuery;
+import com.xht.modules.admin.dict.domain.form.SysDictForm;
+import com.xht.modules.admin.dict.domain.query.SysDictQuery;
 
 import java.util.List;
 

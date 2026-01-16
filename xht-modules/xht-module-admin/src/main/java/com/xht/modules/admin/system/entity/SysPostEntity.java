@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.api.system.enums.DeptPostStatusEnums;
+import com.xht.modules.admin.system.enums.DeptPostStatusEnums;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

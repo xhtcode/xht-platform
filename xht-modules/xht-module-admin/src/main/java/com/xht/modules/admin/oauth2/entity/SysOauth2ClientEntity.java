@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import com.xht.api.system.enums.Oauth2ClientAutoApproveEnums;
+import com.xht.modules.admin.oauth2.enums.Oauth2ClientAutoApproveEnums;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import lombok.Data;
 

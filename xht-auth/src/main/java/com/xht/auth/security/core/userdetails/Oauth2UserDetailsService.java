@@ -1,6 +1,6 @@
 package com.xht.auth.security.core.userdetails;
 
-import com.xht.api.system.domain.vo.UserLoginVo;
+import com.xht.modules.admin.system.domain.vo.UserLoginVo;
 import com.xht.auth.authentication.dao.IAuthenticationDao;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.utils.StringUtils;

@@ -8,7 +8,7 @@ import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.modules.cache.TypeMappingCache;
 import com.xht.modules.generate.converter.GenTypeMappingConverter;
 import com.xht.modules.generate.dao.GenTypeMappingDao;
-import com.xht.modules.generate.domain.entity.GenTypeMappingEntity;
+import com.xht.modules.generate.entity.GenTypeMappingEntity;
 import com.xht.modules.generate.domain.form.GenTypeMappingForm;
 import com.xht.modules.generate.domain.query.GenTypeMappingQuery;
 import com.xht.modules.generate.domain.response.GenTypeMappingResponse;

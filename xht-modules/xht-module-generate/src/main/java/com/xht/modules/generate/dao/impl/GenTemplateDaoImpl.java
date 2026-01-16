@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.generate.dao.GenTemplateDao;
 import com.xht.modules.generate.dao.mapper.GenTemplateMapper;
-import com.xht.modules.generate.domain.entity.GenTemplateEntity;
+import com.xht.modules.generate.entity.GenTemplateEntity;
 import com.xht.modules.generate.domain.form.GenTemplateForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

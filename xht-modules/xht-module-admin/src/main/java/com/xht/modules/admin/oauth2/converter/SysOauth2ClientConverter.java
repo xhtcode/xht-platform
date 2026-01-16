@@ -2,8 +2,8 @@ package com.xht.modules.admin.oauth2.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.modules.admin.oauth2.entity.SysOauth2ClientEntity;
-import com.xht.api.system.domain.form.SysOauth2ClientForm;
-import com.xht.api.system.domain.response.SysOauth2ClientResponse;
+import com.xht.modules.admin.oauth2.domain.form.SysOauth2ClientForm;
+import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;

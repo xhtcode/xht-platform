@@ -1,9 +1,9 @@
 package com.xht.modules.admin.system.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.api.system.domain.query.SysUserQuery;
-import com.xht.api.system.domain.vo.SysUserVO;
-import com.xht.api.system.domain.vo.UserLoginVo;
+import com.xht.modules.admin.system.domain.query.SysUserQuery;
+import com.xht.modules.admin.system.domain.vo.SysUserVO;
+import com.xht.modules.admin.system.domain.vo.UserLoginVo;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.mybatis.repository.MapperRepository;
