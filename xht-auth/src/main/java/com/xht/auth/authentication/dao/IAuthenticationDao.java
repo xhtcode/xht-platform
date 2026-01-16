@@ -1,7 +1,7 @@
 package com.xht.auth.authentication.dao;
 
-import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
-import com.xht.modules.admin.system.domain.vo.UserLoginVo;
+import com.xht.auth.authentication.dto.Oauth2ClientDTO;
+import com.xht.auth.authentication.dto.UserLoginDTO;
 import com.xht.framework.core.enums.LoginTypeEnums;
 
 import java.util.Set;
@@ -20,7 +20,7 @@ public interface IAuthenticationDao {
      * @param loginType 登录类型
      * @return 用户信息
      */
-    UserLoginVo findByUsernameAndLoginType(String userName, LoginTypeEnums loginType);
+    UserLoginDTO findByUsernameAndLoginType(String userName, LoginTypeEnums loginType);
 
     /**
      * 根据用户ID查询用户拥有的角色编码集合
@@ -45,5 +45,6 @@ public interface IAuthenticationDao {
      * @param clientId 客户端ID
      * @return 客户端信息
      */
-    SysOauth2ClientResponse findClientDetailsById(String clientId);
+    Oauth2ClientDTO findClientDetailsById(String clientId);
+
 }

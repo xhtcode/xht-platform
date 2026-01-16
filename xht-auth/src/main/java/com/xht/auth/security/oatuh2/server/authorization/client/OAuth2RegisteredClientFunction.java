@@ -1,7 +1,7 @@
 package com.xht.auth.security.oatuh2.server.authorization.client;
 
-import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
-import com.xht.modules.admin.oauth2.enums.Oauth2ClientAutoApproveEnums;
+import com.xht.auth.authentication.dto.Oauth2ClientDTO;
+import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnums;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -23,35 +23,35 @@ import java.util.stream.Collectors;
  *
  * @author xht
  */
-class OAuth2RegisteredClientFunction implements Function<SysOauth2ClientResponse, RegisteredClient> {
+class OAuth2RegisteredClientFunction implements Function<Oauth2ClientDTO, RegisteredClient> {
 
     /**
      * 根据SysOauth2ClientResponse对象构建RegisteredClient对象
      *
-     * @param clientResponse SysOauth2ClientResponse对象，包含OAuth2客户端信息
+     * @param clientDTO SysOauth2ClientResponse对象，包含OAuth2客户端信息
      * @return RegisteredClient对象，表示已注册的OAuth2客户端
      */
     @Override
-    public RegisteredClient apply(SysOauth2ClientResponse clientResponse) {
-        RegisteredClient.Builder registeredClientBuilder = RegisteredClient.withId(String.valueOf(clientResponse.getClientId()))
-                .clientId(clientResponse.getClientId()).clientSecret(clientResponse.getClientSecret())
-                .clientIdIssuedAt(convertToInstant(clientResponse.getClientIdIssuedAt()))
-                .clientSecretExpiresAt(convertToInstant(clientResponse.getClientSecretExpiresAt()))
-                .clientName(clientResponse.getClientName())
+    public RegisteredClient apply(Oauth2ClientDTO clientDTO) {
+        RegisteredClient.Builder registeredClientBuilder = RegisteredClient.withId(String.valueOf(clientDTO.getClientId()))
+                .clientId(clientDTO.getClientId()).clientSecret(clientDTO.getClientSecret())
+                .clientIdIssuedAt(convertToInstant(clientDTO.getClientIdIssuedAt()))
+                .clientSecretExpiresAt(convertToInstant(clientDTO.getClientSecretExpiresAt()))
+                .clientName(clientDTO.getClientName())
                 .clientAuthenticationMethods(item -> {
-                    Set<String> clientAuthenticationMethods = clientResponse.getClientAuthenticationMethods();
+                    Set<String> clientAuthenticationMethods = clientDTO.getClientAuthenticationMethods();
                     for (String clientAuthenticationMethod : clientAuthenticationMethods) {
                         item.add(resolveClientAuthenticationMethod(clientAuthenticationMethod));
                     }
                 })
-                .scopes(item -> item.addAll(clientResponse.getScopes()))
-                .redirectUris(item -> item.addAll(clientResponse.getRedirectUris()))
+                .scopes(item -> item.addAll(clientDTO.getScopes()))
+                .redirectUris(item -> item.addAll(clientDTO.getRedirectUris()))
                 .authorizationGrantTypes((authorizationGrantTypes) -> authorizationGrantTypes
-                        .addAll(formatAuthorizationGrantTypes(clientResponse.getAuthorizationGrantTypes())))
+                        .addAll(formatAuthorizationGrantTypes(clientDTO.getAuthorizationGrantTypes())))
                 .clientSettings(ClientSettings.builder()
-                        .requireAuthorizationConsent(Objects.equals(clientResponse.getAutoApprove(), Oauth2ClientAutoApproveEnums.YES))
+                        .requireAuthorizationConsent(Objects.equals(clientDTO.getAutoApprove(), Oauth2ClientAutoApproveEnums.YES))
                         .build())
-                .tokenSettings(tokenSettings(clientResponse));
+                .tokenSettings(tokenSettings(clientDTO));
         return registeredClientBuilder.build();
     }
 
@@ -73,14 +73,14 @@ class OAuth2RegisteredClientFunction implements Function<SysOauth2ClientResponse
     /**
      * 根据OAuth2客户端响应配置构建令牌设置
      *
-     * @param clientResponse OAuth2客户端响应对象，包含访问令牌和刷新令牌的有效期信息
+     * @param clientDTO OAuth2客户端响应对象，包含访问令牌和刷新令牌的有效期信息
      * @return TokenSettings 令牌配置对象，包含令牌格式、有效期等设置
      */
-    private TokenSettings tokenSettings(SysOauth2ClientResponse clientResponse) {
+    private TokenSettings tokenSettings(Oauth2ClientDTO clientDTO) {
         return TokenSettings.builder()
                 .accessTokenFormat(OAuth2TokenFormat.REFERENCE)
-                .accessTokenTimeToLive(Duration.ofSeconds(clientResponse.getAccessTokenValidity()))
-                .refreshTokenTimeToLive(Duration.ofSeconds(clientResponse.getRefreshTokenValidity()))
+                .accessTokenTimeToLive(Duration.ofSeconds(clientDTO.getAccessTokenValidity()))
+                .refreshTokenTimeToLive(Duration.ofSeconds(clientDTO.getRefreshTokenValidity()))
                 .build();
     }
 

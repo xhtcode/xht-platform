@@ -1,14 +1,14 @@
 package com.xht.auth.authentication.dao.mapper;
 
-import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
-import com.xht.modules.admin.system.domain.vo.UserLoginVo;
+import com.xht.auth.authentication.dto.Oauth2ClientDTO;
+import com.xht.auth.authentication.dto.UserLoginDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Set;
 
 /**
- * 描述 ：
+ * 描述 ： 认证数据访问接口
  *
  * @author xht
  **/
@@ -22,8 +22,7 @@ public interface AuthenticationMapper {
      * @param loginType 登录类型
      * @return 用户信息
      */
-    UserLoginVo findByUsernameAndLoginType(@Param("userName") String userName, @Param("loginType") String loginType);
-
+    UserLoginDTO findByUsernameAndLoginType(@Param("userName") String userName, @Param("loginType") String loginType);
 
     /**
      * 根据用户ID查询用户拥有的角色编码集合
@@ -32,7 +31,6 @@ public interface AuthenticationMapper {
      * @return 返回该用户拥有的所有角色编码的Set集合，如果用户不存在或无角色则返回空集合
      */
     Set<String> findRoleCodesByUserId(@Param("userId") Long userId);
-
 
     /**
      * 根据用户ID查询用户拥有的菜单编码集合
@@ -44,8 +42,11 @@ public interface AuthenticationMapper {
 
     /**
      * 根据客户端ID查询客户端信息
+     *
      * @param clientId 客户端ID
      * @return 客户端信息
      */
-    SysOauth2ClientResponse findClientDetailsById(@Param("clientId") String clientId);
+    Oauth2ClientDTO findClientDetailsById(@Param("clientId") String clientId);
+
+
 }

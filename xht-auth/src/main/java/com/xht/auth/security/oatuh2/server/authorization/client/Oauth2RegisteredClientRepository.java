@@ -1,7 +1,7 @@
 package com.xht.auth.security.oatuh2.server.authorization.client;
 
-import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
 import com.xht.auth.authentication.dao.IAuthenticationDao;
+import com.xht.auth.authentication.dto.Oauth2ClientDTO;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
 import com.xht.framework.cache.service.RedisService;
 import com.xht.framework.cache.utils.Keys;
@@ -46,16 +46,16 @@ public class Oauth2RegisteredClientRepository implements RegisteredClientReposit
     @Override
     public RegisteredClient findByClientId(String clientId) {
         String key = Keys.createKey(OAUTH2_CLIENT_KEY_PREFIX, clientId);
-        SysOauth2ClientResponse clientResponse = null;
+        Oauth2ClientDTO clientDTO = null;
         Long expire = redisService.getExpire(key);
         if (expire > 0) {
-            clientResponse = redisService.get(key);
+            clientDTO = redisService.get(key);
         }
-        clientResponse = Optional.ofNullable(clientResponse).orElseGet(() -> authenticationDao.findClientDetailsById(clientId));
-        if (Objects.nonNull(clientResponse)) {
-            redisService.set(key, clientResponse, xhtOauth2Properties.getClient().getTimeout(), TimeUnit.SECONDS);
+        clientDTO = Optional.ofNullable(clientDTO).orElseGet(() -> authenticationDao.findClientDetailsById(clientId));
+        if (Objects.nonNull(clientDTO)) {
+            redisService.set(key, clientDTO, xhtOauth2Properties.getClient().getTimeout(), TimeUnit.SECONDS);
         }
-        return Optional.ofNullable(clientResponse)
+        return Optional.ofNullable(clientDTO)
                 .map(new OAuth2RegisteredClientFunction()).orElse(null);
     }
 

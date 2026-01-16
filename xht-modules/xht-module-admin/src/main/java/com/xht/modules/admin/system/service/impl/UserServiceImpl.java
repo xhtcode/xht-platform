@@ -2,7 +2,6 @@ package com.xht.modules.admin.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
@@ -19,7 +18,10 @@ import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.modules.admin.router.RouterUtils;
 import com.xht.modules.admin.router.dto.RouterDTO;
 import com.xht.modules.admin.system.converter.SysUserConverter;
-import com.xht.modules.admin.system.dao.*;
+import com.xht.modules.admin.system.dao.SysRoleMenuDao;
+import com.xht.modules.admin.system.dao.SysUserDao;
+import com.xht.modules.admin.system.dao.SysUserDetailDao;
+import com.xht.modules.admin.system.dao.SysUserPostDao;
 import com.xht.modules.admin.system.domain.form.SysUserDetailForm;
 import com.xht.modules.admin.system.domain.form.SysUserForm;
 import com.xht.modules.admin.system.domain.form.UpdatePwdFrom;
@@ -28,9 +30,7 @@ import com.xht.modules.admin.system.domain.response.SysMenuResponse;
 import com.xht.modules.admin.system.domain.response.SysPostResponse;
 import com.xht.modules.admin.system.domain.response.SysUserDetailResponse;
 import com.xht.modules.admin.system.domain.response.SysUserResponse;
-import com.xht.modules.admin.system.domain.vo.SysUserVO;
-import com.xht.modules.admin.system.domain.vo.UserLoginVo;
-import com.xht.modules.admin.system.entity.SysRoleEntity;
+import com.xht.modules.admin.system.domain.vo.SysUserVo;
 import com.xht.modules.admin.system.entity.SysUserDetailEntity;
 import com.xht.modules.admin.system.entity.SysUserEntity;
 import com.xht.modules.admin.system.helper.SysUserHelper;
@@ -41,8 +41,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 用户Service实现类
@@ -57,8 +59,6 @@ public class UserServiceImpl implements IUserService {
     private final SysUserDao sysUserDao;
 
     private final SysUserPostDao sysUserPostDao;
-
-    private final SysUserRoleDao sysUserRoleDao;
 
     private final SysRoleMenuDao sysRoleMenuDao;
 
@@ -181,9 +181,9 @@ public class UserServiceImpl implements IUserService {
      * @return 找到的用户对象，不存在时返回null
      */
     @Override
-    public SysUserVO findByUserId(Long userId) {
+    public SysUserVo findByUserId(Long userId) {
         ThrowUtils.notNull(userId, "用户ID不能为空");
-        SysUserVO sysUserVO = sysUserDao.findInfoByUserId(userId);
+        SysUserVo sysUserVO = sysUserDao.findInfoByUserId(userId);
         ThrowUtils.notNull(sysUserVO, "查询不到用户信息!");
         if (Objects.isNull(sysUserVO.getProfile())) {
             SysUserDetailResponse sysUserDetailResponse = new SysUserDetailResponse();
@@ -206,34 +206,6 @@ public class UserServiceImpl implements IUserService {
         Page<SysUserEntity> sysUserEntityPage = sysUserDao.findPageList(PageTool.getPage(query), query);
         return sysUserConverter.toResponse(sysUserEntityPage);
     }
-
-    /**
-     * 根据用户名和登录类型获取用户信息
-     *
-     * @param username  用户名
-     * @param loginType 登录类型
-     * @return 用户信息
-     */
-    @Override
-    public UserLoginVo loadUserByUsername(String username, LoginTypeEnums loginType) {
-        if (Objects.isNull(loginType) || Objects.equals(loginType, LoginTypeEnums.WECHAT) || Objects.equals(loginType, LoginTypeEnums.QQ)) {
-            throw new BusinessException("用户名或密码错误.");
-        }
-        UserLoginVo loginVo = sysUserDao.findByUsernameAndLoginType(username, loginType);
-        if (Objects.isNull(loginVo)) {
-            throw new BusinessException("用户名或密码错误.");
-        }
-        List<SysRoleEntity> roles = sysUserRoleDao.findRoleListByUserId(loginVo.getId());
-        Set<String> menuButtonCodes = sysRoleMenuDao.findPermissionCodeByUserId(loginVo.getId());
-        if (!CollectionUtils.isEmpty(roles)) {
-            loginVo.setRoleCodes(roles.stream().map(SysRoleEntity::getRoleCode).collect(Collectors.toSet()));
-        }
-        if (!CollectionUtils.isEmpty(menuButtonCodes)) {
-            loginVo.setMenuButtonCodes(menuButtonCodes);
-        }
-        return loginVo;
-    }
-
 
     /**
      * 获取路由信息

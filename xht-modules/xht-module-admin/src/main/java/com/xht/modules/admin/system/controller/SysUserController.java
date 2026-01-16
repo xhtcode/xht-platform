@@ -1,11 +1,5 @@
 package com.xht.modules.admin.system.controller;
 
-import com.xht.modules.admin.system.domain.form.SysUserForm;
-import com.xht.modules.admin.system.domain.form.UpdatePwdFrom;
-import com.xht.modules.admin.system.domain.query.SysUserQuery;
-import com.xht.modules.admin.system.domain.response.SysUserResponse;
-import com.xht.modules.admin.system.domain.vo.SysUserVO;
-import com.xht.modules.admin.system.domain.vo.UserLoginVo;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.enums.UserStatusEnums;
@@ -13,6 +7,11 @@ import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.core.validation.Groups;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.oauth2.annotation.IsAdmin;
+import com.xht.modules.admin.system.domain.form.SysUserForm;
+import com.xht.modules.admin.system.domain.form.UpdatePwdFrom;
+import com.xht.modules.admin.system.domain.query.SysUserQuery;
+import com.xht.modules.admin.system.domain.response.SysUserResponse;
+import com.xht.modules.admin.system.domain.vo.SysUserVo;
 import com.xht.modules.admin.system.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -129,7 +128,7 @@ public class SysUserController {
      */
     @GetMapping("/get/{id}")
     @Operation(summary = "获取用户详情", description = "根据ID获取用户详情")
-    public R<SysUserVO> findById(@PathVariable Long id) {
+    public R<SysUserVo> findById(@PathVariable Long id) {
         return R.ok(userService.findByUserId(id));
     }
 
@@ -152,7 +151,7 @@ public class SysUserController {
      */
     @GetMapping("/profile")
     @Operation(summary = "获取当前登录的用户信息", description = "获取当前登录的用户信息")
-    public R<UserLoginVo> getUserProfileInfo() {
+    public R<SysUserVo> getUserProfileInfo() {
         return R.ok(userService.getUserProfileInfo());
     }
 

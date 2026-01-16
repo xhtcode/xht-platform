@@ -1,25 +1,40 @@
-package com.xht.modules.admin.system.domain.response;
+package com.xht.auth.authentication.dto;
 
-import com.xht.framework.core.domain.response.BasicResponse;
+import com.xht.framework.core.domain.dto.BasicDTO;
 import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.core.enums.UserTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Set;
+
 /**
- * 用户信息响应信息
+ * 用户登录信息
  *
  * @author xht
  **/
 @Data
-@Schema(description = "用户信息响应信息")
-public class SysUserResponse extends BasicResponse {
+@Schema(description = "用户登录信息")
+public class UserLoginDTO extends BasicDTO {
 
     /**
      * 用户ID
      */
     @Schema(description = "用户ID")
     private Long id;
+    /**
+     * 密码
+     */
+    @Schema(description = "密码")
+    private String passWord;
+
+    /**
+     * 密码盐值
+     */
+    @Schema(description = "密码盐值")
+    private String passWordSalt;
 
     /**
      * 用户类型
@@ -69,4 +84,28 @@ public class SysUserResponse extends BasicResponse {
     @Schema(description = "部门名称")
     private String deptName;
 
+
+    /**
+     * 注册日期
+     */
+    @Schema(description = "注册日期")
+    private LocalDateTime registerDate;
+
+    /**
+     * 角色列表
+     */
+    @Schema(description = "角色列表")
+    private Set<String> roleCodes = Collections.emptySet();
+
+    /**
+     * 权限列表
+     */
+    @Schema(description = "权限列表")
+    private Set<String> menuButtonCodes = Collections.emptySet();
+
+    /**
+     * 数据范围(1-全部数据权限,2-自定数据权限,3-本部门数据权限,4-本部门及以下数据权限,5-仅本人数据权限)
+     */
+    @Schema(description = "数据范围")
+    private Integer dataScope;
 }

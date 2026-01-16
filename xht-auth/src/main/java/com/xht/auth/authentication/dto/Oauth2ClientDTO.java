@@ -1,6 +1,7 @@
-package com.xht.modules.admin.oauth2.domain.response;
+package com.xht.auth.authentication.dto;
 
-import com.xht.framework.core.domain.response.MetaResponse;
+import com.xht.framework.core.domain.response.BasicResponse;
+import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -15,7 +16,7 @@ import java.util.Set;
  **/
 @Data
 @Schema(description = "OAuth2客户端管理响应信息")
-public class SysOauth2ClientResponse extends MetaResponse {
+public class Oauth2ClientDTO extends BasicResponse {
 
     /**
      * ID
@@ -106,7 +107,7 @@ public class SysOauth2ClientResponse extends MetaResponse {
      * 是否自动放行
      */
     @Schema(description = "是否自动放行")
-    private Integer autoApprove;
+    private Oauth2ClientAutoApproveEnums autoApprove;
 
     /**
      * 备注

@@ -1,15 +1,14 @@
 package com.xht.modules.admin.dict.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.modules.admin.dict.enums.DictStatusEnums;
-import com.xht.modules.admin.dict.entity.SysDictItemEntity;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.response.SysDictItemResponse;
 import com.xht.modules.admin.dict.domain.vo.DictVo;
+import com.xht.modules.admin.dict.entity.SysDictItemEntity;
+import com.xht.modules.admin.dict.enums.DictStatusEnums;
 import org.mapstruct.*;
 import org.springframework.util.CollectionUtils;
 
-import java.io.File;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -51,11 +50,5 @@ public interface SysDictItemConverter extends BasicConverter<SysDictItemEntity, 
     default Boolean statusToDisabled(DictStatusEnums status) {
         return Objects.equals(status, DictStatusEnums.DISABLE);
     }
-    public static boolean isDefaultFile() {
-        File File = new File("default.conf");
-        if (File.exists() && File.isFile()) {
-            return true;
-        }
-        return false;
-    }
+
 }

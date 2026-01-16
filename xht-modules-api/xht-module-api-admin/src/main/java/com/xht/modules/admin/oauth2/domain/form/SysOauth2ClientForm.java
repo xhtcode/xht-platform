@@ -1,6 +1,5 @@
 package com.xht.modules.admin.oauth2.domain.form;
 
-import com.xht.modules.admin.oauth2.enums.Oauth2ClientAutoApproveEnums;
 import com.xht.framework.core.domain.form.BasicForm;
 import com.xht.framework.core.validation.Groups;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -108,7 +107,6 @@ public class SysOauth2ClientForm extends BasicForm {
     private Set<String> scopes;
 
 
-
     /**
      * 请求令牌有效时间
      * 这里假设请求令牌有效时间不合法且必须为正数
@@ -137,7 +135,7 @@ public class SysOauth2ClientForm extends BasicForm {
      * 是否自动放行
      */
     @Schema(description = "是否自动放行")
-    private Oauth2ClientAutoApproveEnums autoApprove;
+    private Integer autoApprove;
 
     /**
      * 备注

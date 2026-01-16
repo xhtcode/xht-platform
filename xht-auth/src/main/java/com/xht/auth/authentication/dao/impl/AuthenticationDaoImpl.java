@@ -1,9 +1,9 @@
 package com.xht.auth.authentication.dao.impl;
 
-import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
-import com.xht.modules.admin.system.domain.vo.UserLoginVo;
 import com.xht.auth.authentication.dao.IAuthenticationDao;
 import com.xht.auth.authentication.dao.mapper.AuthenticationMapper;
+import com.xht.auth.authentication.dto.Oauth2ClientDTO;
+import com.xht.auth.authentication.dto.UserLoginDTO;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * 认证数据访问接口实现
  *
  * @author xht
  **/
@@ -35,7 +36,7 @@ public class AuthenticationDaoImpl implements IAuthenticationDao {
      * @return 用户信息
      */
     @Override
-    public UserLoginVo findByUsernameAndLoginType(String userName, LoginTypeEnums loginType) {
+    public UserLoginDTO findByUsernameAndLoginType(String userName, LoginTypeEnums loginType) {
         return authenticationMapper.findByUsernameAndLoginType(userName, Objects.requireNonNullElse(loginType, LoginTypeEnums.PASSWORD).getValue());
     }
 
@@ -70,7 +71,7 @@ public class AuthenticationDaoImpl implements IAuthenticationDao {
      * @return 客户端信息
      */
     @Override
-    public SysOauth2ClientResponse findClientDetailsById(String clientId) {
+    public Oauth2ClientDTO findClientDetailsById(String clientId) {
         log.debug("根据客户端id:`{}`查询客户端", clientId);
         return authenticationMapper.findClientDetailsById(clientId);
     }

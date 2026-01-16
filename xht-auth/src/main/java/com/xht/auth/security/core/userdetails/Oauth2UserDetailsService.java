@@ -1,6 +1,6 @@
 package com.xht.auth.security.core.userdetails;
 
-import com.xht.modules.admin.system.domain.vo.UserLoginVo;
+import com.xht.auth.authentication.dto.UserLoginDTO;
 import com.xht.auth.authentication.dao.IAuthenticationDao;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.utils.StringUtils;
@@ -45,7 +45,7 @@ public class Oauth2UserDetailsService extends BasicUserDetailsService {
      */
     @Override
     public BasicUserDetails loadUserByUsername(String username, LoginTypeEnums loginType) throws UsernameNotFoundException {
-        UserLoginVo loginVo = authenticationDao.findByUsernameAndLoginType(username, loginType);
+        UserLoginDTO loginVo = authenticationDao.findByUsernameAndLoginType(username, loginType);
         if (loginVo == null) {
             throw new UsernameNotFoundException("用户不存在.");
         }
@@ -64,7 +64,7 @@ public class Oauth2UserDetailsService extends BasicUserDetailsService {
      * @return 转换后的BasicUserDetails对象，用于Spring Security认证授权
      * @throws UsernameNotFoundException 当远程获取用户信息失败时抛出此异常
      */
-    private BasicUserDetails convert(UserLoginVo loginVo, LoginTypeEnums loginType) {
+    private BasicUserDetails convert(UserLoginDTO loginVo, LoginTypeEnums loginType) {
         // @formatter:off
         // 构建权限集合
         Set<String> authoritiesSet = buildAuthoritiesSet(loginVo);
@@ -114,7 +114,7 @@ public class Oauth2UserDetailsService extends BasicUserDetailsService {
      * @param loginVo 用户信息
      * @return 包含角色前缀的权限集合
      */
-    private Set<String> buildAuthoritiesSet(UserLoginVo loginVo) {
+    private Set<String> buildAuthoritiesSet(UserLoginDTO loginVo) {
         Set<String> authoritiesSet = new HashSet<>();
         // 添加角色权限（带角色前缀）
         Set<String> roleCodes = loginVo.getRoleCodes();

@@ -5,16 +5,14 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.xht.modules.admin.system.domain.vo.UserLoginVo;
-import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.core.enums.UserTypeEnums;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.admin.system.dao.SysUserDao;
 import com.xht.modules.admin.system.dao.mapper.SysUserMapper;
-import com.xht.modules.admin.system.entity.SysUserEntity;
 import com.xht.modules.admin.system.domain.query.SysUserQuery;
-import com.xht.modules.admin.system.domain.vo.SysUserVO;
+import com.xht.modules.admin.system.domain.vo.SysUserVo;
+import com.xht.modules.admin.system.entity.SysUserEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,22 +95,9 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @return 用户信息
      */
     @Override
-    public SysUserVO findInfoByUserId(Long userId) {
+    public SysUserVo findInfoByUserId(Long userId) {
         return baseMapper.findInfoByUserId(userId);
     }
-
-    /**
-     * 根据用户名和登录类型查询用户信息
-     *
-     * @param username  用户名
-     * @param loginType 登录类型
-     * @return 用户信息
-     */
-    @Override
-    public UserLoginVo findByUsernameAndLoginType(String username, LoginTypeEnums loginType) {
-        return baseMapper.findByUsernameAndLoginType(username, loginType.getValue());
-    }
-
 
     /**
      * 根据手机号校验用户是否重复

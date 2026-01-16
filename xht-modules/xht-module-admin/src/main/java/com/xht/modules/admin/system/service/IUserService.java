@@ -1,17 +1,15 @@
 package com.xht.modules.admin.system.service;
 
-import com.xht.modules.admin.system.domain.form.SysUserForm;
-import com.xht.modules.admin.system.domain.form.UpdatePwdFrom;
-import com.xht.modules.admin.system.domain.query.SysUserQuery;
-import com.xht.modules.admin.system.domain.response.SysUserResponse;
-import com.xht.modules.admin.system.domain.vo.SysUserVO;
-import com.xht.modules.admin.system.domain.vo.UserLoginVo;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
+import com.xht.modules.admin.system.domain.form.SysUserForm;
+import com.xht.modules.admin.system.domain.form.UpdatePwdFrom;
+import com.xht.modules.admin.system.domain.query.SysUserQuery;
+import com.xht.modules.admin.system.domain.response.SysUserResponse;
+import com.xht.modules.admin.system.domain.vo.SysUserVo;
 
 import java.util.List;
 
@@ -70,12 +68,13 @@ public interface IUserService {
      *
      * @return 用户信息
      */
-    default UserLoginVo getUserProfileInfo() {
+    default SysUserVo getUserProfileInfo() {
         BasicUserDetails user = SecurityUtils.getUser();
-        UserLoginVo userInfoDTO = loadUserByUsername(user.getUsername(), user.getLoginType());
-        userInfoDTO.setPassWord(null);
-        userInfoDTO.setPassWordSalt(null);
-        return userInfoDTO;
+        SysUserVo userVo = findByUserId(user.getUserId());
+        userVo.setDataScope(user.getDataScope());
+        userVo.setRoleCodes(userVo.getRoleCodes());
+        userVo.setMenuButtonCodes(userVo.getMenuButtonCodes());
+        return userVo;
     }
 
     /**
@@ -84,7 +83,7 @@ public interface IUserService {
      * @param userId 用户 ID
      * @return 找到的用户对象，不存在时返回null
      */
-    SysUserVO findByUserId(Long userId);
+    SysUserVo findByUserId(Long userId);
 
     /**
      * 根据查询条件分页查找用户
@@ -93,15 +92,6 @@ public interface IUserService {
      * @return 用户对象分页结果
      */
     PageResponse<SysUserResponse> findPageList(SysUserQuery query);
-
-    /**
-     * 根据用户名和登录类型获取用户信息
-     *
-     * @param username  用户名
-     * @param loginType 登录类型
-     * @return 用户信息
-     */
-    UserLoginVo loadUserByUsername(String username, LoginTypeEnums loginType);
 
     /**
      * 获取当前登录用户的路由信息

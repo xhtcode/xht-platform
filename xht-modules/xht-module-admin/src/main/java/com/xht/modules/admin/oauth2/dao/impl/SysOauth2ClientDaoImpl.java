@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.modules.admin.oauth2.domain.form.SysOauth2ClientForm;
 import com.xht.modules.admin.oauth2.domain.query.SysOauth2ClientQuery;
-import com.xht.modules.admin.oauth2.enums.Oauth2ClientAutoApproveEnums;
+import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnums;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.admin.oauth2.dao.SysOauth2ClientDao;
 import com.xht.modules.admin.oauth2.dao.mapper.SysOauth2ClientMapper;

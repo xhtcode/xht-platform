@@ -4,7 +4,7 @@ import com.xht.modules.admin.system.domain.form.SysUserDetailForm;
 import com.xht.modules.admin.system.domain.form.SysUserForm;
 import com.xht.modules.admin.system.domain.response.SysUserDetailResponse;
 import com.xht.modules.admin.system.domain.response.SysUserResponse;
-import com.xht.modules.admin.system.domain.vo.SysUserVO;
+import com.xht.modules.admin.system.domain.vo.SysUserVo;
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.modules.admin.system.entity.SysUserDetailEntity;
 import com.xht.modules.admin.system.entity.SysUserEntity;
@@ -29,7 +29,7 @@ public interface SysUserConverter extends BasicConverter<SysUserEntity, SysUserF
      * @param sysUserEntity 包含用户详细信息的SysUserEntity对象
      * @return 包含用户基本信息的SysUserVO对象
      */
-    SysUserVO toVo(SysUserEntity sysUserEntity);
+    SysUserVo toVo(SysUserEntity sysUserEntity);
 
     /**
      * 将SysUserProfilesEntity对象转换为SysUserProfilesResponse对象。
