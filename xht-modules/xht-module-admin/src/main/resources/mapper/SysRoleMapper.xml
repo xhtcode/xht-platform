@@ -4,11 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xht.modules.system.dao.mapper.SysRoleMapper">
 
-    <resultMap id="BaseResultMap" type="com.xht.modules.system.entity.SysRoleEntity">
+    <resultMap id="BaseResultMap" type="com.xht.modules.admin.system.entity.SysRoleEntity">
         <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="roleCode" column="role_code" jdbcType="VARCHAR"/>
         <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
-        <result property="dataScope" column="data_scope" jdbcType="TINYINT"/>
         <result property="roleStatus" column="role_status" jdbcType="TINYINT"/>
         <result property="roleSort" column="role_sort" jdbcType="INTEGER"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>

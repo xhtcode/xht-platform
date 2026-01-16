@@ -50,13 +50,6 @@ public class SysRoleForm extends BasicForm {
     private String remark;
 
     /**
-     * 数据范围（1全部数据权限 2自定数据权限 3本角色数据权限 4本角色及以下数据权限 5本岗位数据权限  6仅本人数据权限）
-     */
-    @NotNull(message = "数据范围参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "数据范围（1全部数据权限 2自定数据权限 3本角色数据权限 4本角色及以下数据权限 5本岗位数据权限  6仅本人数据权限）")
-    private Integer dataScope;
-
-    /**
      * 状态（0正常 1停用）
      */
     @NotNull(message = "状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
