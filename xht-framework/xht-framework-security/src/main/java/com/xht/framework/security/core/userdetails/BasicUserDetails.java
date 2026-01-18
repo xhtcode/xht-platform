@@ -99,13 +99,6 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
     private String deptName;
 
     /**
-     * 岗位id
-     */
-    @Setter
-    @Schema(description = "岗位id")
-    private Long postId;
-
-    /**
      * 角色列表
      */
     @Setter
@@ -118,17 +111,11 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
     @Setter
     @Schema(description = "权限列表")
     private Set<String> menuButtonCodes;
+
     /**
      * 用户权限集合
      */
     private final Set<GrantedAuthority> authorities;
-    /**
-     * 数据范围(1-全部数据权限,2-自定数据权限,3-本部门数据权限,4-本部门及以下数据权限,5-仅本人数据权限)
-     */
-    @Setter
-    @Schema(description = "数据范围")
-    private Integer dataScope;
-
 
     /**
      * 登录类型

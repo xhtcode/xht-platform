@@ -19,7 +19,7 @@
         <result property="registerDate" column="create_time"/>
     </resultMap>
 
-    <resultMap id="Oauth2ClientResultMap" type="com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse">
+    <resultMap id="Oauth2ClientResultMap" type="com.xht.auth.authentication.dto.Oauth2ClientDTO">
         <id property="id" column="id"/>
         <result property="clientId" column="client_id"/>
         <result property="clientIdIssuedAt" column="client_id_issued_at"/>

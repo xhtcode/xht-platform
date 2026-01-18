@@ -84,7 +84,6 @@ public class Oauth2UserDetailsService extends BasicUserDetailsService {
         basicUserDetails.setDeptName(loginVo.getDeptName());
         basicUserDetails.setRoleCodes(loginVo.getRoleCodes());
         basicUserDetails.setMenuButtonCodes(loginVo.getMenuButtonCodes());
-        basicUserDetails.setDataScope(loginVo.getDataScope());
         basicUserDetails.setLoginType(loginType);
         return basicUserDetails;
         // @formatter:on

@@ -2,6 +2,7 @@ package com.xht.framework.oauth2.introspection;
 
 import com.xht.framework.oauth2.token.TokenInfoLightningCache;
 import com.xht.framework.security.constant.TokenCustomizerIdConstant;
+import com.xht.framework.security.core.BasicUserDetailsConvert;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
@@ -11,6 +12,7 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
 import org.springframework.security.oauth2.server.resource.introspection.SpringOpaqueTokenIntrospector;
 
 import java.time.Instant;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -45,7 +47,7 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
         String key = TOKEN_KEY_PREFIX + token;
         BasicUserDetails tokenInfo = tokenInfoLightningCache.getTokenInfo(key);
         if (Objects.nonNull(tokenInfo)) {
-         //   return tokenInfo;
+            return tokenInfo;
         }
         OAuth2AuthenticatedPrincipal introspect = opaqueTokenIntrospector.introspect(token);
         if (introspect instanceof OAuth2IntrospectionAuthenticatedPrincipal principal) {
@@ -64,7 +66,8 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
      * @return 转换后的BasicUserDetails用户详情对象，包含用户的基本信息、权限、角色等
      */
     private BasicUserDetails convert(OAuth2IntrospectionAuthenticatedPrincipal principal) {
-        return principal.getClaim(TokenCustomizerIdConstant.USER_INFO);
+        Map<String, Object> resultMap = principal.getClaimAsMap(TokenCustomizerIdConstant.USER_INFO);
+        return BasicUserDetailsConvert.reverse(resultMap);
     }
 
 }

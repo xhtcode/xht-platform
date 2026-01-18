@@ -28,20 +28,7 @@
             <result property="nation" column="nation"/>
         </association>
     </resultMap>
-    <resultMap id="DtoResultMap" type="com.xht.auth.authentication.dto.UserLoginDTO">
-        <id property="id" column="id"/>
-        <result property="userType" column="user_type"/>
-        <result property="userName" column="user_name"/>
-        <result property="nickName" column="nick_name"/>
-        <result property="passWord" column="pass_word"/>
-        <result property="passWordSalt" column="pass_word_salt"/>
-        <result property="userStatus" column="user_status"/>
-        <result property="userPhone" column="user_phone"/>
-        <result property="userAvatar" column="user_avatar"/>
-        <result property="deptId" column="dept_id"/>
-        <result property="deptName" column="dept_name"/>
-        <result property="registerDate" column="create_time"/>
-    </resultMap>
+
     <sql id="BaseQuerySQL">
         <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         SELECT

@@ -69,11 +69,10 @@ public interface IUserService {
      * @return 用户信息
      */
     default SysUserVo getUserProfileInfo() {
-        BasicUserDetails user = SecurityUtils.getUser();
-        SysUserVo userVo = findByUserId(user.getUserId());
-        userVo.setDataScope(user.getDataScope());
-        userVo.setRoleCodes(userVo.getRoleCodes());
-        userVo.setMenuButtonCodes(userVo.getMenuButtonCodes());
+        BasicUserDetails userDetails = SecurityUtils.getUser();
+        SysUserVo userVo = findByUserId(userDetails.getUserId());
+        userVo.setRoleCodes(userDetails.getRoleCodes());
+        userVo.setMenuButtonCodes(userDetails.getMenuButtonCodes());
         return userVo;
     }
 
