@@ -1,5 +1,6 @@
 package com.xht.framework.core.properties.log;
 
+import com.xht.framework.core.enums.CallTypeEnums;
 import lombok.Data;
 
 /**
@@ -13,13 +14,6 @@ public class BLogProperties {
     /**
      * 日志存储类型
      */
-    private BLogRepositoryType repositoryType = BLogRepositoryType.JDBC;
+    private CallTypeEnums repositoryType = CallTypeEnums.JDBC;
 
-    /**
-     * 日志存储类型
-     */
-    public enum BLogRepositoryType {
-        JDBC,
-        FEIGN
-    }
 }
