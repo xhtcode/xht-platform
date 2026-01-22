@@ -33,6 +33,9 @@ public final class PageTool {
      * @return IPage
      */
     public static <T> Page<T> getPage(PageBasicQuery query) {
+        if (query == null) {
+            return new Page<>(1, 10);
+        }
         String[] ascArr = StringUtils.delimitedListToStringArray(query.getAscName(), ",");
         String[] descArr = StringUtils.delimitedListToStringArray(query.getDescName(), ",");
         return getPage(query.getCurrent(), query.getSize(), ascArr, descArr);

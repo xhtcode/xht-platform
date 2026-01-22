@@ -1,6 +1,8 @@
 package com.xht.modules.admin;
 
 import com.xht.modules.admin.listener.BLogApplicationListener;
+import com.xht.modules.admin.notice.MessageClientPublisher;
+import com.xht.platform.common.notice.IMessagePublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -28,6 +30,16 @@ public class ApiSystemAutoConfiguration {
     @ConditionalOnProperty(value = "xht.blog.repository-type", havingValue = "feign")
     public BLogApplicationListener feignBLogApplicationListener() {
         return new BLogApplicationListener();
+    }
+
+    /**
+     * 创建消息发布者
+     *
+     * @return 消息发布者
+     */
+    @Bean
+    public IMessagePublisher messageClientPublisher() {
+        return new MessageClientPublisher();
     }
 
 }

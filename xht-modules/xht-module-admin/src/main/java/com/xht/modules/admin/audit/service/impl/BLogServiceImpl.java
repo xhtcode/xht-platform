@@ -1,20 +1,18 @@
 package com.xht.modules.admin.audit.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.modules.admin.audit.domain.response.BLogResponse;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.modules.admin.audit.converter.BLogConverter;
 import com.xht.modules.admin.audit.dao.BLogDao;
-import com.xht.modules.admin.audit.entity.BLogEntity;
 import com.xht.modules.admin.audit.domain.query.BLogQuery;
+import com.xht.modules.admin.audit.domain.response.BLogResponse;
+import com.xht.modules.admin.audit.entity.BLogEntity;
 import com.xht.modules.admin.audit.service.IBLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 /**
  * 系统日志
@@ -61,10 +59,6 @@ public class BLogServiceImpl implements IBLogService {
      */
     @Override
     public PageResponse<BLogResponse> findPageList(BLogQuery query) {
-        if (Objects.isNull(query)) {
-            return PageTool.empty();
-        }
-        // @formatter:on
         Page<BLogEntity> page = bLogDao.findPageList(PageTool.getPage(query), query);
         return bLogConverter.toResponse(page);
     }

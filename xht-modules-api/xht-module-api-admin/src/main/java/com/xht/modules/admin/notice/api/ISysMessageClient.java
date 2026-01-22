@@ -1,35 +1,34 @@
-package com.xht.modules.admin.audit.api;
+package com.xht.modules.admin.notice.api;
 
-import com.xht.modules.admin.audit.api.factory.BLogClientFallbackFactory;
 import com.xht.framework.core.domain.R;
-import com.xht.framework.core.support.blog.dto.BLogDTO;
 import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
+import com.xht.modules.admin.audit.api.factory.BLogClientFallbackFactory;
 import com.xht.platform.common.constant.ServiceNameConstant;
+import com.xht.platform.common.notice.core.MessagePayload;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
- * 日志存储
+ * 描述 ： 系统管理-站内信
  *
  * @author xht
  **/
-// @formatter:off
 @FeignClient(
-        contextId = "remoteLogClientService",
+        contextId = "sysMessageClient",
         value = ServiceNameConstant.ADMIN_SERVICE,
         fallbackFactory = BLogClientFallbackFactory.class
 )
-public interface BLogClientService {
+public interface ISysMessageClient {
 
     /**
-     * 存储日志
-     * @param bLogDTO 日志保存信息
-     * @return 保存结果
+     * 发送 站内信
+     *
+     * @param payload 站内信参数
+     * @return 发送结果
      */
     @FeignIgnoreAuth
-    @PostMapping("/api/sys/log/save")
-    R<Void> saveLog(@RequestBody BLogDTO bLogDTO);
+    @PostMapping("/api/sys/message/send")
+    R<Void> sendMessage(@RequestBody MessagePayload payload);
 
 }
-// @formatter:on

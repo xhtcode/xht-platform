@@ -1,7 +1,7 @@
 package com.xht.modules.admin.audit.api.factory;
 
-import com.xht.modules.admin.audit.api.BLogClientService;
-import com.xht.modules.admin.audit.api.fallback.BLogClientFallback;
+import com.xht.modules.admin.audit.api.IBLogClient;
+import com.xht.modules.admin.audit.api.fallback.IBLogClientFallback;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Component;
  **/
 @Slf4j
 @Component
-public class BLogClientFallbackFactory implements FallbackFactory<BLogClientService> {
+public class BLogClientFallbackFactory implements FallbackFactory<IBLogClient> {
 
     @Override
-    public BLogClientService create(Throwable cause) {
+    public IBLogClient create(Throwable cause) {
         log.error("日志保存接口调用错误: {}", cause.getMessage(), cause);
-        return new BLogClientFallback(cause);
+        return new IBLogClientFallback(cause);
     }
 
 }

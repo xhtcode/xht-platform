@@ -8,10 +8,10 @@ import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.modules.admin.system.converter.SysPostConverter;
 import com.xht.modules.admin.system.dao.SysPostDao;
-import com.xht.modules.admin.system.entity.SysPostEntity;
 import com.xht.modules.admin.system.domain.form.SysPostForm;
 import com.xht.modules.admin.system.domain.query.SysPostQuery;
 import com.xht.modules.admin.system.domain.response.SysPostResponse;
+import com.xht.modules.admin.system.entity.SysPostEntity;
 import com.xht.modules.admin.system.service.ISysPostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 部门岗位Service实现
@@ -110,9 +109,6 @@ public class SysPostServiceImpl implements ISysPostService {
      */
     @Override
     public PageResponse<SysPostResponse> findPageList(SysPostQuery query) {
-        if (Objects.isNull(query) || Objects.isNull(query.getDeptId())) {
-            return PageTool.empty();
-        }
         Page<SysPostEntity> page = sysPostDao.findPageList(PageTool.getPage(query), query);
         return sysPostConverter.toResponse(page);
     }

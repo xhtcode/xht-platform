@@ -91,9 +91,6 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
      */
     @Override
     public PageResponse<SysOauth2ClientResponse> findPageList(SysOauth2ClientQuery query) {
-        if (Objects.isNull(query)) {
-            return PageTool.empty();
-        }
         return sysOauth2ClientConverter.toResponse(sysOauth2ClientDao.findPageList(PageTool.getPage(query), query));
     }
 

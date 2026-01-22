@@ -1,8 +1,8 @@
 package com.xht.modules.admin.listener;
 
-import com.xht.modules.admin.audit.api.BLogClientService;
 import com.xht.framework.core.support.blog.BLogEvent;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
+import com.xht.modules.admin.audit.api.IBLogClient;
 import jakarta.annotation.Resource;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +17,12 @@ import org.springframework.context.ApplicationListener;
 public class BLogApplicationListener implements ApplicationListener<BLogEvent> {
 
     @Resource
-    private BLogClientService bLogClientService;
+    private IBLogClient blogClient;
 
     @Override
     public void onApplicationEvent(@NonNull BLogEvent event) {
         BLogDTO bLogDTO = event.getBLogDTO();
-        bLogClientService.saveLog(bLogDTO);
+        blogClient.saveLog(bLogDTO);
     }
 
 }

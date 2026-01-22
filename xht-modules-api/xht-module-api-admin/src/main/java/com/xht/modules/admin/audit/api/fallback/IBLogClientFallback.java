@@ -1,6 +1,6 @@
 package com.xht.modules.admin.audit.api.fallback;
 
-import com.xht.modules.admin.audit.api.BLogClientService;
+import com.xht.modules.admin.audit.api.IBLogClient;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 import com.xht.framework.openfeign.fallback.BasicFallback;
@@ -10,9 +10,9 @@ import com.xht.framework.openfeign.fallback.BasicFallback;
  *
  * @author xht
  **/
-public class BLogClientFallback extends BasicFallback implements BLogClientService {
+public class IBLogClientFallback extends BasicFallback implements IBLogClient {
 
-    public BLogClientFallback(Throwable cause) {
+    public IBLogClientFallback(Throwable cause) {
         super(cause);
     }
 

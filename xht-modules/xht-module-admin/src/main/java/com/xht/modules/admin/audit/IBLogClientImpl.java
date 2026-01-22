@@ -1,6 +1,6 @@
 package com.xht.modules.admin.audit;
 
-import com.xht.modules.admin.audit.api.BLogClientService;
+import com.xht.modules.admin.audit.api.IBLogClient;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 import com.xht.framework.security.annotation.IgnoreAuth;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class BLogClientServiceImpl implements BLogClientService {
+public class IBLogClientImpl implements IBLogClient {
 
     private final IBLogService ibLogService;
 

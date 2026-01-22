@@ -1,0 +1,35 @@
+package com.xht.modules.admin.audit.api;
+
+import com.xht.modules.admin.audit.api.factory.BLogClientFallbackFactory;
+import com.xht.framework.core.domain.R;
+import com.xht.framework.core.support.blog.dto.BLogDTO;
+import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
+import com.xht.platform.common.constant.ServiceNameConstant;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+/**
+ * 日志存储
+ *
+ * @author xht
+ **/
+// @formatter:off
+@FeignClient(
+        contextId = "bLogClient",
+        value = ServiceNameConstant.ADMIN_SERVICE,
+        fallbackFactory = BLogClientFallbackFactory.class
+)
+public interface IBLogClient {
+
+    /**
+     * 存储日志
+     * @param bLogDTO 日志保存信息
+     * @return 保存结果
+     */
+    @FeignIgnoreAuth
+    @PostMapping("/api/sys/log/save")
+    R<Void> saveLog(@RequestBody BLogDTO bLogDTO);
+
+}
+// @formatter:on

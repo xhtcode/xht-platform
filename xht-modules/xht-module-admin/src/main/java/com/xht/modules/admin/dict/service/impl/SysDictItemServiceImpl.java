@@ -114,9 +114,6 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      */
     @Override
     public PageResponse<SysDictItemResponse> findPageList(SysDictItemQuery query) {
-        if (Objects.isNull(query.getDictId())) {
-            return PageTool.empty();
-        }
         Page<SysDictItemEntity> page = sysDictItemDao.findPageList(PageTool.getPage(query), query);
         return sysDictItemConverter.toResponse(page);
     }
