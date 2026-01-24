@@ -88,7 +88,7 @@ public class SysMessageInfoDaoImpl extends MapperRepositoryImpl<SysMessageInfoMa
     }
 
     /**
-     * 分页查询我的站内信
+     * 分页查询我接收的站内信
      *
      * @param page  分页参数
      * @param query 查询参数

@@ -15,9 +15,10 @@ public interface SysMessageDao extends MapperRepository<SysMessageEntity> {
     /**
      * 管理员分页查询站内信
      *
-     * @param page  分页参数
-     * @param query 站内信查询参数
+     * @param page       分页参数
+     * @param query      站内信查询参数
+     * @param sendUserId 发送人ID
      */
-    Page<SysMessageEntity> findPageList(Page<SysMessageEntity> page, SysMessageQuery query);
+    Page<SysMessageEntity> findPageList(Page<SysMessageEntity> page, SysMessageQuery query, Long sendUserId);
 
 }

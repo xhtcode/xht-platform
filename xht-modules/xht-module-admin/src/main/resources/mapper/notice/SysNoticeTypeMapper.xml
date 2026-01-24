@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xht.modules.admin.notice.dao.mapper.SysNoticeTypeMapper">
+
+    <resultMap id="BaseResultMap" type="com.xht.modules.admin.notice.entity.SysNoticeTypeEntity">
+            <id property="id" column="id" />
+            <result property="noticeTypeName" column="notice_type_name" />
+            <result property="noticeTypeSort" column="notice_type_sort" />
+            <result property="delFlag" column="del_flag" />
+            <result property="createBy" column="create_by" />
+            <result property="createTime" column="create_time" />
+            <result property="updateBy" column="update_by" />
+            <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,notice_type_name,notice_type_sort,del_flag,create_by,create_time,
+        update_by,update_time
+    </sql>
+</mapper>

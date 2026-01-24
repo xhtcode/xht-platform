@@ -25,7 +25,7 @@ public class SysMessageInfoQuery extends PageBasicQuery {
     /**
      * 主键ID
      */
-    @Schema(description = "收件人ID")
+    @Schema(description = "收件人ID", hidden = true)
     private Long recipientId;
 
     /**

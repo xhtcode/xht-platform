@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xht.modules.admin.notice.dao.mapper.SysNoticeMapper">
+
+    <resultMap id="BaseResultMap" type="com.xht.modules.admin.notice.entity.SysNoticeEntity">
+            <id property="id" column="id" />
+            <result property="noticeTypeId" column="notice_type_id" />
+            <result property="noticeTitle" column="notice_title" />
+            <result property="noticeSummary" column="notice_summary" />
+            <result property="noticeContent" column="notice_content" />
+            <result property="noticeStatus" column="notice_status" />
+            <result property="noticeOrder" column="notice_order" />
+            <result property="noticeTop" column="notice_top" />
+            <result property="noticeAllVisible" column="notice_all_visible" />
+            <result property="noticeTimedPublish" column="notice_timed_publish" />
+            <result property="noticePublishTime" column="notice_publish_time" />
+            <result property="noticeExpireTime" column="notice_expire_time" />
+            <result property="noticeOfflineTime" column="notice_offline_time" />
+            <result property="noticeJumpType" column="notice_jump_type" />
+            <result property="noticeJumpUrl" column="notice_jump_url" />
+            <result property="noticeReadCount" column="notice_read_count" />
+            <result property="noticeClickCount" column="notice_click_count" />
+            <result property="noticeRemark" column="notice_remark" />
+            <result property="delFlag" column="del_flag" />
+            <result property="createBy" column="create_by" />
+            <result property="createTime" column="create_time" />
+            <result property="updateBy" column="update_by" />
+            <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,notice_type_id,notice_title,notice_summary,notice_content,notice_status,
+        notice_order,notice_top,notice_all_visible,notice_timed_publish,notice_publish_time,
+        notice_expire_time,notice_offline_time,notice_jump_type,notice_jump_url,notice_read_count,
+        notice_click_count,notice_remark,del_flag,create_by,create_time,
+        update_by,update_time
+    </sql>
+</mapper>

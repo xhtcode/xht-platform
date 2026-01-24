@@ -56,8 +56,8 @@ xht:
   blog:
     repository-type: feign
   global:
-   banner:
-     enable: true
+    banner:
+      enable: true
 
 mybatis-plus:
   global-config:
@@ -65,4 +65,4 @@ mybatis-plus:
       logic-delete-field: delFlag
       logic-delete-value: 1
       logic-not-delete-value: 0
-  mapper-locations: classpath:mapper/*Mapper.xml
+  mapper-locations: classpath*:mapper/**/*Mapper.xml

@@ -45,7 +45,7 @@ public interface SysMessageInfoDao extends MapperRepository<SysMessageInfoEntity
     Page<SysMessageInfoEntity> findAdminPageSend(Page<SysMessageInfoEntity> page, SysMessageInfoQuery query);
 
     /**
-     * 分页查询我的站内信
+     * 分页查询我接收的站内信
      *
      * @param page  分页参数
      * @param query 查询参数

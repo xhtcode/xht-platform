@@ -50,6 +50,13 @@ public interface ISysMessageService {
     SysMessageInfoResponse findById(Long messageId);
 
     /**
+     * 分页查询我发送的站内信
+     *
+     * @param query 站内信参数
+     */
+    PageResponse<SysMessageResponse> findMyPageSend(SysMessageQuery query);
+
+    /**
      * 管理员分页查询站内信
      *
      * @param query 查询参数
@@ -65,7 +72,7 @@ public interface ISysMessageService {
     PageResponse<SysMessageInfoResponse> findAdminPageSend(SysMessageInfoQuery query);
 
     /**
-     * 分页查询我的站内信
+     * 分页查询我接收的站内信
      *
      * @param query 查询参数
      */

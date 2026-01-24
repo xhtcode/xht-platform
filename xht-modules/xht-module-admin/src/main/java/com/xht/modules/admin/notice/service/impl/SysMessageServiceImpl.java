@@ -152,13 +152,24 @@ public class SysMessageServiceImpl implements ISysMessageService {
     }
 
     /**
+     * 分页查询我发送的站内信
+     *
+     * @param query 站内信参数
+     */
+    @Override
+    public PageResponse<SysMessageResponse> findMyPageSend(SysMessageQuery query) {
+        Page<SysMessageEntity> page = sysMessageDao.findPageList(PageTool.getPage(query), query, SecurityUtils.getUserId());
+        return sysMessageConverter.toResponse(page);
+    }
+
+    /**
      * 管理员分页查询站内信
      *
      * @param query 查询参数
      */
     @Override
     public PageResponse<SysMessageResponse> findAdminPage(SysMessageQuery query) {
-        Page<SysMessageEntity> page = sysMessageDao.findPageList(PageTool.getPage(query), query);
+        Page<SysMessageEntity> page = sysMessageDao.findPageList(PageTool.getPage(query), query, null);
         return sysMessageConverter.toResponse(page);
     }
 
@@ -176,7 +187,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
     }
 
     /**
-     * 分页查询我的站内信
+     * 分页查询我接收的站内信
      *
      * @param query 查询参数
      */

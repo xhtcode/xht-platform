@@ -23,12 +23,17 @@ public class SysMessageDaoImpl extends MapperRepositoryImpl<SysMessageMapper, Sy
     /**
      * 管理员分页查询站内信
      *
-     * @param page  分页参数
-     * @param query 站内信查询参数
+     * @param page       分页参数
+     * @param query      站内信查询参数
+     * @param sendUserId 发送人ID
      */
     @Override
-    public Page<SysMessageEntity> findPageList(Page<SysMessageEntity> page, SysMessageQuery query) {
+    public Page<SysMessageEntity> findPageList(Page<SysMessageEntity> page, SysMessageQuery query, Long sendUserId) {
         LambdaQueryWrapper<SysMessageEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(condition(sendUserId), SysMessageEntity::getSenderId, sendUserId);
+        queryWrapper.like(condition(query.getSenderName()), SysMessageEntity::getSenderName, query.getSenderName());
+        queryWrapper.eq(condition(query.getMessageType()), SysMessageEntity::getMessageType, query.getMessageType());
+        queryWrapper.like(condition(query.getMessageTitle()), SysMessageEntity::getMessageTitle, query.getMessageTitle());
         return page(page, queryWrapper);
     }
 

@@ -1,11 +1,10 @@
-package com.xht.framework.mybatis.blog.listener;
+package com.xht.modules.admin.config;
 
-import cn.hutool.core.util.IdUtil;
 import com.xht.framework.core.support.blog.BLogEvent;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
-import com.xht.framework.mybatis.blog.mapper.BLogMapper;
-import jakarta.annotation.Resource;
+import com.xht.modules.admin.audit.service.IBLogService;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 
@@ -15,10 +14,10 @@ import org.springframework.context.ApplicationListener;
  * @author xht
  **/
 @Slf4j
+@RequiredArgsConstructor
 public class BLogApplicationListener implements ApplicationListener<BLogEvent> {
 
-    @Resource
-    private BLogMapper bLogMapper;
+    private final IBLogService ibLogService;
 
     /**
      * 监听bLog事件
@@ -28,7 +27,7 @@ public class BLogApplicationListener implements ApplicationListener<BLogEvent> {
     @Override
     public void onApplicationEvent(@NonNull BLogEvent bLogEvent) {
         BLogDTO bLogDTO = bLogEvent.getBLogDTO();
-        bLogMapper.saveLog(IdUtil.getSnowflakeNextId(), bLogDTO);
+        ibLogService.create(bLogDTO);
     }
 
 }

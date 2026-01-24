@@ -73,6 +73,18 @@ public class SysMessageController {
     }
 
     /**
+     * 分页查询我发送的站内信
+     *
+     * @param query 站内信参数
+     */
+    @Operation(summary = "分页查询我发送的站内信")
+    @GetMapping("/my/page/send")
+    public PageResponse<SysMessageResponse> findMyPageSend(SysMessageQuery query) {
+        return sysMessageService.findMyPageSend(query);
+    }
+
+
+    /**
      * 管理员分页查询站内信
      *
      * @param query 查询参数
@@ -96,11 +108,11 @@ public class SysMessageController {
 
 
     /**
-     * 分页查询我的站内信
+     * 分页查询我接收的站内信
      *
      * @param query 查询参数
      */
-    @Operation(summary = "分页查询我的站内信")
+    @Operation(summary = "分页查询我接收的站内信")
     @GetMapping("/my/page")
     public PageResponse<SysMessageInfoResponse> findMyPage(SysMessageInfoQuery query) {
         return sysMessageService.findMyPage(query);

@@ -2,9 +2,6 @@ package com.xht.system;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.mybatis.enums.DelFlagEnum;
-import com.xht.modules.admin.system.enums.MenuStatusEnums;
-import com.xht.modules.admin.system.enums.MenuTypeEnums;
 import com.xht.modules.admin.system.dao.mapper.SysMenuMapper;
 import com.xht.modules.admin.system.entity.SysMenuEntity;
 import org.junit.jupiter.api.Test;
@@ -50,38 +47,6 @@ public class GenerateMenuSql {
         list.forEach(System.out::println);
     }
 
-    public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
-        create(list, 41L, "数据源增加", "gen:datasource:create", 1);
-        create(list, 41L, "数据源修改", "gen:datasource:update", 2);
-        create(list, 41L, "数据源删除", "gen:datasource:remove", 3);
-        create(list, 42L, "数据源增加", "gen:type:create", 1);
-        create(list, 42L, "数据源修改", "gen:type:update", 2);
-        create(list, 42L, "数据源删除", "gen:type:remove", 3);
-        create(list, 43L, "模板组增加", "gen:group:create", 1);
-        create(list, 43L, "模板组修改", "gen:group:update", 2);
-        create(list, 43L, "模板组删除", "gen:group:remove", 3);
-        create(list, 43L, "模板增加", "gen:template:create", 4);
-        create(list, 43L, "模板修改", "gen:template:update", 5);
-        create(list, 43L, "模板删除", "gen:template:remove", 6);
-        create(list, 44L, "表管理", "gen:table:all", 1);
-        list.forEach(System.out::println);
-    }
-
-    private static long count = 47;
-
-    private static void create(List<String> list, Long parentId, String menuName, String menuAuthority, Integer menuSort) {
-        SysMenuEntity sysMenuEntity = new SysMenuEntity();
-        sysMenuEntity.setId(count++);
-        sysMenuEntity.setParentId(parentId);
-        sysMenuEntity.setMenuType(MenuTypeEnums.B);
-        sysMenuEntity.setMenuName(menuName);
-        sysMenuEntity.setMenuStatus(MenuStatusEnums.NORMAL);
-        sysMenuEntity.setMenuAuthority(menuAuthority);
-        sysMenuEntity.setMenuSort(menuSort);
-        sysMenuEntity.setDelFlag(DelFlagEnum.DELETE);
-        print(list, sysMenuEntity, sysMenuEntity.getId().intValue(), sysMenuEntity.getParentId().intValue(), menuSort);
-    }
 
     private static int print(List<String> list, SysMenuEntity entity, int index, int parent, int sort) {
         list.add(String.format(sql,

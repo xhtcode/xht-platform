@@ -31,4 +31,5 @@ public class MessageSysPublisher implements IMessagePublisher {
     public void publish(String topic, MessagePayload payload) {
         sysMessageService.sendMessage(payload);
     }
+
 }

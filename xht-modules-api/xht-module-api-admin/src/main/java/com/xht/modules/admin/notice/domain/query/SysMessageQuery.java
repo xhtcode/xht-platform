@@ -1,9 +1,7 @@
 package com.xht.modules.admin.notice.domain.query;
 
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.xht.framework.core.domain.query.PageBasicQuery;
-import com.xht.platform.common.notice.core.MessageExtendInfo;
 import com.xht.platform.common.notice.enums.MessageTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -16,18 +14,6 @@ import lombok.Data;
 @Data
 @Schema(description = "站内信分页查询参数")
 public class SysMessageQuery extends PageBasicQuery {
-
-    /**
-     * 主键ID
-     */
-    @Schema(description = "主键ID")
-    private Long id;
-
-    /**
-     * 发件人ID
-     */
-    @Schema(description = "发件人ID（0表示系统）")
-    private Long senderId;
 
     /**
      * 发件人名称
@@ -46,18 +32,5 @@ public class SysMessageQuery extends PageBasicQuery {
      */
     @Schema(description = "消息标题")
     private String messageTitle;
-
-    /**
-     * 消息内容 （支持富文本）
-     */
-    @Schema(description = "消息内容")
-    private String messageContent;
-
-    /**
-     * 消息扩展信息
-     */
-    @JsonAlias("extend")
-    @Schema(description = "消息扩展信息（如关联订单ID、跳转链接）")
-    private MessageExtendInfo messageExtend;
 
 }

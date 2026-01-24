@@ -1,7 +1,7 @@
 package com.xht.modules.admin.notice.domain.response;
 
 
-import com.xht.framework.core.domain.response.BasicResponse;
+import com.xht.framework.core.domain.response.MetaResponse;
 import com.xht.modules.admin.notice.enums.MessageStarEnums;
 import com.xht.modules.admin.notice.enums.MessageStatusEnums;
 import com.xht.modules.admin.notice.enums.MessageTopEnums;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Schema(description = "站内信收件人明细表响应信息")
-public class SysMessageInfoResponse extends BasicResponse {
+public class SysMessageInfoResponse extends MetaResponse {
 
     /**
      * 主键ID

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xht.modules.admin.notice.dao.mapper.SysNoticeUserOperateMapper">
+
+    <resultMap id="BaseResultMap" type="com.xht.modules.admin.notice.entity.SysNoticeUserOperateEntity">
+            <id property="id" column="id" />
+            <result property="noticeId" column="notice_id" />
+            <result property="userId" column="user_id" />
+            <result property="operateType" column="operate_type" />
+            <result property="operateTime" column="operate_time" />
+            <result property="delFlag" column="del_flag" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,notice_id,user_id,operate_type,operate_time,del_flag
+    </sql>
+</mapper>
