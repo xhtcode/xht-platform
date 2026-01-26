@@ -18,7 +18,7 @@ import java.util.List;
  **/
 @Tag(name = "行政区划")
 @RestController
-@RequestMapping("/sys/dict/types")
+@RequestMapping("/sys/area")
 @RequiredArgsConstructor
 public class SysAreaController {
 

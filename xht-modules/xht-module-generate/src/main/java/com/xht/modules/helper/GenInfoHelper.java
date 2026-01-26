@@ -116,7 +116,8 @@ public final class GenInfoHelper {
         GenTypeMappingEntity mappingEntity = typeMappingCache.getTargetType(dataBaseTypeEnums, columnBo.getDbType());
         result.setCodeJava(StrUtil.emptyToDefault(mappingEntity.getJavaType(), "Object"));
         result.setCodeJavaPackage(mappingEntity.getImportPackage());
-        result.setCodeTs(StrUtil.emptyToDefault(mappingEntity.getTsType(), "any"));
+        String any = StrUtil.emptyToDefault(mappingEntity.getTsType(), "any");
+        result.setCodeTs(any);
         result.setDictCode(null);
         result.setSortOrder(columnBo.getSortOrder());
         return result;

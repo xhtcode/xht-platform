@@ -9,6 +9,7 @@ import com.xht.modules.admin.notice.enums.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 系统管理-通知详情
@@ -86,6 +87,18 @@ public class SysNoticeEntity extends BasicEntity {
     private LocalDateTime noticePublishTime;
 
     /**
+     * 过期时间（自动失效，到期后不再展示）
+     */
+    @TableField(value = "notice_expire_time")
+    private Date noticeExpireTime;
+
+    /**
+     * 下架时间（手动操作下架的时间）
+     */
+    @TableField(value = "notice_offline_time")
+    private Date noticeOfflineTime;
+
+    /**
      * 跳转类型(0:无跳转;1:内部页面;2:外部链接)
      */
     @TableField(value = "notice_jump_type")
@@ -96,6 +109,18 @@ public class SysNoticeEntity extends BasicEntity {
      */
     @TableField(value = "notice_jump_url")
     private String noticeJumpUrl;
+
+    /**
+     * 已读人数
+     */
+    @TableField(value = "notice_read_count")
+    private Integer noticeReadCount;
+
+    /**
+     * 点击次数
+     */
+    @TableField(value = "notice_click_count")
+    private Integer noticeClickCount;
 
     /**
      * 备注（通知背景、修改说明等）

@@ -4,7 +4,6 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.constant.StringConstant;
 import com.xht.framework.core.utils.StringUtils;
-import com.xht.modules.common.constant.GenConstant;
 import com.xht.modules.common.enums.GenStatusEnums;
 import com.xht.modules.common.enums.IdPrimaryKeyEnums;
 import lombok.Getter;
@@ -135,10 +134,36 @@ public class ColumnBo implements Serializable {
     }
 
     /**
+     * 根据代码注释，或者代码类型映射为表单组件
+     *
      * @return 设置 表单组件
      */
     public String getFromComponent() {
-        return GenConstant.INPUT;
+        if (StrUtil.containsAny(this.dbComment, "日期", "时间")) {
+            return "date";
+        }
+        if (StrUtil.containsAny(this.dbComment, "图片")) {
+            return "image";
+        }
+        if (StrUtil.containsAny(this.dbComment, "文件", "附件")) {
+            return "file";
+        }
+        if (StrUtil.containsAny(this.dbComment, "富文本")) {
+            return "richText";
+        }
+        if (StrUtil.containsAny(this.dbComment, "下拉", "单选", "多选")) {
+            return "select";
+        }
+        if (StrUtil.containsAny(this.dbComment, "数字", "金额", "排序")) {
+            return "number";
+        }
+        if (StrUtil.containsAny(this.dbComment, "密码")) {
+            return "password";
+        }
+        if (StrUtil.containsAny(this.dbComment, "描述")) {
+            return "textarea";
+        }
+        return "input";
     }
 
     /**

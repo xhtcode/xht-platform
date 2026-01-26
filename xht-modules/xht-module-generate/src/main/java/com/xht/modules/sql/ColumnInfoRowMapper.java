@@ -19,7 +19,12 @@ public class ColumnInfoRowMapper implements RowMapper<ColumnBo> {
         columnBo.setDbName(rs.getString("column_name"));
         columnBo.setDbType(rs.getString("column_db_type"));
         columnBo.setDbComment(rs.getString("column_comment"));
-        columnBo.setDbLength(rs.getInt("column_length"));
+        long columnLength = rs.getLong("column_length");
+        if (columnLength > 4000) {
+            columnBo.setDbLength(0);
+        } else {
+            columnBo.setDbLength(((Long) columnLength).intValue());
+        }
         columnBo.setDbRequired(rs.getInt("is_required"));
         columnBo.setDbPrimary(rs.getInt("is_pk"));
         columnBo.setSortOrder(rs.getInt("column_sort"));
