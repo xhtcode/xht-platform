@@ -18,9 +18,6 @@ import com.xht.modules.generate.dao.GenTableColumnQueryDao;
 import com.xht.modules.generate.dao.GenTableDao;
 import com.xht.modules.generate.domain.bo.ColumnBo;
 import com.xht.modules.generate.domain.bo.TableBo;
-import com.xht.modules.generate.entity.GenDataSourceEntity;
-import com.xht.modules.generate.entity.GenTableColumnEntity;
-import com.xht.modules.generate.entity.GenTableEntity;
 import com.xht.modules.generate.domain.form.*;
 import com.xht.modules.generate.domain.query.DataBaseQuery;
 import com.xht.modules.generate.domain.query.GenTableInfoQuery;
@@ -28,8 +25,12 @@ import com.xht.modules.generate.domain.response.GenTableColumnQueryResponse;
 import com.xht.modules.generate.domain.response.GenTableColumnResponse;
 import com.xht.modules.generate.domain.response.GenTableResponse;
 import com.xht.modules.generate.domain.vo.TableColumnVo;
-import com.xht.modules.helper.GenInfoHelper;
+import com.xht.modules.generate.entity.GenDataSourceEntity;
+import com.xht.modules.generate.entity.GenTableColumnEntity;
+import com.xht.modules.generate.entity.GenTableColumnQueryEntity;
+import com.xht.modules.generate.entity.GenTableEntity;
 import com.xht.modules.generate.service.IGenTableService;
+import com.xht.modules.helper.GenInfoHelper;
 import com.xht.modules.strategy.IDataBaseQuery;
 import com.xht.modules.utils.JDBCConfig;
 import com.xht.modules.utils.JDBCUtils;
@@ -94,6 +95,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
             JdbcTemplate jdbcTemplate = jdbcUtils.getJdbcTemplate();
             List<GenTableEntity> saveTableEntity = new ArrayList<>();
             List<GenTableColumnEntity> saveColumnEntity = new ArrayList<>();
+            List<GenTableColumnQueryEntity> queryColumnEntity = new ArrayList<>();
             for (String tableName : tableNames) {
                 TableBo tableBo = dataBaseQuery.selectTableByTableName(jdbcTemplate, tableName);
                 if (Objects.nonNull(tableBo)) {
@@ -103,6 +105,10 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
                     saveTableEntity.add(tableEntity);
                     List<ColumnBo> columnBoList = dataBaseQuery.selectTableColumnsByTableName(jdbcTemplate, tableName);
                     saveColumnEntity.addAll(GenInfoHelper.parseColumnInfos(dataSourceEntity, tableBo, columnBoList));
+                    List<GenTableColumnQueryEntity> queryEntities = GenInfoHelper.genTableColumnQueryEntities(saveColumnEntity);
+                    if (!CollectionUtils.isEmpty(queryEntities)) {
+                        queryColumnEntity.addAll(queryEntities);
+                    }
                 }
             }
             if (!CollectionUtils.isEmpty(saveTableEntity)) {
@@ -111,9 +117,12 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
             if (!CollectionUtils.isEmpty(saveColumnEntity)) {
                 genTableColumnDao.saveAll(saveColumnEntity);
             }
+            if (!CollectionUtils.isEmpty(queryColumnEntity)) {
+                genTableColumnQueryDao.saveAll(queryColumnEntity);
+            }
         } catch (Exception e) {
             log.error("导入失败 {}", e.getMessage(), e);
-            throw new BusinessException("导入失败");
+            throw new BusinessException(e);
         } finally {
             if (Objects.nonNull(jdbcUtils)) {
                 jdbcUtils.close();

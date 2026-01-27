@@ -1,21 +1,24 @@
 package com.xht.modules.helper;
 
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.modules.cache.TypeMappingCache;
 import com.xht.modules.common.enums.DataBaseTypeEnums;
+import com.xht.modules.common.enums.GenStatusEnums;
 import com.xht.modules.common.enums.PageStyleEnums;
 import com.xht.modules.generate.domain.bo.ColumnBo;
 import com.xht.modules.generate.domain.bo.TableBo;
-import com.xht.modules.generate.entity.GenDataSourceEntity;
-import com.xht.modules.generate.entity.GenTableColumnEntity;
-import com.xht.modules.generate.entity.GenTableEntity;
-import com.xht.modules.generate.entity.GenTypeMappingEntity;
+import com.xht.modules.generate.entity.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static com.xht.modules.common.constant.GenConstant.COLUMN_NOT_FORM;
 
 /**
  * 生成信息辅助类
@@ -57,6 +60,8 @@ public final class GenInfoHelper {
         tableEntity.setUrlPrefix(tableBo.getUrlPrefix());
         tableEntity.setPermissionPrefix(tableBo.getPermissionPrefix());
         tableEntity.setParentMenuId(0L);
+        tableEntity.setMenuIcon("dashboard");
+        tableEntity.setMenuPath(tableBo.getUrlPrefix());
         tableEntity.setPageStyle(PageStyleEnums.DRAWER);
         tableEntity.setPageStyleWidth(45);
         tableEntity.setFromNumber(4);
@@ -93,7 +98,7 @@ public final class GenInfoHelper {
      */
     private static GenTableColumnEntity convertColumnBoToEntity(DataBaseTypeEnums dataBaseTypeEnums, TableBo tableBo, ColumnBo columnBo) {
         GenTableColumnEntity result = new GenTableColumnEntity();
-        result.setId(null);
+        result.setId(IdUtil.getSnowflakeNextId());
         result.setTableId(tableBo.getTableId());
         result.setTableName(tableBo.getTableName());
         result.setDbName(columnBo.getDbName());
@@ -112,6 +117,7 @@ public final class GenInfoHelper {
         result.setListShow(columnBo.getListShow());
         result.setListDisabled(columnBo.getListDisabled());
         result.setListHidden(columnBo.getListHidden());
+        result.setListSortable(GenStatusEnums.NO);
         TypeMappingCache typeMappingCache = SpringContextUtils.getBean(TypeMappingCache.class);
         GenTypeMappingEntity mappingEntity = typeMappingCache.getTargetType(dataBaseTypeEnums, columnBo.getDbType());
         result.setCodeJava(StrUtil.emptyToDefault(mappingEntity.getJavaType(), "Object"));
@@ -122,5 +128,63 @@ public final class GenInfoHelper {
         result.setSortOrder(columnBo.getSortOrder());
         return result;
     }
+
+    /**
+     * 生成查询条件列表
+     *
+     * @param saveColumnEntity 保存列信息列表
+     * @return 查询条件列表
+     */
+    public static List<GenTableColumnQueryEntity> genTableColumnQueryEntities(List<GenTableColumnEntity> saveColumnEntity) {
+        if (CollectionUtils.isEmpty(saveColumnEntity)) {
+            return Collections.emptyList();
+        }
+        List<GenTableColumnQueryEntity> queryEntities = new ArrayList<>(saveColumnEntity.size()); // 预设初始容量
+        for (GenTableColumnEntity item : saveColumnEntity) {
+            String dbName = item.getDbName();
+            if (ArrayUtil.contains(COLUMN_NOT_FORM, dbName)) {
+                continue;
+            }
+            if (StrUtil.equals(item.getCodeJava(), "String") && item.getFromLength() != null && item.getFromLength() < 500) {
+                GenTableColumnQueryEntity queryEntity = createBaseQueryEntity(item);
+                queryEntity.setQueryType("like");
+                queryEntity.setConditionValue(item.getCodeName());
+                queryEntities.add(queryEntity);
+            } else if (StrUtil.equalsAny(item.getCodeJava(), "LocalDateTime", "LocalDate", "LocalTime")) {
+                // 创建大于等于条件实体
+                GenTableColumnQueryEntity geEntity = createBaseQueryEntity(item);
+                geEntity.setQueryType("ge");
+                geEntity.setConditionValue(item.getCodeName());
+                queryEntities.add(geEntity);
+                // 创建小于等于条件实体
+                GenTableColumnQueryEntity leEntity = createBaseQueryEntity(item);
+                leEntity.setQueryType("le");
+                leEntity.setConditionValue(item.getCodeName());
+                queryEntities.add(leEntity);
+            }
+        }
+        return queryEntities;
+    }
+
+    /**
+     * 创建基础查询实体对象
+     *
+     * @param item 原始数据项
+     * @return 基础查询实体
+     */
+    private static GenTableColumnQueryEntity createBaseQueryEntity(GenTableColumnEntity item) {
+        GenTableColumnQueryEntity entity = new GenTableColumnQueryEntity();
+        entity.setTableId(item.getTableId());
+        entity.setTableName(item.getTableName());
+        entity.setColumnId(item.getId());
+        entity.setColumnName(item.getCodeName());
+        entity.setFromLength(item.getFromLength());
+        entity.setConditionLabel(item.getCodeComment());
+        entity.setFromComponent(item.getFromComponent());
+        entity.setDictCode(item.getDictCode());
+        entity.setSortOrder(item.getSortOrder());
+        return entity;
+    }
+
 
 }

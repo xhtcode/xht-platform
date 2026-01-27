@@ -134,6 +134,18 @@ public class GenTableInfoForm extends BasicForm {
     private Long parentMenuId;
 
     /**
+     * 菜单图标
+     */
+    @Schema(description = "菜单图标")
+    private String menuIcon;
+
+    /**
+     * 菜单地址
+     */
+    @Schema(description = "菜单地址")
+    private String menuPath;
+
+    /**
      * 页面风格
      */
     @NotNull(message = "页面风格不能为空")

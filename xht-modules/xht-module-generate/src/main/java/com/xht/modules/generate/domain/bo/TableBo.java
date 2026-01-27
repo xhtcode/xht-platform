@@ -64,7 +64,11 @@ public class TableBo implements Serializable {
      * @return 模块名称
      */
     public String getModuleName() {
-        return moduleName;
+        if (StringUtils.isEmpty(this.tableName)) {
+            return StringConstant.EMPTY;
+        }
+        String[] split = StrUtil.splitToArray(this.tableName, GenConstant.UNDERLINE);
+        return split[0].toLowerCase();
     }
 
 
@@ -77,7 +81,6 @@ public class TableBo implements Serializable {
      * @return 业务名称
      */
     public String getServiceName() {
-        // 从起始位置截取到第一个下划线（无下划线则截取整个表名）
         if (StringUtils.isEmpty(this.tableName)) {
             return StringConstant.EMPTY;
         }

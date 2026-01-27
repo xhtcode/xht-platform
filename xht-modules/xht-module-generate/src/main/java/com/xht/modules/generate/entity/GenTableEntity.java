@@ -117,6 +117,18 @@ public class GenTableEntity extends NoneDeleteEntity implements Serializable {
     private Long parentMenuId;
 
     /**
+     * 菜单图标
+     */
+    @TableField(value = "menu_icon")
+    private String menuIcon;
+
+    /**
+     * 菜单地址
+     */
+    @TableField(value = "menu_path")
+    private String menuPath;
+
+    /**
      * 页面风格
      */
     @TableField(value = "page_style")

@@ -251,6 +251,9 @@ public final class TableInfoBo {
         context.put("urlPrefix", table.getUrlPrefix());
         context.put("permissionPrefix", table.getPermissionPrefix());
         context.put("parentMenuId", table.getParentMenuId());
+        context.put("menuName", StrUtil.sub(table.getTableComment(), 0, 20));
+        context.put("menuIcon", table.getMenuIcon());
+        context.put("menuPath", table.getMenuPath());
         context.put("pageStyle", table.getPageStyle().getDesc());
         context.put("pageStyleWidth", table.getPageStyleWidth());
         context.put("fromNumber", table.getFromNumber());
