@@ -8,7 +8,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
@@ -27,7 +26,7 @@ public class Http401AccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         log.debug("请求未授权的接口处理器 {}: {}", request.getRequestURI(), accessDeniedException.getMessage());
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, accessDeniedException.getMessage());
-        SecurityServletUtils.writeString(response, HttpStatus.UNAUTHORIZED, R.error(GlobalErrorStatusCode.UNAUTHORIZED, accessDeniedException.getMessage()));
+        SecurityServletUtils.writeString(response, R.error(GlobalErrorStatusCode.UNAUTHORIZED, accessDeniedException.getMessage()));
     }
 
 }

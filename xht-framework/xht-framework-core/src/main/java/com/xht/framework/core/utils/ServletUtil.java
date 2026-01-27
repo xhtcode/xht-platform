@@ -242,8 +242,8 @@ public final class ServletUtil {
     // --------------------------------------------------------- Cookie end
 
     /**
-     * @param request  HttpServletRequest
-     * @param name 请求参数key
+     * @param request HttpServletRequest
+     * @param name    请求参数key
      * @return 请求参数value
      */
     public static String getParams(HttpServletRequest request, String name) {
@@ -253,15 +253,6 @@ public final class ServletUtil {
 
     // --------------------------------------------------------- Response start
 
-    /**
-     * 将字符串渲染到客户端
-     *
-     * @param response 渲染对象
-     * @param obj      待渲染对象
-     */
-    public static void write(HttpServletResponse response, Object obj) {
-        write(response, HttpStatus.OK, obj);
-    }
 
     /**
      * 将字符串渲染到客户端
@@ -269,10 +260,10 @@ public final class ServletUtil {
      * @param response 渲染对象
      * @param obj      待渲染对象
      */
-    public static void write(HttpServletResponse response, HttpStatus httpStatus, Object obj) {
+    public static void writeJson(HttpServletResponse response, Object obj) {
         PrintWriter writer = null;
         try {
-            response.setStatus(httpStatus.value());
+            response.setStatus(HttpStatus.OK.value());
             // 允许跨域
             response.setHeader("Access-Control-Allow-Origin", "*");
             // 允许自定义请求头token(允许head跨域)

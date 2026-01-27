@@ -1,6 +1,7 @@
 package com.xht.modules.generate.controller;
 
 import cn.hutool.core.io.IoUtil;
+import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.domain.R;
 import com.xht.modules.generate.domain.form.GenCodeCoreForm;
 import com.xht.modules.generate.domain.vo.GenCodeCoreVo;
@@ -44,8 +45,8 @@ public class GenCodeCoreController {
     @PostMapping("/generate")
     public void generateCode(@Validated @RequestBody GenCodeCoreForm genCodeCoreForm, HttpServletResponse response) throws IOException {
         byte[] bytes = genCodeCoreService.generateCode(genCodeCoreForm);
-        IoUtil.write(response.getOutputStream(), true, bytes);
         response.reset();
+        response.setHeader(HttpConstants.Header.DOWNLOAD_FILE.getValue(), String.format("%s.zip", UUID.randomUUID()));
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=%s.zip", UUID.randomUUID()));
         response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(bytes.length));
         response.setContentType("application/octet-stream; charset=UTF-8");

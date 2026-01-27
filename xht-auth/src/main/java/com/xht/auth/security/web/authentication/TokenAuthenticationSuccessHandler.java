@@ -3,7 +3,6 @@ package com.xht.auth.security.web.authentication;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.security.domain.response.TokenResponse;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,6 @@ import org.springframework.security.oauth2.server.authorization.authentication.O
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.util.CollectionUtils;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
@@ -22,21 +20,21 @@ import java.util.Objects;
 
 /**
  * 描述 ：认证成功处理
+ *
  * @author xht
  **/
 @Slf4j
-@SuppressWarnings("all")
 public class TokenAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         log.info("TokenAuthenticationSuccessHandler");
         OAuth2AccessTokenAuthenticationToken accessTokenAuthentication = (OAuth2AccessTokenAuthenticationToken) authentication;
         OAuth2AccessToken accessToken = accessTokenAuthentication.getAccessToken();
         OAuth2RefreshToken refreshToken = accessTokenAuthentication.getRefreshToken();
         Map<String, Object> additionalParameters = accessTokenAuthentication.getAdditionalParameters();
         TokenResponse tokenResponse = convertToTokenResponse(accessToken, refreshToken, additionalParameters);
-        ServletUtil.write(response, R.ok(tokenResponse));
+        ServletUtil.writeJson(response, R.ok(tokenResponse));
     }
 
     /**

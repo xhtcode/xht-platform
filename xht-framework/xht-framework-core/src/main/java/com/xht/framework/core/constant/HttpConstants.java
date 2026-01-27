@@ -70,7 +70,13 @@ public final class HttpConstants {
         /**
          * 接受类型头部，用于指定客户端可接受的响应内容类型
          */
-        ACCEPT("Accept");
+        ACCEPT("Accept"),
+
+        /**
+         * 下载文件头部，用于指定下载文件的名称
+         */
+        DOWNLOAD_FILE("xht-download-filename"),
+        ;
 
         /**
          * 请求头字段的实际值

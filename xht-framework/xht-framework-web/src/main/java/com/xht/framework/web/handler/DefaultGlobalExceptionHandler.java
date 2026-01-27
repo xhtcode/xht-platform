@@ -8,14 +8,12 @@ import com.xht.framework.core.exception.code.GlobalErrorStatusCode;
 import com.xht.framework.core.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -53,7 +51,6 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      * 捕获 {@link Exception} 异常
      */
     @ExceptionHandler(value = Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public R<String> handle(Exception e) {
         log.error("系统异常: {}", e.getMessage(), e);
         return R.error(GlobalErrorStatusCode.ERROR, "系统未知异常，请联系管理员!");
@@ -63,7 +60,6 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      * 捕获 {@link BusinessException}  异常
      */
     @ExceptionHandler(value = {BusinessException.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public R<String> handle(BusinessException e) {
         log.error("自定义异常: code={} MESSAGE={}", e.getCode(), e.getMessage(), e);
         return new R<>(e.getCode(), false, e.getMessage());
@@ -74,7 +70,6 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      * controller 接口拦截  {@link NoHandlerFoundException}
      */
     @ExceptionHandler(NoHandlerFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     public R<String> handle(NoHandlerFoundException e, HttpServletRequest request) {
         log.debug(" {} 请求URL404: {}", request.getRequestURI(), e.getMessage(), e);
         return R.error(GlobalErrorStatusCode.NOT_FOUND);
@@ -84,7 +79,6 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      * 静态资源拦截 {@link NoResourceFoundException}
      */
     @ExceptionHandler(value = NoResourceFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     public R<String> handle(NoResourceFoundException e, HttpServletRequest request) {
         log.debug(" {} 请求URL404: {}", request.getRequestURI(), e.getMessage(), e);
         return R.error(GlobalErrorStatusCode.NOT_FOUND);
@@ -94,7 +88,6 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      * 错误的请求  {@link HttpRequestMethodNotSupportedException}
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     public R<String> handle(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
         log.debug(" {} 请求方法不支持: {}", request.getRequestURI(), e.getMessage(), e);
         return R.error(GlobalErrorStatusCode.METHOD_NOT_ALLOWED);
@@ -108,7 +101,6 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      * @return Result
      */
     @ExceptionHandler(BindException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R<Map<String, Object>> handleException(BindException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         BindingResult bindingResult = e.getBindingResult();
@@ -137,7 +129,6 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      * @return Result
      */
     @ExceptionHandler(ValidationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R<Map<String, Object>> handleException(ValidationException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         Map<String, Object> resultMap = new HashMap<>();

@@ -8,7 +8,6 @@ import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
@@ -33,18 +32,15 @@ public class GatewayGlobalExceptionHandler implements ErrorWebExceptionHandler {
         if (exchange.getResponse().isCommitted()) {
             return Mono.error(ex);
         }
-        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         if (ex instanceof NotFoundException) {
-            httpStatus = HttpStatus.NOT_FOUND;
             result = R.error(GlobalErrorStatusCode.GATEWAY_TIMEOUT);
         } else if (ex instanceof ResponseStatusException) {
-            httpStatus = HttpStatus.NOT_FOUND;
             result = R.error(GlobalErrorStatusCode.NOT_FOUND);
         } else {
-            //内部服务器错误
+            // 内部服务器错误
             result = R.error(GlobalErrorStatusCode.ERROR);
         }
         log.debug("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), ex.getMessage(), ex);
-        return WebFluxUtils.webFluxResponseWriter(response, httpStatus, result);
+        return WebFluxUtils.webFluxResponseWriter(response, result);
     }
 }

@@ -21,11 +21,10 @@ public final class SecurityServletUtils {
      * 写回错误信息
      *
      * @param response   HttpServletResponse
-     * @param httpStatus HttpStatus
      * @param data       Object
      */
-    public static void writeString(HttpServletResponse response, HttpStatus httpStatus, Object data) {
-        response.setStatus(httpStatus.value());
+    public static void writeString(HttpServletResponse response, Object data) {
+        response.setStatus(HttpStatus.OK.value());
         // 允许跨域
         response.setHeader("Access-Control-Allow-Origin", "*");
         // 允许自定义请求头token(允许head跨域)

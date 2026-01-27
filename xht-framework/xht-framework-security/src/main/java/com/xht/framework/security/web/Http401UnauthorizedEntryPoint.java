@@ -7,7 +7,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -25,6 +24,6 @@ public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         log.debug("请求未认证的接口 {} : {}", request.getRequestURI(), authException.getMessage(), authException);
-        SecurityServletUtils.writeString(response, HttpStatus.UNAUTHORIZED, R.errorData(GlobalErrorStatusCode.UNAUTHORIZED, authException.getMessage()));
+        SecurityServletUtils.writeString(response, R.errorData(GlobalErrorStatusCode.UNAUTHORIZED, authException.getMessage()));
     }
 }

@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
@@ -34,18 +33,16 @@ public class ResourceAuthenticationEntryPoint implements AuthenticationEntryPoin
         response.setCharacterEncoding(CharacterEnums.UTF_8.getValue());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         R<String> result = R.error(GlobalErrorStatusCode.UNAUTHORIZED);
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         if (StringUtils.hasText(authException.getMessage())) {
             result.setMsg(authException.getMessage());
         }
         // 针对令牌过期返回特殊的 424
         if (authException instanceof InvalidBearerTokenException
                 || authException instanceof InsufficientAuthenticationException) {
-            response.setStatus(GlobalErrorStatusCode.TOKEN_EXPIRED.getCode());
             result.setCode(GlobalErrorStatusCode.TOKEN_EXPIRED.getCode());
             result.setMsg("请求令牌已过期");
         }
         log.error("认证失败: {}", authException.getMessage(), authException);
-        ServletUtil.write(response, HttpStatus.UNAUTHORIZED, result);
+        ServletUtil.writeJson(response, result);
     }
 }

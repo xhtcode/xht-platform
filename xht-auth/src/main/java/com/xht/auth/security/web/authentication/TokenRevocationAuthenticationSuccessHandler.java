@@ -2,14 +2,11 @@ package com.xht.auth.security.web.authentication;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.ServletUtil;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import java.io.IOException;
 
 /**
  * token 注销成功处理器
@@ -17,8 +14,8 @@ import java.io.IOException;
  * @author xht
  **/
 @Slf4j
-@SuppressWarnings("all")
 public class TokenRevocationAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
     /**
      * Called when a user has been successfully authenticated.
      *
@@ -28,7 +25,7 @@ public class TokenRevocationAuthenticationSuccessHandler implements Authenticati
      *                       the getAuthenticatedPrincipal process.
      */
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        ServletUtil.write(response, R.okMsg("token 注销成功"));
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        ServletUtil.writeJson(response, R.okMsg("token 注销成功"));
     }
 }
