@@ -2,12 +2,12 @@ package com.xht.modules.admin.system.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.tree.INode;
-import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.core.validation.Groups;
-import com.xht.modules.admin.system.enums.MenuStatusEnums;
+import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.system.domain.form.SysMenuForm;
 import com.xht.modules.admin.system.domain.query.SysMenuQuery;
 import com.xht.modules.admin.system.domain.response.SysMenuResponse;
+import com.xht.modules.admin.system.enums.MenuStatusEnums;
 import com.xht.modules.admin.system.service.ISysMenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -86,7 +86,7 @@ public class SysMenuController {
     @PostMapping("/updateStatus/{id}/{status}")
     @Operation(summary = "修改菜单状态", description = "根据提供的菜单ID和状态修改菜单状态")
     public R<Void> updateStatus(@PathVariable("id") @Parameter(description = "菜单ID", required = true) Long id,
-                                   @PathVariable("status") @Parameter(description = "菜单状态", required = true) MenuStatusEnums status) {
+                                @PathVariable("status") @Parameter(description = "菜单状态", required = true) MenuStatusEnums status) {
         sysMenuService.updateStatus(id, status);
         return R.ok();
     }

@@ -64,7 +64,7 @@ public final class GenInfoHelper {
         tableEntity.setMenuPath(tableBo.getUrlPrefix());
         tableEntity.setPageStyle(PageStyleEnums.DRAWER);
         tableEntity.setPageStyleWidth(45);
-        tableEntity.setFromNumber(4);
+        tableEntity.setFromNumber(12);
         tableEntity.setTableCreateTime(tableBo.getTableCreateTime());
         tableEntity.setTableUpdateTime(tableBo.getTableUpdateTime());
         return tableEntity;
@@ -140,26 +140,32 @@ public final class GenInfoHelper {
             return Collections.emptyList();
         }
         List<GenTableColumnQueryEntity> queryEntities = new ArrayList<>(saveColumnEntity.size()); // 预设初始容量
+        int sortOrder = 0;
         for (GenTableColumnEntity item : saveColumnEntity) {
             String dbName = item.getDbName();
             if (ArrayUtil.contains(COLUMN_NOT_FORM, dbName)) {
                 continue;
             }
-            if (StrUtil.equals(item.getCodeJava(), "String") && item.getFromLength() != null && item.getFromLength() < 500) {
+            if (StrUtil.equals(item.getCodeJava(), "String") && item.getFromLength() != null && item.getFromLength() > 0 && item.getFromLength() <= 255) {
                 GenTableColumnQueryEntity queryEntity = createBaseQueryEntity(item);
                 queryEntity.setQueryType("like");
-                queryEntity.setConditionValue(item.getCodeName());
+                queryEntity.setSortOrder(sortOrder++);
                 queryEntities.add(queryEntity);
             } else if (StrUtil.equalsAny(item.getCodeJava(), "LocalDateTime", "LocalDate", "LocalTime")) {
+                String labelPrefix = StrUtil.removeAll(item.getCodeComment(), "时间");
                 // 创建大于等于条件实体
                 GenTableColumnQueryEntity geEntity = createBaseQueryEntity(item);
+                geEntity.setConditionLabel(labelPrefix + "开始时间");
                 geEntity.setQueryType("ge");
-                geEntity.setConditionValue(item.getCodeName());
+                geEntity.setConditionValue(item.getCodeName() + "Start");
+                geEntity.setSortOrder(sortOrder++);
                 queryEntities.add(geEntity);
                 // 创建小于等于条件实体
                 GenTableColumnQueryEntity leEntity = createBaseQueryEntity(item);
+                leEntity.setConditionLabel(labelPrefix + "结束时间");
                 leEntity.setQueryType("le");
-                leEntity.setConditionValue(item.getCodeName());
+                leEntity.setConditionValue(item.getCodeName() + "End");
+                leEntity.setSortOrder(sortOrder++);
                 queryEntities.add(leEntity);
             }
         }
@@ -179,6 +185,7 @@ public final class GenInfoHelper {
         entity.setColumnId(item.getId());
         entity.setColumnName(item.getCodeName());
         entity.setFromLength(item.getFromLength());
+        entity.setConditionValue(item.getCodeName());
         entity.setConditionLabel(item.getCodeComment());
         entity.setFromComponent(item.getFromComponent());
         entity.setDictCode(item.getDictCode());

@@ -2,10 +2,10 @@ package com.xht.modules.admin.dict.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.admin.dict.enums.DictStatusEnums;
-import com.xht.modules.admin.dict.entity.SysDictItemEntity;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.query.SysDictItemQuery;
+import com.xht.modules.admin.dict.entity.SysDictItemEntity;
+import com.xht.modules.admin.dict.enums.DictStatusEnums;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface SysDictItemDao extends MapperRepository<SysDictItemEntity> {
     /**
      * 根据更新请求更新指定ID的字典项实体
      *
-     * @param form 更新请求
+     * @param form     更新请求
      * @param dictCode 字典项编码
      * @return 更新结果
      */
@@ -47,8 +47,8 @@ public interface SysDictItemDao extends MapperRepository<SysDictItemEntity> {
     /**
      * 根据字典编码查询字典项列表
      *
-     * @param dictCode 字典编码
-     * @param dictStatus  字典状态
+     * @param dictCode   字典编码
+     * @param dictStatus 字典状态
      * @return 字典项列表
      */
     List<SysDictItemEntity> findByDictCode(String dictCode, DictStatusEnums dictStatus);

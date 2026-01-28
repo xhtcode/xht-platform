@@ -14,7 +14,7 @@ public interface SysUserDetailDao extends MapperRepository<SysUserDetailEntity> 
     /**
      * 保存用户信息
      *
-     * @param sysUserEntity      用户信息
+     * @param sysUserEntity       用户信息
      * @param sysUserDetailEntity 用户详细信息
      */
     void saveUserInfo(SysUserEntity sysUserEntity, SysUserDetailEntity sysUserDetailEntity);
@@ -22,7 +22,7 @@ public interface SysUserDetailDao extends MapperRepository<SysUserDetailEntity> 
     /**
      * 更新用户信息
      *
-     * @param sysUserEntity      用户信息
+     * @param sysUserEntity       用户信息
      * @param sysUserDetailEntity 用户详细信息
      */
     void updateUserInfo(SysUserEntity sysUserEntity, SysUserDetailEntity sysUserDetailEntity);

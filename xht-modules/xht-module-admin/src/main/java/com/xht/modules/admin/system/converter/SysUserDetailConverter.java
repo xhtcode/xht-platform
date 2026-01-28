@@ -1,9 +1,9 @@
 package com.xht.modules.admin.system.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.modules.admin.system.entity.SysUserDetailEntity;
 import com.xht.modules.admin.system.domain.form.SysUserDetailForm;
 import com.xht.modules.admin.system.domain.response.SysUserDetailResponse;
+import com.xht.modules.admin.system.entity.SysUserDetailEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;

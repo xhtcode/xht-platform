@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnums;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
+import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnums;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -63,7 +63,7 @@ public class SysOauth2ClientEntity extends BasicEntity implements Serializable {
      * 客户认证方式
      */
     @TableField(value = "client_authentication_methods", typeHandler = JacksonTypeHandler.class)
-    private  Set<String> clientAuthenticationMethods;
+    private Set<String> clientAuthenticationMethods;
 
     /**
      * 客户端授权类型

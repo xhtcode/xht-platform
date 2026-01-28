@@ -104,8 +104,9 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
                     tableEntity.setGroupId(form.getGroupId());
                     saveTableEntity.add(tableEntity);
                     List<ColumnBo> columnBoList = dataBaseQuery.selectTableColumnsByTableName(jdbcTemplate, tableName);
-                    saveColumnEntity.addAll(GenInfoHelper.parseColumnInfos(dataSourceEntity, tableBo, columnBoList));
-                    List<GenTableColumnQueryEntity> queryEntities = GenInfoHelper.genTableColumnQueryEntities(saveColumnEntity);
+                    List<GenTableColumnEntity> genTableColumnEntities = GenInfoHelper.parseColumnInfos(dataSourceEntity, tableBo, columnBoList);
+                    saveColumnEntity.addAll(genTableColumnEntities);
+                    List<GenTableColumnQueryEntity> queryEntities = GenInfoHelper.genTableColumnQueryEntities(genTableColumnEntities);
                     if (!CollectionUtils.isEmpty(queryEntities)) {
                         queryColumnEntity.addAll(queryEntities);
                     }
@@ -156,11 +157,16 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
             GenTableEntity tableEntity = GenInfoHelper.parseTableInfo(dataSourceEntity, tableBo);
             tableEntity.setId(tableId);
             tableBo.setTableId(tableId);
-            List<ColumnBo> genColumnInfoEntities = dataBaseQuery.selectTableColumnsByTableName(jdbcTemplate, tableName);
+            List<ColumnBo> columnBoList = dataBaseQuery.selectTableColumnsByTableName(jdbcTemplate, tableName);
+            List<GenTableColumnEntity> saveColumnEntity = GenInfoHelper.parseColumnInfos(dataSourceEntity, tableBo, columnBoList);
+            List<GenTableColumnQueryEntity> queryEntities = GenInfoHelper.genTableColumnQueryEntities(saveColumnEntity);
             genTableColumnDao.deleteByTableId(tableId);
             genTableColumnQueryDao.deleteByTableId(tableId);
             genTableDao.updateById(tableEntity);
-            genTableColumnDao.saveAll(GenInfoHelper.parseColumnInfos(dataSourceEntity, tableBo, genColumnInfoEntities));
+            genTableColumnDao.saveAll(saveColumnEntity);
+            if (!CollectionUtils.isEmpty(queryEntities)) {
+                genTableColumnQueryDao.saveAll(queryEntities);
+            }
         } catch (Exception e) {
             log.error("表同步失败 {}", e.getMessage(), e);
             throw new BusinessException(e);
@@ -181,6 +187,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
     public void removeById(Long tableId) {
         genTableDao.removeById(tableId);
         genTableColumnDao.deleteByTableId(tableId);
+        genTableColumnQueryDao.deleteByTableId(tableId);
     }
 
     /**

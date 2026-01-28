@@ -3,9 +3,9 @@ package com.xht.modules.admin.system.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.admin.system.entity.SysPostEntity;
 import com.xht.modules.admin.system.domain.form.SysPostForm;
 import com.xht.modules.admin.system.domain.query.SysPostQuery;
+import com.xht.modules.admin.system.entity.SysPostEntity;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public interface SysPostDao extends MapperRepository<SysPostEntity> {
     /**
      * 分页查询部门岗位信息
      *
-     * @param page         分页信息
+     * @param page  分页信息
      * @param query 查询请求参数
      * @return 分页数据
      */

@@ -2,8 +2,8 @@ package com.xht.modules.admin.dict.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.core.validation.Groups;
+import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.query.SysDictItemQuery;
 import com.xht.modules.admin.dict.domain.response.SysDictItemResponse;

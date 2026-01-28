@@ -285,13 +285,13 @@ CREATE TABLE `sys_notice_user_operate`
 (
     `id`           bigint UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
     `notice_id`    bigint UNSIGNED NOT NULL COMMENT '通知ID',
-    `user_id`      varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户ID',
+    `user_id`      bigint NOT NULL COMMENT '用户ID',
     `operate_type` tinyint UNSIGNED NOT NULL COMMENT '操作类型(1:阅读;2:点击)',
     `operate_time` datetime NULL DEFAULT NULL COMMENT '操作时间',
     `del_flag`     tinyint NULL DEFAULT 0 COMMENT '删除标识',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `uk_notice_user_operate`(`notice_id` ASC, `user_id` ASC, `operate_type` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统管理-用户操作记录(防重复统计)' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB  COMMENT = '系统管理-用户操作记录(防重复统计)' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_oauth2_client

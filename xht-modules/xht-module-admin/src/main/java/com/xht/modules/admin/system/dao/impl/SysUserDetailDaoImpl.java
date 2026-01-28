@@ -31,7 +31,7 @@ public class SysUserDetailDaoImpl extends MapperRepositoryImpl<SysUserDetailMapp
     /**
      * 保存用户信息
      *
-     * @param sysUserEntity      用户信息
+     * @param sysUserEntity       用户信息
      * @param sysUserDetailEntity 用户详细信息
      */
     @Override
@@ -44,7 +44,7 @@ public class SysUserDetailDaoImpl extends MapperRepositoryImpl<SysUserDetailMapp
     /**
      * 更新用户信息
      *
-     * @param sysUserEntity      用户信息
+     * @param sysUserEntity       用户信息
      * @param sysUserDetailEntity 用户详细信息
      */
     @Override

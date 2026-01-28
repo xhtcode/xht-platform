@@ -132,13 +132,7 @@ public final class TableInfoBo {
         columnQueryBo.setFromComponent(queryColumns.getFromComponent());
         columnQueryBo.setDictCode(queryColumns.getDictCode());
         columnQueryBo.setDictStatus(StringUtils.hasText(queryColumns.getDictCode()));
-        columnQueryBo.setDbName(column.getDbName());
-        columnQueryBo.setDbType(column.getDbType());
-        columnQueryBo.setDbComment(column.getDbComment());
-        columnQueryBo.setDbLength(column.getDbLength());
         columnQueryBo.setCodeName(column.getCodeName());
-        columnQueryBo.setCodeNameUpperFirst(StrUtil.upperFirst(column.getCodeName()));
-        columnQueryBo.setCodeComment(column.getCodeComment());
         columnQueryBo.setCodeJava(column.getCodeJava());
         columnQueryBo.setCodeJavaPackage(column.getCodeJavaPackage());
         columnQueryBo.setCodeTs(column.getCodeTs());
@@ -147,6 +141,86 @@ public final class TableInfoBo {
             this.queryColumnsPackage.add(column.getCodeJavaPackage());
         }
     }
+
+    /**
+     * 填充 velocity 模板上下文
+     *
+     * @param context velocity 模板上下文
+     */
+    public void fillVelocityContext(VelocityContext context, Set<String> ignoreField) {
+        this.columns.clear();
+        this.packages.clear();
+        this.formColumns.clear();
+        this.formColumnsPackage.clear();
+        this.listColumns.clear();
+        this.listColumnsPackage.clear();
+        this.formListDifferenceColumns.clear();
+        for (GenTableColumnEntity column : this.allColumns) {
+            if (ignoreField.contains(StrUtil.toLowerCase(column.getCodeName()))) {
+                continue;
+            }
+            this.columns.add(column);
+            if (StringUtils.isEmpty(column.getCodeJavaPackage())) {
+                this.packages.add(column.getCodeJavaPackage());
+            }
+            if (Objects.equals(column.getFromInsert(), GenStatusEnums.YES) || Objects.equals(column.getFromUpdate(), GenStatusEnums.YES)) {
+                this.formColumns.add(column);
+                if (StringUtils.isEmpty(column.getCodeJavaPackage())) {
+                    this.formColumnsPackage.add(column.getCodeJavaPackage());
+                }
+                if (!Objects.equals(column.getListShow(), GenStatusEnums.YES) && Objects.equals(column.getDbPrimary(), IdPrimaryKeyEnums.NO)) {
+                    this.formListDifferenceColumns.add(column);
+                }
+            }
+            if (Objects.equals(column.getListShow(), GenStatusEnums.YES)) {
+                this.listColumns.add(column);
+                if (StringUtils.isEmpty(column.getCodeJavaPackage())) {
+                    this.listColumnsPackage.add(column.getCodeJavaPackage());
+                }
+                if (!(Objects.equals(column.getFromInsert(), GenStatusEnums.YES) || Objects.equals(column.getFromUpdate(), GenStatusEnums.YES)) && Objects.equals(column.getDbPrimary(), IdPrimaryKeyEnums.NO)) {
+                    this.formListDifferenceColumns.add(column);
+                }
+            }
+        }
+        context.put("tableId", table.getId());
+        context.put("groupId", table.getGroupId());
+        context.put("dataSourceId", table.getDataSourceId());
+        context.put("dataBaseType", table.getDataBaseType());
+        context.put("engineName", table.getEngineName());
+        context.put("tableName", table.getTableName());
+        context.put("tableComment", table.getTableComment());
+        context.put("moduleName", table.getModuleName());
+        context.put("serviceName", table.getServiceName());
+        context.put("componentName", table.getModuleName() + "-" + table.getServiceName());
+        context.put("componentNameUpperFirst", table.getModuleName() + StrUtil.upperFirst(table.getServiceName()));
+        context.put("codeName", StrUtil.lowerFirst(table.getCodeName()));
+        context.put("codeNameUpperFirst", StrUtil.upperFirst(table.getCodeName()));
+        context.put("codeComment", table.getCodeComment());
+        context.put("backEndAuthor", table.getBackEndAuthor());
+        context.put("frontEndAuthor", table.getFrontEndAuthor());
+        context.put("urlPrefix", table.getUrlPrefix());
+        context.put("permissionPrefix", table.getPermissionPrefix());
+        context.put("parentMenuId", table.getParentMenuId());
+        context.put("menuName", StrUtil.sub(table.getTableComment(), 0, 20));
+        context.put("menuIcon", table.getMenuIcon());
+        context.put("menuPath", table.getMenuPath());
+        context.put("pageStyle", table.getPageStyle().getDesc());
+        context.put("pageStyleWidth", table.getPageStyleWidth());
+        context.put("fromNumber", table.getFromNumber());
+        context.put("pkColumn", convertColumnToMap(this.pkColumn));
+        context.put("allColumns", convertColumnToMap(this.allColumns));
+        context.put("allColumnsPackage", this.allColumnsPackage);
+        context.put("columns", convertColumnToMap(this.columns));
+        context.put("packages", this.packages);
+        context.put("queryColumns", convertQueryColumnToMap(this.queryColumns));
+        context.put("queryColumnsPackage", this.queryColumnsPackage);
+        context.put("formColumns", convertColumnToMap(this.formColumns));
+        context.put("formColumnsPackage", this.formColumnsPackage);
+        context.put("listColumns", convertColumnToMap(this.listColumns));
+        context.put("listColumnsPackage", this.listColumnsPackage);
+        context.put("formListDifferenceColumns", convertColumnToMap(this.formListDifferenceColumns));
+    }
+
 
     /**
      * 将表列信息实体列表转换为Map列表
@@ -195,81 +269,41 @@ public final class TableInfoBo {
     }
 
     /**
-     * 填充 velocity 模板上下文
+     * 将查询列表转换成 Map列表
      *
-     * @param context velocity 模板上下文
+     * @param queryColumns 查询列表
      */
-    public void fillVelocityContext(VelocityContext context, Set<String> ignoreField) {
-        this.columns.clear();
-        this.packages.clear();
-        this.formColumns.clear();
-        this.queryColumns.clear();
-        this.formColumnsPackage.clear();
-        this.listColumns.clear();
-        this.listColumnsPackage.clear();
-        this.formListDifferenceColumns.clear();
-        for (GenTableColumnEntity column : this.allColumns) {
-            if (ignoreField.contains(StrUtil.toLowerCase(column.getCodeName()))) {
-                continue;
-            }
-            this.columns.add(column);
-            if (StringUtils.isEmpty(column.getCodeJavaPackage())) {
-                this.packages.add(column.getCodeJavaPackage());
-            }
-            if (Objects.equals(column.getFromInsert(), GenStatusEnums.YES) || Objects.equals(column.getFromUpdate(), GenStatusEnums.YES)) {
-                this.formColumns.add(column);
-                if (StringUtils.isEmpty(column.getCodeJavaPackage())) {
-                    this.formColumnsPackage.add(column.getCodeJavaPackage());
-                }
-                if (!Objects.equals(column.getListShow(), GenStatusEnums.YES) && Objects.equals(column.getDbPrimary(), IdPrimaryKeyEnums.NO)) {
-                    this.formListDifferenceColumns.add(column);
-                }
-            }
-            if (Objects.equals(column.getListShow(), GenStatusEnums.YES)) {
-                this.listColumns.add(column);
-                if (StringUtils.isEmpty(column.getCodeJavaPackage())) {
-                    this.listColumnsPackage.add(column.getCodeJavaPackage());
-                }
-                if (!(Objects.equals(column.getFromInsert(), GenStatusEnums.YES) || Objects.equals(column.getFromUpdate(), GenStatusEnums.YES)) && Objects.equals(column.getDbPrimary(), IdPrimaryKeyEnums.NO)) {
-                    this.formListDifferenceColumns.add(column);
-                }
-            }
-        }
-        context.put("tableId", table.getId());
-        context.put("groupId", table.getGroupId());
-        context.put("dataSourceId", table.getDataSourceId());
-        context.put("dataBaseType", table.getDataBaseType());
-        context.put("engineName", table.getEngineName());
-        context.put("tableName", table.getTableName());
-        context.put("tableComment", table.getTableComment());
-        context.put("moduleName", table.getModuleName());
-        context.put("serviceName", table.getServiceName());
-        context.put("codeName", StrUtil.lowerFirst(table.getCodeName()));
-        context.put("codeNameUpperFirst", StrUtil.upperFirst(table.getCodeName()));
-        context.put("codeComment", table.getCodeComment());
-        context.put("backEndAuthor", table.getBackEndAuthor());
-        context.put("frontEndAuthor", table.getFrontEndAuthor());
-        context.put("urlPrefix", table.getUrlPrefix());
-        context.put("permissionPrefix", table.getPermissionPrefix());
-        context.put("parentMenuId", table.getParentMenuId());
-        context.put("menuName", StrUtil.sub(table.getTableComment(), 0, 20));
-        context.put("menuIcon", table.getMenuIcon());
-        context.put("menuPath", table.getMenuPath());
-        context.put("pageStyle", table.getPageStyle().getDesc());
-        context.put("pageStyleWidth", table.getPageStyleWidth());
-        context.put("fromNumber", table.getFromNumber());
-        context.put("pkColumn", convertColumnToMap(this.pkColumn));
-        context.put("allColumns", convertColumnToMap(this.allColumns));
-        context.put("allColumnsPackage", this.allColumnsPackage);
-        context.put("columns", convertColumnToMap(this.columns));
-        context.put("packages", this.packages);
-        context.put("queryColumns", this.queryColumns);
-        context.put("queryColumnsPackage", this.queryColumnsPackage);
-        context.put("formColumns", convertColumnToMap(this.formColumns));
-        context.put("formColumnsPackage", this.formColumnsPackage);
-        context.put("listColumns", convertColumnToMap(this.listColumns));
-        context.put("listColumnsPackage", this.listColumnsPackage);
-        context.put("formListDifferenceColumns", convertColumnToMap(this.formListDifferenceColumns));
+    private List<Map<String, Object>> convertQueryColumnToMap(List<ColumnQueryBo> queryColumns) {
+        return queryColumns.stream().map(this::convertQueryColumnToMap).collect(Collectors.toList());
+    }
+
+    /**
+     * 将查询列信息实体转换为Map
+     *
+     * @param queryColumn 查询列信息实体
+     * @return 转换后的Map
+     */
+    private Map<String, Object> convertQueryColumnToMap(ColumnQueryBo queryColumn) {
+        Map<String, Object> queryColumnMap = new HashMap<>();
+        queryColumnMap.put("", "");
+        queryColumnMap.put("tableId", queryColumn.getTableId());
+        queryColumnMap.put("tableName", queryColumn.getTableName());
+        queryColumnMap.put("columnId", queryColumn.getColumnId());
+        queryColumnMap.put("columnName", queryColumn.getColumnName());
+        queryColumnMap.put("fromLength", queryColumn.getFromLength());
+        queryColumnMap.put("queryType", queryColumn.getQueryType());
+        queryColumnMap.put("conditionLabel", queryColumn.getConditionLabel());
+        queryColumnMap.put("conditionValue", queryColumn.getConditionValue());
+        queryColumnMap.put("conditionValueUpperFirst", StrUtil.upperFirst(queryColumn.getConditionValue()));
+        queryColumnMap.put("dictCode", queryColumn.getDictCode());
+        queryColumnMap.put("dictStatus", queryColumn.getDictStatus());
+        queryColumnMap.put("fromComponent", queryColumn.getFromComponent());
+        queryColumnMap.put("codeName", queryColumn.getCodeName());
+        queryColumnMap.put("codeNameUpperFirst", StrUtil.upperFirst(queryColumn.getCodeName()));
+        queryColumnMap.put("codeJava", queryColumn.getCodeJava());
+        queryColumnMap.put("codeJavaPackage", queryColumn.getCodeJavaPackage());
+        queryColumnMap.put("codeTs", queryColumn.getCodeTs());
+        return queryColumnMap;
     }
 
 

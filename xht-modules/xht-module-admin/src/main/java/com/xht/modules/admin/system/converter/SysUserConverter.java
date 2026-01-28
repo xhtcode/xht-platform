@@ -1,11 +1,11 @@
 package com.xht.modules.admin.system.converter;
 
+import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.modules.admin.system.domain.form.SysUserDetailForm;
 import com.xht.modules.admin.system.domain.form.SysUserForm;
 import com.xht.modules.admin.system.domain.response.SysUserDetailResponse;
 import com.xht.modules.admin.system.domain.response.SysUserResponse;
 import com.xht.modules.admin.system.domain.vo.SysUserVo;
-import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.modules.admin.system.entity.SysUserDetailEntity;
 import com.xht.modules.admin.system.entity.SysUserEntity;
 import org.mapstruct.Mapper;

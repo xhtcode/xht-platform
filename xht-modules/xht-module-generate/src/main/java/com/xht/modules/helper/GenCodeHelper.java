@@ -62,9 +62,11 @@ public final class GenCodeHelper {
             Set<String> ignoreField = item.getIgnoreField();
             tableInfoBo.fillVelocityContext(context, ignoreField);
             // 渲染文件路径
+            context.put("packageName", StrUtil.replace(request.getPackageName(), GenConstant.POINT, GenConstant.PATH_SEPARATOR));
             String resolvedPath = renderTemplate(context, "filePathTemplate", item.getFilePath());
             // 渲染文件路径
             String fileName = renderTemplate(context, "fileName", item.getFileName());
+            context.put("packageName", request.getPackageName());
             // 渲染文件内容
             String resolvedCode = renderTemplate(context, "codeTemplate", item.getCode());
             GenCodeCoreBo genCodeCoreBo = new GenCodeCoreBo(item.getIgnoreField());

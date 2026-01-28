@@ -9,9 +9,9 @@ import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.admin.system.dao.SysPostDao;
 import com.xht.modules.admin.system.dao.mapper.SysPostMapper;
-import com.xht.modules.admin.system.entity.SysPostEntity;
 import com.xht.modules.admin.system.domain.form.SysPostForm;
 import com.xht.modules.admin.system.domain.query.SysPostQuery;
+import com.xht.modules.admin.system.entity.SysPostEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -119,7 +119,6 @@ public class SysPostDaoImpl extends MapperRepositoryImpl<SysPostMapper, SysPostE
         // @formatter:on
         return page(page, queryWrapper);
     }
-
 
 
     /**

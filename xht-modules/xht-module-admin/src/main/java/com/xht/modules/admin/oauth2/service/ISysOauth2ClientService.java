@@ -1,9 +1,9 @@
 package com.xht.modules.admin.oauth2.service;
 
+import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.modules.admin.oauth2.domain.form.SysOauth2ClientForm;
 import com.xht.modules.admin.oauth2.domain.query.SysOauth2ClientQuery;
 import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
-import com.xht.framework.core.domain.response.PageResponse;
 
 import java.util.List;
 

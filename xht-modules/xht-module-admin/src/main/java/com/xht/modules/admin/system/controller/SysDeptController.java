@@ -2,12 +2,12 @@ package com.xht.modules.admin.system.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.tree.INode;
-import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.core.validation.Groups;
-import com.xht.modules.admin.system.enums.DeptStatusEnums;
+import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.system.domain.form.SysDeptForm;
 import com.xht.modules.admin.system.domain.query.SysDeptTreeQuery;
 import com.xht.modules.admin.system.domain.response.SysDeptResponse;
+import com.xht.modules.admin.system.enums.DeptStatusEnums;
 import com.xht.modules.admin.system.service.ISysDeptService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

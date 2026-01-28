@@ -64,43 +64,10 @@ public class ColumnQueryBo {
      */
     private String fromComponent;
 
-
-
-    /**
-     * 字段名
-     */
-    private String dbName;
-
-    /**
-     * 字段类型
-     */
-    private String dbType;
-
-    /**
-     * 字段注释
-     */
-    private String dbComment;
-
-    /**
-     * 字段长度
-     */
-    private int dbLength;
-
     /**
      * 代码名称
      */
     private String codeName;
-
-    /**
-     * 代码名称首字母大写
-     */
-    private String codeNameUpperFirst;
-
-    /**
-     * 代码注释
-     */
-    private String codeComment;
-
 
     /**
      * java类型

@@ -7,12 +7,12 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.modules.admin.dict.enums.DictStatusEnums;
 import com.xht.modules.admin.dict.dao.SysDictItemDao;
 import com.xht.modules.admin.dict.dao.mapper.SysDictItemMapper;
-import com.xht.modules.admin.dict.entity.SysDictItemEntity;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.query.SysDictItemQuery;
+import com.xht.modules.admin.dict.entity.SysDictItemEntity;
+import com.xht.modules.admin.dict.enums.DictStatusEnums;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,7 +76,7 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
     /**
      * 分页查询字典项列表
      *
-     * @param page         分页信息
+     * @param page  分页信息
      * @param query 字典项查询请求参数
      * @return 分页字典项列表
      */
@@ -104,7 +104,7 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
     /**
      * 根据字典编码查询字典项列表
      *
-     * @param dictCode 字典编码
+     * @param dictCode   字典编码
      * @param dictStatus 字典状态
      * @return 字典项列表
      */

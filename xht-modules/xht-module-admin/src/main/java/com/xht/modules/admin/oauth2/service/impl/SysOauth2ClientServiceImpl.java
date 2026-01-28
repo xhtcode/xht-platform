@@ -1,14 +1,14 @@
 package com.xht.modules.admin.oauth2.service.impl;
 
-import com.xht.modules.admin.oauth2.domain.form.SysOauth2ClientForm;
-import com.xht.modules.admin.oauth2.domain.query.SysOauth2ClientQuery;
-import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.modules.admin.oauth2.converter.SysOauth2ClientConverter;
 import com.xht.modules.admin.oauth2.dao.SysOauth2ClientDao;
+import com.xht.modules.admin.oauth2.domain.form.SysOauth2ClientForm;
+import com.xht.modules.admin.oauth2.domain.query.SysOauth2ClientQuery;
+import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
 import com.xht.modules.admin.oauth2.entity.SysOauth2ClientEntity;
 import com.xht.modules.admin.oauth2.service.ISysOauth2ClientService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * OAuth2客户端管理

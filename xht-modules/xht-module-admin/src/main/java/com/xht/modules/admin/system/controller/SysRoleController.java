@@ -2,14 +2,14 @@ package com.xht.modules.admin.system.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.core.validation.Groups;
-import com.xht.modules.admin.system.enums.RoleStatusEnums;
+import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.system.domain.form.SysRoleForm;
 import com.xht.modules.admin.system.domain.form.SysRoleMenuBindForm;
 import com.xht.modules.admin.system.domain.query.SysRoleQuery;
 import com.xht.modules.admin.system.domain.response.RoleSelectedMenuResponse;
 import com.xht.modules.admin.system.domain.response.SysRoleResponse;
+import com.xht.modules.admin.system.enums.RoleStatusEnums;
 import com.xht.modules.admin.system.service.ISysRoleMenuService;
 import com.xht.modules.admin.system.service.ISysRoleService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -110,7 +110,7 @@ public class SysRoleController {
     @PostMapping("/updateStatus/{id}/{status}")
     @Operation(summary = "修改角色状态", description = "根据提供的角色ID和状态修改角色状态")
     public R<Void> updateStatus(@PathVariable("id") @Parameter(description = "角色ID", required = true) Long id,
-                                   @PathVariable("status") @Parameter(description = "角色状态", required = true) RoleStatusEnums status) {
+                                @PathVariable("status") @Parameter(description = "角色状态", required = true) RoleStatusEnums status) {
         sysRoleService.updateStatus(id, status);
         return R.ok();
     }

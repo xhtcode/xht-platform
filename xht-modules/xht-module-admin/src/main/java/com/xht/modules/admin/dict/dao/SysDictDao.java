@@ -2,9 +2,9 @@ package com.xht.modules.admin.dict.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.admin.dict.entity.SysDictEntity;
 import com.xht.modules.admin.dict.domain.form.SysDictForm;
 import com.xht.modules.admin.dict.domain.query.SysDictQuery;
+import com.xht.modules.admin.dict.entity.SysDictEntity;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public interface SysDictDao extends MapperRepository<SysDictEntity> {
     /**
      * 查询系统字典列表
      *
-     * @param page 分页参数
+     * @param page  分页参数
      * @param query 系统字典查询参数
      * @return 系统字典列表
      */

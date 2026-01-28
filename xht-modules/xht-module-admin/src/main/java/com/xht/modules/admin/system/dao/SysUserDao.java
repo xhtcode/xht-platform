@@ -32,7 +32,7 @@ public interface SysUserDao extends MapperRepository<SysUserEntity> {
     /**
      * 分页查询用户信息
      *
-     * @param page         分页信息
+     * @param page  分页信息
      * @param query 查询请求参数
      * @return 分页查询结果
      */

@@ -1,9 +1,9 @@
 package com.xht.modules.admin.dict.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.modules.admin.dict.entity.SysDictEntity;
 import com.xht.modules.admin.dict.domain.form.SysDictForm;
 import com.xht.modules.admin.dict.domain.response.SysDictResponse;
+import com.xht.modules.admin.dict.entity.SysDictEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
