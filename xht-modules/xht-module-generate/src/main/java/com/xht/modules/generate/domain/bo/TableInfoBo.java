@@ -203,6 +203,7 @@ public final class TableInfoBo {
         this.columns.clear();
         this.packages.clear();
         this.formColumns.clear();
+        this.queryColumns.clear();
         this.formColumnsPackage.clear();
         this.listColumns.clear();
         this.listColumnsPackage.clear();

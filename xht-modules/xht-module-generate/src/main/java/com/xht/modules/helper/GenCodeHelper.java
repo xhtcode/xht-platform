@@ -9,8 +9,8 @@ import com.xht.framework.core.utils.StringUtils;
 import com.xht.modules.common.constant.GenConstant;
 import com.xht.modules.generate.domain.bo.GenCodeCoreBo;
 import com.xht.modules.generate.domain.bo.TableInfoBo;
-import com.xht.modules.generate.entity.GenTemplateEntity;
 import com.xht.modules.generate.domain.form.GenCodeCoreForm;
+import com.xht.modules.generate.entity.GenTemplateEntity;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.springframework.util.CollectionUtils;
@@ -68,7 +68,7 @@ public final class GenCodeHelper {
             // 渲染文件内容
             String resolvedCode = renderTemplate(context, "codeTemplate", item.getCode());
             GenCodeCoreBo genCodeCoreBo = new GenCodeCoreBo(item.getIgnoreField());
-            genCodeCoreBo.setFilePath(String.format("%s.%s", StringUtils.replace(resolvedPath, GenConstant.POINT, GenConstant.PATH_SEPARATOR), item.getFileType()));
+            genCodeCoreBo.setFilePath(String.format("%s.%s", resolvedPath, item.getFileType()));
             genCodeCoreBo.setFileName(fileName);
             genCodeCoreBo.setTableName(tableInfoBo.getTableName());
             genCodeCoreBo.setCode(resolvedCode);
@@ -77,7 +77,6 @@ public final class GenCodeHelper {
         }
         return result;
     }
-
 
 
     /**
@@ -104,7 +103,7 @@ public final class GenCodeHelper {
         return templateList.stream()
                 .map((template) -> {
                     GenCodeCoreBo genCodeCoreBo = new GenCodeCoreBo(template.getTemplateIgnoreField());
-                    genCodeCoreBo.setFilePath(String.format("%s%s", template.getTemplateFilePath(), template.getTemplateFileName()));
+                    genCodeCoreBo.setFilePath(String.format("%s%s", StringUtils.replace(template.getTemplateFilePath(), GenConstant.POINT, GenConstant.PATH_SEPARATOR), template.getTemplateFileName()));
                     genCodeCoreBo.setFileName(String.format("%s.%s", template.getTemplateFileName(), template.getTemplateFileType()));
                     genCodeCoreBo.setCode(template.getTemplateContent());
                     genCodeCoreBo.setFileType(template.getTemplateFileType());
