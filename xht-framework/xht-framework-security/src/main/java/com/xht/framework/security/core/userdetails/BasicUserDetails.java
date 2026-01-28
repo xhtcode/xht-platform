@@ -71,6 +71,11 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
     private final String password;
 
     /**
+     * 用户权限集合
+     */
+    private final Set<GrantedAuthority> authorities;
+
+    /**
      * 账号状态(1-正常,2-锁定,3-禁用,4-过期)
      */
     @Setter
@@ -111,11 +116,6 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
     @Setter
     @Schema(description = "权限列表")
     private Set<String> menuButtonCodes;
-
-    /**
-     * 用户权限集合
-     */
-    private final Set<GrantedAuthority> authorities;
 
     /**
      * 登录类型

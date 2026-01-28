@@ -1,7 +1,7 @@
 package com.xht.auth.security.core.userdetails;
 
-import com.xht.auth.authentication.dto.UserLoginDTO;
 import com.xht.auth.authentication.dao.IAuthenticationDao;
+import com.xht.auth.authentication.dto.UserLoginDTO;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.security.constant.SecurityConstant;

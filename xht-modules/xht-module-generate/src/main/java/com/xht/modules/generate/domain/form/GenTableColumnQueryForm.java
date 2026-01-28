@@ -1,6 +1,5 @@
 package com.xht.modules.generate.domain.form;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.xht.framework.core.domain.form.BasicForm;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

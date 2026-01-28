@@ -22,11 +22,6 @@ public final class JsonUtils {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private JsonUtils() {
-        // 禁止实例化工具类
-        throw new UnsupportedOperationException("Utility classes cannot be instantiated.");
-    }
-
     static {
         // 对象的所有字段全部列入，还是其他的选项，可以忽略null等
         objectMapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
@@ -40,6 +35,11 @@ public final class JsonUtils {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.registerModule(new Jdk8Module());
         objectMapper.registerModules(new CustomJacksonModule());
+    }
+
+    private JsonUtils() {
+        // 禁止实例化工具类
+        throw new UnsupportedOperationException("Utility classes cannot be instantiated.");
     }
 
     /**

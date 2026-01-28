@@ -2,9 +2,9 @@ package com.xht.modules.generate.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.generate.entity.GenTypeMappingEntity;
 import com.xht.modules.generate.domain.form.GenTypeMappingForm;
 import com.xht.modules.generate.domain.query.GenTypeMappingQuery;
+import com.xht.modules.generate.entity.GenTypeMappingEntity;
 
 
 /**
@@ -24,7 +24,7 @@ public interface GenTypeMappingDao extends MapperRepository<GenTypeMappingEntity
     /**
      * 分页查询菜单
      *
-     * @param page         分页信息
+     * @param page  分页信息
      * @param query 菜单查询请求参数
      * @return 菜单分页信息
      */

@@ -11,6 +11,7 @@ import java.io.Serializable;
 
 /**
  * 代码生成器-代码生成项目表（支持自定义配置）
+ *
  * @author xht
  */
 @Data

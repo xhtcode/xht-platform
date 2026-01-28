@@ -24,7 +24,7 @@ public class SysRoleForm extends BasicForm {
      */
     @Null(message = "角色唯一标识必须为空", groups = {Groups.Create.class})
     @NotNull(message = "角色唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "角色唯一标识参数不合法", groups = { Groups.Update.class})
+    @Positive(message = "角色唯一标识参数不合法", groups = {Groups.Update.class})
     @Schema(description = "角色唯一标识")
     private Long id;
 

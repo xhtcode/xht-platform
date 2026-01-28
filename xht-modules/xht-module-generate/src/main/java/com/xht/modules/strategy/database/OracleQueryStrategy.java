@@ -100,7 +100,7 @@ public class OracleQueryStrategy extends IDataBaseQuery {
      * 根据表名模糊查询多表信息
      *
      * @param jdbcTemplate JDBC模板，用于执行SQL查询
-     * @param tableName      表名
+     * @param tableName    表名
      * @return {@link TableBo} 表信息对象
      */
     @Override

@@ -140,6 +140,7 @@ public class AuthorizationServerAutoConfiguration {
         });
         return http.build();
     }
+
     @Bean
     public AuthorizationServerSettings authorizationServerSettings(XhtOauth2Properties xhtOauth2Properties) {
         return AuthorizationServerSettings.builder()

@@ -20,15 +20,18 @@ public class TreeNode<T> extends LinkedHashMap<String, Object> implements INode<
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+    private static final String KEY_ID = "id";
+
+    private static final String KEY_PARENT_ID = "parentId";
+
+    private static final String KEY_CHILDREN = "children";
+
     /**
      * 权重
      */
     @JsonIgnore
     private int weight;
-
-    private static final String KEY_ID = "id";
-    private static final String KEY_PARENT_ID = "parentId";
-    private static final String KEY_CHILDREN = "children";
 
     public TreeNode() {
     }

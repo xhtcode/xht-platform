@@ -24,11 +24,9 @@ import java.util.Optional;
 @Service
 public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationService {
 
+    private final Oauth2AuthorizationConverter authorizationConverter = new Oauth2AuthorizationConverter();
     @Resource
     private Oauth2AuthorizationRepository authorizationRepository;
-
-    private final Oauth2AuthorizationConverter authorizationConverter = new Oauth2AuthorizationConverter();
-
 
     /**
      * 保存 {@link OAuth2Authorization}。

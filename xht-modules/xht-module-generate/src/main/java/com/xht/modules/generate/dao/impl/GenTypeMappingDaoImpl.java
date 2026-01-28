@@ -7,9 +7,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.generate.dao.GenTypeMappingDao;
 import com.xht.modules.generate.dao.mapper.GenTypeMappingMapper;
-import com.xht.modules.generate.entity.GenTypeMappingEntity;
 import com.xht.modules.generate.domain.form.GenTypeMappingForm;
 import com.xht.modules.generate.domain.query.GenTypeMappingQuery;
+import com.xht.modules.generate.entity.GenTypeMappingEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +44,7 @@ public class GenTypeMappingDaoImpl extends MapperRepositoryImpl<GenTypeMappingMa
     /**
      * 分页查询菜单
      *
-     * @param page         分页信息
+     * @param page  分页信息
      * @param query 菜单查询请求参数
      * @return 菜单分页信息
      */

@@ -20,8 +20,8 @@ public final class SecurityServletUtils {
     /**
      * 写回错误信息
      *
-     * @param response   HttpServletResponse
-     * @param data       Object
+     * @param response HttpServletResponse
+     * @param data     Object
      */
     public static void writeString(HttpServletResponse response, Object data) {
         response.setStatus(HttpStatus.OK.value());

@@ -1,7 +1,7 @@
 package com.xht.auth.security.oatuh2.server.authorization.password;
 
-import com.xht.auth.security.oatuh2.server.authorization.AbstractAuthenticationConverter;
 import com.xht.auth.constant.CustomAuthorizationGrantType;
+import com.xht.auth.security.oatuh2.server.authorization.AbstractAuthenticationConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 
@@ -10,6 +10,7 @@ import java.util.Set;
 
 /**
  * 描述 ： 密码模式转换器
+ *
  * @author xht
  **/
 @Slf4j

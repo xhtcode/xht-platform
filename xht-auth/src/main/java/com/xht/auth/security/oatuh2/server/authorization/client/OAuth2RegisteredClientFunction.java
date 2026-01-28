@@ -26,6 +26,24 @@ import java.util.stream.Collectors;
 class OAuth2RegisteredClientFunction implements Function<Oauth2ClientDTO, RegisteredClient> {
 
     /**
+     * 根据客户端认证方法字符串解析并返回对应的ClientAuthenticationMethod对象
+     *
+     * @param clientAuthenticationMethod 客户端认证方法的字符串表示
+     * @return 对应的ClientAuthenticationMethod枚举对象或自定义认证方法对象
+     */
+    private static ClientAuthenticationMethod resolveClientAuthenticationMethod(String clientAuthenticationMethod) {
+        if (ClientAuthenticationMethod.CLIENT_SECRET_BASIC.getValue().equals(clientAuthenticationMethod)) {
+            return ClientAuthenticationMethod.CLIENT_SECRET_BASIC;
+        } else if (ClientAuthenticationMethod.CLIENT_SECRET_POST.getValue().equals(clientAuthenticationMethod)) {
+            return ClientAuthenticationMethod.CLIENT_SECRET_POST;
+        } else if (ClientAuthenticationMethod.NONE.getValue().equals(clientAuthenticationMethod)) {
+            return ClientAuthenticationMethod.NONE;
+        }
+        // 自定义客户端认证方法处理
+        return new ClientAuthenticationMethod(clientAuthenticationMethod);
+    }
+
+    /**
      * 根据SysOauth2ClientResponse对象构建RegisteredClient对象
      *
      * @param clientDTO SysOauth2ClientResponse对象，包含OAuth2客户端信息
@@ -69,7 +87,6 @@ class OAuth2RegisteredClientFunction implements Function<Oauth2ClientDTO, Regist
         return localDateTime.atZone(ZoneId.systemDefault()).toInstant();
     }
 
-
     /**
      * 根据OAuth2客户端响应配置构建令牌设置
      *
@@ -84,7 +101,6 @@ class OAuth2RegisteredClientFunction implements Function<Oauth2ClientDTO, Regist
                 .build();
     }
 
-
     /**
      * 将授权授予类型字符串集合转换为AuthorizationGrantType对象集合
      *
@@ -94,25 +110,6 @@ class OAuth2RegisteredClientFunction implements Function<Oauth2ClientDTO, Regist
     private Set<AuthorizationGrantType> formatAuthorizationGrantTypes(Set<String> authorizationGrantTypes) {
         // 过滤掉空值并转换为AuthorizationGrantType对象
         return authorizationGrantTypes.stream().filter(Objects::nonNull).map(AuthorizationGrantType::new).collect(Collectors.toSet());
-    }
-
-
-    /**
-     * 根据客户端认证方法字符串解析并返回对应的ClientAuthenticationMethod对象
-     *
-     * @param clientAuthenticationMethod 客户端认证方法的字符串表示
-     * @return 对应的ClientAuthenticationMethod枚举对象或自定义认证方法对象
-     */
-    private static ClientAuthenticationMethod resolveClientAuthenticationMethod(String clientAuthenticationMethod) {
-        if (ClientAuthenticationMethod.CLIENT_SECRET_BASIC.getValue().equals(clientAuthenticationMethod)) {
-            return ClientAuthenticationMethod.CLIENT_SECRET_BASIC;
-        } else if (ClientAuthenticationMethod.CLIENT_SECRET_POST.getValue().equals(clientAuthenticationMethod)) {
-            return ClientAuthenticationMethod.CLIENT_SECRET_POST;
-        } else if (ClientAuthenticationMethod.NONE.getValue().equals(clientAuthenticationMethod)) {
-            return ClientAuthenticationMethod.NONE;
-        }
-        // 自定义客户端认证方法处理
-        return new ClientAuthenticationMethod(clientAuthenticationMethod);
     }
 
 }

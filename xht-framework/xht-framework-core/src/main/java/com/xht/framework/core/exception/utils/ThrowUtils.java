@@ -74,7 +74,7 @@ public final class ThrowUtils {
      * 条件成立则抛异常
      *
      * @param condition 条件
-     * @param message 错误信息
+     * @param message   错误信息
      */
     public static void throwIf(boolean condition, String message) {
         throwIf(condition, new BusinessException(message));

@@ -34,6 +34,7 @@ public class SecurityAutoConfiguration {
 
     /**
      * 切面配置
+     *
      * @param securityHeaderProperties {@link SecurityHeaderProperties}
      * @return 配置切面
      */

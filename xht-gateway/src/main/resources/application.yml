@@ -10,24 +10,24 @@ spring:
               lower-case-service-id: true
               enabled: true
           routes:
-          - id: xht-auth
-            uri: lb://xht-auth #此处需要使用lb协议
-            predicates:
-              - Path=/auth/**
-            filters:
-              - StripPrefix=1
-          - id: xht-admin
-            uri: lb://xht-admin #此处需要使用lb协议
-            predicates:
-              - Path=/admin/**
-            filters:
-              - StripPrefix=1
-          - id: xht-generate
-            uri: lb://xht-generate #此处需要使用lb协议
-            predicates:
-              - Path=/generate/**
-            filters:
-              - StripPrefix=1
+            - id: xht-auth
+              uri: lb://xht-auth #此处需要使用lb协议
+              predicates:
+                - Path=/auth/**
+              filters:
+                - StripPrefix=1
+            - id: xht-admin
+              uri: lb://xht-admin #此处需要使用lb协议
+              predicates:
+                - Path=/admin/**
+              filters:
+                - StripPrefix=1
+            - id: xht-generate
+              uri: lb://xht-generate #此处需要使用lb协议
+              predicates:
+                - Path=/generate/**
+              filters:
+                - StripPrefix=1
 
 knife4j:
   gateway:

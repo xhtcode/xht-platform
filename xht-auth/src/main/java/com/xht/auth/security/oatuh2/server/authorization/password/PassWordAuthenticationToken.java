@@ -1,7 +1,7 @@
 package com.xht.auth.security.oatuh2.server.authorization.password;
 
-import com.xht.auth.security.oatuh2.server.authorization.AbstractAuthenticationToken;
 import com.xht.auth.constant.CustomAuthorizationGrantType;
+import com.xht.auth.security.oatuh2.server.authorization.AbstractAuthenticationToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 

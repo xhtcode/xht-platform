@@ -12,12 +12,12 @@ import java.util.stream.Collectors;
 /**
  * 基础转换器接口，用于实体与请求/响应对象之间的转换
  *
- * @param <T>       实体类型，继承自Entity
- * @param <Form> 请求对象类型，继承自FormRequest
+ * @param <T>        实体类型，继承自Entity
+ * @param <Form>     请求对象类型，继承自FormRequest
  * @param <Response> 响应对象类型，继承自IResponse
  * @author xht
  */
-public interface PageConverter<T extends Entity,  Response extends BasicResponse> {
+public interface PageConverter<T extends Entity, Response extends BasicResponse> {
 
     /**
      * 将实体对象转换为响应对象

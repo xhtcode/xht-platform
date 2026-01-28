@@ -16,8 +16,7 @@ public enum NoticePermTypeEnums implements IEnum<Integer> {
 
     ROLE_PERM(0, "角色权限"),
     USER_PERM(1, "用户权限"),
-    DEPT_PERM(2, "部门权限")
-    ;
+    DEPT_PERM(2, "部门权限");
     @JsonValue
     private final Integer value;
     private final String desc;

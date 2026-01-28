@@ -1,9 +1,9 @@
 package com.xht.modules.admin.audit.api.fallback;
 
-import com.xht.modules.admin.audit.api.IBLogClient;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 import com.xht.framework.openfeign.fallback.BasicFallback;
+import com.xht.modules.admin.audit.api.IBLogClient;
 
 /**
  * 日志保存 Fallback

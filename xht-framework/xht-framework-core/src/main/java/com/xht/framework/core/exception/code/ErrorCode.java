@@ -14,7 +14,7 @@ public interface ErrorCode {
     int getCode();
 
     /**
-     *  @return 错误消息
+     * @return 错误消息
      */
     String getMsg();
 

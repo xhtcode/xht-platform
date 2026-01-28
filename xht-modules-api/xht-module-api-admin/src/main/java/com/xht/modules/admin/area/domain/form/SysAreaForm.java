@@ -1,4 +1,3 @@
-
 package com.xht.modules.admin.area.domain.form;
 
 import com.xht.framework.core.domain.form.BasicForm;

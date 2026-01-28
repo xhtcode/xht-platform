@@ -257,6 +257,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
     public final Boolean existsIn(SFunction<T, ?> field, Collection<?> value) {
         return count(field, value) == value.size();
     }
+
     /**
      * 查询数量
      *

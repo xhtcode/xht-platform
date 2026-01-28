@@ -17,6 +17,16 @@ public class SecurityHeaderProperties implements IProperties {
 
     private Header header = new Header();
 
+    public String getAuthKey() {
+        ThrowUtils.notNull(header, "查询不到具体请求头配置");
+        return header.getAuthKey();
+    }
+
+    public String getAuthValue() {
+        ThrowUtils.notNull(header, "查询不到具体请求头配置");
+        return header.getAuthValue();
+    }
+
     @Data
     static class Header {
 
@@ -27,16 +37,6 @@ public class SecurityHeaderProperties implements IProperties {
          */
         private String authValue = "123456";
 
-    }
-
-    public String getAuthKey() {
-        ThrowUtils.notNull(header, "查询不到具体请求头配置");
-        return header.getAuthKey();
-    }
-
-    public String getAuthValue() {
-        ThrowUtils.notNull(header, "查询不到具体请求头配置");
-        return header.getAuthValue();
     }
 
 }

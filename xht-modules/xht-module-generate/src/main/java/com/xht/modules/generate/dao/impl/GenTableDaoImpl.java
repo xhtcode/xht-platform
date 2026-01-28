@@ -8,9 +8,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.generate.dao.GenTableDao;
 import com.xht.modules.generate.dao.mapper.GenTableMapper;
-import com.xht.modules.generate.entity.GenTableEntity;
 import com.xht.modules.generate.domain.form.GenTableInfoForm;
 import com.xht.modules.generate.domain.query.GenTableInfoQuery;
+import com.xht.modules.generate.entity.GenTableEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -59,7 +59,7 @@ public class GenTableDaoImpl extends MapperRepositoryImpl<GenTableMapper, GenTab
     /**
      * 分页查询菜单
      *
-     * @param page         分页信息
+     * @param page  分页信息
      * @param query 菜单查询请求参数
      * @return 菜单分页信息
      */

@@ -22,6 +22,17 @@ import java.util.*;
  **/
 public abstract class AbstractAuthenticationConverter implements AuthenticationConverter {
 
+    private static MultiValueMap<String, String> getParameters(HttpServletRequest request) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>(parameterMap.size());
+        parameterMap.forEach((key, values) -> {
+            for (String value : values) {
+                parameters.add(key, value);
+            }
+        });
+        return parameters;
+    }
+
     /**
      * 转换器
      *
@@ -51,17 +62,6 @@ public abstract class AbstractAuthenticationConverter implements AuthenticationC
             }
         });
         return convert(clientPrincipal, new HashSet<>(scopes), additionalParameters);
-    }
-
-    private static MultiValueMap<String, String> getParameters(HttpServletRequest request) {
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>(parameterMap.size());
-        parameterMap.forEach((key, values) -> {
-            for (String value : values) {
-                parameters.add(key, value);
-            }
-        });
-        return parameters;
     }
 
     /**

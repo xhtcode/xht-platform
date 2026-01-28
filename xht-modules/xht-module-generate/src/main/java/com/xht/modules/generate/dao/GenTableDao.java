@@ -2,9 +2,9 @@ package com.xht.modules.generate.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.generate.entity.GenTableEntity;
 import com.xht.modules.generate.domain.form.GenTableInfoForm;
 import com.xht.modules.generate.domain.query.GenTableInfoQuery;
+import com.xht.modules.generate.entity.GenTableEntity;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public interface GenTableDao extends MapperRepository<GenTableEntity> {
     /**
      * 分页查询菜单
      *
-     * @param page         分页信息
+     * @param page  分页信息
      * @param query 菜单查询请求参数
      * @return 菜单分页信息
      */

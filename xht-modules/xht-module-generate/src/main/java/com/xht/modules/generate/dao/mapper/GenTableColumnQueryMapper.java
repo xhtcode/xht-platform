@@ -8,5 +8,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @author xht
  **/
 @Mapper
-public interface GenTableColumnQueryMapper  extends BaseMapperX<GenTableColumnQueryEntity> {
+public interface GenTableColumnQueryMapper extends BaseMapperX<GenTableColumnQueryEntity> {
 }

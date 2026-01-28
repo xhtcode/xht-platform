@@ -51,7 +51,7 @@ public class RedisTokenInfoLightningCache implements TokenInfoLightningCache {
         long timeOut = tokenLightningCacheProperties.getExpired();
         if (Objects.nonNull(expiresAt)) {
             Duration between = Duration.between(Instant.now(), expiresAt);
-            long emp = between.getSeconds() - 1;//减去1秒 程序默认耗时 为1秒 实际不到1秒
+            long emp = between.getSeconds() - 1;// 减去1秒 程序默认耗时 为1秒 实际不到1秒
             if (emp <= tokenLightningCacheProperties.getExpired()) {
                 timeOut = emp;
             }

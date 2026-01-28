@@ -2,14 +2,12 @@ package com.xht.framework.security.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xht.framework.core.domain.dto.BasicDTO;
 import com.xht.framework.core.domain.response.BasicResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * 描述 ：token返回值

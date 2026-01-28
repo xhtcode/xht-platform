@@ -11,7 +11,7 @@ public class GenConstant {
 
     public static final String POINT = ".";
 
-    public static final String  COLON = ":";
+    public static final String COLON = ":";
 
     /**
      * 输入框
@@ -21,7 +21,7 @@ public class GenConstant {
     /**
      * 不需要表单字段
      */
-    public static final String[] COLUMN_NOT_FORM = {"id","create_by", "create_time", "update_by",
+    public static final String[] COLUMN_NOT_FORM = {"id", "create_by", "create_time", "update_by",
             "update_time", "version", "tenant_id", "del_flag"};
 
 

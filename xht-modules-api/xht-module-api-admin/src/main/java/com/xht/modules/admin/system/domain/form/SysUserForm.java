@@ -49,7 +49,7 @@ public class SysUserForm extends BasicForm {
      */
     @Schema(description = "账号状态")
     private UserStatusEnums userStatus;
-    
+
     /**
      * 手机号码
      */

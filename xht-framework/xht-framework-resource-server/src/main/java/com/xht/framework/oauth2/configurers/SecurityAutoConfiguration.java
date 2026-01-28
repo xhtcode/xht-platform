@@ -31,6 +31,18 @@ public class SecurityAutoConfiguration {
     }
 
     /**
+     * <a href="https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html#use-intercept-methods">参考地址<a/>
+     * <p>
+     * 创建注解模板表达式默认配置Bean
+     *
+     * @return AnnotationTemplateExpressionDefaults 注解模板表达式默认配置实例
+     */
+    @Bean
+    static AnnotationTemplateExpressionDefaults templateExpressionDefaults() {
+        return new AnnotationTemplateExpressionDefaults();
+    }
+
+    /**
      * 资源服务器异常处理
      *
      * @return ResourceAuthenticationEntryPoint
@@ -50,14 +62,12 @@ public class SecurityAutoConfiguration {
         return new ResourceBearerTokenResolver(permitAllUrlProperties);
     }
 
-
     @Bean
     @ConditionalOnClass(RedisTemplate.class)
     @ConditionalOnMissingBean(TokenInfoLightningCache.class)
     public TokenInfoLightningCache tokenInfoLightningCache(RedisTemplate<String, Object> redisTemplate, TokenLightningCacheProperties tokenLightningCacheProperties) {
         return new RedisTokenInfoLightningCache(redisTemplate, tokenLightningCacheProperties);
     }
-
 
     /**
      * 资源服务器token验证
@@ -82,18 +92,6 @@ public class SecurityAutoConfiguration {
     @Bean("oauth2")
     public PermissionCheckHandler permissionCheckHandler() {
         return new PermissionCheckHandler();
-    }
-
-    /**
-     * <a href="https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html#use-intercept-methods">参考地址<a/>
-     * <p>
-     * 创建注解模板表达式默认配置Bean
-     *
-     * @return AnnotationTemplateExpressionDefaults 注解模板表达式默认配置实例
-     */
-    @Bean
-    static AnnotationTemplateExpressionDefaults templateExpressionDefaults() {
-        return new AnnotationTemplateExpressionDefaults();
     }
 
 }

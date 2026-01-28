@@ -23,11 +23,9 @@ import java.util.Objects;
 @Slf4j
 public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
-    private final SpringOpaqueTokenIntrospector opaqueTokenIntrospector;
-
-    private final TokenInfoLightningCache tokenInfoLightningCache;
-
     private final static String TOKEN_KEY_PREFIX = "opaque:token:";
+    private final SpringOpaqueTokenIntrospector opaqueTokenIntrospector;
+    private final TokenInfoLightningCache tokenInfoLightningCache;
 
 
     public ResourceOpaqueTokenIntrospector(TokenInfoLightningCache tokenInfoLightningCache, OAuth2ResourceServerProperties.Opaquetoken opaquetoken) {

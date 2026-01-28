@@ -24,68 +24,54 @@ public final class TableInfoBo {
      * 表信息
      */
     private final GenTableEntity table;
-
-    /**
-     * 主键字段信息
-     */
-    private GenTableColumnEntity pkColumn;
-
     /**
      * 全部字段列表信息
      */
     private final List<GenTableColumnEntity> allColumns;
-
     /**
      * 全部字段列表 package 包信息
      */
     private final Set<String> allColumnsPackage;
-
     /**
      * 查询字段列表信息
      */
     private final List<ColumnQueryBo> queryColumns = new ArrayList<>();
-
     /**
      * 查询字段列表 package 包信息
      */
     private final Set<String> queryColumnsPackage = new HashSet<>();
-
     /**
      * 字段列表信息
      */
     private final List<GenTableColumnEntity> columns = new ArrayList<>();
-
     /**
      * 字段列表 package 包信息
      */
     private final Set<String> packages = new HashSet<>();
-
     /**
      * 表单 字段列表信息
      */
     private final List<GenTableColumnEntity> formColumns = new ArrayList<>();
-
     /**
      * 表单 字段列表 package 包信息
      */
     private final Set<String> formColumnsPackage = new HashSet<>();
-
-
     /**
      * 列表 字段列表信息
      */
     private final List<GenTableColumnEntity> listColumns = new ArrayList<>();
-
     /**
      * 列表 字段列表 package 包信息
      */
     private final Set<String> listColumnsPackage = new HashSet<>();
-
-
     /**
      * 表单 字段列表信息
      */
     private final List<GenTableColumnEntity> formListDifferenceColumns = new ArrayList<>();
+    /**
+     * 主键字段信息
+     */
+    private GenTableColumnEntity pkColumn;
 
     /**
      * 构造表信息业务对象

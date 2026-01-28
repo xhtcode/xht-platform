@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 /**
  * 数据传输对象
+ *
  * @author xht
  **/
 @Schema(description = "数据传输对象")

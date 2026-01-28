@@ -24,7 +24,7 @@ public class GenTableInfoForm extends BasicForm {
      */
     @Null(message = "Id必须为空", groups = {Groups.Create.class})
     @NotNull(message = "Id参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "Id参数不合法", groups = { Groups.Update.class})
+    @Positive(message = "Id参数不合法", groups = {Groups.Update.class})
     @Schema(description = "Id")
     private Long id;
 

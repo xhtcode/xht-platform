@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 代码生成模板组
+ *
  * @author xht
  */
 @Mapper

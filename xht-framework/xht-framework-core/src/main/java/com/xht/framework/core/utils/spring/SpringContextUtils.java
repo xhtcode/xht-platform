@@ -42,18 +42,6 @@ public final class SpringContextUtils implements ApplicationContextAware, BeanFa
     @Getter
     private static ApplicationContext applicationContext;
 
-    @Override
-    @SuppressWarnings("all")
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        SpringContextUtils.applicationContext = applicationContext;
-    }
-
-    @Override
-    @SuppressWarnings("all")
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        SpringContextUtils.beanFactory = beanFactory;
-    }
-
     /**
      * 获取{@link ListableBeanFactory}，可能为{@link ConfigurableListableBeanFactory} 或 {@link ApplicationContextAware}
      *
@@ -86,8 +74,6 @@ public final class SpringContextUtils implements ApplicationContextAware, BeanFa
         return factory;
     }
 
-    // 通过name获取 Bean.
-
     /**
      * 通过name获取 Bean
      *
@@ -110,6 +96,8 @@ public final class SpringContextUtils implements ApplicationContextAware, BeanFa
     public static <T> T getBean(Class<T> clazz) {
         return getBeanFactory().getBean(clazz);
     }
+
+    // 通过name获取 Bean.
 
     /**
      * 获取UserContextService
@@ -303,6 +291,18 @@ public final class SpringContextUtils implements ApplicationContextAware, BeanFa
         if (null != applicationContext) {
             applicationContext.publishEvent(event);
         }
+    }
+
+    @Override
+    @SuppressWarnings("all")
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        SpringContextUtils.applicationContext = applicationContext;
+    }
+
+    @Override
+    @SuppressWarnings("all")
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        SpringContextUtils.beanFactory = beanFactory;
     }
 
 }

@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  *
  * @author xht
  **/
-@Target({ ElementType.METHOD })
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @PreAuthorize("@oauth2.hasRoleCode('{value}'.split(','))")
 public @interface CheckRole {

@@ -1,8 +1,8 @@
 package com.xht.modules.generate.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.generate.entity.GenTemplateEntity;
 import com.xht.modules.generate.domain.form.GenTemplateForm;
+import com.xht.modules.generate.entity.GenTemplateEntity;
 
 import java.util.List;
 

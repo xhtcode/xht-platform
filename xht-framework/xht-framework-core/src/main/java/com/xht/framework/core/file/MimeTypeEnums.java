@@ -164,22 +164,6 @@ public enum MimeTypeEnums {
     private final String contentType;
 
     /**
-     * @return 生成的文件名称
-     */
-    public String generateName() {
-        return generateName(IdUtil.objectId());
-    }
-
-    /**
-     * @param fileNamePrefix 文件名称前缀
-     * @return 生成的文件名称
-     */
-    public String generateName(String fileNamePrefix) {
-        return FileUtils.generateFileName(fileNamePrefix, this.getFileSuffix());
-    }
-
-
-    /**
      * 根据文件后缀获取对应的MIME类型枚举
      *
      * @param fileSuffix 文件后缀名
@@ -198,6 +182,21 @@ public enum MimeTypeEnums {
         }
         // 未找到匹配项，返回默认值
         return DEFAULT_;
+    }
+
+    /**
+     * @return 生成的文件名称
+     */
+    public String generateName() {
+        return generateName(IdUtil.objectId());
+    }
+
+    /**
+     * @param fileNamePrefix 文件名称前缀
+     * @return 生成的文件名称
+     */
+    public String generateName(String fileNamePrefix) {
+        return FileUtils.generateFileName(fileNamePrefix, this.getFileSuffix());
     }
 
 }

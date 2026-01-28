@@ -2,9 +2,9 @@ package com.xht.modules.generate.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.modules.generate.domain.bo.TableBo;
-import com.xht.modules.generate.entity.GenTableEntity;
 import com.xht.modules.generate.domain.form.GenTableInfoForm;
 import com.xht.modules.generate.domain.response.GenTableResponse;
+import com.xht.modules.generate.entity.GenTableEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;

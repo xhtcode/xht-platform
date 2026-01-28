@@ -12,6 +12,7 @@ import java.io.Serializable;
 
 /**
  * 代码生成器-数据类型映射表
+ *
  * @author xht
  */
 @Data

@@ -30,8 +30,7 @@ public abstract class AbstractCaptcha {
     /**
      * 验证码字体常用颜色
      */
-    private static final int[][] COLOR = {
-            {0, 85, 204},    // 深蓝色
+    private static final int[][] COLOR = {{0, 85, 204},    // 深蓝色
             {0, 128, 0},     // 深绿色
             {204, 0, 0},     // 深红色
             {255, 102, 0},   // 橙色
@@ -46,11 +45,6 @@ public abstract class AbstractCaptcha {
     };
 
     /**
-     * 验证码的code
-     */
-    protected String code;
-
-    /**
      * 验证码图片宽度
      */
     protected final int width;
@@ -59,6 +53,11 @@ public abstract class AbstractCaptcha {
      * 验证码图片高度
      */
     protected final int height;
+
+    /**
+     * 验证码的code
+     */
+    protected String code;
 
     /**
      * 验证码使用的字体

@@ -178,14 +178,7 @@ public final class MessagePayloadBuilder {
         if (Objects.nonNull(messageExtend)) {
             this.messageContent = StringFormatter.format(this.messageContent, messageExtend);
         }
-        return new MessagePayload(
-                this.sendUser,
-                this.recipientUser,
-                this.messageType,
-                this.messageTitle,
-                this.messageContent,
-                Optional.ofNullable(messageExtend).orElse(EMPTY_MESSAGE_EXTEND)
-        );
+        return new MessagePayload(this.sendUser, this.recipientUser, this.messageType, this.messageTitle, this.messageContent, Optional.ofNullable(messageExtend).orElse(EMPTY_MESSAGE_EXTEND));
     }
 
 

@@ -1,9 +1,9 @@
 package com.xht.modules.generate.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.modules.generate.entity.GenDataSourceEntity;
 import com.xht.modules.generate.domain.form.GenDataSourceForm;
 import com.xht.modules.generate.domain.response.GenDataSourceResponse;
+import com.xht.modules.generate.entity.GenDataSourceEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;

@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * 表信息表单请求参数
+ *
  * @author xht
  **/
 @Data

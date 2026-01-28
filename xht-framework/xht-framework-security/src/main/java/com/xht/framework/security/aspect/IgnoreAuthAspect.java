@@ -21,6 +21,7 @@ import java.util.Objects;
 
 /**
  * 内部接口权限切面
+ *
  * @author xht
  **/
 @Slf4j
@@ -35,7 +36,7 @@ public class IgnoreAuthAspect implements Ordered {
     /**
      * 内部认证校验
      *
-     * @param point 切点
+     * @param point      切点
      * @param ignoreAuth 注解
      */
     @SneakyThrows

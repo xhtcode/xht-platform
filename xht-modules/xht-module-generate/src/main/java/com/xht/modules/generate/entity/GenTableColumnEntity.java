@@ -13,10 +13,11 @@ import java.io.Serializable;
 
 /**
  * 代码生成器-表字段信息表
+ *
  * @author xht
  */
 @Data
-@TableName(value ="gen_table_column")
+@TableName(value = "gen_table_column")
 public class GenTableColumnEntity extends NoneDeleteEntity implements Serializable {
 
     /**

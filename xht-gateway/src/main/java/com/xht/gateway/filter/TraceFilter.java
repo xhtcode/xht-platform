@@ -39,6 +39,16 @@ public class TraceFilter implements GlobalFilter, Ordered {
      */
     private final static String REQUEST_USER_ID = HttpConstants.Header.USER_ID.getValue();
 
+    /**
+     * 获取请求路径URL.
+     *
+     * @param request 请求对象
+     * @return 路径 URL
+     */
+    public static String getRequestURL(ServerHttpRequest request) {
+        return request.getPath().pathWithinApplication().value();
+    }
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
@@ -54,28 +64,11 @@ public class TraceFilter implements GlobalFilter, Ordered {
         log.debug("请求路径：{}， 用户ID：{}， 用户账号：{}，链路ID：{}", requestURL, userId, userAccount, traceId);
         ServerHttpResponse response = exchange.getResponse();
         response.getHeaders().add(REQUEST_TRACE_ID, traceId);
-        return chain.filter(exchange.mutate()
-                .request(request.mutate()
-                        .header(REQUEST_USER_ACCOUNT, userAccount)
-                        .header(REQUEST_USER_ID, userId)
-                        .header(REQUEST_TRACE_ID, traceId)
-                        .build()).response(response)
-                .build()).doFinally(s -> TraceIdUtils.removeTraceId());
+        return chain.filter(exchange.mutate().request(request.mutate().header(REQUEST_USER_ACCOUNT, userAccount).header(REQUEST_USER_ID, userId).header(REQUEST_TRACE_ID, traceId).build()).response(response).build()).doFinally(s -> TraceIdUtils.removeTraceId());
     }
-
 
     @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE;
-    }
-
-    /**
-     * 获取请求路径URL.
-     *
-     * @param request 请求对象
-     * @return 路径 URL
-     */
-    public static String getRequestURL(ServerHttpRequest request) {
-        return request.getPath().pathWithinApplication().value();
     }
 }

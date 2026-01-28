@@ -39,7 +39,7 @@ public class PhoneAuthenticationProvider extends AbstractAuthenticationProvider 
     /**
      * 获取认证过的用户信息
      *
-     * @param requestUserBO 用户请求信息
+     * @param requestUserBO  用户请求信息
      * @param authentication 认证信息
      * @return 认证信息
      */

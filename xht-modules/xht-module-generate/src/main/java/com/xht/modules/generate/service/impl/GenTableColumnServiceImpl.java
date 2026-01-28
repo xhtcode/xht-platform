@@ -2,8 +2,8 @@ package com.xht.modules.generate.service.impl;
 
 import com.xht.modules.generate.converter.GenTableColumnConverter;
 import com.xht.modules.generate.dao.GenTableColumnDao;
-import com.xht.modules.generate.entity.GenTableColumnEntity;
 import com.xht.modules.generate.domain.response.GenTableColumnResponse;
+import com.xht.modules.generate.entity.GenTableColumnEntity;
 import com.xht.modules.generate.service.IGenTableColumnService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

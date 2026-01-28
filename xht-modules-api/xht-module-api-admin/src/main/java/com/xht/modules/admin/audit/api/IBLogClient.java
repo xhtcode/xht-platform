@@ -1,9 +1,9 @@
 package com.xht.modules.admin.audit.api;
 
-import com.xht.modules.admin.audit.api.factory.BLogClientFallbackFactory;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
+import com.xht.modules.admin.audit.api.factory.BLogClientFallbackFactory;
 import com.xht.platform.common.constant.ServiceNameConstant;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

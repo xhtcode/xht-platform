@@ -18,35 +18,11 @@ import java.util.Objects;
 @SpringBootTest
 public class GenerateMenuSql {
 
+    final static String sql = "INSERT INTO `sys_menu`" +
+            " (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES " +
+            "(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s);";
     @Autowired
     private SysMenuMapper sysMenuMapper;
-
-    @Test
-    public void test() {
-        LambdaQueryWrapper<SysMenuEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysMenuEntity::getParentId, 0);
-        queryWrapper.orderByAsc(SysMenuEntity::getMenuSort);
-        List<SysMenuEntity> menuEntityList = sysMenuMapper.selectList(queryWrapper);
-        int index = 1;
-        List<String> list = new ArrayList<>();
-        list.add("TRUNCATE table sys_menu;");
-        for (int i = 0; i < menuEntityList.size(); i++) {
-            SysMenuEntity sysMenuEntity = menuEntityList.get(i);
-            int p1 = print(list, sysMenuEntity, index++, 0, i + 1);
-            List<SysMenuEntity> itemList = sysMenuMapper.selectList(new LambdaQueryWrapper<SysMenuEntity>().eq(SysMenuEntity::getParentId, sysMenuEntity.getId()).orderByAsc(SysMenuEntity::getMenuSort));
-            for (int j = 0; j < itemList.size(); j++) {
-                SysMenuEntity sysMenuEntity1 = itemList.get(j);
-                int p2 = print(list, sysMenuEntity1, index++, p1, j + 1);
-                List<SysMenuEntity> itemList2 = sysMenuMapper.selectList(new LambdaQueryWrapper<SysMenuEntity>().eq(SysMenuEntity::getParentId, sysMenuEntity1.getId()).orderByAsc(SysMenuEntity::getMenuSort));
-                for (int k = 0; k < itemList2.size(); k++) {
-                    print(list, itemList2.get(k), index++, p2, k + 1);
-
-                }
-            }
-        }
-        list.forEach(System.out::println);
-    }
-
 
     private static int print(List<String> list, SysMenuEntity entity, int index, int parent, int sort) {
         list.add(String.format(sql,
@@ -75,7 +51,29 @@ public class GenerateMenuSql {
         return index;
     }
 
-    final static String sql = "INSERT INTO `sys_menu`" +
-            " (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES " +
-            "(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s);";
+    @Test
+    public void test() {
+        LambdaQueryWrapper<SysMenuEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysMenuEntity::getParentId, 0);
+        queryWrapper.orderByAsc(SysMenuEntity::getMenuSort);
+        List<SysMenuEntity> menuEntityList = sysMenuMapper.selectList(queryWrapper);
+        int index = 1;
+        List<String> list = new ArrayList<>();
+        list.add("TRUNCATE table sys_menu;");
+        for (int i = 0; i < menuEntityList.size(); i++) {
+            SysMenuEntity sysMenuEntity = menuEntityList.get(i);
+            int p1 = print(list, sysMenuEntity, index++, 0, i + 1);
+            List<SysMenuEntity> itemList = sysMenuMapper.selectList(new LambdaQueryWrapper<SysMenuEntity>().eq(SysMenuEntity::getParentId, sysMenuEntity.getId()).orderByAsc(SysMenuEntity::getMenuSort));
+            for (int j = 0; j < itemList.size(); j++) {
+                SysMenuEntity sysMenuEntity1 = itemList.get(j);
+                int p2 = print(list, sysMenuEntity1, index++, p1, j + 1);
+                List<SysMenuEntity> itemList2 = sysMenuMapper.selectList(new LambdaQueryWrapper<SysMenuEntity>().eq(SysMenuEntity::getParentId, sysMenuEntity1.getId()).orderByAsc(SysMenuEntity::getMenuSort));
+                for (int k = 0; k < itemList2.size(); k++) {
+                    print(list, itemList2.get(k), index++, p2, k + 1);
+
+                }
+            }
+        }
+        list.forEach(System.out::println);
+    }
 }

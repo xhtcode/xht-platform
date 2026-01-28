@@ -1,10 +1,7 @@
 package com.xht.framework.core.properties.basic;
 
 import com.xht.framework.core.properties.IProperties;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 /**
  * 通用配置类

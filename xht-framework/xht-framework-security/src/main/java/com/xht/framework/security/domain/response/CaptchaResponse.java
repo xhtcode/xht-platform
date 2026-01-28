@@ -1,6 +1,5 @@
 package com.xht.framework.security.domain.response;
 
-import com.xht.framework.core.domain.dto.BasicDTO;
 import com.xht.framework.core.domain.response.BasicResponse;
 import lombok.Data;
 

@@ -10,6 +10,7 @@ import java.util.Objects;
 /**
  * 数据源配置类，基于建造者模式实现灵活配置
  * 包含必要参数校验和默认值管理，确保配置合法性
+ *
  * @author xht
  */
 @Getter

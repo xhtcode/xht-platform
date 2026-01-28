@@ -1,6 +1,5 @@
 package com.xht.framework.oauth2.utils;
 
-import cn.hutool.core.util.ArrayUtil;
 import com.xht.framework.core.enums.UserTypeEnums;
 import com.xht.framework.core.exception.UtilException;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
@@ -8,12 +7,9 @@ import com.xht.framework.security.exception.BasicAuthenticationException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.PatternMatchUtils;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * 安全工具类
@@ -76,7 +72,6 @@ public final class SecurityUtils {
     public static Boolean isAdmin() {
         return Objects.equals(getUser().getUserType(), UserTypeEnums.ADMIN);
     }
-
 
 
 }

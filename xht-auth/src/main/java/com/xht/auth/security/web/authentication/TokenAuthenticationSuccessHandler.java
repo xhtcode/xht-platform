@@ -26,6 +26,19 @@ import java.util.Objects;
 @Slf4j
 public class TokenAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
+    /**
+     * 获取token的过期时间
+     *
+     * @param accessToken token
+     * @return token的过期时间
+     */
+    private static long getExpiresIn(OAuth2AccessToken accessToken) {
+        if (Objects.nonNull(accessToken.getExpiresAt())) {
+            return ChronoUnit.SECONDS.between(Instant.now(), accessToken.getExpiresAt());
+        }
+        return -1;
+    }
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         log.info("TokenAuthenticationSuccessHandler");
@@ -56,18 +69,5 @@ public class TokenAuthenticationSuccessHandler implements AuthenticationSuccessH
             tokenResponse.setAdditionalParameters(additionalParameters);
         }
         return tokenResponse;
-    }
-
-    /**
-     * 获取token的过期时间
-     *
-     * @param accessToken token
-     * @return token的过期时间
-     */
-    private static long getExpiresIn(OAuth2AccessToken accessToken) {
-        if (Objects.nonNull(accessToken.getExpiresAt())) {
-            return ChronoUnit.SECONDS.between(Instant.now(), accessToken.getExpiresAt());
-        }
-        return -1;
     }
 }

@@ -5,19 +5,20 @@
 <mapper namespace="com.xht.modules.admin.notice.dao.mapper.SysNoticePermissionMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.modules.admin.notice.entity.SysNoticePermissionEntity">
-            <id property="id" column="id" />
-            <result property="noticeId" column="notice_id" />
-            <result property="permType" column="perm_type" />
-            <result property="permValue" column="perm_value" />
-            <result property="delFlag" column="del_flag" />
-            <result property="createBy" column="create_by" />
-            <result property="createTime" column="create_time" />
-            <result property="updateBy" column="update_by" />
-            <result property="updateTime" column="update_time" />
+        <id property="id" column="id"/>
+        <result property="noticeId" column="notice_id"/>
+        <result property="permType" column="perm_type"/>
+        <result property="permValue" column="perm_value"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,notice_id,perm_type,perm_value,del_flag,create_by,
+        id
+        ,notice_id,perm_type,perm_value,del_flag,create_by,
         create_time,update_by,update_time
     </sql>
 </mapper>

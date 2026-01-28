@@ -12,6 +12,19 @@ import lombok.Getter;
 public class EvnConstants {
 
     /**
+     * 环境常量 - dev环境
+     */
+    public static final String EVN_DEV = "dev";
+    /**
+     * 环境常量 - prod环境
+     */
+    public static final String EVN_PROD = "prod";
+    /**
+     * 环境常量 - uat环境
+     */
+    public static final String EVN_UAT = "uat";
+
+    /**
      * 环境类型
      */
     @Getter
@@ -27,20 +40,5 @@ public class EvnConstants {
         private final String info;
 
     }
-
-    /**
-     * 环境常量 - dev环境
-     */
-    public static final String EVN_DEV = "dev";
-
-    /**
-     * 环境常量 - prod环境
-     */
-    public static final String EVN_PROD = "prod";
-
-    /**
-     * 环境常量 - uat环境
-     */
-    public static final String EVN_UAT = "uat";
 
 }

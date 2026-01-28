@@ -37,6 +37,16 @@ import java.time.Instant;
  */
 public final class XhtOAuth2RefreshTokenGenerator implements OAuth2TokenGenerator<OAuth2RefreshToken> {
 
+    private static boolean isPublicClientForAuthorizationCodeGrant(OAuth2TokenContext context) {
+        // @formatter:off
+		if (AuthorizationGrantType.AUTHORIZATION_CODE.equals(context.getAuthorizationGrantType()) &&
+				(context.getAuthorizationGrant().getPrincipal() instanceof OAuth2ClientAuthenticationToken clientPrincipal)) {
+			return clientPrincipal.getClientAuthenticationMethod().equals(ClientAuthenticationMethod.NONE);
+		}
+		// @formatter:on
+        return false;
+    }
+
     @Nullable
     @Override
     public OAuth2RefreshToken generate(OAuth2TokenContext context) {
@@ -51,16 +61,6 @@ public final class XhtOAuth2RefreshTokenGenerator implements OAuth2TokenGenerato
         Instant issuedAt = Instant.now();
         Instant expiresAt = issuedAt.plus(context.getRegisteredClient().getTokenSettings().getRefreshTokenTimeToLive());
         return new OAuth2RefreshToken(IdUtil.fastSimpleUUID(), issuedAt, expiresAt);
-    }
-
-    private static boolean isPublicClientForAuthorizationCodeGrant(OAuth2TokenContext context) {
-        // @formatter:off
-		if (AuthorizationGrantType.AUTHORIZATION_CODE.equals(context.getAuthorizationGrantType()) &&
-				(context.getAuthorizationGrant().getPrincipal() instanceof OAuth2ClientAuthenticationToken clientPrincipal)) {
-			return clientPrincipal.getClientAuthenticationMethod().equals(ClientAuthenticationMethod.NONE);
-		}
-		// @formatter:on
-        return false;
     }
 
 }

@@ -98,11 +98,11 @@ public class TreeBuilder<E> implements Serializable {
             if (null == node) {
                 continue;
             }
-            //获取上级节点的id
+            // 获取上级节点的id
             E parentId = node.getParentId();
-            //获取上级节点的数据
+            // 获取上级节点的数据
             INode<E> parentNode = nodeEmp.get(parentId);
-            //如果上级节点的数据是空的，证明没有上级节点，他就是一级节点
+            // 如果上级节点的数据是空的，证明没有上级节点，他就是一级节点
             // 如果不是空的那么当前节点是上级节点的子节点
             if (Objects.isNull(parentNode)) {
                 this.root.addChildren(node);

@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 
 /**
  * 代码生成器-表结构信息表
+ *
  * @author xht
  */
 @Data
@@ -23,7 +24,7 @@ public class GenTableEntity extends NoneDeleteEntity implements Serializable {
     /**
      * 表ID
      */
-    @TableId(value = "id",type = IdType.ASSIGN_ID)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     /**

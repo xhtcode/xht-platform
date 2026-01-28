@@ -27,17 +27,32 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class ResourceBearerTokenResolver implements BearerTokenResolver {
 
-    private final PermitAllUrlProperties permitAllUrlProperties;
-
-    private final PathMatcher pathMatcher = new AntPathMatcher();
-
     private static final Pattern authorizationPattern = Pattern.compile("^Bearer (?<token>[a-zA-Z0-9-:._~+/]+=*)$", Pattern.CASE_INSENSITIVE);
-
+    private final PermitAllUrlProperties permitAllUrlProperties;
+    private final PathMatcher pathMatcher = new AntPathMatcher();
     private final boolean allowFormEncodedBodyParameter = false;
 
     private final boolean allowUriQueryParameter = true;
 
     private final String bearerTokenHeaderName = HttpHeaders.AUTHORIZATION;
+
+    /**
+     * 解析请求参数中的Bearer Token
+     *
+     * @param request the request
+     * @return the token or null if not found
+     */
+    private static String resolveFromRequestParameters(HttpServletRequest request) {
+        String[] values = request.getParameterValues("access_token");
+        if (values == null || values.length == 0) {
+            return null;
+        }
+        if (values.length == 1) {
+            return values[0];
+        }
+        BearerTokenError error = BearerTokenErrors.invalidRequest("Found multiple bearer tokens in the request");
+        throw new OAuth2AuthenticationException(error);
+    }
 
     /**
      * 解析请求中的Bearer Token
@@ -102,24 +117,6 @@ public class ResourceBearerTokenResolver implements BearerTokenResolver {
             throw new OAuth2AuthenticationException(error);
         }
         return matcher.group("token");
-    }
-
-    /**
-     * 解析请求参数中的Bearer Token
-     *
-     * @param request the request
-     * @return the token or null if not found
-     */
-    private static String resolveFromRequestParameters(HttpServletRequest request) {
-        String[] values = request.getParameterValues("access_token");
-        if (values == null || values.length == 0) {
-            return null;
-        }
-        if (values.length == 1) {
-            return values[0];
-        }
-        BearerTokenError error = BearerTokenErrors.invalidRequest("Found multiple bearer tokens in the request");
-        throw new OAuth2AuthenticationException(error);
     }
 
     /**

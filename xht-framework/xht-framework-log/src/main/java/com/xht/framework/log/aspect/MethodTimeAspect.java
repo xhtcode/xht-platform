@@ -33,7 +33,7 @@ public class MethodTimeAspect {
     /**
      * 方法计时 切点
      *
-     * @param joinPoint               {@link ProceedingJoinPoint}
+     * @param joinPoint            {@link ProceedingJoinPoint}
      * @param methodTimeAnnotation {@link MethodTimeAnnotation}
      * @return Object
      */

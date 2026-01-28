@@ -5,23 +5,24 @@
 <mapper namespace="com.xht.modules.admin.notice.dao.mapper.SysNoticeAttachmentMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.modules.admin.notice.entity.SysNoticeAttachmentEntity">
-            <id property="id" column="id" />
-            <result property="noticeId" column="notice_id" />
-            <result property="attachmentName" column="attachment_name" />
-            <result property="attachmentShowName" column="attachment_show_name" />
-            <result property="attachmentPath" column="attachment_path" />
-            <result property="attachmentSize" column="attachment_size" />
-            <result property="attachmentType" column="attachment_type" />
-            <result property="attachmentOrder" column="attachment_order" />
-            <result property="delFlag" column="del_flag" />
-            <result property="createBy" column="create_by" />
-            <result property="createTime" column="create_time" />
-            <result property="updateBy" column="update_by" />
-            <result property="updateTime" column="update_time" />
+        <id property="id" column="id"/>
+        <result property="noticeId" column="notice_id"/>
+        <result property="attachmentName" column="attachment_name"/>
+        <result property="attachmentShowName" column="attachment_show_name"/>
+        <result property="attachmentPath" column="attachment_path"/>
+        <result property="attachmentSize" column="attachment_size"/>
+        <result property="attachmentType" column="attachment_type"/>
+        <result property="attachmentOrder" column="attachment_order"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,notice_id,attachment_name,attachment_show_name,attachment_path,attachment_size,
+        id
+        ,notice_id,attachment_name,attachment_show_name,attachment_path,attachment_size,
         attachment_type,attachment_order,del_flag,create_by,create_time,
         update_by,update_time
     </sql>

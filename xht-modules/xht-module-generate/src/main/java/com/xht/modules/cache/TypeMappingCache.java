@@ -24,13 +24,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TypeMappingCache {
 
-    private final GenTypeMappingDao genTypeMappingDao;
-
     /**
      * 类型映射缓存
      * 结构: [数据库类型][数据库字段类型] = 目标语言字段类型
      */
     private static final Map<DataBaseTypeEnums, Map<String, GenTypeMappingEntity>> DB_TYPE_MAPPING_CACHE_TEMP = new HashMap<>();
+    private final GenTypeMappingDao genTypeMappingDao;
 
     /**
      * 初始化缓存，项目启动时执行

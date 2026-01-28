@@ -23,6 +23,7 @@ import static com.xht.framework.security.constant.SecurityConstant.REDIS_CAPTCHA
 
 /**
  * 验证码服务实现类
+ *
  * @author xht
  **/
 @Slf4j
@@ -39,7 +40,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
      */
     @Override
     public CaptchaResponse generateCaptcha(String captchaKey) {
-        removeCaptcha( String.format("%s%s", REDIS_CAPTCHA_CODE_KEY_PREFIX, captchaKey));
+        removeCaptcha(String.format("%s%s", REDIS_CAPTCHA_CODE_KEY_PREFIX, captchaKey));
         String id = IdUtil.objectId();
         ArithmeticCaptcha arithmeticCaptcha = new ArithmeticCaptcha(150, 40);
         CaptchaResponse response = new CaptchaResponse();

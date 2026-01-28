@@ -7,9 +7,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.generate.dao.GenTemplateGroupDao;
 import com.xht.modules.generate.dao.mapper.GenTemplateGroupMapper;
-import com.xht.modules.generate.entity.GenTemplateGroupEntity;
 import com.xht.modules.generate.domain.form.GenTemplateGroupForm;
 import com.xht.modules.generate.domain.query.GenTemplateGroupQuery;
+import com.xht.modules.generate.entity.GenTemplateGroupEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +44,7 @@ public class GenTemplateGroupDaoImpl extends MapperRepositoryImpl<GenTemplateGro
     /**
      * 根据提供的查询请求参数分页查询代码生成模板组信息
      *
-     * @param page         分页查询参数
+     * @param page  分页查询参数
      * @param query 查询参数
      * @return 代码生成模板组列表响应结果
      */

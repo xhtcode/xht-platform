@@ -2,11 +2,9 @@ package com.xht.auth.redis.converter;
 
 import com.xht.auth.redis.entity.Oauth2AuthorizationConsentEntity;
 import com.xht.framework.core.converter.IConverter;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
 
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Oauth2AuthorizationConsent转换器
@@ -42,7 +40,7 @@ public final class Oauth2AuthorizationConsentConverter implements IConverter<OAu
      */
     @Override
     public OAuth2AuthorizationConsent reverse(Oauth2AuthorizationConsentEntity entity) {
-        if (Objects.isNull(entity)){
+        if (Objects.isNull(entity)) {
             return null;
         }
         return OAuth2AuthorizationConsent.withId(entity.getId(), entity.getPrincipalName())

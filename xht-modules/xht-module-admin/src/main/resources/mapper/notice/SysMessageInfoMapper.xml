@@ -5,24 +5,25 @@
 <mapper namespace="com.xht.modules.admin.notice.dao.mapper.SysMessageInfoMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.modules.admin.notice.entity.SysMessageInfoEntity">
-            <id property="id" column="id" />
-            <result property="messageId" column="message_id" />
-            <result property="recipientId" column="recipient_id" />
-            <result property="recipientName" column="recipient_name" />
-            <result property="messageStatus" column="message_status" />
-            <result property="messageTop" column="message_top" />
-            <result property="messageStar" column="message_star" />
-            <result property="readTime" column="read_time" />
-            <result property="removeTime" column="remove_time" />
-            <result property="delFlag" column="del_flag" />
-            <result property="createBy" column="create_by" />
-            <result property="createTime" column="create_time" />
-            <result property="updateBy" column="update_by" />
-            <result property="updateTime" column="update_time" />
+        <id property="id" column="id"/>
+        <result property="messageId" column="message_id"/>
+        <result property="recipientId" column="recipient_id"/>
+        <result property="recipientName" column="recipient_name"/>
+        <result property="messageStatus" column="message_status"/>
+        <result property="messageTop" column="message_top"/>
+        <result property="messageStar" column="message_star"/>
+        <result property="readTime" column="read_time"/>
+        <result property="removeTime" column="remove_time"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,message_id,recipient_id,recipient_name,message_status,message_top,
+        id
+        ,message_id,recipient_id,recipient_name,message_status,message_top,
         message_star,read_time,remove_time,del_flag,create_by,
         create_time,update_by,update_time
     </sql>
