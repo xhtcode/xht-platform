@@ -38,7 +38,7 @@ public class GenTableColumnController {
     @Operation(summary = "根据ID查询字段信息", description = "根据提供的字段信息ID查询字段信息信息")
     @GetMapping("/get/{id}")
     public R<GenTableColumnResponse> findById(@PathVariable @Parameter(description = "字段信息ID", required = true) Long id) {
-        return R.ok(genColumnInfoService.findById(id));
+        return R.ok().build(genColumnInfoService.findById(id));
     }
 
     /**
@@ -50,7 +50,7 @@ public class GenTableColumnController {
     @Operation(summary = "根据表id查询字段信息", description = "根据表id查询字段信息")
     @GetMapping("/list/{tableId}")
     public R<List<GenTableColumnResponse>> listByTableId(@PathVariable("tableId") String tableId) {
-        return R.ok(genColumnInfoService.listByTableId(tableId));
+        return R.ok().build(genColumnInfoService.listByTableId(tableId));
     }
 
 }

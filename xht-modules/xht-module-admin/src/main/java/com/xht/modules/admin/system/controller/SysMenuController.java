@@ -44,7 +44,7 @@ public class SysMenuController {
     @Operation(summary = "创建菜单", description = "根据提供的请求参数创建一个新的菜单")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysMenuForm form) {
         sysMenuService.create(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -58,7 +58,7 @@ public class SysMenuController {
     @Operation(summary = "根据ID删除菜单", description = "根据提供的菜单ID删除菜单")
     public R<Void> removeById(@PathVariable @Parameter(description = "菜单ID", required = true) Long id) {
         sysMenuService.removeById(id);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SysMenuController {
     @Operation(summary = "根据ID更新菜单", description = "根据提供的菜单更新请求参数更新菜单")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysMenuForm form) {
         sysMenuService.updateById(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -88,7 +88,7 @@ public class SysMenuController {
     public R<Void> updateStatus(@PathVariable("id") @Parameter(description = "菜单ID", required = true) Long id,
                                 @PathVariable("status") @Parameter(description = "菜单状态", required = true) MenuStatusEnums status) {
         sysMenuService.updateStatus(id, status);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -100,7 +100,7 @@ public class SysMenuController {
     @GetMapping("/get/{id}")
     @Operation(summary = "根据ID查询菜单", description = "根据提供的菜单ID查询菜单信息")
     public R<SysMenuResponse> findById(@PathVariable @Parameter(description = "菜单ID", required = true) Long id) {
-        return R.ok(sysMenuService.findById(id));
+        return R.ok().build(sysMenuService.findById(id));
     }
 
     /**
@@ -112,7 +112,7 @@ public class SysMenuController {
     @GetMapping("/tree")
     @Operation(summary = "查询菜单列表(树形结构)", description = "根据提供的查询请求参数查询菜单列表(树形结构)信息")
     public R<List<INode<Long>>> findTree(SysMenuQuery query) {
-        return R.ok(sysMenuService.findTree(query));
+        return R.ok().build(sysMenuService.findTree(query));
     }
 
     /**
@@ -123,7 +123,7 @@ public class SysMenuController {
     @GetMapping("/tree/system")
     @Operation(summary = "根据条件查询是否包含菜单类型为button菜单列表(树形结构)", description = "根据条件查询是否包含菜单类型为button菜单列表(树形结构)信息")
     public R<List<INode<Long>>> getMenuTreeSystemTool() {
-        return R.ok(sysMenuService.getMenuTreeSystemTool());
+        return R.ok().build(sysMenuService.getMenuTreeSystemTool());
     }
 
 }

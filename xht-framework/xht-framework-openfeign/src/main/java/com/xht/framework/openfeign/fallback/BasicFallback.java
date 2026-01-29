@@ -31,7 +31,7 @@ public abstract class BasicFallback {
      * @return 包含异常消息的错误响应对象
      */
     protected final <T> R<T> error() {
-        return R.errorMsg(cause.getMessage());
+        return R.error().msg(cause.getMessage()).build();
     }
 
     /**
@@ -42,7 +42,7 @@ public abstract class BasicFallback {
      * @return 包含指定消息的错误响应对象
      */
     protected final <T> R<T> error(String message) {
-        return R.errorMsg(message);
+        return R.error().msg(message).build();
     }
 
 }

@@ -33,7 +33,7 @@ public class CaptchaController {
     @PostMapping("/login/captcha")
     @Operation(summary = "获取登录验证码", description = "生成并获取登录验证码图片")
     public R<CaptchaResponse> getCaptcha(@RequestParam(value = REQUEST_CAPTCHA_CODE_KEY, required = false) String captchaKey) {
-        return R.ok(captchaService.generateCaptcha(captchaKey));
+        return R.ok().build(captchaService.generateCaptcha(captchaKey));
     }
 
     /**
@@ -45,6 +45,6 @@ public class CaptchaController {
     @Operation(summary = "生成手机号验证码", description = "生成手机号验证码")
     public R<Void> getPhoneCaptcha(@RequestParam(value = "phone") String phone) {
         captchaService.getPhoneCaptcha(phone);
-        return R.ok();
+        return R.ok().build();
     }
 }

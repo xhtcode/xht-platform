@@ -3,7 +3,7 @@ package com.xht.framework.security.web.access;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.exception.code.GlobalErrorStatusCode;
-import com.xht.framework.security.utils.SecurityServletUtils;
+import com.xht.framework.core.utils.ServletUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +26,13 @@ public class Http401AccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         log.debug("请求未授权的接口处理器 {}: {}", request.getRequestURI(), accessDeniedException.getMessage());
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, accessDeniedException.getMessage());
-        SecurityServletUtils.writeString(response, R.error(GlobalErrorStatusCode.UNAUTHORIZED, accessDeniedException.getMessage()));
+        // @formatter:off
+        R<Void> build = R
+                .error()
+                .info(GlobalErrorStatusCode.UNAUTHORIZED)
+                .msg(accessDeniedException.getMessage()).build();
+        // @formatter:on
+        ServletUtil.writeJson(response, build);
     }
 
 }

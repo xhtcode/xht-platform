@@ -40,7 +40,7 @@ public class GenDataSourceController {
     @PostMapping("/create")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenDataSourceForm form) {
         genDataSourceService.create(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -53,7 +53,7 @@ public class GenDataSourceController {
     @PostMapping("/remove/{id}")
     public R<Void> removeById(@PathVariable @Parameter(description = "数据源ID", required = true) Long id) {
         genDataSourceService.removeById(id);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -66,7 +66,7 @@ public class GenDataSourceController {
     @PostMapping("/update")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenDataSourceForm form) {
         genDataSourceService.updateById(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -78,7 +78,7 @@ public class GenDataSourceController {
     @Operation(summary = "根据ID查询数据源", description = "根据提供的数据源ID查询数据源信息")
     @GetMapping("/get/{id}")
     public R<GenDataSourceResponse> findById(@PathVariable @Parameter(description = "数据源ID", required = true) Long id) {
-        return R.ok(genDataSourceService.findById(id));
+        return R.ok().build(genDataSourceService.findById(id));
     }
 
     /**
@@ -90,7 +90,7 @@ public class GenDataSourceController {
     @Operation(summary = "按条件查询数据源", description = "根据提供的查询请求参数按条件查询数据源信息")
     @GetMapping("/list")
     public R<List<GenDataSourceResponse>> findList(GenDataSourceQuery query) {
-        return R.ok(genDataSourceService.findList(query));
+        return R.ok().build(genDataSourceService.findList(query));
     }
 
     /**
@@ -102,7 +102,7 @@ public class GenDataSourceController {
     @Operation(summary = "测试链接", description = "测试链接")
     @GetMapping("/connection/{id}")
     public R<Boolean> connection(@PathVariable("id") Long id) {
-        return R.ok(genDataSourceService.connection(id));
+        return R.ok().build(genDataSourceService.connection(id));
     }
 
 }

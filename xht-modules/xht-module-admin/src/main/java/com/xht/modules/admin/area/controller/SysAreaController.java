@@ -34,7 +34,7 @@ public class SysAreaController {
     @PostMapping("/create")
     public R<Void> create(@RequestBody SysAreaForm form) {
         sysAreaService.create(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -47,7 +47,7 @@ public class SysAreaController {
     @PostMapping("/remove/{id}")
     public R<Void> removeById(@PathVariable("id") String cityCode) {
         sysAreaService.removeById(cityCode);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -60,7 +60,7 @@ public class SysAreaController {
     @PostMapping("/update")
     public R<Void> updateById(@RequestBody SysAreaForm form) {
         sysAreaService.updateById(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SysAreaController {
     @Operation(summary = "查询系统管理-行政区划")
     @PostMapping("/get/{id}")
     public R<SysAreaResponse> findById(@PathVariable("id") String cityCode) {
-        return R.ok(sysAreaService.findById(cityCode));
+        return R.ok().build(sysAreaService.findById(cityCode));
     }
 
     /**
@@ -84,7 +84,7 @@ public class SysAreaController {
     @Operation(summary = "查询系统管理-行政区划列表")
     @PostMapping("/list")
     public R<List<SysAreaResponse>> findListByParentCode(@RequestParam(required = false, defaultValue = "1") String parentCode) {
-        return R.ok(sysAreaService.findListByParentCode(parentCode));
+        return R.ok().build(sysAreaService.findListByParentCode(parentCode));
     }
 
 }

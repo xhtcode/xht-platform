@@ -41,7 +41,7 @@ public class SysDictItemController {
     @Operation(summary = "创建字典项")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictItemForm form) {
         sysDictItemService.create(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -55,7 +55,7 @@ public class SysDictItemController {
     @Operation(summary = "删除字典项")
     public R<Void> removeById(@RequestBody List<Long> ids) {
         sysDictItemService.removeById(ids);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -69,7 +69,7 @@ public class SysDictItemController {
     @Operation(summary = "修改字典项")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictItemForm form) {
         sysDictItemService.updateById(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -81,7 +81,7 @@ public class SysDictItemController {
     @GetMapping("/get/{id}")
     @Operation(summary = "获取字典项详情")
     public R<SysDictItemResponse> findById(@PathVariable Long id) {
-        return R.ok(sysDictItemService.findById(id));
+        return R.ok().build(sysDictItemService.findById(id));
     }
 
     /**
@@ -93,7 +93,7 @@ public class SysDictItemController {
     @GetMapping("/page")
     @Operation(summary = "分页查询字典项")
     public R<PageResponse<SysDictItemResponse>> page(SysDictItemQuery query) {
-        return R.ok(sysDictItemService.findPageList(query));
+        return R.ok().build(sysDictItemService.findPageList(query));
     }
 
     /**
@@ -105,7 +105,7 @@ public class SysDictItemController {
     @GetMapping("/code/{dictCode}")
     @Operation(summary = "根据字典编码查询")
     public R<List<DictVo>> getByDictCode(@PathVariable String dictCode) {
-        return R.ok(sysDictItemService.getByDictCode(dictCode));
+        return R.ok().build(sysDictItemService.getByDictCode(dictCode));
     }
 
 }

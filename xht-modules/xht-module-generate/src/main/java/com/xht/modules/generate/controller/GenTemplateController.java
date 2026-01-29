@@ -38,7 +38,7 @@ public class GenTemplateController {
     @Operation(summary = "创建模板", description = "根据提供的请求参数创建一个新的模板")
     @PostMapping("/create")
     public R<Long> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTemplateForm form) {
-        return R.ok(genTemplateService.create(form));
+        return R.ok().build(genTemplateService.create(form));
     }
 
     /**
@@ -51,7 +51,7 @@ public class GenTemplateController {
     @PostMapping("/remove/{id}")
     public R<Void> removeById(@PathVariable @Parameter(description = "模板ID", required = true) Long id) {
         genTemplateService.removeById(id);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -64,7 +64,7 @@ public class GenTemplateController {
     @PostMapping("/update")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTemplateForm form) {
         genTemplateService.updateById(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -76,7 +76,7 @@ public class GenTemplateController {
     @Operation(summary = "根据ID查询模板", description = "根据提供的模板ID查询模板信息")
     @GetMapping("/get/{id}")
     public R<GenTemplateResponse> findById(@PathVariable @Parameter(description = "模板ID", required = true) Long id) {
-        return R.ok(genTemplateService.findById(id));
+        return R.ok().build(genTemplateService.findById(id));
     }
 
     /**
@@ -87,7 +87,7 @@ public class GenTemplateController {
      */
     @GetMapping("/list/{groupId}")
     public R<List<GenTemplateResponse>> listByGroupId(@PathVariable("groupId") String groupId) {
-        return R.ok(genTemplateService.listByGroupId(groupId));
+        return R.ok().build(genTemplateService.listByGroupId(groupId));
     }
 
 }

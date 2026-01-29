@@ -38,7 +38,7 @@ public class SysUserRoleController {
     @Operation(description = "绑定角色", summary = "绑定角色")
     public R<Void> userBindRole(@Valid @RequestBody UserBindRoleForm bindRequest) {
         userRoleService.userBindRole(bindRequest.getUserId(), bindRequest.getRoleIds());
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -50,7 +50,7 @@ public class SysUserRoleController {
     @GetMapping("/{userId}")
     @Operation(summary = "获取当前用户拥有的角色ID列表", description = "获取当前用户拥有的角色ID列表")
     public R<List<Long>> selectRoleIdByUserId(@PathVariable("userId") String userId) {
-        return R.ok(userRoleService.selectRoleIdByUserId(userId));
+        return R.ok().build(userRoleService.selectRoleIdByUserId(userId));
     }
 
 }

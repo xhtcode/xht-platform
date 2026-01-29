@@ -24,7 +24,7 @@ public class SecurityExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     public R<String> handle(AuthenticationException e, HttpServletRequest request) {
         log.debug(" {} 认证失败: {}", request.getRequestURI(), e.getMessage(), e);
-        return R.error(GlobalErrorStatusCode.UNAUTHORIZED);
+        return R.error().info(GlobalErrorStatusCode.UNAUTHORIZED).build();
     }
 
     /**
@@ -33,7 +33,7 @@ public class SecurityExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public R<String> handle(AccessDeniedException e, HttpServletRequest request) {
         log.debug(" {} 权限不足: {}", request.getRequestURI(), e.getMessage(), e);
-        return R.error(GlobalErrorStatusCode.FORBIDDEN);
+        return R.error().info(GlobalErrorStatusCode.FORBIDDEN).build();
     }
 
 }

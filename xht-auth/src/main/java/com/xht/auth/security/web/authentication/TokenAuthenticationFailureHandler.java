@@ -26,6 +26,6 @@ public class TokenAuthenticationFailureHandler implements AuthenticationFailureH
             OAuth2Error error = ((OAuth2AuthenticationException) exception).getError();
             message = error.getErrorCode();
         }
-        ServletUtil.writeJson(response, R.errorMsg(message));
+        ServletUtil.writeJson(response, R.error().msg(message).build());
     }
 }

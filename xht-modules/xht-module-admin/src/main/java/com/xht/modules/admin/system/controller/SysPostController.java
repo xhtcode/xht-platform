@@ -42,7 +42,7 @@ public class SysPostController {
     @Operation(summary = "创建部门岗位", description = "根据提供的请求参数创建一个新的部门岗位")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysPostForm form) {
         sysDeptPostService.create(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -56,7 +56,7 @@ public class SysPostController {
     @Operation(summary = "根据ID删除部门岗位", description = "根据提供的部门岗位ID删除部门岗位")
     public R<Void> removeById(@PathVariable Long id) {
         sysDeptPostService.removeById(id);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -70,7 +70,7 @@ public class SysPostController {
     @Operation(summary = "根据ID删除部门岗位", description = "根据提供的部门岗位ID删除部门岗位")
     public R<Void> removeByIds(@RequestBody List<Long> ids) {
         sysDeptPostService.removeByIds(ids);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -84,7 +84,7 @@ public class SysPostController {
     @Operation(summary = "根据ID更新部门岗位", description = "根据提供的部门岗位更新请求参数更新部门岗位")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysPostForm form) {
         sysDeptPostService.updateById(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -96,7 +96,7 @@ public class SysPostController {
     @GetMapping("/get/{id}")
     @Operation(summary = "根据ID查询部门岗位", description = "根据提供的部门岗位ID查询部门岗位信息")
     public R<SysPostResponse> findById(@PathVariable @Parameter(description = "部门岗位ID", required = true) Long id) {
-        return R.ok(sysDeptPostService.findById(id));
+        return R.ok().build(sysDeptPostService.findById(id));
     }
 
     /**
@@ -108,7 +108,7 @@ public class SysPostController {
     @GetMapping("/page")
     @Operation(summary = "分页查询部门岗位", description = "根据提供的查询请求参数分页查询部门岗位信息")
     public R<PageResponse<SysPostResponse>> findPageList(@Valid SysPostQuery query) {
-        return R.ok(sysDeptPostService.findPageList(query));
+        return R.ok().build(sysDeptPostService.findPageList(query));
     }
 
 }

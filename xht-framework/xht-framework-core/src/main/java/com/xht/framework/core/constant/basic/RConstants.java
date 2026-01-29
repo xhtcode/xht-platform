@@ -22,5 +22,9 @@ public class RConstants {
      */
     public static final Integer FAIL = 500;
 
+    /**
+     * 失败消息
+     */
+    public static final String FAIL_MSG = "失败！";
 
 }

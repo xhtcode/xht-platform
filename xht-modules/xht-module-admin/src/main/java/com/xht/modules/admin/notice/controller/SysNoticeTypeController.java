@@ -34,7 +34,7 @@ public class SysNoticeTypeController {
     @PostMapping("/create")
     public R<Void> create(@RequestBody SysNoticeTypeForm form) {
         sysNoticeTypeService.create(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -46,7 +46,7 @@ public class SysNoticeTypeController {
     @PostMapping("/remove/{id}")
     public R<Void> removeById(@PathVariable Long id) {
         sysNoticeTypeService.removeById(id);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -58,7 +58,7 @@ public class SysNoticeTypeController {
     @PostMapping("/update")
     public R<Void> updateById(@RequestBody SysNoticeTypeForm form) {
         sysNoticeTypeService.updateById(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -70,7 +70,7 @@ public class SysNoticeTypeController {
     @Operation(summary = "根据ID查询通知类型")
     @GetMapping("/get/{id}")
     public R<SysNoticeTypeResponse> findById(@PathVariable Long id) {
-        return R.ok(sysNoticeTypeService.findById(id));
+        return R.ok().build(sysNoticeTypeService.findById(id));
     }
 
     /***
@@ -81,7 +81,7 @@ public class SysNoticeTypeController {
     @Operation(summary = "查询所有通知类型")
     @GetMapping("/list")
     public R<List<SysNoticeTypeResponse>> list(SysNoticeTypeQuery query) {
-        return R.ok(sysNoticeTypeService.list(query));
+        return R.ok().build(sysNoticeTypeService.list(query));
     }
 
 }

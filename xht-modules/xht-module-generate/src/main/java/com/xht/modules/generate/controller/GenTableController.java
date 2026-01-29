@@ -44,7 +44,7 @@ public class GenTableController {
     @PostMapping("/import")
     public R<Void> importTable(@Validated @RequestBody ImportTableForm form) {
         genTableInfoService.importTable(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -57,7 +57,7 @@ public class GenTableController {
     @PostMapping("/syncTable/{tableId}")
     public R<Void> syncTable(@Validated @PathVariable("tableId") Long tableId) {
         genTableInfoService.syncTable(tableId);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -70,7 +70,7 @@ public class GenTableController {
     @PostMapping("/remove/{tableId}")
     public R<Void> removeById(@PathVariable @Parameter(description = "表信息ID", required = true) Long tableId) {
         genTableInfoService.removeById(tableId);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -83,7 +83,7 @@ public class GenTableController {
     @PostMapping("/update")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody TableColumnForm form) {
         genTableInfoService.updateById(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -95,7 +95,7 @@ public class GenTableController {
     @Operation(summary = "根据ID查询表信息")
     @GetMapping("/get/{id}")
     public R<TableColumnVo> findById(@PathVariable @Parameter(description = "表信息ID", required = true) Long id) {
-        return R.ok(genTableInfoService.findById(id));
+        return R.ok().build(genTableInfoService.findById(id));
     }
 
     /**
@@ -107,7 +107,7 @@ public class GenTableController {
     @Operation(summary = "分页查询表信息")
     @GetMapping("/exists/page")
     public R<PageResponse<GenTableResponse>> selectExistsPage(GenTableInfoQuery query) {
-        return R.ok(genTableInfoService.selectExistsPage(query));
+        return R.ok().build(genTableInfoService.selectExistsPage(query));
     }
 
     /**
@@ -119,7 +119,7 @@ public class GenTableController {
     @Operation(summary = "分页查询表信息")
     @GetMapping("/no/exists/page")
     public R<List<GenTableResponse>> selectNoExistsList(DataBaseQuery query) {
-        return R.ok(genTableInfoService.selectNoExistsList(query));
+        return R.ok().build(genTableInfoService.selectNoExistsList(query));
     }
 
 }

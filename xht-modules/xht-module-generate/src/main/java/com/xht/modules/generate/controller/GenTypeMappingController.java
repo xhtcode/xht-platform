@@ -41,7 +41,7 @@ public class GenTypeMappingController {
     @PostMapping("/create")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTypeMappingForm form) {
         genTypeMappingService.create(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -54,7 +54,7 @@ public class GenTypeMappingController {
     @PostMapping("/remove/{id}")
     public R<Void> removeById(@PathVariable @Parameter(description = "字段映射ID", required = true) Long id) {
         genTypeMappingService.removeById(id);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -67,7 +67,7 @@ public class GenTypeMappingController {
     @PostMapping("/update")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTypeMappingForm form) {
         genTypeMappingService.updateById(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -79,7 +79,7 @@ public class GenTypeMappingController {
     @Operation(summary = "根据ID查询字段映射", description = "根据提供的字段映射ID查询字段映射信息")
     @GetMapping("/get/{id}")
     public R<GenTypeMappingResponse> findById(@PathVariable @Parameter(description = "字段映射ID", required = true) Long id) {
-        return R.ok(genTypeMappingService.findById(id));
+        return R.ok().build(genTypeMappingService.findById(id));
     }
 
     /**
@@ -91,7 +91,7 @@ public class GenTypeMappingController {
     @Operation(summary = "分页查询字段映射", description = "根据提供的查询请求参数分页查询字段映射信息")
     @GetMapping("/page")
     public R<PageResponse<GenTypeMappingResponse>> findPageList(GenTypeMappingQuery query) {
-        return R.ok(genTypeMappingService.findPageList(query));
+        return R.ok().build(genTypeMappingService.findPageList(query));
     }
 
     /**
@@ -103,7 +103,7 @@ public class GenTypeMappingController {
     @Operation(summary = "根据数据库类型和目标编程语言类型查询所有的映射关系", description = "根据提供的数据库类型和目标编程语言类型查询所有的映射关系")
     @GetMapping("/list")
     public R<List<GenTypeMappingResponse>> findAll(@Validated GenTypeMappingQuery query) {
-        return R.ok(genTypeMappingService.findAll(query));
+        return R.ok().build(genTypeMappingService.findAll(query));
     }
 
 }

@@ -42,7 +42,7 @@ public class SysDeptController {
     @Operation(summary = "创建部门")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDeptForm form) {
         sysDeptService.create(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -57,7 +57,7 @@ public class SysDeptController {
     @Parameter(name = "id", description = "部门ID")
     public R<Void> removeById(@PathVariable Long id) {
         sysDeptService.removeById(id);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -71,7 +71,7 @@ public class SysDeptController {
     @Operation(summary = "更新部门")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDeptForm form) {
         sysDeptService.updateById(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -86,7 +86,7 @@ public class SysDeptController {
     @Operation(summary = "更新部门状态")
     public R<Void> updateStatus(@PathVariable Long id, @PathVariable DeptStatusEnums status) {
         sysDeptService.updateStatus(id, status);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -98,7 +98,7 @@ public class SysDeptController {
     @GetMapping("/get/{id}")
     @Operation(summary = "查询部门详情")
     public R<SysDeptResponse> findById(@PathVariable Long id) {
-        return R.ok(sysDeptService.findById(id));
+        return R.ok().build(sysDeptService.findById(id));
     }
 
     /**
@@ -110,7 +110,7 @@ public class SysDeptController {
     @GetMapping("/tree")
     @Operation(summary = "获取部门树形结构")
     public R<List<INode<Long>>> getDeptTree(SysDeptTreeQuery treeRequest) {
-        return R.ok(sysDeptService.getDeptTree(treeRequest));
+        return R.ok().build(sysDeptService.getDeptTree(treeRequest));
     }
 
 }

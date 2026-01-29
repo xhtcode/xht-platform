@@ -51,7 +51,7 @@ public class SysRoleController {
     @Operation(summary = "创建角色", description = "根据提供的请求参数创建一个新的角色")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysRoleForm form) {
         sysRoleService.create(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -65,7 +65,7 @@ public class SysRoleController {
     @Operation(summary = "根据ID删除角色", description = "根据提供的角色ID删除角色")
     public R<Void> removeById(@PathVariable Long id) {
         sysRoleService.removeById(id);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -80,7 +80,7 @@ public class SysRoleController {
     @Operation(summary = "根据ID删除角色", description = "根据提供的角色ID删除角色")
     public R<Void> removeByIds(@RequestBody List<Long> ids) {
         sysRoleService.removeByIds(ids);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -95,7 +95,7 @@ public class SysRoleController {
     @Operation(summary = "根据ID更新角色", description = "根据提供的角色更新请求参数更新角色")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysRoleForm form) {
         sysRoleService.updateById(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -112,7 +112,7 @@ public class SysRoleController {
     public R<Void> updateStatus(@PathVariable("id") @Parameter(description = "角色ID", required = true) Long id,
                                 @PathVariable("status") @Parameter(description = "角色状态", required = true) RoleStatusEnums status) {
         sysRoleService.updateStatus(id, status);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -124,7 +124,7 @@ public class SysRoleController {
     @GetMapping("/get/{id}")
     @Operation(summary = "根据ID查询角色", description = "根据提供的角色ID查询角色信息")
     public R<SysRoleResponse> findById(@PathVariable @Parameter(description = "角色ID", required = true) Long id) {
-        return R.ok(sysRoleService.findById(id));
+        return R.ok().build(sysRoleService.findById(id));
     }
 
     /**
@@ -136,7 +136,7 @@ public class SysRoleController {
     @GetMapping("/page")
     @Operation(summary = "分页查询角色", description = "根据提供的查询请求参数分页查询角色信息")
     public R<PageResponse<SysRoleResponse>> findPageList(SysRoleQuery query) {
-        return R.ok(sysRoleService.findPageList(query));
+        return R.ok().build(sysRoleService.findPageList(query));
     }
 
     /**
@@ -147,7 +147,7 @@ public class SysRoleController {
     @GetMapping("/list")
     @Operation(summary = "查询全部角色", description = "查询全部角色")
     public R<List<SysRoleResponse>> list() {
-        return R.ok(sysRoleService.list());
+        return R.ok().build(sysRoleService.list());
     }
 
 
@@ -164,7 +164,7 @@ public class SysRoleController {
     @Operation(summary = "角色绑定菜单", description = "角色绑定菜单")
     public R<Void> roleMenuBind(@Valid @RequestBody SysRoleMenuBindForm bindRequest) {
         sysRoleMenuService.roleMenuBind(bindRequest);
-        return R.ok();
+        return R.ok().build();
     }
 
 
@@ -177,7 +177,7 @@ public class SysRoleController {
     @GetMapping("/select/menu/{roleId}")
     @Operation(summary = "获取当前角色拥有的菜单ID列表", description = "获取当前角色拥有的菜单ID列表")
     public R<RoleSelectedMenuResponse> selectMenuIdByRoleId(@PathVariable("roleId") String roleId) {
-        return R.ok(sysRoleMenuService.selectMenuIdByRoleId(roleId));
+        return R.ok().build(sysRoleMenuService.selectMenuIdByRoleId(roleId));
     }
 
 }

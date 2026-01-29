@@ -34,7 +34,7 @@ public class SysMessageController {
     @PostMapping("/update/read/{messageId}")
     public R<Void> updateReadById(@PathVariable Long messageId) {
         sysMessageService.updateReadById(messageId);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -46,7 +46,7 @@ public class SysMessageController {
     @PostMapping("/update/remove/{messageId}")
     public R<Void> updateRemoveById(@PathVariable Long messageId) {
         sysMessageService.updateRemoveById(messageId);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -58,7 +58,7 @@ public class SysMessageController {
     @PostMapping("/update/cancel/{messageId}")
     public R<Void> updateCancelById(@PathVariable Long messageId) {
         sysMessageService.updateCancelById(messageId);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -69,7 +69,7 @@ public class SysMessageController {
     @Operation(summary = "查询站内信详情")
     @GetMapping("/get/{messageId}")
     public R<SysMessageInfoResponse> findById(@PathVariable Long messageId) {
-        return R.ok(sysMessageService.findById(messageId));
+        return R.ok().build(sysMessageService.findById(messageId));
     }
 
     /**
@@ -79,8 +79,8 @@ public class SysMessageController {
      */
     @Operation(summary = "分页查询我发送的站内信")
     @GetMapping("/my/page/send")
-    public PageResponse<SysMessageResponse> findMyPageSend(SysMessageQuery query) {
-        return sysMessageService.findMyPageSend(query);
+    public R<PageResponse<SysMessageResponse>> findMyPageSend(SysMessageQuery query) {
+        return R.ok().build(sysMessageService.findMyPageSend(query));
     }
 
 
@@ -91,8 +91,8 @@ public class SysMessageController {
      */
     @Operation(summary = "管理员分页查询站内信")
     @GetMapping("/admin/page")
-    public PageResponse<SysMessageResponse> findAdminPage(SysMessageQuery query) {
-        return sysMessageService.findAdminPage(query);
+    public R<PageResponse<SysMessageResponse>> findAdminPage(SysMessageQuery query) {
+        return R.ok().build(sysMessageService.findAdminPage(query));
     }
 
     /**
@@ -102,8 +102,8 @@ public class SysMessageController {
      */
     @Operation(summary = "管理员分页查看站内信发送详情")
     @GetMapping("/admin/send/page")
-    public PageResponse<SysMessageInfoResponse> findAdminPageSend(SysMessageInfoQuery query) {
-        return sysMessageService.findAdminPageSend(query);
+    public R<PageResponse<SysMessageInfoResponse>> findAdminPageSend(SysMessageInfoQuery query) {
+        return R.ok().build(sysMessageService.findAdminPageSend(query));
     }
 
 
@@ -114,8 +114,8 @@ public class SysMessageController {
      */
     @Operation(summary = "分页查询我接收的站内信")
     @GetMapping("/my/page")
-    public PageResponse<SysMessageInfoResponse> findMyPage(SysMessageInfoQuery query) {
-        return sysMessageService.findMyPage(query);
+    public R<PageResponse<SysMessageInfoResponse>> findMyPage(SysMessageInfoQuery query) {
+        return R.ok().build(sysMessageService.findMyPage(query));
     }
 
 }

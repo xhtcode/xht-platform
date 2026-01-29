@@ -34,7 +34,7 @@ public final class ROptional<T> {
 
     private ROptional(R<T> value) {
         if (value == null) {
-            value = R.error(RConstants.FAIL, "R value cannot be null");
+            value = R.error().msg("R value cannot be null").build();
         }
         this.value = value;
         this.code = value.getCode();

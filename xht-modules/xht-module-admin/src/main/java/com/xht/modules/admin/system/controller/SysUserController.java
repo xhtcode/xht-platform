@@ -46,7 +46,7 @@ public class SysUserController {
     @Operation(summary = "用户添加", description = "用户添加")
     public R<Void> create(@Valid @RequestBody SysUserForm userForm) {
         userService.create(userForm);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -60,7 +60,7 @@ public class SysUserController {
     @Operation(summary = "删除用户", description = "根据ID删除用户")
     public R<Void> removeById(@PathVariable Long userId) {
         userService.removeByUserId(userId);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -74,7 +74,7 @@ public class SysUserController {
     @Operation(summary = "更新用户信息", description = "根据ID更新用户信息")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysUserForm userForm) {
         userService.update(userForm);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -88,7 +88,7 @@ public class SysUserController {
     @Operation(summary = "密码重置", description = "密码重置")
     public R<Void> resetPassword(@Valid @PathVariable Long userId) {
         userService.resetPassword(userId);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -102,7 +102,7 @@ public class SysUserController {
     @Operation(summary = "密码修改", description = "密码修改")
     public R<Void> updatePassword(@Valid @RequestBody UpdatePwdFrom form) {
         userService.updatePassword(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -117,7 +117,7 @@ public class SysUserController {
     @Operation(summary = "用户状态修改", description = "用户状态修改")
     public R<Void> updateStatus(@PathVariable("userId") Long userId, @PathVariable("status") UserStatusEnums status) {
         userService.updateStatus(userId, status);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -129,7 +129,7 @@ public class SysUserController {
     @GetMapping("/get/{id}")
     @Operation(summary = "获取用户详情", description = "根据ID获取用户详情")
     public R<SysUserVo> findById(@PathVariable Long id) {
-        return R.ok(userService.findByUserId(id));
+        return R.ok().build(userService.findByUserId(id));
     }
 
     /**
@@ -141,7 +141,7 @@ public class SysUserController {
     @GetMapping("/page")
     @Operation(summary = "分页获取用户列表", description = "分页获取用户列表")
     public R<PageResponse<SysUserResponse>> findPageList(SysUserQuery query) {
-        return R.ok(userService.findPageList(query));
+        return R.ok().build(userService.findPageList(query));
     }
 
     /**
@@ -152,7 +152,7 @@ public class SysUserController {
     @GetMapping("/profile")
     @Operation(summary = "获取当前登录的用户信息", description = "获取当前登录的用户信息")
     public R<SysUserVo> getUserProfileInfo() {
-        return R.ok(userService.getUserProfileInfo());
+        return R.ok().build(userService.getUserProfileInfo());
     }
 
     /**
@@ -163,7 +163,7 @@ public class SysUserController {
     @GetMapping("/profile/routers")
     @Operation(summary = "获取当前登录用户所拥有的路由", description = "获取当前登录用户所拥有的路由")
     public R<List<INode<Long>>> getRouters() {
-        return R.ok(userService.getRouters());
+        return R.ok().build(userService.getRouters());
     }
 
 }

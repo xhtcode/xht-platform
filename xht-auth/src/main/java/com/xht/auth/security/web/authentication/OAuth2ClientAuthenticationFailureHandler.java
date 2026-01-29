@@ -21,6 +21,6 @@ public class OAuth2ClientAuthenticationFailureHandler implements AuthenticationF
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
         SecurityContextHolder.clearContext();
         log.error("OAuth 2.0客户端的身份验证请求 认证失败: {}", exception.getMessage(), exception);
-        ServletUtil.writeJson(response, R.errorMsg("错误的请求"));
+        ServletUtil.writeJson(response, R.error().msg("错误的请求").build());
     }
 }

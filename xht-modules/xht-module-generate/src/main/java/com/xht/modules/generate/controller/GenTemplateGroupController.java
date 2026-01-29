@@ -44,7 +44,7 @@ public class GenTemplateGroupController {
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTemplateGroupForm form) {
         // 调用服务层创建项目
         genTemplateGroupService.create(form);
-        return R.ok();
+        return R.ok().build();
     }
 
 
@@ -58,7 +58,7 @@ public class GenTemplateGroupController {
     @PostMapping("/remove/{id}")
     public R<Void> removeById(@PathVariable @Parameter(description = "项目ID", required = true) Long id) {
         genTemplateGroupService.removeById(id);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -71,7 +71,7 @@ public class GenTemplateGroupController {
     @PostMapping("/update")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTemplateGroupForm form) {
         genTemplateGroupService.updateById(form);
-        return R.ok();
+        return R.ok().build();
     }
 
 
@@ -84,7 +84,7 @@ public class GenTemplateGroupController {
     @Operation(summary = "根据ID查询项目", description = "根据提供的项目ID查询项目信息")
     @GetMapping("/get/{id}")
     public R<GenTemplateGroupResponse> findById(@PathVariable @Parameter(description = "项目ID", required = true) Long id) {
-        return R.ok(genTemplateGroupService.findById(id));
+        return R.ok().build(genTemplateGroupService.findById(id));
     }
 
     /**
@@ -96,7 +96,7 @@ public class GenTemplateGroupController {
     @Operation(summary = "分页查询", description = "根据提供的查询请求参数分页查询代码生成模板组信息")
     @GetMapping("/page")
     public R<PageResponse<GenTemplateGroupResponse>> findPageList(GenTemplateGroupQuery query) {
-        return R.ok(genTemplateGroupService.findPageList(query));
+        return R.ok().build(genTemplateGroupService.findPageList(query));
     }
 
     /**
@@ -107,7 +107,7 @@ public class GenTemplateGroupController {
     @Operation(summary = "查询所有", description = "查询所有代码生成模板组信息")
     @GetMapping("/list")
     public R<List<GenTemplateGroupResponse>> findAll() {
-        return R.ok(genTemplateGroupService.findAll());
+        return R.ok().build(genTemplateGroupService.findAll());
     }
 
 }

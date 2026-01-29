@@ -40,7 +40,7 @@ public class SysOauth2ClientController {
     @Operation(summary = "创建OAuth2客户端")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysOauth2ClientForm form) {
         sysOauth2ClientService.create(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -54,7 +54,7 @@ public class SysOauth2ClientController {
     @Operation(summary = "删除OAuth2客户端")
     public R<Void> removeById(@RequestBody List<Long> ids) {
         sysOauth2ClientService.removeById(ids);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -68,7 +68,7 @@ public class SysOauth2ClientController {
     @Operation(summary = "修改OAuth2客户端")
     public R<Void> updateById(@RequestBody SysOauth2ClientForm form) {
         sysOauth2ClientService.updateById(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -80,7 +80,7 @@ public class SysOauth2ClientController {
     @GetMapping("/get/{id}")
     @Operation(summary = "获取OAuth2客户端详情")
     public R<SysOauth2ClientResponse> findById(@PathVariable Long id) {
-        return R.ok(sysOauth2ClientService.findById(id));
+        return R.ok().build(sysOauth2ClientService.findById(id));
     }
 
     /**
@@ -92,7 +92,7 @@ public class SysOauth2ClientController {
     @GetMapping("/page")
     @Operation(summary = "分页查询OAuth2客户端")
     public R<PageResponse<SysOauth2ClientResponse>> findPageList(SysOauth2ClientQuery query) {
-        return R.ok(sysOauth2ClientService.findPageList(query));
+        return R.ok().build(sysOauth2ClientService.findPageList(query));
     }
 
 }

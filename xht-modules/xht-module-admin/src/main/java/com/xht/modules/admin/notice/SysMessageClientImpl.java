@@ -32,7 +32,7 @@ public class SysMessageClientImpl {
     @PostMapping("/api/sys/message/send")
     public R<Void> sendMessage(@RequestBody MessagePayload payload) {
         sysMessageService.sendMessage(payload);
-        return R.ok();
+        return R.ok().build();
     }
 
 }

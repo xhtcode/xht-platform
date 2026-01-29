@@ -28,19 +28,20 @@ public class GatewayGlobalExceptionHandler implements ErrorWebExceptionHandler {
     @SuppressWarnings("all")
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
         ServerHttpResponse response = exchange.getResponse();
-        R<String> result;
+        R.RBuilder builder = R.error();
         if (exchange.getResponse().isCommitted()) {
             return Mono.error(ex);
         }
         if (ex instanceof NotFoundException) {
-            result = R.error(GlobalErrorStatusCode.GATEWAY_TIMEOUT);
+            builder.info(GlobalErrorStatusCode.GATEWAY_TIMEOUT);
         } else if (ex instanceof ResponseStatusException) {
-            result = R.error(GlobalErrorStatusCode.NOT_FOUND);
+            builder.info(GlobalErrorStatusCode.NOT_FOUND);
         } else {
             // 内部服务器错误
-            result = R.error(GlobalErrorStatusCode.ERROR);
+            builder.info(GlobalErrorStatusCode.ERROR);
         }
         log.debug("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), ex.getMessage(), ex);
-        return WebFluxUtils.webFluxResponseWriter(response, result);
+        return WebFluxUtils.webFluxResponseWriter(response, builder.build());
     }
+    
 }

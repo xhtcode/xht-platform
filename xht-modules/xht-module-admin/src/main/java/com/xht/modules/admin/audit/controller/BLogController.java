@@ -37,7 +37,7 @@ public class BLogController {
     @GetMapping("/get/{id}")
     @Operation(summary = "获取系统日志详情")
     public R<BLogResponse> findById(@PathVariable Long id) {
-        return R.ok(bLogService.findById(id));
+        return R.ok().build(bLogService.findById(id));
     }
 
     /**
@@ -49,7 +49,7 @@ public class BLogController {
     @GetMapping("/page")
     @Operation(summary = "分页查询系统日志岗位", description = "根据提供的查询请求参数分页查询系统日志岗位信息")
     public R<PageResponse<BLogResponse>> findPageList(@Valid BLogQuery query) {
-        return R.ok(bLogService.findPageList(query));
+        return R.ok().build(bLogService.findPageList(query));
     }
 
 }

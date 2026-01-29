@@ -53,7 +53,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     @ExceptionHandler(value = Exception.class)
     public R<String> handle(Exception e) {
         log.error("系统异常: {}", e.getMessage(), e);
-        return R.error(GlobalErrorStatusCode.ERROR, "系统未知异常，请联系管理员!");
+        return R.error().info(GlobalErrorStatusCode.ERROR).build();
     }
 
     /**
@@ -62,7 +62,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     @ExceptionHandler(value = {BusinessException.class})
     public R<String> handle(BusinessException e) {
         log.error("自定义异常: code={} MESSAGE={}", e.getCode(), e.getMessage(), e);
-        return new R<>(e.getCode(), false, e.getMessage());
+        return R.error(e.getCode()).msg(e.getMessage()).build();
     }
 
 
@@ -72,7 +72,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     @ExceptionHandler(NoHandlerFoundException.class)
     public R<String> handle(NoHandlerFoundException e, HttpServletRequest request) {
         log.debug(" {} 请求URL404: {}", request.getRequestURI(), e.getMessage(), e);
-        return R.error(GlobalErrorStatusCode.NOT_FOUND);
+        return R.error().info(GlobalErrorStatusCode.NOT_FOUND).build();
     }
 
     /**
@@ -81,7 +81,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     @ExceptionHandler(value = NoResourceFoundException.class)
     public R<String> handle(NoResourceFoundException e, HttpServletRequest request) {
         log.debug(" {} 请求URL404: {}", request.getRequestURI(), e.getMessage(), e);
-        return R.error(GlobalErrorStatusCode.NOT_FOUND);
+        return R.error().info(GlobalErrorStatusCode.NOT_FOUND).build();
     }
 
     /**
@@ -90,7 +90,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public R<String> handle(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
         log.debug(" {} 请求方法不支持: {}", request.getRequestURI(), e.getMessage(), e);
-        return R.error(GlobalErrorStatusCode.METHOD_NOT_ALLOWED);
+        return R.error().info(GlobalErrorStatusCode.METHOD_NOT_ALLOWED).build();
     }
 
     /**
@@ -116,9 +116,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
             }
         }
         log.warn("请求地址:{}参数检验失败,请求方式：{} ,codeData={}", requestURI, request.getMethod(), resultMap, e);
-        R<Map<String, Object>> mapR = R.errorData(GlobalErrorStatusCode.PARAM_INVALID, resultMap);
-        mapR.setMsg(message);
-        return mapR;
+        return R.error().info(GlobalErrorStatusCode.PARAM_INVALID).msg(message).build(resultMap);
     }
 
     /**
@@ -134,9 +132,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put(e.getField(), StringUtils.emptyToDefault(e.getMessage(), MESSAGE));
         log.warn("请求地址:{}参数检验失败,请求方式：{} ,codeData={}", requestURI, request.getMethod(), resultMap, e);
-        R<Map<String, Object>> mapR = R.errorData(GlobalErrorStatusCode.PARAM_INVALID, resultMap);
-        mapR.setMsg(MESSAGE);
-        return mapR;
+        return R.error().info(GlobalErrorStatusCode.PARAM_INVALID).build(resultMap);
     }
 
 }

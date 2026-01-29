@@ -33,7 +33,7 @@ public class IBLogClientImpl implements IBLogClient {
     @PostMapping("/api/sys/log/save")
     public R<Void> saveLog(@RequestBody BLogDTO bLogDTO) {
         ibLogService.create(bLogDTO);
-        return R.ok();
+        return R.ok().build();
     }
 
 }

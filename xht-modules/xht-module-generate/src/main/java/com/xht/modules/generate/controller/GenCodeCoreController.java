@@ -64,7 +64,7 @@ public class GenCodeCoreController {
     @Operation(summary = "生成代码")
     @PostMapping("/view")
     public R<List<GenCodeCoreVo>> viewCode(@Validated @RequestBody GenCodeCoreForm genCodeCoreForm) {
-        return R.ok(genCodeCoreService.viewCode(genCodeCoreForm));
+        return R.ok().build(genCodeCoreService.viewCode(genCodeCoreForm));
     }
 
 }

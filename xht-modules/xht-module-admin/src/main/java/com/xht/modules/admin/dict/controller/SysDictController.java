@@ -41,7 +41,7 @@ public class SysDictController {
 
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictForm form) {
         sysDictService.create(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -55,7 +55,7 @@ public class SysDictController {
     @Operation(summary = "删除字典类型")
     public R<Void> removeById(@RequestBody List<Long> ids) {
         sysDictService.removeById(ids);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -69,7 +69,7 @@ public class SysDictController {
     @Operation(summary = "修改字典类型")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictForm form) {
         sysDictService.updateById(form);
-        return R.ok();
+        return R.ok().build();
     }
 
     /**
@@ -81,7 +81,7 @@ public class SysDictController {
     @GetMapping("/get/{id}")
     @Operation(summary = "获取字典类型详情")
     public R<SysDictResponse> findById(@PathVariable Long id) {
-        return R.ok(sysDictService.findById(id));
+        return R.ok().build(sysDictService.findById(id));
     }
 
     /**
@@ -93,7 +93,7 @@ public class SysDictController {
     @GetMapping("/page")
     @Operation(summary = "分页查询字典类型")
     public R<PageResponse<SysDictResponse>> findPageList(SysDictQuery query) {
-        return R.ok(sysDictService.findPageList(query));
+        return R.ok().build(sysDictService.findPageList(query));
     }
 
 
@@ -105,7 +105,7 @@ public class SysDictController {
     @GetMapping("/all")
     @Operation(summary = "获取所有字典类型")
     public R<List<SysDictResponse>> findAll() {
-        return R.ok(sysDictService.findAll());
+        return R.ok().build(sysDictService.findAll());
     }
 
 }

@@ -32,17 +32,16 @@ public class ResourceAuthenticationEntryPoint implements AuthenticationEntryPoin
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setCharacterEncoding(CharacterEnums.UTF_8.getValue());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        R<String> result = R.error(GlobalErrorStatusCode.UNAUTHORIZED);
+        R.RBuilder result = R.error().info(GlobalErrorStatusCode.UNAUTHORIZED);
         if (StringUtils.hasText(authException.getMessage())) {
-            result.setMsg(authException.getMessage());
+            result.msg(authException.getMessage());
         }
         // 针对令牌过期返回特殊的 424
         if (authException instanceof InvalidBearerTokenException
                 || authException instanceof InsufficientAuthenticationException) {
-            result.setCode(GlobalErrorStatusCode.TOKEN_EXPIRED.getCode());
-            result.setMsg("请求令牌已过期");
+            result.info(GlobalErrorStatusCode.TOKEN_EXPIRED);
         }
         log.error("认证失败: {}", authException.getMessage(), authException);
-        ServletUtil.writeJson(response, result);
+        ServletUtil.writeJson(response, result.build());
     }
 }

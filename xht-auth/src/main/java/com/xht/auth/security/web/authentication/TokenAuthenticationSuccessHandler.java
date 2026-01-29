@@ -47,7 +47,7 @@ public class TokenAuthenticationSuccessHandler implements AuthenticationSuccessH
         OAuth2RefreshToken refreshToken = accessTokenAuthentication.getRefreshToken();
         Map<String, Object> additionalParameters = accessTokenAuthentication.getAdditionalParameters();
         TokenResponse tokenResponse = convertToTokenResponse(accessToken, refreshToken, additionalParameters);
-        ServletUtil.writeJson(response, R.ok(tokenResponse));
+        ServletUtil.writeJson(response, R.ok().build(tokenResponse));
     }
 
     /**

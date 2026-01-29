@@ -26,6 +26,6 @@ public class TokenRevocationAuthenticationSuccessHandler implements Authenticati
      */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        ServletUtil.writeJson(response, R.okMsg("token 注销成功"));
+        ServletUtil.writeJson(response, R.ok().msg("token 注销成功").build());
     }
 }
