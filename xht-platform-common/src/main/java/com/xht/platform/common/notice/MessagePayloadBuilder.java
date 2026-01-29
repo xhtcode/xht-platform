@@ -33,20 +33,15 @@ public final class MessagePayloadBuilder {
         EMPTY_MESSAGE_EXTEND.setJumpUrl(null);
     }
 
-
-    private MessagePayloadBuilder() {
-        throw new UtilException("消息载体内容构建器 禁止实例化");
-    }
+    /**
+     * 收件人 信息
+     */
+    private final List<MessageUser> recipientUser = new ArrayList<>();
 
     /**
      * 发件人信息
      */
     private MessageUser sendUser;
-
-    /**
-     * 收件人 信息
-     */
-    private final List<MessageUser> recipientUser = new ArrayList<>();
 
     /**
      * 消息类型：1-系统通知 2-业务提醒
@@ -62,6 +57,10 @@ public final class MessagePayloadBuilder {
      * 消息内容（支持富文本）
      */
     private String messageContent;
+
+    private MessagePayloadBuilder() {
+        throw new UtilException("消息载体内容构建器 禁止实例化");
+    }
 
     /**
      * 创建消息载体内容构建器
