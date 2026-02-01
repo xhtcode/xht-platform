@@ -1,7 +1,8 @@
 package com.xht.framework.core.domain.query;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serial;
 
@@ -10,18 +11,13 @@ import java.io.Serial;
  *
  * @author xht
  **/
-@Data
+@Setter
+@Getter
 @Schema(description = "通用分页请求实体")
 public abstract class PageBasicQuery extends BasicQuery {
 
     @Serial
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 关键字
-     */
-    @Schema(name = "keyWord", description = "关键字")
-    private String keyWord;
 
     /**
      * 当前页

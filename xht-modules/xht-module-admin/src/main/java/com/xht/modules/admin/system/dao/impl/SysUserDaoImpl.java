@@ -71,19 +71,24 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
         UserStatusEnums userStatus = query.getUserStatus();
         String userPhone = query.getUserPhone();
         LambdaQueryWrapper<SysUserEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.and(
-                condition(query.getKeyWord()), wrapper -> wrapper.or()
-                        .like(SysUserEntity::getUserName, query.getKeyWord())
-                        .or()
-                        .like(SysUserEntity::getNickName, query.getKeyWord())
-                        .or()
-                        .like(SysUserEntity::getUserPhone, query.getKeyWord())
-        );
-        queryWrapper.like(condition(userName), SysUserEntity::getUserName, userName);
-        queryWrapper.like(condition(nickName), SysUserEntity::getNickName, nickName);
-        queryWrapper.eq(condition(userType), SysUserEntity::getUserType, userType);
-        queryWrapper.eq(condition(userStatus), SysUserEntity::getUserStatus, userStatus);
-        queryWrapper.like(condition(userPhone), SysUserEntity::getUserPhone, userPhone);
+        if (query.isQuick()) {
+            // @formatter:off
+            queryWrapper.and(
+                    condition(query.getKeyWord()), wrapper -> wrapper.or()
+                            .like(SysUserEntity::getUserName, query.getKeyWord())
+                            .or()
+                            .like(SysUserEntity::getNickName, query.getKeyWord())
+                            .or()
+                            .like(SysUserEntity::getUserPhone, query.getKeyWord())
+            );
+            // @formatter:on
+        } else {
+            queryWrapper.like(condition(userName), SysUserEntity::getUserName, userName);
+            queryWrapper.like(condition(nickName), SysUserEntity::getNickName, nickName);
+            queryWrapper.eq(condition(userType), SysUserEntity::getUserType, userType);
+            queryWrapper.eq(condition(userStatus), SysUserEntity::getUserStatus, userStatus);
+            queryWrapper.like(condition(userPhone), SysUserEntity::getUserPhone, userPhone);
+        }
         queryWrapper.eq(condition(query.getDeptId()), SysUserEntity::getDeptId, query.getDeptId());
         return page(page, queryWrapper);
     }

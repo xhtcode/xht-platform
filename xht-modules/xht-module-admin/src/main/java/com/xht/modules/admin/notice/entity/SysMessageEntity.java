@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import com.xht.platform.common.notice.core.MessageExtendInfo;
 import com.xht.platform.common.notice.enums.MessageTypeEnums;
@@ -15,7 +16,7 @@ import lombok.Data;
  * @author xht
  */
 @Data
-@TableName(value = "sys_message")
+@TableName(value = "sys_message", autoResultMap = true)
 public class SysMessageEntity extends BasicEntity {
 
     /**
@@ -57,7 +58,7 @@ public class SysMessageEntity extends BasicEntity {
     /**
      * 消息扩展信息（如关联订单ID、跳转链接）
      */
-    @TableField(value = "message_extend")
+    @TableField(value = "message_extend", typeHandler = JacksonTypeHandler.class)
     private MessageExtendInfo messageExtend;
 
 }

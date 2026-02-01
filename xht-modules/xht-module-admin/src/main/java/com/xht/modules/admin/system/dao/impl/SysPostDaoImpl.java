@@ -106,17 +106,19 @@ public class SysPostDaoImpl extends MapperRepositoryImpl<SysPostMapper, SysPostE
     @Override
     public Page<SysPostEntity> findPageList(Page<SysPostEntity> page, SysPostQuery query) {
         LambdaQueryWrapper<SysPostEntity> queryWrapper = new LambdaQueryWrapper<>();
-        // @formatter:off
-        queryWrapper.and(
-                        condition(query.getKeyWord()), wrapper -> wrapper.or()
-                                .like(SysPostEntity::getPostCode, query.getKeyWord())
-                                .or()
-                                .like(SysPostEntity::getPostName, query.getKeyWord())
-                )
-                .like(condition(query.getPostCode()), SysPostEntity::getPostCode, query.getPostCode())
-                .like(condition(query.getPostName()), SysPostEntity::getPostName, query.getPostName())
-        ;
-        // @formatter:on
+        if (query.isQuick()) {
+            // @formatter:off
+            queryWrapper.and(
+                    condition(query.getKeyWord()), wrapper -> wrapper.or()
+                            .like(SysPostEntity::getPostCode, query.getKeyWord())
+                            .or()
+                            .like(SysPostEntity::getPostName, query.getKeyWord())
+            );
+            // @formatter:on
+        } else {
+            queryWrapper.like(condition(query.getPostCode()), SysPostEntity::getPostCode, query.getPostCode());
+            queryWrapper.like(condition(query.getPostName()), SysPostEntity::getPostName, query.getPostName());
+        }
         return page(page, queryWrapper);
     }
 

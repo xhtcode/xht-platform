@@ -86,21 +86,19 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
     @Override
     public Page<SysRoleEntity> findPageList(Page<SysRoleEntity> page, SysRoleQuery query) {
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.and(condition(query.getKeyWord()), wrapper -> {
-
-        });
-        // @formatter:off
-        queryWrapper.and(
-                        condition(query.getKeyWord()), wrapper -> wrapper.or()
-                                .like(SysRoleEntity::getRoleCode, query.getKeyWord())
-                                .or()
-                                .like(SysRoleEntity::getRoleName, query.getKeyWord())
-                )
-                .like(condition(query.getRoleCode()), SysRoleEntity::getRoleCode, query.getRoleCode())
-                .like(condition(query.getRoleName()), SysRoleEntity::getRoleName, query.getRoleName())
-                .eq(Objects.nonNull(query.getRoleStatus()), SysRoleEntity::getRoleStatus, query.getRoleStatus())
-        ;
-        // @formatter:on
+        if (query.isQuick()) {
+            // @formatter:off
+            queryWrapper.and(condition(query.getKeyWord()), wrapper -> wrapper.or()
+                    .like(SysRoleEntity::getRoleCode, query.getKeyWord())
+                    .or()
+                    .like(SysRoleEntity::getRoleName, query.getKeyWord())
+            );
+            // @formatter:on
+        } else {
+            queryWrapper.like(condition(query.getRoleCode()), SysRoleEntity::getRoleCode, query.getRoleCode());
+            queryWrapper.like(condition(query.getRoleName()), SysRoleEntity::getRoleName, query.getRoleName());
+            queryWrapper.eq(Objects.nonNull(query.getRoleStatus()), SysRoleEntity::getRoleStatus, query.getRoleStatus());
+        }
         return page(page, queryWrapper);
     }
 

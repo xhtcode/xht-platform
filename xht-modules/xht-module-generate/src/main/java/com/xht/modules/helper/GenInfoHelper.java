@@ -6,7 +6,6 @@ import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.modules.cache.TypeMappingCache;
 import com.xht.modules.common.enums.DataBaseTypeEnums;
-import com.xht.modules.common.enums.GenStatusEnums;
 import com.xht.modules.common.enums.PageStyleEnums;
 import com.xht.modules.generate.domain.bo.ColumnBo;
 import com.xht.modules.generate.domain.bo.TableBo;
@@ -117,7 +116,7 @@ public final class GenInfoHelper {
         result.setListShow(columnBo.getListShow());
         result.setListDisabled(columnBo.getListDisabled());
         result.setListHidden(columnBo.getListHidden());
-        result.setListSortable(GenStatusEnums.NO);
+        result.setListSortable(columnBo.getListSortable());
         TypeMappingCache typeMappingCache = SpringContextUtils.getBean(TypeMappingCache.class);
         GenTypeMappingEntity mappingEntity = typeMappingCache.getTargetType(dataBaseTypeEnums, columnBo.getDbType());
         result.setCodeJava(StrUtil.emptyToDefault(mappingEntity.getJavaType(), "Object"));

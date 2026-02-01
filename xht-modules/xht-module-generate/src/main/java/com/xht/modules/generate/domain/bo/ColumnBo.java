@@ -201,4 +201,23 @@ public class ColumnBo implements Serializable {
                 ? GenStatusEnums.NO
                 : GenStatusEnums.YES;
     }
+
+    /**
+     * 判断 列表排序
+     *
+     * @return 列表排序状态：0-否，1-是
+     */
+    public GenStatusEnums getListSortable() {
+        if (ArrayUtil.contains(COLUMN_NOT_LIST, this.dbName)) {
+            return GenStatusEnums.NO;
+        }
+        if (StrUtil.containsAny(this.dbName, "sort", "status")) {
+            return GenStatusEnums.YES;
+        }
+        if (StrUtil.containsAny(this.dbComment, "排序", "状态")) {
+            return GenStatusEnums.YES;
+        }
+        return GenStatusEnums.NO;
+    }
+
 }

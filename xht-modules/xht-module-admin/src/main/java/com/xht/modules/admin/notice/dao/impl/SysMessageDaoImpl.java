@@ -30,10 +30,34 @@ public class SysMessageDaoImpl extends MapperRepositoryImpl<SysMessageMapper, Sy
     @Override
     public Page<SysMessageEntity> findPageList(Page<SysMessageEntity> page, SysMessageQuery query, Long sendUserId) {
         LambdaQueryWrapper<SysMessageEntity> queryWrapper = new LambdaQueryWrapper<>();
+        // @formatter:off
+        queryWrapper.select(
+                SysMessageEntity::getId,
+                SysMessageEntity::getSenderName,
+                SysMessageEntity::getMessageType,
+                SysMessageEntity::getMessageTitle,
+                SysMessageEntity::getCreateTime,
+                SysMessageEntity::getUpdateTime,
+                SysMessageEntity::getCreateBy,
+                SysMessageEntity::getUpdateBy
+        );
+        // @formatter:on
+        if (query.isQuick()) {
+            // @formatter:off
+            queryWrapper.and(
+                    condition(query.getKeyWord()), wrapper -> wrapper.or()
+                            .like(SysMessageEntity::getSenderName, query.getKeyWord())
+                            .or()
+                            .like(SysMessageEntity::getMessageTitle, query.getKeyWord())
+            );
+            // @formatter:on
+        } else {
+            queryWrapper.like(condition(query.getSenderName()), SysMessageEntity::getSenderName, query.getSenderName());
+            queryWrapper.eq(condition(query.getMessageType()), SysMessageEntity::getMessageType, query.getMessageType());
+            queryWrapper.like(condition(query.getMessageTitle()), SysMessageEntity::getMessageTitle, query.getMessageTitle());
+        }
+
         queryWrapper.eq(condition(sendUserId), SysMessageEntity::getSenderId, sendUserId);
-        queryWrapper.like(condition(query.getSenderName()), SysMessageEntity::getSenderName, query.getSenderName());
-        queryWrapper.eq(condition(query.getMessageType()), SysMessageEntity::getMessageType, query.getMessageType());
-        queryWrapper.like(condition(query.getMessageTitle()), SysMessageEntity::getMessageTitle, query.getMessageTitle());
         return page(page, queryWrapper);
     }
 

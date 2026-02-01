@@ -84,17 +84,19 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
     @Override
     public Page<SysOauth2ClientEntity> findPageList(Page<SysOauth2ClientEntity> page, SysOauth2ClientQuery query) {
         LambdaQueryWrapper<SysOauth2ClientEntity> queryWrapper = new LambdaQueryWrapper<>();
-        // @formatter:off
-        queryWrapper.and(
-                        condition(query.getKeyWord()), wrapper -> wrapper.or()
-                                .like(SysOauth2ClientEntity::getClientId, query.getKeyWord())
-                                .or()
-                                .like(SysOauth2ClientEntity::getClientName, query.getKeyWord())
-                )
-                .like(condition(query.getClientId()), SysOauth2ClientEntity::getClientId, query.getClientId())
-                .like(condition(query.getClientName()), SysOauth2ClientEntity::getClientName, query.getClientName())
-        ;
-        // @formatter:on
+        if (query.isQuick()) {
+            // @formatter:off
+            queryWrapper.and(
+                    condition(query.getKeyWord()), wrapper -> wrapper.or()
+                            .like(SysOauth2ClientEntity::getClientId, query.getKeyWord())
+                            .or()
+                            .like(SysOauth2ClientEntity::getClientName, query.getKeyWord())
+            );
+            // @formatter:on
+        } else {
+            queryWrapper.like(condition(query.getClientId()), SysOauth2ClientEntity::getClientId, query.getClientId());
+            queryWrapper.like(condition(query.getClientName()), SysOauth2ClientEntity::getClientName, query.getClientName());
+        }
         return page(page, queryWrapper);
     }
 

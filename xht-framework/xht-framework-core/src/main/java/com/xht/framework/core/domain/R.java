@@ -43,7 +43,7 @@ public final class R<T> {
      * @return RBuilder 响应构建器实例
      */
     public static RBuilder ok() {
-        return new RBuilder(Boolean.TRUE).code(RConstants.SUCCESS);
+        return new RBuilder(Boolean.TRUE).code(RConstants.SUCCESS).msg(RConstants.SUCCESS_MSG);
     }
 
     /**
@@ -52,7 +52,7 @@ public final class R<T> {
      * @return RBuilder 响应构建器实例
      */
     public static RBuilder error() {
-        return error(RConstants.FAIL).msg(RConstants.SUCCESS_MSG);
+        return error(RConstants.FAIL).code(RConstants.FAIL).msg(RConstants.FAIL_MSG);
     }
 
     /**
@@ -106,6 +106,9 @@ public final class R<T> {
          * @param code 返回码
          */
         public RBuilder code(Integer code) {
+            if (Objects.equals(this.code, RConstants.SUCCESS)) {
+                throw new UtilException("code cannot be SUCCESS");
+            }
             this.code = code;
             return this;
         }

@@ -110,16 +110,6 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
     public List<SysMenuEntity> getMenuList(SysMenuQuery query) {
         // @formatter:off
         LambdaQueryWrapper<SysMenuEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.and(condition(query.getKeyWord()), wrapper ->
-                wrapper.like(SysMenuEntity::getMenuName, query.getKeyWord())
-                        .or()
-                        .like(SysMenuEntity::getMenuAuthority, query.getKeyWord())
-        );
-        lambdaQueryWrapper
-                .eq(condition(query.getParentId()), SysMenuEntity::getParentId, query.getParentId())
-                .eq(condition(query.getMenuType()), SysMenuEntity::getMenuType, query.getMenuType())
-                .eq(condition(query.getMenuStatus()), SysMenuEntity::getMenuStatus, query.getMenuStatus())
-                .like(condition(query.getMenuName()), SysMenuEntity::getMenuName, query.getMenuName());
         lambdaQueryWrapper.select(
                 SysMenuEntity::getId,
                 SysMenuEntity::getParentId,
@@ -135,6 +125,18 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
                 SysMenuEntity::getCreateBy,
                 SysMenuEntity::getUpdateBy
         );
+        if (query.isQuick()){
+            lambdaQueryWrapper.and(condition(query.getKeyWord()), wrapper ->
+                    wrapper.like(SysMenuEntity::getMenuName, query.getKeyWord())
+                            .or()
+                            .like(SysMenuEntity::getMenuAuthority, query.getKeyWord())
+            );
+        }else {
+            lambdaQueryWrapper
+                    .eq(condition(query.getMenuType()), SysMenuEntity::getMenuType, query.getMenuType())
+                    .eq(condition(query.getMenuStatus()), SysMenuEntity::getMenuStatus, query.getMenuStatus())
+                    .like(condition(query.getMenuName()), SysMenuEntity::getMenuName, query.getMenuName());
+        }
         // @formatter:on
         lambdaQueryWrapper.orderByAsc(SysMenuEntity::getMenuSort);
         return list(lambdaQueryWrapper);

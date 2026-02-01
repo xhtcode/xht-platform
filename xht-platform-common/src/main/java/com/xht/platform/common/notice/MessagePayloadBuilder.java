@@ -27,7 +27,7 @@ public final class MessagePayloadBuilder {
     /**
      * 管理员用户对象
      */
-    private static final MessageUser ADMIN_USER = new MessageUser(0L, "管理员");
+    private static final MessageUser ADMIN_USER = new MessageUser(108L, "管理员");
 
     static {
         EMPTY_MESSAGE_EXTEND.setJumpUrl(null);
@@ -59,7 +59,6 @@ public final class MessagePayloadBuilder {
     private String messageContent;
 
     private MessagePayloadBuilder() {
-        throw new UtilException("消息载体内容构建器 禁止实例化");
     }
 
     /**
@@ -77,8 +76,7 @@ public final class MessagePayloadBuilder {
      * @return MessagePayloadBuilder实例，支持链式调用
      */
     public MessagePayloadBuilder senderAdmin() {
-        this.sendUser = ADMIN_USER;
-        return this;
+        return sender(ADMIN_USER);
     }
 
     /**

@@ -14,11 +14,6 @@ import lombok.Data;
 @Data
 @Schema(description = "系统菜单分页查询参数")
 public class SysMenuQuery extends PageBasicQuery {
-    /**
-     * 父菜单ID
-     */
-    @Schema(description = "父菜单ID")
-    private Long parentId;
 
     /**
      * 类型

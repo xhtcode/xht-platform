@@ -3,6 +3,8 @@ package com.xht.modules.admin.notice.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.core.exception.BusinessException;
+import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
@@ -30,6 +32,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,11 +88,14 @@ public class SysMessageServiceImpl implements ISysMessageService {
             infoEntity.setMessageStatus(MessageStatusEnums.UNREAD);
             infoEntity.setMessageTop(MessageTopEnums.NO);
             infoEntity.setMessageStar(MessageStarEnums.NO);
+            messageInfoEntities.add(infoEntity);
         }
         transactionTemplate.execute(status -> {
             try {
                 sysMessageDao.save(entity);
-                sysMessageInfoDao.saveAll(messageInfoEntities);
+                if (!CollectionUtils.isEmpty(messageInfoEntities)) {
+                    sysMessageInfoDao.saveAll(messageInfoEntities);
+                }
                 return Boolean.TRUE;
             } catch (Exception e) {
                 status.setRollbackOnly();
@@ -143,10 +149,12 @@ public class SysMessageServiceImpl implements ISysMessageService {
         SysMessageInfoEntity entity = sysMessageInfoDao.findById(messageId);
         Optional.ofNullable(entity)
                 .map(SysMessageInfoEntity::getMessageStatus)
-                .ifPresent(status -> {
+                .ifPresentOrElse(status -> {
                     if (Objects.equals(MessageStatusEnums.UNREAD, status)) {
                         sysMessageInfoDao.updateReadById(messageId, SecurityUtils.getUserId());
                     }
+                }, () -> {
+                    throw new BusinessException(BusinessErrorCode.DATA_NOT_EXIST);
                 });
         return sysMessageInfoConverter.toResponse(entity);
     }

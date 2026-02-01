@@ -142,28 +142,30 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
      */
     @Override
     public List<SysDeptEntity> queryListRequest(SysDeptTreeQuery query) {
-        // @formatter:off
         LambdaQueryWrapper<SysDeptEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.and(
-                        condition(query.getKeyWord()), wrapper ->
-                                wrapper
-                                        .or()
-                                        .like(SysDeptEntity::getDeptName, query.getKeyWord())
-                                        .or()
-                                        .like(SysDeptEntity::getDeptCode, query.getKeyWord())
-                                        .or()
-                                        .like(SysDeptEntity::getPhone, query.getKeyWord())
-                                        .or()
-                                        .like(SysDeptEntity::getEmail, query.getKeyWord())
-                )
-                .eq(condition(query.getParentId()), SysDeptEntity::getParentId, query.getParentId())
-                .eq(condition(query.getDeptStatus()), SysDeptEntity::getDeptStatus, query.getDeptStatus())
-                .like(condition(query.getDeptCode()), SysDeptEntity::getDeptCode, query.getDeptCode())
-                .like(condition(query.getDeptName()), SysDeptEntity::getDeptName, query.getDeptName())
-                .like(condition(query.getPhone()), SysDeptEntity::getPhone, query.getPhone())
-                .like(condition(query.getEmail()), SysDeptEntity::getPhone, query.getEmail())
-        ;
-        // @formatter:on
+        if (query.isQuick()) {
+            // @formatter:off
+            queryWrapper.and(
+                    condition(query.getKeyWord()), wrapper ->
+                            wrapper
+                                    .or()
+                                    .like(SysDeptEntity::getDeptName, query.getKeyWord())
+                                    .or()
+                                    .like(SysDeptEntity::getDeptCode, query.getKeyWord())
+                                    .or()
+                                    .like(SysDeptEntity::getPhone, query.getKeyWord())
+                                    .or()
+                                    .like(SysDeptEntity::getEmail, query.getKeyWord())
+            );
+            // @formatter:on
+        } else {
+            queryWrapper.eq(condition(query.getParentId()), SysDeptEntity::getParentId, query.getParentId());
+            queryWrapper.eq(condition(query.getDeptStatus()), SysDeptEntity::getDeptStatus, query.getDeptStatus());
+            queryWrapper.like(condition(query.getDeptCode()), SysDeptEntity::getDeptCode, query.getDeptCode());
+            queryWrapper.like(condition(query.getDeptName()), SysDeptEntity::getDeptName, query.getDeptName());
+            queryWrapper.like(condition(query.getPhone()), SysDeptEntity::getPhone, query.getPhone());
+            queryWrapper.like(condition(query.getEmail()), SysDeptEntity::getPhone, query.getEmail());
+        }
         return list(queryWrapper);
     }
 

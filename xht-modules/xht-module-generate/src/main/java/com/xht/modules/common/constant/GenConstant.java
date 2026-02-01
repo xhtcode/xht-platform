@@ -28,6 +28,6 @@ public class GenConstant {
     /**
      * 不需要返回字段
      */
-    public static final String[] COLUMN_NOT_LIST = {"id", "version", "tenant_id", "del_flag"};
+    public static final String[] COLUMN_NOT_LIST = {"id", "parent_id", "version", "tenant_id", "del_flag"};
 
 }

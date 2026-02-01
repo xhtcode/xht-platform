@@ -2,7 +2,6 @@ package com.xht.modules.admin.dict.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
@@ -66,10 +65,13 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
     @Override
     public Boolean checkDictValue(Long id, Long dictId, String itemValue) {
         LambdaQueryWrapper<SysDictItemEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(SysDictItemEntity::getItemValue, itemValue)
+        // @formatter:off
+        lambdaQueryWrapper
+                .eq(SysDictItemEntity::getItemValue, itemValue)
                 .eq(SysDictItemEntity::getDictId, dictId)
                 .ne(Objects.nonNull(id), SysDictItemEntity::getId, id)
         ;
+        // @formatter:on
         return SqlHelper.retBool(count(lambdaQueryWrapper));
     }
 
@@ -82,22 +84,25 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
      */
     @Override
     public Page<SysDictItemEntity> findPageList(Page<SysDictItemEntity> page, SysDictItemQuery query) {
-        LambdaQueryWrapper<SysDictItemEntity> queryWrapper = Wrappers.lambdaQuery();
-        // @formatter:off
-        queryWrapper
-                .and(condition(query.getKeyWord()), wrapper -> wrapper
-                        .like(SysDictItemEntity::getDictCode, query.getKeyWord())
-                        .or()
-                        .like(SysDictItemEntity::getItemLabel, query.getKeyWord())
-                        .or()
-                        .like(SysDictItemEntity::getItemValue, query.getKeyWord())
-                )
-                .eq(condition(query.getDictId()), SysDictItemEntity::getDictId, query.getDictId())
-                .like(condition(query.getDictCode()), SysDictItemEntity::getDictCode, query.getDictCode())
-                .like(condition(query.getItemLabel()), SysDictItemEntity::getItemLabel, query.getItemLabel())
-                .like(condition(query.getItemValue()), SysDictItemEntity::getItemValue, query.getItemValue())
-                .eq(condition(query.getStatus()), SysDictItemEntity::getStatus, query.getStatus());
-        // @formatter:on
+        LambdaQueryWrapper<SysDictItemEntity> queryWrapper = new LambdaQueryWrapper<>();
+        if (query.isQuick()) {
+            // @formatter:off
+            queryWrapper
+                    .and(condition(query.getKeyWord()), wrapper -> wrapper
+                            .like(SysDictItemEntity::getDictCode, query.getKeyWord())
+                            .or()
+                            .like(SysDictItemEntity::getItemLabel, query.getKeyWord())
+                            .or()
+                            .like(SysDictItemEntity::getItemValue, query.getKeyWord())
+                    );
+            // @formatter:on
+        } else {
+            queryWrapper.like(condition(query.getDictCode()), SysDictItemEntity::getDictCode, query.getDictCode());
+            queryWrapper.like(condition(query.getItemLabel()), SysDictItemEntity::getItemLabel, query.getItemLabel());
+            queryWrapper.like(condition(query.getItemValue()), SysDictItemEntity::getItemValue, query.getItemValue());
+            queryWrapper.eq(condition(query.getStatus()), SysDictItemEntity::getStatus, query.getStatus());
+        }
+        queryWrapper.eq(condition(query.getDictId()), SysDictItemEntity::getDictId, query.getDictId());
         return page(page, queryWrapper);
     }
 

@@ -21,7 +21,7 @@ spring:
   # 数据源配置
   datasource:
     password: 123456
-    url: jdbc:mysql://localhost:3306/xht_platform?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost:3306/xht_platform?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
     username: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   cloud:
@@ -60,6 +60,8 @@ xht:
       enable: true
 
 mybatis-plus:
+  configuration:
+    default-executor-type: batch
   global-config:
     db-config:
       logic-delete-field: delFlag

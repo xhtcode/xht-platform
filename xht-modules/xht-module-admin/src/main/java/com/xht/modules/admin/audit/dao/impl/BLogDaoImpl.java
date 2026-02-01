@@ -30,21 +30,23 @@ public class BLogDaoImpl extends MapperRepositoryImpl<BLogMapper, BLogEntity> im
     @Override
     public Page<BLogEntity> findPageList(Page<BLogEntity> page, BLogQuery query) {
         LambdaQueryWrapper<BLogEntity> queryWrapper = new LambdaQueryWrapper<>();
-        // @formatter:off
-        queryWrapper.and(
-                        condition(query.getKeyWord()), wrapper -> wrapper.or()
-                                .like(BLogEntity::getTitle, query.getKeyWord())
-                                .or()
-                                .like(BLogEntity::getServiceName, query.getKeyWord())
-                                .or()
-                                .like(BLogEntity::getDescription, query.getKeyWord())
-                )
-                .like(condition(query.getTitle()), BLogEntity::getTitle, query.getTitle())
-                .like(condition(query.getServiceName()), BLogEntity::getServiceName, query.getServiceName())
-                .like(condition(query.getDescription()), BLogEntity::getDescription, query.getDescription())
-                .eq(condition(query.getStatus()), BLogEntity::getStatus, query.getStatus())
-        ;
-        // @formatter:on
+        if (query.isQuick()) {
+            // @formatter:off
+            queryWrapper.and(
+                    condition(query.getKeyWord()), wrapper -> wrapper.or()
+                            .like(BLogEntity::getTitle, query.getKeyWord())
+                            .or()
+                            .like(BLogEntity::getServiceName, query.getKeyWord())
+                            .or()
+                            .like(BLogEntity::getDescription, query.getKeyWord())
+            );
+            // @formatter:on
+        } else {
+            queryWrapper.like(condition(query.getTitle()), BLogEntity::getTitle, query.getTitle());
+            queryWrapper.like(condition(query.getServiceName()), BLogEntity::getServiceName, query.getServiceName());
+            queryWrapper.like(condition(query.getDescription()), BLogEntity::getDescription, query.getDescription());
+            queryWrapper.eq(condition(query.getStatus()), BLogEntity::getStatus, query.getStatus());
+        }
         return page(page, queryWrapper);
     }
 
