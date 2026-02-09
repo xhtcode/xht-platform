@@ -31,16 +31,5 @@ public abstract class PageBasicQuery extends BasicQuery {
     @Schema(name = "size", description = "每页显示条数", defaultValue = "10")
     private int size;
 
-    /**
-     * 正序排序的字段名
-     */
-    @Schema(name = "ascName", description = "正序排序的字段名")
-    private String ascName;
-
-    /**
-     * 倒序排序字段名
-     */
-    @Schema(name = "descName", description = "倒序排序字段名")
-    private String descName;
 
 }

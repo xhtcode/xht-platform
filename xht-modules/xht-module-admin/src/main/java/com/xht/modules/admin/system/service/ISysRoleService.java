@@ -67,7 +67,7 @@ public interface ISysRoleService {
      */
     PageResponse<SysRoleResponse> findPageList(SysRoleQuery query);
 
-    /***
+    /**
      * 查询所有角色
      * @return 角色列表
      */

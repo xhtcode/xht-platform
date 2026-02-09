@@ -1,7 +1,7 @@
 package com.xht.modules.admin.system.enums;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.xht.framework.core.enums.XhtEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,7 +12,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum PositionNatureEnums implements IEnum<Integer> {
+public enum PositionNatureEnums implements XhtEnum<Integer> {
 
     // 正式岗位：长期稳定的核心岗位，有正式任命和劳动合同约定
     FORMAL(0, "正式岗位"),

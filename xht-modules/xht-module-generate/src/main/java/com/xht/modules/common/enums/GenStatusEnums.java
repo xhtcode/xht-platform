@@ -1,7 +1,7 @@
 package com.xht.modules.common.enums;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.xht.framework.core.enums.XhtEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,7 +10,7 @@ import lombok.Getter;
  **/
 @Getter
 @AllArgsConstructor
-public enum GenStatusEnums implements IEnum<Integer> {
+public enum GenStatusEnums implements XhtEnum<Integer> {
 
     NO(0, "否"),
 

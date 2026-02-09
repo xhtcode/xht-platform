@@ -14,7 +14,7 @@ import java.util.Set;
  **/
 public interface SysRoleMenuDao extends MapperRepository<SysRoleMenuEntity> {
 
-    /***
+    /**
      * 角色菜单绑定
      * @param roleId 角色ID
      * @param roleMenuEntities 角色菜单关系集合

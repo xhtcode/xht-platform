@@ -36,7 +36,7 @@ public class PermitAllUrlProperties implements InitializingBean, IProperties {
     /**
      * 默认忽略URL
      */
-    private static final String[] DEFAULT_IGNORE_URLS = new String[]{"/actuator/**",
+    private static final String[] DEFAULT_IGNORE_URLS = new String[]{"/favicon.ico", "/actuator/**",
             "/error", "/v3/api-docs", "/v3/api-docs/*", "/doc.html", "/webjars/**"};
 
     /**

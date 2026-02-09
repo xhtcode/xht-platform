@@ -1,5 +1,6 @@
 package com.xht.modules.admin.notice.service.impl;
 
+import com.xht.framework.core.domain.LabelValue;
 import com.xht.modules.admin.notice.converter.SysNoticeTypeConverter;
 import com.xht.modules.admin.notice.dao.SysNoticeTypeDao;
 import com.xht.modules.admin.notice.domain.form.SysNoticeTypeForm;
@@ -71,7 +72,7 @@ public class ISysNoticeTypeServiceImpl implements ISysNoticeTypeService {
         return sysNoticeTypeConverter.toResponse(sysNoticeTypeDao.findById(id));
     }
 
-    /***
+    /**
      * 查询所有通知类型
      * @param query 通知类型查询请求参数
      * @return 通知类型列表
@@ -79,6 +80,20 @@ public class ISysNoticeTypeServiceImpl implements ISysNoticeTypeService {
     @Override
     public List<SysNoticeTypeResponse> list(SysNoticeTypeQuery query) {
         return sysNoticeTypeConverter.toResponse(sysNoticeTypeDao.findList(query));
+    }
+
+    /**
+     * 获取所有通知类型
+     *
+     * @return 获取所有通知类型
+     */
+    @Override
+    public List<LabelValue<Long, String>> findEnableList() {
+        List<SysNoticeTypeEntity> enableList = sysNoticeTypeDao.findEnableList();
+        return enableList
+                .stream()
+                .map(entity -> LabelValue.of(entity.getId(), entity.getNoticeTypeName()))
+                .toList();
     }
 
 }

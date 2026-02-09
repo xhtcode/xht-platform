@@ -1,20 +1,22 @@
 package com.xht.modules.admin.notice.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.modules.admin.notice.converter.SysNoticeAttachmentConverter;
 import com.xht.modules.admin.notice.converter.SysNoticeConverter;
 import com.xht.modules.admin.notice.converter.SysNoticePermissionConverter;
-import com.xht.modules.admin.notice.converter.SysNoticeTypeConverter;
 import com.xht.modules.admin.notice.dao.*;
 import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
 import com.xht.modules.admin.notice.domain.form.SysNoticePermissionForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
+import com.xht.modules.admin.notice.domain.vo.NoticeVo;
 import com.xht.modules.admin.notice.entity.SysNoticeAttachmentEntity;
 import com.xht.modules.admin.notice.entity.SysNoticeEntity;
 import com.xht.modules.admin.notice.entity.SysNoticePermissionEntity;
@@ -50,8 +52,6 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
     private final SysNoticeUserOperateDao sysNoticeUserOperateDao;
 
     private final SysNoticeConverter sysNoticeConverter;
-
-    private final SysNoticeTypeConverter sysNoticeTypeConverter;
 
     private final SysNoticeAttachmentConverter sysNoticeAttachmentConverter;
 
@@ -232,61 +232,53 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
     }
 
     /**
-     * 根据通知id 修改已读人数
-     *
-     * @param noticeId 通知id
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateReadNumById(Long noticeId) {
-        BasicUserDetails user = SecurityUtils.getUser();
-        boolean operateExists = sysNoticeUserOperateDao.existsNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnums.READ);
-        if (!operateExists) {
-            sysNoticeDao.updateReadNumById(noticeId);
-            sysNoticeUserOperateDao.createNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnums.READ);
-        }
-    }
-
-    /**
-     * 根据通知id 修改点击次数
-     *
-     * @param noticeId 通知id
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateClickNumById(Long noticeId) {
-        BasicUserDetails user = SecurityUtils.getUser();
-        boolean operateExists = sysNoticeUserOperateDao.existsNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnums.CLICK);
-        if (!operateExists) {
-            sysNoticeDao.updateClickNumById(noticeId);
-            sysNoticeUserOperateDao.createNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnums.CLICK);
-        }
-    }
-
-    /**
      * 根据ID查询通知详情
      *
      * @param noticeId 通知详情ID
      * @return 通知详情信息
      */
     @Override
-    public SysNoticeResponse findById(Long noticeId) {
-        SysNoticeEntity noticeEntity = sysNoticeDao.findById(noticeId);
+    public NoticeVo findById(Long noticeId) {
+        NoticeVo result = new NoticeVo();
+        SysNoticeResponse noticeResponse = sysNoticeConverter.toResponse(sysNoticeDao.findById(noticeId));
+        BasicUserDetails user = SecurityUtils.getUser();
+        Boolean admin = SecurityUtils.isAdmin();
+        Long userId = user.getUserId();
+        Long deptId = user.getDeptId();
         // @formater:off
-        Optional.ofNullable(noticeEntity).ifPresent(item -> {
-            if (Objects.equals(item.getNoticeAllVisible(), NoticeAllVisibleEnums.NO)) {
-                BasicUserDetails user = SecurityUtils.getUser();
-                Long userId = user.getUserId();
-                Long deptId = user.getDeptId();
+        Optional.ofNullable(noticeResponse).ifPresent(item -> {
+            // 查询权限
+            if (Objects.equals(item.getNoticeAllVisible(), NoticeAllVisibleEnums.NO) && !admin ) {
                 Set<String> roleCodes = user.getRoleCodes();
                 boolean hashPermission = sysNoticePermissionDao.hashPermission(noticeId, userId, deptId, roleCodes);
                 if (!hashPermission) {
-                    throw new BusinessException("查询通知详情无权限!");
+                    throw new BusinessException("暂无权限查询通知详情!");
                 }
             }
+            // 补充通知类型名称
+            noticeResponse.setNoticeTypeName(sysNoticeTypeDao.findTypeName(noticeId));
+            // 获取通知附件
+            List<SysNoticeAttachmentEntity> attachmentList = sysNoticeAttachmentDao.findListByNoticeId(noticeId);
+            result.setAttachments(sysNoticeAttachmentConverter.toResponse(attachmentList));
+            // 获取通知权限
+            List<SysNoticePermissionEntity> permissionList = sysNoticePermissionDao.findListByNoticeId(noticeId);
+            result.setPermissions(sysNoticePermissionConverter.toResponse(permissionList));
+            // 记录已读
+            boolean readExists = sysNoticeUserOperateDao.existsNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnums.READ);
+            if (!readExists) {
+                sysNoticeDao.updateReadNumById(noticeId);
+                sysNoticeUserOperateDao.createNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnums.READ);
+            }
+            // 记录点击
+            boolean clickExists = sysNoticeUserOperateDao.existsNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnums.CLICK);
+            if (!clickExists) {
+                sysNoticeDao.updateClickNumById(noticeId);
+                sysNoticeUserOperateDao.createNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnums.CLICK);
+            }
         });
+        result.setNotice(noticeResponse);
         // @formater:on
-        return sysNoticeConverter.toResponse(noticeEntity);
+        return result;
     }
 
     /**
@@ -308,13 +300,8 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
      */
     @Override
     public PageResponse<SysNoticeResponse> findPageList(SysNoticeQuery query) {
-        BasicUserDetails user = SecurityUtils.getUser();
-        Long deptId = user.getDeptId();
-        Set<String> roleCodes = user.getRoleCodes();
-        Long userId = user.getUserId();
-
-
-        return null;
+        Page<SysNoticeResponse> pageList = sysNoticeDao.findPageList(PageTool.getPage(query), query);
+        return PageTool.getPageVo(pageList);
     }
 
 }

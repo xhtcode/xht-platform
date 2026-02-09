@@ -12,7 +12,7 @@ import com.xht.modules.admin.dict.dao.SysDictItemDao;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.query.SysDictItemQuery;
 import com.xht.modules.admin.dict.domain.response.SysDictItemResponse;
-import com.xht.modules.admin.dict.domain.vo.DictVo;
+import com.xht.platform.common.dict.domain.vo.DictVo;
 import com.xht.modules.admin.dict.entity.SysDictEntity;
 import com.xht.modules.admin.dict.entity.SysDictItemEntity;
 import com.xht.modules.admin.dict.enums.DictShowDisabledEnums;

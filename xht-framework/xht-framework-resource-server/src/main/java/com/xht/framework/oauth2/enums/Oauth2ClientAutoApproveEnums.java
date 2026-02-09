@@ -1,7 +1,7 @@
 package com.xht.framework.oauth2.enums;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.xht.framework.core.enums.XhtEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,7 +12,7 @@ import lombok.Getter;
  **/
 @Getter
 @AllArgsConstructor
-public enum Oauth2ClientAutoApproveEnums implements IEnum<Integer> {
+public enum Oauth2ClientAutoApproveEnums implements XhtEnum<Integer> {
 
     /**
      * 正常

@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.framework.core.constant.StringConstant;
 import com.xht.framework.core.domain.query.PageBasicQuery;
 import com.xht.framework.core.domain.response.PageResponse;
 import org.springframework.util.StringUtils;
@@ -36,8 +37,8 @@ public final class PageTool {
         if (query == null) {
             return new Page<>(1, 10);
         }
-        String[] ascArr = StringUtils.delimitedListToStringArray(query.getAscName(), ",");
-        String[] descArr = StringUtils.delimitedListToStringArray(query.getDescName(), ",");
+        String[] ascArr = StringUtils.delimitedListToStringArray(query.getAscName(), StringConstant.DELIMITER);
+        String[] descArr = StringUtils.delimitedListToStringArray(query.getDescName(), StringConstant.DELIMITER);
         return getPage(query.getCurrent(), query.getSize(), ascArr, descArr);
     }
 

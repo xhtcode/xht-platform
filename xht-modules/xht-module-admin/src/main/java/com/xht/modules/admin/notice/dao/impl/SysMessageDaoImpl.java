@@ -1,6 +1,7 @@
 package com.xht.modules.admin.notice.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
@@ -11,6 +12,8 @@ import com.xht.modules.admin.notice.entity.SysMessageEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+
 /**
  * 描述 ： 系统管理-站内信主表 Dao
  *
@@ -20,15 +23,30 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class SysMessageDaoImpl extends MapperRepositoryImpl<SysMessageMapper, SysMessageEntity> implements SysMessageDao {
 
+
+    /**
+     * 撤回站内信（全部）
+     *
+     * @param messageId  站内信ID
+     * @param cancelTime 撤销时间
+     */
+    @Override
+    public void updateCancelByMessageId(Long messageId, LocalDateTime cancelTime) {
+        LambdaUpdateWrapper<SysMessageEntity> queryWrapper = new LambdaUpdateWrapper<>();
+        queryWrapper.eq(SysMessageEntity::getId, messageId);
+        queryWrapper.set(SysMessageEntity::getCancelTime, cancelTime);
+        update(queryWrapper);
+    }
+
     /**
      * 管理员分页查询站内信
      *
      * @param page       分页参数
      * @param query      站内信查询参数
-     * @param sendUserId 发送人ID
+     * @return            站内信分页列表
      */
     @Override
-    public Page<SysMessageEntity> findPageList(Page<SysMessageEntity> page, SysMessageQuery query, Long sendUserId) {
+    public Page<SysMessageEntity> findPageList(Page<SysMessageEntity> page, SysMessageQuery query) {
         LambdaQueryWrapper<SysMessageEntity> queryWrapper = new LambdaQueryWrapper<>();
         // @formatter:off
         queryWrapper.select(
@@ -36,6 +54,7 @@ public class SysMessageDaoImpl extends MapperRepositoryImpl<SysMessageMapper, Sy
                 SysMessageEntity::getSenderName,
                 SysMessageEntity::getMessageType,
                 SysMessageEntity::getMessageTitle,
+                SysMessageEntity::getCancelTime,
                 SysMessageEntity::getCreateTime,
                 SysMessageEntity::getUpdateTime,
                 SysMessageEntity::getCreateBy,
@@ -56,8 +75,6 @@ public class SysMessageDaoImpl extends MapperRepositoryImpl<SysMessageMapper, Sy
             queryWrapper.eq(condition(query.getMessageType()), SysMessageEntity::getMessageType, query.getMessageType());
             queryWrapper.like(condition(query.getMessageTitle()), SysMessageEntity::getMessageTitle, query.getMessageTitle());
         }
-
-        queryWrapper.eq(condition(sendUserId), SysMessageEntity::getSenderId, sendUserId);
         return page(page, queryWrapper);
     }
 

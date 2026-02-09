@@ -1,6 +1,5 @@
 package com.xht.framework.core.enums;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +13,7 @@ import java.util.Objects;
  **/
 @Getter
 @AllArgsConstructor
-public enum UserTypeEnums implements IEnum<Integer> {
+public enum UserTypeEnums implements XhtEnum<Integer> {
     /**
      * 管理员用户
      */

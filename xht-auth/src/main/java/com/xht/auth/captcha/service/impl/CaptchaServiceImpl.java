@@ -33,7 +33,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    /***
+    /**
      * 生成图片验证码
      * @param captchaKey 验证码key
      * @return 验证码图片

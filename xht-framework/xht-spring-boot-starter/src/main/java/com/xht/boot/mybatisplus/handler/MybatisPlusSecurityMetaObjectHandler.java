@@ -1,7 +1,9 @@
 package com.xht.boot.mybatisplus.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.mybatis.enums.DelFlagEnum;
+import com.xht.framework.oauth2.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 
@@ -38,7 +40,7 @@ public class MybatisPlusSecurityMetaObjectHandler implements MetaObjectHandler {
     }
 
     private String getUserName() {
-        return DEFAULT_USERNAME;
+        return StringUtils.emptyToDefault(SecurityUtils.getUserName(), DEFAULT_USERNAME);
     }
 
 }

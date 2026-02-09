@@ -4,9 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xht.modules.admin.notice.dao.mapper.SysNoticeMapper">
 
-    <resultMap id="BaseResultMap" type="com.xht.modules.admin.notice.entity.SysNoticeEntity">
+    <resultMap id="BaseResultMap" type="com.xht.modules.admin.notice.domain.response.SysNoticeResponse">
         <id property="id" column="id"/>
         <result property="noticeTypeId" column="notice_type_id"/>
+        <result property="noticeTypeName" column="notice_type_name"/>
         <result property="noticeTitle" column="notice_title"/>
         <result property="noticeSummary" column="notice_summary"/>
         <result property="noticeContent" column="notice_content"/>
@@ -23,19 +24,84 @@
         <result property="noticeReadCount" column="notice_read_count"/>
         <result property="noticeClickCount" column="notice_click_count"/>
         <result property="noticeRemark" column="notice_remark"/>
-        <result property="delFlag" column="del_flag"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
         <result property="updateBy" column="update_by"/>
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id
-        ,notice_type_id,notice_title,notice_summary,notice_content,notice_status,
-        notice_order,notice_top,notice_all_visible,notice_timed_publish,notice_publish_time,
-        notice_expire_time,notice_offline_time,notice_jump_type,notice_jump_url,notice_read_count,
-        notice_click_count,notice_remark,del_flag,create_by,create_time,
-        update_by,update_time
-    </sql>
+    <!-- 分页查询 -->
+    <select id="findPageList" resultMap="BaseResultMap">
+        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
+        SELECT t1.id,
+        t1.notice_type_id,
+        t2.notice_type_name,
+        t1.notice_title,
+        t1.notice_summary,
+        t1.notice_status,
+        t1.notice_order,
+        t1.notice_top,
+        t1.notice_all_visible,
+        t1.notice_timed_publish,
+        t1.notice_publish_time,
+        t1.notice_expire_time,
+        t1.notice_offline_time,
+        t1.notice_jump_type,
+        t1.notice_jump_url,
+        t1.notice_read_count,
+        t1.notice_click_count,
+        t1.notice_remark,
+        t1.create_by,
+        t1.create_time,
+        t1.update_by,
+        t1.update_time
+        FROM sys_notice t1
+        LEFT JOIN sys_notice_type t2
+        on t1.notice_type_id = t2.id
+        where t1.del_flag = #{delFlag}
+        <!-- 通知快速查询 -->
+        <if test="query.quick">
+            <if test="query.keyWord != null and query.keyWord != ''">
+                AND (
+                t1.notice_title LIKE CONCAT('%', #{query.keyWord}, '%')
+                OR t1.notice_summary LIKE CONCAT('%', #{query.keyWord}, '%')
+                )
+            </if>
+        </if>
+        <if test="!query.quick">
+            <!-- 通知类型筛选 -->
+            <if test="query.noticeTypeId != null">
+                AND t1.notice_type_id = #{query.noticeTypeId}
+            </if>
+            <!-- 通知标题模糊匹配 -->
+            <if test="query.noticeTitle != null and query.noticeTitle != ''">
+                AND t1.notice_title LIKE CONCAT('%', #{query.noticeTitle}, '%')
+            </if>
+            <!-- 通知状态筛选 -->
+            <if test="query.noticeStatus != null">
+                AND t1.notice_status = #{query.noticeStatus}
+            </if>
+            <!-- 发布时间范围筛选 -->
+            <if test="query.noticePublishTimeStart != null">
+                AND t1.notice_publish_time &gt;= #{query.noticePublishTimeStart}
+            </if>
+            <if test="query.noticePublishTimeEnd != null">
+                AND t1.notice_publish_time &lt;= #{query.noticePublishTimeEnd}
+            </if>
+            <!-- 过期时间范围筛选 -->
+            <if test="query.noticeExpireTimeStart != null">
+                AND t1.notice_expire_time &gt;= #{query.noticeExpireTimeStart}
+            </if>
+            <if test="query.noticeExpireTimeEnd != null">
+                AND t1.notice_expire_time &lt;= #{query.noticeExpireTimeEnd}
+            </if>
+            <!-- 下架时间范围筛选 -->
+            <if test="query.noticeOfflineTimeStart != null">
+                AND t1.notice_offline_time &gt;= #{query.noticeOfflineTimeStart}
+            </if>
+            <if test="query.noticeOfflineTimeEnd != null">
+                AND t1.notice_offline_time &lt;= #{query.noticeOfflineTimeEnd}
+            </if>
+        </if>
+    </select>
 </mapper>

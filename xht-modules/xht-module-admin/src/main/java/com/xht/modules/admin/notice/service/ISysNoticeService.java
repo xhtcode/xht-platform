@@ -4,6 +4,7 @@ import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
+import com.xht.modules.admin.notice.domain.vo.NoticeVo;
 import com.xht.modules.admin.notice.enums.NoticeStatusEnums;
 import com.xht.modules.admin.notice.enums.NoticeTopEnums;
 
@@ -54,28 +55,15 @@ public interface ISysNoticeService {
     void updateIsTopById(Long noticeId, NoticeTopEnums isTop);
 
     /**
-     * 根据通知id 修改已读人数
-     *
-     * @param noticeId 通知id
-     */
-    void updateReadNumById(Long noticeId);
-
-    /**
-     * 根据通知id 修改点击次数
-     *
-     * @param noticeId 通知id
-     */
-    void updateClickNumById(Long noticeId);
-
-    /**
      * 根据ID查询通知详情
      *
      * @param id 通知详情ID
      * @return 通知详情信息
      */
-    SysNoticeResponse findById(Long id);
+    NoticeVo findById(Long id);
 
     /**
+     * todo 待完善
      * 根据通知id 获取定时发布的数据
      *
      * @param noticeId 通知id

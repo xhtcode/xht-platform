@@ -27,8 +27,8 @@ public interface RedisService {
      * @param data    数据
      * @return 数据
      */
-    default <T> T get(String key, long timeout, Supplier<T> data) {
-        return get(key, timeout, TimeUnit.MILLISECONDS, data);
+    default <T> T getSet(String key, long timeout, Supplier<T> data) {
+        return getSet(key, timeout, TimeUnit.MILLISECONDS, data);
     }
 
 
@@ -41,7 +41,7 @@ public interface RedisService {
      * @param data    数据
      * @return 数据
      */
-    <T> T get(String key, long timeout, TimeUnit unit, Supplier<T> data);
+    <T> T getSet(String key, long timeout, TimeUnit unit, Supplier<T> data);
 
     /**
      * 缓存数据
@@ -49,7 +49,7 @@ public interface RedisService {
      * @param key redis key
      * @return 数据
      */
-    <T> T get(String key);
+    <T> T getSet(String key);
 
     /**
      * 存储一个redis数据

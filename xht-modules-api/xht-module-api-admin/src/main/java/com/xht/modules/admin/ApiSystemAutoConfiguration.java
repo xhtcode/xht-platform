@@ -1,7 +1,9 @@
 package com.xht.modules.admin;
 
+import com.xht.modules.admin.dict.SysDictApiFactory;
 import com.xht.modules.admin.listener.BLogApplicationListener;
 import com.xht.modules.admin.notice.MessageClientPublisher;
+import com.xht.platform.common.dict.ISysDictFactory;
 import com.xht.platform.common.notice.IMessagePublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -40,6 +42,16 @@ public class ApiSystemAutoConfiguration {
     @Bean
     public IMessagePublisher messageClientPublisher() {
         return new MessageClientPublisher();
+    }
+
+    /**
+     * 创建字典项查询服务工厂
+     *
+     * @return 字典项查询服务工厂
+     */
+    @Bean
+    public ISysDictFactory sysDictClient() {
+        return new SysDictApiFactory();
     }
 
 }

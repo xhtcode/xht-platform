@@ -9,7 +9,6 @@ import com.xht.modules.admin.notice.enums.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * 系统管理-通知详情
@@ -90,13 +89,13 @@ public class SysNoticeEntity extends BasicEntity {
      * 过期时间（自动失效，到期后不再展示）
      */
     @TableField(value = "notice_expire_time")
-    private Date noticeExpireTime;
+    private LocalDateTime noticeExpireTime;
 
     /**
      * 下架时间（手动操作下架的时间）
      */
     @TableField(value = "notice_offline_time")
-    private Date noticeOfflineTime;
+    private LocalDateTime noticeOfflineTime;
 
     /**
      * 跳转类型(0:无跳转;1:内部页面;2:外部链接)

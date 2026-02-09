@@ -1,7 +1,7 @@
 package com.xht.platform.common.notice.enums;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.xht.framework.core.enums.XhtEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,7 +12,7 @@ import lombok.Getter;
  **/
 @Getter
 @AllArgsConstructor
-public enum MessageTypeEnums implements IEnum<Integer> {
+public enum MessageTypeEnums implements XhtEnum<Integer> {
 
     SYSTEM_NOTICE(1, "系统通知"),
 

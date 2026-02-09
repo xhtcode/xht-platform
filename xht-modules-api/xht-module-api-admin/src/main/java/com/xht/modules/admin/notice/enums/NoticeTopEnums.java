@@ -1,7 +1,7 @@
 package com.xht.modules.admin.notice.enums;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.xht.framework.core.enums.XhtEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,7 +12,7 @@ import lombok.Getter;
  **/
 @Getter
 @AllArgsConstructor
-public enum NoticeTopEnums implements IEnum<Integer> {
+public enum NoticeTopEnums implements XhtEnum<Integer> {
     NO(0, "否"),
     YES(1, "是");
     @JsonValue

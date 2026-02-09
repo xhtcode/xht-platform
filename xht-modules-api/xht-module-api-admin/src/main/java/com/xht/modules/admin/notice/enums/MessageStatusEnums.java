@@ -1,7 +1,7 @@
 package com.xht.modules.admin.notice.enums;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.xht.framework.core.enums.XhtEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,7 +13,7 @@ import lombok.Getter;
  **/
 @Getter
 @AllArgsConstructor
-public enum MessageStatusEnums implements IEnum<Integer> {
+public enum MessageStatusEnums implements XhtEnum<Integer> {
 
     UNREAD(1, "未读"),
 

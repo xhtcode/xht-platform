@@ -14,8 +14,9 @@ import com.xht.modules.admin.notice.dao.SysMessageDao;
 import com.xht.modules.admin.notice.dao.SysMessageInfoDao;
 import com.xht.modules.admin.notice.domain.query.SysMessageInfoQuery;
 import com.xht.modules.admin.notice.domain.query.SysMessageQuery;
-import com.xht.modules.admin.notice.domain.response.SysMessageInfoResponse;
 import com.xht.modules.admin.notice.domain.response.SysMessageResponse;
+import com.xht.modules.admin.notice.domain.vo.MessageInfoVo;
+import com.xht.modules.admin.notice.domain.vo.MessagePageVo;
 import com.xht.modules.admin.notice.entity.SysMessageEntity;
 import com.xht.modules.admin.notice.entity.SysMessageInfoEntity;
 import com.xht.modules.admin.notice.enums.MessageStarEnums;
@@ -34,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -106,6 +108,16 @@ public class SysMessageServiceImpl implements ISysMessageService {
     }
 
     /**
+     * 已读所有站内信（收件人侧）
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateReadAll() {
+        Long userId = SecurityUtils.getUserId();
+        sysMessageInfoDao.updateReadById(null, userId);
+    }
+
+    /**
      * 已读站内信（收件人侧）
      *
      * @param messageId 站内信ID
@@ -114,6 +126,30 @@ public class SysMessageServiceImpl implements ISysMessageService {
     @Transactional(rollbackFor = Exception.class)
     public void updateReadById(Long messageId) {
         sysMessageInfoDao.updateReadById(messageId, SecurityUtils.getUserId());
+    }
+
+    /**
+     * 收藏站内信（收件人侧）
+     *
+     * @param messageId        站内信ID
+     * @param messageStarEnums 站内信收藏枚举
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateStartById(Long messageId, MessageStarEnums messageStarEnums) {
+        sysMessageInfoDao.updateStartById(messageId, SecurityUtils.getUserId(), messageStarEnums);
+    }
+
+    /**
+     * 置顶站内信（收件人侧）
+     *
+     * @param messageId       站内信ID
+     * @param messageTopEnums 站内信置顶枚举
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateTopById(Long messageId, MessageTopEnums messageTopEnums) {
+        sysMessageInfoDao.updateTopById(messageId, SecurityUtils.getUserId(), messageTopEnums);
     }
 
     /**
@@ -128,14 +164,27 @@ public class SysMessageServiceImpl implements ISysMessageService {
     }
 
     /**
-     * 撤回站内信（发件人侧）
+     * 撤回站内信（全部）
      *
      * @param messageId 站内信ID
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateCancelById(Long messageId) {
-        sysMessageInfoDao.updateCancelById(messageId);
+    public void updateCancelAllById(Long messageId) {
+        LocalDateTime cancelTime = LocalDateTime.now();
+        sysMessageDao.updateCancelByMessageId(messageId, cancelTime);
+        sysMessageInfoDao.updateCancelByMessageId(messageId, cancelTime);
+    }
+
+    /**
+     * 撤回站内信 （对用户单一撤回）
+     *
+     * @param messageInfoId 站内信详情ID
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateCancelSingleByInfoId(Long messageInfoId) {
+        sysMessageInfoDao.updateCancelById(messageInfoId);
     }
 
     /**
@@ -145,39 +194,31 @@ public class SysMessageServiceImpl implements ISysMessageService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public SysMessageInfoResponse findById(Long messageId) {
-        SysMessageInfoEntity entity = sysMessageInfoDao.findById(messageId);
-        Optional.ofNullable(entity)
-                .map(SysMessageInfoEntity::getMessageStatus)
-                .ifPresentOrElse(status -> {
-                    if (Objects.equals(MessageStatusEnums.UNREAD, status)) {
+    public MessageInfoVo findInfoByMessageId(Long messageId) {
+        MessageInfoVo messageInfoVo = sysMessageInfoDao.findInfoByMessageId(messageId, SecurityUtils.getUserId());
+        Optional.ofNullable(messageInfoVo)
+                .map(MessageInfoVo::getResponse)
+                .ifPresentOrElse(response -> {
+                    if (Objects.equals(MessageStatusEnums.UNREAD, response.getMessageStatus())) {
+                        response.setMessageStatus(MessageStatusEnums.READ);
+                        response.setReadTime(LocalDateTime.now());
                         sysMessageInfoDao.updateReadById(messageId, SecurityUtils.getUserId());
                     }
                 }, () -> {
                     throw new BusinessException(BusinessErrorCode.DATA_NOT_EXIST);
                 });
-        return sysMessageInfoConverter.toResponse(entity);
-    }
-
-    /**
-     * 分页查询我发送的站内信
-     *
-     * @param query 站内信参数
-     */
-    @Override
-    public PageResponse<SysMessageResponse> findMyPageSend(SysMessageQuery query) {
-        Page<SysMessageEntity> page = sysMessageDao.findPageList(PageTool.getPage(query), query, SecurityUtils.getUserId());
-        return sysMessageConverter.toResponse(page);
+        return messageInfoVo;
     }
 
     /**
      * 管理员分页查询站内信
      *
-     * @param query 查询参数
+     * @param query      站内信查询参数
+     * @return            站内信分页列表
      */
     @Override
     public PageResponse<SysMessageResponse> findAdminPage(SysMessageQuery query) {
-        Page<SysMessageEntity> page = sysMessageDao.findPageList(PageTool.getPage(query), query, null);
+        Page<SysMessageEntity> page = sysMessageDao.findPageList(PageTool.getPage(query), query);
         return sysMessageConverter.toResponse(page);
     }
 
@@ -188,22 +229,24 @@ public class SysMessageServiceImpl implements ISysMessageService {
      * @return 站内信发送详情
      */
     @Override
-    public PageResponse<SysMessageInfoResponse> findAdminPageSend(SysMessageInfoQuery query) {
+    public MessagePageVo findAdminPageSend(SysMessageInfoQuery query) {
         ThrowUtils.notNull(query.getMessageId(), "查询不到信息id");
+        SysMessageEntity messageEntity = sysMessageDao.findById(query.getMessageId());
         Page<SysMessageInfoEntity> page = sysMessageInfoDao.findAdminPageSend(PageTool.getPage(query), query);
-        return sysMessageInfoConverter.toResponse(page);
+        return sysMessageInfoConverter.toMessageVo(messageEntity, page);
     }
 
     /**
      * 分页查询我接收的站内信
      *
      * @param query 查询参数
+     * @return  站内信分页列表
      */
     @Override
-    public PageResponse<SysMessageInfoResponse> findMyPage(SysMessageInfoQuery query) {
+    public PageResponse<MessageInfoVo> findMyPage(SysMessageInfoQuery query) {
         query.setRecipientId(SecurityUtils.getUserId());
-        Page<SysMessageInfoEntity> page = sysMessageInfoDao.findMyMessagePageList(PageTool.getPage(query), query);
-        return sysMessageInfoConverter.toResponse(page);
+        Page<MessageInfoVo> page = sysMessageInfoDao.findMyMessagePageList(PageTool.getPage(query), query);
+        return PageTool.getPageVo(page);
     }
 
 }

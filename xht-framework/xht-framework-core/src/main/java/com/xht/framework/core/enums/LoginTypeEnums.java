@@ -1,6 +1,5 @@
 package com.xht.framework.core.enums;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +13,7 @@ import java.io.Serializable;
  **/
 @Getter
 @AllArgsConstructor
-public enum LoginTypeEnums implements IEnum<String>, Serializable {
+public enum LoginTypeEnums implements XhtEnum<String>, Serializable {
 
     /**
      * 客户端模式

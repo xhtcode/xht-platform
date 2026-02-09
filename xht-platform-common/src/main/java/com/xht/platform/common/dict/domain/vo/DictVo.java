@@ -1,4 +1,4 @@
-package com.xht.modules.admin.dict.domain.vo;
+package com.xht.platform.common.dict.domain.vo;
 
 import com.xht.framework.core.domain.vo.IVO;
 import io.swagger.v3.oas.annotations.media.Schema;

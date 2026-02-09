@@ -102,6 +102,19 @@ public class SysNoticePermissionDaoImpl extends MapperRepositoryImpl<SysNoticePe
     }
 
     /**
+     * 根据通知id 查询权限列表
+     *
+     * @param noticeId 通知id
+     * @return 权限列表
+     */
+    @Override
+    public List<SysNoticePermissionEntity> findListByNoticeId(Long noticeId) {
+        LambdaQueryWrapper<SysNoticePermissionEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysNoticePermissionEntity::getNoticeId, noticeId);
+        return list(queryWrapper);
+    }
+
+    /**
      * 格式化权限信息
      *
      * @param entityList 权限信息

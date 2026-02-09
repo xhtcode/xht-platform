@@ -7,7 +7,6 @@ import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.query.SysDictItemQuery;
 import com.xht.modules.admin.dict.domain.response.SysDictItemResponse;
-import com.xht.modules.admin.dict.domain.vo.DictVo;
 import com.xht.modules.admin.dict.service.ISysDictItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -94,18 +93,6 @@ public class SysDictItemController {
     @Operation(summary = "分页查询字典项")
     public R<PageResponse<SysDictItemResponse>> page(SysDictItemQuery query) {
         return R.ok().build(sysDictItemService.findPageList(query));
-    }
-
-    /**
-     * 根据字典编码查询
-     *
-     * @param dictCode 字典编码
-     * @return 字典项列表
-     */
-    @GetMapping("/code/{dictCode}")
-    @Operation(summary = "根据字典编码查询")
-    public R<List<DictVo>> getByDictCode(@PathVariable String dictCode) {
-        return R.ok().build(sysDictItemService.getByDictCode(dictCode));
     }
 
 }

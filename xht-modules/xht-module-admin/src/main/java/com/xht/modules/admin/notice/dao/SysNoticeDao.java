@@ -1,6 +1,9 @@
 package com.xht.modules.admin.notice.dao;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
+import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
+import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
 import com.xht.modules.admin.notice.entity.SysNoticeEntity;
 import com.xht.modules.admin.notice.enums.NoticeStatusEnums;
 import com.xht.modules.admin.notice.enums.NoticeTopEnums;
@@ -51,5 +54,14 @@ public interface SysNoticeDao extends MapperRepository<SysNoticeEntity> {
      * @return 定时发布数据
      */
     List<Long> listByReleaseTime(Long noticeId);
+
+    /**
+     * 分页查询
+     *
+     * @param page         分页参数
+     * @param noticeQuery  查询参数
+     * @return 分页数据
+     */
+    Page<SysNoticeResponse> findPageList(Page<SysNoticeEntity> page, SysNoticeQuery noticeQuery);
 
 }

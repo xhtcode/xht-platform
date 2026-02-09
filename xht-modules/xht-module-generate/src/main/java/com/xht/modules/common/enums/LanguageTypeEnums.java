@@ -1,7 +1,7 @@
 package com.xht.modules.common.enums;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.xht.framework.core.enums.XhtEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,7 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum LanguageTypeEnums implements IEnum<String> {
+public enum LanguageTypeEnums implements XhtEnum<String> {
 
     Java("Java", "js", "Object"),
     TypeScript("TypeScript", "ts", "any");

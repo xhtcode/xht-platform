@@ -4,6 +4,7 @@ import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.notice.entity.SysNoticePermissionEntity;
 import com.xht.modules.admin.notice.enums.NoticePermTypeEnums;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -48,4 +49,11 @@ public interface SysNoticePermissionDao extends MapperRepository<SysNoticePermis
      */
     boolean hashPermission(Long noticeId, Long userId, Long deptId, Set<String> roleCodes);
 
+    /**
+     * 根据通知id 查询权限列表
+     *
+     * @param noticeId 通知id
+     * @return 权限列表
+     */
+    List<SysNoticePermissionEntity> findListByNoticeId(Long noticeId);
 }

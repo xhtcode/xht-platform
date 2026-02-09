@@ -3,10 +3,13 @@ package com.xht.modules.admin.notice.dao.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.admin.notice.dao.SysNoticeDao;
 import com.xht.modules.admin.notice.dao.mapper.SysNoticeMapper;
+import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
+import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
 import com.xht.modules.admin.notice.entity.SysNoticeEntity;
 import com.xht.modules.admin.notice.enums.NoticeStatusEnums;
 import com.xht.modules.admin.notice.enums.NoticeTimedPublishEnums;
@@ -100,6 +103,18 @@ public class SysNoticeDaoImpl extends MapperRepositoryImpl<SysNoticeMapper, SysN
         queryWrapper.eq(SysNoticeEntity::getNoticeTimedPublish, NoticeTimedPublishEnums.PUBLISH);
         queryWrapper.ge(SysNoticeEntity::getNoticePublishTime, LocalDateTime.now());
         return list(queryWrapper).stream().map(SysNoticeEntity::getId).collect(Collectors.toList());
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param page        分页参数
+     * @param noticeQuery 查询参数
+     * @return 分页数据
+     */
+    @Override
+    public Page<SysNoticeResponse> findPageList(Page<SysNoticeEntity> page, SysNoticeQuery noticeQuery) {
+        return baseMapper.findPageList(page, noticeQuery);
     }
 
     /**

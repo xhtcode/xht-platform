@@ -46,7 +46,7 @@ public class RedisServiceImpl implements RedisService {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T get(String key, long timeout, TimeUnit unit, Supplier<T> data) {
+    public <T> T getSet(String key, long timeout, TimeUnit unit, Supplier<T> data) {
         T redisData = (T) redisTemplate.opsForValue().get(key);
         if (Objects.nonNull(redisData)) {
             return redisData;
@@ -63,7 +63,7 @@ public class RedisServiceImpl implements RedisService {
      * @return 数据
      */
     @Override
-    public <T> T get(String key) {
+    public <T> T getSet(String key) {
         return (T) redisTemplate.opsForValue().get(key);
     }
 

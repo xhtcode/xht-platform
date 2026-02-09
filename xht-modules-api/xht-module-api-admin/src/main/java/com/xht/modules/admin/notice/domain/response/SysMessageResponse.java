@@ -8,6 +8,8 @@ import com.xht.platform.common.notice.enums.MessageTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * 描述 ： 系统管理-站内信主表
  *
@@ -46,6 +48,12 @@ public class SysMessageResponse extends MetaResponse {
      */
     @Schema(description = "消息标题")
     private String messageTitle;
+
+    /**
+     * 撤回时间
+     */
+    @Schema(description = "撤回时间")
+    private LocalDateTime cancelTime;
 
     /**
      * 消息内容 （支持富文本）

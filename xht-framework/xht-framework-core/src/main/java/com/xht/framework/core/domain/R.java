@@ -4,6 +4,7 @@ import com.xht.framework.core.constant.basic.RConstants;
 import com.xht.framework.core.enums.DataTypeEnums;
 import com.xht.framework.core.exception.UtilException;
 import com.xht.framework.core.exception.code.ErrorCode;
+import com.xht.framework.core.utils.mdc.TraceIdUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,9 @@ public final class R<T> {
 
     @Schema(description = "数据类型")
     private final DataTypeEnums dataType;
+
+    @Schema(description = "链路跟踪id")
+    private final String traceId;
 
     /**
      * 创建成功的响应构建器
@@ -164,7 +168,7 @@ public final class R<T> {
          * @return R<T> 响应对象实例
          */
         public <T> R<T> build(T data) {
-            return new R<>(ok, code, msg, data, dataType);
+            return new R<>(ok, code, msg, data, dataType, TraceIdUtils.getTraceId());
         }
 
     }

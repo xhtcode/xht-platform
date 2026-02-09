@@ -1,7 +1,7 @@
 package com.xht.modules.admin.notice.enums;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.xht.framework.core.enums.XhtEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,7 +12,7 @@ import lombok.Getter;
  **/
 @Getter
 @AllArgsConstructor
-public enum NoticePermTypeEnums implements IEnum<Integer> {
+public enum NoticePermTypeEnums implements XhtEnum<Integer> {
 
     ROLE_PERM(0, "角色权限"),
     USER_PERM(1, "用户权限"),

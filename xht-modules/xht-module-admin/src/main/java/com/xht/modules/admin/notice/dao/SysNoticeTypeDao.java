@@ -29,4 +29,18 @@ public interface SysNoticeTypeDao extends MapperRepository<SysNoticeTypeEntity> 
      */
     List<SysNoticeTypeEntity> findList(SysNoticeTypeQuery query);
 
+    /**
+     * 获取所有通知类型
+     *
+     * @return 获取所有通知类型
+     */
+    List<SysNoticeTypeEntity> findEnableList();
+
+    /**
+     * 根据通知ID获取通知类型名称
+     *
+     * @param typeId 通知类型ID
+     * @return 通知类型
+     */
+    String findTypeName(Long typeId);
 }

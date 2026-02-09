@@ -4,27 +4,100 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xht.modules.admin.notice.dao.mapper.SysMessageInfoMapper">
 
-    <resultMap id="BaseResultMap" type="com.xht.modules.admin.notice.entity.SysMessageInfoEntity">
-        <id property="id" column="id"/>
-        <result property="messageId" column="message_id"/>
-        <result property="recipientId" column="recipient_id"/>
-        <result property="recipientName" column="recipient_name"/>
-        <result property="messageStatus" column="message_status"/>
-        <result property="messageTop" column="message_top"/>
-        <result property="messageStar" column="message_star"/>
-        <result property="readTime" column="read_time"/>
-        <result property="removeTime" column="remove_time"/>
-        <result property="delFlag" column="del_flag"/>
-        <result property="createBy" column="create_by"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateBy" column="update_by"/>
-        <result property="updateTime" column="update_time"/>
+    <resultMap id="BaseResultMap" type="com.xht.modules.admin.notice.domain.vo.MessageInfoVo">
+        <id property="t1Id" column="t1_id"/>
+        <result property="senderName" column="sender_name"/>
+        <result property="messageType" column="message_type"/>
+        <result property="messageTitle" column="message_title"/>
+        <result property="messageContent" column="message_content"/>
+        <result property="messageExtend" column="message_extend"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <association property="response" javaType="com.xht.modules.admin.notice.domain.response.SysMessageInfoResponse">
+            <id property="id" column="id"/>
+            <result property="messageId" column="message_id"/>
+            <result property="recipientId" column="recipient_id"/>
+            <result property="recipientName" column="recipient_name"/>
+            <result property="messageStatus" column="message_status"/>
+            <result property="messageTop" column="message_top"/>
+            <result property="messageStar" column="message_star"/>
+            <result property="readTime" column="read_time"/>
+            <result property="removeTime" column="remove_time"/>
+            <result property="cancelTime" column="cancel_time"/>
+            <result property="createBy" column="create_by"/>
+            <result property="createTime" column="create_time"/>
+            <result property="updateBy" column="update_by"/>
+            <result property="updateTime" column="update_time"/>
+        </association>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id
-        ,message_id,recipient_id,recipient_name,message_status,message_top,
-        message_star,read_time,remove_time,del_flag,create_by,
-        create_time,update_by,update_time
-    </sql>
+
+    <select id="findInfoByMessageId" resultMap="BaseResultMap">
+        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
+        SELECT
+        t1.id AS t1_id,
+        t1.sender_name,
+        t1.message_type,
+        t1.message_title,
+        t1.message_content,
+        t1.message_extend,
+        t2.id,
+        t2.message_id,
+        t2.recipient_id,
+        t2.recipient_name,
+        t2.message_status,
+        t2.message_top,
+        t2.message_star,
+        t2.read_time,
+        t2.remove_time,
+        t2.cancel_time,
+        t2.create_by,
+        t2.create_time,
+        t2.update_by,
+        t2.update_time
+        FROM
+        sys_message t1
+        LEFT JOIN sys_message_info t2 ON t1.id = t2.message_id
+        WHERE
+        t1.del_flag = #{delFlag}
+        AND t2.del_flag = #{delFlag}
+        AND t1.id = #{messageId}
+        AND t2.recipient_id = #{userId}
+    </select>
+
+    <!-- 分页查询我接收的站内信  -->
+    <select id="findMyMessagePageList" resultMap="BaseResultMap">
+        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
+        SELECT
+        t1.id AS t1_id,
+        t1.sender_name,
+        t1.message_type,
+        t1.message_title,
+        t2.id,
+        t2.message_id,
+        t2.recipient_id,
+        t2.recipient_name,
+        t2.message_status,
+        t2.message_top,
+        t2.message_star,
+        t2.read_time,
+        t2.create_time
+        FROM
+        sys_message t1
+        LEFT JOIN sys_message_info t2 ON t1.id = t2.message_id
+        WHERE
+        t1.del_flag = #{delFlag}
+        AND t2.del_flag = #{delFlag}
+        AND t2.recipient_id = #{query.recipientId}
+        AND t2.message_status IN (1,2)
+        <if test="query.messageStatus != null">
+            AND t2.message_status = #{query.messageStatus}
+        </if>
+        <if test="query.messageStar != null">
+            AND t2.message_star = #{query.messageStar}
+        </if>
+        ORDER BY
+            t2.message_status ,
+            t2.message_top DESC,
+        t2.update_time DESC
+    </select>
 </mapper>

@@ -1,6 +1,8 @@
 package com.xht.modules.admin.notice.controller;
 
+import com.xht.framework.core.domain.LabelValue;
 import com.xht.framework.core.domain.R;
+import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.modules.admin.notice.domain.form.SysNoticeTypeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeTypeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeTypeResponse;
@@ -73,7 +75,7 @@ public class SysNoticeTypeController {
         return R.ok().build(sysNoticeTypeService.findById(id));
     }
 
-    /***
+    /**
      * 查询所有通知类型
      * @param query 通知类型查询请求参数
      * @return 通知类型列表
@@ -82,6 +84,17 @@ public class SysNoticeTypeController {
     @GetMapping("/list")
     public R<List<SysNoticeTypeResponse>> list(SysNoticeTypeQuery query) {
         return R.ok().build(sysNoticeTypeService.list(query));
+    }
+
+    /**
+     * 查询所有通知类型
+     * @return 通知类型列表
+     */
+    @Operation(summary = "查询所有通知类型")
+    @IgnoreAuth(aop = false)
+    @GetMapping("/enable/all")
+    public R<List<LabelValue<Long, String>>> findEnableList() {
+        return R.ok().build(sysNoticeTypeService.findEnableList());
     }
 
 }

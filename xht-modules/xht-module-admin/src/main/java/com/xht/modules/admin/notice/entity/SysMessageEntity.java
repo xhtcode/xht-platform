@@ -10,6 +10,8 @@ import com.xht.platform.common.notice.core.MessageExtendInfo;
 import com.xht.platform.common.notice.enums.MessageTypeEnums;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * 系统管理-站内信主表
  *
@@ -48,6 +50,12 @@ public class SysMessageEntity extends BasicEntity {
      */
     @TableField(value = "message_title")
     private String messageTitle;
+
+    /**
+     * 撤回时间
+     */
+    @TableField(value = "cancel_time")
+    private LocalDateTime cancelTime;
 
     /**
      * 消息内容（支持富文本）

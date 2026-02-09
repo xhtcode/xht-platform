@@ -1,5 +1,6 @@
 package com.xht.modules.admin.notice.service;
 
+import com.xht.framework.core.domain.LabelValue;
 import com.xht.modules.admin.notice.domain.form.SysNoticeTypeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeTypeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeTypeResponse;
@@ -42,11 +43,17 @@ public interface ISysNoticeTypeService {
      */
     SysNoticeTypeResponse findById(Long id);
 
-    /***
+    /**
      * 查询所有通知类型
      * @param query 通知类型查询请求参数
      * @return 通知类型列表
      */
     List<SysNoticeTypeResponse> list(SysNoticeTypeQuery query);
+
+    /**
+     * 获取所有通知类型
+     * @return 获取所有通知类型
+     */
+    List<LabelValue<Long, String>> findEnableList();
 
 }

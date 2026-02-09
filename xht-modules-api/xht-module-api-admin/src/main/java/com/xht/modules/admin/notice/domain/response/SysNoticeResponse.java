@@ -29,6 +29,12 @@ public class SysNoticeResponse extends MetaResponse {
     private Long noticeTypeId;
 
     /**
+     * 通知类型名称
+     */
+    @Schema(description = "通知类型名称")
+    private String noticeTypeName;
+
+    /**
      * 通知标题
      */
     @Schema(description = "通知标题")

@@ -6,6 +6,7 @@ import com.xht.modules.admin.notice.enums.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
@@ -25,6 +26,7 @@ public class SysNoticeForm extends BasicForm {
      * 通知ID
      */
     @Schema(description = "主键ID")
+    @Null(message = "唯一标识必须为空", groups = {Groups.Create.class})
     @NotNull(message = "唯一标识参数不合法", groups = {Groups.Update.class})
     @Positive(message = "唯一标识参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     private Long id;

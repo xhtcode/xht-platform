@@ -2,9 +2,7 @@ package com.xht.framework.core.utils;
 
 import com.xht.framework.core.constant.basic.RConstants;
 import com.xht.framework.core.domain.R;
-import com.xht.framework.core.enums.DataTypeEnums;
 import com.xht.framework.core.exception.BusinessException;
-import lombok.Data;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -17,20 +15,15 @@ import java.util.function.Supplier;
  * @param <T> 泛型数据类型
  * @author xht
  */
-@Data
 public final class ROptional<T> {
 
     private final R<T> value;
 
     private final Integer code;
 
-    private final String msg;
-
     private final Boolean ok;
 
     private final T data;
-
-    private final DataTypeEnums dataType;
 
     private ROptional(R<T> value) {
         if (value == null) {
@@ -38,10 +31,8 @@ public final class ROptional<T> {
         }
         this.value = value;
         this.code = value.getCode();
-        this.msg = value.getMsg();
         this.ok = value.getOk();
         this.data = value.getData();
-        this.dataType = value.getDataType();
     }
 
 

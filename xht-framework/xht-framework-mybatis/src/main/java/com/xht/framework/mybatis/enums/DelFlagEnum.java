@@ -1,7 +1,7 @@
 package com.xht.framework.mybatis.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.baomidou.mybatisplus.annotation.IEnum;
+import com.xht.framework.core.enums.XhtEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,7 +12,7 @@ import lombok.Getter;
  **/
 @Getter
 @AllArgsConstructor
-public enum DelFlagEnum implements IEnum<Integer> {
+public enum DelFlagEnum implements XhtEnum<Integer> {
 
     /**
      * 表示未删除的状态

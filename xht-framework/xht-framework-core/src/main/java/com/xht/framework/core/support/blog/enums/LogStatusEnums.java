@@ -1,7 +1,7 @@
 package com.xht.framework.core.support.blog.enums;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.xht.framework.core.enums.XhtEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 @RequiredArgsConstructor
-public enum LogStatusEnums implements IEnum<Integer> {
+public enum LogStatusEnums implements XhtEnum<Integer> {
 
     /**
      * 正常日志类型

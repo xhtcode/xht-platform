@@ -1,6 +1,7 @@
 package com.xht.modules.admin.notice.domain.response;
 
 import com.xht.framework.core.domain.response.MetaResponse;
+import com.xht.modules.admin.notice.enums.NoticeTypeStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -26,9 +27,15 @@ public class SysNoticeTypeResponse extends MetaResponse {
     private String noticeTypeName;
 
     /**
-     * 通知类型
+     * 通知类型状态(0:未启用1:启用)
      */
-    @Schema(description = "通知类型")
+    @Schema(description = "通知类型状态")
+    private NoticeTypeStatusEnums noticeTypeStatus;
+
+    /**
+     * 通知排序
+     */
+    @Schema(description = "通知排序")
     private Integer noticeTypeSort;
 
 }

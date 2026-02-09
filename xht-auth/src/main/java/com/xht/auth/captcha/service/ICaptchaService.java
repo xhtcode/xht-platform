@@ -9,7 +9,7 @@ import com.xht.framework.security.domain.response.CaptchaResponse;
  **/
 public interface ICaptchaService {
 
-    /***
+    /**
      * 生成图片验证码
      * @param captchaKey 验证码key
      * @return 验证码图片

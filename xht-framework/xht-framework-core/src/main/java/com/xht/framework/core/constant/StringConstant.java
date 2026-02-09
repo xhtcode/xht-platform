@@ -26,12 +26,17 @@ public interface StringConstant {
     /**
      * 全局通用分隔符
      */
-    String SEPARATOR = ",";
+    String DELIMITER = ",";
 
     /**
      * 全局通用分隔符 下划线
      */
     String UNDERLINE = "_";
+
+    /**
+     * 下划线字符
+     */
+    Character UNDERLINE_CHAR = '_';
 
     /**
      * 全局通用 横杠
