@@ -10,16 +10,16 @@ import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.modules.admin.notice.converter.SysNoticeAttachmentConverter;
 import com.xht.modules.admin.notice.converter.SysNoticeConverter;
-import com.xht.modules.admin.notice.converter.SysNoticePermissionConverter;
-import com.xht.modules.admin.notice.dao.*;
+import com.xht.modules.admin.notice.dao.SysNoticeAttachmentDao;
+import com.xht.modules.admin.notice.dao.SysNoticeDao;
+import com.xht.modules.admin.notice.dao.SysNoticeTypeDao;
+import com.xht.modules.admin.notice.dao.SysNoticeUserOperateDao;
 import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
-import com.xht.modules.admin.notice.domain.form.SysNoticePermissionForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
 import com.xht.modules.admin.notice.domain.vo.NoticeVo;
 import com.xht.modules.admin.notice.entity.SysNoticeAttachmentEntity;
 import com.xht.modules.admin.notice.entity.SysNoticeEntity;
-import com.xht.modules.admin.notice.entity.SysNoticePermissionEntity;
 import com.xht.modules.admin.notice.entity.SysNoticeTypeEntity;
 import com.xht.modules.admin.notice.enums.*;
 import com.xht.modules.admin.notice.service.ISysNoticeService;
@@ -29,7 +29,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 系统管理-通知详情 的数据库操作Service实现
@@ -47,15 +51,11 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
 
     private final SysNoticeAttachmentDao sysNoticeAttachmentDao;
 
-    private final SysNoticePermissionDao sysNoticePermissionDao;
-
     private final SysNoticeUserOperateDao sysNoticeUserOperateDao;
 
     private final SysNoticeConverter sysNoticeConverter;
 
     private final SysNoticeAttachmentConverter sysNoticeAttachmentConverter;
-
-    private final SysNoticePermissionConverter sysNoticePermissionConverter;
 
     /**
      * 创建通知详情
@@ -86,14 +86,6 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
             attachmentEntityList = sysNoticeAttachmentConverter.toEntity(form.getAttachmentList(), noticeId);
         }
 
-        // 处理通知权限
-        List<SysNoticePermissionEntity> permissionEntities = new ArrayList<>();
-        if (Objects.equals(NoticeAllVisibleEnums.NO, noticeEntity.getNoticeAllVisible())) {
-            List<SysNoticePermissionForm> permissionList = form.getPermissionList();
-            ThrowUtils.throwIf(CollectionUtils.isEmpty(permissionList), "权限列表不能为空");
-            permissionEntities = sysNoticePermissionConverter.toEntity(permissionList, noticeId);
-        }
-
         // 处理定时发布时间
         handleTimedPublish(noticeEntity, form);
 
@@ -107,12 +99,6 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
         if (!CollectionUtils.isEmpty(attachmentEntityList)) {
             sysNoticeAttachmentDao.saveAll(attachmentEntityList);
         }
-
-        // 5、保存通知权限
-        if (!CollectionUtils.isEmpty(permissionEntities)) {
-            sysNoticePermissionDao.saveAll(permissionEntities);
-        }
-
     }
 
     private void handleTimedPublish(SysNoticeEntity noticeEntity, SysNoticeForm form) {
@@ -120,7 +106,8 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
             ThrowUtils.notNull(form.getNoticePublishTime(), "定时发布时间不能为空");
             noticeEntity.setNoticePublishTime(form.getNoticePublishTime());
         } else {
-            noticeEntity.setNoticePublishTime(null);
+            noticeEntity.setNoticeStatus(NoticeStatusEnums.PUBLISH);
+            noticeEntity.setNoticePublishTime(LocalDateTime.now());
         }
     }
 
@@ -174,15 +161,6 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
         if (!CollectionUtils.isEmpty(form.getAttachmentList())) {
             attachmentEntityList = sysNoticeAttachmentConverter.toEntity(form.getAttachmentList(), form.getId());
         }
-
-        // 处理通知权限
-        List<SysNoticePermissionEntity> permissionEntities = new ArrayList<>();
-        if (Objects.equals(NoticeAllVisibleEnums.NO, noticeEntity.getNoticeAllVisible())) {
-            List<SysNoticePermissionForm> permissionList = form.getPermissionList();
-            ThrowUtils.throwIf(CollectionUtils.isEmpty(permissionList), "权限列表不能为空");
-            permissionEntities = sysNoticePermissionConverter.toEntity(permissionList, form.getId());
-        }
-
         // 处理定时发布时间
         handleTimedPublish(noticeEntity, form);
 
@@ -198,25 +176,36 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
             sysNoticeAttachmentDao.saveAll(attachmentEntityList);
         }
 
-        // 5、删除旧权限并保存新权限
-        sysNoticePermissionDao.removeByNoticeId(form.getId());
-        if (!CollectionUtils.isEmpty(permissionEntities)) {
-            sysNoticePermissionDao.saveAll(permissionEntities);
-        }
-
     }
 
-
     /**
-     * 根据通知id 修改状态
+     * 根据通知id 发布
      *
-     * @param noticeId     通知id
-     * @param noticeStatus 通知状态
+     * @param noticeId 通知id
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateStatusById(Long noticeId, NoticeStatusEnums noticeStatus) {
-        sysNoticeDao.updateStatusById(noticeId, noticeStatus);
+    public void publishNoticeId(Long noticeId) {
+        SysNoticeEntity noticeEntity = sysNoticeDao.findById(noticeId);
+        if (!Objects.equals(noticeEntity.getNoticeStatus(), NoticeStatusEnums.NOT_PUBLISH)) {
+            throw new BusinessException("通知状态不匹配!");
+        }
+        sysNoticeDao.updateStatusById(noticeId, NoticeStatusEnums.PUBLISH);
+    }
+
+    /**
+     * 根据通知id 下架
+     *
+     * @param noticeId 通知id
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void underShelveNoticeId(Long noticeId) {
+        SysNoticeEntity noticeEntity = sysNoticeDao.findById(noticeId);
+        if (!Objects.equals(noticeEntity.getNoticeStatus(), NoticeStatusEnums.PUBLISH)) {
+            throw new BusinessException("通知状态不匹配!");
+        }
+        sysNoticeDao.updateStatusById(noticeId, NoticeStatusEnums.UNDER_SHELVE);
     }
 
     /**
@@ -241,28 +230,14 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
     public NoticeVo findById(Long noticeId) {
         NoticeVo result = new NoticeVo();
         SysNoticeResponse noticeResponse = sysNoticeConverter.toResponse(sysNoticeDao.findById(noticeId));
-        BasicUserDetails user = SecurityUtils.getUser();
-        Boolean admin = SecurityUtils.isAdmin();
-        Long userId = user.getUserId();
-        Long deptId = user.getDeptId();
         // @formater:off
         Optional.ofNullable(noticeResponse).ifPresent(item -> {
-            // 查询权限
-            if (Objects.equals(item.getNoticeAllVisible(), NoticeAllVisibleEnums.NO) && !admin ) {
-                Set<String> roleCodes = user.getRoleCodes();
-                boolean hashPermission = sysNoticePermissionDao.hashPermission(noticeId, userId, deptId, roleCodes);
-                if (!hashPermission) {
-                    throw new BusinessException("暂无权限查询通知详情!");
-                }
-            }
             // 补充通知类型名称
             noticeResponse.setNoticeTypeName(sysNoticeTypeDao.findTypeName(noticeId));
             // 获取通知附件
             List<SysNoticeAttachmentEntity> attachmentList = sysNoticeAttachmentDao.findListByNoticeId(noticeId);
             result.setAttachments(sysNoticeAttachmentConverter.toResponse(attachmentList));
-            // 获取通知权限
-            List<SysNoticePermissionEntity> permissionList = sysNoticePermissionDao.findListByNoticeId(noticeId);
-            result.setPermissions(sysNoticePermissionConverter.toResponse(permissionList));
+            BasicUserDetails user = SecurityUtils.getUser();
             // 记录已读
             boolean readExists = sysNoticeUserOperateDao.existsNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnums.READ);
             if (!readExists) {

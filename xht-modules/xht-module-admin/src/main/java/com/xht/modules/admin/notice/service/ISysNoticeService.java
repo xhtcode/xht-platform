@@ -5,7 +5,6 @@ import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
 import com.xht.modules.admin.notice.domain.vo.NoticeVo;
-import com.xht.modules.admin.notice.enums.NoticeStatusEnums;
 import com.xht.modules.admin.notice.enums.NoticeTopEnums;
 
 import java.util.List;
@@ -39,12 +38,18 @@ public interface ISysNoticeService {
     void updateById(SysNoticeForm form);
 
     /**
-     * 根据通知id 修改状态
+     * 根据通知id 发布
      *
-     * @param noticeId     通知id
-     * @param noticeStatus 通知状态
+     * @param noticeId 通知id
      */
-    void updateStatusById(Long noticeId, NoticeStatusEnums noticeStatus);
+    void publishNoticeId(Long noticeId);
+
+    /**
+     * 根据通知id 下架
+     *
+     * @param noticeId 通知id
+     */
+    void underShelveNoticeId(Long noticeId);
 
     /**
      * 根据通知id 置顶

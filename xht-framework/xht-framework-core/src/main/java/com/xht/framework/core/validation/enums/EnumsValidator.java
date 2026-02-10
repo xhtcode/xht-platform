@@ -4,10 +4,7 @@ import com.xht.framework.core.enums.XhtEnum;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
 
 /**
  * 枚举校验
@@ -16,15 +13,12 @@ import java.util.Set;
  **/
 public class EnumsValidator implements ConstraintValidator<Enums, XhtEnum<?>> {
 
-    private static final Set<Object> VALUE_SET = new HashSet<>();
+    private XhtEnum<?>[] enumConstants;
 
     @Override
     public void initialize(Enums enums) {
         Class<? extends XhtEnum<?>> value = enums.value();
-        XhtEnum<?>[] enumConstants = value.getEnumConstants();
-        for (XhtEnum<?> enumConstant : enumConstants) {
-            Optional.ofNullable(enumConstant.getValue()).ifPresent(VALUE_SET::add);
-        }
+        this.enumConstants = value.getEnumConstants();
     }
 
     /**
@@ -36,9 +30,14 @@ public class EnumsValidator implements ConstraintValidator<Enums, XhtEnum<?>> {
      */
     @Override
     public boolean isValid(XhtEnum<?> var1, ConstraintValidatorContext var2) {
-        if (Objects.isNull(var1)) {
+        if (Objects.isNull(var1) || Objects.isNull(enumConstants)) {
             return false;
         }
-        return VALUE_SET.contains(var1.getValue());
+        for (XhtEnum<?> enumConstant : enumConstants) {
+            if (Objects.equals(var1, enumConstant.getValue())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

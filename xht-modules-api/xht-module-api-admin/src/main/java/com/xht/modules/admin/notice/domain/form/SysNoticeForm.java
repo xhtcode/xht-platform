@@ -60,13 +60,6 @@ public class SysNoticeForm extends BasicForm {
     private String noticeContent;
 
     /**
-     * 通知状态(0:未发布;1:已发布;2:已下架;3:已过期)
-     */
-    @Schema(description = "通知状态")
-    @NotNull(message = "通知状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    private NoticeStatusEnums noticeStatus;
-
-    /**
      * 通知排序（值越大越靠前）
      */
     @Schema(description = "通知排序")
@@ -79,13 +72,6 @@ public class SysNoticeForm extends BasicForm {
     @Schema(description = "是否置顶")
     @NotNull(message = "是否置顶参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     private NoticeTopEnums noticeTop;
-
-    /**
-     * 是否全部可见(0:否(指定范围);1:是(所有用户可见))
-     */
-    @Schema(description = "是否全部可见(0:否(指定范围);1:是(所有用户可见))")
-    @NotNull(message = "是否全部可见参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    private NoticeAllVisibleEnums noticeAllVisible;
 
     /**
      * 是否定时发布(0:否(立即发布);1:是(按发布时间生效))
@@ -124,11 +110,5 @@ public class SysNoticeForm extends BasicForm {
      */
     @Schema(description = "附件列表")
     private List<SysNoticeAttachmentForm> attachmentList;
-
-    /**
-     * 权限列表
-     */
-    @Schema(description = "权限列表")
-    private List<SysNoticePermissionForm> permissionList;
 
 }

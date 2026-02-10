@@ -13,7 +13,7 @@ import java.util.List;
  * 字典项查询服务
  * @author xht
  **/
-@FeignClient(contextId = "sysDictClient", value = ServiceNameConstant.ADMIN_SERVICE)
+@FeignClient(contextId = "iSysDictClient", value = ServiceNameConstant.ADMIN_SERVICE)
 public interface ISysDictClient {
 
     @GetMapping("/api/sys/dict/code/{dictCode}")

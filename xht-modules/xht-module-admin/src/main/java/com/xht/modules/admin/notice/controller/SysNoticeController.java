@@ -4,11 +4,11 @@ import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.validation.Groups;
 import com.xht.framework.oauth2.annotation.CheckMenu;
+import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
 import com.xht.modules.admin.notice.domain.vo.NoticeVo;
-import com.xht.modules.admin.notice.enums.NoticeStatusEnums;
 import com.xht.modules.admin.notice.enums.NoticeTopEnums;
 import com.xht.modules.admin.notice.service.ISysNoticeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -60,30 +60,28 @@ public class SysNoticeController {
         return R.ok().build();
     }
 
+
     /**
-     * 根据主键`id`更新系统管理-通知详情
+     * 根据通知id 发布
      *
-     * @param form 系统管理-通知详情表单请求参数
-     * @return 统一响应结果
+     * @param noticeId 通知id
      */
-    @CheckMenu("sys:notice:update")
-    @Operation(summary = "根据主键`id`更新系统管理-通知详情")
-    @PostMapping("/update")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysNoticeForm form) {
-        sysNoticeService.updateById(form);
+    @Operation(summary = "根据通知id 发布")
+    @PostMapping("/publish/{noticeId}")
+    public R<Void> publishNoticeId(@PathVariable Long noticeId) {
+        sysNoticeService.publishNoticeId(noticeId);
         return R.ok().build();
     }
 
     /**
-     * 根据通知id 修改状态
+     * 根据通知id 下架
      *
-     * @param noticeId     通知id
-     * @param noticeStatus 通知状态
+     * @param noticeId 通知id
      */
-    @Operation(summary = "根据通知id 修改状态")
-    @PostMapping("/status/{noticeId}/{noticeStatus}")
-    public R<Void> updateStatusById(@PathVariable Long noticeId, @PathVariable NoticeStatusEnums noticeStatus) {
-        sysNoticeService.updateStatusById(noticeId, noticeStatus);
+    @Operation(summary = "根据通知id 下架")
+    @PostMapping("/underShelve/{noticeId}")
+    public R<Void> underShelveNoticeId(@PathVariable Long noticeId) {
+        sysNoticeService.underShelveNoticeId(noticeId);
         return R.ok().build();
     }
 
@@ -108,6 +106,7 @@ public class SysNoticeController {
      * @return 系统管理-通知详情信息
      */
     @Operation(summary = "根据主键`id`查询系统管理-通知详情")
+    @IgnoreAuth(aop = false)
     @GetMapping("/get/{id}")
     public R<NoticeVo> findById(@PathVariable("id") Long id) {
         return R.ok().build(sysNoticeService.findById(id));

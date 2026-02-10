@@ -196,7 +196,6 @@ CREATE TABLE `sys_notice`
     `notice_status`        tinyint UNSIGNED NULL DEFAULT 0 COMMENT '通知状态(0:未发布;1:已发布;2:已下架;3:已过期)',
     `notice_order`         int UNSIGNED NULL DEFAULT 0 COMMENT '通知排序（值越大越靠前）',
     `notice_top`           tinyint UNSIGNED NULL DEFAULT 0 COMMENT '是否置顶(0:否;1:是)',
-    `notice_all_visible`   tinyint UNSIGNED NULL DEFAULT 1 COMMENT '是否全部可见(0:否(指定范围);1:是(所有用户可见))',
     `notice_timed_publish` tinyint UNSIGNED NULL DEFAULT 0 COMMENT '是否定时发布(0:否(立即发布);1:是(按发布时间生效))',
     `notice_publish_time`  datetime NULL DEFAULT NULL COMMENT '发布时间（正式生效时间）',
     `notice_expire_time`   datetime NULL DEFAULT NULL COMMENT '过期时间（自动失效，到期后不再展示）',
@@ -239,26 +238,6 @@ CREATE TABLE `sys_notice_attachment`
     PRIMARY KEY (`id`) USING BTREE,
     INDEX                  `idx_notice_id`(`notice_id` ASC) USING BTREE
 ) ENGINE = InnoDB  COMMENT = '系统管理-通知附件' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for sys_notice_permission
--- ----------------------------
-DROP TABLE IF EXISTS `sys_notice_permission`;
-CREATE TABLE `sys_notice_permission`
-(
-    `id`          bigint UNSIGNED NOT NULL COMMENT '权限ID',
-    `notice_id`   bigint UNSIGNED NOT NULL COMMENT '关联通知ID（关联sys_notice.id）',
-    `perm_type`   tinyint UNSIGNED NOT NULL COMMENT '权限类型(0:角色权限;1:用户权限;2:部门权限)',
-    `perm_value`  varchar(64) NOT NULL COMMENT '权限值（单个角色ID/用户ID/部门ID，不再存多个）',
-    `del_flag`    tinyint NULL DEFAULT 0 COMMENT '删除标识(0:未删除;1:已删除)',
-    `create_by`   varchar(32) NULL DEFAULT NULL COMMENT '创建人',
-    `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-    `update_by`   varchar(32) NULL DEFAULT NULL COMMENT '更新人',
-    `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-    PRIMARY KEY (`id`) USING BTREE,
-    INDEX         `idx_notice_perm`(`notice_id` ASC, `perm_type` ASC, `perm_value` ASC) USING BTREE,
-    INDEX         `idx_perm_type_value`(`perm_type` ASC, `perm_value` ASC) USING BTREE
-) ENGINE = InnoDB  COMMENT = '系统管理-通知权限' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_notice_type

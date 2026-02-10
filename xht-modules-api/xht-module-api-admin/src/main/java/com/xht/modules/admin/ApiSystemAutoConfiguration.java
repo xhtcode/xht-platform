@@ -49,7 +49,6 @@ public class ApiSystemAutoConfiguration {
      *
      * @return 字典项查询服务工厂
      */
-    @Bean
     public ISysDictFactory sysDictClient() {
         return new SysDictApiFactory();
     }

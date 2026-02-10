@@ -14,7 +14,6 @@
         <result property="noticeStatus" column="notice_status"/>
         <result property="noticeOrder" column="notice_order"/>
         <result property="noticeTop" column="notice_top"/>
-        <result property="noticeAllVisible" column="notice_all_visible"/>
         <result property="noticeTimedPublish" column="notice_timed_publish"/>
         <result property="noticePublishTime" column="notice_publish_time"/>
         <result property="noticeExpireTime" column="notice_expire_time"/>
@@ -41,7 +40,6 @@
         t1.notice_status,
         t1.notice_order,
         t1.notice_top,
-        t1.notice_all_visible,
         t1.notice_timed_publish,
         t1.notice_publish_time,
         t1.notice_expire_time,

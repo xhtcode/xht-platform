@@ -68,12 +68,6 @@ public class SysNoticeEntity extends BasicEntity {
     private NoticeTopEnums noticeTop;
 
     /**
-     * 是否全部可见(0:否(指定范围);1:是(所有用户可见))
-     */
-    @TableField(value = "notice_all_visible")
-    private NoticeAllVisibleEnums noticeAllVisible;
-
-    /**
      * 是否定时发布(0:否(立即发布);1:是(按发布时间生效))
      */
     @TableField(value = "notice_timed_publish")

@@ -36,6 +36,15 @@ public final class SecurityUtils {
         return authentication;
     }
 
+    /**
+     * 判断当前是否登录
+     *
+     * @return 当前是否登录 状态
+     */
+    public static boolean isLogin() {
+        return Objects.nonNull(getAuthentication());
+    }
+
 
     /**
      * 获取 spring security 当前登录的用户
