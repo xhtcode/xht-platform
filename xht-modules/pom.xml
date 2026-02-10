@@ -16,6 +16,7 @@
     <modules>
         <module>xht-module-admin</module>
         <module>xht-module-generate</module>
+        <module>xht-module-monitor</module>
     </modules>
 
 

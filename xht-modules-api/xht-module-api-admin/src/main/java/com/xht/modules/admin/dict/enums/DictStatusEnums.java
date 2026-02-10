@@ -15,15 +15,14 @@ import lombok.Getter;
 public enum DictStatusEnums implements XhtEnum<Integer> {
 
     /**
-     * 禁用
-     */
-    DISABLE(0),
-
-    /**
      * 启用
      */
     ENABLE(1),
 
+    /**
+     * 禁用
+     */
+    DISABLE(2),
     ;
 
     /**
