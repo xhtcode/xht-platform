@@ -3,8 +3,8 @@ package com.xht.modules.admin.notice.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.xht.framework.core.domain.response.MetaResponse;
-import com.xht.platform.common.notice.core.MessageExtendInfo;
-import com.xht.platform.common.notice.enums.MessageTypeEnums;
+import com.xht.framework.core.support.message.core.MessageExtendInfo;
+import com.xht.framework.core.support.message.enums.MessageTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

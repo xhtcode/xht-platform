@@ -3,8 +3,7 @@ package com.xht.modules.admin.notice.api;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
 import com.xht.modules.admin.audit.api.factory.BLogClientFallbackFactory;
-import com.xht.platform.common.constant.ServiceNameConstant;
-import com.xht.platform.common.notice.core.MessagePayload;
+import com.xht.framework.core.support.message.core.MessagePayload;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  **/
 @FeignClient(
         contextId = "sysMessageClient",
-        value = ServiceNameConstant.ADMIN_SERVICE,
+        value = "xht-module-admin",
         fallbackFactory = BLogClientFallbackFactory.class
 )
 public interface ISysMessageClient {

@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.platform.common.notice.core.MessageExtendInfo;
-import com.xht.platform.common.notice.enums.MessageTypeEnums;
+import com.xht.framework.core.support.message.core.MessageExtendInfo;
+import com.xht.framework.core.support.message.enums.MessageTypeEnums;
 import lombok.Data;
 
 import java.time.LocalDateTime;

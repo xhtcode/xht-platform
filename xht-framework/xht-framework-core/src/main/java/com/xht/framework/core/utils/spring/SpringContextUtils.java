@@ -3,6 +3,7 @@ package com.xht.framework.core.utils.spring;
 import cn.hutool.core.exceptions.UtilException;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.ArrayUtil;
+import com.xht.framework.core.properties.XhtConfigProperties;
 import com.xht.framework.core.support.security.DefaultUserContextServiceImpl;
 import com.xht.framework.core.support.security.UserContextService;
 import lombok.Getter;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 
 
 /**
@@ -72,6 +74,15 @@ public final class SpringContextUtils implements ApplicationContextAware, BeanFa
             throw new UtilException("No ConfigurableListableBeanFactory from context!");
         }
         return factory;
+    }
+
+    /**
+     * 获取XhtConfigProperties
+     *
+     * @return XhtConfigProperties
+     */
+    public static Optional<XhtConfigProperties> getConfigProperties() {
+        return Optional.of(getBean(XhtConfigProperties.class));
     }
 
     /**

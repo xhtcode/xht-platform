@@ -2,6 +2,7 @@ package com.xht.boot.runner;
 
 import cn.hutool.core.date.DateUtil;
 import com.xht.framework.core.properties.XhtConfigProperties;
+import com.xht.framework.core.properties.basic.EnableProperties;
 import com.xht.framework.core.utils.IpUtils;
 import com.xht.framework.core.utils.StringUtils;
 import jakarta.annotation.Resource;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * 项目启动成功后打印关键信息（包含项目名称、IP地址、接口文档等访问入口）
@@ -69,7 +72,14 @@ public class StartupInfoPrinter implements ApplicationRunner {
     @Override
     @SuppressWarnings("all")
     public void run(ApplicationArguments args) {
-        if (xhtConfigProperties.isBanner()) {
+        // @formatter:off
+        Boolean banner = Optional.ofNullable(xhtConfigProperties)
+                .map(XhtConfigProperties::getGlobal)
+                .map(XhtConfigProperties.GlobalConfigProperties::getBanner)
+                .map(EnableProperties::isEnable)
+                .orElse(true);
+        // @formatter:on
+        if (banner) {
             // 获取并校验本机IP地址（防止获取失败导致的空指针）
             String serverIp = IpUtils.getHostIp();
             if (!StringUtils.hasText(serverIp)) {

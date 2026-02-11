@@ -3,7 +3,7 @@ package com.xht.modules.admin.dict.api.fallback;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.openfeign.fallback.BasicFallback;
 import com.xht.modules.admin.dict.api.ISysDictClient;
-import com.xht.platform.common.dict.domain.vo.DictVo;
+import com.xht.framework.core.support.dict.domain.DictVo;
 
 import java.util.List;
 

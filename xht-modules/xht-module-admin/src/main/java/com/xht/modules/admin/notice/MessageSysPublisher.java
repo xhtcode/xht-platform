@@ -1,8 +1,8 @@
 package com.xht.modules.admin.notice;
 
 import com.xht.modules.admin.notice.service.ISysMessageService;
-import com.xht.platform.common.notice.IMessagePublisher;
-import com.xht.platform.common.notice.core.MessagePayload;
+import com.xht.framework.core.support.message.IMessagePublisher;
+import com.xht.framework.core.support.message.core.MessagePayload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;

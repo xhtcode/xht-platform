@@ -3,7 +3,7 @@ package com.xht.modules.admin.notice;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.modules.admin.notice.service.ISysMessageService;
-import com.xht.platform.common.notice.core.MessagePayload;
+import com.xht.framework.core.support.message.core.MessagePayload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -24,3 +24,10 @@ xht:
   safety:
     xss:
       enable: true
+  global:
+    dict:
+      unit: microseconds
+      properties:
+        timeout: 5000
+        retry: 3
+        retry-interval: 5000

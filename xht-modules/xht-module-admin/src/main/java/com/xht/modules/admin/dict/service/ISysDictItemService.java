@@ -4,7 +4,7 @@ import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.query.SysDictItemQuery;
 import com.xht.modules.admin.dict.domain.response.SysDictItemResponse;
-import com.xht.platform.common.dict.domain.vo.DictVo;
+import com.xht.framework.core.support.dict.domain.DictVo;
 
 import java.util.List;
 

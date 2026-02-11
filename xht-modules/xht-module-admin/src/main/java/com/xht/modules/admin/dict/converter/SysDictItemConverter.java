@@ -3,7 +3,7 @@ package com.xht.modules.admin.dict.converter;
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.response.SysDictItemResponse;
-import com.xht.platform.common.dict.domain.vo.DictVo;
+import com.xht.framework.core.support.dict.domain.DictVo;
 import com.xht.modules.admin.dict.entity.SysDictItemEntity;
 import com.xht.modules.admin.dict.enums.DictStatusEnums;
 import org.mapstruct.*;

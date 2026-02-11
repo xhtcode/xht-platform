@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
-import com.xht.framework.cache.service.RedisService;
-import com.xht.framework.cache.service.impl.RedisServiceImpl;
+import com.xht.framework.cache.repository.RedisRepository;
+import com.xht.framework.cache.repository.impl.RedisRepositoryImpl;
 import com.xht.framework.core.jackson.CustomJacksonModule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -102,8 +102,8 @@ public class RedisAutoConfiguration {
 
 
     @Bean
-    public RedisService redisService(RedisTemplate<String, Object> redisTemplate) {
-        return new RedisServiceImpl(redisTemplate);
+    public RedisRepository redisService(RedisTemplate<String, Object> redisTemplate) {
+        return new RedisRepositoryImpl(redisTemplate);
     }
 
 }

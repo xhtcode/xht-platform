@@ -16,7 +16,6 @@
         <module>xht-framework</module>
         <module>xht-gateway</module>
         <module>xht-modules</module>
-        <module>xht-platform-common</module>
     </modules>
 
     <properties>
@@ -101,12 +100,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <!-- 通用模块依赖配置 -->
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-platform-common</artifactId>
-            <version>${revision}</version>
         </dependency>
     </dependencies>
 
