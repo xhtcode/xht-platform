@@ -16,10 +16,6 @@
     <dependencies>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-platform-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xht</groupId>
             <artifactId>xht-framework-openfeign</artifactId>
         </dependency>
         <dependency>
