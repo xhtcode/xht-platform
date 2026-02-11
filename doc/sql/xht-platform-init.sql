@@ -97,157 +97,72 @@ VALUES (16, 5, 'yes_no', '否', '0', NULL, 2, '否', 1, 0, 'admin', '2025-09-15 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu`
-VALUES (1, 0, 'M', '首页', 'dashboard', '/', 1, NULL, 0, NULL, 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin',
-        '2026-01-03 01:01:05', 'admin', '2026-01-03 01:01:05');
-INSERT INTO `sys_menu`
-VALUES (2, 1, 'C', '工作台', 'admin', '/home/admin', 1, 0, 0, NULL, 1, 'HomeIndex', '/views/dashboard/admin/index.vue',
-        '', 1, 0, 0, 'admin', '2026-01-03 01:01:05', 'admin', '2026-01-03 01:01:05');
-INSERT INTO `sys_menu`
-VALUES (3, 1, 'C', '个人工作台', 'dashboard', '/home', 1, 0, 0, NULL, 2, 'HomeIndex2',
-        '/views/dashboard/common/index.vue', '', 1, 0, 0, 'admin', '2026-01-03 01:01:05', 'admin',
-        '2026-01-03 01:01:05');
-INSERT INTO `sys_menu`
-VALUES (4, 1, 'C', '用户中心', 'role', '/home/user/admin', 0, 1, 0, NULL, 3, 'UserAdmin',
-        '/views/dashboard/user-admin/index.vue', '/home/admin', 0, 0, 0, 'admin', '2026-01-03 01:01:05', 'admin',
-        '2026-01-03 01:01:05');
-INSERT INTO `sys_menu`
-VALUES (5, 1, 'C', '用户中心', 'user', '/home/user', 0, 0, 0, NULL, 4, 'UserCommon',
-        '/views/dashboard/user-common/index.vue', '/home/user', 0, 0, 0, 'admin', '2026-01-03 01:01:05', 'admin',
-        '2026-01-03 01:01:05');
-INSERT INTO `sys_menu`
-VALUES (6, 0, 'M', '系统管理', 'system', '/system', 1, NULL, 0, NULL, 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin',
-        '2026-01-03 01:01:05', 'admin', '2026-01-03 01:01:05');
-INSERT INTO `sys_menu`
-VALUES (7, 6, 'C', '用户管理', 'user', '/system/user', 1, 1, 0, NULL, 1, 'UserView', '/views/system/user/index.vue',
-        NULL, 0, 0, 0, 'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (8, 7, 'B', '用户增加', NULL, NULL, NULL, NULL, 0, 'sys:user:create', 1, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (9, 7, 'B', '用户密码修改', NULL, NULL, NULL, NULL, 0, 'sys:user:pwd', 2, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (10, 7, 'B', '用户删除', NULL, NULL, NULL, NULL, 0, 'sys:user:remove', 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (11, 7, 'B', '用户角色绑定', NULL, NULL, NULL, NULL, 0, 'sys:user:role:bind', 4, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (12, 7, 'B', '用户修改', NULL, NULL, NULL, NULL, 0, 'sys:user:update', 5, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (13, 6, 'C', '角色管理', 'role', '/system/role', 1, 1, 0, NULL, 2, 'RoleView', '/views/system/role/index.vue',
-        NULL, 0, 0, 0, 'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (14, 13, 'B', '角色增加', NULL, NULL, NULL, NULL, 0, 'sys:role:create', 1, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (15, 13, 'B', '角色菜单绑定', NULL, NULL, NULL, NULL, 0, 'sys:role:menu:bind', 2, NULL, NULL, NULL, NULL, NULL,
-        0, 'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (16, 13, 'B', '角色删除', NULL, NULL, NULL, NULL, 0, 'sys:role:remove', 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (17, 13, 'B', '角色修改', NULL, NULL, NULL, NULL, 0, 'sys:role:update', 4, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (18, 6, 'C', '菜单管理', 'menu', '/system/menu', 1, 1, 0, NULL, 3, 'MenuView', '/views/system/menu/index.vue',
-        NULL, 0, 0, 0, 'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (19, 18, 'B', '菜单增加', NULL, NULL, NULL, NULL, 0, 'sys:menu:create', 1, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (20, 18, 'B', '菜单删除', NULL, NULL, NULL, NULL, 0, 'sys:menu:remove', 2, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (21, 18, 'B', '菜单修改', NULL, NULL, NULL, NULL, 0, 'sys:menu:update', 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:06', 'admin', '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (22, 6, 'C', '部门管理', 'tree', '/system/dept', 1, 1, 0, NULL, 4, 'SysDeptViewIndex',
-        '/views/system/dept/index.vue', '/system/dept', 0, 0, 0, 'admin', '2026-01-03 01:01:06', 'admin',
-        '2026-01-03 01:01:06');
-INSERT INTO `sys_menu`
-VALUES (23, 22, 'B', '部门增加', NULL, NULL, NULL, NULL, 0, 'sys:dept:create', 1, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:07', 'admin', '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (24, 22, 'B', '部门删除', NULL, NULL, NULL, NULL, 0, 'sys:dept:remove', 2, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:07', 'admin', '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (25, 22, 'B', '部门修改', NULL, NULL, NULL, NULL, 0, 'sys:dept:update', 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:07', 'admin', '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (26, 6, 'C', '岗位管理', 'post', '/system/post', 1, 1, 0, NULL, 5, 'SysDeptPostIndex',
-        '/views/system/dept-post/index.vue', NULL, 0, 0, 0, 'admin', '2026-01-03 01:01:07', 'admin',
-        '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (27, 26, 'B', '岗位增加', NULL, NULL, NULL, NULL, 0, 'sys:post:create', 1, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:07', 'admin', '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (28, 26, 'B', '岗位删除', NULL, NULL, NULL, NULL, 0, 'sys:post:remove', 2, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:07', 'admin', '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (29, 26, 'B', '岗位修改', NULL, NULL, NULL, NULL, 0, 'sys:post:update', 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:07', 'admin', '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (30, 6, 'C', '字典管理', 'dict', '/system/dict', 1, 1, 0, NULL, 6, 'SysDictIndex',
-        '/views/system/dict/index.vue', NULL, 0, 0, 0, 'admin', '2026-01-03 01:01:07', 'admin', '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (31, 30, 'B', '字典增加', NULL, NULL, NULL, NULL, 0, 'sys:dict:create', 1, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:07', 'admin', '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (32, 30, 'B', '字典删除', NULL, NULL, NULL, NULL, 0, 'sys:dict:remove', 2, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:07', 'admin', '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (33, 30, 'B', '字典修改', NULL, NULL, NULL, NULL, 0, 'sys:dict:update', 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-01-03 01:01:07', 'admin', '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (34, 6, 'C', '字典项管理', 'dict', '/system/dict/:id', 0, 1, 0, NULL, 7, 'SysDictItemIndex',
-        '/views/system/dict-item/index.vue', '/system/dict', 0, 0, 0, 'admin', '2026-01-03 01:01:07', 'admin',
-        '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (35, 34, 'B', '字典项增加', NULL, NULL, NULL, NULL, 0, 'sys:dict:item:create', 1, NULL, NULL, NULL, NULL, NULL,
-        0, 'admin', '2026-01-03 01:01:07', 'admin', '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (36, 34, 'B', '字典项删除', NULL, NULL, NULL, NULL, 0, 'sys:dict:item:remove', 2, NULL, NULL, NULL, NULL, NULL,
-        0, 'admin', '2026-01-03 01:01:07', 'admin', '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (37, 34, 'B', '字典项修改', NULL, NULL, NULL, NULL, 0, 'sys:dict:item:update', 3, NULL, NULL, NULL, NULL, NULL,
-        0, 'admin', '2026-01-03 01:01:07', 'admin', '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (38, 0, 'M', '监控中心', 'monitor', '/monitor', 1, NULL, 0, NULL, 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin',
-        '2026-01-03 01:01:07', 'admin', '2026-01-03 01:01:07');
-INSERT INTO `sys_menu`
-VALUES (39, 38, 'C', '操作日志', 'monitor', '/monitor/log', 1, 1, 0, NULL, 1, 'LogView', '/views/monitor/log/index.vue',
-        '/monitor/log', 0, 0, 0, 'admin', '2026-01-03 01:01:08', 'admin', '2026-01-03 01:01:08');
-INSERT INTO `sys_menu`
-VALUES (40, 0, 'M', '系统工具', 'system-tools', '/tool', 1, NULL, 0, NULL, 4, NULL, NULL, NULL, NULL, NULL, 0, 'admin',
-        '2026-01-03 01:01:08', 'admin', '2026-01-03 01:01:08');
-INSERT INTO `sys_menu`
-VALUES (41, 40, 'C', '数据源', 'database', '/tool/datasource', 1, 1, 0, NULL, 1, 'GenDataSourceViewIndex',
-        '/views/generate/datasource/index.vue', '/tool/datasource', 0, 0, 0, 'admin', '2026-01-03 01:01:08', 'admin',
-        '2026-01-03 01:01:08');
-INSERT INTO `sys_menu`
-VALUES (42, 40, 'C', '类型映射', 'column', '/tool/type/mapping', 1, 1, 0, NULL, 2, 'GenTypeMappingViewIndex',
-        '/views/generate/type-mapping/index.vue', '/tool/type/mapping', 0, 0, 0, 'admin', '2026-01-03 01:01:08',
-        'admin', '2026-01-03 01:01:08');
-INSERT INTO `sys_menu`
-VALUES (43, 40, 'C', '模板管理', 'template', '/tool/template', 1, 1, 0, NULL, 3, 'GenTemplateViewIndex',
-        '/views/generate/template/index.vue', '/tool/template', 0, 0, 0, 'admin', '2026-01-03 01:01:08', 'admin',
-        '2026-01-03 01:01:08');
-INSERT INTO `sys_menu`
-VALUES (44, 40, 'C', '表管理', 'database-table', '/tool/table', 1, 1, 0, NULL, 4, 'GenTableInfoViewIndex',
-        '/views/generate/table/index.vue', '/tool/table', 0, 0, 0, 'admin', '2026-01-03 01:01:08', 'admin',
-        '2026-01-03 01:01:08');
-INSERT INTO `sys_menu`
-VALUES (45, 0, 'M', '外部链接', 'guide', '/web', 1, NULL, 0, NULL, 5, NULL, NULL, NULL, NULL, NULL, 0, 'admin',
-        '2026-01-03 01:01:08', 'admin', '2026-01-03 01:01:08');
-INSERT INTO `sys_menu`
-VALUES (46, 45, 'C', '接口文档', 'monitor', 'http://localhost:8080/doc.html', 1, 0, 0, NULL, 1, NULL, NULL, NULL, 0, 1,
-        0, 'admin', '2026-01-03 01:01:08', 'admin', '2026-01-03 01:01:08');
-INSERT INTO `sys_menu`
-VALUES (47, 45, 'C', '文档中心', 'monitor', 'https://xhtcode.github.io/xht-cloud-doc/', 1, 0, 0, NULL, 2, NULL, NULL,
-        NULL, 0, 1, 0, 'admin', '2026-01-03 01:01:08', 'admin', '2026-01-03 01:01:08');
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1, 0, 'M', '首页', 'i-menu-dashboard', '/', 1, null, 0, null, 1, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (2, 1, 'C', '工作台', 'i-menu-admin', '/home/admin', 1, 0, 0, null, 1, 'HomeIndex', '/views/dashboard/admin/index.vue', null, 0, 1, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (3, 1, 'C', '个人工作台', 'i-menu-dashboard', '/home', 1, 0, 0, null, 2, 'HomeIndex2', '/views/dashboard/common/index.vue', null, 0, 1, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (4, 0, 'M', '系统管理', 'i-menu-system', '/system', 1, null, 0, null, 2, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (5, 4, 'C', '用户管理', 'i-menu-user', '/system/user', 1, 1, 0, null, 1, 'UserViewIndex', '/views/system/user/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (6, 5, 'B', '用户增加', null, null, null, null, 0, 'sys:user:create', 1, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (7, 5, 'B', '用户密码修改', null, null, null, null, 0, 'sys:user:pwd', 2, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (8, 5, 'B', '用户删除', null, null, null, null, 0, 'sys:user:remove', 3, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (9, 5, 'B', '用户角色绑定', null, null, null, null, 0, 'sys:user:role:bind', 4, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (10, 5, 'B', '用户修改', null, null, null, null, 0, 'sys:user:update', 5, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (11, 4, 'C', '角色管理', 'i-menu-role', '/system/role', 1, 1, 0, null, 2, 'RoleViewIndex', '/views/system/role/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (12, 11, 'B', '角色增加', null, null, null, null, 0, 'sys:role:create', 1, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (13, 11, 'B', '角色菜单绑定', null, null, null, null, 0, 'sys:role:menu:bind', 2, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (14, 11, 'B', '角色删除', null, null, null, null, 0, 'sys:role:remove', 3, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (15, 11, 'B', '角色修改', null, null, null, null, 0, 'sys:role:update', 4, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (16, 4, 'C', '菜单管理', 'i-menu-menu', '/system/menu', 1, 1, 0, null, 3, 'SysMenuViewIndex', '/views/system/menu/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (17, 16, 'B', '菜单增加', null, null, null, null, 0, 'sys:menu:create', 1, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (18, 16, 'B', '菜单删除', null, null, null, null, 0, 'sys:menu:remove', 2, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (19, 16, 'B', '菜单修改', null, null, null, null, 0, 'sys:menu:update', 3, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (20, 4, 'C', '部门管理', 'i-menu-tree', '/system/dept', 1, 1, 0, null, 4, 'SysDeptViewIndex', '/views/system/dept/index.vue', '/system/dept', 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (21, 20, 'B', '部门增加', null, null, null, null, 0, 'sys:dept:create', 1, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (22, 20, 'B', '部门删除', null, null, null, null, 0, 'sys:dept:remove', 2, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (23, 20, 'B', '部门修改', null, null, null, null, 0, 'sys:dept:update', 3, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (24, 4, 'C', '岗位管理', 'i-menu-post', '/system/post', 1, 1, 0, null, 5, 'SysDeptPostViewIndex', '/views/system/dept-post/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (25, 24, 'B', '岗位增加', null, null, null, null, 0, 'sys:post:create', 1, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (26, 24, 'B', '岗位删除', null, null, null, null, 0, 'sys:post:remove', 2, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (27, 24, 'B', '岗位修改', null, null, null, null, 0, 'sys:post:update', 3, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (28, 4, 'C', '字典管理', 'i-menu-dict', '/system/dict', 1, 1, 0, null, 6, 'SysDictViewIndex', '/views/system/dict/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (29, 28, 'B', '字典增加', null, null, null, null, 0, 'sys:dict:create', 1, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (30, 28, 'B', '字典删除', null, null, null, null, 0, 'sys:dict:remove', 2, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (31, 28, 'B', '字典修改', null, null, null, null, 0, 'sys:dict:update', 3, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (32, 4, 'C', '字典项管理', 'i-menu-dict', '/system/dict/:id', 0, 1, 0, null, 7, 'SysDictItemViewIndex', '/views/system/dict-item/index.vue', '/system/dict', 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (33, 32, 'B', '字典项增加', null, null, null, null, 0, 'sys:dict:item:create', 1, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (34, 32, 'B', '字典项删除', null, null, null, null, 0, 'sys:dict:item:remove', 2, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (35, 32, 'B', '字典项修改', null, null, null, null, 0, 'sys:dict:item:update', 3, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (36, 4, 'C', '客户端', 'i-login-code', '/sys/oauth2/client', 1, 1, 0, null, 8, 'SysOauth2ClientViewIndex', '/views/system/oauth2-client/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (37, 36, 'B', '客户端增加', null, null, null, null, 0, 'sys:oauth2:client:create', 1, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (38, 36, 'B', '客户端删除', null, null, null, null, 0, 'sys:oauth2:client:remove', 2, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (39, 36, 'B', '客户端修改', null, null, null, null, 0, 'sys:oauth2:client:update', 3, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (40, 4, 'C', '行政区划', 'i-menu-address', '/sys/area', 1, 1, 0, null, 9, 'SysAreaViewIndex', '/views/system/area/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (41, 40, 'B', '行政区划增加', null, null, null, null, 0, 'sys:area:create', 1, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (42, 40, 'B', '行政区划删除', null, null, null, null, 0, 'sys:area:remove', 2, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (43, 40, 'B', '行政区划修改', null, null, null, null, 0, 'sys:area:update', 3, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (44, 0, 'M', '通知中心', 'i-menu-notice', '/notice', 1, null, 0, null, 3, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (45, 44, 'C', '通知类型管理', 'i-menu-notice-type', '/sys/notice/type', 1, 1, 0, null, 1, 'SysNoticeTypeViewIndex', '/views/system/notice-type/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (46, 45, 'B', '通知类型增加', null, null, null, null, 0, 'sys:notice:type:create', 1, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (47, 45, 'B', '通知类型删除', null, null, null, null, 0, 'sys:notice:type:remove', 2, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (48, 45, 'B', '通知类型修改', null, null, null, null, 0, 'sys:notice:type:update', 3, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (49, 44, 'C', '通知管理', 'i-menu-notice', '/sys/notice', 1, 1, 0, null, 2, 'SysNoticeViewIndex', '/views/system/notice/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (50, 49, 'B', '通知增加', null, null, null, null, 0, 'sys:notice:create', 1, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (51, 49, 'B', '通知删除', null, null, null, null, 0, 'sys:notice:remove', 2, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (52, 49, 'B', '通知修改', null, null, null, null, 0, 'sys:notice:update', 3, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (53, 44, 'C', '站内信管理', 'i-menu-message', '/sys/message', 1, 1, 0, null, 3, 'SysMessageViewIndex', '/views/system/message/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (54, 53, 'B', '站内信增加', null, null, null, null, 0, 'sys:message:create', 1, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (55, 53, 'B', '站内信删除', null, null, null, null, 0, 'sys:message:remove', 2, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (56, 53, 'B', '站内信修改', null, null, null, null, 0, 'sys:message:update', 3, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (57, 0, 'M', '监控中心', 'i-menu-monitor', '/monitor', 1, null, 0, null, 4, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (58, 57, 'C', '操作日志', 'i-menu-monitor', '/monitor/log', 1, 1, 0, null, 1, 'SysOperLogViewIndex', '/views/monitor/log/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (59, 0, 'M', '系统工具', 'i-menu-system-tools', '/tool', 1, null, 0, null, 5, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (60, 59, 'C', '数据源', 'i-menu-database', '/tool/datasource', 1, 1, 0, null, 1, 'GenDataSourceViewIndex', '/views/generate/datasource/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (61, 59, 'C', '类型映射', 'i-menu-column', '/tool/type/mapping', 1, 1, 0, null, 2, 'GenTypeMappingViewIndex', '/views/generate/type-mapping/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (62, 59, 'C', '模板管理', 'i-menu-template', '/tool/template', 1, 1, 0, null, 3, 'GenTemplateViewIndex', '/views/generate/template/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (63, 59, 'C', '表管理', 'i-menu-database-table', '/tool/table', 1, 1, 0, null, 4, 'GenTableInfoViewIndex', '/views/generate/table/index.vue', null, 0, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (64, 0, 'M', '外部链接', 'i-menu-guide', '/web', 1, null, 0, null, 6, null, null, null, null, null, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (65, 64, 'C', '接口文档', 'i-menu-monitor', 'http://localhost:8080/doc.html', 1, 0, 0, null, 1, null, null, null, 1, 0, 0, 'admin', NOW(),'admin', NOW());
+INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (66, 64, 'C', '文档中心', 'i-menu-monitor', 'https://xhtcode.github.io/xht-cloud-doc/', 1, 0, 0, null, 2, null, null, null, 1, 0, 0, 'admin', NOW(),'admin', NOW());
 -- ----------------------------
 -- Records of sys_oauth2_client
 -- ----------------------------
