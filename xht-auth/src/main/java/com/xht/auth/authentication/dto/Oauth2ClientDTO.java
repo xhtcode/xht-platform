@@ -25,9 +25,9 @@ public class Oauth2ClientDTO extends BasicResponse {
     private Long id;
 
     /**
-     * 客户端ID
+     * 客户端标识
      */
-    @Schema(description = "客户端ID")
+    @Schema(description = "客户端标识")
     private String clientId;
 
     /**

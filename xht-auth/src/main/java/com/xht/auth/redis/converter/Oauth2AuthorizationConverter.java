@@ -172,7 +172,7 @@ public final class Oauth2AuthorizationConverter implements IConverter<OAuth2Auth
     @Override
     @SuppressWarnings("unchecked")
     public OAuth2Authorization reverse(Oauth2AuthorizationEntity entity) {
-        // 获取客户端ID并查找对应的RegisteredClient
+        // 获取客户端标识并查找对应的RegisteredClient
         String registeredClientId = entity.getRegisteredClientId();
         RegisteredClient registeredClient = registeredClientRepository.findByClientId(registeredClientId);
         if (registeredClient == null) {

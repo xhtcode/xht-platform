@@ -41,9 +41,9 @@ public interface AuthenticationMapper {
     Set<String> findMenuCodesByUserId(@Param("userId") Long userId);
 
     /**
-     * 根据客户端ID查询客户端信息
+     * 根据客户端标识查询客户端信息
      *
-     * @param clientId 客户端ID
+     * @param clientId 客户端标识
      * @return 客户端信息
      */
     Oauth2ClientDTO findClientDetailsById(@Param("clientId") String clientId);

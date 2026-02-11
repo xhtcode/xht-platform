@@ -21,10 +21,18 @@ public interface SysOauth2ClientDao extends MapperRepository<SysOauth2ClientEnti
     void updateFormRequest(SysOauth2ClientForm form);
 
     /**
-     * 判断客户端ID是否存在
+     * 根据clientId 修改客户端密钥
      *
-     * @param clientId 客户端ID
-     * @param id       客户端ID
+     * @param id           客户端id
+     * @param clientSecret 密钥
+     */
+    void updateClientSecret(Long id, String clientSecret);
+
+    /**
+     * 判断客户端标识是否存在
+     *
+     * @param clientId 客户端标识
+     * @param id       客户端标识
      * @return 是否存在 true：存在 false：不存在
      */
     Boolean existsByClientId(String clientId, Long id);
@@ -37,4 +45,5 @@ public interface SysOauth2ClientDao extends MapperRepository<SysOauth2ClientEnti
      * @return 分页结果
      */
     Page<SysOauth2ClientEntity> findPageList(Page<SysOauth2ClientEntity> page, SysOauth2ClientQuery query);
+
 }

@@ -30,7 +30,7 @@ public class SysOauth2ClientEntity extends BasicEntity implements Serializable {
     private Long id;
 
     /**
-     * 客户端ID
+     * 客户端标识
      */
     @TableField(value = "client_id")
     private String clientId;

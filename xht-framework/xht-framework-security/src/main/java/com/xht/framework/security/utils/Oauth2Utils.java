@@ -29,7 +29,7 @@ public final class Oauth2Utils {
     /**
      * 组装 Basic 认证头，使用 BCrypt 加密客户端密码
      *
-     * @param clientId     客户端ID
+     * @param clientId     客户端标识
      * @param clientSecret 客户端密钥
      * @param encoder      BCrypt密码编码器
      * @return 格式化的 Basic 认证头字符串
@@ -41,7 +41,7 @@ public final class Oauth2Utils {
     /**
      * 组装 Basic 认证头
      *
-     * @param clientId     客户端ID
+     * @param clientId     客户端标识
      * @param clientSecret 客户端密钥
      * @return 格式化的 Basic 认证头字符串
      */

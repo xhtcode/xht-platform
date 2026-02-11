@@ -8,6 +8,7 @@ import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.admin.notice.dao.SysNoticeDao;
 import com.xht.modules.admin.notice.dao.mapper.SysNoticeMapper;
+import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
 import com.xht.modules.admin.notice.entity.SysNoticeEntity;
@@ -16,6 +17,7 @@ import com.xht.modules.admin.notice.enums.NoticeTimedPublishEnums;
 import com.xht.modules.admin.notice.enums.NoticeTopEnums;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,6 +33,29 @@ import java.util.stream.Collectors;
 @Repository
 public class SysNoticeDaoImpl extends MapperRepositoryImpl<SysNoticeMapper, SysNoticeEntity> implements SysNoticeDao {
 
+    /**
+     * 根据主键`id`更新系统管理-通知详情
+     *
+     * @param form 系统管理-通知详情表单请求参数
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateFormRequest(SysNoticeForm form) {
+        LambdaUpdateWrapper<SysNoticeEntity> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.set(condition(form.getNoticeTypeId()), SysNoticeEntity::getNoticeTypeId, form.getNoticeTypeId());
+        updateWrapper.set(condition(form.getNoticeTitle()), SysNoticeEntity::getNoticeTitle, form.getNoticeTitle());
+        updateWrapper.set(condition(form.getNoticeSummary()), SysNoticeEntity::getNoticeSummary, form.getNoticeSummary());
+        updateWrapper.set(condition(form.getNoticeContent()), SysNoticeEntity::getNoticeContent, form.getNoticeContent());
+        updateWrapper.set(condition(form.getNoticeOrder()), SysNoticeEntity::getNoticeOrder, form.getNoticeOrder());
+        updateWrapper.set(condition(form.getNoticeTop()), SysNoticeEntity::getNoticeTop, form.getNoticeTop());
+        updateWrapper.set(condition(form.getNoticeTimedPublish()), SysNoticeEntity::getNoticeTimedPublish, form.getNoticeTimedPublish());
+        updateWrapper.set(condition(form.getNoticePublishTime()), SysNoticeEntity::getNoticePublishTime, form.getNoticePublishTime());
+        updateWrapper.set(condition(form.getNoticeJumpType()), SysNoticeEntity::getNoticeJumpType, form.getNoticeJumpType());
+        updateWrapper.set(condition(form.getNoticeJumpUrl()), SysNoticeEntity::getNoticeJumpUrl, form.getNoticeJumpUrl());
+        updateWrapper.set(condition(form.getNoticeRemark()), SysNoticeEntity::getNoticeRemark, form.getNoticeRemark());
+        updateWrapper.eq(SysNoticeEntity::getId, form.getId());
+        update(updateWrapper);
+    }
     /**
      * 根据通知id 修改状态
      *

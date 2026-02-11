@@ -5,6 +5,7 @@ import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.validation.Groups;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.oauth2.domain.form.SysOauth2ClientForm;
+import com.xht.modules.admin.oauth2.domain.form.SysOauth2ClientPwdForm;
 import com.xht.modules.admin.oauth2.domain.query.SysOauth2ClientQuery;
 import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
 import com.xht.modules.admin.oauth2.service.ISysOauth2ClientService;
@@ -46,7 +47,7 @@ public class SysOauth2ClientController {
     /**
      * 删除OAuth2客户端
      *
-     * @param ids OAuth2客户端ID集合
+     * @param ids OAuth2客户端标识集合
      * @return true成功、false失败
      */
     @CheckMenu("sys:oauth2:remove")
@@ -66,15 +67,29 @@ public class SysOauth2ClientController {
     @CheckMenu("sys:oauth2:update")
     @PostMapping("/update")
     @Operation(summary = "修改OAuth2客户端")
-    public R<Void> updateById(@RequestBody SysOauth2ClientForm form) {
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysOauth2ClientForm form) {
         sysOauth2ClientService.updateById(form);
         return R.ok().build();
     }
 
     /**
+     * 根据clientId 修改客户端密钥
+     *
+     * @param pwdForm 客户端信息
+     * @return 客户端详情
+     */
+    @CheckMenu("sys:oauth2:create")
+    @PostMapping("/secret")
+    public R<Void> updateClientSecret(@Validated @RequestBody SysOauth2ClientPwdForm pwdForm) {
+        sysOauth2ClientService.updateClientSecret(pwdForm);
+        return R.ok().build();
+    }
+
+
+    /**
      * 获取OAuth2客户端详情
      *
-     * @param id OAuth2客户端ID
+     * @param id OAuth2客户端标识
      * @return OAuth2客户端详情
      */
     @GetMapping("/get/{id}")

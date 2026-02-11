@@ -65,14 +65,14 @@ public class AuthenticationDaoImpl implements IAuthenticationDao {
     }
 
     /**
-     * 根据客户端ID查询客户端信息
+     * 根据客户端标识查询客户端信息
      *
-     * @param clientId 客户端ID
+     * @param clientId 客户端标识
      * @return 客户端信息
      */
     @Override
     public Oauth2ClientDTO findClientDetailsById(String clientId) {
-        log.debug("根据客户端id:`{}`查询客户端", clientId);
+        log.debug("根据客户端标识:`{}`查询客户端", clientId);
         return authenticationMapper.findClientDetailsById(clientId);
     }
 

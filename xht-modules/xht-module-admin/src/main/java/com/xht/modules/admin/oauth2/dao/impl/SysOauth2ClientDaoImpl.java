@@ -15,7 +15,6 @@ import com.xht.modules.admin.oauth2.entity.SysOauth2ClientEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.Objects;
 
 import static com.xht.framework.mybatis.constant.MapperConstant.JACKSON_TYPE_HANDLER;
@@ -40,18 +39,14 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
         // @formatter:off
         updateWrapper
                 .set(condition(form.getClientId()), SysOauth2ClientEntity::getClientId, form.getClientId())
-                .set(condition(form.getClientIdIssuedAt()), SysOauth2ClientEntity::getClientIdIssuedAt, form.getClientIdIssuedAt())
-                .set(condition(form.getClientSecret()), SysOauth2ClientEntity::getClientSecret, form.getClientSecret())
                 .set(condition(form.getClientSecretExpiresAt()), SysOauth2ClientEntity::getClientSecretExpiresAt, form.getClientSecretExpiresAt())
                 .set(condition(form.getClientName()), SysOauth2ClientEntity::getClientName, form.getClientName())
                 .set(condition(form.getClientAuthenticationMethods()), SysOauth2ClientEntity::getClientAuthenticationMethods, form.getClientAuthenticationMethods(), JACKSON_TYPE_HANDLER)
                 .set(condition(form.getAuthorizationGrantTypes()), SysOauth2ClientEntity::getAuthorizationGrantTypes, form.getAuthorizationGrantTypes(), JACKSON_TYPE_HANDLER)
                 .set(condition(form.getRedirectUris()), SysOauth2ClientEntity::getRedirectUris, form.getRedirectUris(), JACKSON_TYPE_HANDLER)
-                .set(condition(form.getPostLogoutRedirectUris()), SysOauth2ClientEntity::getPostLogoutRedirectUris, form.getPostLogoutRedirectUris(), JACKSON_TYPE_HANDLER)
                 .set(condition(form.getScopes()), SysOauth2ClientEntity::getScopes, form.getScopes(), JACKSON_TYPE_HANDLER)
                 .set(condition(form.getAccessTokenValidity()), SysOauth2ClientEntity::getAccessTokenValidity, form.getAccessTokenValidity())
                 .set(condition(form.getRefreshTokenValidity()), SysOauth2ClientEntity::getRefreshTokenValidity, form.getRefreshTokenValidity())
-                .set(SysOauth2ClientEntity::getAdditionalInformation, Objects.requireNonNullElse(form.getAdditionalInformation(),Collections.emptyMap()), JACKSON_TYPE_HANDLER)
                 .set(SysOauth2ClientEntity::getAutoApprove, Objects.requireNonNullElse(form.getAutoApprove(), Oauth2ClientAutoApproveEnums.NO))
                 .set(SysOauth2ClientEntity::getRemark, form.getRemark());
         // @formatter:on
@@ -60,10 +55,24 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
     }
 
     /**
-     * 判断客户端ID是否存在
+     * 根据clientId 修改客户端密钥
      *
-     * @param clientId 客户端ID
-     * @param id       客户端ID
+     * @param id           客户端id
+     * @param clientSecret 密钥
+     */
+    @Override
+    public void updateClientSecret(Long id, String clientSecret) {
+        LambdaUpdateWrapper<SysOauth2ClientEntity> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.set(SysOauth2ClientEntity::getClientSecret, clientSecret);
+        updateWrapper.eq(SysOauth2ClientEntity::getId, id);
+        update(updateWrapper);
+    }
+
+    /**
+     * 判断客户端标识是否存在
+     *
+     * @param clientId 客户端标识
+     * @param id       客户端标识
      * @return 是否存在 true：存在 false：不存在
      */
     @Override
@@ -84,6 +93,23 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
     @Override
     public Page<SysOauth2ClientEntity> findPageList(Page<SysOauth2ClientEntity> page, SysOauth2ClientQuery query) {
         LambdaQueryWrapper<SysOauth2ClientEntity> queryWrapper = new LambdaQueryWrapper<>();
+        // @formatter:off
+        queryWrapper.select(
+                SysOauth2ClientEntity::getId,
+                SysOauth2ClientEntity::getClientId,
+                SysOauth2ClientEntity::getClientIdIssuedAt,
+                SysOauth2ClientEntity::getClientSecretExpiresAt,
+                SysOauth2ClientEntity::getClientName,
+                SysOauth2ClientEntity::getClientAuthenticationMethods,
+                SysOauth2ClientEntity::getAuthorizationGrantTypes,
+                SysOauth2ClientEntity::getRedirectUris,
+                SysOauth2ClientEntity::getScopes,
+                SysOauth2ClientEntity::getAccessTokenValidity,
+                SysOauth2ClientEntity::getRefreshTokenValidity,
+                SysOauth2ClientEntity::getAutoApprove,
+                SysOauth2ClientEntity::getRemark
+        );
+        // @formatter:on
         if (query.isQuick()) {
             // @formatter:off
             queryWrapper.and(

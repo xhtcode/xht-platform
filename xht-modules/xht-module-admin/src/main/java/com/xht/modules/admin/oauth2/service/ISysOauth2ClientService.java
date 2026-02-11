@@ -2,6 +2,7 @@ package com.xht.modules.admin.oauth2.service;
 
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.modules.admin.oauth2.domain.form.SysOauth2ClientForm;
+import com.xht.modules.admin.oauth2.domain.form.SysOauth2ClientPwdForm;
 import com.xht.modules.admin.oauth2.domain.query.SysOauth2ClientQuery;
 import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
 
@@ -24,7 +25,7 @@ public interface ISysOauth2ClientService {
     /**
      * 删除OAuth2客户端
      *
-     * @param ids OAuth2客户端ID集合
+     * @param ids OAuth2客户端标识集合
      */
     void removeById(List<Long> ids);
 
@@ -36,9 +37,16 @@ public interface ISysOauth2ClientService {
     void updateById(SysOauth2ClientForm form);
 
     /**
+     * 根据clientId 修改客户端密钥
+     *
+     * @param pwdForm 客户端信息
+     */
+    void updateClientSecret(SysOauth2ClientPwdForm pwdForm);
+
+    /**
      * 获取OAuth2客户端详情
      *
-     * @param id OAuth2客户端ID
+     * @param id OAuth2客户端标识
      * @return OAuth2客户端详情
      */
     SysOauth2ClientResponse findById(Long id);
@@ -51,11 +59,4 @@ public interface ISysOauth2ClientService {
      */
     PageResponse<SysOauth2ClientResponse> findPageList(SysOauth2ClientQuery query);
 
-    /**
-     * 根据clientId 获取客户端详情
-     *
-     * @param clientId 客户端id
-     * @return 客户端详情
-     */
-    SysOauth2ClientResponse getClient(String clientId);
 }

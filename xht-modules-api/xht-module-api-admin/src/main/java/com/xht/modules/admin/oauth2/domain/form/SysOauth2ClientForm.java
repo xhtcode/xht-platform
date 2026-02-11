@@ -7,7 +7,6 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -29,27 +28,18 @@ public class SysOauth2ClientForm extends BasicForm {
     private Long id;
 
     /**
-     * 客户端ID
+     * 客户端标识
      */
-    @NotBlank(message = "客户端ID参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Size(max = 100, message = "客户端ID长度不能超过100", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "客户端ID")
+    @NotBlank(message = "客户端标识参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Size(max = 100, message = "客户端标识长度不能超过100", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "客户端标识")
     private String clientId;
-
-
-    /**
-     * 客户端发布时间
-     * 这里假设客户端发布时间不合法
-     */
-    @NotNull(message = "客户端发布时间参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "客户端发布时间")
-    private LocalDateTime clientIdIssuedAt;
 
     /**
      * 客户端密钥
      */
-    @NotBlank(message = "客户端密钥参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Size(max = 255, message = "客户端密钥长度不能超过255", groups = {Groups.Create.class, Groups.Update.class})
+    @Null(message = "唯一标识必须为空", groups = {Groups.Update.class})
+    @NotBlank(message = "客户端密钥参数不合法", groups = {Groups.Create.class})
     @Schema(description = "客户端密钥")
     private String clientSecret;
 
@@ -57,7 +47,6 @@ public class SysOauth2ClientForm extends BasicForm {
      * 客户端过期时间
      * 这里假设客户端过期时间不合法
      */
-    @NotNull(message = "客户端过期时间参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "客户端过期时间")
     private LocalDateTime clientSecretExpiresAt;
 
@@ -71,7 +60,7 @@ public class SysOauth2ClientForm extends BasicForm {
     /**
      * 客户认证方式
      */
-    @NotBlank(message = "客户认证方式参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @NotNull(message = "客户认证方式参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "客户认证方式")
     private Set<String> clientAuthenticationMethods;
 
@@ -80,7 +69,7 @@ public class SysOauth2ClientForm extends BasicForm {
      * 客户端授权类型
      * 这里假设授权类型不合法且至少包含一个元素
      */
-    @NotEmpty(message = "客户端授权类型参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @NotNull(message = "客户端授权类型参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "客户端授权类型")
     private Set<String> authorizationGrantTypes;
 
@@ -88,21 +77,14 @@ public class SysOauth2ClientForm extends BasicForm {
      * 授权后重定向 URI
      * 这里假设回调地址不合法且至少包含一个元素
      */
-    @NotEmpty(message = "授权后重定向 URI参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "回调地址")
     private Set<String> redirectUris;
-    /**
-     * 登出后重定向 URI
-     */
-    @NotEmpty(message = "登出后重定向 URI参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "登出后重定向 URI")
-    private Set<String> postLogoutRedirectUris;
 
     /**
      * 客户端作用域
      * 这里假设作用域不合法且至少包含一个元素
      */
-    @NotEmpty(message = "客户端作用域参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @NotNull(message = "客户端作用域参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "客户端作用域")
     private Set<String> scopes;
 
@@ -124,12 +106,6 @@ public class SysOauth2ClientForm extends BasicForm {
     @Positive(message = "刷新令牌有效时间必须为正数", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "刷新令牌有效时间")
     private Integer refreshTokenValidity;
-
-    /**
-     * 扩展信息
-     */
-    @Schema(description = "扩展信息")
-    private Map<String, Object> additionalInformation;
 
     /**
      * 是否自动放行

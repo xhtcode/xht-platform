@@ -2,6 +2,7 @@ package com.xht.modules.admin.notice.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
+import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
 import com.xht.modules.admin.notice.entity.SysNoticeEntity;
@@ -16,6 +17,13 @@ import java.util.List;
  * @author xht
  **/
 public interface SysNoticeDao extends MapperRepository<SysNoticeEntity> {
+
+    /**
+     * 根据主键`id`更新系统管理-通知详情
+     *
+     * @param form 系统管理-通知详情表单请求参数
+     */
+    void updateFormRequest(SysNoticeForm form);
 
     /**
      * 根据通知id 修改状态

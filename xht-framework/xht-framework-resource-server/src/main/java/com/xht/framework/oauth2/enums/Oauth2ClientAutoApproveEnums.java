@@ -15,14 +15,14 @@ import lombok.Getter;
 public enum Oauth2ClientAutoApproveEnums implements XhtEnum<Integer> {
 
     /**
-     * 正常
-     */
-    YES(0),
-
-    /**
      * 停用
      */
-    NO(1);
+    NO(0),
+    /**
+     * 正常
+     */
+    YES(1),
+    ;
 
     @JsonValue
     private final Integer value;

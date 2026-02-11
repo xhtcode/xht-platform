@@ -279,7 +279,7 @@ DROP TABLE IF EXISTS `sys_oauth2_client`;
 CREATE TABLE `sys_oauth2_client`
 (
     `id`                            bigint       NOT NULL COMMENT 'ID',
-    `client_id`                     varchar(200) NOT NULL COMMENT '客户端ID',
+    `client_id`                     varchar(200) NOT NULL COMMENT '客户端标识',
     `client_id_issued_at`           timestamp NULL DEFAULT NULL COMMENT '客户端发布时间',
     `client_secret`                 varchar(200) NOT NULL COMMENT '客户端密钥',
     `client_secret_expires_at`      timestamp NULL DEFAULT NULL COMMENT '客户端过期时间',

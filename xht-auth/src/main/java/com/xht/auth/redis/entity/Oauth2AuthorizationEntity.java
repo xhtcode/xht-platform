@@ -32,7 +32,7 @@ public class Oauth2AuthorizationEntity implements Serializable {
     private String id;
 
     /**
-     * 认证时使用的客户端id
+     * 认证时使用的客户端标识
      */
     private String registeredClientId;
 

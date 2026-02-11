@@ -88,7 +88,7 @@
         AND sys_user_role.user_id = #{userId}
     </select>
 
-    <!-- 根据客户端ID查询客户端信息 -->
+    <!-- 根据客户端标识查询客户端信息 -->
     <select id="findClientDetailsById" resultMap="Oauth2ClientResultMap">
         <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         select id,client_id,client_id_issued_at,client_secret,client_secret_expires_at,client_name,

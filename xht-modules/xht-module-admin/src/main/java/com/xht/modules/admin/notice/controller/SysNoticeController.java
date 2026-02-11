@@ -60,6 +60,19 @@ public class SysNoticeController {
         return R.ok().build();
     }
 
+    /**
+     * 根据主键`id`更新系统管理-通知详情
+     *
+     * @param form 系统管理-通知详情表单请求参数
+     * @return 统一响应结果
+     */
+    @CheckMenu("sys:notice:update")
+    @Operation(summary = "根据主键`id`更新系统管理-通知详情")
+    @PostMapping("/update")
+    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysNoticeForm form) {
+        sysNoticeService.updateById(form);
+        return R.ok().build();
+    }
 
     /**
      * 根据通知id 发布

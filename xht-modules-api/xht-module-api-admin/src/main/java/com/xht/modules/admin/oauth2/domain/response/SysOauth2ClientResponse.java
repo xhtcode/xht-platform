@@ -24,9 +24,9 @@ public class SysOauth2ClientResponse extends MetaResponse {
     private Long id;
 
     /**
-     * 客户端ID
+     * 客户端标识
      */
-    @Schema(description = "客户端ID")
+    @Schema(description = "客户端标识")
     private String clientId;
 
     /**
@@ -34,12 +34,6 @@ public class SysOauth2ClientResponse extends MetaResponse {
      */
     @Schema(description = "客户端发布时间")
     private LocalDateTime clientIdIssuedAt;
-
-    /**
-     * 客户端密钥
-     */
-    @Schema(description = "客户端密钥")
-    private String clientSecret;
 
     /**
      * 客户端过期时间
