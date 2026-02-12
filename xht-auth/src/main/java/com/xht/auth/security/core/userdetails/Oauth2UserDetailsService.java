@@ -8,11 +8,12 @@ import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.properties.SecurityProperties;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -28,12 +29,18 @@ import java.util.stream.Collectors;
  **/
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class Oauth2UserDetailsService extends BasicUserDetailsService {
 
     private final IAuthenticationDao authenticationDao;
 
     private final SecurityProperties securityProperties;
+
+    @Autowired
+    public Oauth2UserDetailsService(PasswordEncoder passwordEncoder, IAuthenticationDao authenticationDao, SecurityProperties securityProperties) {
+        super(passwordEncoder);
+        this.authenticationDao = authenticationDao;
+        this.securityProperties = securityProperties;
+    }
 
     /**
      * 根据用户名和登录类型查询用户信息
@@ -47,7 +54,7 @@ public class Oauth2UserDetailsService extends BasicUserDetailsService {
     public BasicUserDetails loadUserByUsername(String username, LoginTypeEnums loginType) throws UsernameNotFoundException {
         UserLoginDTO loginVo = authenticationDao.findByUsernameAndLoginType(username, loginType);
         if (loginVo == null) {
-            throw new UsernameNotFoundException("用户不存在.");
+            return null;
         }
         Set<String> roleCodes = authenticationDao.findRoleCodesByUserId(loginVo.getId());
         Set<String> menuCodes = authenticationDao.findMenuCodesByUserId(loginVo.getId());

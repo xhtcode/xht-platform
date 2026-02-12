@@ -17,6 +17,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -149,7 +150,7 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
      */
     @Override
     public boolean isAccountNonExpired() {
-        return !UserStatusEnums.EXPIRED.equals(this.userStatus);
+        return !Objects.equals(this.userStatus, UserStatusEnums.EXPIRED);
     }
 
     /**
@@ -159,7 +160,7 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
      */
     @Override
     public boolean isAccountNonLocked() {
-        return !UserStatusEnums.LOCKED.equals(this.userStatus);
+        return !Objects.equals(this.userStatus, UserStatusEnums.LOCKED);
     }
 
     /**
@@ -180,7 +181,7 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
      */
     @Override
     public boolean isEnabled() {
-        return !UserStatusEnums.DISABLED.equals(this.userStatus);
+        return !Objects.equals(this.userStatus, UserStatusEnums.DISABLED);
     }
 
 }

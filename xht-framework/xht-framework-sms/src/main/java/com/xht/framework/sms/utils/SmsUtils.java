@@ -5,12 +5,15 @@ import com.xht.framework.core.constant.PatternConstant;
 import com.xht.framework.core.exception.UtilException;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * 描述 ：短信验证码工具类
  *
  * @author xht
  **/
 @Slf4j
+@SuppressWarnings("all")
 public final class SmsUtils {
 
     private SmsUtils() {
@@ -23,7 +26,13 @@ public final class SmsUtils {
      * @return 手机号
      */
     public static String generatePhoneCode() {
-        return "123456";
+        // 计算随机数范围：例如6位的范围是 100000 ~ 999999
+        long min = (long) Math.pow(10, 6 - 1);
+        long max = (long) Math.pow(10, 6) - 1;
+        // 使用ThreadLocalRandom生成随机数（线程安全，比Random性能好）
+        long randomNum = ThreadLocalRandom.current().nextLong(min, max + 1);
+        // 格式化为指定长度的字符串（防止极端情况位数不足）
+        return String.format("%0" + 6 + "d", randomNum);
     }
 
 

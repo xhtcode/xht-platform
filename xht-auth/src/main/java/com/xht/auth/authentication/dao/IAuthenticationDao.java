@@ -47,4 +47,10 @@ public interface IAuthenticationDao {
      */
     Oauth2ClientDTO findClientDetailsById(String clientId);
 
+    /**
+     * 根据手机号查询用户信息是否存在
+     *
+     * @param phone 手机号
+     */
+    boolean existsUserByPhone(String phone);
 }

@@ -47,7 +47,9 @@ public class PhoneAuthenticationProvider extends AbstractAuthenticationProvider 
     protected BasicUserDetails getAuthenticatedPrincipal(RequestUserBO requestUserBO, Authentication authentication) {
         requestUserBO.checkUserName();
         iCaptchaService.checkPhoneCode(requestUserBO.getUserName(), requestUserBO.getCaptcha());
-        return basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnums.PHONE);
+        BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnums.PHONE);
+        basicUserDetailsService.validate(requestUserBO, basicUserDetails, false);
+        return basicUserDetails;
     }
 
     /**

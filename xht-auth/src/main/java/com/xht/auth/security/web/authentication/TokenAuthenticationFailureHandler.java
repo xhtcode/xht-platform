@@ -2,6 +2,7 @@ package com.xht.auth.security.web.authentication;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.ServletUtil;
+import com.xht.framework.core.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ public class TokenAuthenticationFailureHandler implements AuthenticationFailureH
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
         log.error("Token认证失败处理器 :{}", exception.getMessage(), exception);
         String message = exception.getMessage();
-        if (exception instanceof OAuth2AuthenticationException) {
+        if (StringUtils.isEmpty(message) && exception instanceof OAuth2AuthenticationException) {
             OAuth2Error error = ((OAuth2AuthenticationException) exception).getError();
             message = error.getErrorCode();
         }

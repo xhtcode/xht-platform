@@ -48,7 +48,9 @@ public class PassWordAuthenticationProvider extends AbstractAuthenticationProvid
         requestUserBO.checkUserName();
         requestUserBO.checkPassWord();
         iCaptchaService.checkCaptcha(requestUserBO.generateCaptchaKey(), requestUserBO.getCaptcha());
-        return basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnums.PASSWORD);
+        BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnums.PASSWORD);
+        basicUserDetailsService.validate(requestUserBO, basicUserDetails, true);
+        return basicUserDetails;
     }
 
     /**

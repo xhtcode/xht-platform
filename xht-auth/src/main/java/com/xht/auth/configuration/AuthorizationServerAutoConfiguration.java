@@ -91,6 +91,7 @@ public class AuthorizationServerAutoConfiguration {
                 .with(authorizationServerConfigurer, (authorizationServer) ->
                         authorizationServer
                                 .oidc(Customizer.withDefaults())  // Enable OpenID Connect 1.0
+                                // 令牌端点
                                 .tokenEndpoint(tokenEndpoint -> {
                                     tokenEndpoint.accessTokenResponseHandler(new TokenAuthenticationSuccessHandler());
                                     tokenEndpoint.errorResponseHandler(new TokenAuthenticationFailureHandler());
@@ -103,6 +104,7 @@ public class AuthorizationServerAutoConfiguration {
                                         converters.add(phoneAuthenticationConverter);
                                     });
                                 })
+                                // 令牌注销端点
                                 .tokenRevocationEndpoint(tokenEndpoint ->{
                                     tokenEndpoint.revocationResponseHandler(new TokenRevocationAuthenticationSuccessHandler());
                                     tokenEndpoint.errorResponseHandler(new TokenRevocationAuthenticationFailureHandler());

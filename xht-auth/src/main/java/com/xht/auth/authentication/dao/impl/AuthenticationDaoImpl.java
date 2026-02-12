@@ -76,4 +76,14 @@ public class AuthenticationDaoImpl implements IAuthenticationDao {
         return authenticationMapper.findClientDetailsById(clientId);
     }
 
+    /**
+     * 根据手机号查询用户信息是否存在
+     *
+     * @param phone 手机号
+     */
+    @Override
+    public boolean existsUserByPhone(String phone) {
+        return authenticationMapper.existsUserByPhone(phone) > 0L;
+    }
+
 }

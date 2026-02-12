@@ -49,4 +49,11 @@ public interface AuthenticationMapper {
     Oauth2ClientDTO findClientDetailsById(@Param("clientId") String clientId);
 
 
+    /**
+     * 根据手机号查询用户信息是否存在
+     *
+     * @param phone 手机号
+     */
+    Long existsUserByPhone(String phone);
+
 }

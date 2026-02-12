@@ -1,6 +1,7 @@
 package com.xht.auth.captcha.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.xht.auth.authentication.dao.IAuthenticationDao;
 import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.auth.captcha.handler.captcha.ArithmeticCaptcha;
 import com.xht.auth.captcha.service.ICaptchaService;
@@ -32,6 +33,8 @@ import static com.xht.framework.security.constant.SecurityConstant.REDIS_CAPTCHA
 public class CaptchaServiceImpl implements ICaptchaService {
 
     private final RedisTemplate<String, Object> redisTemplate;
+
+    private final IAuthenticationDao authenticationDao;
 
     /**
      * 生成图片验证码
@@ -112,7 +115,11 @@ public class CaptchaServiceImpl implements ICaptchaService {
         String captchaKey = Keys.createKey(SecurityConstant.REDIS_PHONE_CODE_KEY_PREFIX, phone);
         Boolean phoneExists = redisTemplate.hasKey(captchaKey);
         if (phoneExists) {
-            throw new BusinessException("验证码发送过于频繁，请请注意查收短信！");
+            throw new BusinessException("验证码发送过于频繁，请注意查收短信！");
+        }
+        boolean existsUserByPhone = authenticationDao.existsUserByPhone(phone);
+        if (!existsUserByPhone) {
+            throw new BusinessException("该用户不存在或未绑定手机号!");
         }
         String captcha = SmsUtils.generatePhoneCode();
         log.info("为手机号{}生成验证码: {}", phone, captcha);  // 实际生产环境建议去掉明文日志
@@ -149,7 +156,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
      * 发送短信验证码（实际实现需对接短信服务商）
      */
     private void sendSms(String phone, String captcha) {
-        log.info("向手机号{}发送短信验证码: {}", phone, captcha);
+        log.warn("向手机号{}发送短信验证码: {}", phone, captcha);
     }
 
 }

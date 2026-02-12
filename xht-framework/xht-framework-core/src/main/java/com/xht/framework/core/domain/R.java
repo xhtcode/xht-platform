@@ -70,7 +70,7 @@ public final class R<T> {
         if (Objects.equals(RConstants.SUCCESS, code)) {
             throw new UtilException("code cannot be SUCCESS");
         }
-        return new RBuilder(Boolean.TRUE).code(Objects.requireNonNullElse(code, RConstants.FAIL)).msg(RConstants.FAIL_MSG);
+        return new RBuilder(Boolean.FALSE).code(Objects.requireNonNullElse(code, RConstants.FAIL)).msg(RConstants.FAIL_MSG);
     }
 
     public static class RBuilder {

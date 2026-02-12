@@ -17,6 +17,7 @@ public class BusinessException extends RuntimeException {
      */
     private final int code;
 
+
     public BusinessException(Throwable cause) {
         super(cause);
         this.code = RConstants.FAIL;
@@ -25,11 +26,6 @@ public class BusinessException extends RuntimeException {
     public BusinessException(String message) {
         super(message);
         this.code = RConstants.FAIL;
-    }
-
-    public BusinessException(int code, String message) {
-        super(message);
-        this.code = code;
     }
 
     public BusinessException(ErrorCode errorCode) {
