@@ -6,6 +6,7 @@ import com.xht.framework.core.properties.basic.EnableProperties;
 import com.xht.framework.core.utils.IpUtils;
 import com.xht.framework.core.utils.StringUtils;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -18,6 +19,8 @@ import java.util.Optional;
  *
  * @author xht
  */
+@Slf4j
+@SuppressWarnings("all")
 public class StartupInfoPrinter implements ApplicationRunner {
 
     /**
@@ -34,11 +37,11 @@ public class StartupInfoPrinter implements ApplicationRunner {
      * ASCII艺术字（Welcome主题，调整缩进确保显示整齐）
      */
     private static final String ASCII_ART = """
-               __        __   _
-               \\ \\      / /__| | ___ ___  _ __ ___   ___
-                \\ \\ /\\ / / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\
-                 \\ V  V /  __/ | (_| (_) | | | | | |  __/
-                  \\_/\\_/ \\___|_|\\___\\___/|_| |_| |_|\\___|
+             __        __         _                                     _\s
+             \\ \\      / /   ___  | |   ___    ___    _ __ ___     ___  | |
+              \\ \\ /\\ / /   / _ \\ | |  / __|  / _ \\  | '_ ` _ \\   / _ \\ | |
+               \\ V  V /   |  __/ | | | (__  | (_) | | | | | | | |  __/ |_|
+                \\_/\\_/     \\___| |_|  \\___|  \\___/  |_| |_| |_|  \\___| (_)
             """;
 
     /**
@@ -77,25 +80,30 @@ public class StartupInfoPrinter implements ApplicationRunner {
         // @formatter:on
         if (banner) {
             // 获取并校验本机IP地址（防止获取失败导致的空指针）
-            String serverIp = IpUtils.getHostIp();
-            if (!StringUtils.hasText(serverIp)) {
-                serverIp = DEFAULT_IP;
-            }
-            System.out.println(SEPARATOR);
-            System.out.println(ASCII_ART);
-            System.out.println("🙋‍♂️项目作者:\t👉小糊涂(xht)👈");
-            System.out.printf("⌚启动时间:\t👉%s👈%n", DateUtil.now());
-            System.out.printf("🌴项目名称:\t%s%n", applicationName);
-            System.out.printf("🌎当前环境:\t%s%n", activeProfile);
-            System.out.printf("🌐本地访问地址:\thttp://localhost:%s%s%n", serverPort, contextPath);
-            System.out.printf("🌐外部访问地址:\thttp://%s:%s%s%n", serverIp, serverPort, contextPath);
-            System.out.println("📚 接口文档地址:");
-            System.out.printf("   ├─ Knife4j文档:\thttp://localhost:%s%s/doc.html%n", serverPort, contextPath);
-            System.out.printf("   ├─ Swagger文档:\thttp://localhost:%s%s/swagger-ui.html%n", serverPort, contextPath);
-            System.out.printf("   └─ OpenAPI规范:\thttp://localhost:%s%s/v3/api-docs%n", serverPort, contextPath);
-            System.out.println();
-            System.out.println(SEPARATOR);
+            String serverIp = StringUtils.emptyToDefault(IpUtils.getHostIp(), DEFAULT_IP);
+            StringBuilder sb = new StringBuilder();
+            appendString(sb, SEPARATOR);
+            appendString(sb, "\n");
+            appendString(sb, ASCII_ART);
+            appendString(sb, "\n");
+            appendString(sb, "🙋‍♂️项目作者:\t👉小糊涂(xht)👈%n");
+            appendString(sb, "⌚启动时间:\t👉%s👈%n", DateUtil.now());
+            appendString(sb, "🌴项目名称:\t%s%n", applicationName);
+            appendString(sb, "🌎当前环境:\t%s%n", activeProfile);
+            appendString(sb, "🌐本地访问地址:\thttp://localhost:%s%s%n", serverPort, contextPath);
+            appendString(sb, "🌐外部访问地址:\thttp://%s:%s%s%n", serverIp, serverPort, contextPath);
+            appendString(sb, "📚 接口文档地址:%n");
+            appendString(sb, "   ├─ Knife4j文档:\thttp://localhost:%s%s/doc.html%n", serverPort, contextPath);
+            appendString(sb, "   ├─ Swagger文档:\thttp://localhost:%s%s/swagger-ui.html%n", serverPort, contextPath);
+            appendString(sb, "   └─ OpenAPI规范:\thttp://localhost:%s%s/v3/api-docs%n", serverPort, contextPath);
+            appendString(sb, "\n");
+            appendString(sb, SEPARATOR);
+            log.info("\n{}", sb);
         }
+    }
+
+    private static void appendString(StringBuilder sb, String format, Object... args) {
+        sb.append(String.format(format, args));
     }
 
 }
