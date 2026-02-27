@@ -1,6 +1,6 @@
 package com.xht.modules;
 
-import com.xht.framework.swagger.annotation.EnableCustomSwagger;
+import com.xht.boot.swagger.EnableCustomSwagger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

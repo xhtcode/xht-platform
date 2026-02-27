@@ -6,7 +6,6 @@ import com.xht.framework.core.utils.StringUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 
@@ -21,10 +20,7 @@ import static com.xht.framework.core.constant.HttpConstants.Header.AUTHORIZATION
  * @author xht
  **/
 @Slf4j
-@RequiredArgsConstructor
-public class FeignTokenInterceptor implements RequestInterceptor {
-
-    private final SecurityHeaderProperties securityHeaderProperties;
+public record FeignTokenInterceptor(SecurityHeaderProperties securityHeaderProperties) implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate requestTemplate) {

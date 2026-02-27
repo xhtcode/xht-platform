@@ -4,7 +4,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.jackson.JsonUtils;
-import com.xht.framework.core.support.blog.BLogEvent;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 import com.xht.framework.core.support.blog.enums.LogStatusEnums;
 import com.xht.framework.core.utils.IpUtils;
@@ -12,14 +11,13 @@ import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.core.utils.mdc.TraceIdUtils;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.framework.log.annotations.BLog;
+import com.xht.framework.log.repository.BLogRepository;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 import java.time.LocalDateTime;
@@ -32,9 +30,7 @@ import java.util.Optional;
  */
 @Slf4j
 @Aspect
-@Component
-@RequiredArgsConstructor
-public class BLogAspect {
+public record BLogAspect(BLogRepository bLogRepository) {
 
     /**
      * 环绕通知方法，用于处理系统日志记录
@@ -79,7 +75,7 @@ public class BLogAspect {
         } finally {
             stopWatch.stop();
             bLogDTO.setTiming(stopWatch.getTotalTimeMillis());
-            SpringContextUtils.publishEvent(new BLogEvent(bLogDTO));
+            bLogRepository.save(bLogDTO);
         }
         return obj;
     }

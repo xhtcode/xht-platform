@@ -11,7 +11,7 @@ import java.util.Optional;
  * @author xht
  **/
 @SuppressWarnings("all")
-public interface CrudRepository<T> {
+public interface CrudRepository<T> extends IRepository {
 
     /**
      * 保存单个实体

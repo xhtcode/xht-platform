@@ -19,6 +19,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
         <!-- 核心模块依赖 -->
         <dependency>
             <groupId>com.xht</groupId>
@@ -29,26 +33,47 @@
             <groupId>com.xht</groupId>
             <artifactId>xht-framework-log</artifactId>
         </dependency>
-        <!-- 通信模块依赖 -->
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-framework-web</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!-- mybatis模块依赖 -->
+        <!-- 可选的框架模块依赖集合 -->
+        <!-- MyBatis持久层框架模块 -->
         <dependency>
             <groupId>com.xht</groupId>
             <artifactId>xht-framework-mybatis</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- Redis缓存模块 -->
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-redis</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- 资源服务器认证模块 -->
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-resource-server</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- 安全认证授权模块 -->
         <dependency>
             <groupId>com.xht</groupId>
             <artifactId>xht-framework-security</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- 短信服务模块 -->
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-framework-resource-server</artifactId>
+            <artifactId>xht-framework-sms</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- Swagger API文档模块 -->
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-swagger</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- Web MVC框架模块 -->
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-web</artifactId>
             <optional>true</optional>
         </dependency>
     </dependencies>

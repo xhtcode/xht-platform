@@ -6,11 +6,9 @@ import com.xht.framework.core.properties.basic.EnableProperties;
 import com.xht.framework.core.utils.IpUtils;
 import com.xht.framework.core.utils.StringUtils;
 import jakarta.annotation.Resource;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -20,8 +18,6 @@ import java.util.Optional;
  *
  * @author xht
  */
-@Component
-@RequiredArgsConstructor
 public class StartupInfoPrinter implements ApplicationRunner {
 
     /**

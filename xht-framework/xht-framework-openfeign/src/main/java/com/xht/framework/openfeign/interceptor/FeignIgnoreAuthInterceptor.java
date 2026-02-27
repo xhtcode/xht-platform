@@ -4,7 +4,6 @@ import com.xht.framework.core.properties.SecurityHeaderProperties;
 import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 
@@ -17,10 +16,8 @@ import java.util.Objects;
  * @author xht
  **/
 @Slf4j
-@RequiredArgsConstructor
-public class FeignIgnoreAuthInterceptor implements RequestInterceptor, Ordered {
-
-    private final SecurityHeaderProperties securityHeaderProperties;
+public record FeignIgnoreAuthInterceptor(
+        SecurityHeaderProperties securityHeaderProperties) implements RequestInterceptor, Ordered {
 
     @Override
     public void apply(RequestTemplate requestTemplate) {

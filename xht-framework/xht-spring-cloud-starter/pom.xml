@@ -15,6 +15,11 @@
     <description>自定义SpringCloud 启动器</description>
 
     <dependencies>
+        <!-- 核心模块依赖 -->
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-core</artifactId>
+        </dependency>
         <!-- bootstrap 启动器 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -29,6 +34,12 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!-- OpenFeign声明式HTTP客户端模块 -->
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-openfeign</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

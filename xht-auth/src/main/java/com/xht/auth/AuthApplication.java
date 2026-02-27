@@ -1,6 +1,7 @@
 package com.xht.auth;
 
-import com.xht.framework.oauth2.annotation.EnableResourceServer;
+import com.xht.boot.oauth2.EnableResourceServer;
+import com.xht.boot.swagger.EnableCustomSwagger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -13,6 +14,7 @@ import static org.springframework.data.redis.core.RedisKeyValueAdapter.EnableKey
  *
  * @author xht
  **/
+@EnableCustomSwagger
 @EnableResourceServer
 @EnableDiscoveryClient
 @SpringBootApplication

@@ -1,3 +1,0 @@
-com.xht.framework.web.CorsAutoConfig
-com.xht.framework.web.WebAutoConfiguration
-com.xht.framework.web.jackson.JacksonConfiguration

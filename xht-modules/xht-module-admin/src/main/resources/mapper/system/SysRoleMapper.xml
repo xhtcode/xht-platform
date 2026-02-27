@@ -5,17 +5,17 @@
 <mapper namespace="com.xht.modules.admin.system.dao.mapper.SysRoleMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.modules.admin.system.entity.SysRoleEntity">
-        <id property="id" column="id" jdbcType="INTEGER"/>
-        <result property="roleCode" column="role_code" jdbcType="VARCHAR"/>
-        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
-        <result property="roleStatus" column="role_status" jdbcType="TINYINT"/>
-        <result property="roleSort" column="role_sort" jdbcType="INTEGER"/>
-        <result property="remark" column="remark" jdbcType="VARCHAR"/>
-        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
-        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
-        <result property="delFlag" column="del_flag" jdbcType="TINYINT"/>
+        <id property="id" column="id"/>
+        <result property="roleCode" column="role_code"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleStatus" column="role_status"/>
+        <result property="roleSort" column="role_sort"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="delFlag" column="del_flag"/>
     </resultMap>
 
 </mapper>
