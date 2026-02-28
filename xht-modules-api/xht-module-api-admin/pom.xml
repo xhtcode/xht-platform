@@ -20,6 +20,10 @@
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
+            <artifactId>xht-framework-log</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
             <artifactId>xht-framework-redis</artifactId>
         </dependency>
     </dependencies>

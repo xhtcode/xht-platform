@@ -23,6 +23,10 @@ import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 @ConditionalOnWebApplication(type = SERVLET)
 public class CorsAutoConfig {
 
+    public CorsAutoConfig() {
+        log.debug("[xht] |- xht-boot-web-cors 启动成功！");
+    }
+
     @Bean
     @ConditionalOnMissingBean(CorsFilter.class)
     @Order(HIGHEST_PRECEDENCE)

@@ -33,7 +33,7 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
 public class WebServletAutoConfiguration implements WebMvcConfigurer {
 
     public WebServletAutoConfiguration() {
-        log.debug(">>>>>>web-start web自动装配<<<<<<");
+        log.debug("[xht] |- xht-boot-web 启动成功！");
     }
 
     @Bean

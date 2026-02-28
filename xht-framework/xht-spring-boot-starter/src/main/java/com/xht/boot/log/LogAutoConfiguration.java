@@ -3,12 +3,10 @@ package com.xht.boot.log;
 import com.xht.framework.log.aspect.BLogAspect;
 import com.xht.framework.log.aspect.MethodTimeAspect;
 import com.xht.framework.log.repository.BLogRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * 日志自动装配
@@ -16,10 +14,12 @@ import org.springframework.context.annotation.Bean;
  * @author xht
  **/
 @Slf4j
-@ConditionalOnClass(BLogRepository.class)
-@AutoConfiguration
-@RequiredArgsConstructor
+@Configuration(proxyBeanMethods = false)
 public class LogAutoConfiguration {
+
+    public LogAutoConfiguration() {
+        log.debug("[xht] |- xht-boot-log 启动成功！");
+    }
 
     /**
      * 日志切面
@@ -27,9 +27,9 @@ public class LogAutoConfiguration {
      * @return {@link BLogAspect}
      */
     @Bean
-    @ConditionalOnBean(BLogRepository.class)
-    public BLogAspect logAspect(BLogRepository bLogRepository) {
-        return new BLogAspect(bLogRepository);
+    @ConditionalOnClass(BLogRepository.class)
+    public BLogAspect logAspect() {
+        return new BLogAspect();
     }
 
     /**

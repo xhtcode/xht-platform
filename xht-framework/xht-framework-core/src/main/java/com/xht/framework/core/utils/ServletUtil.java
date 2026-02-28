@@ -10,6 +10,7 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.core.enums.CharacterEnums;
 import com.xht.framework.core.jackson.JsonUtils;
+import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,10 +32,7 @@ import java.util.*;
  * @author xht
  **/
 @Slf4j
-@SuppressWarnings("all")
 public final class ServletUtil {
-
-    private static final int DEFAULT_BUFFER_SIZE = 1024;
 
     /**
      * 获取HttpServletRequest对象
@@ -144,10 +142,9 @@ public final class ServletUtil {
      *
      * @param request     请求对象{@link HttpServletRequest}
      * @param name        头信息的KEY
-     * @param charsetName 字符集
      * @return header值
      */
-    public static String getHeader(HttpServletRequest request, String name, String charsetName) {
+    public static String getHeader(HttpServletRequest request, String name) {
         return request.getHeader(name);
     }
 
@@ -279,8 +276,8 @@ public final class ServletUtil {
             if (Objects.nonNull(writer)) {
                 try {
                     writer.close();
-                } catch (Exception ignored) {
-                    log.debug("流关闭失败 {}", ignored.getMessage(), ignored);
+                } catch (Exception e) {
+                    log.debug("流关闭失败 {}", e.getMessage(), e);
                 }
             }
         }

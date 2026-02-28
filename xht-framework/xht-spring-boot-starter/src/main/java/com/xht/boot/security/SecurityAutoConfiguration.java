@@ -27,6 +27,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableConfigurationProperties({TokenLightningCacheProperties.class})
 public class SecurityAutoConfiguration {
 
+    public SecurityAutoConfiguration() {
+        log.debug("[xht] |- xht-boot-security 启动成功！");
+    }
+
     /**
      * 密码加密器
      *

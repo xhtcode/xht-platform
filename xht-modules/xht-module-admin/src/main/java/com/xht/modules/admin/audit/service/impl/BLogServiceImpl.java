@@ -12,6 +12,7 @@ import com.xht.modules.admin.audit.entity.BLogEntity;
 import com.xht.modules.admin.audit.service.IBLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
@@ -33,10 +34,11 @@ public class BLogServiceImpl implements IBLogService {
      *
      * @param bLogDTO 系统日志表单请求参数
      */
+    @Async
     @Override
     public void create(BLogDTO bLogDTO) {
         BLogEntity entity = bLogConverter.toEntity(bLogDTO);
-        bLogDao.saveTransactional(entity);
+        bLogDao.save(entity);
     }
 
     /**

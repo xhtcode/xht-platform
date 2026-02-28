@@ -2,7 +2,6 @@ package com.xht.framework.security.configurers;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
-import lombok.AllArgsConstructor;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
@@ -12,11 +11,8 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
  *
  * @author xht
  **/
-@AllArgsConstructor
-public class CustomAuthorizeHttpRequestsConfigurer implements Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> {
-
-    private final PermitAllUrlProperties permitAllUrlProperties;
-
+public record CustomAuthorizeHttpRequestsConfigurer(
+        PermitAllUrlProperties permitAllUrlProperties) implements Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> {
 
     @Override
     public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorize) {

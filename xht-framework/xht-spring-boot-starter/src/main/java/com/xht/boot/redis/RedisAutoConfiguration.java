@@ -40,7 +40,7 @@ public class RedisAutoConfiguration {
 
 
     public RedisAutoConfiguration() {
-        log.debug(">>>>>>redis-start 自定义配置类<<<<<<");
+        log.debug("[xht] |- xht-boot-redis 启动成功！");
     }
 
     /**

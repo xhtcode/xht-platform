@@ -1,12 +1,8 @@
 package com.xht.framework.log.aspect;
 
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.URLUtil;
-import com.xht.framework.core.constant.HttpConstants;
-import com.xht.framework.core.jackson.JsonUtils;
+import com.xht.framework.core.domain.HttpServletRequestInfo;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 import com.xht.framework.core.support.blog.enums.LogStatusEnums;
-import com.xht.framework.core.utils.IpUtils;
 import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.core.utils.mdc.TraceIdUtils;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
@@ -18,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StopWatch;
 
 import java.time.LocalDateTime;
@@ -30,7 +27,14 @@ import java.util.Optional;
  */
 @Slf4j
 @Aspect
-public record BLogAspect(BLogRepository bLogRepository) {
+public class BLogAspect {
+
+    private BLogRepository bLogRepository;
+
+    @Autowired(required = false)
+    public void setbLogRepository(BLogRepository bLogRepository) {
+        this.bLogRepository = bLogRepository;
+    }
 
     /**
      * 环绕通知方法，用于处理系统日志记录
@@ -44,22 +48,26 @@ public record BLogAspect(BLogRepository bLogRepository) {
     public Object around(ProceedingJoinPoint point, BLog bLog) {
         BLogDTO bLogDTO = new BLogDTO();
         bLogDTO.setTraceId(TraceIdUtils.getTraceId());
-        bLogDTO.setTitle(bLog.title());
+        bLogDTO.setTitle(bLog.value());
         bLogDTO.setDescription(bLog.description());
         bLogDTO.setServiceName(SpringContextUtils.getApplicationName());
         Optional<HttpServletRequest> optHttpServletRequest = ServletUtil.getOptHttpServletRequest();
         optHttpServletRequest.ifPresent(request -> {
-            bLogDTO.setRemoteAddr(IpUtils.getIpAddr(request));
-            bLogDTO.setUserAgent(request.getHeader(HttpConstants.Header.USER_AGENT.getValue()));
-            bLogDTO.setRequestUri(URLUtil.getPath(request.getRequestURI()));
-            bLogDTO.setMethod(request.getMethod());
-            bLogDTO.setParams(request.getRequestURI());
+            HttpServletRequestInfo build = HttpServletRequestInfo.builder(request)
+                    .requestUrl()
+                    .paramMap()
+                    .body()
+                    .headerMap()
+                    .ip()
+                    .requestMethod()
+                    .build();
+            bLogDTO.setRemoteAddr(build.ip());
+            bLogDTO.setUserAgent(build.getUserAgent());
+            bLogDTO.setRequestUri(build.requestUrl());
+            bLogDTO.setMethod(build.requestMethod());
+            bLogDTO.setParams(build);
             bLogDTO.setUserAccount(SpringContextUtils.getUserContextService().userName());
         });
-        // 获取请求 body 参数
-        if (StrUtil.isBlank(bLogDTO.getParams())) {
-            bLogDTO.setParams(JsonUtils.toJsonString(point.getArgs()));
-        }
         // 发送异步日志事件
         StopWatch stopWatch = new StopWatch();
         Object obj;
@@ -75,7 +83,11 @@ public record BLogAspect(BLogRepository bLogRepository) {
         } finally {
             stopWatch.stop();
             bLogDTO.setTiming(stopWatch.getTotalTimeMillis());
-            bLogRepository.save(bLogDTO);
+            try {
+                bLogRepository.save(bLogDTO);
+            } catch (Exception e) {
+                log.error("日志保存失败 {}", e.getMessage(), e);
+            }
         }
         return obj;
     }

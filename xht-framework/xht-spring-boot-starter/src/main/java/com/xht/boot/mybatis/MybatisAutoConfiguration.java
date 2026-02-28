@@ -38,6 +38,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @ConditionalOnClass(SqlSessionFactory.class)
 public class MybatisAutoConfiguration implements CommandLineRunner {
 
+    public MybatisAutoConfiguration() {
+        log.debug("[xht] |- xht-boot-mybatis 启动成功！");
+    }
+
     /**
      * mybatis-plus插件
      */

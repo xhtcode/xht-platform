@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.xht.framework.core.domain.HttpServletRequestInfo;
 import com.xht.framework.core.support.blog.enums.LogStatusEnums;
 import com.xht.framework.mybatis.domain.entity.NoneDeleteEntity;
 import lombok.Data;
@@ -16,13 +18,13 @@ import java.io.Serializable;
  * @author xht
  **/
 @Data
-@TableName(value = "b_log")
+@TableName(value = "b_log", autoResultMap = true)
 public class BLogEntity extends NoneDeleteEntity implements Serializable {
 
     /**
      * ID
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
@@ -82,8 +84,8 @@ public class BLogEntity extends NoneDeleteEntity implements Serializable {
     /**
      * 操作提交的数据
      */
-    @TableField(value = "params")
-    private String params;
+    @TableField(value = "params" , typeHandler = JacksonTypeHandler.class)
+    private HttpServletRequestInfo params;
 
     /**
      * 执行时间

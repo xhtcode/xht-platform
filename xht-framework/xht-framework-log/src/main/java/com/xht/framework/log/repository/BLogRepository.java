@@ -8,6 +8,7 @@ import com.xht.framework.core.support.blog.dto.BLogDTO;
  *
  * @author xht
  **/
+@FunctionalInterface
 public interface BLogRepository extends IRepository {
 
     /**

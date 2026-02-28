@@ -1,5 +1,6 @@
 package com.xht.framework.core.support.blog.dto;
 
+import com.xht.framework.core.domain.HttpServletRequestInfo;
 import com.xht.framework.core.domain.dto.BasicDTO;
 import com.xht.framework.core.support.blog.enums.LogStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -74,7 +75,7 @@ public class BLogDTO extends BasicDTO {
      * 操作提交的数据
      */
     @Schema(description = "提交数据")
-    private String params;
+    private HttpServletRequestInfo params;
 
     /**
      * 执行时间

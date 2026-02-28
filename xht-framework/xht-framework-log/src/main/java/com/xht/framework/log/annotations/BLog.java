@@ -15,11 +15,11 @@ public @interface BLog {
     /**
      * @return 名称
      */
-    String title() default "";
+    String value();
 
     /**
      * @return 描述
      */
-    String description() default "";
+    String description();
 
 }

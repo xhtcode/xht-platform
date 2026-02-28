@@ -29,7 +29,7 @@ public class IBLogClientImpl implements IBLogClient {
      * @param bLogDTO 日志保存信息
      * @return 保存结果
      */
-    @IgnoreAuth
+    @IgnoreAuth(aop = false)
     @PostMapping("/api/sys/log/save")
     public R<Void> saveLog(@RequestBody BLogDTO bLogDTO) {
         ibLogService.create(bLogDTO);

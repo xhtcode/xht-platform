@@ -1,13 +1,13 @@
 package com.xht.framework.core.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xht.framework.core.constant.basic.RConstants;
 import com.xht.framework.core.enums.DataTypeEnums;
 import com.xht.framework.core.exception.UtilException;
 import com.xht.framework.core.exception.code.ErrorCode;
 import com.xht.framework.core.utils.mdc.TraceIdUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -20,7 +20,6 @@ import java.util.Objects;
  **/
 @Getter
 @Schema(description = "响应结果")
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class R<T> {
 
     @Schema(description = "是否成功")
@@ -40,6 +39,27 @@ public final class R<T> {
 
     @Schema(description = "链路跟踪id")
     private final String traceId;
+
+    /**
+     * 为Jackson指定构造函数（关联@AllArgsConstructor生成的全参构造）
+     * 注意：@JsonProperty的参数名必须和JSON返回的字段名、类的字段名完全一致
+     */
+    @JsonCreator
+    public R(
+            @JsonProperty("ok") Boolean ok,
+            @JsonProperty("code") Integer code,
+            @JsonProperty("msg") String msg,
+            @JsonProperty("data") T data,
+            @JsonProperty("dataType") DataTypeEnums dataType,
+            @JsonProperty("traceId") String traceId
+    ) {
+        this.ok = ok;
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+        this.dataType = dataType;
+        this.traceId = traceId;
+    }
 
     /**
      * 创建成功的响应构建器

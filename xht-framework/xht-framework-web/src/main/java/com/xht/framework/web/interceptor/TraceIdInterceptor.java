@@ -35,6 +35,7 @@ public class TraceIdInterceptor implements HandlerInterceptor {
         String traceId = request.getHeader(HttpConstants.Header.TRACE_ID.getValue());
         if (StringUtils.isEmpty(traceId)) {
             traceId = TraceIdUtils.generateTraceId();
+            response.setHeader(HttpConstants.Header.TRACE_ID.getValue(), traceId);
         }
         TraceIdUtils.putTraceId(traceId);
         return true;

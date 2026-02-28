@@ -1,5 +1,6 @@
 package com.xht.modules.admin.audit.domain.response;
 
+import com.xht.framework.core.domain.HttpServletRequestInfo;
 import com.xht.framework.core.domain.response.MetaResponse;
 import com.xht.framework.core.support.blog.enums.LogStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -78,7 +79,7 @@ public class BLogResponse extends MetaResponse {
      * 操作提交的数据
      */
     @Schema(description = "操作提交的数据")
-    private String params;
+    private HttpServletRequestInfo params;
 
     /**
      * 执行时间
