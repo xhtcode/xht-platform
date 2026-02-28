@@ -1,6 +1,7 @@
 package com.xht.framework.log.aspect;
 
 import com.xht.framework.core.domain.HttpServletRequestInfo;
+import com.xht.framework.core.jackson.JsonUtils;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 import com.xht.framework.core.support.blog.enums.LogStatusEnums;
 import com.xht.framework.core.utils.ServletUtil;
@@ -29,7 +30,9 @@ import java.util.Optional;
 @Aspect
 public class BLogAspect {
 
-    private BLogRepository bLogRepository;
+    private BLogRepository bLogRepository = BLogAspect::createBLogRepository;
+
+
 
     @Autowired(required = false)
     public void setbLogRepository(BLogRepository bLogRepository) {
@@ -92,4 +95,13 @@ public class BLogAspect {
         return obj;
     }
 
+
+    /**
+     * 创建日志存储对象
+     * @param bLogDTO 系统日志
+     */
+    @SneakyThrows
+    private static void createBLogRepository(BLogDTO bLogDTO) {
+        log.debug("日志保存失败，请检查日志服务是否正常 \n{}", JsonUtils.toJsonString(bLogDTO));
+    }
 }

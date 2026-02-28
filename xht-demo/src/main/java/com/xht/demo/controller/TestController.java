@@ -2,6 +2,7 @@ package com.xht.demo.controller;
 
 import com.xht.demo.domain.Users;
 import com.xht.framework.core.domain.R;
+import com.xht.framework.log.annotations.BLog;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TestController {
 
-
+    @BLog(value = "测试", description = "测试")
     @Operation(summary = "测试接口", description = "测试接口描述")
     @GetMapping
     public R<String> test() {
