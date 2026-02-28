@@ -2,12 +2,12 @@ package com.xht.framework.security.core.userdetails;
 
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.security.domain.RequestUserBO;
+import com.xht.framework.security.utils.PassWordUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Objects;
 
@@ -22,12 +22,6 @@ public abstract class BasicUserDetailsService implements UserDetailsService {
     private static final String USER_NOT_FOUND_PASSWORD = "userNotFoundPassword";
 
     private volatile String userNotFoundEncodedPassword;
-
-    private final PasswordEncoder passwordEncoder;
-
-    public BasicUserDetailsService(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public final UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -76,8 +70,7 @@ public abstract class BasicUserDetailsService implements UserDetailsService {
                 throw new AccountExpiredException("用户账户已过期");
             }
             if (passWordEncoderStatus) {
-                String presentedPassword = requestUserBO.getPassWord();
-                if (!passwordEncoder.matches(presentedPassword, basicUserDetails.getPassword())) {
+                if (!PassWordUtils.matchPassword(requestUserBO.getPassWord(), basicUserDetails.getPassWordSalt(), basicUserDetails.getPassword())) {
                     log.debug("由于密码与存储的值不匹配，因此无法进行身份验证。");
                     throw new BadCredentialsException("用户名或密码错误");
                 }
@@ -99,7 +92,7 @@ public abstract class BasicUserDetailsService implements UserDetailsService {
      */
     private void prepareTimingAttackProtection() {
         if (this.userNotFoundEncodedPassword == null) {
-            this.userNotFoundEncodedPassword = passwordEncoder.encode(USER_NOT_FOUND_PASSWORD);
+            this.userNotFoundEncodedPassword = PassWordUtils.encodePassword(USER_NOT_FOUND_PASSWORD);
         }
     }
 
@@ -109,7 +102,7 @@ public abstract class BasicUserDetailsService implements UserDetailsService {
     private void mitigateAgainstTimingAttack(RequestUserBO requestUserBO) {
         if (requestUserBO.getPassWord() != null) {
             String presentedPassword = requestUserBO.getPassWord();
-            passwordEncoder.matches(presentedPassword, this.userNotFoundEncodedPassword);
+            PassWordUtils.matchPassword(presentedPassword, this.userNotFoundEncodedPassword);
         }
     }
 

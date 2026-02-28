@@ -134,7 +134,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void resetPassword(Long userId) {
-        sysUserDao.updatePassword(userId, MD5Utils.generateSignature("123456"));
+        sysUserDao.updatePassword(userId, MD5Utils.generateSignature("123456"),"");
     }
 
     /**
@@ -144,10 +144,11 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public void updatePassword(UpdatePwdFrom form) {
-        // todo 登录现在未实现用户id获取不到，先写死
-        Long userId = 1L;
+        Long userId = SecurityUtils.getUserId();
         SysUserEntity sysUserEntity = sysUserDao.findOptionalById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST, "用户不存在"));
-        // todo 后期补充用户状态判断
+        if (!Objects.equals(sysUserEntity.getUserStatus(), UserStatusEnums.NORMAL)) {
+            throw new BusinessException("用户状态不正确！");
+        }
         String oldPassword = form.getOldPassword();
         String newPassword = form.getNewPassword();
         String confirmPassword = form.getConfirmPassword();
@@ -158,7 +159,7 @@ public class UserServiceImpl implements IUserService {
         if (!StringUtils.equals(newPassword, confirmPassword)) {
             throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "两次密码输入不一致");
         }
-        sysUserDao.updatePassword(userId, MD5Utils.generateSignature(form.getNewPassword()));
+        sysUserDao.updatePassword(userId, MD5Utils.generateSignature(form.getNewPassword()),"");
     }
 
     /**

@@ -5,6 +5,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.xht.auth.authentication.dao.CustomAuthenticationProvider;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
 import com.xht.auth.security.oatuh2.server.authorization.password.PassWordAuthenticationConverter;
@@ -73,6 +74,7 @@ public class AuthorizationServerAutoConfiguration {
 
     private final OpaqueTokenIntrospector opaqueTokenIntrospector;
 
+
     @Bean
     @Order(1)
     // @formatter:off
@@ -122,6 +124,7 @@ public class AuthorizationServerAutoConfiguration {
         return http.build();
     }
     // @formatter:on
+
     @Bean
     @Order(2)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -140,6 +143,7 @@ public class AuthorizationServerAutoConfiguration {
         http.exceptionHandling(handlingConfigurer -> {
             handlingConfigurer.accessDeniedHandler(new Http401AccessDeniedHandler());// 请求未授权的接口
         });
+        http.authenticationProvider(new CustomAuthenticationProvider(basicUserDetailsService));
         return http.build();
     }
 

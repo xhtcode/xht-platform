@@ -7,13 +7,11 @@ import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
-import com.xht.framework.security.properties.SecurityProperties;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -29,18 +27,10 @@ import java.util.stream.Collectors;
  **/
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class Oauth2UserDetailsService extends BasicUserDetailsService {
 
     private final IAuthenticationDao authenticationDao;
-
-    private final SecurityProperties securityProperties;
-
-    @Autowired
-    public Oauth2UserDetailsService(PasswordEncoder passwordEncoder, IAuthenticationDao authenticationDao, SecurityProperties securityProperties) {
-        super(passwordEncoder);
-        this.authenticationDao = authenticationDao;
-        this.securityProperties = securityProperties;
-    }
 
     /**
      * 根据用户名和登录类型查询用户信息
@@ -82,10 +72,11 @@ public class Oauth2UserDetailsService extends BasicUserDetailsService {
                 loginVo.getUserType(),
                 loginVo.getUserName(),
                 loginVo.getNickName(),
-                securityProperties.buildSalt(loginVo.getPassWord(), loginVo.getPassWordSalt()),
+                loginVo.getPassWord(),
                 authorities
         );
         basicUserDetails.setUserStatus(loginVo.getUserStatus());
+        basicUserDetails.setPassWordSalt(loginVo.getPassWordSalt());
         basicUserDetails.setUserPhone(loginVo.getUserPhone());
         basicUserDetails.setDeptId(loginVo.getDeptId());
         basicUserDetails.setDeptName(loginVo.getDeptName());

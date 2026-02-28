@@ -18,8 +18,9 @@ public interface SysUserDao extends MapperRepository<SysUserEntity> {
      *
      * @param userId      用户ID
      * @param newPassword 新密码
+     * @param passWordSalt 密码盐
      */
-    void updatePassword(Long userId, String newPassword);
+    void updatePassword(Long userId, String newPassword, String passWordSalt);
 
     /**
      * 更新用户状态

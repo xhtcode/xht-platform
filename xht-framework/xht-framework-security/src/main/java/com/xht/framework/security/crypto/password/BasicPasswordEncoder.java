@@ -11,6 +11,7 @@ import java.util.Objects;
 
 @Slf4j
 public class BasicPasswordEncoder implements PasswordEncoder {
+
     /**
      * 对原始密码进行编码
      *
@@ -49,6 +50,6 @@ public class BasicPasswordEncoder implements PasswordEncoder {
         if (Objects.isNull(passWord) || passWord.length != 2) {
             return StringUtils.equals(encodedPassword, MD5Utils.generateSignature(rawPassword.toString()));
         }
-        return StringUtils.equals(passWord[0], MD5Utils.generateSignature(rawPassword + passWord[1]));
+        return StringUtils.equals(passWord[0], MD5Utils.generateSignature(rawPassword + "{" + passWord[1] + "}"));
     }
 }

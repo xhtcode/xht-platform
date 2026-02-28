@@ -1,5 +1,6 @@
 package com.xht.framework.security.core.userdetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.xht.framework.core.enums.LoginTypeEnums;
@@ -68,6 +69,7 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
     /**
      * 密码
      */
+    @JsonIgnore
     @Schema(description = "密码")
     private final String password;
 
@@ -82,6 +84,13 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
     @Setter
     @Schema(description = "账号状态(1-正常,2-锁定,3-禁用,4-过期)")
     private UserStatusEnums userStatus;
+
+    /**
+     * 密码盐
+     */
+    @Setter
+    @JsonIgnore
+    private String passWordSalt;
 
     /**
      * 手机号
