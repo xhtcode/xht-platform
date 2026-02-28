@@ -32,8 +32,6 @@ public class BLogAspect {
 
     private BLogRepository bLogRepository = BLogAspect::createBLogRepository;
 
-
-
     @Autowired(required = false)
     public void setbLogRepository(BLogRepository bLogRepository) {
         this.bLogRepository = bLogRepository;
