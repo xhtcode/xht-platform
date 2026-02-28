@@ -1,5 +1,6 @@
 package com.xht.framework.core.utils.mdc;
 
+import com.xht.framework.core.constant.StringConstant;
 import com.xht.framework.core.utils.StringUtils;
 import org.slf4j.MDC;
 
@@ -52,7 +53,7 @@ public final class TraceIdUtils {
         if (StringUtils.hasText(traceId)) {
             return traceId;
         }
-        return UUID.randomUUID().toString().replaceAll("-", "");
+        return UUID.randomUUID().toString().replaceAll(StringConstant.HORIZONTAL, StringConstant.EMPTY);
     }
 
 }

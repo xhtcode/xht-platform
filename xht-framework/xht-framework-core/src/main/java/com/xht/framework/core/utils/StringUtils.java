@@ -1,6 +1,7 @@
 package com.xht.framework.core.utils;
 
 
+import com.xht.framework.core.constant.CharacterConstant;
 import com.xht.framework.core.constant.StringConstant;
 
 /**
@@ -107,7 +108,7 @@ public final class StringUtils extends org.springframework.util.StringUtils {
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++) {
             char c = temp.charAt(i);
-            if (c == StringConstant.UNDERLINE_CHAR) {
+            if (c == CharacterConstant.UNDERLINE) {
                 if (++i < len) {
                     sb.append(Character.toUpperCase(temp.charAt(i)));
                 }

@@ -16,42 +16,38 @@ public interface StringConstant {
     /**
      * 点
      */
-    String POINT = ".";
+    String POINT = Character.toString(CharacterConstant.POINT);
 
     /**
      * 分号
      */
-    String SEMICOLON = ";";
+    String SEMICOLON = Character.toString(CharacterConstant.SEMICOLON);
 
     /**
      * 全局通用分隔符
      */
-    String DELIMITER = ",";
+    String DELIMITER = Character.toString(CharacterConstant.DELIMITER);
 
     /**
      * 全局通用分隔符 下划线
      */
-    String UNDERLINE = "_";
-
-    /**
-     * 下划线字符
-     */
-    Character UNDERLINE_CHAR = '_';
+    String UNDERLINE = Character.toString(CharacterConstant.UNDERLINE);
 
     /**
      * 全局通用 横杠
      */
-    String HORIZONTAL = "-";
+    String HORIZONTAL = Character.toString(CharacterConstant.HORIZONTAL);
+
 
     /**
      * 全局通用分隔符
      */
-    Character SEPARATOR_CHAR = ',';
+    String SEPARATOR = Character.toString(CharacterConstant.SEPARATOR);
 
     /**
      * 全局通用分隔符 斜杠
      */
-    String SEPARATOR_SLASH = "/";
+    String SEPARATOR_SLASH = Character.toString(CharacterConstant.SEPARATOR_SLASH);
 
     /**
      * 空字符串
@@ -61,10 +57,11 @@ public interface StringConstant {
     /**
      * 全局通用 冒号
      */
-    String COLON = ":";
+    String COLON = Character.toString(CharacterConstant.COLON);
 
     /**
      * 星号
      */
-    String ASTERISK = "*";
+    String ASTERISK = Character.toString(CharacterConstant.ASTERISK);
+
 }
