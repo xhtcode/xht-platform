@@ -54,7 +54,7 @@ springdoc:
     - /favicon.ico
 xht:
   blog:
-    repository-type: feign
+    repository-type: jdbc
   global:
     banner:
       enable: true

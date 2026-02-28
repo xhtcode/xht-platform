@@ -3,7 +3,6 @@ package com.xht.framework.core.properties;
 import com.xht.framework.core.properties.basic.EnableProperties;
 import com.xht.framework.core.properties.basic.MessageProperties;
 import com.xht.framework.core.properties.cache.CacheProperties;
-import com.xht.framework.core.properties.log.BLogProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -22,12 +21,6 @@ public class XhtConfigProperties implements IProperties {
      */
     @NestedConfigurationProperty
     private GlobalConfigProperties global;
-
-    /**
-     * blog 日志配置
-     */
-    @NestedConfigurationProperty
-    private BLogProperties blog;
 
     /**
      * 消息配置
