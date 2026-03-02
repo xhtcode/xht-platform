@@ -1,6 +1,7 @@
 package com.xht.modules.admin.area.controller;
 
 import com.xht.framework.core.domain.R;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.modules.admin.area.domain.form.SysAreaForm;
@@ -33,6 +34,7 @@ public class SysAreaController {
      * @param form 系统管理-行政区划
      *
      */
+    @BLog(value = "行政区划", description = "添加系统管理-行政区划")
     @Operation(summary = "添加系统管理-行政区划")
     @PostMapping("/create")
     public R<Void> create(@Validated @RequestBody SysAreaForm form) {
@@ -46,6 +48,7 @@ public class SysAreaController {
      * @param id 系统管理-字典表主键
      * @return 统一响应结果
      */
+    @BLog(value = "行政区划", description = "根据主键`id`删除系统管理-行政区划")
     @CheckMenu("sys:area:remove")
     @Operation(summary = "根据主键`id`删除系统管理-行政区划")
     @PostMapping("/remove/{id}")
@@ -60,6 +63,7 @@ public class SysAreaController {
      * @param form 系统管理-行政区划
      *
      */
+    @BLog(value = "行政区划", description = "修改系统管理-行政区划")
     @Operation(summary = " 修改系统管理-行政区划")
     @PostMapping("/update")
     public R<Void> updateById(@Validated @RequestBody SysAreaForm form) {

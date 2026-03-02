@@ -3,6 +3,7 @@ package com.xht.modules.admin.dict.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.validation.Groups;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.query.SysDictItemQuery;
@@ -35,6 +36,7 @@ public class SysDictItemController {
      * @param form 字典项创建参数
      * @return true成功、false失败
      */
+    @BLog(value = "字典管理", description = "创建字典项")
     @CheckMenu("sys:dict:item:create")
     @PostMapping("/create")
     @Operation(summary = "创建字典项")
@@ -49,6 +51,7 @@ public class SysDictItemController {
      * @param ids 字典项ID
      * @return true成功、false失败
      */
+    @BLog(value = "字典管理", description = "删除字典项")
     @CheckMenu("sys:dict:item:remove")
     @PostMapping("/remove")
     @Operation(summary = "删除字典项")
@@ -63,6 +66,7 @@ public class SysDictItemController {
      * @param form 字典项修改参数
      * @return true成功、false失败
      */
+    @BLog(value = "字典管理", description = "修改字典项")
     @CheckMenu("sys:dict:item:update")
     @PostMapping("/update")
     @Operation(summary = "修改字典项")

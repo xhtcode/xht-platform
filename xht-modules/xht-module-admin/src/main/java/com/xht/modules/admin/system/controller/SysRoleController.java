@@ -3,6 +3,7 @@ package com.xht.modules.admin.system.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.validation.Groups;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.system.domain.form.SysRoleForm;
 import com.xht.modules.admin.system.domain.form.SysRoleMenuBindForm;
@@ -45,7 +46,7 @@ public class SysRoleController {
      * @param form 角色表单请求参数
      * @return 统一响应结果
      */
-
+    @BLog(value = "角色管理", description = "创建角色")
     @CheckMenu("sys:role:create")
     @PostMapping("/create")
     @Operation(summary = "创建角色", description = "根据提供的请求参数创建一个新的角色")
@@ -60,9 +61,10 @@ public class SysRoleController {
      * @param id 角色ID
      * @return 统一响应结果
      */
+    @BLog(value = "角色管理", description = "删除角色")
     @CheckMenu("sys:role:remove")
     @PostMapping("/remove/{id}")
-    @Operation(summary = "根据ID删除角色", description = "根据提供的角色ID删除角色")
+    @Operation(summary = "删除角色", description = "根据ID删除角色")
     public R<Void> removeById(@PathVariable Long id) {
         sysRoleService.removeById(id);
         return R.ok().build();
@@ -75,9 +77,10 @@ public class SysRoleController {
      * @return 统一响应结果
      */
 
+    @BLog(value = "角色管理", description = "批量删除角色")
     @CheckMenu("sys:role:remove")
     @PostMapping("/remove/")
-    @Operation(summary = "根据ID删除角色", description = "根据提供的角色ID删除角色")
+    @Operation(summary = "批量删除角色", description = "根据ID批量删除角色")
     public R<Void> removeByIds(@RequestBody List<Long> ids) {
         sysRoleService.removeByIds(ids);
         return R.ok().build();
@@ -90,9 +93,10 @@ public class SysRoleController {
      * @return 统一响应结果
      */
 
+    @BLog(value = "角色管理", description = "更新角色")
     @CheckMenu("sys:role:update")
     @PostMapping("/update")
-    @Operation(summary = "根据ID更新角色", description = "根据提供的角色更新请求参数更新角色")
+    @Operation(summary = "更新角色", description = "根据ID更新角色")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysRoleForm form) {
         sysRoleService.updateById(form);
         return R.ok().build();
@@ -106,6 +110,7 @@ public class SysRoleController {
      * @return 统一响应结果 成功：true 失败：false
      */
 
+    @BLog(value = "角色管理", description = "修改角色状态")
     @CheckMenu("sys:role:update")
     @PostMapping("/updateStatus/{id}/{status}")
     @Operation(summary = "修改角色状态", description = "根据提供的角色ID和状态修改角色状态")
@@ -122,7 +127,7 @@ public class SysRoleController {
      * @return 角色信息
      */
     @GetMapping("/get/{id}")
-    @Operation(summary = "根据ID查询角色", description = "根据提供的角色ID查询角色信息")
+    @Operation(summary = "查询详情", description = "根据提供的角色ID查询角色信息")
     public R<SysRoleResponse> findById(@PathVariable @Parameter(description = "角色ID", required = true) Long id) {
         return R.ok().build(sysRoleService.findById(id));
     }
@@ -134,7 +139,7 @@ public class SysRoleController {
      * @return 角色分页信息
      */
     @GetMapping("/page")
-    @Operation(summary = "分页查询角色", description = "根据提供的查询请求参数分页查询角色信息")
+    @Operation(summary = "分页查询", description = "根据提供的查询请求参数分页查询角色信息")
     public R<PageResponse<SysRoleResponse>> findPageList(SysRoleQuery query) {
         return R.ok().build(sysRoleService.findPageList(query));
     }
@@ -145,7 +150,7 @@ public class SysRoleController {
      * @return 全部角色
      */
     @GetMapping("/list")
-    @Operation(summary = "查询全部角色", description = "查询全部角色")
+    @Operation(summary = "查询全部", description = "查询全部角色")
     public R<List<SysRoleResponse>> list() {
         return R.ok().build(sysRoleService.list());
     }
@@ -159,6 +164,7 @@ public class SysRoleController {
      * @param bindRequest 角色菜单绑定请求
      * @return 成功、失败
      */
+    @BLog(value = "角色管理", description = "角色绑定菜单")
     @CheckMenu("sys:role:menu:bind")
     @PostMapping("/menu/bind")
     @Operation(summary = "角色绑定菜单", description = "角色绑定菜单")
@@ -175,7 +181,7 @@ public class SysRoleController {
      * @return 菜单ID列表
      */
     @GetMapping("/select/menu/{roleId}")
-    @Operation(summary = "获取当前角色拥有的菜单ID列表", description = "获取当前角色拥有的菜单ID列表")
+    @Operation(summary = "角色拥有的菜单", description = "获取当前角色拥有的菜单ID列表")
     public R<RoleSelectedMenuResponse> selectMenuIdByRoleId(@PathVariable("roleId") String roleId) {
         return R.ok().build(sysRoleMenuService.selectMenuIdByRoleId(roleId));
     }

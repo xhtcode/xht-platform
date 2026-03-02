@@ -3,6 +3,7 @@ package com.xht.modules.admin.system.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.core.validation.Groups;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.system.domain.form.SysMenuForm;
 import com.xht.modules.admin.system.domain.query.SysMenuQuery;
@@ -39,6 +40,7 @@ public class SysMenuController {
      * @param form 菜单表单请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "菜单管理", description = "")
     @CheckMenu("sys:menu:create")
     @PostMapping("/create")
     @Operation(summary = "创建菜单", description = "根据提供的请求参数创建一个新的菜单")
@@ -53,6 +55,7 @@ public class SysMenuController {
      * @param id 菜单ID
      * @return 统一响应结果
      */
+    @BLog(value = "菜单管理", description = "")
     @CheckMenu("sys:menu:remove")
     @PostMapping("/remove/{id}")
     @Operation(summary = "根据ID删除菜单", description = "根据提供的菜单ID删除菜单")
@@ -67,6 +70,7 @@ public class SysMenuController {
      * @param form 菜单更新请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "菜单管理", description = "")
     @CheckMenu("sys:menu:update")
     @PostMapping("/update")
     @Operation(summary = "根据ID更新菜单", description = "根据提供的菜单更新请求参数更新菜单")
@@ -82,6 +86,7 @@ public class SysMenuController {
      * @param status 菜单状态
      * @return 统一响应结果 成功：true 失败：false
      */
+    @BLog(value = "菜单管理", description = "")
     @CheckMenu("sys:menu:update")
     @PostMapping("/updateStatus/{id}/{status}")
     @Operation(summary = "修改菜单状态", description = "根据提供的菜单ID和状态修改菜单状态")
@@ -98,7 +103,7 @@ public class SysMenuController {
      * @return 菜单信息
      */
     @GetMapping("/get/{id}")
-    @Operation(summary = "根据ID查询菜单", description = "根据提供的菜单ID查询菜单信息")
+    @Operation(summary = "查询详情", description = "根据提供的菜单ID查询菜单信息")
     public R<SysMenuResponse> findById(@PathVariable @Parameter(description = "菜单ID", required = true) Long id) {
         return R.ok().build(sysMenuService.findById(id));
     }

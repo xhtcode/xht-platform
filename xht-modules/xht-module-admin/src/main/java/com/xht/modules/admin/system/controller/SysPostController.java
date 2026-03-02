@@ -3,6 +3,7 @@ package com.xht.modules.admin.system.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.validation.Groups;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.system.domain.form.SysPostForm;
 import com.xht.modules.admin.system.domain.query.SysPostQuery;
@@ -37,6 +38,7 @@ public class SysPostController {
      * @param form 部门岗位表单请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "部门岗位管理", description = "")
     @CheckMenu("sys:post:create")
     @PostMapping("/create")
     @Operation(summary = "创建部门岗位", description = "根据提供的请求参数创建一个新的部门岗位")
@@ -51,6 +53,7 @@ public class SysPostController {
      * @param id 部门岗位ID
      * @return 统一响应结果
      */
+    @BLog(value = "部门岗位管理", description = "")
     @CheckMenu("sys:post:remove")
     @PostMapping("/remove/{id}")
     @Operation(summary = "根据ID删除部门岗位", description = "根据提供的部门岗位ID删除部门岗位")
@@ -65,6 +68,7 @@ public class SysPostController {
      * @param ids 部门岗位ID
      * @return 统一响应结果
      */
+    @BLog(value = "部门岗位管理", description = "")
     @CheckMenu("sys:post:remove")
     @PostMapping("/remove/")
     @Operation(summary = "根据ID删除部门岗位", description = "根据提供的部门岗位ID删除部门岗位")
@@ -79,6 +83,7 @@ public class SysPostController {
      * @param form 部门岗位更新请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "部门岗位管理", description = "")
     @CheckMenu("sys:post:update")
     @PostMapping("/update")
     @Operation(summary = "根据ID更新部门岗位", description = "根据提供的部门岗位更新请求参数更新部门岗位")
@@ -94,7 +99,7 @@ public class SysPostController {
      * @return 部门岗位信息
      */
     @GetMapping("/get/{id}")
-    @Operation(summary = "根据ID查询部门岗位", description = "根据提供的部门岗位ID查询部门岗位信息")
+    @Operation(summary = "查询详情", description = "根据提供的部门岗位ID查询部门岗位信息")
     public R<SysPostResponse> findById(@PathVariable @Parameter(description = "部门岗位ID", required = true) Long id) {
         return R.ok().build(sysDeptPostService.findById(id));
     }
@@ -106,7 +111,7 @@ public class SysPostController {
      * @return 部门岗位分页信息
      */
     @GetMapping("/page")
-    @Operation(summary = "分页查询部门岗位", description = "根据提供的查询请求参数分页查询部门岗位信息")
+    @Operation(summary = "分页查询", description = "根据提供的查询请求参数分页查询部门岗位信息")
     public R<PageResponse<SysPostResponse>> findPageList(@Valid SysPostQuery query) {
         return R.ok().build(sysDeptPostService.findPageList(query));
     }

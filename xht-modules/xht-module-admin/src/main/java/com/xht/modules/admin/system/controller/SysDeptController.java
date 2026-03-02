@@ -3,6 +3,7 @@ package com.xht.modules.admin.system.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.core.validation.Groups;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.system.domain.form.SysDeptForm;
 import com.xht.modules.admin.system.domain.query.SysDeptTreeQuery;
@@ -37,6 +38,7 @@ public class SysDeptController {
      * @param form 部门表单请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "部门管理", description = "")
     @CheckMenu("sys:dept:create")
     @PostMapping("/create")
     @Operation(summary = "创建部门")
@@ -51,6 +53,7 @@ public class SysDeptController {
      * @param id 部门ID
      * @return 统一响应结果
      */
+    @BLog(value = "部门管理", description = "")
     @CheckMenu("sys:dept:remove")
     @PostMapping("/remove/{id}")
     @Operation(summary = "删除部门")
@@ -66,6 +69,7 @@ public class SysDeptController {
      * @param form 部门更新请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "部门管理", description = "")
     @CheckMenu("sys:dept:update")
     @PostMapping("/update")
     @Operation(summary = "更新部门")
@@ -81,6 +85,7 @@ public class SysDeptController {
      * @param status 部门状态
      * @return 统一响应结果
      */
+    @BLog(value = "部门管理", description = "")
     @CheckMenu("sys:dept:update")
     @PostMapping("/{id}/status/{status}")
     @Operation(summary = "更新部门状态")
@@ -96,7 +101,7 @@ public class SysDeptController {
      * @return 部门信息
      */
     @GetMapping("/get/{id}")
-    @Operation(summary = "查询部门详情")
+    @Operation(summary = "查询详情")
     public R<SysDeptResponse> findById(@PathVariable Long id) {
         return R.ok().build(sysDeptService.findById(id));
     }

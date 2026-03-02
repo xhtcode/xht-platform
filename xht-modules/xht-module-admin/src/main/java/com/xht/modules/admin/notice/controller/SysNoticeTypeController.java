@@ -2,6 +2,7 @@ package com.xht.modules.admin.notice.controller;
 
 import com.xht.framework.core.domain.LabelValue;
 import com.xht.framework.core.domain.R;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.modules.admin.notice.domain.form.SysNoticeTypeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeTypeQuery;
@@ -19,7 +20,7 @@ import java.util.List;
  *
  * @author xht
  **/
-@Tag(name = "通知类型")
+@Tag(name = "系统管理-通知类型管理")
 @RestController
 @RequestMapping("/sys/notice/type")
 @RequiredArgsConstructor
@@ -32,6 +33,7 @@ public class SysNoticeTypeController {
      *
      * @param form 通知类型表单请求参数
      */
+    @BLog(value = "通知类型", description = "创建通知类型")
     @Operation(summary = "创建通知类型")
     @PostMapping("/create")
     public R<Void> create(@RequestBody SysNoticeTypeForm form) {
@@ -44,6 +46,7 @@ public class SysNoticeTypeController {
      *
      * @param id 通知类型ID
      */
+    @BLog(value = "通知类型", description = "根据ID删除通知类型")
     @Operation(summary = "根据ID删除通知类型")
     @PostMapping("/remove/{id}")
     public R<Void> removeById(@PathVariable Long id) {
@@ -56,6 +59,7 @@ public class SysNoticeTypeController {
      *
      * @param form 通知类型更新请求参数
      */
+    @BLog(value = "通知类型", description = "根据ID更新通知类型")
     @Operation(summary = "根据ID更新通知类型")
     @PostMapping("/update")
     public R<Void> updateById(@RequestBody SysNoticeTypeForm form) {

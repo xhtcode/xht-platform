@@ -3,6 +3,7 @@ package com.xht.modules.admin.dict.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.validation.Groups;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.dict.domain.form.SysDictForm;
 import com.xht.modules.admin.dict.domain.query.SysDictQuery;
@@ -35,10 +36,10 @@ public class SysDictController {
      * @param form 字典类型信息
      * @return true成功、false失败
      */
+    @BLog(value = "字典管理", description = "创建字典类型")
     @CheckMenu("sys:dict:create")
     @PostMapping("/create")
     @Operation(summary = "创建字典类型")
-
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictForm form) {
         sysDictService.create(form);
         return R.ok().build();
@@ -50,6 +51,7 @@ public class SysDictController {
      * @param ids 字典类型ID集合
      * @return true成功、false失败
      */
+    @BLog(value = "字典管理", description = "删除字典类型")
     @CheckMenu("sys:dict:remove")
     @PostMapping("/remove")
     @Operation(summary = "删除字典类型")
@@ -64,6 +66,7 @@ public class SysDictController {
      * @param form 字典类型信息
      * @return true成功、false失败
      */
+    @BLog(value = "字典管理", description = "修改字典类型")
     @CheckMenu("sys:dict:update")
     @PostMapping("/update")
     @Operation(summary = "修改字典类型")

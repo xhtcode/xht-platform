@@ -1,6 +1,7 @@
 package com.xht.modules.admin.system.controller;
 
 import com.xht.framework.core.domain.R;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.system.domain.form.UserBindRoleForm;
 import com.xht.modules.admin.system.service.IUserRoleService;
@@ -33,6 +34,7 @@ public class SysUserRoleController {
      * @param bindRequest 绑定请求
      * @return 成功或失败
      */
+    @BLog(value = "用户角色管理", description = "绑定角色")
     @CheckMenu("sys:user:role:bind")
     @PostMapping("/bind")
     @Operation(description = "绑定角色", summary = "绑定角色")

@@ -441,6 +441,36 @@ CREATE TABLE `sys_user_role`
     PRIMARY KEY (`user_id` DESC, `role_id`) USING BTREE,
     UNIQUE INDEX `sys_user_role`(`role_id` ASC, `user_id` ASC) USING BTREE
 ) ENGINE = InnoDB  COMMENT = '系统管理-用户角色关联表' ROW_FORMAT = Dynamic;
+-- ----------------------------
+-- Table structure for b_log
+-- ----------------------------
+DROP TABLE IF EXISTS `b_log`;
+CREATE TABLE `b_log`
+(
+    `id`           bigint       NOT NULL COMMENT '主键ID',
+    `trace_id`     varchar(36)  NULL COMMENT '链路追踪id',
+    `title`        varchar(100) NULL COMMENT '日志名称',
+    `service_name` varchar(50)  NULL COMMENT '服务名称',
+    `description`  varchar(200) NULL COMMENT '日志描述',
+    `status`       varchar(32)  NULL COMMENT '日志状态（SUCCESS:成功;FAIL:失败）',
+    `remote_addr`  varchar(128) NULL COMMENT '操作IP地址',
+    `user_agent`   varchar(200) NULL DEFAULT NULL COMMENT '用户代理（浏览器/客户端信息）',
+    `request_uri`  varchar(512) NULL COMMENT '请求URI',
+    `method`       varchar(16)  NULL COMMENT '请求方式（GET/POST/PUT/DELETE等）',
+    `params`       json         NULL COMMENT '操作提交的数据',
+    `execute_time` datetime     NULL DEFAULT NULL COMMENT '执行开始时间',
+    `timing`       varchar(18)  NULL DEFAULT NULL COMMENT '执行时间(毫秒)',
+    `exception`    text         NULL COMMENT '异常信息',
+    `user_account` varchar(255) NULL DEFAULT NULL,
+    `create_by`    varchar(32)  NULL DEFAULT NULL COMMENT '创建人',
+    `create_time`  datetime     NULL DEFAULT NULL COMMENT '创建时间',
+    `update_by`    varchar(32)  NULL DEFAULT NULL COMMENT '更新人',
+    `update_time`  datetime     NULL DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE,
+    INDEX `idx_sys_log_trace_id` (`trace_id` ASC) USING BTREE,
+    INDEX `idx_sys_log_status` (`status` ASC) USING BTREE,
+    INDEX `idx_sys_log_create_time` (`create_time` ASC) USING BTREE
+) ENGINE = InnoDB COMMENT = '系统日志表';
 
 SET
 FOREIGN_KEY_CHECKS = 1;

@@ -5,6 +5,7 @@ import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.enums.UserStatusEnums;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.core.validation.Groups;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.oauth2.annotation.IsAdmin;
 import com.xht.modules.admin.system.domain.form.SysUserForm;
@@ -29,7 +30,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("/sys/user")
-@Tag(name = "用户模块", description = "用户管理相关的API")
+@Tag(name = "用户管理", description = "用户管理相关的API")
 @RequiredArgsConstructor
 public class SysUserController {
 
@@ -41,6 +42,7 @@ public class SysUserController {
      * @param userForm 用户创建请求信息，
      * @return 返回一个R对象，其中包含一个布尔值，表示用户是否创建成功
      */
+    @BLog(value = "用户管理", description = "用户添加")
     @CheckMenu("sys:user:create")
     @PostMapping("/create")
     @Operation(summary = "用户添加", description = "用户添加")
@@ -55,6 +57,7 @@ public class SysUserController {
      * @param userId 用户唯一标识符
      * @return 返回一个R对象，其中包含一个布尔值，表示用户是否删除成功
      */
+    @BLog(value = "用户管理", description = "删除用户")
     @CheckMenu("sys:user:remove")
     @PostMapping("/remove/{userId}")
     @Operation(summary = "删除用户", description = "根据ID删除用户")
@@ -69,6 +72,7 @@ public class SysUserController {
      * @param userForm 包含更新信息的用户请求对象，使用@Valid注解确保请求数据的有效性
      * @return 返回一个R对象，其中包含一个布尔值，表示用户信息是否更新成功
      */
+    @BLog(value = "用户管理", description = "更新用户信息")
     @CheckMenu("sys:user:update")
     @PostMapping("/update")
     @Operation(summary = "更新用户信息", description = "根据ID更新用户信息")
@@ -83,6 +87,7 @@ public class SysUserController {
      * @param userId 用户ID
      * @return 返回一个R对象，其中包含一个布尔值，表示密码是否重置成功
      */
+    @BLog(value = "用户管理", description = "密码重置")
     @IsAdmin
     @PostMapping("/reset/{userId}/pwd")
     @Operation(summary = "密码重置", description = "密码重置")
@@ -97,6 +102,7 @@ public class SysUserController {
      * @param form 包含修改密码信息的用户请求对象，使用@Valid注解确保请求数据的有效性
      * @return 返回一个R对象，其中包含一个布尔值，表示密码是否修改成功
      */
+    @BLog(value = "用户管理", description = "密码修改")
     @CheckMenu("sys:user:pwd")
     @PostMapping("/update/pwd")
     @Operation(summary = "密码修改", description = "密码修改")
@@ -112,6 +118,7 @@ public class SysUserController {
      * @param status 新的状态
      * @return 返回一个R对象，其中包含一个布尔值，表示状态是否修改成功
      */
+    @BLog(value = "用户管理", description = "用户状态修改")
     @CheckMenu("sys:user:update")
     @PostMapping("/update/{userId}/{status}")
     @Operation(summary = "用户状态修改", description = "用户状态修改")
@@ -127,7 +134,7 @@ public class SysUserController {
      * @return 返回一个R对象，其中包含SysUserVO对象，表示用户详情信息
      */
     @GetMapping("/get/{id}")
-    @Operation(summary = "获取用户详情", description = "根据ID获取用户详情")
+    @Operation(summary = "获取详情", description = "根据ID获取用户详情")
     public R<SysUserVo> findById(@PathVariable Long id) {
         return R.ok().build(userService.findByUserId(id));
     }
@@ -139,7 +146,7 @@ public class SysUserController {
      * @return 返回一个R对象，其中包含Page<SysUserVO>对象，表示分页用户列表信息
      */
     @GetMapping("/page")
-    @Operation(summary = "分页获取用户列表", description = "分页获取用户列表")
+    @Operation(summary = "分页查询", description = "分页获取用户列表")
     public R<PageResponse<SysUserResponse>> findPageList(SysUserQuery query) {
         return R.ok().build(userService.findPageList(query));
     }

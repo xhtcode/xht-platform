@@ -3,6 +3,7 @@ package com.xht.modules.admin.notice.controller;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.validation.Groups;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
  * @author xht
  **/
 @Slf4j
-@Tag(name = "系统管理-通知详情", description = "系统管理-通知详情相关的API")
+@Tag(name = "系统管理-通知管理", description = "系统管理-通知详情相关的API")
 @RestController
 @RequestMapping("/sys/notice")
 @RequiredArgsConstructor
@@ -38,6 +39,7 @@ public class SysNoticeController {
      * @param form 系统管理-通知详情表单请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "通知管理", description = "系统管理-通知管理")
     @CheckMenu("sys:notice:create")
     @Operation(summary = "创建系统管理-通知详情")
     @PostMapping("/create")
@@ -52,6 +54,7 @@ public class SysNoticeController {
      * @param id 系统管理-字典表主键
      * @return 统一响应结果
      */
+    @BLog(value = "通知管理", description = "系统管理-通知管理")
     @CheckMenu("sys:notice:remove")
     @Operation(summary = "根据主键`id`删除系统管理-通知详情")
     @PostMapping("/remove/{id}")
@@ -66,6 +69,7 @@ public class SysNoticeController {
      * @param form 系统管理-通知详情表单请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "通知管理", description = "系统管理-通知管理")
     @CheckMenu("sys:notice:update")
     @Operation(summary = "根据主键`id`更新系统管理-通知详情")
     @PostMapping("/update")
@@ -79,6 +83,7 @@ public class SysNoticeController {
      *
      * @param noticeId 通知id
      */
+    @BLog(value = "通知管理", description = "根据通知id 发布")
     @Operation(summary = "根据通知id 发布")
     @PostMapping("/publish/{noticeId}")
     public R<Void> publishNoticeId(@PathVariable Long noticeId) {
@@ -91,6 +96,7 @@ public class SysNoticeController {
      *
      * @param noticeId 通知id
      */
+    @BLog(value = "通知管理", description = "根据通知id 下架")
     @Operation(summary = "根据通知id 下架")
     @PostMapping("/underShelve/{noticeId}")
     public R<Void> underShelveNoticeId(@PathVariable Long noticeId) {
@@ -104,6 +110,7 @@ public class SysNoticeController {
      * @param noticeId 通知id
      * @param isTop    是否置顶
      */
+    @BLog(value = "通知管理", description = "根据通知id 置顶")
     @Operation(summary = "根据通知id 置顶")
     @PostMapping("/top/{noticeId}/{isTop}")
     public R<Void> updateIsTopById(@PathVariable Long noticeId, @PathVariable NoticeTopEnums isTop) {

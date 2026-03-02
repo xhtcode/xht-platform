@@ -2,6 +2,7 @@ package com.xht.modules.admin.notice.controller;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.modules.admin.notice.domain.query.SysMessageInfoQuery;
 import com.xht.modules.admin.notice.domain.query.SysMessageQuery;
 import com.xht.modules.admin.notice.domain.response.SysMessageResponse;
@@ -29,10 +30,11 @@ public class SysMessageController {
     private final ISysMessageService sysMessageService;
 
     /**
-     * 全部已读（收件人侧）
+     * 全部已读(收件人侧)
      *
      */
-    @Operation(summary = "已读站内信（收件人侧）")
+    @BLog(value = "站内信", description = "全部已读 (收件人侧)")
+    @Operation(summary = "全部已读(收件人侧)")
     @PostMapping("/update/read")
     public R<Void> updateReadById() {
         sysMessageService.updateReadAll();
@@ -40,11 +42,12 @@ public class SysMessageController {
     }
 
     /**
-     * 已读站内信（收件人侧）
+     * 已读站内信(收件人侧)
      *
      * @param messageId 站内信ID
      */
-    @Operation(summary = "已读站内信（收件人侧）")
+    @BLog(value = "站内信", description = "已读站内信 (收件人侧)")
+    @Operation(summary = "已读站内信(收件人侧)")
     @PostMapping("/update/read/{messageId}")
     public R<Void> updateReadById(@PathVariable Long messageId) {
         sysMessageService.updateReadById(messageId);
@@ -52,11 +55,12 @@ public class SysMessageController {
     }
 
     /**
-     * 收藏站内信（收件人侧）
+     * 收藏站内信(收件人侧)
      * @param messageId 站内信ID
      * @param messageStarEnums  站内信收藏枚举
      */
-    @Operation(summary = "收藏站内信（收件人侧）")
+    @BLog(value = "站内信", description = "收藏站内信 (收件人侧)")
+    @Operation(summary = "收藏站内信(收件人侧)")
     @PostMapping("/update/start/{messageId}/{start}")
     public R<Void> updateStartById(@PathVariable Long messageId, @PathVariable("start") MessageStarEnums messageStarEnums) {
         sysMessageService.updateStartById(messageId, messageStarEnums);
@@ -64,11 +68,12 @@ public class SysMessageController {
     }
 
     /**
-     * 置顶站内信（收件人侧）
+     * 置顶站内信(收件人侧)
      * @param messageId 站内信ID
      * @param messageTopEnums  站内信置顶枚举
      */
-    @Operation(summary = "置顶站内信（收件人侧）")
+    @BLog(value = "站内信", description = "置顶站内信 (收件人侧)")
+    @Operation(summary = "置顶站内信(收件人侧)")
     @PostMapping("/update/top/{messageId}/{top}")
     public R<Void> updateTopById(@PathVariable Long messageId, @PathVariable("top") MessageTopEnums messageTopEnums) {
         sysMessageService.updateTopById(messageId, messageTopEnums);
@@ -76,11 +81,12 @@ public class SysMessageController {
     }
 
     /**
-     * 删除站内信（收件人侧）
+     * 删除站内信(收件人侧)
      *
      * @param messageId 站内信ID
      */
-    @Operation(summary = "删除站内信（收件人侧）")
+    @BLog(value = "站内信", description = "删除站内信 (收件人侧)")
+    @Operation(summary = "删除站内信(收件人侧)")
     @PostMapping("/update/remove/{messageId}")
     public R<Void> updateRemoveById(@PathVariable Long messageId) {
         sysMessageService.updateRemoveById(messageId);
@@ -88,11 +94,12 @@ public class SysMessageController {
     }
 
     /**
-     * 撤回站内信（全部）
+     * 撤回站内信(全部)
      *
      * @param messageId 站内信ID
      */
-    @Operation(summary = "撤回站内信（全部）")
+    @BLog(value = "站内信", description = "撤回站内信 (全部)")
+    @Operation(summary = "撤回站内信(全部)")
     @PostMapping("/cancel/all/{messageId}")
     public R<Void> updateCancelAllById(@PathVariable Long messageId) {
         sysMessageService.updateCancelAllById(messageId);
@@ -100,10 +107,11 @@ public class SysMessageController {
     }
 
     /**
-     * 撤回站内信 （对用户单一撤回）
+     * 撤回站内信 (对用户单一撤回)
      * @param messageInfoId 站内信详情ID
      */
-    @Operation(summary = "撤回站内信 （对用户单一撤回）")
+    @BLog(value = "站内信", description = "撤回站内信 (对用户单一撤回)")
+    @Operation(summary = "撤回站内信 (对用户单一撤回)")
     @PostMapping("/cancel/single/{messageInfoId}")
     public R<Void> updateCancelSingleById(@PathVariable Long messageInfoId) {
         sysMessageService.updateCancelSingleByInfoId(messageInfoId);
