@@ -6,6 +6,8 @@ import com.xht.framework.core.support.blog.enums.LogStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * 系统日志 响应信息
  *
@@ -84,12 +86,24 @@ public class BLogResponse extends MetaResponse {
     /**
      * 执行时间
      */
+    @Schema(description = "execute_time")
+    private LocalDateTime executeTime;
+
+    /**
+     * 执行时间
+     */
     @Schema(description = "执行时间")
-    private Long time;
+    private Long timing;
 
     /**
      * 异常信息
      */
     @Schema(description = "异常信息")
     private String exception;
+
+    /**
+     * 用户账号
+     */
+    @Schema(description = "用户账号")
+    private String userAccount;
 }
