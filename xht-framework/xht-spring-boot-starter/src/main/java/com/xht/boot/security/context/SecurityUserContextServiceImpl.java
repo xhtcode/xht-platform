@@ -1,12 +1,13 @@
 package com.xht.boot.security.context;
 
 import com.xht.framework.core.context.UserContextService;
-import com.xht.framework.mybatis.mapper.common.UtilsMapper;
 import com.xht.framework.oauth2.utils.SecurityUtils;
-import jakarta.annotation.Resource;
+import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDateTime;
+import java.util.Optional;
+
+import static com.xht.framework.security.constant.SecurityConstant.DEFAULT_ANONYMITY_USERNAME;
 
 /**
  * 用户上下文服务接口实现
@@ -16,9 +17,6 @@ import java.time.LocalDateTime;
 @Slf4j
 public class SecurityUserContextServiceImpl implements UserContextService {
 
-    @Resource
-    private UtilsMapper utilsMapper;
-
     /**
      * 获取当前登录用户ID
      *
@@ -26,7 +24,7 @@ public class SecurityUserContextServiceImpl implements UserContextService {
      */
     @Override
     public Long userId() {
-        return SecurityUtils.getUserId();
+        return Optional.ofNullable(SecurityUtils.getUser()).map(BasicUserDetails::getUserId).orElse(null);
     }
 
     /**
@@ -36,7 +34,7 @@ public class SecurityUserContextServiceImpl implements UserContextService {
      */
     @Override
     public String userName() {
-        return SecurityUtils.getUserName();
+        return Optional.ofNullable(SecurityUtils.getUser()).map(BasicUserDetails::getUsername).orElse(DEFAULT_ANONYMITY_USERNAME);
     }
 
     /**
@@ -46,16 +44,7 @@ public class SecurityUserContextServiceImpl implements UserContextService {
      */
     @Override
     public String nickName() {
-        return SecurityUtils.getUser().getNickName();
+        return Optional.ofNullable(SecurityUtils.getUser()).map(BasicUserDetails::getNickName).orElse(null);
     }
 
-    /**
-     * 获取系统当前时间（Java 8+推荐使用LocalDateTime，无时区问题）
-     *
-     * @return 当前时间
-     */
-    @Override
-    public LocalDateTime now() {
-        return utilsMapper.getCurrentTime();
-    }
 }

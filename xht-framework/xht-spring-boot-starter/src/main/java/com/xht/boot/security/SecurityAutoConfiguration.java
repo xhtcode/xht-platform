@@ -5,6 +5,7 @@ import com.xht.framework.core.context.UserContextService;
 import com.xht.framework.core.properties.SecurityHeaderProperties;
 import com.xht.framework.mybatis.mapper.common.UtilsMapper;
 import com.xht.framework.security.aspect.IgnoreAuthAspect;
+import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.crypto.password.BasicPasswordEncoder;
 import com.xht.framework.security.handler.SecurityExceptionHandler;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
@@ -69,7 +70,7 @@ public class SecurityAutoConfiguration {
      * @return 用户上下文服务接口实现
      */
     @Bean
-    @ConditionalOnBean(UtilsMapper.class)
+    @ConditionalOnBean({UtilsMapper.class, BasicUserDetails.class})
     public UserContextService securityUserContextServiceImpl() {
         return new SecurityUserContextServiceImpl();
     }

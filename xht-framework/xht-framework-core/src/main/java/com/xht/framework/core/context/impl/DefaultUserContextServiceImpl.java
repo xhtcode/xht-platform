@@ -18,7 +18,7 @@ public class DefaultUserContextServiceImpl implements UserContextService {
      */
     @Override
     public Long userId() {
-        return null;
+        throw new UnsupportedOperationException("Not Implemented");
     }
 
     /**
@@ -41,13 +41,4 @@ public class DefaultUserContextServiceImpl implements UserContextService {
         return "anonymity";
     }
 
-    /**
-     * 获取系统当前时间（Java 8+推荐使用LocalDateTime，无时区问题）
-     *
-     * @return 当前时间
-     */
-    @Override
-    public LocalDateTime now() {
-        return LocalDateTime.now();
-    }
 }

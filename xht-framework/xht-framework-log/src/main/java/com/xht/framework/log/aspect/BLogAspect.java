@@ -47,6 +47,9 @@ public class BLogAspect {
     @Around("@annotation(bLog)")
     @SneakyThrows
     public Object around(ProceedingJoinPoint point, BLog bLog) {
+        // 发送异步日志事件
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         BLogDTO bLogDTO = new BLogDTO();
         bLogDTO.setTraceId(TraceIdUtils.getTraceId());
         bLogDTO.setTitle(bLog.value());
@@ -69,12 +72,9 @@ public class BLogAspect {
             bLogDTO.setParams(build);
             bLogDTO.setUserAccount(SpringContextUtils.getUserContextService().userName());
         });
-        // 发送异步日志事件
-        StopWatch stopWatch = new StopWatch();
         Object obj;
         try {
             bLogDTO.setExecuteTime(LocalDateTime.now());
-            stopWatch.start();
             obj = point.proceed();
             bLogDTO.setStatus(LogStatusEnums.NORMAL);
         } catch (Exception e) {

@@ -1,7 +1,5 @@
 package com.xht.framework.core.context;
 
-import java.time.LocalDateTime;
-
 /**
  * 公共用户上下文接口
  * 统一暴露当前登录用户的核心信息和系统时间
@@ -30,12 +28,5 @@ public interface UserContextService {
      * @return 登录用户名，未登录返回null或空字符串
      */
     String nickName();
-
-    /**
-     * 获取系统当前时间（Java 8+推荐使用LocalDateTime，无时区问题）
-     *
-     * @return 当前时间
-     */
-    LocalDateTime now();
 
 }

@@ -11,6 +11,7 @@ import com.xht.framework.mybatis.domain.entity.NoneDeleteEntity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 系统日志
@@ -90,8 +91,14 @@ public class BLogEntity extends NoneDeleteEntity implements Serializable {
     /**
      * 执行时间
      */
-    @TableField(value = "time")
-    private Long time;
+    @TableField(value = "execute_time")
+    private LocalDateTime executeTime;
+
+    /**
+     * 执行时间
+     */
+    @TableField(value = "timing")
+    private Long timing;
 
     /**
      * 异常信息
@@ -99,4 +106,9 @@ public class BLogEntity extends NoneDeleteEntity implements Serializable {
     @TableField(value = "exception")
     private String exception;
 
+    /**
+     * 用户账号
+     */
+    @TableField(value = "user_account")
+    private String userAccount;
 }

@@ -81,7 +81,7 @@ public record HttpServletRequestInfo(String requestUrl, Map<String, String> para
         if (StringUtils.isEmpty(key)) {
             return null;
         }
-        return headerMap.getOrDefault(key, defaultValue);
+        return headerMap.getOrDefault(key.toLowerCase(), defaultValue);
     }
 
     /**

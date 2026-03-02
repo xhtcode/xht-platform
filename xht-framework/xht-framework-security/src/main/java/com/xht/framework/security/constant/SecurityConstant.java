@@ -63,4 +63,9 @@ public interface SecurityConstant {
      * 密码盐值链接符号
      */
     String PASSWORD_JOIN_SALT = "#";
+
+    /**
+     * 默认用户名
+     */
+    String DEFAULT_ANONYMITY_USERNAME = "anonymity";
 }

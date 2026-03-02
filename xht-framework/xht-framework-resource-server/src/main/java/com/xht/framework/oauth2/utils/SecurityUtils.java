@@ -55,8 +55,8 @@ public final class SecurityUtils {
             if (principal instanceof BasicUserDetails userDetails) {
                 return userDetails;
             }
-            throw new BasicAuthenticationException("用户认证信息获取失败！");
-        }).orElse(null);
+            throw new BasicAuthenticationException("用户认证信息不存在");
+        }).orElseThrow(() -> new BasicAuthenticationException("用户认证信息不存在"));
     }
 
     /**
@@ -65,21 +65,21 @@ public final class SecurityUtils {
      * @return 当前登录的账号
      */
     public static String getUserName() {
-        return Optional.ofNullable(getUser()).map(BasicUserDetails::getUsername).orElse(null);
+        return getUser().getUsername();
     }
 
     /**
      * 获取 spring security 当前登录的用户id
      */
     public static Long getUserId() {
-        return Optional.ofNullable(getUser()).map(BasicUserDetails::getUserId).orElse(null);
+        return getUser().getUserId();
     }
 
     /**
      * 判断当前登录用户是否为管理员
      */
     public static Boolean isAdmin() {
-        return Objects.equals(Optional.ofNullable(getUser()).map(BasicUserDetails::getUserType).orElse(null), UserTypeEnums.ADMIN);
+        return Objects.equals(getUser().getUserType(), UserTypeEnums.ADMIN);
     }
 
 

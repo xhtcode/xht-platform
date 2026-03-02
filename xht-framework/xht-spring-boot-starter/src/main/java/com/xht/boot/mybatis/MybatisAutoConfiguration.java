@@ -18,15 +18,18 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.xht.boot.mybatis.handler.MybatisPlusMetaObjectHandler;
 import com.xht.boot.mybatis.handler.MybatisPlusSecurityMetaObjectHandler;
 import com.xht.framework.core.jackson.CustomJacksonModule;
+import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.core.annotation.Order;
+
+import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 
 /**
  * 描述 ： mybatis 自动配置
@@ -111,7 +114,8 @@ public class MybatisAutoConfiguration implements CommandLineRunner {
      * 当有spring security依赖时，使用安全元对象字段填充，否则使用普通元对象字段填充
      */
     @Bean
-    @ConditionalOnClass(SecurityContextHolder.class)
+    @Order(HIGHEST_PRECEDENCE)
+    @ConditionalOnClass(BasicUserDetails.class)
     public MetaObjectHandler securityMetaObjectHandler() {
         return new MybatisPlusSecurityMetaObjectHandler();
     }
@@ -121,7 +125,8 @@ public class MybatisAutoConfiguration implements CommandLineRunner {
      * 当没有spring security依赖时，使用普通元对象字段填充
      */
     @Bean
-    @ConditionalOnMissingClass(value = "org.springframework.security.core.context.SecurityContextHolder")
+    @Order
+    @ConditionalOnMissingBean(MetaObjectHandler.class)
     public MetaObjectHandler metaObjectHandler() {
         return new MybatisPlusMetaObjectHandler();
     }

@@ -3,7 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xht.framework.mybatis.mapper.common.UtilsMapper">
-    <select id="getCurrentTime" resultType="java.time.LocalDateTime">
-        select SYSDATE()
+    <select id="getCurrentTime" resultType="java.time.LocalDateTime" databaseId="mysql">
+        select NOW(6) currentTimestamp from dual
+    </select>
+    <select id="getCurrentTime" resultType="java.time.LocalDateTime" databaseId="oracle">
+        select CURRENT_TIMESTAMP as currentTimestamp from dual
+    </select>
+    <select id="getCurrentTime" resultType="java.time.LocalDateTime" databaseId="postgres">
+        select now() currentTimestamp
     </select>
 </mapper>
