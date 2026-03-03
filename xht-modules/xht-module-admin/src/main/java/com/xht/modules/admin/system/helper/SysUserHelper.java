@@ -1,9 +1,7 @@
 package com.xht.modules.admin.system.helper;
 
 import cn.hutool.core.util.IdUtil;
-import com.xht.framework.core.enums.GenderEnums;
 import com.xht.framework.core.utils.IdCardUtils;
-import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.modules.admin.system.converter.SysUserDetailConverter;
 import com.xht.modules.admin.system.domain.form.SysUserDetailForm;
 import com.xht.modules.admin.system.domain.form.SysUserForm;
@@ -15,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -33,8 +30,6 @@ public final class SysUserHelper implements ApplicationContextAware {
 
     private static SysUserDetailConverter sysUserDetailConverter;
 
-    private static PasswordEncoder passwordEncoder;
-
     /**
      * 将表单对象转换为系统用户实体对象
      *
@@ -43,17 +38,15 @@ public final class SysUserHelper implements ApplicationContextAware {
      */
     public static SysUserEntity formatUser(SysUserForm form) {
         SysUserEntity entity = new SysUserEntity();
-        entity.setId(IdUtil.getSnowflakeNextId());
-        if (SecurityUtils.isAdmin()) {
-            entity.setUserName(form.getUserName());
-            entity.setUserType(form.getUserType());
-            entity.setUserStatus(form.getUserStatus());
-        }
+        entity.setId(Objects.requireNonNullElse(form.getId(), IdUtil.getSnowflakeNextId()));
+        entity.setUserName(form.getUserName());
+        entity.setUserType(form.getUserType());
+        entity.setUserStatus(form.getUserStatus());
         entity.setNickName(form.getNickName());
-        entity.setPassWord(passwordEncoder.encode("123456"));
-        entity.setPassWordSalt(passwordEncoder.encode("123456"));
+        entity.setPassWord(null);
+        entity.setPassWordSalt(null);
         entity.setUserPhone(form.getUserPhone());
-        entity.setUserAvatar("/images/user/avatar.png");
+        entity.setUserAvatar(form.getUserAvatar());
         entity.setDeptId(form.getDeptId());
         entity.setDeptName(form.getDeptName());
         return entity;
@@ -64,20 +57,18 @@ public final class SysUserHelper implements ApplicationContextAware {
      * 格式化用户信息，将表单数据转换为实体对象并填充身份证相关信息
      *
      * @param detail 用户表单数据
-     * @param idCard 身份证号码
      * @param userId 用户ID
      * @return 格式化后的用户实体对象
      */
-    public static SysUserDetailEntity formatUser(SysUserDetailForm detail, String idCard, Long userId) {
+    public static SysUserDetailEntity formatUser(SysUserDetailForm detail, Long userId) {
+        String idCard = detail.getIdCard();
         SysUserDetailEntity detailEntity = sysUserDetailConverter.toEntity(detail);
         LocalDate now = LocalDate.now();
-        // 从身份证中提取性别和出生日期信息
-        GenderEnums gender = IdCardUtils.getGender(idCard);
-        LocalDate birthDate = IdCardUtils.getBirthday(idCard).orElse(now);
         // 设置用户基本信息
         detailEntity.setUserId(userId);
-        detailEntity.setGender(Objects.requireNonNullElse(detail.getGender(), gender));
-        detailEntity.setBirthDate(Objects.requireNonNullElse(detail.getBirthDate(), birthDate));
+        detailEntity.setGender(Objects.requireNonNullElse(detail.getGender(), IdCardUtils.getGender(idCard)));
+        LocalDate birthDate = Objects.requireNonNullElse(detail.getBirthDate(), IdCardUtils.getBirthday(idCard).orElse(now));
+        detailEntity.setBirthDate(birthDate);
         detailEntity.setAge(Objects.requireNonNullElse(detail.getAge(), now.getYear() - birthDate.getYear()));
         return detailEntity;
     }
@@ -86,6 +77,5 @@ public final class SysUserHelper implements ApplicationContextAware {
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         sysUserDetailConverter = applicationContext.getBean(SysUserDetailConverter.class);
-        passwordEncoder = applicationContext.getBean(PasswordEncoder.class);
     }
 }

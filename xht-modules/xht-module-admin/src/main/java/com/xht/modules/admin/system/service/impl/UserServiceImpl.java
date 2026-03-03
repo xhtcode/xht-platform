@@ -83,7 +83,7 @@ public class UserServiceImpl implements IUserService {
         ThrowUtils.throwIf(userIdCardExists, BusinessErrorCode.DATA_EXIST, "该身份证号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
         // 格式化数据类型
         SysUserEntity sysUser = SysUserHelper.formatUser(userForm);
-        SysUserDetailEntity detailEntity = SysUserHelper.formatUser(detail, idCard, sysUser.getId());
+        SysUserDetailEntity detailEntity = SysUserHelper.formatUser(detail, sysUser.getId());
         sysUserDetailDao.saveUserInfo(sysUser, detailEntity);
     }
 
@@ -122,7 +122,12 @@ public class UserServiceImpl implements IUserService {
         ThrowUtils.throwIf(userIdCardExists, BusinessErrorCode.DATA_EXIST, "该身份证号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
         // 格式化数据类型
         SysUserEntity sysUser = SysUserHelper.formatUser(userForm);
-        SysUserDetailEntity detailEntity = SysUserHelper.formatUser(detail, idCard, userId);
+        String password = PassWordUtils.generatePassword();
+        String passwordSalt = PassWordUtils.generatePasswordSalt();
+        sysUser.setUserStatus(UserStatusEnums.EXPIRED);
+        sysUser.setPassWord(PassWordUtils.encodePassword(password, passwordSalt));
+        sysUser.setPassWordSalt(passwordSalt);
+        SysUserDetailEntity detailEntity = SysUserHelper.formatUser(detail, userId);
         sysUserDetailDao.updateUserInfo(sysUser, detailEntity);
     }
 
@@ -134,9 +139,12 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void resetPassword(Long userId) {
+        SysUserEntity sysUserEntity = sysUserDao.findOptionalById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST, "用户不存在"));
         String password = PassWordUtils.generatePassword();
         String passwordSalt = PassWordUtils.generatePasswordSalt();
         sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(password, passwordSalt), passwordSalt);
+        String userPhone = sysUserEntity.getUserPhone();
+        log.info("用户{}密码已重置为`{}`,开始向{}发送短信", userId, password, userPhone);
     }
 
     /**
@@ -166,9 +174,8 @@ public class UserServiceImpl implements IUserService {
         if (PassWordUtils.matchPassword(confirmPassword, sysUserEntity.getPassWordSalt(), sysUserEntity.getPassWord())) {
             throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "修改密码与原密码相同");
         }
-        String password = PassWordUtils.generatePassword();
         String passwordSalt = PassWordUtils.generatePasswordSalt();
-        sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(password, passwordSalt), passwordSalt);
+        sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(newPassword, passwordSalt), passwordSalt);
     }
 
     /**

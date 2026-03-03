@@ -1,6 +1,7 @@
 package com.xht.framework.web.convert;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
+import com.xht.framework.core.enums.XhtEnum;
+import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
@@ -16,12 +17,12 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author xht
  */
 @Slf4j
-public class IEnumsSerializableConverterFactory implements ConverterFactory<String, IEnum<Serializable>> {
+public class XhtEnumsSerializableConverterFactory implements ConverterFactory<String, XhtEnum<Serializable>> {
 
     /**
      * 缓存转换器实例，key为枚举类型，value为对应的转换器
      */
-    private static final Map<Class<? extends IEnum<Serializable>>, Converter<String, ? extends IEnum<Serializable>>> CONVERTER_CACHE =
+    private static final Map<Class<? extends XhtEnum<Serializable>>, Converter<String, ? extends XhtEnum<Serializable>>> CONVERTER_CACHE =
             new ConcurrentHashMap<>();
 
     /**
@@ -34,15 +35,16 @@ public class IEnumsSerializableConverterFactory implements ConverterFactory<Stri
      * @throws IllegalArgumentException 如果目标类型不是有效的枚举类型
      */
     @Override
+    @Nonnull
     @SuppressWarnings("unchecked")
-    public <T extends IEnum<Serializable>> Converter<String, T> getConverter(Class<T> targetType) {
+    public <T extends XhtEnum<Serializable>> Converter<String, T> getConverter(@Nonnull Class<T> targetType) {
         // 验证目标类型有效性
         validateTargetType(targetType);
         // 从缓存获取或创建转换器
-        Converter<String, ? extends IEnum<Serializable>> converter = CONVERTER_CACHE.get(targetType);
+        Converter<String, ? extends XhtEnum<Serializable>> converter = CONVERTER_CACHE.get(targetType);
         if (converter == null) {
             log.debug("为枚举类型 [{}] 创建新的转换器实例", targetType.getName());
-            converter = new IEnumsSerializableConvert(targetType);
+            converter = new XhtEnumsSerializableConvert(targetType);
             CONVERTER_CACHE.put(targetType, converter);
         }
         return (Converter<String, T>) converter;
@@ -54,12 +56,12 @@ public class IEnumsSerializableConverterFactory implements ConverterFactory<Stri
      * @param targetType 目标类型
      * @throws IllegalArgumentException 如果类型无效则抛出异常
      */
-    private <T extends IEnum<Serializable>> void validateTargetType(Class<T> targetType) {
+    private <T extends XhtEnum<Serializable>> void validateTargetType(Class<T> targetType) {
         if (!targetType.isEnum()) {
             throw new IllegalArgumentException("目标类型 [" + targetType.getName() + "] 不是枚举类型");
         }
-        if (!IEnum.class.isAssignableFrom(targetType)) {
-            throw new IllegalArgumentException("目标类型 [" + targetType.getName() + "] 未实现IEnum接口");
+        if (!XhtEnum.class.isAssignableFrom(targetType)) {
+            throw new IllegalArgumentException("目标类型 [" + targetType.getName() + "] 未实现XhtEnum接口");
         }
     }
 }

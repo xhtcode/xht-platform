@@ -52,14 +52,17 @@ public class SysUserDetailDaoImpl extends MapperRepositoryImpl<SysUserDetailMapp
         //@formatter:off
         LambdaUpdateWrapper<SysUserEntity> userWrapper = new LambdaUpdateWrapper<>();
         userWrapper
-                .set(SysUserEntity::getNickName, sysUserEntity.getUserPhone())
-                .set(SysUserEntity::getUserStatus, sysUserEntity.getUserStatus())
-                .set(SysUserEntity::getUserPhone, sysUserEntity.getUserPhone())
-                .set(SysUserEntity::getDeptId, sysUserEntity.getDeptId())
-                .set(SysUserEntity::getDeptName, sysUserEntity.getDeptName())
+                .set(condition(sysUserEntity.getUserType()), SysUserEntity::getUserType, sysUserEntity.getUserType())
+                .set(condition(sysUserEntity.getUserName()), SysUserEntity::getUserName, sysUserEntity.getUserName())
+                .set(condition(sysUserEntity.getNickName()), SysUserEntity::getNickName, sysUserEntity.getNickName())
+                .set(condition(sysUserEntity.getUserStatus()), SysUserEntity::getUserStatus, sysUserEntity.getUserStatus())
+                .set(condition(sysUserEntity.getUserPhone()), SysUserEntity::getUserPhone, sysUserEntity.getUserPhone())
+                .set(condition(sysUserEntity.getUserAvatar()), SysUserEntity::getUserAvatar, sysUserEntity.getUserAvatar())
+                .set(condition(sysUserEntity.getDeptId()), SysUserEntity::getDeptId, sysUserEntity.getDeptId())
+                .set(condition(sysUserEntity.getDeptName()), SysUserEntity::getDeptName, sysUserEntity.getDeptName())
                 .eq(SysUserEntity::getId, sysUserEntity.getId());
-        LambdaUpdateWrapper<SysUserDetailEntity> userAdminWrapper = new LambdaUpdateWrapper<>();
-        userAdminWrapper
+        LambdaUpdateWrapper<SysUserDetailEntity> userDetailUpdateWrapper = new LambdaUpdateWrapper<>();
+        userDetailUpdateWrapper
                 .set(condition(sysUserDetailEntity.getRealName()), SysUserDetailEntity::getRealName, sysUserDetailEntity.getRealName())
                 .set(condition(sysUserDetailEntity.getIdCard()), SysUserDetailEntity::getIdCard, sysUserDetailEntity.getIdCard())
                 .set(condition(sysUserDetailEntity.getGender()), SysUserDetailEntity::getGender, sysUserDetailEntity.getGender())
@@ -71,7 +74,7 @@ public class SysUserDetailDaoImpl extends MapperRepositoryImpl<SysUserDetailMapp
                 .set(condition(sysUserDetailEntity.getNation()), SysUserDetailEntity::getNation, sysUserDetailEntity.getNation())
                 .eq(SysUserDetailEntity::getUserId, sysUserEntity.getId());
         //@formatter:on
-        update(userAdminWrapper);
+        update(userDetailUpdateWrapper);
         sysUserMapper.update(userWrapper);
     }
 

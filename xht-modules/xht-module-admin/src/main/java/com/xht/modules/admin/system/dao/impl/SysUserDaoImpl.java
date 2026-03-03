@@ -38,7 +38,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
     public void updatePassword(Long userId, String newPassword, String passWordSalt) {
         LambdaUpdateWrapper<SysUserEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.set(SysUserEntity::getPassWord, newPassword);
-        lambdaUpdateWrapper.set(SysUserEntity::getPassWordSalt, newPassword);
+        lambdaUpdateWrapper.set(SysUserEntity::getPassWordSalt, passWordSalt);
         lambdaUpdateWrapper.eq(SysUserEntity::getId, userId);
         update(lambdaUpdateWrapper);
     }

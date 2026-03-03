@@ -1,6 +1,6 @@
 package com.xht.boot.servlet;
 
-import com.xht.framework.web.convert.IEnumsSerializableConverterFactory;
+import com.xht.framework.web.convert.XhtEnumsSerializableConverterFactory;
 import com.xht.framework.web.handler.DefaultGlobalExceptionHandler;
 import com.xht.framework.web.interceptor.TraceIdInterceptor;
 import com.xht.framework.web.xss.XSSProperties;
@@ -43,7 +43,7 @@ public class WebServletAutoConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverterFactory(new IEnumsSerializableConverterFactory());
+        registry.addConverterFactory(new XhtEnumsSerializableConverterFactory());
     }
 
     /**

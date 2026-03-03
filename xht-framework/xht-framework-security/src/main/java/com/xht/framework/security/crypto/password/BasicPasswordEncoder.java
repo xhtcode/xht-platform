@@ -3,11 +3,8 @@ package com.xht.framework.security.crypto.password;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.secret.MD5Utils;
-import com.xht.framework.security.constant.SecurityConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Objects;
 
 @Slf4j
 public class BasicPasswordEncoder implements PasswordEncoder {
@@ -46,10 +43,6 @@ public class BasicPasswordEncoder implements PasswordEncoder {
         if (!StringUtils.hasText(encodedPassword)) {
             return false;
         }
-        String[] passWord = StringUtils.split(encodedPassword, SecurityConstant.PASSWORD_JOIN_SALT);
-        if (Objects.isNull(passWord) || passWord.length != 2) {
-            return StringUtils.equals(encodedPassword, MD5Utils.generateSignature(rawPassword.toString()));
-        }
-        return StringUtils.equals(passWord[0], MD5Utils.generateSignature(rawPassword + "{" + passWord[1] + "}"));
+        return StringUtils.equals(encode(rawPassword), encodedPassword);
     }
 }

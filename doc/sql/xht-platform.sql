@@ -372,7 +372,7 @@ CREATE TABLE `sys_user`
     `user_name`      varchar(50)  NOT NULL COMMENT '用户账号',
     `nick_name`      varchar(15)  NOT NULL COMMENT '用户昵称',
     `pass_word`      varchar(200) NOT NULL COMMENT '用户密码',
-    `pass_word_salt` varchar(10) NULL DEFAULT NULL COMMENT '密码盐值',
+    `pass_word_salt` varchar(30) NULL DEFAULT NULL COMMENT '密码盐值',
     `user_status`    tinyint      NOT NULL DEFAULT 1 COMMENT '账号状态',
     `user_phone`     varchar(11) NULL DEFAULT NULL COMMENT '手机号码',
     `user_avatar`    varchar(200) NULL DEFAULT NULL COMMENT '头像地址',
