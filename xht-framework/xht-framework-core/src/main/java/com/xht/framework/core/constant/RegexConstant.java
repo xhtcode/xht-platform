@@ -37,6 +37,6 @@ public final class RegexConstant {
     /**
      * 部门编码
      */
-    public final static String DEPT_CODE = "^[A-Z]{2,5}\\d{3,6}$";
+    public final static String DEPT_CODE = "^[A-Z]{1,5}\\d{6}$";
 }
 

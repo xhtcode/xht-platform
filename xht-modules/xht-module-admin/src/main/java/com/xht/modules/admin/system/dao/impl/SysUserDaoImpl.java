@@ -91,7 +91,11 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
             queryWrapper.eq(condition(userStatus), SysUserEntity::getUserStatus, userStatus);
             queryWrapper.like(condition(userPhone), SysUserEntity::getUserPhone, userPhone);
         }
-        queryWrapper.eq(condition(query.getDeptId()), SysUserEntity::getDeptId, query.getDeptId());
+        if (condition(query.getDeptId())){
+            queryWrapper.eq(SysUserEntity::getDeptId, query.getDeptId());
+        }else {
+            queryWrapper.isNull(SysUserEntity::getDeptId);
+        }
         return page(page, queryWrapper);
     }
 

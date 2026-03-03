@@ -23,7 +23,7 @@ public class GenDataSourceEntity extends BasicEntity implements Serializable {
     /**
      * 数据源ID
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**

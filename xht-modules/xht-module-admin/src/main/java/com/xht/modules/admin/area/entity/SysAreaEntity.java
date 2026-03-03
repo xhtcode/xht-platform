@@ -20,7 +20,7 @@ public class SysAreaEntity extends DeleteEntity {
     /**
      * 主键
      */
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     /**

@@ -53,11 +53,14 @@ springdoc:
     - /actuator/**
     - /favicon.ico
 xht:
-  blog:
-    repository-type: jdbc
   global:
     banner:
       enable: true
+  dept:
+    init:
+      posts:
+        - post-code: 董事长
+        - post-code: aaa
 
 mybatis-plus:
   configuration:

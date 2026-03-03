@@ -6,7 +6,7 @@
 
     <resultMap id="BaseResultMap" type="com.xht.modules.admin.system.domain.response.SysPostResponse">
         <id property="id" column="t2_id"/>
-        <result property="postStatus" column="t1_post_status"/>
+        <result property="postStatus" column="t2_post_status"/>
         <result property="postCode" column="t2_post_code"/>
         <result property="postName" column="t2_post_name"/>
         <result property="postSort" column="t2_post_sort"/>
@@ -26,9 +26,6 @@
         t2.post_name as t2_post_name,
         t2.post_sort as t2_post_sort,
         t2.post_status as t2_post_status,
-        t2.post_limit as t2_post_limit,
-        t2.post_have as t2_post_have,
-        t2.system_flag as t2_system_flag,
         t2.remark as t2_remark,
         t2.create_time as t2_create_time,
         t2.create_by as t2_create_by,
