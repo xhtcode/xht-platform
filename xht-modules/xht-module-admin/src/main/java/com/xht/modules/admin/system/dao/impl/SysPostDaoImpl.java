@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.admin.system.dao.SysPostDao;
 import com.xht.modules.admin.system.dao.mapper.SysPostMapper;
@@ -16,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -63,39 +61,6 @@ public class SysPostDaoImpl extends MapperRepositoryImpl<SysPostMapper, SysPostE
         update(updateWrapper);
     }
 
-
-    /**
-     * 验证部门岗位是否系统内置
-     *
-     * @param deptPostId 部门岗位ID
-     * @param systemFlag 系统内置标识
-     * @return 系统内置标识
-     */
-    @Override
-    public Boolean validateSystemFlag(Long deptPostId, SystemFlagEnums systemFlag) {
-        LambdaQueryWrapper<SysPostEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.select(SysPostEntity::getSystemFlag);
-        lambdaQueryWrapper.eq(SysPostEntity::getId, deptPostId);
-        lambdaQueryWrapper.eq(SysPostEntity::getSystemFlag, systemFlag);
-        return SqlHelper.retCount(count(lambdaQueryWrapper)) == 1;
-    }
-
-    /**
-     * 验证部门岗位是否系统内置
-     *
-     * @param deptPostIds 部门岗位ID
-     * @param systemFlag  系统内置标识
-     * @return 系统内置标识
-     */
-    @Override
-    public Boolean validateSystemFlag(List<Long> deptPostIds, SystemFlagEnums systemFlag) {
-        LambdaQueryWrapper<SysPostEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.select(SysPostEntity::getSystemFlag);
-        lambdaQueryWrapper.eq(SysPostEntity::getId, deptPostIds);
-        lambdaQueryWrapper.eq(SysPostEntity::getSystemFlag, systemFlag);
-        return SqlHelper.retCount(count(lambdaQueryWrapper)) == deptPostIds.size();
-    }
-
     /**
      * 分页查询部门岗位信息
      *
@@ -118,6 +83,11 @@ public class SysPostDaoImpl extends MapperRepositoryImpl<SysPostMapper, SysPostE
         } else {
             queryWrapper.like(condition(query.getPostCode()), SysPostEntity::getPostCode, query.getPostCode());
             queryWrapper.like(condition(query.getPostName()), SysPostEntity::getPostName, query.getPostName());
+        }
+        if (condition(query.getDeptId())) {
+            queryWrapper.eq(SysPostEntity::getDeptId, query.getDeptId());
+        } else {
+            queryWrapper.isNull(SysPostEntity::getDeptId);
         }
         return page(page, queryWrapper);
     }

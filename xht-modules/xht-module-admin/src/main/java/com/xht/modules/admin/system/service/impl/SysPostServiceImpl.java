@@ -2,7 +2,6 @@ package com.xht.modules.admin.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
@@ -30,7 +29,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SysPostServiceImpl implements ISysPostService {
 
-
     private final SysPostDao sysPostDao;
 
     private final SysPostConverter sysPostConverter;
@@ -56,8 +54,6 @@ public class SysPostServiceImpl implements ISysPostService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void removeById(Long id) {
-        Boolean systemFlag = sysPostDao.validateSystemFlag(id, SystemFlagEnums.YES);
-        ThrowUtils.throwIf(systemFlag, BusinessErrorCode.DATA_TYPE_ERROR, "系统内置岗位，禁止删除");
         sysPostDao.removeById(id);
     }
 
@@ -70,8 +66,6 @@ public class SysPostServiceImpl implements ISysPostService {
     @Transactional(rollbackFor = Exception.class)
     public void removeByIds(List<Long> ids) {
         ThrowUtils.notNull(ids, BusinessErrorCode.PARAM_ERROR);
-        Boolean systemFlag = sysPostDao.validateSystemFlag(ids, SystemFlagEnums.YES);
-        ThrowUtils.throwIf(systemFlag, BusinessErrorCode.DATA_TYPE_ERROR, "选择得到的数据中存在系统内置岗位，禁止删除");
         sysPostDao.removeAllById(ids);
     }
 
@@ -82,8 +76,6 @@ public class SysPostServiceImpl implements ISysPostService {
      */
     @Override
     public void updateById(SysPostForm form) {
-        Boolean systemFlag = sysPostDao.validateSystemFlag(form.getId(), SystemFlagEnums.YES);
-        ThrowUtils.throwIf(systemFlag, BusinessErrorCode.DATA_TYPE_ERROR, "系统内置岗位禁止修改");
         Boolean postCodeExists = sysPostDao.existsPostCode(form.getPostCode(), form.getId());
         ThrowUtils.throwIf(postCodeExists, BusinessErrorCode.DATA_NOT_EXIST, "岗位编码已存在");
         sysPostDao.updateFormRequest(form);

@@ -52,12 +52,6 @@ public class SysPostResponse extends MetaResponse {
     private DeptPostStatusEnums postStatus;
 
     /**
-     * 系统内置
-     */
-    @Schema(description = "系统内置")
-    private SystemFlagEnums systemFlag;
-
-    /**
      * 岗位描述
      */
     @Schema(description = "岗位描述")

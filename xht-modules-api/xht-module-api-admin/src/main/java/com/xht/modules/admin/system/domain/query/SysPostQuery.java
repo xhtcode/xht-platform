@@ -1,7 +1,6 @@
 package com.xht.modules.admin.system.domain.query;
 
 import com.xht.framework.core.domain.query.PageBasicQuery;
-import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.modules.admin.system.enums.DeptPostStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -39,9 +38,4 @@ public class SysPostQuery extends PageBasicQuery {
     @Schema(description = "岗位状态")
     private DeptPostStatusEnums postStatus;
 
-    /**
-     * 系统内置
-     */
-    @Schema(description = "系统内置")
-    private SystemFlagEnums systemFlag;
 }

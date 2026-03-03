@@ -1,13 +1,10 @@
 package com.xht.modules.admin.system.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.system.domain.form.SysPostForm;
 import com.xht.modules.admin.system.domain.query.SysPostQuery;
 import com.xht.modules.admin.system.entity.SysPostEntity;
-
-import java.util.List;
 
 /**
  * 部门岗位管理
@@ -31,24 +28,6 @@ public interface SysPostDao extends MapperRepository<SysPostEntity> {
      * @param form 岗位信息
      */
     void updateFormRequest(SysPostForm form);
-
-    /**
-     * 验证部门岗位是否系统内置
-     *
-     * @param deptPostId 部门岗位ID
-     * @param systemFlag 系统内置标识
-     * @return 系统内置标识
-     */
-    Boolean validateSystemFlag(Long deptPostId, SystemFlagEnums systemFlag);
-
-    /**
-     * 验证部门岗位是否系统内置
-     *
-     * @param deptPostIds 部门岗位ID
-     * @param systemFlag  系统内置标识
-     * @return 系统内置标识
-     */
-    Boolean validateSystemFlag(List<Long> deptPostIds, SystemFlagEnums systemFlag);
 
     /**
      * 分页查询部门岗位信息
