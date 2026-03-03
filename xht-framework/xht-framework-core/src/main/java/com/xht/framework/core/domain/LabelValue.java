@@ -20,15 +20,16 @@ public final class LabelValue<K extends Serializable, V extends Serializable> im
     private static final long serialVersionUID = 1L;
 
     /**
+     * 展示文本
+     */
+    private V label;
+
+    /**
      * 绑定值
      * 泛型设计，支持多类型，无需强制类型转换
      */
     private K value;
 
-    /**
-     * 展示文本
-     */
-    private V label;
 
     /**
      * 静态工厂方法，快速创建 LabelValue 实例（比new更简洁）
@@ -38,8 +39,8 @@ public final class LabelValue<K extends Serializable, V extends Serializable> im
      * @param value 绑定值
      * @return LabelValue 实例
      */
-    public static <K extends Serializable, V extends Serializable> LabelValue<K, V> of(K value, V label) {
-        return new LabelValue<>(value, label);
+    public static <K extends Serializable, V extends Serializable> LabelValue<K, V> of(V label, K value) {
+        return new LabelValue<>(label, value);
     }
 
 }

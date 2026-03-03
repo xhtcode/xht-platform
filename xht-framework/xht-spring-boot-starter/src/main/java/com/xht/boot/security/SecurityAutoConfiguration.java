@@ -12,7 +12,6 @@ import com.xht.framework.security.properties.PermitAllUrlProperties;
 import com.xht.framework.security.properties.TokenLightningCacheProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -70,7 +69,7 @@ public class SecurityAutoConfiguration {
      * @return 用户上下文服务接口实现
      */
     @Bean
-    @ConditionalOnBean({UtilsMapper.class, BasicUserDetails.class})
+    @ConditionalOnClass({UtilsMapper.class, BasicUserDetails.class})
     public UserContextService securityUserContextServiceImpl() {
         return new SecurityUserContextServiceImpl();
     }

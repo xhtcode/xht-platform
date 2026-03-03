@@ -9,6 +9,17 @@ package com.xht.framework.core.context;
 public interface UserContextService {
 
     /**
+     * 默认用户名
+     */
+    String DEFAULT_ANONYMITY_USERNAME = "anonymity";
+
+    /**
+     * 默认用户ID
+     */
+    Long DEFAULT_ANONYMITY_USERID = -1L;
+
+
+    /**
      * 获取当前登录用户ID
      *
      * @return 登录用户ID，未登录返回null

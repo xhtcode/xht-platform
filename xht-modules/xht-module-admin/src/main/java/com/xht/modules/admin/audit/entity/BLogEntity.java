@@ -1,38 +1,27 @@
 package com.xht.modules.admin.audit.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import com.xht.framework.core.domain.HttpServletRequestInfo;
+import com.baomidou.mybatisplus.annotation.*;
 import com.xht.framework.core.support.blog.enums.LogStatusEnums;
-import com.xht.framework.mybatis.domain.entity.NoneDeleteEntity;
+import com.xht.framework.mybatis.domain.entity.Entity;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 系统日志
+ * 系统日志表
  *
  * @author xht
- **/
+ */
 @Data
-@TableName(value = "b_log", autoResultMap = true)
-public class BLogEntity extends NoneDeleteEntity implements Serializable {
+@TableName(value = "b_log")
+public class BLogEntity extends Entity implements Serializable {
 
     /**
-     * ID
+     * 主键ID
      */
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
-
-    /**
-     * 链路追踪id
-     */
-    @TableField(value = "trace_id")
-    private String traceId;
 
     /**
      * 日志名称
@@ -41,74 +30,87 @@ public class BLogEntity extends NoneDeleteEntity implements Serializable {
     private String title;
 
     /**
-     * 服务名称
+     * 日志描述
+     */
+    @TableField(value = "log_desc")
+    private String logDesc;
+
+    /**
+     * 链路ID（全局唯一，如UUID）
+     */
+    @TableField(value = "trace_id")
+    private String traceId;
+
+    /**
+     * 服务名称（如demo-service）
      */
     @TableField(value = "service_name")
     private String serviceName;
 
     /**
-     * 日志描述
+     * 类名加方法名（如com.demo.controller.UserController.queryUser）
      */
-    @TableField(value = "description")
-    private String description;
+    @TableField(value = "class_method")
+    private String classMethod;
 
     /**
-     * 日志状态
+     * 调用参数（GET/POST参数，JSON格式）
      */
-    @TableField(value = "status")
-    private LogStatusEnums status;
+    @TableField(value = "request_params")
+    private String requestParams;
 
     /**
-     * 操作IP地址
+     * 服务器地址（如192.168.1.100）
      */
-    @TableField(value = "remote_addr")
-    private String remoteAddr;
+    @TableField(value = "server_addr")
+    private String serverAddr;
 
     /**
-     * 用户代理
+     * 请求IP（客户端真实IP）
      */
-    @TableField(value = "user_agent")
-    private String userAgent;
+    @TableField(value = "request_ip")
+    private String requestIp;
 
     /**
-     * 请求URI
+     * 请求头信息（JSON格式）
      */
-    @TableField(value = "request_uri")
-    private String requestUri;
+    @TableField(value = "request_headers")
+    private String requestHeaders;
 
     /**
-     * 操作方式
+     * 请求账号（未登录为匿名）
      */
-    @TableField(value = "method")
-    private String method;
+    @TableField(value = "request_account")
+    private String requestAccount;
 
     /**
-     * 操作提交的数据
+     * 请求类型（GET/POST/PUT/DELETE等）
      */
-    @TableField(value = "params" , typeHandler = JacksonTypeHandler.class)
-    private HttpServletRequestInfo params;
+    @TableField(value = "request_type")
+    private String requestType;
 
     /**
-     * 执行时间
+     * 执行时间（请求开始时间）
      */
     @TableField(value = "execute_time")
     private LocalDateTime executeTime;
 
     /**
-     * 执行时间
+     * 执行耗时（单位：毫秒）
      */
-    @TableField(value = "timing")
-    private Long timing;
+    @TableField(value = "execute_cost")
+    private Long executeCost;
 
     /**
-     * 异常信息
+     * 执行状态（success：成功，fail：失败）
      */
-    @TableField(value = "exception")
-    private String exception;
+    @TableField(value = "execute_status")
+    private LogStatusEnums executeStatus;
 
     /**
-     * 用户账号
+     * 执行异常信息（失败时存储异常堆栈）
      */
-    @TableField(value = "user_account")
-    private String userAccount;
+    @TableField(value = "execute_exception")
+    private String executeException;
+
 }

@@ -12,7 +12,6 @@ import lombok.Data;
 @Data
 @Schema(description = "修改密码请求参数")
 public class UpdatePwdFrom extends BasicForm {
-    // todo : 待完善后期可能补充手机号，以前的密码密保等选项暂定
 
     /**
      * 旧密码

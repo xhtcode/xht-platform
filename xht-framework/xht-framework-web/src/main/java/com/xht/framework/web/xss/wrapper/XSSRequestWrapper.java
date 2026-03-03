@@ -4,6 +4,8 @@ import cn.hutool.http.HTMLFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -88,4 +90,8 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
         return htmlFilter.filter(value);
     }
 
+    @Override
+    public BufferedReader getReader() throws IOException {
+        return super.getReader();
+    }
 }

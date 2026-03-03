@@ -55,6 +55,11 @@ public interface StringConstant {
     String EMPTY = "";
 
     /**
+     * 空对象
+     */
+    String EMPTY_JSON = "{}";
+
+    /**
      * 全局通用 冒号
      */
     String COLON = Character.toString(CharacterConstant.COLON);
@@ -63,5 +68,15 @@ public interface StringConstant {
      * 星号
      */
     String ASTERISK = Character.toString(CharacterConstant.ASTERISK);
+
+    /**
+     * 左括号.
+     */
+    String LEFT_PARENTHESIS = Character.toString(CharacterConstant.LEFT_PARENTHESIS);
+
+    /**
+     * 右括号.
+     */
+    String RIGHT_PARENTHESIS = Character.toString(CharacterConstant.RIGHT_PARENTHESIS);
 
 }

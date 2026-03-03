@@ -21,21 +21,27 @@ public class BLogQuery extends PageBasicQuery {
     private String title;
 
     /**
+     * 日志描述
+     */
+    @Schema(description = "日志描述")
+    private String logDesc;
+
+    /**
+     * 链路ID（全局唯一，如UUID）
+     */
+    @Schema(description = "链路ID")
+    private String traceId;
+
+    /**
      * 服务名称
      */
     @Schema(description = "服务名称")
     private String serviceName;
 
     /**
-     * 日志描述
-     */
-    @Schema(description = "日志描述")
-    private String description;
-
-    /**
      * 日志状态
      */
     @Schema(description = "日志状态")
-    private LogStatusEnums status;
+    private LogStatusEnums executeStatus;
 
 }

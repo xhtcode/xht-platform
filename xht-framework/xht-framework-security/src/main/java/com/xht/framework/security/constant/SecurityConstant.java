@@ -1,5 +1,7 @@
 package com.xht.framework.security.constant;
 
+import com.xht.framework.core.context.UserContextService;
+
 /**
  * 描述 ： security 常量
  *
@@ -67,5 +69,5 @@ public interface SecurityConstant {
     /**
      * 默认用户名
      */
-    String DEFAULT_ANONYMITY_USERNAME = "anonymity";
+    String DEFAULT_ANONYMITY_USERNAME = UserContextService.DEFAULT_ANONYMITY_USERNAME;
 }

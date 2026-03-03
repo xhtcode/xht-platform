@@ -8,13 +8,13 @@ import com.xht.framework.core.exception.code.BusinessErrorCode;
 import com.xht.framework.core.exception.code.UserErrorCode;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.core.utils.secret.MD5Utils;
 import com.xht.framework.core.utils.tree.INode;
 import com.xht.framework.core.utils.tree.TreeNode;
 import com.xht.framework.core.utils.tree.TreeUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
+import com.xht.framework.security.utils.PassWordUtils;
 import com.xht.modules.admin.router.RouterUtils;
 import com.xht.modules.admin.router.dto.RouterDTO;
 import com.xht.modules.admin.system.converter.SysUserConverter;
@@ -134,7 +134,9 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void resetPassword(Long userId) {
-        sysUserDao.updatePassword(userId, MD5Utils.generateSignature("123456"),"");
+        String password = PassWordUtils.generatePassword();
+        String passwordSalt = PassWordUtils.generatePasswordSalt();
+        sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(password, passwordSalt), passwordSalt);
     }
 
     /**
@@ -152,14 +154,21 @@ public class UserServiceImpl implements IUserService {
         String oldPassword = form.getOldPassword();
         String newPassword = form.getNewPassword();
         String confirmPassword = form.getConfirmPassword();
-        String md5OldPassword = MD5Utils.generateSignature(oldPassword);
-        if (!StringUtils.equals(md5OldPassword, sysUserEntity.getPassWord())) {
+        if (!PassWordUtils.matchPassword(oldPassword, sysUserEntity.getPassWordSalt(), sysUserEntity.getPassWord())) {
             throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "旧密码错误");
         }
         if (!StringUtils.equals(newPassword, confirmPassword)) {
             throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "两次密码输入不一致");
         }
-        sysUserDao.updatePassword(userId, MD5Utils.generateSignature(form.getNewPassword()),"");
+        if (PassWordUtils.matchPassword(newPassword, sysUserEntity.getPassWordSalt(), sysUserEntity.getPassWord())) {
+            throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "修改密码与原密码相同");
+        }
+        if (PassWordUtils.matchPassword(confirmPassword, sysUserEntity.getPassWordSalt(), sysUserEntity.getPassWord())) {
+            throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "修改密码与原密码相同");
+        }
+        String password = PassWordUtils.generatePassword();
+        String passwordSalt = PassWordUtils.generatePasswordSalt();
+        sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(password, passwordSalt), passwordSalt);
     }
 
     /**

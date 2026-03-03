@@ -31,7 +31,7 @@ CREATE TABLE `sys_calendar`
     `id`        bigint  NOT NULL AUTO_INCREMENT COMMENT '主键',
     `date_info` date    NOT NULL COMMENT '日期时间',
     `date_type` char(1) NOT NULL COMMENT '日期类型',
-    `date_week` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci NULL DEFAULT NULL COMMENT '周几',
+    `date_week` varchar(5) DEFAULT NULL COMMENT '周几',
     `remark`    varchar(255) NULL DEFAULT NULL COMMENT '备注',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4233  ROW_FORMAT = Dynamic;
@@ -447,30 +447,21 @@ CREATE TABLE `sys_user_role`
 DROP TABLE IF EXISTS `b_log`;
 CREATE TABLE `b_log`
 (
-    `id`           bigint       NOT NULL COMMENT '主键ID',
-    `trace_id`     varchar(36)  NULL COMMENT '链路追踪id',
-    `title`        varchar(100) NULL COMMENT '日志名称',
-    `service_name` varchar(50)  NULL COMMENT '服务名称',
-    `description`  varchar(200) NULL COMMENT '日志描述',
-    `status`       varchar(32)  NULL COMMENT '日志状态（SUCCESS:成功;FAIL:失败）',
-    `remote_addr`  varchar(128) NULL COMMENT '操作IP地址',
-    `user_agent`   varchar(200) NULL DEFAULT NULL COMMENT '用户代理（浏览器/客户端信息）',
-    `request_uri`  varchar(512) NULL COMMENT '请求URI',
-    `method`       varchar(16)  NULL COMMENT '请求方式（GET/POST/PUT/DELETE等）',
-    `params`       json         NULL COMMENT '操作提交的数据',
-    `execute_time` datetime     NULL DEFAULT NULL COMMENT '执行开始时间',
-    `timing`       varchar(18)  NULL DEFAULT NULL COMMENT '执行时间(毫秒)',
-    `exception`    text         NULL COMMENT '异常信息',
-    `user_account` varchar(255) NULL DEFAULT NULL,
-    `create_by`    varchar(32)  NULL DEFAULT NULL COMMENT '创建人',
-    `create_time`  datetime     NULL DEFAULT NULL COMMENT '创建时间',
-    `update_by`    varchar(32)  NULL DEFAULT NULL COMMENT '更新人',
-    `update_time`  datetime     NULL DEFAULT NULL COMMENT '更新时间',
-    PRIMARY KEY (`id`) USING BTREE,
-    INDEX `idx_sys_log_trace_id` (`trace_id` ASC) USING BTREE,
-    INDEX `idx_sys_log_status` (`status` ASC) USING BTREE,
-    INDEX `idx_sys_log_create_time` (`create_time` ASC) USING BTREE
+    `id`                bigint      NOT NULL COMMENT '主键ID',
+    `trace_id`          varchar(64)  DEFAULT NULL COMMENT '链路ID（全局唯一，如UUID）',
+    `service_name`      varchar(64) NOT NULL COMMENT '服务名称（如demo-service）',
+    `class_method`      varchar(128) DEFAULT NULL COMMENT '类名加方法名（如com.demo.controller.UserController.queryUser）',
+    `request_params`    text COMMENT '调用参数（GET/POST参数，JSON格式）',
+    `server_addr`       varchar(32)  DEFAULT NULL COMMENT '服务器地址（如192.168.1.100）',
+    `request_ip`        varchar(32)  DEFAULT NULL COMMENT '请求IP（客户端真实IP）',
+    `request_headers`   text COMMENT '请求头信息（JSON格式）',
+    `request_account`   varchar(64)  DEFAULT NULL COMMENT '请求账号（未登录为匿名）',
+    `request_type`      varchar(16)  DEFAULT NULL COMMENT '请求类型（GET/POST/PUT/DELETE等）',
+    `execute_time`      datetime    NOT NULL COMMENT '执行时间（请求开始时间）',
+    `execute_cost`      bigint       DEFAULT '0' COMMENT '执行耗时（单位：毫秒）',
+    `execute_status`    varchar(16) NOT NULL COMMENT '执行状态（success：成功，fail：失败）',
+    `execute_exception` text COMMENT '执行异常信息（失败时存储异常堆栈）',
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB COMMENT = '系统日志表';
-
 SET
 FOREIGN_KEY_CHECKS = 1;

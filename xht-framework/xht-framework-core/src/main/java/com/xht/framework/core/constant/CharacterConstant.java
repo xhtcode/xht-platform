@@ -53,4 +53,13 @@ public interface CharacterConstant {
      */
     Character ASTERISK = '*';
 
+    /**
+     * 左括号.
+     */
+    Character LEFT_PARENTHESIS = '(';
+
+    /**
+     * 右括号.
+     */
+    Character RIGHT_PARENTHESIS = ')';
 }

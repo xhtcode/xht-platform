@@ -36,16 +36,19 @@ public class BLogDaoImpl extends MapperRepositoryImpl<BLogMapper, BLogEntity> im
                     condition(query.getKeyWord()), wrapper -> wrapper.or()
                             .like(BLogEntity::getTitle, query.getKeyWord())
                             .or()
-                            .like(BLogEntity::getServiceName, query.getKeyWord())
+                            .like(BLogEntity::getTraceId, query.getKeyWord())
                             .or()
-                            .like(BLogEntity::getDescription, query.getKeyWord())
+                            .like(BLogEntity::getLogDesc, query.getKeyWord())
+                            .or()
+                            .like(BLogEntity::getServiceName, query.getKeyWord())
             );
             // @formatter:on
         } else {
             queryWrapper.like(condition(query.getTitle()), BLogEntity::getTitle, query.getTitle());
+            queryWrapper.like(condition(query.getTraceId()), BLogEntity::getTraceId, query.getTraceId());
+            queryWrapper.like(condition(query.getLogDesc()), BLogEntity::getLogDesc, query.getLogDesc());
             queryWrapper.like(condition(query.getServiceName()), BLogEntity::getServiceName, query.getServiceName());
-            queryWrapper.like(condition(query.getDescription()), BLogEntity::getDescription, query.getDescription());
-            queryWrapper.eq(condition(query.getStatus()), BLogEntity::getStatus, query.getStatus());
+            queryWrapper.eq(condition(query.getExecuteStatus()), BLogEntity::getExecuteStatus, query.getExecuteStatus());
         }
         return page(page, queryWrapper);
     }

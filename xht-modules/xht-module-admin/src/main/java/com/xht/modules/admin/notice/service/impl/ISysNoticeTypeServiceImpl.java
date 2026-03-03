@@ -92,7 +92,7 @@ public class ISysNoticeTypeServiceImpl implements ISysNoticeTypeService {
         List<SysNoticeTypeEntity> enableList = sysNoticeTypeDao.findEnableList();
         return enableList
                 .stream()
-                .map(entity -> LabelValue.of(entity.getId(), entity.getNoticeTypeName()))
+                .map(entity -> LabelValue.of(entity.getNoticeTypeName(), entity.getId()))
                 .toList();
     }
 

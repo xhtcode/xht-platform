@@ -2,8 +2,6 @@ package com.xht.framework.core.context.impl;
 
 import com.xht.framework.core.context.UserContextService;
 
-import java.time.LocalDateTime;
-
 /**
  * 默认用户上下文服务接口
  *
@@ -18,7 +16,7 @@ public class DefaultUserContextServiceImpl implements UserContextService {
      */
     @Override
     public Long userId() {
-        throw new UnsupportedOperationException("Not Implemented");
+        return DEFAULT_ANONYMITY_USERID;
     }
 
     /**
