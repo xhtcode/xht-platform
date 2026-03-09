@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.admin.system.dao.SysUserRoleDao;
 import com.xht.modules.admin.system.dao.mapper.SysUserRoleMapper;
-import com.xht.modules.admin.system.entity.SysRoleEntity;
 import com.xht.modules.admin.system.entity.SysUserRoleEntity;
 import com.xht.modules.admin.system.enums.RoleStatusEnums;
 import lombok.extern.slf4j.Slf4j;
@@ -54,14 +53,16 @@ public class SysUserRoleDaoImpl extends MapperRepositoryImpl<SysUserRoleMapper, 
     }
 
     /**
-     * 根据用户ID查询角色列表
+     * 根据角色ID判断用户是否存在
      *
-     * @param userId 用户ID
-     * @return 角色列表
+     * @param roleIds 角色ID列表
+     * @return 用户列表
      */
     @Override
-    public List<SysRoleEntity> findRoleListByUserId(Long userId) {
-        return baseMapper.findRoleListByUserId(userId);
+    public Boolean existsUserInRoleId(List<Long> roleIds) {
+        LambdaQueryWrapper<SysUserRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(SysUserRoleEntity::getRoleId, roleIds);
+        return exists(queryWrapper);
     }
 
     /**

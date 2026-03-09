@@ -62,4 +62,5 @@ public class SysRoleForm extends BasicForm {
     @NotNull(message = "显示顺序参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "显示顺序")
     private Integer roleSort;
+
 }

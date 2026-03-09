@@ -1,9 +1,6 @@
 package com.xht.modules.admin.system.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.xht.framework.mybatis.domain.entity.Entity;
 import lombok.Data;
 
@@ -21,7 +18,7 @@ public class SysUserRoleEntity extends Entity {
     /**
      * 用户id
      */
-    @TableId(value = "user_id")
+    @TableId(value = "user_id", type = IdType.ASSIGN_ID)
     private Long userId;
 
     /**

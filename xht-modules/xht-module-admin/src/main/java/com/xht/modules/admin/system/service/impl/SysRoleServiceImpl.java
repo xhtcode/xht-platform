@@ -7,10 +7,12 @@ import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.modules.admin.system.converter.SysRoleConverter;
 import com.xht.modules.admin.system.dao.SysRoleDao;
+import com.xht.modules.admin.system.dao.SysUserRoleDao;
 import com.xht.modules.admin.system.domain.form.SysRoleForm;
 import com.xht.modules.admin.system.domain.query.SysRoleQuery;
 import com.xht.modules.admin.system.domain.response.SysRoleResponse;
 import com.xht.modules.admin.system.entity.SysRoleEntity;
+import com.xht.modules.admin.system.enums.ImportRoleTypeEnums;
 import com.xht.modules.admin.system.enums.RoleStatusEnums;
 import com.xht.modules.admin.system.service.ISysRoleService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,8 @@ public class SysRoleServiceImpl implements ISysRoleService {
 
     private final SysRoleDao sysRoleDao;
 
+    private final SysUserRoleDao sysUserRoleDao;
+
     private final SysRoleConverter sysRoleConverter;
 
     /**
@@ -44,19 +48,8 @@ public class SysRoleServiceImpl implements ISysRoleService {
         Boolean exists = sysRoleDao.existsRoleCode(null, form.getRoleCode());
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
         SysRoleEntity entity = sysRoleConverter.toEntity(form);
-        entity.setRoleStatus(RoleStatusEnums.NORMAL);
+        entity.setImportRoleType(ImportRoleTypeEnums.NONE);
         sysRoleDao.saveTransactional(entity);
-    }
-
-    /**
-     * 根据ID删除角色
-     *
-     * @param id 角色ID
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void removeById(Long id) {
-        sysRoleDao.removeById(id);
     }
 
     /**
@@ -68,6 +61,10 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Transactional(rollbackFor = Exception.class)
     public void removeByIds(List<Long> ids) {
         ThrowUtils.notNull(ids, BusinessErrorCode.PARAM_ERROR);
+        long countByRoleId = sysRoleDao.countByRoleId(ids, ImportRoleTypeEnums.NONE);
+        ThrowUtils.throwIf(countByRoleId != ids.size(), BusinessErrorCode.DATA_EXIST, "系统默认角色禁止删除!");
+        Boolean existsInId = sysUserRoleDao.existsUserInRoleId(ids);
+        ThrowUtils.throwIf(existsInId, BusinessErrorCode.DATA_EXIST, "角色已分配用户，禁止删除");
         sysRoleDao.removeAllById(ids);
     }
 

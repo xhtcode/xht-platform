@@ -1,5 +1,6 @@
 package com.xht.modules.admin.system.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -17,10 +18,11 @@ import java.io.Serializable;
 @Data
 @TableName(value = "sys_dept")
 public class SysDeptEntity extends BasicEntity implements Serializable {
+
     /**
      * 部门id
      */
-    @TableId(value = "id")
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     /**

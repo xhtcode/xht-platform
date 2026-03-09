@@ -28,6 +28,9 @@ spring:
         group: @nacos.group@
         file-extension: yml
         prefix: ${spring.application.name} # 默认配置
+  data:
+    mongodb:
+      uri: mongodb://127.0.0.1:27017/moa
 springdoc:
   api-docs:
     enabled: true

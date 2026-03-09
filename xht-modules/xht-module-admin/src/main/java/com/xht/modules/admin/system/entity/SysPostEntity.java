@@ -26,6 +26,7 @@ public class SysPostEntity extends BasicEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
     /**
      * 岗位ID
      */

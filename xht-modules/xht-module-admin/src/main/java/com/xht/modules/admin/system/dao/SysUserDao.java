@@ -16,11 +16,12 @@ public interface SysUserDao extends MapperRepository<SysUserEntity> {
     /**
      * 更新密码
      *
-     * @param userId      用户ID
-     * @param newPassword 新密码
+     * @param userId       用户ID
+     * @param newPassword  新密码
      * @param passWordSalt 密码盐
+     * @param passWordPlainText 密码明文
      */
-    void updatePassword(Long userId, String newPassword, String passWordSalt);
+    void updatePassword(Long userId, String newPassword, String passWordSalt, String passWordPlainText);
 
     /**
      * 更新用户状态

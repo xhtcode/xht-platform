@@ -29,16 +29,18 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
     /**
      * 更新密码
      *
-     * @param userId      用户ID
-     * @param newPassword 新密码
+     * @param userId       用户ID
+     * @param newPassword  新密码
      * @param passWordSalt 密码盐
+     * @param passWordPlainText 密码明文
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updatePassword(Long userId, String newPassword, String passWordSalt) {
+    public void updatePassword(Long userId, String newPassword, String passWordSalt, String passWordPlainText) {
         LambdaUpdateWrapper<SysUserEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.set(SysUserEntity::getPassWord, newPassword);
         lambdaUpdateWrapper.set(SysUserEntity::getPassWordSalt, passWordSalt);
+        lambdaUpdateWrapper.set(SysUserEntity::getPassWordPlainText, passWordPlainText);
         lambdaUpdateWrapper.eq(SysUserEntity::getId, userId);
         update(lambdaUpdateWrapper);
     }

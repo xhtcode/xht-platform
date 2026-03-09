@@ -1,9 +1,6 @@
 package com.xht.modules.admin.system.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.xht.framework.mybatis.domain.entity.Entity;
 import lombok.Data;
 
@@ -18,10 +15,11 @@ import java.time.LocalDateTime;
 @Data
 @TableName(value = "sys_role_menu")
 public class SysRoleMenuEntity extends Entity implements Serializable {
+
     /**
-     * 角色id
+     * 关联id
      */
-    @TableId(value = "role_id")
+    @TableId(value = "role_id", type = IdType.ASSIGN_ID)
     private Long roleId;
 
     /**

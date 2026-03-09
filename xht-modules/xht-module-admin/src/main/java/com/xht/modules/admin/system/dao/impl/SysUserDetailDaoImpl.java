@@ -8,12 +8,19 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.admin.system.dao.SysUserDetailDao;
 import com.xht.modules.admin.system.dao.mapper.SysUserDetailMapper;
 import com.xht.modules.admin.system.dao.mapper.SysUserMapper;
+import com.xht.modules.admin.system.dao.mapper.SysUserRoleMapper;
+import com.xht.modules.admin.system.entity.SysRoleEntity;
 import com.xht.modules.admin.system.entity.SysUserDetailEntity;
 import com.xht.modules.admin.system.entity.SysUserEntity;
+import com.xht.modules.admin.system.entity.SysUserRoleEntity;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 管理员用户信息
@@ -27,18 +34,32 @@ public class SysUserDetailDaoImpl extends MapperRepositoryImpl<SysUserDetailMapp
     @Resource
     private SysUserMapper sysUserMapper;
 
+    @Resource
+    private SysUserRoleMapper sysUserRoleMapper;
+
 
     /**
      * 保存用户信息
      *
      * @param sysUserEntity       用户信息
      * @param sysUserDetailEntity 用户详细信息
+     * @param roleEntityList       需要保存的角色信息
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void saveUserInfo(SysUserEntity sysUserEntity, SysUserDetailEntity sysUserDetailEntity) {
+    public void saveUserInfo(SysUserEntity sysUserEntity, SysUserDetailEntity sysUserDetailEntity, List<SysRoleEntity> roleEntityList) {
         sysUserMapper.insert(sysUserEntity);
         save(sysUserDetailEntity);
+        if (!CollectionUtils.isEmpty(roleEntityList)) {
+            List<SysUserRoleEntity> userRoleEntities = new ArrayList<>();
+            roleEntityList.forEach(item -> {
+                SysUserRoleEntity result = new SysUserRoleEntity();
+                result.setRoleId(item.getId());
+                result.setUserId(sysUserEntity.getId());
+                userRoleEntities.add(result);
+            });
+            sysUserRoleMapper.insert(userRoleEntities);
+        }
     }
 
     /**

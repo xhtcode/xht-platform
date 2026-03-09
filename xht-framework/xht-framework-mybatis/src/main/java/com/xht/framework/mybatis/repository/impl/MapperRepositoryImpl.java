@@ -168,6 +168,22 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
     }
 
     /**
+     * 检查是否存在指定ID的实体
+     *
+     * @param ids 实体ID
+     * @return 是否存在 true:存在 false:不存在
+     */
+    @Override
+    public final boolean existsByIds(Collection<? extends Serializable> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return false;
+        }
+        long countIn = getBaseMapper().selectCountIn(getFieldId(), ids);
+        return SqlHelper.retBool(countIn) && countIn == ids.size();
+    }
+
+
+    /**
      * 根据ID列表查找实体列表
      *
      * @param idList 实体ID列表

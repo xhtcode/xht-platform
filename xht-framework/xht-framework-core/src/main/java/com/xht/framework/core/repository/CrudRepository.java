@@ -87,7 +87,14 @@ public interface CrudRepository<T> extends IRepository {
      * @return 是否存在 true:存在 false:不存在
      */
     boolean existsById(Serializable id);
-    //
+
+    /**
+     * 检查是否存在指定ID的实体
+     *
+     * @param ids 实体ID
+     * @return 是否存在 true:存在 false:不存在
+     */
+    boolean existsByIds(Collection<? extends Serializable> ids);
 
     /**
      * 根据ID列表查找实体列表

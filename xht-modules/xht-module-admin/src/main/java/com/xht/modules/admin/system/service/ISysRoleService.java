@@ -23,13 +23,6 @@ public interface ISysRoleService {
     void create(SysRoleForm form);
 
     /**
-     * 根据ID删除角色
-     *
-     * @param id 角色ID
-     */
-    void removeById(Long id);
-
-    /**
      * 批量删除角色
      *
      * @param ids 角色id

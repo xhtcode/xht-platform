@@ -1,6 +1,5 @@
 package com.xht.modules.admin.system.helper;
 
-import cn.hutool.core.util.IdUtil;
 import com.xht.framework.core.utils.IdCardUtils;
 import com.xht.modules.admin.system.converter.SysUserDetailConverter;
 import com.xht.modules.admin.system.domain.form.SysUserDetailForm;
@@ -38,7 +37,7 @@ public final class SysUserHelper implements ApplicationContextAware {
      */
     public static SysUserEntity formatUser(SysUserForm form) {
         SysUserEntity entity = new SysUserEntity();
-        entity.setId(Objects.requireNonNullElse(form.getId(), IdUtil.getSnowflakeNextId()));
+        entity.setId(null);
         entity.setUserName(form.getUserName());
         entity.setUserType(form.getUserType());
         entity.setUserStatus(form.getUserStatus());

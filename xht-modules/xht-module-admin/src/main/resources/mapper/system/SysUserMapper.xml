@@ -15,6 +15,7 @@
         <result property="deptId" column="dept_id"/>
         <result property="deptName" column="dept_name"/>
         <result property="registerDate" column="create_time"/>
+        <result property="initialPasswordFlag" column="initial_password_flag"/>
         <association property="profile" javaType="com.xht.modules.admin.system.domain.response.SysUserDetailResponse">
             <id property="userId" column="user_id"/>
             <result property="realName" column="real_name"/>
@@ -33,6 +34,7 @@
         <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         SELECT
         t1.id,t1.user_type,t1.user_name,t1.nick_name,t1.pass_word,t1.pass_word_salt,
+        CASE t1.pass_word_plain_text WHEN null THEN 1 ELSE 0 END as initial_password_flag,
         t1.user_status,t1.user_phone,t1.user_avatar,t1.dept_id,t1.dept_name,
         t1.create_by,t1.create_time,t1.update_by,t1.update_time,
         t2.user_id,t2.real_name,t2.id_card,t2.gender,t2.birth_date,

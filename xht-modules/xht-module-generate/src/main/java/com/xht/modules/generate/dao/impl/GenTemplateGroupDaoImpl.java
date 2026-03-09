@@ -7,9 +7,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.generate.dao.GenTemplateGroupDao;
 import com.xht.modules.generate.dao.mapper.GenTemplateGroupMapper;
+import com.xht.modules.generate.dao.mapper.GenTemplateMapper;
 import com.xht.modules.generate.domain.form.GenTemplateGroupForm;
 import com.xht.modules.generate.domain.query.GenTemplateGroupQuery;
+import com.xht.modules.generate.entity.GenTemplateEntity;
 import com.xht.modules.generate.entity.GenTemplateGroupEntity;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +26,10 @@ import java.util.List;
  **/
 @Slf4j
 @Repository
+@RequiredArgsConstructor
 public class GenTemplateGroupDaoImpl extends MapperRepositoryImpl<GenTemplateGroupMapper, GenTemplateGroupEntity> implements GenTemplateGroupDao {
+
+    private final GenTemplateMapper genTemplateMapper;
 
     /**
      * 更新菜单信息
@@ -33,7 +39,9 @@ public class GenTemplateGroupDaoImpl extends MapperRepositoryImpl<GenTemplateGro
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateFormRequest(GenTemplateGroupForm form) {
+        long templateCount = genTemplateMapper.selectCount(GenTemplateEntity::getGroupId, form.getId());
         LambdaUpdateWrapper<GenTemplateGroupEntity> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.set(GenTemplateGroupEntity::getTemplateCount, templateCount);
         updateWrapper.set(condition(form.getGroupName()), GenTemplateGroupEntity::getGroupName, form.getGroupName());
         updateWrapper.set(condition(form.getGroupSort()), GenTemplateGroupEntity::getGroupSort, form.getGroupSort());
         updateWrapper.set(condition(form.getGroupDesc()), GenTemplateGroupEntity::getGroupDesc, form.getGroupDesc());

@@ -16,10 +16,11 @@ import java.time.LocalDateTime;
 @Data
 @TableName(value = "sys_user_post")
 public class SysUserPostEntity extends Entity implements Serializable {
+
     /**
-     * 用户ID
+     * 岗位id
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     /**

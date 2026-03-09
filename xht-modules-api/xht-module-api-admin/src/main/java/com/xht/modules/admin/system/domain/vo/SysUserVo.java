@@ -22,6 +22,12 @@ import java.util.Set;
 public class SysUserVo extends SysUserResponse implements IVO {
 
     /**
+     * 是否初始密码
+     */
+    @Schema(description = "是否初始密码")
+    private boolean initialPasswordFlag;
+
+    /**
      * 注册日期
      */
     @Schema(description = "注册日期")

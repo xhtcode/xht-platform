@@ -55,20 +55,6 @@ public class SysRoleController {
         return R.ok().build();
     }
 
-    /**
-     * 根据ID删除角色
-     *
-     * @param id 角色ID
-     * @return 统一响应结果
-     */
-    @BLog(value = "角色管理", description = "删除角色")
-    @CheckMenu("sys:role:remove")
-    @PostMapping("/remove/{id}")
-    @Operation(summary = "删除角色", description = "根据ID删除角色")
-    public R<Void> removeById(@PathVariable Long id) {
-        sysRoleService.removeById(id);
-        return R.ok().build();
-    }
 
     /**
      * 根据ID删除角色

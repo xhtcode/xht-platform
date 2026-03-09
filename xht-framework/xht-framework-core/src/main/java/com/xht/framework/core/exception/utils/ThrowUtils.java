@@ -223,6 +223,16 @@ public final class ThrowUtils {
         if (Objects.isNull(collection) || collection.isEmpty()) throw errorSupplier.get();
     }
 
+    /**
+     * 集合为空抛出异常
+     *
+     * @param collection    集合
+     * @param errorStatusCode {@link ErrorCode} 异常状态
+     */
+    public static <X extends Throwable> void notEmpty(Collection<?> collection, ErrorCode errorStatusCode) {
+        if (Objects.isNull(collection) || collection.isEmpty()) throw new BusinessException(errorStatusCode);
+    }
+
 
     /**
      * map集合为空抛出异常

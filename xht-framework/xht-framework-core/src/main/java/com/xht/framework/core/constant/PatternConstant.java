@@ -34,9 +34,4 @@ public final class PatternConstant {
      */
     public final static Pattern POSTAL_CODE = Pattern.compile(RegexConstant.POSTAL_CODE);
 
-    /**
-     * 部门编码
-     */
-    public final static Pattern DEPT_CODE = Pattern.compile(RegexConstant.DEPT_CODE);
-
 }

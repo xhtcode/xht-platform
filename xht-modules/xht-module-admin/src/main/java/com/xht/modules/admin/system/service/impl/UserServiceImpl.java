@@ -1,5 +1,6 @@
 package com.xht.modules.admin.system.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.core.domain.response.PageResponse;
 import com.xht.framework.core.enums.UserStatusEnums;
@@ -18,10 +19,7 @@ import com.xht.framework.security.utils.PassWordUtils;
 import com.xht.modules.admin.router.RouterUtils;
 import com.xht.modules.admin.router.dto.RouterDTO;
 import com.xht.modules.admin.system.converter.SysUserConverter;
-import com.xht.modules.admin.system.dao.SysRoleMenuDao;
-import com.xht.modules.admin.system.dao.SysUserDao;
-import com.xht.modules.admin.system.dao.SysUserDetailDao;
-import com.xht.modules.admin.system.dao.SysUserPostDao;
+import com.xht.modules.admin.system.dao.*;
 import com.xht.modules.admin.system.domain.form.SysUserDetailForm;
 import com.xht.modules.admin.system.domain.form.SysUserForm;
 import com.xht.modules.admin.system.domain.form.UpdatePwdFrom;
@@ -31,8 +29,10 @@ import com.xht.modules.admin.system.domain.response.SysPostResponse;
 import com.xht.modules.admin.system.domain.response.SysUserDetailResponse;
 import com.xht.modules.admin.system.domain.response.SysUserResponse;
 import com.xht.modules.admin.system.domain.vo.SysUserVo;
+import com.xht.modules.admin.system.entity.SysRoleEntity;
 import com.xht.modules.admin.system.entity.SysUserDetailEntity;
 import com.xht.modules.admin.system.entity.SysUserEntity;
+import com.xht.modules.admin.system.enums.ImportRoleTypeEnums;
 import com.xht.modules.admin.system.helper.SysUserHelper;
 import com.xht.modules.admin.system.service.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +57,8 @@ import java.util.Objects;
 public class UserServiceImpl implements IUserService {
 
     private final SysUserDao sysUserDao;
+
+    private final SysRoleDao sysRoleDao;
 
     private final SysUserPostDao sysUserPostDao;
 
@@ -83,8 +85,15 @@ public class UserServiceImpl implements IUserService {
         ThrowUtils.throwIf(userIdCardExists, BusinessErrorCode.DATA_EXIST, "该身份证号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
         // 格式化数据类型
         SysUserEntity sysUser = SysUserHelper.formatUser(userForm);
+        String password = PassWordUtils.generatePassword();
+        String passwordSalt = PassWordUtils.generatePasswordSalt();
+        sysUser.setId(IdUtil.getSnowflakeNextId());
+        sysUser.setPassWord(PassWordUtils.encodePassword(password, passwordSalt));
+        sysUser.setPassWordSalt(passwordSalt);
+        sysUser.setPassWordPlainText(password);
         SysUserDetailEntity detailEntity = SysUserHelper.formatUser(detail, sysUser.getId());
-        sysUserDetailDao.saveUserInfo(sysUser, detailEntity);
+        List<SysRoleEntity> roleEntityList = sysRoleDao.findList(SysRoleEntity::getImportRoleType, ImportRoleTypeEnums.NONE);
+        sysUserDetailDao.saveUserInfo(sysUser, detailEntity, roleEntityList);
     }
 
     /**
@@ -122,11 +131,7 @@ public class UserServiceImpl implements IUserService {
         ThrowUtils.throwIf(userIdCardExists, BusinessErrorCode.DATA_EXIST, "该身份证号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
         // 格式化数据类型
         SysUserEntity sysUser = SysUserHelper.formatUser(userForm);
-        String password = PassWordUtils.generatePassword();
-        String passwordSalt = PassWordUtils.generatePasswordSalt();
-        sysUser.setUserStatus(UserStatusEnums.EXPIRED);
-        sysUser.setPassWord(PassWordUtils.encodePassword(password, passwordSalt));
-        sysUser.setPassWordSalt(passwordSalt);
+        sysUser.setId(userForm.getId());
         SysUserDetailEntity detailEntity = SysUserHelper.formatUser(detail, userId);
         sysUserDetailDao.updateUserInfo(sysUser, detailEntity);
     }
@@ -142,7 +147,7 @@ public class UserServiceImpl implements IUserService {
         SysUserEntity sysUserEntity = sysUserDao.findOptionalById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST, "用户不存在"));
         String password = PassWordUtils.generatePassword();
         String passwordSalt = PassWordUtils.generatePasswordSalt();
-        sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(password, passwordSalt), passwordSalt);
+        sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(password, passwordSalt), passwordSalt, password);
         String userPhone = sysUserEntity.getUserPhone();
         log.info("用户{}密码已重置为`{}`,开始向{}发送短信", userId, password, userPhone);
     }
@@ -175,7 +180,7 @@ public class UserServiceImpl implements IUserService {
             throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "修改密码与原密码相同");
         }
         String passwordSalt = PassWordUtils.generatePasswordSalt();
-        sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(newPassword, passwordSalt), passwordSalt);
+        sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(newPassword, passwordSalt), passwordSalt, null);
     }
 
     /**

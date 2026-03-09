@@ -11,6 +11,7 @@ import com.xht.modules.admin.system.dao.mapper.SysRoleMapper;
 import com.xht.modules.admin.system.domain.form.SysRoleForm;
 import com.xht.modules.admin.system.domain.query.SysRoleQuery;
 import com.xht.modules.admin.system.entity.SysRoleEntity;
+import com.xht.modules.admin.system.enums.ImportRoleTypeEnums;
 import com.xht.modules.admin.system.enums.RoleStatusEnums;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -130,6 +131,21 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(SysRoleEntity::getId, roleIds);
         return count(queryWrapper) == roleIds.size();
+    }
+
+    /**
+     * 根据角色 ID 列表和导入类型统计数量
+     *
+     * @param roleIds                 角色 ID 列表
+     * @param importRoleTypeEnums 导入角色类型枚举
+     * @return 符合条件的记录数量
+     */
+    @Override
+    public long countByRoleId(List<Long> roleIds, ImportRoleTypeEnums importRoleTypeEnums) {
+        LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(SysRoleEntity::getId, roleIds);
+        queryWrapper.eq(SysRoleEntity::getImportRoleType, importRoleTypeEnums);
+        return count(queryWrapper);
     }
 
     /**

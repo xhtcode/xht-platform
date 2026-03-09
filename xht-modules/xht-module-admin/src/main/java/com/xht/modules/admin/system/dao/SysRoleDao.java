@@ -5,6 +5,7 @@ import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.system.domain.form.SysRoleForm;
 import com.xht.modules.admin.system.domain.query.SysRoleQuery;
 import com.xht.modules.admin.system.entity.SysRoleEntity;
+import com.xht.modules.admin.system.enums.ImportRoleTypeEnums;
 import com.xht.modules.admin.system.enums.RoleStatusEnums;
 
 import java.util.List;
@@ -63,5 +64,15 @@ public interface SysRoleDao extends MapperRepository<SysRoleEntity> {
      * @return true：存在，false：不存在
      */
     boolean existsByRoleId(List<Long> roleIds);
+
+
+    /**
+     * 根据角色 ID 列表和导入类型统计数量
+     *
+     * @param roleIds                角色 ID 列表
+     * @param importRoleTypeEnums 导入角色类型枚举
+     * @return 符合条件的记录数量
+     */
+    long countByRoleId(List<Long> roleIds, ImportRoleTypeEnums importRoleTypeEnums);
 
 }

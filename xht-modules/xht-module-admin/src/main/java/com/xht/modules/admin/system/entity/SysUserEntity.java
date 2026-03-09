@@ -61,6 +61,12 @@ public class SysUserEntity extends BasicEntity implements Serializable {
     private String passWordSalt;
 
     /**
+     * 密码明文
+     */
+    @TableField(value = "pass_word_plain_text")
+    private String passWordPlainText;
+
+    /**
      * 账号状态
      */
     @TableField(value = "user_status")

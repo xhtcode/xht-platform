@@ -1,7 +1,6 @@
 package com.xht.modules.admin.system.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.modules.admin.system.entity.SysRoleEntity;
 import com.xht.modules.admin.system.entity.SysUserRoleEntity;
 
 import java.util.List;
@@ -30,10 +29,10 @@ public interface SysUserRoleDao extends MapperRepository<SysUserRoleEntity> {
     List<Long> getRoleId(String userId);
 
     /**
-     * 根据用户ID查询角色列表
+     * 根据角色ID判断用户是否存在
      *
-     * @param userId 用户ID
-     * @return 角色列表
+     * @param roleIds 角色ID列表
+     * @return 用户列表
      */
-    List<SysRoleEntity> findRoleListByUserId(Long userId);
+    Boolean existsUserInRoleId(List<Long> roleIds);
 }
