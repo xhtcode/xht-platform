@@ -1,8 +1,11 @@
 package com.xht.framework.security.utils;
 
+import com.xht.framework.core.utils.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Base64;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Oauth2Utils
@@ -10,6 +13,8 @@ import java.util.Base64;
  * @author xht
  */
 public final class Oauth2Utils {
+
+    private static final Pattern authorizationPattern = Pattern.compile("^Bearer (?<token>[a-zA-Z0-9-:._~+/]+=*)$", Pattern.CASE_INSENSITIVE);
 
     /**
      * Bearer token 前缀格式
@@ -58,6 +63,21 @@ public final class Oauth2Utils {
      */
     public static String assembleBearerAuthorization(String token) {
         return String.format(BEARER_PREFIX, token);
+    }
+
+    /**
+     * 获取认证token
+     * @param bearerAuthorization 认证头
+     */
+    public static String getBearerAuthorization(String bearerAuthorization) {
+        if (StringUtils.isEmpty(bearerAuthorization)) {
+            return null;
+        }
+        Matcher matcher = authorizationPattern.matcher(bearerAuthorization);
+        if (!matcher.matches()) {
+            return null;
+        }
+        return matcher.group("token");
     }
 
 }

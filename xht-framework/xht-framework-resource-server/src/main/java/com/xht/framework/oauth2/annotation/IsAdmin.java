@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  **/
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("@oauth2.isAdmin()")
+@PreAuthorize("@xht.isAdmin()")
 public @interface IsAdmin {
 
 }

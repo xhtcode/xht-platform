@@ -2,6 +2,7 @@ package com.xht.framework.security.properties;
 
 import cn.hutool.core.util.ReUtil;
 import com.xht.framework.core.properties.IProperties;
+import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import lombok.Data;
@@ -26,6 +27,10 @@ import java.util.regex.Pattern;
 @ConfigurationProperties(prefix = "xht.security.ignore.whites")
 public class PermitAllUrlProperties implements InitializingBean, IProperties {
 
+    private static final String ANSI_GREEN = "\033[32m";
+
+    private static final String ANSI_RESET = "\033[0m";
+
     /**
      * 正则表达式
      */
@@ -36,17 +41,54 @@ public class PermitAllUrlProperties implements InitializingBean, IProperties {
     /**
      * 默认忽略URL
      */
-    private static final String[] DEFAULT_IGNORE_URLS = new String[]{"/favicon.ico", "/actuator/**",
-            "/error", "/v3/api-docs", "/v3/api-docs/*", "/doc.html", "/webjars/**"};
+    private static final String[] DEFAULT_IGNORE_URLS = new String[]{"/favicon.ico", "/actuator/**", "/error", "/webjars/**"};
+
+    /**
+     * 默认忽略URL
+     */
+    private static final String[] DEFAULT_SWAGGER_IGNORE_URLS = new String[]{"/v3/api-docs", "/v3/api-docs/*", "/doc.html"};
 
     /**
      * 常规全部
      */
     private List<String> urls = new ArrayList<>();
 
+    /**
+     * 是否添加默认忽略URL
+     */
+    private boolean addDefaultIgnoreUrls = true;
+
+    /**
+     * 是否添加swagger默认忽略URL
+     */
+    private boolean addSwaggerIgnoreUrls = false;
+
+    /**
+     * 授权服务
+     */
+    private AuthorizationServer authorizationServer = new AuthorizationServer();
+
+    /**
+     * 授权服务器
+     */
+    @Data
+    public static class AuthorizationServer {
+
+        /**
+         * IP网段
+         */
+        private String ipAddress;
+
+    }
+
     @Override
     public void afterPropertiesSet() {
-        urls.addAll(Arrays.asList(DEFAULT_IGNORE_URLS));
+        if (addDefaultIgnoreUrls) {
+            urls.addAll(Arrays.asList(DEFAULT_IGNORE_URLS));
+        }
+        if (addSwaggerIgnoreUrls) {
+            urls.addAll(Arrays.asList(DEFAULT_SWAGGER_IGNORE_URLS));
+        }
         RequestMappingHandlerMapping mapping = SpringContextUtils.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> mappingHandlerMethods = mapping.getHandlerMethods();
         mappingHandlerMethods.keySet().forEach(info -> {
@@ -65,6 +107,7 @@ public class PermitAllUrlProperties implements InitializingBean, IProperties {
                             .getPatternValues()
                             .forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
         });
+        log.debug("\n白名单URL:>>>>>>>>>>>>>>>>>>>>>>>>>>> \n{}", StringUtils.collectionToDelimitedString(urls, "\n", ANSI_GREEN, ANSI_RESET));
     }
 
 }

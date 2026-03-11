@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  **/
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("@oauth2.hasMenuCode('{value}'.split(','))")
+@PreAuthorize("@xht.hasMenuCode('{value}'.split(','))")
 public @interface CheckMenu {
 
     /**

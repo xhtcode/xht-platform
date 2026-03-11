@@ -7,7 +7,7 @@ import com.xht.framework.oauth2.introspection.ResourceOpaqueTokenIntrospector;
 import com.xht.framework.oauth2.token.RedisTokenInfoLightningCache;
 import com.xht.framework.oauth2.token.TokenInfoLightningCache;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
-import com.xht.framework.security.properties.TokenLightningCacheProperties;
+import com.xht.framework.oauth2.token.TokenLightningCacheProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -15,6 +15,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2Res
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
 import java.util.Objects;
 
@@ -75,7 +76,7 @@ public class SecurityAutoConfiguration {
      * @return OpaqueTokenIntrospector
      */
     @Bean
-    public ResourceOpaqueTokenIntrospector resourceServerConfigurer(TokenInfoLightningCache tokenInfoLightningCache, OAuth2ResourceServerProperties resourceServerProperties) throws Exception {
+    public OpaqueTokenIntrospector resourceServerConfigurer(TokenInfoLightningCache tokenInfoLightningCache, OAuth2ResourceServerProperties resourceServerProperties) throws Exception {
         OAuth2ResourceServerProperties.Opaquetoken opaquetoken = resourceServerProperties.getOpaquetoken();
         if (Objects.isNull(opaquetoken)) {
             log.error("未配置Opaque Token相关属性，无法注入 ResourceOpaqueTokenIntrospector.");
@@ -89,7 +90,7 @@ public class SecurityAutoConfiguration {
      *
      * @return PermissionCheckHandler 权限检查处理器实例
      */
-    @Bean("oauth2")
+    @Bean("xht")
     public PermissionCheckHandler permissionCheckHandler() {
         return new PermissionCheckHandler();
     }

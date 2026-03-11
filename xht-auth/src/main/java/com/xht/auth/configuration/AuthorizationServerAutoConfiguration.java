@@ -16,6 +16,8 @@ import com.xht.auth.security.oatuh2.server.authorization.token.OpaqueTokenClaims
 import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2AccessTokenGenerator;
 import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2RefreshTokenGenerator;
 import com.xht.auth.security.web.authentication.*;
+import com.xht.auth.security.web.authentication.logout.XhtLogoutHandler;
+import com.xht.auth.security.web.authentication.logout.XhtLogoutSuccessHandler;
 import com.xht.framework.oauth2.handler.ResourceAuthenticationEntryPoint;
 import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
 import com.xht.framework.security.configurers.CustomAuthorizeHttpRequestsConfigurer;
@@ -144,6 +146,11 @@ public class AuthorizationServerAutoConfiguration {
             handlingConfigurer.accessDeniedHandler(new Http401AccessDeniedHandler());// 请求未授权的接口
         });
         http.authenticationProvider(new CustomAuthenticationProvider(basicUserDetailsService));
+        http.logout(logoutConfigurer -> {
+            logoutConfigurer.logoutUrl("/logout");
+            logoutConfigurer.addLogoutHandler(new XhtLogoutHandler());
+            logoutConfigurer.logoutSuccessHandler(new XhtLogoutSuccessHandler());
+        });
         return http.build();
     }
 

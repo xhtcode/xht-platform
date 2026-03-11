@@ -12,7 +12,7 @@ import static com.xht.framework.core.constant.HttpConstants.Header.AUTH_KEY;
  * @author xht
  **/
 @Data
-@ConfigurationProperties(prefix = "xht.cloud.feign")
+@ConfigurationProperties(prefix = "xht.safety")
 public class SecurityHeaderProperties implements IProperties {
 
     private Header header = new Header();
@@ -35,7 +35,7 @@ public class SecurityHeaderProperties implements IProperties {
         /**
          * 授权请求头 值
          */
-        private String authValue = "123456";
+        private String authValue;
 
     }
 

@@ -80,7 +80,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      */
     @ExceptionHandler(value = NoResourceFoundException.class)
     public R<String> handle(NoResourceFoundException e, HttpServletRequest request) {
-        log.debug(" {} 请求URL404: {}", request.getRequestURI(), e.getMessage(), e);
+        log.debug(" {} 请求URL404: {}", request.getRequestURI(), e.getMessage());
         return R.error().info(GlobalErrorStatusCode.NOT_FOUND).build();
     }
 

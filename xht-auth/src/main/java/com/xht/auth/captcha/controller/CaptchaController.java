@@ -47,4 +47,5 @@ public class CaptchaController {
         captchaService.getPhoneCaptcha(phone);
         return R.ok().build();
     }
+
 }

@@ -2,6 +2,7 @@ package com.xht.framework.oauth2.token;
 
 
 import java.time.Instant;
+import java.util.Collection;
 
 /**
  * Token信息闪电缓存接口
@@ -27,5 +28,18 @@ public interface TokenInfoLightningCache {
      * @param value     要缓存的token信息值
      */
     <T> void setTokenInfo(String key, Instant expiresAt, T value);
+
+
+    /**
+     * 删除缓存的token信息
+     * @param key 缓存的键值，用于标识特定的token信息
+     */
+    void deleteTokenInfo(String key);
+
+    /**
+     * 批量删除缓存的token信息
+     * @param keys 缓存的键值，用于标识特定的token信息
+     */
+    void deleteTokenInfo(Collection<String> keys);
 
 }

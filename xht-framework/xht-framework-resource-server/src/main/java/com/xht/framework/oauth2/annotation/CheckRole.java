@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  **/
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("@oauth2.hasRoleCode('{value}'.split(','))")
+@PreAuthorize("@xht.hasRoleCode('{value}'.split(','))")
 public @interface CheckRole {
 
     /**

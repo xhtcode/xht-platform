@@ -47,6 +47,7 @@ spring:
           max-idle: 8
           min-idle: 0
       password:
+      database: 0
 springdoc:
   api-docs:
     enabled: true
@@ -63,13 +64,17 @@ xht:
   security:
     oauth2:
       issuer: http://127.0.0.1:${server.port}
+    ignore:
+      whites:
+        add-swagger-ignore-urls: true
+        add-default-ignore-urls: true
   safety:
     xss:
       enable: true
+    header:
+      auth-key: X-Auth-Token
 
-feign:
-  sentinel:
-    enabled: true
+
 mybatis-plus:
   global-config:
     db-config:

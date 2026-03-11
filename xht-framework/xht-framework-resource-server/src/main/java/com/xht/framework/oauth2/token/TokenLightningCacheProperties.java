@@ -1,4 +1,4 @@
-package com.xht.framework.security.properties;
+package com.xht.framework.oauth2.token;
 
 import com.xht.framework.core.properties.IProperties;
 import lombok.Data;

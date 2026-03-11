@@ -52,22 +52,13 @@ public interface SecurityConstant {
     String REDIS_PHONE_CODE_KEY_PREFIX = "captcha:phone";
 
     /**
-     * 用户手机验证码 redis key 前缀
-     */
-    String USER_REGISTER_PHONE_KEY_PREFIX = "user:register:phone";
-
-    /**
      * 角色前缀
      */
     String ROLE_PREFIX = "ROLE_";
 
     /**
-     * 密码盐值链接符号
-     */
-    String PASSWORD_JOIN_SALT = "#";
-
-    /**
      * 默认用户名
      */
     String DEFAULT_ANONYMITY_USERNAME = UserContextService.DEFAULT_ANONYMITY_USERNAME;
+
 }

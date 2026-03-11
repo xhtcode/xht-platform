@@ -2,9 +2,12 @@ package com.xht.framework.oauth2.handler;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.xht.framework.core.enums.UserTypeEnums;
+import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.web.util.matcher.IpAddressMatcher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.PatternMatchUtils;
 
@@ -63,6 +66,21 @@ public class PermissionCheckHandler {
         Set<String> roles = user.getMenuButtonCodes();
         if (CollectionUtils.isEmpty(roles)) return false;
         return roles.stream().anyMatch(x -> PatternMatchUtils.simpleMatch(menuCodes, x));
+    }
+
+    /**
+     * 自定义hasIpAddress方法，适配@PreAuthorize
+     * @param ipAddress IP/网段（如192.168.1.0/24、202.24.0.0/14）
+     * @return 是否匹配
+     */
+    public boolean hasIpAddress(String ipAddress) {
+        HttpServletRequest httpServletRequest = ServletUtil.getHttpServletRequest();
+        if (ServletUtil.getHttpServletRequest() == null) {
+            // 非Web环境/无请求上下文时，默认返回false（可根据业务调整）
+            return false;
+        }
+        IpAddressMatcher matcher = new IpAddressMatcher(ipAddress);
+        return matcher.matches(httpServletRequest);
     }
 
 }

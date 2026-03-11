@@ -11,6 +11,7 @@ import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.security.domain.response.TokenResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -71,6 +72,8 @@ public class TokenAuthenticationSuccessHandler implements AuthenticationSuccessH
         // entity.setTokenValue();
         // entity.setFailReason();
         // entity.setLoginDesc();
+        HttpSession session = request.getSession();
+        session.setAttribute("token", tokenResponse.getAccessToken());
         ServletUtil.writeJson(response, R.ok().build(tokenResponse));
     }
 

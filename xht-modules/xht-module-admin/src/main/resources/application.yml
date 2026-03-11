@@ -56,12 +56,13 @@ xht:
   global:
     banner:
       enable: true
-  dept:
-    init:
-      posts:
-        - post-code: 董事长
-        - post-code: aaa
-
+  security:
+    ignore:
+      whites:
+        add-default-ignore-urls: true
+        add-swagger-ignore-urls: true
+        authorization-server:
+          ip-address: 127.0.0.1
 mybatis-plus:
   configuration:
     default-executor-type: batch

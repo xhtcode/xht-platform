@@ -36,6 +36,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     @Override
     public void save(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
+        log.debug("将授权信息保存到缓存中，id:{}", authorization.getId());
         Oauth2AuthorizationEntity entity = authorizationConverter.convert(authorization);
         authorizationRepository.save(entity);
     }
@@ -49,6 +50,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     @Override
     public void remove(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
+        log.debug("从缓存中删除授权信息，id:{}", authorization.getId());
         authorizationRepository.deleteById(authorization.getId());
     }
 
@@ -62,6 +64,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     @Override
     public OAuth2Authorization findById(String id) {
         Assert.hasText(id, "id cannot be empty");
+        log.debug("从缓存中获取授权信息，id:{}", id);
         return authorizationRepository.findById(id).map(authorizationConverter::reverse).orElse(null);
     }
 
@@ -76,6 +79,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     @Override
     public OAuth2Authorization findByToken(String token, OAuth2TokenType tokenType) {
         Assert.hasText(token, "token cannot be empty");
+        log.debug("从缓存中获取授权信息，tokenType:{} token:{}", tokenType, token);
         Optional<Oauth2AuthorizationEntity> result;
         if (tokenType == null) {
             result = authorizationRepository.findByState(token)
