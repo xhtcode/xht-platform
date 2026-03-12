@@ -33,4 +33,9 @@ public class LoginController {
         modelAndView.addObject("error", error);
         return modelAndView;
     }
+
+    @GetMapping
+    public String index() {
+        return "home";
+    }
 }

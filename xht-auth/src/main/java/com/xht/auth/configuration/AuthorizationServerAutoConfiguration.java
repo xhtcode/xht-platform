@@ -16,7 +16,6 @@ import com.xht.auth.security.oatuh2.server.authorization.token.OpaqueTokenClaims
 import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2AccessTokenGenerator;
 import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2RefreshTokenGenerator;
 import com.xht.auth.security.web.authentication.*;
-import com.xht.auth.security.web.authentication.logout.XhtLogoutHandler;
 import com.xht.auth.security.web.authentication.logout.XhtLogoutSuccessHandler;
 import com.xht.framework.oauth2.handler.ResourceAuthenticationEntryPoint;
 import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
@@ -147,8 +146,8 @@ public class AuthorizationServerAutoConfiguration {
         });
         http.authenticationProvider(new CustomAuthenticationProvider(basicUserDetailsService));
         http.logout(logoutConfigurer -> {
-            logoutConfigurer.logoutUrl("/logout");
-            logoutConfigurer.addLogoutHandler(new XhtLogoutHandler());
+            logoutConfigurer.logoutUrl("/oauth2/logout");
+            logoutConfigurer.deleteCookies("JSESSIONID");
             logoutConfigurer.logoutSuccessHandler(new XhtLogoutSuccessHandler());
         });
         return http.build();

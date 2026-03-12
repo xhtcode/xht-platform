@@ -68,6 +68,7 @@ public class ResourceServerAutoConfiguration {
                 .securityContext(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(configurer -> {
                     configurer.opaqueToken(opaqueToken -> opaqueToken.introspector(opaqueTokenIntrospector));

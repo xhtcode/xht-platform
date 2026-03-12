@@ -15,6 +15,6 @@ public interface TokenCustomizerIdConstant {
     /**
      * 登录类型
      */
-    String LOGIN_TYPE = "loginType";
+    String GRANT_TYPE = "grant_type";
 
 }

@@ -38,7 +38,7 @@ public class TokenController {
     @Operation(summary = "注销并删除令牌", description = "注销并删除令牌")
     public R<Void> logout(HttpServletRequest request) {
         tokenService.removeToken(Oauth2Utils.getBearerAuthorization(request.getHeader(HttpConstants.Header.AUTHORIZATION.getValue())));
-        return R.ok().build();
+        return R.ok().msg("注销成功").build();
     }
 
     /**

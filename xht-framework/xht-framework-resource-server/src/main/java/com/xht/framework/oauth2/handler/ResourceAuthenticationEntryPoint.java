@@ -41,7 +41,7 @@ public class ResourceAuthenticationEntryPoint implements AuthenticationEntryPoin
                 || authException instanceof InsufficientAuthenticationException) {
             result.info(GlobalErrorStatusCode.TOKEN_EXPIRED);
         }
-        log.error("认证失败: {}", authException.getMessage(), authException);
+        log.error("{}认证失败: {}", request.getRequestURI(), authException.getMessage(), authException);
         ServletUtil.writeJson(response, result.build());
     }
 }

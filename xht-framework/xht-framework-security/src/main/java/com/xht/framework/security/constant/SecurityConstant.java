@@ -61,4 +61,14 @@ public interface SecurityConstant {
      */
     String DEFAULT_ANONYMITY_USERNAME = UserContextService.DEFAULT_ANONYMITY_USERNAME;
 
+    /**
+     * 缓存清除端点（仅授权服务器可调用）
+     */
+    String RESOURCE_SERVER_TOKEN_CANCEL_URL = "/xht/resource-server/internal/token-cache/clear";
+
+    /**
+     * 批量清除缓存（可选）
+     */
+    String RESOURCE_SERVER_TOKEN_BATCH_CANCEL_URL = "/xht/resource-server/internal/token-cache/batch-clear";
+
 }

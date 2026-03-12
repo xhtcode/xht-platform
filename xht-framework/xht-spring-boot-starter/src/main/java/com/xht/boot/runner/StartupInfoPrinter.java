@@ -5,7 +5,6 @@ import com.xht.framework.core.properties.XhtConfigProperties;
 import com.xht.framework.core.properties.basic.EnableProperties;
 import com.xht.framework.core.utils.IpUtils;
 import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.security.properties.PermitAllUrlProperties;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class StartupInfoPrinter implements ApplicationRunner {
 
-    private final PermitAllUrlProperties permitAllUrlProperties;
+    @Value("${xht.security.ignore.whites.add-swagger-ignore-urls:false}")
+    private boolean addSwaggerIgnoreUrls;
 
     /**
      * 分隔线常量，统一输出格式（前后保持一致）
@@ -97,7 +97,7 @@ public class StartupInfoPrinter implements ApplicationRunner {
             appendString(sb, "🌎当前环境:\t%s%n", activeProfile);
             appendString(sb, "🌐本地访问地址:\thttp://localhost:%s%s%n", serverPort, contextPath);
             appendString(sb, "🌐外部访问地址:\thttp://%s:%s%s%n", serverIp, serverPort, contextPath);
-            if (permitAllUrlProperties.isAddSwaggerIgnoreUrls()){
+            if (addSwaggerIgnoreUrls){
                 appendString(sb, "📚 接口文档地址:%n");
                 appendString(sb, "   ├─ Knife4j文档:\thttp://localhost:%s%s/doc.html%n", serverPort, contextPath);
                 appendString(sb, "   ├─ Swagger文档:\thttp://localhost:%s%s/swagger-ui.html%n", serverPort, contextPath);

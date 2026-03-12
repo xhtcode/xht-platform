@@ -47,7 +47,7 @@ spring:
           max-idle: 8
           min-idle: 0
       password:
-      database: 0
+      database: 1
 springdoc:
   api-docs:
     enabled: true
@@ -64,10 +64,14 @@ xht:
   security:
     oauth2:
       issuer: http://127.0.0.1:${server.port}
+      resource-server:
+        server-names:
+          - http://127.0.0.1:${server.port}
     ignore:
       whites:
         add-swagger-ignore-urls: true
         add-default-ignore-urls: true
+        token-revocation-endpoint: false
   safety:
     xss:
       enable: true

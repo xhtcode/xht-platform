@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Oauth2属性
  *
@@ -25,6 +27,11 @@ public class XhtOauth2Properties {
     private Client client = new Client();
 
     /**
+     * 资源服务属性
+     */
+    private ResourceServer resourceServer = new ResourceServer();
+
+    /**
      * 客户端属性
      */
     @Data
@@ -35,4 +42,13 @@ public class XhtOauth2Properties {
         private Long timeout = 60L * 3;
     }
 
+
+    @Data
+    public static class ResourceServer {
+
+        /**
+         * 服务名称
+         */
+        private List<String> serverNames;
+    }
 }

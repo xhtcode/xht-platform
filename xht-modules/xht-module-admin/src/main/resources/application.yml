@@ -61,8 +61,7 @@ xht:
       whites:
         add-default-ignore-urls: true
         add-swagger-ignore-urls: true
-        authorization-server:
-          ip-address: 127.0.0.1
+        token-revocation-endpoint: true
 mybatis-plus:
   configuration:
     default-executor-type: batch

@@ -1,13 +1,12 @@
 package com.xht.auth.security.oatuh2.server.authorization.token;
 
-import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.security.constant.TokenCustomizerIdConstant;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
-import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsSet;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
@@ -32,12 +31,10 @@ public class OpaqueTokenClaimsCustomizer implements OAuth2TokenCustomizer<OAuth2
     public void customize(OAuth2TokenClaimsContext context) {
         OAuth2TokenClaimsSet.Builder claims = context.getClaims();
         Authentication principal = context.getPrincipal();
+        addClaims(claims, TokenCustomizerIdConstant.GRANT_TYPE, () -> Optional.ofNullable(context.getAuthorizationGrantType()).map(AuthorizationGrantType::getValue).orElse(null));
         if (OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
-            if (principal instanceof OAuth2ClientAuthenticationToken) {
-                claims.claim(TokenCustomizerIdConstant.LOGIN_TYPE, LoginTypeEnums.CLIENT_CREDENTIALS);
-            }
             if (principal instanceof UsernamePasswordAuthenticationToken && (principal.getPrincipal() instanceof BasicUserDetails details)) {
-                addClaims(claims, () -> details);
+                addClaims(claims, TokenCustomizerIdConstant.USER_INFO, () -> details);
             }
         }
     }
@@ -48,10 +45,11 @@ public class OpaqueTokenClaimsCustomizer implements OAuth2TokenCustomizer<OAuth2
      *
      * @param <T>      声明值的类型，增强类型安全性
      * @param claims   JWT声明构建器
+     * @param key      声明的key
      * @param supplier 提供声明值的供应商（通过get()方法获取值）
      */
-    private <T> void addClaims(OAuth2TokenClaimsSet.Builder claims, Supplier<T> supplier) {
-        Optional.ofNullable(supplier.get()).ifPresent(value -> claims.claim(TokenCustomizerIdConstant.USER_INFO, value));
+    private <T> void addClaims(OAuth2TokenClaimsSet.Builder claims, String key, Supplier<T> supplier) {
+        Optional.ofNullable(supplier.get()).ifPresent(value -> claims.claim(key, value));
     }
 
 

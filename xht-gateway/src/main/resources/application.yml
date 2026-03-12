@@ -35,6 +35,11 @@ spring:
               filters:
                 - StripPrefix=1
 
+xht:
+  security:
+    ignore:
+      whites:
+        add-swagger-ignore-urls: true
 knife4j:
   gateway:
     enabled: true     # ① 第一个配置，开启gateway聚合组件

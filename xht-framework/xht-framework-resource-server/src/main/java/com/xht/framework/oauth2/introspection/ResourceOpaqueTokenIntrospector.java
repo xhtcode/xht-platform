@@ -1,11 +1,13 @@
 package com.xht.framework.oauth2.introspection;
 
+import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.oauth2.token.TokenInfoLightningCache;
 import com.xht.framework.security.constant.TokenCustomizerIdConstant;
 import com.xht.framework.security.core.BasicUserDetailsConvert;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.server.resource.introspection.OAuth2IntrospectionAuthenticatedPrincipal;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
@@ -26,7 +28,6 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
     private final static String TOKEN_KEY_PREFIX = "opaque:token:";
     private final SpringOpaqueTokenIntrospector opaqueTokenIntrospector;
     private final TokenInfoLightningCache tokenInfoLightningCache;
-
 
     public ResourceOpaqueTokenIntrospector(TokenInfoLightningCache tokenInfoLightningCache, OAuth2ResourceServerProperties.Opaquetoken opaquetoken) {
         this.tokenInfoLightningCache = tokenInfoLightningCache;
@@ -50,7 +51,7 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
         OAuth2AuthenticatedPrincipal introspect = opaqueTokenIntrospector.introspect(token);
         if (introspect instanceof OAuth2IntrospectionAuthenticatedPrincipal principal) {
             Instant expiresAt = principal.getExpiresAt();
-            BasicUserDetails convert = convert(principal);
+            OAuth2AuthenticatedPrincipal convert = convert(principal);
             tokenInfoLightningCache.setTokenInfo(key, expiresAt, convert);
             return convert;
         }
@@ -63,7 +64,13 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
      * @param principal OAuth2认证后的用户主体信息，包含用户的各种属性和权限信息
      * @return 转换后的BasicUserDetails用户详情对象，包含用户的基本信息、权限、角色等
      */
-    private BasicUserDetails convert(OAuth2IntrospectionAuthenticatedPrincipal principal) {
+    private OAuth2AuthenticatedPrincipal convert(OAuth2IntrospectionAuthenticatedPrincipal principal) {
+        String claimAsString = principal.getClaimAsString(TokenCustomizerIdConstant.GRANT_TYPE);
+        if (Objects.equals(AuthorizationGrantType.CLIENT_CREDENTIALS.getValue(), claimAsString)) {
+            BasicUserDetails basicUserDetails = new BasicUserDetails();
+            basicUserDetails.setLoginType(LoginTypeEnums.CLIENT_CREDENTIALS);
+            return basicUserDetails;
+        }
         Map<String, Object> resultMap = principal.getClaimAsMap(TokenCustomizerIdConstant.USER_INFO);
         return BasicUserDetailsConvert.reverse(resultMap);
     }

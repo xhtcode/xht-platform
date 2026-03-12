@@ -5,6 +5,7 @@ import com.xht.framework.core.properties.IProperties;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.framework.security.annotation.IgnoreAuth;
+import com.xht.framework.security.constant.SecurityConstant;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -64,22 +65,9 @@ public class PermitAllUrlProperties implements InitializingBean, IProperties {
     private boolean addSwaggerIgnoreUrls = false;
 
     /**
-     * 授权服务
+     * 是否添加token撤销端点
      */
-    private AuthorizationServer authorizationServer = new AuthorizationServer();
-
-    /**
-     * 授权服务器
-     */
-    @Data
-    public static class AuthorizationServer {
-
-        /**
-         * IP网段
-         */
-        private String ipAddress;
-
-    }
+    private boolean tokenRevocationEndpoint = true;
 
     @Override
     public void afterPropertiesSet() {
@@ -88,6 +76,10 @@ public class PermitAllUrlProperties implements InitializingBean, IProperties {
         }
         if (addSwaggerIgnoreUrls) {
             urls.addAll(Arrays.asList(DEFAULT_SWAGGER_IGNORE_URLS));
+        }
+        if (tokenRevocationEndpoint) {
+            urls.add(SecurityConstant.RESOURCE_SERVER_TOKEN_CANCEL_URL);
+            urls.add(SecurityConstant.RESOURCE_SERVER_TOKEN_BATCH_CANCEL_URL);
         }
         RequestMappingHandlerMapping mapping = SpringContextUtils.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> mappingHandlerMethods = mapping.getHandlerMethods();
