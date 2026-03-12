@@ -31,6 +31,7 @@ public class LoginController {
     public ModelAndView require(ModelAndView modelAndView, @RequestParam(required = false) String error) {
         modelAndView.setViewName("login");
         modelAndView.addObject("error", error);
+        log.debug("授权码模式：认证页面 error:{}", error);
         return modelAndView;
     }
 
