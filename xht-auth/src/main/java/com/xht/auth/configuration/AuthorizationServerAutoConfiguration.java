@@ -28,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -44,8 +43,6 @@ import org.springframework.security.oauth2.server.authorization.token.JwtGenerat
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -113,15 +110,7 @@ public class AuthorizationServerAutoConfiguration {
                                     tokenEndpoint.errorResponseHandler(new TokenRevocationAuthenticationFailureHandler());
                                 })
                 )
-                .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
-                .exceptionHandling(
-                        (exceptions) ->
-                        {
-                            LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint = new LoginUrlAuthenticationEntryPoint("/login");
-                            MediaTypeRequestMatcher mediaTypeRequestMatcher = new MediaTypeRequestMatcher(MediaType.TEXT_HTML);
-                            exceptions.defaultAuthenticationEntryPointFor(loginUrlAuthenticationEntryPoint, mediaTypeRequestMatcher);
-                        }
-                );
+                .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
         return http.build();
     }
     // @formatter:on
@@ -135,7 +124,11 @@ public class AuthorizationServerAutoConfiguration {
         // 禁用csrf
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(requestsConfigurer);
-        http.formLogin(Customizer.withDefaults());
+        http.formLogin(form -> {
+            form.loginPage("/sso/login")
+                    .loginProcessingUrl("/sso/unLogin")
+                    .permitAll();
+        });
         http.oauth2ResourceServer(configurer -> {
             configurer.opaqueToken(opaqueToken -> opaqueToken.introspector(opaqueTokenIntrospector));
             configurer.authenticationEntryPoint(resourceAuthenticationEntryPoint);

@@ -1,6 +1,5 @@
 package com.xht.auth.security.web.authentication.logout;
 
-import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.core.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+
+import java.io.IOException;
 
 /**
  * 自定义退出成功处理器
@@ -21,17 +22,20 @@ public class XhtLogoutSuccessHandler implements LogoutSuccessHandler {
     private static final String REDIRECT_URL = "redirect_url";
 
     @Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         if (response == null) {
+            log.warn("退出成功 response is null");
             return;
         }
         // 获取请求参数中是否包含 回调地址
-        String redirectUrl = request.getParameter(REDIRECT_URL);
-        if (StringUtils.hasText(redirectUrl)) {
-            redirectUrl = request.getHeader(HttpHeaders.REFERER);
+        String redirectUrl = ServletUtil.getParams(request, REDIRECT_URL);
+        if (StringUtils.isEmpty(redirectUrl)) {
+            redirectUrl = ServletUtil.getHeader(request, HttpHeaders.REFERER);
         }
-        log.info("退出成功 redirectUrl={}", redirectUrl);
-        ServletUtil.writeJson(response, R.ok().msg("退出成功").build(redirectUrl));
+        if (StringUtils.hasText(redirectUrl)) {
+            log.info("退出成功 redirectUrl={}", redirectUrl);
+            response.sendRedirect(redirectUrl);
+        }
     }
 
 }
