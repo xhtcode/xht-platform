@@ -16,6 +16,7 @@
         <module>xht-framework</module>
         <module>xht-gateway</module>
         <module>xht-modules</module>
+        <module>xht-dependencies</module>
     </modules>
 
     <properties>
@@ -63,6 +64,14 @@
             <dependency>
                 <groupId>com.xht</groupId>
                 <artifactId>xht-framework-bom</artifactId>
+                <version>${revision}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- 项目通用bom -->
+            <dependency>
+                <groupId>com.xht.framework</groupId>
+                <artifactId>xht-dependencies</artifactId>
                 <version>${revision}</version>
                 <type>pom</type>
                 <scope>import</scope>

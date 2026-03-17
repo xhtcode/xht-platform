@@ -1,5 +1,6 @@
 package com.xht.framework.core.enums;
 
+import com.xht.framework.common.enums.XhtEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

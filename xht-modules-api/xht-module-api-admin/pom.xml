@@ -16,15 +16,15 @@
     <dependencies>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-framework-openfeign</artifactId>
+            <artifactId>xht-spring-boot-starter-openfeign</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-framework-log</artifactId>
+            <artifactId>xht-spring-boot-starter-log</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-framework-redis</artifactId>
+            <artifactId>xht-spring-boot-starter-cache</artifactId>
         </dependency>
     </dependencies>
 </project>

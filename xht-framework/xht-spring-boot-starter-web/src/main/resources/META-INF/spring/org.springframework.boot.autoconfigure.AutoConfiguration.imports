@@ -1,0 +1,2 @@
+com.xht.framework.web.autoconfigure.CorsAutoConfig
+com.xht.framework.web.autoconfigure.WebServletAutoConfiguration

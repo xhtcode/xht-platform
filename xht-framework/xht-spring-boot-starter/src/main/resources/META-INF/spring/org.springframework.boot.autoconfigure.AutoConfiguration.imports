@@ -1,9 +1,0 @@
-com.xht.boot.log.LogAutoConfiguration
-com.xht.boot.mybatis.MybatisAutoConfiguration
-com.xht.boot.autoconfigure.XhtBootAutoConfiguration
-com.xht.boot.redis.RedisAutoConfiguration
-com.xht.boot.security.SecurityAutoConfiguration
-com.xht.boot.runner.StartupInfoPrinter
-com.xht.boot.servlet.CorsAutoConfig
-com.xht.boot.servlet.WebServletAutoConfiguration
-com.xht.boot.jackson.JacksonConfiguration

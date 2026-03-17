@@ -4,8 +4,6 @@ import cn.hutool.core.exceptions.UtilException;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.ArrayUtil;
 import com.xht.framework.core.properties.XhtConfigProperties;
-import com.xht.framework.core.context.impl.DefaultUserContextServiceImpl;
-import com.xht.framework.core.context.UserContextService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -106,22 +104,6 @@ public final class SpringContextUtils implements ApplicationContextAware, BeanFa
      */
     public static <T> T getBean(Class<T> clazz) {
         return getBeanFactory().getBean(clazz);
-    }
-
-    // 通过name获取 Bean.
-
-    /**
-     * 获取UserContextService
-     *
-     * @return UserContextService
-     */
-    public static UserContextService getUserContextService() {
-        try {
-            return getBean(UserContextService.class);
-        } catch (Exception e) {
-            log.warn("No UserContextService bean found, using DefaultUserContextServiceImpl instead.");
-            return new DefaultUserContextServiceImpl();
-        }
     }
 
     /**

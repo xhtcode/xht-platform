@@ -1,7 +1,7 @@
 package com.xht.auth;
 
-import com.xht.boot.oauth2.EnableResourceServer;
-import com.xht.boot.swagger.EnableCustomSwagger;
+import com.xht.framework.oauth2.autoconfigure.EnableResourceServer;
+import com.xht.framework.swagger.autoconfigure.EnableCustomSwagger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

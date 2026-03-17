@@ -23,10 +23,15 @@
     <dependencyManagement>
         <!-- 管理项目的依赖版本，避免在各个子模块中重复定义 -->
         <dependencies>
+            <dependency>
+                <groupId>com.xht</groupId>
+                <artifactId>xht-framework-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!-- redis缓存模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-framework-redis</artifactId>
+                <artifactId>xht-spring-boot-starter-cache</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- core核心模块依赖 -->
@@ -38,13 +43,13 @@
             <!-- log日志记录模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-framework-log</artifactId>
+                <artifactId>xht-spring-boot-starter-log</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- mybatis模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-framework-mybatis</artifactId>
+                <artifactId>xht-spring-boot-starter-mybatis-plus</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- nacos模块依赖 -->
@@ -56,43 +61,37 @@
             <!-- openfeign模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-framework-openfeign</artifactId>
+                <artifactId>xht-spring-boot-starter-openfeign</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- resource-server资源服务器模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-framework-resource-server</artifactId>
+                <artifactId>xht-spring-boot-starter-resource-server</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- security安全模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-framework-security</artifactId>
+                <artifactId>xht-spring-boot-starter-security</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- 短信模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-framework-sms</artifactId>
+                <artifactId>xht-spring-boot-starter-sms</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- swagger模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-framework-swagger</artifactId>
+                <artifactId>xht-spring-boot-starter-swagger</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- web通信模块依赖 -->
             <dependency>
                 <groupId>com.xht</groupId>
-                <artifactId>xht-framework-web</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <!-- spring-boot 启动器 -->
-            <dependency>
-                <groupId>com.xht</groupId>
-                <artifactId>xht-spring-boot-starter</artifactId>
+                <artifactId>xht-spring-boot-starter-web</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- mysql数据库驱动 -->

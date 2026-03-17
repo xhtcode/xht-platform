@@ -1,0 +1,18 @@
+package com.xht.framework.swagger.autoconfigure;
+
+import org.springframework.context.annotation.Import;
+
+import java.lang.annotation.*;
+
+/**
+ * EnableCustomSwagger
+ *
+ * @author xht
+ */
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@Import({SpringDocAutoConfiguration.class})
+public @interface EnableCustomSwagger {
+}

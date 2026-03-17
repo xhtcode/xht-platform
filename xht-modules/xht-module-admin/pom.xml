@@ -16,35 +16,27 @@
     <dependencies>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-spring-boot-starter</artifactId>
+            <artifactId>xht-spring-boot-starter-cache</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-framework-redis</artifactId>
+            <artifactId>xht-spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-spring-cloud-starter</artifactId>
+            <artifactId>xht-spring-boot-starter-swagger</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-framework-web</artifactId>
+            <artifactId>xht-spring-boot-starter-mybatis-plus</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-framework-swagger</artifactId>
+            <artifactId>xht-spring-boot-starter-resource-server</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-framework-mybatis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-framework-resource-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-framework-openfeign</artifactId>
+            <artifactId>xht-spring-boot-starter-openfeign</artifactId>
         </dependency>
         <dependency>
             <groupId>com.mysql</groupId>

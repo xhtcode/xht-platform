@@ -43,7 +43,7 @@
         <!-- OpenFeign声明式HTTP客户端模块 -->
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-framework-openfeign</artifactId>
+            <artifactId>xht-spring-boot-starter-openfeign</artifactId>
             <optional>true</optional>
         </dependency>
     </dependencies>

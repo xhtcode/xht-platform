@@ -14,6 +14,10 @@
     <description>xht-framework-core核心模块</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-framework-common</artifactId>
+        </dependency>
         <!-- huTool 工具类库 核心包 -->
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -47,11 +51,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-json</artifactId>
-        </dependency>
-        <!--mybatis-plus注解-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-annotation</artifactId>
         </dependency>
     </dependencies>
 
