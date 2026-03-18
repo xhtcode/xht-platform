@@ -7,19 +7,16 @@ import com.xht.framework.web.xss.XSSProperties;
 import com.xht.framework.web.xss.filter.XSSFilter;
 import jakarta.servlet.DispatcherType;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
 
 /**
  * 描述 ：web组件自动装配
@@ -27,8 +24,7 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
  * @author xht
  **/
 @Slf4j
-@Configuration(proxyBeanMethods = false)
-@ConditionalOnWebApplication(type = SERVLET)
+@AutoConfiguration
 @EnableConfigurationProperties(XSSProperties.class)
 public class WebServletAutoConfiguration implements WebMvcConfigurer {
 
@@ -64,4 +60,5 @@ public class WebServletAutoConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new TraceIdInterceptor()).addPathPatterns("/**");
     }
+
 }

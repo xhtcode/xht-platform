@@ -28,10 +28,6 @@
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
-            <artifactId>xht-framework-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xht</groupId>
             <artifactId>xht-spring-boot-starter-mybatis-plus</artifactId>
         </dependency>
         <dependency>
@@ -69,6 +65,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-spring-boot-starter-log</artifactId>
         </dependency>
     </dependencies>
     <build>

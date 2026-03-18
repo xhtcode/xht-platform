@@ -1,7 +1,7 @@
 package com.xht.auth.redis.converter;
 
 import com.xht.auth.redis.entity.Oauth2AuthorizationConsentEntity;
-import com.xht.framework.common.converter.IConverter;
+import com.xht.framework.core.converter.IConverter;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
 
 import java.util.Objects;

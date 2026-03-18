@@ -117,7 +117,7 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
                 }
             } catch (Exception e) {
                 log.error("代码生成失败: {}", e.getMessage(), e);
-                throw new BusinessException(e);
+                throw new BusinessException("代码生成失败", e);
             }
         }
         return codeList;
@@ -154,7 +154,7 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
 
         } catch (Exception e) {
             log.error("代码打包为ZIP失败 {}", e.getMessage(), e);
-            throw new BusinessException(e);
+            throw new BusinessException("代码生成失败", e);
         }
     }
 

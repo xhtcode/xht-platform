@@ -14,10 +14,6 @@
     <description>xht-framework-core核心模块</description>
 
     <dependencies>
-        <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-framework-common</artifactId>
-        </dependency>
         <!-- huTool 工具类库 核心包 -->
         <dependency>
             <groupId>cn.hutool</groupId>

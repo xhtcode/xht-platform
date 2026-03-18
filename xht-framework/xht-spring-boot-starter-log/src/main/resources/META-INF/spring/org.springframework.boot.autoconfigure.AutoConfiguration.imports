@@ -1,1 +1,2 @@
+com.xht.framework.log.autoconfigure.BLogRepositoryAutoConfiguration
 com.xht.framework.log.autoconfigure.LogAutoConfiguration

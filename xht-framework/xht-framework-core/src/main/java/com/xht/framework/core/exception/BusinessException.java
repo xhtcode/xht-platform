@@ -10,32 +10,42 @@ import lombok.Getter;
  * @author xht
  */
 @Getter
-public class BusinessException extends RuntimeException {
+public class BusinessException extends RuntimeException implements ErrorCode {
 
     /**
      * 错误码
      */
     private final int code;
 
+    /**
+     * 异常描述
+     */
+    private final String msg;
 
-    public BusinessException(Throwable cause) {
-        super(cause);
-        this.code = RConstants.FAIL;
-    }
 
     public BusinessException(String message) {
         super(message);
         this.code = RConstants.FAIL;
+        this.msg = message;
     }
+
+    public BusinessException(String message, Throwable cause) {
+        super(message, cause);
+        this.code = RConstants.FAIL;
+        this.msg = message;
+    }
+
 
     public BusinessException(ErrorCode errorCode) {
         super(errorCode.getMsg());
         this.code = errorCode.getCode();
+        this.msg = errorCode.getMsg();
     }
 
     public BusinessException(ErrorCode errorCode, String message) {
         super(message);
         this.code = errorCode.getCode();
+        this.msg = errorCode.getMsg();
     }
 
 }

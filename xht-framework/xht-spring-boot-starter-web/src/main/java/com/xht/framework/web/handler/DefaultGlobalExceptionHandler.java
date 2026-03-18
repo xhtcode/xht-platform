@@ -62,7 +62,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     @ExceptionHandler(value = {BusinessException.class})
     public R<String> handle(BusinessException e) {
         log.error("自定义异常: code={} MESSAGE={}", e.getCode(), e.getMessage(), e);
-        return R.error(e.getCode()).msg(e.getMessage()).build();
+        return R.error(e.getCode()).msg(e.getMsg()).build();
     }
 
 

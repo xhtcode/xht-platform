@@ -33,3 +33,5 @@ xht:
         timeout: 5000
         retry: 3
         retry-interval: 5000
+  blog:
+    repository-type: default

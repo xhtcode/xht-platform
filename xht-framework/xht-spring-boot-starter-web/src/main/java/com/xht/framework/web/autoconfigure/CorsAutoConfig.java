@@ -1,16 +1,14 @@
 package com.xht.framework.web.autoconfigure;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
 import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 
 /**
@@ -19,12 +17,11 @@ import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
  * @author xht
  **/
 @Slf4j
-@Configuration(proxyBeanMethods = false)
-@ConditionalOnWebApplication(type = SERVLET)
+@AutoConfiguration
 public class CorsAutoConfig {
 
     public CorsAutoConfig() {
-        log.debug("[xht] |- xht-boot-web-cors 启动成功！");
+        log.debug("【xht-spring-boot-starter-web】 CorsAutoConfig启动！");
     }
 
     @Bean

@@ -1,7 +1,7 @@
 package com.xht.framework.core.support.message.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.xht.framework.common.enums.XhtEnum;
+import com.xht.framework.core.enums.XhtEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

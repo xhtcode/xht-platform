@@ -14,11 +14,6 @@
     <description>xht-framework-mybatis mybatis plus 模块</description>
     <dependencies>
         <dependency>
-            <groupId>com.xht</groupId>
-            <artifactId>xht-framework-common</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
         </dependency>
@@ -29,6 +24,7 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>

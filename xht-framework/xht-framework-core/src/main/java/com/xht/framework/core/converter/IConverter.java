@@ -1,4 +1,4 @@
-package com.xht.framework.common.converter;
+package com.xht.framework.core.converter;
 
 import java.util.Collections;
 import java.util.List;

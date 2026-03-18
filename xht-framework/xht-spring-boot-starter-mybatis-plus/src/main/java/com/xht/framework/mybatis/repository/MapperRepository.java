@@ -1,7 +1,7 @@
 package com.xht.framework.mybatis.repository;
 
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.xht.framework.common.repository.CrudRepository;
+import com.xht.framework.core.repository.CrudRepository;
 
 import java.io.Serializable;
 import java.util.Collection;

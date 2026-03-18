@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.xht.auth.redis.entity.Oauth2AuthorizationEntity;
-import com.xht.framework.common.converter.IConverter;
+import com.xht.framework.core.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.security.jackson2.CoreJackson2Module;

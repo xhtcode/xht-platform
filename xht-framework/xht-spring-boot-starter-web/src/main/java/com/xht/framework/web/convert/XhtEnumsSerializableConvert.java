@@ -1,6 +1,6 @@
 package com.xht.framework.web.convert;
 
-import com.xht.framework.common.enums.XhtEnum;
+import com.xht.framework.core.enums.XhtEnum;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.utils.StringUtils;
 import jakarta.annotation.Nonnull;

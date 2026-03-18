@@ -1,5 +1,6 @@
 package com.xht.framework.log.aspect;
 
+import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.constant.StringConstant;
 import com.xht.framework.core.jackson.JsonUtils;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
@@ -12,16 +13,14 @@ import com.xht.framework.log.repository.BLogRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.CodeSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StopWatch;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,17 +37,13 @@ import java.util.Optional;
  */
 @Slf4j
 @Aspect
+@RequiredArgsConstructor
 public class BLogAspect {
 
-    private BLogRepository bLogRepository = BLogAspect::createBLogRepository;
+    private final BLogRepository bLogRepository;
 
-    @Value("${spring.application.name}")
+    @Value("${spring.application.name:unknown}")
     private String applicationName;
-
-    @Autowired(required = false)
-    public void setbLogRepository(BLogRepository bLogRepository) {
-        this.bLogRepository = bLogRepository;
-    }
 
     /**
      * 环绕通知方法，用于处理系统日志记录
@@ -79,9 +74,9 @@ public class BLogAspect {
             optHttpServletRequest.ifPresent(request -> {
                 bLogDTO.setRequestIp(IpUtils.getIpAddr());
                 bLogDTO.setRequestHeaders(JsonUtils.toJsonString(ServletUtil.getHeaderMap(request)));
+                bLogDTO.setRequestAccount(request.getHeader(HttpConstants.Header.USER_ACCOUNT.getValue()));
                 bLogDTO.setRequestType(request.getMethod());
             });
-            bLogDTO.setRequestAccount(getUserName());
             bLogDTO.setExecuteTime(LocalDateTime.now());
             obj = point.proceed();
             bLogDTO.setClassMethod(decorateMethodName(className, methodName));
@@ -101,29 +96,6 @@ public class BLogAspect {
             }
         }
         return obj;
-    }
-
-
-    /**
-     * 获取当前登录用户名
-     *
-     * @return 当前登录用户名
-     */
-    private String getUserName() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (Optional.ofNullable(authentication).isPresent()) {
-            return authentication.getName();
-        }
-        return null;
-    }
-
-    /**
-     * 创建日志存储对象
-     * @param bLogDTO 系统日志
-     */
-    @SneakyThrows
-    private static void createBLogRepository(BLogDTO bLogDTO) {
-        log.debug("日志保存失败，请检查日志服务是否正常 \n{}", JsonUtils.toJsonString(bLogDTO));
     }
 
     /**

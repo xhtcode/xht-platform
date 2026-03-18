@@ -1,6 +1,6 @@
 package com.xht.framework.log.repository;
 
-import com.xht.framework.common.repository.IRepository;
+import com.xht.framework.core.repository.IRepository;
 import com.xht.framework.core.support.blog.dto.BLogDTO;
 
 /**

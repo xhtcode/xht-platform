@@ -1,4 +1,4 @@
-package com.xht.framework.common.enums;
+package com.xht.framework.core.enums;
 
 import java.io.Serializable;
 

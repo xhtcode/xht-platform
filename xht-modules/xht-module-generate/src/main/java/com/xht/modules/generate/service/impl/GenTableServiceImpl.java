@@ -123,7 +123,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
             }
         } catch (Exception e) {
             log.error("导入失败 {}", e.getMessage(), e);
-            throw new BusinessException(e);
+            throw new BusinessException("导入失败", e);
         } finally {
             if (Objects.nonNull(jdbcUtils)) {
                 jdbcUtils.close();
@@ -169,7 +169,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
             }
         } catch (Exception e) {
             log.error("表同步失败 {}", e.getMessage(), e);
-            throw new BusinessException(e);
+            throw new BusinessException("表同步失败", e);
         } finally {
             if (Objects.nonNull(jdbcUtils)) {
                 jdbcUtils.close();

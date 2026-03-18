@@ -2,6 +2,8 @@ package com.xht.modules.admin;
 
 import com.xht.framework.core.support.dict.ISysDictFactory;
 import com.xht.framework.core.support.message.IMessagePublisher;
+import com.xht.framework.log.annotations.ConditionalOnBLog;
+import com.xht.framework.log.configurers.BLogProperties;
 import com.xht.framework.log.repository.BLogRepository;
 import com.xht.modules.admin.audit.BLogRepositoryImpl;
 import com.xht.modules.admin.dict.SysDictApiFactory;
@@ -33,6 +35,7 @@ public class ApiSystemAutoConfiguration {
      * @return blog 日志监听器
      */
     @Bean
+    @ConditionalOnBLog(value = BLogProperties.RepositoryType.FEIGN)
     public BLogRepository bLogRepository() {
         return new BLogRepositoryImpl();
     }

@@ -144,7 +144,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void resetPassword(Long userId) {
-        SysUserEntity sysUserEntity = sysUserDao.findOptionalById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST, "用户不存在"));
+        SysUserEntity sysUserEntity = sysUserDao.findOptionalById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST));
         String password = PassWordUtils.generatePassword();
         String passwordSalt = PassWordUtils.generatePasswordSalt();
         sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(password, passwordSalt), passwordSalt, password);
@@ -160,7 +160,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void updatePassword(UpdatePwdFrom form) {
         Long userId = SecurityUtils.getUserId();
-        SysUserEntity sysUserEntity = sysUserDao.findOptionalById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST, "用户不存在"));
+        SysUserEntity sysUserEntity = sysUserDao.findOptionalById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST));
         if (!Objects.equals(sysUserEntity.getUserStatus(), UserStatusEnums.NORMAL)) {
             throw new BusinessException("用户状态不正确！");
         }

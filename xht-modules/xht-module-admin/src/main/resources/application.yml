@@ -62,6 +62,8 @@ xht:
         add-default-ignore-urls: true
         add-swagger-ignore-urls: true
         token-revocation-endpoint: true
+  blog:
+    repository-type: default
 mybatis-plus:
   configuration:
     default-executor-type: batch

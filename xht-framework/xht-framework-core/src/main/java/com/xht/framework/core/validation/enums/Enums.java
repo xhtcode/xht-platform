@@ -1,6 +1,6 @@
 package com.xht.framework.core.validation.enums;
 
-import com.xht.framework.common.enums.XhtEnum;
+import com.xht.framework.core.enums.XhtEnum;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

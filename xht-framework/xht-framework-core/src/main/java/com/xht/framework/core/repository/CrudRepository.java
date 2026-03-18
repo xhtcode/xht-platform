@@ -1,4 +1,4 @@
-package com.xht.framework.common.repository;
+package com.xht.framework.core.repository;
 
 import java.io.Serializable;
 import java.util.Collection;
