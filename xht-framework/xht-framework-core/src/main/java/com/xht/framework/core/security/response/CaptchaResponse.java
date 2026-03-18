@@ -1,4 +1,4 @@
-package com.xht.framework.security.domain.response;
+package com.xht.framework.core.security.response;
 
 import com.xht.framework.core.domain.response.BasicResponse;
 import lombok.Data;

@@ -33,7 +33,7 @@ public class XSSFilter extends OncePerRequestFilter {
     public XSSFilter(XSSProperties properties, PathMatcher pathMatcher) {
         this.properties = properties;
         this.pathMatcher = pathMatcher;
-        log.debug(">>>>>>web-start xss 防范<<<<<<");
+        log.debug("【xht-spring-boot-starter-web】 XSSFilter 初始化");
     }
 
     /**

@@ -41,7 +41,6 @@ public class CorsAutoConfig {
         config.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource configurationSource = new UrlBasedCorsConfigurationSource();
         configurationSource.registerCorsConfiguration("/**", config);
-        log.debug(">>>>>>web-start cors跨域加载<<<<<<");
         return new CorsFilter(configurationSource);
     }
 

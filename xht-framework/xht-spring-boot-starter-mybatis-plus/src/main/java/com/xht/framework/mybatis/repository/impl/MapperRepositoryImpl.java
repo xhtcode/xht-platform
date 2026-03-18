@@ -40,7 +40,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否保存成功 true:成功 false:失败
      */
     @Override
-    public final boolean save(T entity) {
+    public boolean save(T entity) {
         return SqlHelper.retBool(getBaseMapper().insert(entity));
     }
 
@@ -63,7 +63,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否保存成功 true:成功 false:失败
      */
     @Override
-    public final boolean saveAll(Collection<T> entityList) {
+    public boolean saveAll(Collection<T> entityList) {
         return super.saveBatch(entityList, DEFAULT_BATCH_SIZE);
     }
 
@@ -97,7 +97,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否删除成功 true:成功 false:失败
      */
     @Override
-    public final boolean removeById(Serializable id) {
+    public boolean removeById(Serializable id) {
         return super.removeById(id);
     }
 
@@ -119,7 +119,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否删除成功 true:成功 false:失败
      */
     @Override
-    public final boolean removeAllById(Collection<? extends Serializable> idList) {
+    public boolean removeAllById(Collection<? extends Serializable> idList) {
         return removeByIds(idList);
     }
 
@@ -130,7 +130,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否删除成功 true:成功 false:失败
      */
     @Override
-    public final boolean removeAll(Collection<T> entityList) {
+    public boolean removeAll(Collection<T> entityList) {
         return removeByIds(entityList);
     }
 
@@ -141,7 +141,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否更新成功 true:成功 false:失败
      */
     @Override
-    public final boolean updateById(T entity) {
+    public boolean updateById(T entity) {
         return SqlHelper.retBool(getBaseMapper().updateById(entity));
     }
 
@@ -152,7 +152,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 实体
      */
     @Override
-    public final T findById(Serializable id) {
+    public T findById(Serializable id) {
         return getById(id);
     }
 
@@ -163,7 +163,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否存在 true:存在 false:不存在
      */
     @Override
-    public final boolean existsById(Serializable id) {
+    public boolean existsById(Serializable id) {
         return SqlHelper.retBool(getBaseMapper().selectCount(getFieldId(), id));
     }
 
@@ -174,7 +174,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 是否存在 true:存在 false:不存在
      */
     @Override
-    public final boolean existsByIds(Collection<? extends Serializable> ids) {
+    public boolean existsByIds(Collection<? extends Serializable> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return false;
         }
@@ -190,7 +190,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 实体列表
      */
     @Override
-    public final List<T> findAllById(Collection<? extends Serializable> idList) {
+    public List<T> findAllById(Collection<? extends Serializable> idList) {
         return getBaseMapper().selectList(getFieldId(), idList);
     }
 
@@ -200,7 +200,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 实体列表
      */
     @Override
-    public final List<T> findAll() {
+    public List<T> findAll() {
         return list(Wrappers.emptyWrapper());
     }
 
@@ -210,7 +210,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 实体总数
      */
     @Override
-    public final long count() {
+    public long count() {
         return count(Wrappers.emptyWrapper());
     }
 
@@ -222,7 +222,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @param value 字段value
      */
     @Override
-    public final Optional<T> findOneOptional(SFunction<T, ?> field, Object value) {
+    public Optional<T> findOneOptional(SFunction<T, ?> field, Object value) {
         return getOneOpt(new LambdaQueryWrapper<T>().eq(field, value));
     }
 
@@ -233,7 +233,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @param value 字段value
      */
     @Override
-    public final List<T> findList(SFunction<T, ?> field, Object value) {
+    public List<T> findList(SFunction<T, ?> field, Object value) {
         return list(new LambdaQueryWrapper<T>().eq(field, value));
     }
 
@@ -245,7 +245,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @param value 字段value
      */
     @Override
-    public final List<T> findList(SFunction<T, ?> field, Collection<?> value) {
+    public List<T> findList(SFunction<T, ?> field, Collection<?> value) {
         return list(new LambdaQueryWrapper<T>().in(field, value));
     }
 
@@ -258,7 +258,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return true：存在，false：不存在
      */
     @Override
-    public final Boolean exists(SFunction<T, ?> field, Object value) {
+    public Boolean exists(SFunction<T, ?> field, Object value) {
         return SqlHelper.retBool(count(field, value));
     }
 
@@ -270,7 +270,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return true：存在，false：不存在
      */
     @Override
-    public final Boolean existsIn(SFunction<T, ?> field, Collection<?> value) {
+    public Boolean existsIn(SFunction<T, ?> field, Collection<?> value) {
         return count(field, value) == value.size();
     }
 
@@ -282,7 +282,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 数量
      */
     @Override
-    public final long count(SFunction<T, ?> field, Object value) {
+    public long count(SFunction<T, ?> field, Object value) {
         return count(new LambdaQueryWrapper<T>().eq(field, value));
     }
 
@@ -294,7 +294,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      * @return 数量
      */
     @Override
-    public final long count(SFunction<T, ?> field, Collection<?> value) {
+    public long count(SFunction<T, ?> field, Collection<?> value) {
         return count(new LambdaQueryWrapper<T>().in(field, value));
     }
 

@@ -2,7 +2,7 @@ package com.xht.auth.security.web.authentication;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.ServletUtil;
-import com.xht.framework.security.domain.response.TokenResponse;
+import com.xht.framework.core.security.response.TokenResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

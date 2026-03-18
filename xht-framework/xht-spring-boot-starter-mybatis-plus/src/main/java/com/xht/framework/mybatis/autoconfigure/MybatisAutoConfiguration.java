@@ -40,7 +40,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class MybatisAutoConfiguration implements CommandLineRunner {
 
     public MybatisAutoConfiguration() {
-        log.debug("[xht] |- xht-boot-mybatis 启动成功！");
+        log.debug("【xht-spring-boot-starter-mybatis-plus】 MybatisAutoConfiguration 启动成功！");
     }
 
     /**

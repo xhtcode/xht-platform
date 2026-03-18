@@ -9,7 +9,7 @@ import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.security.constant.SecurityConstant;
-import com.xht.framework.security.domain.response.CaptchaResponse;
+import com.xht.framework.core.security.response.CaptchaResponse;
 import com.xht.framework.sms.exception.SmsException;
 import com.xht.framework.sms.utils.SmsUtils;
 import lombok.RequiredArgsConstructor;

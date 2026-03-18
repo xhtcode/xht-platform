@@ -2,12 +2,8 @@ package com.xht.auth.authentication.service.impl;
 
 import com.xht.auth.authentication.service.ITokenService;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
-import com.xht.framework.core.constant.HttpConstants;
-import com.xht.framework.core.domain.R;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.code.GlobalErrorStatusCode;
-import com.xht.framework.core.jackson.JsonUtils;
-import com.xht.framework.core.utils.ROptional;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.mdc.TraceIdUtils;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
@@ -21,7 +17,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Collections;
 import java.util.List;
@@ -44,8 +39,6 @@ public class TokenServiceImpl implements ITokenService {
     private final OAuth2AuthorizationService authorizationService;
 
     private final TokenInfoLightningCache tokenInfoLightningCache;
-
-    private final WebClient.Builder loadBalancedWebClientBuilder;
 
     private final XhtOauth2Properties xhtOauth2Properties;
 
@@ -106,15 +99,15 @@ public class TokenServiceImpl implements ITokenService {
             // 异步执行任务
             CompletableFuture.runAsync(() -> {
                 try {
-                    TraceIdUtils.putTraceId(traceId);
-                    R<?> block = loadBalancedWebClientBuilder.build().post()
-                            .uri(String.format("http://%s/internal/token-cache/clear", item))
-                            .header(HttpConstants.Header.TRACE_ID.getValue(), traceId)
-                            .bodyValue(tokenForm)
-                            .retrieve().bodyToMono(R.class).block();
-                    if (!ROptional.of(block).isSuccess()) {
-                        throw new BusinessException(JsonUtils.toJsonString(block));
-                    }
+                    // TraceIdUtils.putTraceId(traceId);
+                    // R<?> block = loadBalancedWebClientBuilder.build().post()
+                    //         .uri(String.format("http://%s/internal/token-cache/clear", item))
+                    //         .header(HttpConstants.Header.TRACE_ID.getValue(), traceId)
+                    //         .bodyValue(tokenForm)
+                    //         .retrieve().bodyToMono(R.class).block();
+                    // if (!ROptional.of(block).isSuccess()) {
+                    //     throw new BusinessException(JsonUtils.toJsonString(block));
+                    // }
                 } catch (BusinessException e) {
                     log.warn("{} 请求失败：{}", item, e.getMessage());
                 } catch (Exception e) {

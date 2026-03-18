@@ -32,6 +32,11 @@ public class XhtOauth2Properties {
     private ResourceServer resourceServer = new ResourceServer();
 
     /**
+     * 授权服务器
+     */
+    private final AuthorizationServer authorizationServer = new AuthorizationServer();
+
+    /**
      * 客户端属性
      */
     @Data
@@ -51,4 +56,21 @@ public class XhtOauth2Properties {
          */
         private List<String> serverNames;
     }
+
+    @Data
+    public static class AuthorizationServer {
+
+        /**
+         *如果需要进行身份验证，则会跳转至该登录页面。
+         */
+        private String loginPage;
+
+        /**
+         * 指定用于验证凭证的 URL。
+         */
+        private String loginProcessingUrl;
+
+
+    }
+
 }

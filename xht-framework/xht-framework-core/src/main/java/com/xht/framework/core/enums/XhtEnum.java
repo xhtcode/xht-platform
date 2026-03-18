@@ -1,5 +1,7 @@
 package com.xht.framework.core.enums;
 
+import com.baomidou.mybatisplus.annotation.IEnum;
+
 import java.io.Serializable;
 
 /**
@@ -7,7 +9,7 @@ import java.io.Serializable;
  *
  * @author xht
  **/
-public interface XhtEnum<T extends Serializable>  {
+public interface XhtEnum<T extends Serializable> extends IEnum<T> {
 
 
     /**

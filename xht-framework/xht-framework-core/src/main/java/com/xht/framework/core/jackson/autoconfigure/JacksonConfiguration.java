@@ -28,7 +28,7 @@ import java.util.TimeZone;
 public class JacksonConfiguration {
 
     public JacksonConfiguration() {
-        log.debug("[xht] |- xht-boot-jackson 启动成功！");
+        log.debug("【xht-framework-core】- JacksonConfiguration自动配置");
     }
 
     @Bean

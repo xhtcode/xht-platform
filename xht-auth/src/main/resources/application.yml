@@ -1,6 +1,10 @@
 server:
   port: 9000
 spring:
+  session:
+    redis:
+      repository-type: default
+      namespace: xht
   profiles:
     active: dev
   application:
@@ -60,6 +64,7 @@ springdoc:
     - /error
     - /actuator/**
     - /favicon.ico
+    - /css/**
 xht:
   security:
     oauth2:
@@ -72,6 +77,9 @@ xht:
         add-swagger-ignore-urls: true
         add-default-ignore-urls: true
         token-revocation-endpoint: false
+        urls:
+          - /css/**
+          - /.well-known/**
   safety:
     xss:
       enable: true

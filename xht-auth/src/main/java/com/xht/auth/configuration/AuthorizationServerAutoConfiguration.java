@@ -91,6 +91,9 @@ public class AuthorizationServerAutoConfiguration {
                 .with(authorizationServerConfigurer, (authorizationServer) ->
                         authorizationServer
                                 .oidc(Customizer.withDefaults())  // Enable OpenID Connect 1.0
+                                .authorizationEndpoint(authorizationEndpoint -> {
+                                    authorizationEndpoint.consentPage("/oauth2/confirm_access");
+                                })
                                 // 令牌端点
                                 .tokenEndpoint(tokenEndpoint -> {
                                     tokenEndpoint.accessTokenResponseHandler(new TokenAuthenticationSuccessHandler());

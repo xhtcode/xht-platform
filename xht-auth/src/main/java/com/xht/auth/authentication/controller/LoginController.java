@@ -4,12 +4,18 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Map;
+import java.security.Principal;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * 登录控制器
@@ -22,6 +28,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class LoginController {
 
+    private final RegisteredClientRepository registeredClientRepository;
+
+
     /**
      * 授权码模式：认证页面
      * @param modelAndView 视图模型对象
@@ -33,16 +42,38 @@ public class LoginController {
     public ModelAndView require(ModelAndView modelAndView, @RequestParam(required = false) String error) {
         modelAndView.setViewName("login");
         modelAndView.addObject("error", error);
-        Map<String, Object> model = modelAndView.getModel();
-        model.forEach((k, v) -> {
-            System.out.println(k + ":" + v);
-        });
-        log.debug("授权码模式：认证页面 error:{}", error);
         return modelAndView;
     }
 
     @GetMapping
     public String index() {
         return "home";
+    }
+
+    /**
+     * 授权码模式：确认页面
+     * @param principal 用户主体信息
+     * @param modelAndView 模型和视图对象
+     * @param clientId 客户端ID
+     * @param scope 请求的权限范围
+     * @param state 状态参数
+     * @return 包含确认页面信息的ModelAndView对象
+     */
+    @GetMapping("/oauth2/confirm_access")
+    @Operation(summary = "授权码模式：确认页面", description = "授权码模式：确认页面")
+    public ModelAndView confirm(Principal principal, ModelAndView modelAndView,
+                                @RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
+                                @RequestParam(OAuth2ParameterNames.SCOPE) String scope,
+                                @RequestParam(OAuth2ParameterNames.STATE) String state) {
+        RegisteredClient clientDetails = Optional.ofNullable(registeredClientRepository.findByClientId(clientId))
+                .orElseThrow(() -> new OAuth2AuthenticationException("clientId 不合法"));
+        Set<String> authorizedScopes = clientDetails.getScopes();
+        modelAndView.addObject("clientId", clientId);
+        modelAndView.addObject("state", state);
+        modelAndView.addObject("scope", scope);
+        modelAndView.addObject("scopeList", authorizedScopes);
+        modelAndView.addObject("principalName", principal.getName());
+        modelAndView.setViewName("consent");
+        return modelAndView;
     }
 }

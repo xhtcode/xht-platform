@@ -1,6 +1,6 @@
 package com.xht.auth.captcha.service;
 
-import com.xht.framework.security.domain.response.CaptchaResponse;
+import com.xht.framework.core.security.response.CaptchaResponse;
 
 /**
  * 验证码

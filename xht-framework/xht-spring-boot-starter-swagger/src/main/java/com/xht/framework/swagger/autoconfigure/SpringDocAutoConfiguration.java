@@ -32,7 +32,7 @@ public class SpringDocAutoConfiguration {
     private final SwaggerProperties swaggerProperties;
 
     public SpringDocAutoConfiguration(SwaggerProperties swaggerProperties) {
-        log.debug(">>>>>>swagger-start 自动配置类<<<<<<");
+        log.debug("【xht-spring-boot-starter-swagger】SpringDocAutoConfiguration 自动配置");
         this.swaggerProperties = swaggerProperties;
     }
 

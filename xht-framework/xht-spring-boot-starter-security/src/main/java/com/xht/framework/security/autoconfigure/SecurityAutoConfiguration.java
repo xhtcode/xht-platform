@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityAutoConfiguration {
 
     public SecurityAutoConfiguration() {
-        log.debug("[xht] |- xht-boot-security 启动成功！");
+        log.debug("【xht-spring-boot-starter-security】 SecurityAutoConfiguration 启动成功！");
     }
 
     /**
