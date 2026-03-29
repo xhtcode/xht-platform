@@ -1,10 +1,6 @@
 server:
   port: 9000
 spring:
-  session:
-    redis:
-      repository-type: default
-      namespace: xht
   profiles:
     active: dev
   application:
@@ -19,7 +15,7 @@ spring:
   # 数据源配置
   datasource:
     password: 123456
-    url: jdbc:mysql://localhost:3306/xht_platform?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://192.168.100.1:3306/xht_platform?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
     username: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   cloud:
@@ -40,7 +36,7 @@ spring:
         prefix: ${spring.application.name} # 默认配置
   data:
     redis:
-      host: localhost
+      host: 192.168.100.1
       port: 6379
       timeout: 10000
       jedis:
@@ -51,7 +47,6 @@ spring:
           max-idle: 8
           min-idle: 0
       password:
-      database: 1
 springdoc:
   api-docs:
     enabled: true
@@ -68,16 +63,17 @@ springdoc:
 xht:
   security:
     oauth2:
-      issuer: http://127.0.0.1:${server.port}
+      issuer: http://192.168.100.1:${server.port}
       resource-server:
         server-names:
-          - http://127.0.0.1:${server.port}
+          - http://192.168.100.1:${server.port}
     ignore:
       whites:
         add-swagger-ignore-urls: true
         add-default-ignore-urls: true
         token-revocation-endpoint: false
         urls:
+          - /sso/login
           - /css/**
           - /.well-known/**
   safety:

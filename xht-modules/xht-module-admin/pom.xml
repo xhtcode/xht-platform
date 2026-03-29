@@ -32,11 +32,19 @@
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
+            <artifactId>xht-spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
             <artifactId>xht-spring-boot-starter-resource-server</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xht</groupId>
             <artifactId>xht-spring-boot-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xht</groupId>
+            <artifactId>xht-spring-cloud-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.mysql</groupId>

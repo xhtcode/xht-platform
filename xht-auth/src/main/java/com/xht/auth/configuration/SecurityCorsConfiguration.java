@@ -20,7 +20,7 @@ public class SecurityCorsConfiguration {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        config.addAllowedOrigin("http://127.0.0.1:3000");
+        config.addAllowedOrigin("*");
         config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
         return source;

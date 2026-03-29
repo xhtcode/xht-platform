@@ -60,7 +60,7 @@ public class BLogEntity extends Entity implements Serializable {
     private String requestParams;
 
     /**
-     * 服务器地址（如192.168.1.100）
+     * 服务器地址（如192.168.100.1）
      */
     @TableField(value = "server_addr")
     private String serverAddr;

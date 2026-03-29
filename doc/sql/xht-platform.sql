@@ -452,7 +452,7 @@ CREATE TABLE `b_log`
     `service_name`      varchar(64) NOT NULL COMMENT '服务名称（如demo-service）',
     `class_method`      varchar(128) DEFAULT NULL COMMENT '类名加方法名（如com.demo.controller.UserController.queryUser）',
     `request_params`    text COMMENT '调用参数（GET/POST参数，JSON格式）',
-    `server_addr`       varchar(32)  DEFAULT NULL COMMENT '服务器地址（如192.168.1.100）',
+    `server_addr`       varchar(32)  DEFAULT NULL COMMENT '服务器地址（如192.168.100.1）',
     `request_ip`        varchar(32)  DEFAULT NULL COMMENT '请求IP（客户端真实IP）',
     `request_headers`   text COMMENT '请求头信息（JSON格式）',
     `request_account`   varchar(64)  DEFAULT NULL COMMENT '请求账号（未登录为匿名）',

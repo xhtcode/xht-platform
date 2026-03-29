@@ -200,8 +200,8 @@
                 <!-- nacos相关配置 -->
                 <nacos.username>nacos</nacos.username>
                 <nacos.password>nacos</nacos.password>
-                <nacos.discovery.address>127.0.0.1:8848</nacos.discovery.address>
-                <nacos.config.address>127.0.0.1:8848</nacos.config.address>
+                <nacos.discovery.address>192.168.100.1:8848</nacos.discovery.address>
+                <nacos.config.address>192.168.100.1:8848</nacos.config.address>
                 <nacos.namespace>xht-dev</nacos.namespace>
                 <nacos.group>XHT_CLOUD_GROUP</nacos.group>
                 <nacos.version>v3</nacos.version>

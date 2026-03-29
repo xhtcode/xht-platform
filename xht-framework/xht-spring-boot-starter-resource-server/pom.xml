@@ -20,7 +20,6 @@
         <dependency>
             <groupId>com.xht</groupId>
             <artifactId>xht-spring-boot-starter-security</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

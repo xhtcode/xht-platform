@@ -28,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -43,6 +44,8 @@ import org.springframework.security.oauth2.server.authorization.token.JwtGenerat
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -112,7 +115,11 @@ public class AuthorizationServerAutoConfiguration {
                                     tokenEndpoint.revocationResponseHandler(new TokenRevocationAuthenticationSuccessHandler());
                                     tokenEndpoint.errorResponseHandler(new TokenRevocationAuthenticationFailureHandler());
                                 })
-                )
+                ).exceptionHandling((exceptions) -> {
+                    LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint = new LoginUrlAuthenticationEntryPoint("http://192.168.100.1:8080/auth/sso/login");
+                    MediaTypeRequestMatcher mediaTypeRequestMatcher = new MediaTypeRequestMatcher(MediaType.TEXT_HTML);
+                    exceptions.defaultAuthenticationEntryPointFor(loginUrlAuthenticationEntryPoint, mediaTypeRequestMatcher);
+                })
                 .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
         return http.build();
     }
@@ -128,8 +135,9 @@ public class AuthorizationServerAutoConfiguration {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(requestsConfigurer);
         http.formLogin(form -> {
-            form.loginPage("/sso/login")
+            form.loginPage("http://192.168.100.1:8080/auth/sso/login")
                     .loginProcessingUrl("/sso/unLogin")
+                    .defaultSuccessUrl("http://192.168.100.1:8080/auth")
                     .permitAll();
         });
         http.oauth2ResourceServer(configurer -> {
@@ -152,7 +160,7 @@ public class AuthorizationServerAutoConfiguration {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings(XhtOauth2Properties xhtOauth2Properties) {
         return AuthorizationServerSettings.builder()
-                .issuer(xhtOauth2Properties.getIssuer())
+                .issuer("http://localhost:9000")
                 .build();
     }
 

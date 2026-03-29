@@ -53,7 +53,7 @@ public class BLogDTO extends BasicDTO {
     private String requestParams;
 
     /**
-     * 服务器地址（如192.168.1.100）
+     * 服务器地址（如192.168.100.1）
      */
     @Schema(description = "服务器地址")
     private String serverAddr;
