@@ -1,11 +1,9 @@
 package com.xht.auth.authentication.controller;
 
-import com.xht.auth.authentication.service.ITokenService;
-import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.oauth2.token.form.TokenForm;
+import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.annotation.IgnoreAuth;
-import com.xht.framework.security.utils.Oauth2Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,8 +21,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/token")
 @RequiredArgsConstructor
 public class TokenController {
-
-    private final ITokenService tokenService;
+    @GetMapping("/info")
+    public R<Object> getUserInfo() {
+        // 查看所有用户
+        boolean login = SecurityUtils.isLogin();
+        return R.ok().build(login);
+    }
 
     /**
      * 注销并删除令牌
@@ -37,7 +39,7 @@ public class TokenController {
     @ResponseBody
     @Operation(summary = "注销并删除令牌", description = "注销并删除令牌")
     public R<Void> logout(HttpServletRequest request) {
-        tokenService.removeToken(Oauth2Utils.getBearerAuthorization(request.getHeader(HttpConstants.Header.AUTHORIZATION.getValue())));
+        //  tokenService.removeToken(Oauth2Utils.getBearerAuthorization(request.getHeader(HttpConstants.Header.AUTHORIZATION.getValue())));
         return R.ok().msg("注销成功").build();
     }
 
@@ -50,7 +52,7 @@ public class TokenController {
     @GetMapping("/check_token")
     @Operation(summary = "检查令牌有效性", description = "检查令牌有效性")
     public R<Void> checkToken(String token) {
-        tokenService.checkToken(token);
+        //      tokenService.checkToken(token);
         return R.ok().build();
     }
 
@@ -65,7 +67,7 @@ public class TokenController {
     @PostMapping("/remove")
     @Operation(summary = "删除令牌", description = "删除令牌")
     public R<Void> removeToken(@RequestBody @Valid TokenForm token) {
-        tokenService.removeToken(token.getAccessToken());
+        //  tokenService.removeToken(token.getAccessToken());
         return R.ok().build();
     }
 

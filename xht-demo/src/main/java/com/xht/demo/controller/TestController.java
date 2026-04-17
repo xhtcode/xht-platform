@@ -1,16 +1,15 @@
 package com.xht.demo.controller;
 
-import com.xht.demo.domain.Users;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.log.annotations.BLog;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author xht
@@ -34,18 +33,10 @@ public class TestController {
         return R.ok().build();
     }
 
-    /**
-     * 用户列表接口
-     *
-     * @return 用户列表
-     */
-    @Operation(summary = "用户列表接口", description = "用户列表接口描述")
-    @GetMapping("/users")
-    public R<List<Users>> users() {
-        List<Users> result = new ArrayList<>();
-        result.add(new Users("admin","123456"));
-        result.add(new Users("lisi","123456"));
-        return R.ok().build(result);
+    // 访问该接口，自动返回授权服务器的用户信息
+    @GetMapping("/user/info")
+    public R<String> getUserInfo(@RegisteredOAuth2AuthorizedClient("spring")
+                                 OAuth2AuthorizedClient authorizedClient) {
+        return R.ok().build(authorizedClient.getAccessToken().getTokenValue());
     }
-
 }

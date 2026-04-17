@@ -70,6 +70,16 @@ public class XhtOauth2Properties {
          */
         private String loginProcessingUrl;
 
+        /**
+         * 登录成功后跳转的页面。
+         */
+        private String defaultSuccessUrl;
+
+        /**
+         * 授权页面
+         */
+        private String consentPage;
+
 
     }
 

@@ -1,7 +1,6 @@
 package com.xht.auth.security.oatuh2.server.authorization.client;
 
 import com.xht.auth.authentication.dto.Oauth2ClientDTO;
-import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnums;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -67,7 +66,7 @@ class OAuth2RegisteredClientFunction implements Function<Oauth2ClientDTO, Regist
                 .authorizationGrantTypes((authorizationGrantTypes) -> authorizationGrantTypes
                         .addAll(formatAuthorizationGrantTypes(clientDTO.getAuthorizationGrantTypes())))
                 .clientSettings(ClientSettings.builder()
-                        .requireAuthorizationConsent(Objects.equals(clientDTO.getAutoApprove(), Oauth2ClientAutoApproveEnums.YES))
+                        .requireAuthorizationConsent(true)
                         .build())
                 .tokenSettings(tokenSettings(clientDTO));
         return registeredClientBuilder.build();

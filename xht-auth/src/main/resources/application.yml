@@ -1,5 +1,8 @@
 server:
   port: 9000
+  servlet:
+    session:
+      timeout: 60s
 spring:
   profiles:
     active: dev
@@ -63,10 +66,15 @@ springdoc:
 xht:
   security:
     oauth2:
-      issuer: http://192.168.100.1:${server.port}
+      issuer: http://127.0.0.1:${server.port}
       resource-server:
         server-names:
           - http://192.168.100.1:${server.port}
+      authorization-server:
+        login-page: http://127.0.0.1:3000/sso/login
+        default-success-url: /
+        login-processing-url: /sso/unLogin
+        consent-page: http://127.0.0.1:3000/sso/confirm_access
     ignore:
       whites:
         add-swagger-ignore-urls: true
@@ -74,6 +82,7 @@ xht:
         token-revocation-endpoint: false
         urls:
           - /sso/login
+          - /sso/unLogin
           - /css/**
           - /.well-known/**
   safety:

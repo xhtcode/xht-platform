@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.xht.auth.redis.entity.Oauth2AuthorizationEntity;
 import com.xht.framework.core.converter.IConverter;
+import com.xht.framework.core.utils.spring.SpringContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.security.jackson2.CoreJackson2Module;
@@ -42,13 +43,10 @@ public final class Oauth2AuthorizationConverter implements IConverter<OAuth2Auth
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private final RegisteredClientRepository registeredClientRepository;
-
     private final TypeReference<Map<String, Object>> typeRef = new TypeReference<>() {
     };
 
     public Oauth2AuthorizationConverter() {
-        registeredClientRepository = new VirtualRegisteredClientRepository();
         // 序列化所有字段
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         // 此项必须配置，否则如果序列化的对象里边还有对象，会报如下错误：
@@ -174,7 +172,7 @@ public final class Oauth2AuthorizationConverter implements IConverter<OAuth2Auth
     public OAuth2Authorization reverse(Oauth2AuthorizationEntity entity) {
         // 获取客户端标识并查找对应的RegisteredClient
         String registeredClientId = entity.getRegisteredClientId();
-        RegisteredClient registeredClient = registeredClientRepository.findByClientId(registeredClientId);
+        RegisteredClient registeredClient = SpringContextUtils.getBean(RegisteredClientRepository.class).findByClientId(registeredClientId);
         if (registeredClient == null) {
             throw new DataRetrievalFailureException("The RegisteredClient with id '" + registeredClientId + "' was not found in the RegisteredClientRepository.");
         }
@@ -367,6 +365,7 @@ public final class Oauth2AuthorizationConverter implements IConverter<OAuth2Auth
             return RegisteredClient.withId(clientId).clientId(clientId)
                     .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                     .redirectUri(clientId)
+                    .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                     .build();
         }
     }

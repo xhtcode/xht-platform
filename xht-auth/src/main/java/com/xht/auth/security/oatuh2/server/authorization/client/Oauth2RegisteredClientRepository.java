@@ -49,7 +49,7 @@ public class Oauth2RegisteredClientRepository implements RegisteredClientReposit
         Oauth2ClientDTO clientDTO = null;
         Long expire = redisRepository.getExpire(key);
         if (expire > 0) {
-            clientDTO = redisRepository.getSet(key);
+            clientDTO = redisRepository.getObj(key);
         }
         clientDTO = Optional.ofNullable(clientDTO).orElseGet(() -> authenticationDao.findClientDetailsById(clientId));
         if (Objects.nonNull(clientDTO)) {

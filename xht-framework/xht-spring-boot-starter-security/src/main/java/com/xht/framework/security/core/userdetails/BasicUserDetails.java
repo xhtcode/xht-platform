@@ -193,4 +193,16 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
         return !Objects.equals(this.userStatus, UserStatusEnums.DISABLED);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BasicUserDetails that = (BasicUserDetails) o;
+        return Objects.equals(this.userId, that.getUserId()); // 用唯一ID
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.userId);
+    }
 }

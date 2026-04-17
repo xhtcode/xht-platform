@@ -1,0 +1,70 @@
+{
+  "extends": "@tsconfig/node24/tsconfig.json",
+  "compilerOptions": {
+    "target": "esnext",
+    // 将代码编译为最新版本的 JS
+    "module": "esnext",
+    // 使用 ES Module 格式打包编译后的文件
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    // 使用 Node/bundler 的模块解析策略
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    // 引入 ES 最新特性和 DOM 接口的类型定义
+    "baseUrl": ".",
+    "noEmit": true,
+    // 不输出编译文件,即编译后不会生成任何js文件
+    "strict": true,
+    // 开启所有严格的类型检查
+    "skipLibCheck": true,
+    // 跳过对 .d.ts 文件的类型检查
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    // 允许使用 import 导入使用 export = 导出的默认内容
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    // 解析json模块
+    "sourceMap": true,
+    "useDefineForClassFields": true,
+    "allowJs": true,
+    // 允许编译 JavaScript 文件
+    "checkJs": false,
+    // 允许在 .js 文件中报错，通常与 allowJs 一同使用
+    "jsx": "preserve",
+    // 保留原始的 JSX 代码，不进行编译
+    "jsxImportSource": "vue",
+    "types": [
+      // 指定默认的类型声明文件列表
+      "node",
+      "vite/client"
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "vueCompilerOptions": {
+    "target": 3
+  },
+  "include": [
+    "vite.config.*",
+    "vitest.config.*",
+    "cypress.config.*",
+    "nightwatch.conf.*",
+    "playwright.config.*",
+    "eslint.config.*",
+    "src/typings/env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/typings/*.d.ts",
+    "vite.config.ts",
+    "element-plus/global"
+  ],
+  "exclude": [
+    "src/**/__tests__/*"
+  ]
+}

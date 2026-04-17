@@ -4,6 +4,7 @@ import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.core.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
@@ -26,6 +27,11 @@ public class XhtLogoutSuccessHandler implements LogoutSuccessHandler {
         if (response == null) {
             log.warn("退出成功 response is null");
             return;
+        }
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            System.out.println(session.getId());
+            log.debug("删除 session:{} ", session.getId());
         }
         // 获取请求参数中是否包含 回调地址
         String redirectUrl = ServletUtil.getParams(request, REDIRECT_URL);

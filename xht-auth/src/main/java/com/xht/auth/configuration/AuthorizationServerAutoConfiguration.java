@@ -15,20 +15,27 @@ import com.xht.auth.security.oatuh2.server.authorization.phone.PhoneAuthenticati
 import com.xht.auth.security.oatuh2.server.authorization.token.OpaqueTokenClaimsCustomizer;
 import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2AccessTokenGenerator;
 import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2RefreshTokenGenerator;
-import com.xht.auth.security.web.authentication.*;
+import com.xht.auth.security.web.authentication.OAuth2ClientAuthenticationFailureHandler;
+import com.xht.auth.security.web.authentication.TokenAuthenticationFailureHandler;
+import com.xht.auth.security.web.authentication.TokenRevocationAuthenticationFailureHandler;
+import com.xht.auth.security.web.authentication.TokenRevocationAuthenticationSuccessHandler;
 import com.xht.auth.security.web.authentication.logout.XhtLogoutSuccessHandler;
+import com.xht.auth.security.web.authentication.session.XhtSessionLimit;
+import com.xht.framework.core.domain.R;
+import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.oauth2.handler.ResourceAuthenticationEntryPoint;
 import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
 import com.xht.framework.security.configurers.CustomAuthorizeHttpRequestsConfigurer;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
 import com.xht.framework.security.web.access.Http401AccessDeniedHandler;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -45,7 +52,8 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -75,6 +83,8 @@ public class AuthorizationServerAutoConfiguration {
 
     private final OpaqueTokenIntrospector opaqueTokenIntrospector;
 
+    private final XhtOauth2Properties xhtOauth2Properties;
+
 
     @Bean
     @Order(1)
@@ -84,6 +94,7 @@ public class AuthorizationServerAutoConfiguration {
                                                                       OAuth2TokenGenerator<?> tokenGenerator
 
     ) throws Exception {
+        XhtOauth2Properties.AuthorizationServer authorizationServerProperties = xhtOauth2Properties.getAuthorizationServer();
         PassWordAuthenticationProvider passWordAuthenticationProvider = new PassWordAuthenticationProvider(authorizationService, tokenGenerator, basicUserDetailsService, iCaptchaService);
         PassWordAuthenticationConverter passWordAuthenticationConverter = new PassWordAuthenticationConverter();
         PhoneAuthenticationProvider phoneAuthenticationProvider = new PhoneAuthenticationProvider(authorizationService, tokenGenerator, basicUserDetailsService, iCaptchaService);
@@ -95,11 +106,11 @@ public class AuthorizationServerAutoConfiguration {
                         authorizationServer
                                 .oidc(Customizer.withDefaults())  // Enable OpenID Connect 1.0
                                 .authorizationEndpoint(authorizationEndpoint -> {
-                                    authorizationEndpoint.consentPage("/oauth2/confirm_access");
+                                     authorizationEndpoint.consentPage(authorizationServerProperties.getConsentPage());
                                 })
                                 // 令牌端点
                                 .tokenEndpoint(tokenEndpoint -> {
-                                    tokenEndpoint.accessTokenResponseHandler(new TokenAuthenticationSuccessHandler());
+                                    // tokenEndpoint.accessTokenResponseHandler(new TokenAuthenticationSuccessHandler());
                                     tokenEndpoint.errorResponseHandler(new TokenAuthenticationFailureHandler());
                                     tokenEndpoint.authenticationProviders(providers -> {
                                         providers.add(passWordAuthenticationProvider);
@@ -116,9 +127,11 @@ public class AuthorizationServerAutoConfiguration {
                                     tokenEndpoint.errorResponseHandler(new TokenRevocationAuthenticationFailureHandler());
                                 })
                 ).exceptionHandling((exceptions) -> {
-                    LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint = new LoginUrlAuthenticationEntryPoint("http://192.168.100.1:8080/auth/sso/login");
-                    MediaTypeRequestMatcher mediaTypeRequestMatcher = new MediaTypeRequestMatcher(MediaType.TEXT_HTML);
-                    exceptions.defaultAuthenticationEntryPointFor(loginUrlAuthenticationEntryPoint, mediaTypeRequestMatcher);
+                    LoginUrlAuthenticationEntryPoint entryPoint =
+                            new LoginUrlAuthenticationEntryPoint(xhtOauth2Properties
+                                    .getAuthorizationServer().getLoginPage())
+                            ;
+                    exceptions.authenticationEntryPoint(entryPoint);
                 })
                 .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
         return http.build();
@@ -127,18 +140,23 @@ public class AuthorizationServerAutoConfiguration {
 
     @Bean
     @Order(2)
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, JdbcTemplate jdbcTemplate) throws Exception {
+        XhtOauth2Properties.AuthorizationServer authorizationServer = xhtOauth2Properties.getAuthorizationServer();
         CustomAuthorizeHttpRequestsConfigurer requestsConfigurer = new CustomAuthorizeHttpRequestsConfigurer(permitAllUrlProperties);
         // 开启CORS配置，配合下边的CorsConfigurationSource配置实现跨域配置
         http.cors(Customizer.withDefaults());
         // 禁用csrf
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(requestsConfigurer);
-        http.formLogin(form -> {
-            form.loginPage("http://192.168.100.1:8080/auth/sso/login")
-                    .loginProcessingUrl("/sso/unLogin")
-                    .defaultSuccessUrl("http://192.168.100.1:8080/auth")
-                    .permitAll();
+        http.formLogin(formLogin -> {
+            formLogin.loginPage(authorizationServer.getLoginPage())
+                    .loginProcessingUrl(authorizationServer.getLoginProcessingUrl())
+                    .permitAll()
+                    .successHandler(new AuthorizationServerSuccessHandler())
+                    .failureHandler((request, response, exception) -> {
+                        log.info("exception {}", exception.getLocalizedMessage(), exception);
+                        ServletUtil.writeJson(response, R.error().msg("用户名或者密码错误！").build());
+                    });
         });
         http.oauth2ResourceServer(configurer -> {
             configurer.opaqueToken(opaqueToken -> opaqueToken.introspector(opaqueTokenIntrospector));
@@ -152,15 +170,45 @@ public class AuthorizationServerAutoConfiguration {
         http.logout(logoutConfigurer -> {
             logoutConfigurer.logoutUrl("/oauth2/logout");
             logoutConfigurer.deleteCookies("JSESSIONID");
+            logoutConfigurer.invalidateHttpSession(true);
+            logoutConfigurer.clearAuthentication(true);
             logoutConfigurer.logoutSuccessHandler(new XhtLogoutSuccessHandler());
+        });
+        http.sessionManagement(sessionConfigurer -> {
+            sessionConfigurer.sessionConcurrency(configurer -> {
+                configurer.maxSessionsPreventsLogin(false);// 设置false 新登录踢掉旧登陆
+                configurer.maximumSessions(new XhtSessionLimit());
+                configurer.expiredSessionStrategy(event -> {
+                    HttpServletResponse response = event.getResponse();
+                    ServletUtil.writeJson(response, R.error().msg("你的账号在异地登录，请重新登录！").build());
+                });
+            });
+            sessionConfigurer.invalidSessionStrategy((request, response) -> {
+                ServletUtil.writeJson(response, R.error().msg("会话已失效，请重新登！").build());
+            })
+            ;
+        });
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setJdbcTemplate(jdbcTemplate);
+        http.rememberMe(rememberMeConfigurer -> {
+            rememberMeConfigurer.rememberMeParameter("rememberMe");
+            rememberMeConfigurer.rememberMeCookieName("xht-token");
+            rememberMeConfigurer.tokenValiditySeconds(60);
+            rememberMeConfigurer.userDetailsService(basicUserDetailsService);
+            rememberMeConfigurer.tokenRepository(jdbcTokenRepository);
         });
         return http.build();
     }
 
     @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher(); // 必须加！
+    }
+
+    @Bean
     public AuthorizationServerSettings authorizationServerSettings(XhtOauth2Properties xhtOauth2Properties) {
         return AuthorizationServerSettings.builder()
-                .issuer("http://localhost:9000")
+                .issuer(xhtOauth2Properties.getIssuer())
                 .build();
     }
 

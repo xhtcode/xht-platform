@@ -46,7 +46,7 @@ public class SysDictApiFactory implements ISysDictFactory {
                 .map(XhtConfigProperties::getGlobal)
                 .map(XhtConfigProperties.GlobalConfigProperties::getDict)
                 .orElseThrow(() -> new BusinessException("字典配置查询不到"));
-        return redisRepository.getSet(dictCache.getDictCacheKey(dictCode), dictCache.timeOut(), dictCache.unit(), () -> {
+        return redisRepository.getObj(dictCache.getDictCacheKey(dictCode), dictCache.timeOut(), dictCache.unit(), () -> {
             R<List<DictVo>> byDictCode = sysDictClient.getByDictCode(dictCode);
             return ROptional.of(byDictCode).get().orElse(Collections.emptyList());
         });
