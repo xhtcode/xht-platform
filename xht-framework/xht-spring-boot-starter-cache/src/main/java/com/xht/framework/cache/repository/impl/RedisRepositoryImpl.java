@@ -44,7 +44,7 @@ public record RedisRepositoryImpl(RedisTemplate<String, Object> redisTemplate) i
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T getObj(String key, long timeout, TimeUnit unit, Supplier<T> data) {
+    public <T> T getSet(String key, long timeout, TimeUnit unit, Supplier<T> data) {
         T redisData = (T) redisTemplate.opsForValue().get(key);
         if (Objects.nonNull(redisData)) {
             return redisData;
@@ -61,7 +61,7 @@ public record RedisRepositoryImpl(RedisTemplate<String, Object> redisTemplate) i
      * @return 数据
      */
     @Override
-    public <T> T getObj(String key) {
+    public <T> T get(String key) {
         return (T) redisTemplate.opsForValue().get(key);
     }
 

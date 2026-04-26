@@ -270,9 +270,19 @@ public final class ServletUtil {
      * @param obj      待渲染对象
      */
     public static void writeJson(HttpServletResponse response, Object obj) {
+        writeJson(response, HttpStatus.OK, obj);
+    }
+
+    /**
+     * 响应json数据
+     * @param response 响应对象
+     * @param httpStatus 状态码{@link HttpStatus}
+     * @param obj 响应数据
+     */
+    public static void writeJson(HttpServletResponse response, HttpStatus httpStatus, Object obj) {
         PrintWriter writer = null;
         try {
-            response.setStatus(HttpStatus.OK.value());
+            response.setStatus(httpStatus.value());
             // 允许跨域
             response.setHeader("Access-Control-Allow-Origin", "*");
             // 允许自定义请求头token(允许head跨域)
@@ -294,7 +304,5 @@ public final class ServletUtil {
             }
         }
     }
-
-
     // --------------------------------------------------------- Response end
 }

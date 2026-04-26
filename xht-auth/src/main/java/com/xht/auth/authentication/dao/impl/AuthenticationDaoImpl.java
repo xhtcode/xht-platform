@@ -2,8 +2,9 @@ package com.xht.auth.authentication.dao.impl;
 
 import com.xht.auth.authentication.dao.IAuthenticationDao;
 import com.xht.auth.authentication.dao.mapper.AuthenticationMapper;
-import com.xht.auth.authentication.dto.Oauth2ClientDTO;
-import com.xht.auth.authentication.dto.UserLoginDTO;
+import com.xht.auth.authentication.domain.dto.Oauth2ClientDTO;
+import com.xht.auth.authentication.domain.dto.UserLoginDTO;
+import com.xht.auth.authentication.domain.response.TokenUserInfoResponse;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
@@ -84,6 +85,17 @@ public class AuthenticationDaoImpl implements IAuthenticationDao {
     @Override
     public boolean existsUserByPhone(String phone) {
         return authenticationMapper.existsUserByPhone(phone) > 0L;
+    }
+
+    /**
+     * 根据用户id查询用户信息
+     *
+     * @param userId 用户id
+     * @return 用户信息
+     */
+    @Override
+    public TokenUserInfoResponse findByUserId(Long userId) {
+        return  authenticationMapper.findByUserId(userId);
     }
 
 }

@@ -9,7 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Redis 键生成工具类
@@ -20,6 +22,8 @@ import java.util.Arrays;
 @Slf4j
 @SuppressWarnings("unused")
 public final class Keys {
+
+    private static final Random random = new SecureRandom();
 
     /**
      * 私有构造方法，防止工具类被实例化
@@ -35,7 +39,7 @@ public final class Keys {
      * @param keyParts 键的各个部分，不可为 null，但允许空数组（返回空字符串）
      * @return 拼接后的 Redis 键
      */
-    public static String createKey(@Nullable String... keyParts) {
+    public static String createKey(@Nullable Object... keyParts) {
         // 处理空数组情况
         if (ArrayUtil.isEmpty(keyParts)) {
             return "";
@@ -53,7 +57,7 @@ public final class Keys {
      * @return 格式化后的 Redis 键
      * @throws IllegalArgumentException 如果模板为空字符串
      */
-    public static String createKeyTemplate(@NonNull final String keyTemplate, @NonNull String... params) {
+    public static String createKeyTemplate(@NonNull final String keyTemplate, @NonNull Object... params) {
         // 验证模板有效性
         if (!StringUtils.hasText(keyTemplate)) {
             throw new IllegalArgumentException("键模板不能为空字符串");
@@ -68,4 +72,42 @@ public final class Keys {
         return StrFormatter.format(keyTemplate, Arrays.stream(params).toArray());
     }
 
+    /**
+     * 生成 Redis 随机过期时间（基础时间 + 浮动范围）
+     * randomExpire(600,720) 生成600 ~ 720 秒随机
+     *
+     * @param baseSeconds 基础过期时间 数字
+     * @param randomRange 随机浮动范围 数字
+     * @return baseSeconds ~ baseSeconds+randomRange 之间的随机值
+     */
+    public static Long rangeExpire(long baseSeconds, long randomRange) {
+        if (baseSeconds <= 0) {
+            throw new UtilException("基础过期时间不能小于等于0");
+        }
+        if (randomRange <= 0) {
+            throw new UtilException("随机浮动范围不能小于等于0");
+        }
+        long min = baseSeconds - randomRange;
+        if (min <= 0) {
+            min = baseSeconds;
+        }
+        // 保证过期时间不能为负数
+        return random.nextLong(min, baseSeconds + randomRange);
+    }
+
+    /**
+     * 获取随机过期时间 [min, max]
+     * @param min 最小过期时间
+     * @param max 最大过期时间
+     * @return 随机过期时间
+     */
+    public static Long randomExpire(long min, long max) {
+        if (min <= 0) {
+            throw new UtilException("最小过期时间不能小于0");
+        }
+        if (max <= min) {
+            throw new UtilException("最大过期时间不能小于等于最小过期时间");
+        }
+        return min + random.nextLong(max - min + 1);
+    }
 }

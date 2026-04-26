@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xht.auth.authentication.dao.mapper.SysOauth2ClientScopeMapper">
+
+    <resultMap id="ClientScopeResultMap"
+               type="com.xht.auth.authentication.domain.response.SysOauth2ClientScopeResponse">
+        <id property="scopeId" column="id"/>
+        <result property="scopeName" column="scope_name"/>
+        <result property="scopeDesc" column="scope_desc"/>
+        <result property="disabled" column="system_resources"/>
+    </resultMap>
+
+    <select id="findByClientId" resultMap="ClientScopeResultMap">
+        SELECT t1.id,
+               t1.scope_name,
+               t1.scope_desc,
+               t1.system_resources
+        FROM sys_oauth2_scope t1
+                 LEFT JOIN sys_oauth2_client_scope t2 ON t1.id = t2.scope_id
+        WHERE t2.client_id = 1
+          and t1.scope_status = 0
+
+    </select>
+</mapper>

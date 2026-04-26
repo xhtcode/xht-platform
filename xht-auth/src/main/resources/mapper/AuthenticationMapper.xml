@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xht.auth.authentication.dao.mapper.AuthenticationMapper">
 
-    <resultMap id="DtoResultMap" type="com.xht.auth.authentication.dto.UserLoginDTO">
+    <resultMap id="DtoResultMap" type="com.xht.auth.authentication.domain.dto.UserLoginDTO">
         <id property="id" column="id"/>
         <result property="userType" column="user_type"/>
         <result property="userName" column="user_name"/>
@@ -19,7 +19,7 @@
         <result property="registerDate" column="create_time"/>
     </resultMap>
 
-    <resultMap id="Oauth2ClientResultMap" type="com.xht.auth.authentication.dto.Oauth2ClientDTO">
+    <resultMap id="Oauth2ClientResultMap" type="com.xht.auth.authentication.domain.dto.Oauth2ClientDTO">
         <id property="id" column="id"/>
         <result property="clientId" column="client_id"/>
         <result property="clientIdIssuedAt" column="client_id_issued_at"/>
@@ -104,6 +104,28 @@
         FROM sys_user
         WHERE user_phone = #{phone}
         AND del_flag = #{delFlag}
+    </select>
+
+    <resultMap id="TokenUserInfoMap" type="com.xht.auth.authentication.domain.response.TokenUserInfoResponse">
+        <result property="userType" column="user_type"/>
+        <result property="userName" column="user_name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="userStatus" column="user_status"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userAvatar" column="user_avatar"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="registerDate" column="create_time"/>
+    </resultMap>
+
+    <select id="findByUserId" resultMap="TokenUserInfoMap">
+        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
+        SELECT
+        t1.id,t1.user_type,t1.user_name,t1.nick_name,t1.pass_word,t1.pass_word_salt,
+        t1.user_status,t1.user_phone,t1.user_avatar,t1.dept_id,t1.dept_name,
+        t1.create_time
+        FROM sys_user t1 where t1.del_flag = #{delFlag}
+        AND t1.id = #{userId}
     </select>
 
 </mapper>

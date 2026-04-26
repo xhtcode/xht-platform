@@ -34,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
             try {
-                username = redisRepository.getObj(StrUtil.trim(token));
+                username = redisRepository.get(StrUtil.trim(token));
             } catch (Exception e) {
                 log.error("JWT token parsing error: {}", e.getMessage());
             }

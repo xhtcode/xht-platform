@@ -1,14 +1,16 @@
 package com.xht.auth.authentication.service.impl;
 
+import com.xht.auth.authentication.dao.IAuthenticationDao;
+import com.xht.auth.authentication.domain.response.TokenUserInfoResponse;
 import com.xht.auth.authentication.service.ITokenService;
-import com.xht.auth.configuration.properties.XhtOauth2Properties;
+import com.xht.auth.constant.AuthorizationConstant;
+import com.xht.framework.cache.repository.RedisRepository;
+import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.exception.code.GlobalErrorStatusCode;
 import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.core.utils.mdc.TraceIdUtils;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.framework.oauth2.token.TokenInfoLightningCache;
-import com.xht.framework.oauth2.token.form.TokenForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.event.LogoutSuccessEvent;
@@ -18,13 +20,9 @@ import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 令牌服务实现类
@@ -40,10 +38,29 @@ public class TokenServiceImpl implements ITokenService {
 
     private final TokenInfoLightningCache tokenInfoLightningCache;
 
-    private final XhtOauth2Properties xhtOauth2Properties;
+    private final IAuthenticationDao authenticationDao;
 
-    // 线程池（自定义线程池，避免使用默认的ForkJoinPool）
-    private static final ExecutorService executor = Executors.newFixedThreadPool(20);
+    private final RedisRepository redisRepository;
+
+    /**
+     * 获取令牌用户信息
+     *
+     * @param userId 用户id
+     * @return 令牌用户信息
+     */
+    @Override
+    public TokenUserInfoResponse getTokenUserInfo(Long userId) {
+        String userInfoKey = Keys.createKeyTemplate(AuthorizationConstant.TOKEN_USER_INFO_KEY, userId);
+        Long expire = redisRepository.getExpire(userInfoKey);
+        // 判断缓存里面是否有，没有就查询
+        if (expire < 5) {
+            TokenUserInfoResponse tokenUserInfoResponse = authenticationDao.findByUserId(userId);
+            redisRepository.set(userInfoKey, tokenUserInfoResponse, Keys.randomExpire(30, 50), TimeUnit.MINUTES);
+            return tokenUserInfoResponse;
+        }
+        return redisRepository.get(userInfoKey);
+    }
+
 
     /**
      * 检查令牌有效性
@@ -87,33 +104,6 @@ public class TokenServiceImpl implements ITokenService {
                     authorization.getPrincipalName(), authorization.getRegisteredClientId())));
             authorizationService.remove(authorization);
         }
-        List<String> urls = Optional
-                .ofNullable(xhtOauth2Properties)
-                .map(XhtOauth2Properties::getResourceServer)
-                .map(XhtOauth2Properties.ResourceServer::getServerNames)
-                .orElseGet(Collections::emptyList);
-        String traceId = TraceIdUtils.getTraceId();
-        TokenForm tokenForm = new TokenForm();
-        tokenForm.setAccessToken(token);
-        for (String item : urls) {
-            // 异步执行任务
-            CompletableFuture.runAsync(() -> {
-                try {
-                    // TraceIdUtils.putTraceId(traceId);
-                    // R<?> block = loadBalancedWebClientBuilder.build().post()
-                    //         .uri(String.format("http://%s/internal/token-cache/clear", item))
-                    //         .header(HttpConstants.Header.TRACE_ID.getValue(), traceId)
-                    //         .bodyValue(tokenForm)
-                    //         .retrieve().bodyToMono(R.class).block();
-                    // if (!ROptional.of(block).isSuccess()) {
-                    //     throw new BusinessException(JsonUtils.toJsonString(block));
-                    // }
-                } catch (BusinessException e) {
-                    log.warn("{} 请求失败：{}", item, e.getMessage());
-                } catch (Exception e) {
-                    log.error("{} 删除令牌失败：{}", item, e.getMessage());
-                }
-            }, executor); // 指定自定义线程池
-        }
     }
+
 }

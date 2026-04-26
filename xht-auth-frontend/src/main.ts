@@ -3,7 +3,7 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 import 'virtual:uno.css'
 import '@unocss/reset/normalize.css'
 import {createApp} from 'vue'
-import {createPinia} from 'pinia'
+import {setupStore} from '@/stores'
 
 import App from '@/App.vue'
 import router from '@/router'
@@ -11,7 +11,7 @@ import {setupPermission} from "@/plugin/permission";
 
 setupPermission()
 const app = createApp(App)
-app.use(createPinia())
+setupStore(app)
 app.use(router)
 
 app.mount('#app')

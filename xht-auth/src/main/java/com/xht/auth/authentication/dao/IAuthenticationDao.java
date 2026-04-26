@@ -1,7 +1,8 @@
 package com.xht.auth.authentication.dao;
 
-import com.xht.auth.authentication.dto.Oauth2ClientDTO;
-import com.xht.auth.authentication.dto.UserLoginDTO;
+import com.xht.auth.authentication.domain.dto.Oauth2ClientDTO;
+import com.xht.auth.authentication.domain.dto.UserLoginDTO;
+import com.xht.auth.authentication.domain.response.TokenUserInfoResponse;
 import com.xht.framework.core.enums.LoginTypeEnums;
 
 import java.util.Set;
@@ -53,4 +54,12 @@ public interface IAuthenticationDao {
      * @param phone 手机号
      */
     boolean existsUserByPhone(String phone);
+
+    /**
+     * 根据用户id查询用户信息
+     *
+     * @param userId 用户id
+     * @return 用户信息
+     */
+    TokenUserInfoResponse findByUserId(Long userId);
 }

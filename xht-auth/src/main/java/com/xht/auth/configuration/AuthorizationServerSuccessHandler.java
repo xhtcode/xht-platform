@@ -14,6 +14,8 @@ import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -30,9 +32,9 @@ public class AuthorizationServerSuccessHandler extends SimpleUrlAuthenticationSu
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         SavedRequest savedRequest = this.requestCache.getRequest(request, response);
-        String targetUrl = "";
+        Map<String, Object> targetUrlMap = new HashMap<>();
         if (Objects.nonNull(savedRequest)) {
-            targetUrl = savedRequest.getRedirectUrl();
+            targetUrlMap.put("targetUrl", savedRequest.getRedirectUrl());
         }
         String targetUrlParameter = getTargetUrlParameter();
         if (isAlwaysUseDefaultTargetUrl()
@@ -40,7 +42,7 @@ public class AuthorizationServerSuccessHandler extends SimpleUrlAuthenticationSu
             this.requestCache.removeRequest(request, response);
         }
         clearAuthenticationAttributes(request);
-        ServletUtil.writeJson(response, R.ok().build(targetUrl));
+        ServletUtil.writeJson(response, R.ok().build(targetUrlMap));
     }
 
 }

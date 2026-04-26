@@ -8,13 +8,15 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.xht.auth.authentication.dao.CustomAuthenticationProvider;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
-import com.xht.auth.security.oatuh2.server.authorization.password.PassWordAuthenticationConverter;
-import com.xht.auth.security.oatuh2.server.authorization.password.PassWordAuthenticationProvider;
-import com.xht.auth.security.oatuh2.server.authorization.phone.PhoneAuthenticationConverter;
-import com.xht.auth.security.oatuh2.server.authorization.phone.PhoneAuthenticationProvider;
-import com.xht.auth.security.oatuh2.server.authorization.token.OpaqueTokenClaimsCustomizer;
-import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2AccessTokenGenerator;
-import com.xht.auth.security.oatuh2.server.authorization.token.XhtOAuth2RefreshTokenGenerator;
+import com.xht.auth.security.oauth2.server.authorization.password.PassWordAuthenticationConverter;
+import com.xht.auth.security.oauth2.server.authorization.password.PassWordAuthenticationProvider;
+import com.xht.auth.security.oauth2.server.authorization.phone.PhoneAuthenticationConverter;
+import com.xht.auth.security.oauth2.server.authorization.phone.PhoneAuthenticationProvider;
+import com.xht.auth.security.oauth2.server.authorization.token.OpaqueTokenClaimsCustomizer;
+import com.xht.auth.security.oauth2.server.authorization.token.XhtOAuth2AccessTokenGenerator;
+import com.xht.auth.security.oauth2.server.authorization.token.XhtOAuth2RefreshTokenGenerator;
+import com.xht.auth.security.oauth2.server.authorization.web.AuthorizationEndpointFailureHandler;
+import com.xht.auth.security.oauth2.server.authorization.web.AuthorizationEndpointSuccessHandler;
 import com.xht.auth.security.web.authentication.OAuth2ClientAuthenticationFailureHandler;
 import com.xht.auth.security.web.authentication.TokenAuthenticationFailureHandler;
 import com.xht.auth.security.web.authentication.TokenRevocationAuthenticationFailureHandler;
@@ -106,7 +108,9 @@ public class AuthorizationServerAutoConfiguration {
                         authorizationServer
                                 .oidc(Customizer.withDefaults())  // Enable OpenID Connect 1.0
                                 .authorizationEndpoint(authorizationEndpoint -> {
-                                     authorizationEndpoint.consentPage(authorizationServerProperties.getConsentPage());
+                                    authorizationEndpoint.consentPage(authorizationServerProperties.getConsentPage());
+                                    authorizationEndpoint.authorizationResponseHandler(new AuthorizationEndpointSuccessHandler());
+                                    authorizationEndpoint.errorResponseHandler(new AuthorizationEndpointFailureHandler());
                                 })
                                 // 令牌端点
                                 .tokenEndpoint(tokenEndpoint -> {
@@ -165,6 +169,7 @@ public class AuthorizationServerAutoConfiguration {
         });
         http.exceptionHandling(handlingConfigurer -> {
             handlingConfigurer.accessDeniedHandler(new Http401AccessDeniedHandler());// 请求未授权的接口
+            handlingConfigurer.authenticationEntryPoint(new ResourceAuthenticationEntryPoint());
         });
         http.authenticationProvider(new CustomAuthenticationProvider(basicUserDetailsService));
         http.logout(logoutConfigurer -> {
@@ -183,10 +188,6 @@ public class AuthorizationServerAutoConfiguration {
                     ServletUtil.writeJson(response, R.error().msg("你的账号在异地登录，请重新登录！").build());
                 });
             });
-            sessionConfigurer.invalidSessionStrategy((request, response) -> {
-                ServletUtil.writeJson(response, R.error().msg("会话已失效，请重新登！").build());
-            })
-            ;
         });
         JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
         jdbcTokenRepository.setJdbcTemplate(jdbcTemplate);

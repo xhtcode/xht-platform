@@ -16,17 +16,23 @@ const router = createRouter({
                     component: () => import('@/views/login/index.vue'),
                 },
                 {
+                    path: '/sso/register',
+                    name: 'register',
+                    component: () => import('@/views/register/index.vue'),
+                },
+                {
                     path: '/home',
                     name: 'home',
-                    component: () => import('@/views/test/index.vue'),
+                    component: () => import('@/views/home/index.vue'),
                 },
+                {
+                    path: '/sso/confirm_access',
+                    name: 'confirm_access',
+                    component: () => import('@/views/confirm_access/index.vue'),
+                }
             ]
-        },
-        {
-            path: '/sso/confirm_access',
-            name: 'confirm_access',
-            component: () => import('@/views/confirm_access/index.vue'),
         }
+
     ],
 })
 

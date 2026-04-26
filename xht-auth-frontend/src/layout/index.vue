@@ -1,5 +1,35 @@
 <script setup lang="ts">
+import {useRoute, useRouter} from "vue-router";
+import {computed} from 'vue'
 import logImage from '@/assets/logo.svg'
+import {useUserStore} from "@/stores/modules/user.store";
+
+const route = useRoute()
+const router = useRouter()
+const userStore = useUserStore()
+
+const isLoginActive = computed(() => route.path === '/sso/login')
+const isRegisterActive = computed(() => route.path === '/sso/register')
+
+const goRegister = () => {
+  router.push('/sso/register')
+}
+
+const goLogin = () => {
+  router.push('/sso/login')
+}
+
+const handleLogout = () => {
+  ElMessageBox.confirm('确定要退出登录吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    userStore.clearUserInfo()
+    router.push('/sso/login')
+  }).catch(() => {
+  })
+}
 </script>
 
 <template>
@@ -12,11 +42,32 @@ import logImage from '@/assets/logo.svg'
         </h3>
       </div>
       <div class="flex-1 flex items-center justify-end pr-5">
-        <el-space size="default" spacer="|" alignment="center">
-          <el-button text link>注册</el-button>
-          <el-button text link type="primary">登录</el-button>
-          <el-button text link>退出</el-button>
-        </el-space>
+        <template v-if="!userStore.loginStatus">
+          <el-space size="default" spacer="|" alignment="center">
+            <el-button
+                text
+                link
+                :type="isRegisterActive ? 'primary' : 'default'"
+                :class="{'!font-bold': isRegisterActive}"
+                @click="goRegister"
+            >注册
+            </el-button>
+            <el-button
+                text
+                link
+                :type="isLoginActive ? 'primary' : 'default'"
+                :class="{'!font-bold': isLoginActive}"
+                @click="goLogin"
+            >登录
+            </el-button>
+          </el-space>
+        </template>
+        <template v-else>
+          <el-space size="default" spacer="|" alignment="center">
+            <span class="text-gray-600">{{ userStore.userInfo?.nickName || '用户' }}</span>
+            <el-button text link type="danger" @click="handleLogout">退出</el-button>
+          </el-space>
+        </template>
       </div>
     </el-header>
     <el-main class="xht-main">
