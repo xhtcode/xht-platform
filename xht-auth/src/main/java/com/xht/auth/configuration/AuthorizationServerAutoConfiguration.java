@@ -8,19 +8,15 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.xht.auth.authentication.dao.CustomAuthenticationProvider;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
+import com.xht.auth.security.oauth2.server.authorization.oidc.authentication.OidcUserInfoMapper;
 import com.xht.auth.security.oauth2.server.authorization.password.PassWordAuthenticationConverter;
 import com.xht.auth.security.oauth2.server.authorization.password.PassWordAuthenticationProvider;
 import com.xht.auth.security.oauth2.server.authorization.phone.PhoneAuthenticationConverter;
 import com.xht.auth.security.oauth2.server.authorization.phone.PhoneAuthenticationProvider;
-import com.xht.auth.security.oauth2.server.authorization.token.OpaqueTokenClaimsCustomizer;
-import com.xht.auth.security.oauth2.server.authorization.token.XhtOAuth2AccessTokenGenerator;
-import com.xht.auth.security.oauth2.server.authorization.token.XhtOAuth2RefreshTokenGenerator;
+import com.xht.auth.security.oauth2.server.authorization.token.JwtTokenCustomizer;
 import com.xht.auth.security.oauth2.server.authorization.web.AuthorizationEndpointFailureHandler;
 import com.xht.auth.security.oauth2.server.authorization.web.AuthorizationEndpointSuccessHandler;
-import com.xht.auth.security.web.authentication.OAuth2ClientAuthenticationFailureHandler;
-import com.xht.auth.security.web.authentication.TokenAuthenticationFailureHandler;
-import com.xht.auth.security.web.authentication.TokenRevocationAuthenticationFailureHandler;
-import com.xht.auth.security.web.authentication.TokenRevocationAuthenticationSuccessHandler;
+import com.xht.auth.security.web.authentication.*;
 import com.xht.auth.security.web.authentication.logout.XhtLogoutSuccessHandler;
 import com.xht.auth.security.web.authentication.session.XhtSessionLimit;
 import com.xht.framework.core.domain.R;
@@ -37,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -50,12 +47,14 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.JwtGenerator;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2RefreshTokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -88,12 +87,13 @@ public class AuthorizationServerAutoConfiguration {
     private final XhtOauth2Properties xhtOauth2Properties;
 
 
+
     @Bean
     @Order(1)
     // @formatter:off
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http,
                                                                       OAuth2AuthorizationService authorizationService,
-                                                                      OAuth2TokenGenerator<?> tokenGenerator
+                                                                      OAuth2TokenGenerator<?> tokenGenerator, JdbcTemplate jdbcTemplate
 
     ) throws Exception {
         XhtOauth2Properties.AuthorizationServer authorizationServerProperties = xhtOauth2Properties.getAuthorizationServer();
@@ -101,12 +101,20 @@ public class AuthorizationServerAutoConfiguration {
         PassWordAuthenticationConverter passWordAuthenticationConverter = new PassWordAuthenticationConverter();
         PhoneAuthenticationProvider phoneAuthenticationProvider = new PhoneAuthenticationProvider(authorizationService, tokenGenerator, basicUserDetailsService, iCaptchaService);
         PhoneAuthenticationConverter phoneAuthenticationConverter = new PhoneAuthenticationConverter();
-        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer.authorizationServer();
+        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
         authorizationServerConfigurer.clientAuthentication(configurer-> configurer.errorResponseHandler(new OAuth2ClientAuthenticationFailureHandler()));
         http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .with(authorizationServerConfigurer, (authorizationServer) ->
                         authorizationServer
-                                .oidc(Customizer.withDefaults())  // Enable OpenID Connect 1.0
+                                .oidc(oidc->{
+                                    oidc.userInfoEndpoint(userInfoEndpoint-> {
+                                        userInfoEndpoint.errorResponseHandler((request,response,exception)-> {
+                                                log.error("用户信息获取失败",exception);
+                                                ServletUtil.writeJson(response, R.error().msg(exception.getMessage()).build());
+                                            });
+                                        userInfoEndpoint.userInfoMapper(new OidcUserInfoMapper());
+                                    });
+                                })  // Enable OpenID Connect 1.0
                                 .authorizationEndpoint(authorizationEndpoint -> {
                                     authorizationEndpoint.consentPage(authorizationServerProperties.getConsentPage());
                                     authorizationEndpoint.authorizationResponseHandler(new AuthorizationEndpointSuccessHandler());
@@ -114,7 +122,7 @@ public class AuthorizationServerAutoConfiguration {
                                 })
                                 // 令牌端点
                                 .tokenEndpoint(tokenEndpoint -> {
-                                    // tokenEndpoint.accessTokenResponseHandler(new TokenAuthenticationSuccessHandler());
+                                    tokenEndpoint.accessTokenResponseHandler(new TokenAuthenticationSuccessHandler());
                                     tokenEndpoint.errorResponseHandler(new TokenAuthenticationFailureHandler());
                                     tokenEndpoint.authenticationProviders(providers -> {
                                         providers.add(passWordAuthenticationProvider);
@@ -130,14 +138,22 @@ public class AuthorizationServerAutoConfiguration {
                                     tokenEndpoint.revocationResponseHandler(new TokenRevocationAuthenticationSuccessHandler());
                                     tokenEndpoint.errorResponseHandler(new TokenRevocationAuthenticationFailureHandler());
                                 })
-                ).exceptionHandling((exceptions) -> {
-                    LoginUrlAuthenticationEntryPoint entryPoint =
-                            new LoginUrlAuthenticationEntryPoint(xhtOauth2Properties
-                                    .getAuthorizationServer().getLoginPage())
-                            ;
-                    exceptions.authenticationEntryPoint(entryPoint);
+                )
+                .exceptionHandling((exceptions) ->            {
+                    LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint = new LoginUrlAuthenticationEntryPoint("/login");
+                    MediaTypeRequestMatcher mediaTypeRequestMatcher = new MediaTypeRequestMatcher(MediaType.TEXT_HTML);
+                    exceptions.defaultAuthenticationEntryPointFor(loginUrlAuthenticationEntryPoint, mediaTypeRequestMatcher);
                 })
                 .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setJdbcTemplate(jdbcTemplate);
+        http.rememberMe(rememberMeConfigurer -> {
+            rememberMeConfigurer.rememberMeParameter("rememberMe");
+            rememberMeConfigurer.rememberMeCookieName("xht-token");
+            rememberMeConfigurer.tokenValiditySeconds(6000);
+            rememberMeConfigurer.userDetailsService(basicUserDetailsService);
+            rememberMeConfigurer.tokenRepository(jdbcTokenRepository);
+        });
         return http.build();
     }
     // @formatter:on
@@ -194,10 +210,11 @@ public class AuthorizationServerAutoConfiguration {
         http.rememberMe(rememberMeConfigurer -> {
             rememberMeConfigurer.rememberMeParameter("rememberMe");
             rememberMeConfigurer.rememberMeCookieName("xht-token");
-            rememberMeConfigurer.tokenValiditySeconds(60);
+            rememberMeConfigurer.tokenValiditySeconds(6000);
             rememberMeConfigurer.userDetailsService(basicUserDetailsService);
             rememberMeConfigurer.tokenRepository(jdbcTokenRepository);
         });
+
         return http.build();
     }
 
@@ -207,7 +224,7 @@ public class AuthorizationServerAutoConfiguration {
     }
 
     @Bean
-    public AuthorizationServerSettings authorizationServerSettings(XhtOauth2Properties xhtOauth2Properties) {
+    public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
                 .issuer(xhtOauth2Properties.getIssuer())
                 .build();
@@ -216,12 +233,10 @@ public class AuthorizationServerAutoConfiguration {
     @Bean
     public OAuth2TokenGenerator<?> tokenGenerator(JWKSource<SecurityContext> jwkSource) {
         JwtGenerator jwtGenerator = new JwtGenerator(new NimbusJwtEncoder(jwkSource));
-        XhtOAuth2AccessTokenGenerator accessTokenGenerator = new XhtOAuth2AccessTokenGenerator();
-        accessTokenGenerator.setAccessTokenCustomizer(new OpaqueTokenClaimsCustomizer());
-        XhtOAuth2RefreshTokenGenerator refreshTokenGenerator = new XhtOAuth2RefreshTokenGenerator();
-        return new DelegatingOAuth2TokenGenerator(jwtGenerator, accessTokenGenerator, refreshTokenGenerator);
+        jwtGenerator.setJwtCustomizer(new JwtTokenCustomizer());
+        OAuth2RefreshTokenGenerator refreshTokenGenerator = new OAuth2RefreshTokenGenerator();
+        return new DelegatingOAuth2TokenGenerator(jwtGenerator, refreshTokenGenerator);
     }
-
 
     private KeyPair generateRsaKey() {
         KeyPair keyPair;

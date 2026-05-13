@@ -64,9 +64,6 @@ public class CaptchaServiceImpl implements ICaptchaService {
     @Override
     public void checkCaptcha(String requestKey, String requestCaptcha) {
         try {
-            if (true){
-                return;
-            }
             if (StringUtils.isEmpty(requestCaptcha)) {
                 throw new CaptchaException("请输入验证码");
             }

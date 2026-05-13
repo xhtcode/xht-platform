@@ -43,10 +43,12 @@ public final class Oauth2AuthorizationConverter implements IConverter<OAuth2Auth
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    private final long defaultTimeout;
+
     private final TypeReference<Map<String, Object>> typeRef = new TypeReference<>() {
     };
 
-    public Oauth2AuthorizationConverter() {
+    public Oauth2AuthorizationConverter(long defaultTimeout) {
         // 序列化所有字段
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         // 此项必须配置，否则如果序列化的对象里边还有对象，会报如下错误：
@@ -57,6 +59,7 @@ public final class Oauth2AuthorizationConverter implements IConverter<OAuth2Auth
         this.objectMapper.registerModules(securityModules);
         this.objectMapper.registerModule(new CoreJackson2Module());
         this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
+        this.defaultTimeout = defaultTimeout;
     }
 
     /**
@@ -68,7 +71,7 @@ public final class Oauth2AuthorizationConverter implements IConverter<OAuth2Auth
     @Override
     public Oauth2AuthorizationEntity convert(OAuth2Authorization authorization) {
         // 过期时间，默认永不过期
-        long maxTimeout = -1L;
+        long maxTimeout = this.defaultTimeout;
         List<Instant> expiresAtList = new ArrayList<>();
         Oauth2AuthorizationEntity entity = new Oauth2AuthorizationEntity();
         entity.setId(authorization.getId());

@@ -50,6 +50,7 @@ spring:
           max-idle: 8
           min-idle: 0
       password:
+      database: 0
 springdoc:
   api-docs:
     enabled: true
@@ -66,20 +67,16 @@ springdoc:
 xht:
   security:
     oauth2:
-      issuer: http://127.0.0.1:${server.port}
-      resource-server:
-        server-names:
-          - http://192.168.100.1:${server.port}
+      issuer: http://www.xht.sso.com
       authorization-server:
-        login-page: http://127.0.0.1:3000/sso/login
+        login-page: http://www.xht.sso.com/sso/login
         default-success-url: /
         login-processing-url: /sso/unLogin
-        consent-page: http://127.0.0.1:3000/sso/confirm_access
+        consent-page: http://www.xht.sso.com/sso/confirm_access
     ignore:
       whites:
         add-swagger-ignore-urls: true
         add-default-ignore-urls: true
-        token-revocation-endpoint: false
         urls:
           - /sso/login
           - /sso/unLogin

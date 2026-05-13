@@ -4,8 +4,6 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
  * Oauth2属性
  *
@@ -27,11 +25,6 @@ public class XhtOauth2Properties {
     private Client client = new Client();
 
     /**
-     * 资源服务属性
-     */
-    private ResourceServer resourceServer = new ResourceServer();
-
-    /**
      * 授权服务器
      */
     private final AuthorizationServer authorizationServer = new AuthorizationServer();
@@ -48,14 +41,6 @@ public class XhtOauth2Properties {
     }
 
 
-    @Data
-    public static class ResourceServer {
-
-        /**
-         * 服务名称
-         */
-        private List<String> serverNames;
-    }
 
     @Data
     public static class AuthorizationServer {
@@ -79,7 +64,6 @@ public class XhtOauth2Properties {
          * 授权页面
          */
         private String consentPage;
-
 
     }
 

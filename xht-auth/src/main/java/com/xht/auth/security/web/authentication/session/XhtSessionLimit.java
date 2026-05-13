@@ -27,6 +27,6 @@ public class XhtSessionLimit implements SessionLimit {
         // 获取当前登录用户信息
         BasicUserDetails loginUser = (BasicUserDetails) authentication.getPrincipal();
         log.info("当前登录用户信息:{}", loginUser.getUsername());
-        return 1;
+        return 100;
     }
 }

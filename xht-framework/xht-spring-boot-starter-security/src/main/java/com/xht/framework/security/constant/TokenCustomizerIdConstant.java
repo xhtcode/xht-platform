@@ -17,4 +17,35 @@ public interface TokenCustomizerIdConstant {
      */
     String GRANT_TYPE = "grant_type";
 
+    /**
+     * 用户昵称
+     */
+    String NICK_NAME = "nickName";
+
+    /**
+     * 用户类型
+     */
+    String USER_TYPE = "userType";
+
+
+    /**
+     * 用户状态
+     */
+    String USER_STATUS = "userStatus";
+
+    /**
+     * 角色信息
+     */
+    String ROLE = "role";
+
+    /**
+     * 菜单权限
+     */
+    String MENU = "menu";
+
+    /**
+     * 手机号码
+     */
+    String PHONE = "phone";
+
 }

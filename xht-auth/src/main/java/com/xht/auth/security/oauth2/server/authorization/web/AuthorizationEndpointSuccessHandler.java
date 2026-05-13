@@ -1,6 +1,7 @@
 package com.xht.auth.security.oauth2.server.authorization.web;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.BasicResponse;
 import com.xht.framework.core.utils.ServletUtil;
@@ -13,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.AbstractOAuth2Token;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeRequestAuthenticationToken;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -20,6 +23,7 @@ import org.springframework.web.util.UriUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -29,9 +33,11 @@ import java.util.Optional;
  **/
 @Slf4j
 public class AuthorizationEndpointSuccessHandler implements AuthenticationSuccessHandler {
+    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        log.info("授权成功 {} {} {}",request.getMethod(),authentication.isAuthenticated(),authentication.getClass().getName());
         OAuth2AuthorizationCodeRequestAuthenticationToken authenticationToken = (OAuth2AuthorizationCodeRequestAuthenticationToken) authentication;
         String redirectUri = authenticationToken.getRedirectUri();
         if (!StringUtils.hasText(redirectUri)) {
@@ -51,7 +57,11 @@ public class AuthorizationEndpointSuccessHandler implements AuthenticationSucces
         endpointResponse.setCode(tokenValue);
         endpointResponse.setState(state);
         endpointResponse.setRedirectUri(uriBuilder.build(true).toUriString());
-        ServletUtil.writeJson(response, R.ok().build(endpointResponse));
+        if (Objects.equals(request.getMethod(), HttpConstants.Method.GET.getValue())) {
+            redirectStrategy.sendRedirect(request, response, endpointResponse.getRedirectUri());
+        } else {
+            ServletUtil.writeJson(response, R.ok().build(endpointResponse));
+        }
     }
 
     /**

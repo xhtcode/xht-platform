@@ -24,7 +24,7 @@ import java.util.Optional;
 @Service
 public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationService {
 
-    private final Oauth2AuthorizationConverter authorizationConverter = new Oauth2AuthorizationConverter();
+    private final Oauth2AuthorizationConverter authorizationConverter = new Oauth2AuthorizationConverter(5L);
     @Resource
     private Oauth2AuthorizationRepository authorizationRepository;
 
@@ -79,7 +79,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     @Override
     public OAuth2Authorization findByToken(String token, OAuth2TokenType tokenType) {
         Assert.hasText(token, "token cannot be empty");
-        log.debug("从缓存中获取授权信息，tokenType:{} token:{}", tokenType, token);
+        log.debug("从缓存中获取授权信息，tokenType:{} token:{}", Optional.ofNullable(tokenType).map(OAuth2TokenType::getValue).orElse(null), token);
         Optional<Oauth2AuthorizationEntity> result;
         if (tokenType == null) {
             result = authorizationRepository.findByState(token)

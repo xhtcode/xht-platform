@@ -8,6 +8,11 @@ package com.xht.framework.core.constant;
 public interface CharacterConstant {
 
     /**
+     * 空格
+     */
+    Character SPACE = ' ';
+
+    /**
      * 点
      */
     Character POINT = '.';

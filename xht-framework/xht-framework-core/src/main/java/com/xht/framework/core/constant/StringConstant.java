@@ -14,6 +14,11 @@ public interface StringConstant {
     String UNKNOWN = "unknown";
 
     /**
+     * 空格
+     */
+    String SPACE = Character.toString(CharacterConstant.SPACE);
+
+    /**
      * 点
      */
     String POINT = Character.toString(CharacterConstant.POINT);

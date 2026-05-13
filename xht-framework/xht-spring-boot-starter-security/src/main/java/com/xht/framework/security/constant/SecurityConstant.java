@@ -1,5 +1,7 @@
 package com.xht.framework.security.constant;
 
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+
 /**
  * 描述 ： security 常量
  *
@@ -53,15 +55,5 @@ public interface SecurityConstant {
      * 角色前缀
      */
     String ROLE_PREFIX = "ROLE_";
-
-    /**
-     * 缓存清除端点（仅授权服务器可调用）
-     */
-    String RESOURCE_SERVER_TOKEN_CANCEL_URL = "/xht/resource-server/internal/token-cache/clear";
-
-    /**
-     * 批量清除缓存（可选）
-     */
-    String RESOURCE_SERVER_TOKEN_BATCH_CANCEL_URL = "/xht/resource-server/internal/token-cache/batch-clear";
 
 }

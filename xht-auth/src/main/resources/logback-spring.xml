@@ -120,7 +120,7 @@
     <logger name="com.xht" level="debug"/>
     <!-- 多环境配置 按照active profile选择分支 -->
     <springProfile name="dev">
-        <logger name="org.springframework.security.web.FilterChainProxy" level="debug"/>
+        <logger name="org.springframework.security" level="debug"/>
         <root level="info">
             <appender-ref ref="console"/>
             <appender-ref ref="file_info"/>

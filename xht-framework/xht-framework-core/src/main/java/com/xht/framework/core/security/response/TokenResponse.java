@@ -1,5 +1,6 @@
 package com.xht.framework.core.security.response;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xht.framework.core.domain.response.BasicResponse;
@@ -34,6 +35,20 @@ public class TokenResponse extends BasicResponse implements Serializable {
     private String refreshToken;
 
     /**
+     * 访问令牌类型
+     */
+    @Schema(name = "token_type", defaultValue = "访问令牌类型")
+    @JsonProperty(value = "token_type")
+    private String tokenType;
+
+    /**
+     * 授权范围
+     */
+    @Schema(name = "scopes", defaultValue = "授权范围")
+    @JsonProperty(value = "scopes")
+    private String scopes;
+
+    /**
      * 令牌过期时间
      */
     @Schema(name = "expires_in", defaultValue = "令牌过期时间")
@@ -44,7 +59,6 @@ public class TokenResponse extends BasicResponse implements Serializable {
      * 额外的参数
      */
     @Schema(name = "additional", defaultValue = "额外的参数")
-    @JsonProperty(value = "additional")
+    @JsonAnyGetter
     private Map<String, Object> additionalParameters;
-
 }

@@ -31,6 +31,7 @@ public class LoginController {
     private final RegisteredClientRepository registeredClientRepository;
 
 
+
     /**
      * 授权码模式：认证页面
      * @param modelAndView 视图模型对象

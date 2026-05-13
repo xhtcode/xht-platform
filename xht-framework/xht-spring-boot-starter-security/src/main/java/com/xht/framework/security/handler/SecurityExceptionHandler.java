@@ -24,7 +24,7 @@ public class SecurityExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     public R<String> handle(AuthenticationException e, HttpServletRequest request) {
         log.debug(" {} 认证失败: {}", request.getRequestURI(), e.getMessage(), e);
-        return R.error().info(GlobalErrorStatusCode.UNAUTHORIZED).build();
+        return R.error().info(GlobalErrorStatusCode.UNAUTHORIZED).msg(e.getMessage()).build();
     }
 
     /**

@@ -1,5 +1,9 @@
 server:
   port: 8080
+  servlet:
+    session:
+      cookie:
+        name: GATEWAY-CLIENT
 spring:
   cloud:
     gateway:
@@ -28,18 +32,33 @@ spring:
                 - Path=/generate/**
               filters:
                 - StripPrefix=1
-            - id: xht-module-monitor
-              uri: lb://xht-module-monitor #此处需要使用lb协议
-              predicates:
-                - Path=/monitor/**
-              filters:
-                - StripPrefix=1
+          default-filters:
+            - TokenRelay
+  data:
+    redis:
+      host: 192.168.100.1
+      port: 6379
+      timeout: 10000
+      jedis:
+        pool:
+          enabled: true
+          max-active: 8
+          max-wait: -1ms
+          max-idle: 8
+          min-idle: 0
+      password:
+      database: 0
 
 xht:
   security:
     ignore:
       whites:
         add-swagger-ignore-urls: true
+    gateway:
+      authenticated-urls:
+        - /get/token
+        - /admin/**
+        - /generate/**
 knife4j:
   gateway:
     enabled: true     # ① 第一个配置，开启gateway聚合组件

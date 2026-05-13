@@ -30,17 +30,13 @@ export default ({command, mode}: ConfigEnv): UserConfig => {
             server: {
                 host: '0.0.0.0',
                 port: Number(env.VITE_APP_PORT) || 3009,
+                allowedHosts: ['xhtgateway.com','xhtiam.com','www.xht.gatway.com','www.xht.sso.com'],
                 open: false, // 启动是否自动打开浏览器
                 proxy: {
-                    ['/api']: {
-                        target: env.VITE_GATEWAY_API, // 有来商城线上接口地址
+                    [env.VITE_BASE_API]: {
+                        target: env.VITE_GATEWAY_API, // easymock
                         changeOrigin: true,
-                        rewrite: path => path.replace(new RegExp('^/api' ), '')
-                    },
-                    ['/test']: {
-                        target: 'http://127.0.0.1:8180', // 有来商城线上接口地址
-                        changeOrigin: true,
-                        rewrite: path => path.replace(new RegExp('^/test' ), '')
+                        rewrite: (path: string) => path.replace(new RegExp('^' + env.VITE_BASE_API), ''),
                     }
                 }
             },

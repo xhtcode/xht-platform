@@ -1,16 +1,21 @@
 package com.xht.auth.security.web.authentication.logout;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.xht.framework.core.domain.R;
+import com.xht.framework.core.domain.response.BasicResponse;
 import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.core.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import java.io.IOException;
+import java.io.Serial;
 
 /**
  * 自定义退出成功处理器
@@ -26,11 +31,12 @@ public class XhtLogoutSuccessHandler implements LogoutSuccessHandler {
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         if (response == null) {
             log.warn("退出成功 response is null");
+            ServletUtil.writeJson(response, R.ok().msg("退出成功").build());
             return;
         }
+        LogoutResponse logoutResponse = null;
         HttpSession session = request.getSession(false);
         if (session != null) {
-            System.out.println(session.getId());
             log.debug("删除 session:{} ", session.getId());
         }
         // 获取请求参数中是否包含 回调地址
@@ -39,9 +45,23 @@ public class XhtLogoutSuccessHandler implements LogoutSuccessHandler {
             redirectUrl = ServletUtil.getHeader(request, HttpHeaders.REFERER);
         }
         if (StringUtils.hasText(redirectUrl)) {
+            logoutResponse = new LogoutResponse();
+            logoutResponse.setRedirectUrl(redirectUrl);
             log.info("退出成功 redirectUrl={}", redirectUrl);
-            response.sendRedirect(redirectUrl);
+
         }
+        ServletUtil.writeJson(response, R.ok().msg("退出成功").build(logoutResponse));
+    }
+
+
+    @Data
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class LogoutResponse extends BasicResponse {
+
+        @Serial
+        private static final long serialVersionUID = 1L;
+
+        private String redirectUrl;
     }
 
 }

@@ -13,3 +13,23 @@ spring:
         password: @nacos.password@
         namespace: @nacos.namespace@
         group: @nacos.group@
+  thymeleaf:
+    cache: false
+  security:
+    oauth2:
+      client:
+        registration:
+          spring:
+            client-name: spring
+            client-id: oidc-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: http://xhtgateway.com:8080/login/oauth2/code/spring
+            scope: openid,write
+        provider:
+          spring:
+            authorization-uri: http://xhtiam.com:9000/oauth2/authorize
+            token-uri: http://xhtiam.com:9000/oauth2/token
+            jwk-set-uri: http://xhtiam.com:9000/oauth2/jwks
+            user-name-attribute: sub
+

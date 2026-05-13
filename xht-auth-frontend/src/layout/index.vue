@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {useRoute, useRouter} from "vue-router";
-import {computed} from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { computed } from 'vue'
 import logImage from '@/assets/logo.svg'
-import {useUserStore} from "@/stores/modules/user.store";
+import { useUserStore } from '@/stores/modules/user.store'
 
 const route = useRoute()
 const router = useRouter()
@@ -24,41 +24,30 @@ const handleLogout = () => {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning',
-  }).then(() => {
-    userStore.clearUserInfo()
-    router.push('/sso/login')
-  }).catch(() => {
   })
+    .then(() => {
+      userStore.clearUserInfo()
+      router.push('/sso/login')
+    })
+    .catch(() => {})
 }
 </script>
 
 <template>
   <el-container class="xht-layout">
     <el-header class="xht-header">
-      <div class="pl-5 flex items-center">
-        <el-image :src="logImage" alt="" fit="fill" class="h-28px w-28px" :scale="1"/>
-        <h3>
-          小糊涂统一身份认证
-        </h3>
+      <div class="flex items-center pl-5">
+        <el-image :src="logImage" alt="" fit="fill" class="h-28px w-28px" :scale="1" />
+        <h3>小糊涂统一身份认证</h3>
       </div>
-      <div class="flex-1 flex items-center justify-end pr-5">
+      <div class="flex flex-1 items-center justify-end pr-5">
         <template v-if="!userStore.loginStatus">
           <el-space size="default" spacer="|" alignment="center">
-            <el-button
-                text
-                link
-                :type="isRegisterActive ? 'primary' : 'default'"
-                :class="{'!font-bold': isRegisterActive}"
-                @click="goRegister"
-            >注册
+            <el-button text link :type="isRegisterActive ? 'primary' : 'default'" :class="{ '!font-bold': isRegisterActive }" @click="goRegister">
+              注册
             </el-button>
-            <el-button
-                text
-                link
-                :type="isLoginActive ? 'primary' : 'default'"
-                :class="{'!font-bold': isLoginActive}"
-                @click="goLogin"
-            >登录
+            <el-button text link :type="isLoginActive ? 'primary' : 'default'" :class="{ '!font-bold': isLoginActive }" @click="goLogin">
+              登录
             </el-button>
           </el-space>
         </template>
@@ -71,8 +60,8 @@ const handleLogout = () => {
       </div>
     </el-header>
     <el-main class="xht-main">
-      <el-main class="flex-1 min-h-full flex! flex-col">
-        <router-view/>
+      <el-main class="min-h-full flex-1 flex-col flex!">
+        <router-view />
       </el-main>
     </el-main>
   </el-container>
@@ -87,11 +76,13 @@ const handleLogout = () => {
 
 .xht-header {
   user-select: none;
-  background: #FFFFFF;
+  background: #ffffff;
   height: var(--xht-header-height) !important;
   padding: 0 !important;
   border-bottom: var(--el-border);
-  box-shadow: 0 6px 16px 2px #0000000a, 0 4px 10px #00000014;
+  box-shadow:
+    0 6px 16px 2px #0000000a,
+    0 4px 10px #00000014;
   display: flex;
   align-items: center;
 }

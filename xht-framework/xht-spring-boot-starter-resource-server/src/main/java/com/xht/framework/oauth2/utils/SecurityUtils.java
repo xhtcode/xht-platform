@@ -27,13 +27,13 @@ public final class SecurityUtils {
      *
      * @return 当前用户认证信息
      */
-    public static Authentication getAuthentication() {
+    public static Optional<Authentication> getAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // 匿名接口直接返回
         if (authentication instanceof AnonymousAuthenticationToken) {
-            return null;
+            return Optional.empty();
         }
-        return authentication;
+        return Optional.ofNullable(authentication);
     }
 
     /**
@@ -42,7 +42,7 @@ public final class SecurityUtils {
      * @return 当前是否登录 状态
      */
     public static boolean isLogin() {
-        return Objects.nonNull(getAuthentication());
+        return Objects.nonNull(getAuthentication().orElse(null));
     }
 
 
@@ -50,7 +50,7 @@ public final class SecurityUtils {
      * 获取 spring security 当前登录的用户
      */
     public static BasicUserDetails getUser() {
-        return Optional.ofNullable(getAuthentication()).map(authentication -> {
+        return getAuthentication().map(authentication -> {
             Object principal = authentication.getPrincipal();
             if (principal instanceof BasicUserDetails userDetails) {
                 return userDetails;
