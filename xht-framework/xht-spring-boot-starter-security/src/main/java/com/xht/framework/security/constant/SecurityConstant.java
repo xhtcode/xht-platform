@@ -1,7 +1,5 @@
 package com.xht.framework.security.constant;
 
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-
 /**
  * 描述 ： security 常量
  *
@@ -56,4 +54,13 @@ public interface SecurityConstant {
      */
     String ROLE_PREFIX = "ROLE_";
 
+    /**
+     * 过期时间
+     */
+    long QR_CODE_INFO_TIMEOUT = 60 * 10;
+
+    /**
+     * 二维码信息前缀
+     */
+    String QR_CODE_KEY_PREFIX = "xht:login:qrcode";
 }

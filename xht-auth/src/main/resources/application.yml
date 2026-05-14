@@ -69,7 +69,7 @@ xht:
     oauth2:
       issuer: http://www.xht.sso.com
       authorization-server:
-        login-page: http://www.xht.sso.com/sso/login
+        login-page: http://www.xht.sso.com:5000/sso/login
         default-success-url: /
         login-processing-url: /sso/unLogin
         consent-page: http://www.xht.sso.com/sso/confirm_access

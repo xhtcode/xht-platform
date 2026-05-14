@@ -8,63 +8,114 @@ package com.xht.framework.core.constant;
 public interface CharacterConstant {
 
     /**
-     * 空格
+     * 字符常量：空格符 {@code ' '}
      */
-    Character SPACE = ' ';
+    char SPACE = ' ';
 
     /**
-     * 点
+     * 字符常量：制表符 {@code '\t'}
      */
-    Character POINT = '.';
+    char TAB = '	';
 
     /**
-     * 分号
+     * 字符常量：点  {@code '.'}
      */
-    Character SEMICOLON = ';';
+    char POINT = '.';
 
     /**
-     * 全局通用分隔符
+     * 字符常量：分号 {@code ';'}
      */
-    Character DELIMITER = ',';
+    char SEMICOLON = ';';
 
     /**
-     * 全局通用分隔符 下划线
+     * 字符常量：逗号 {@code ','}
      */
-    Character UNDERLINE = '_';
+    char COMMA = ',';
 
     /**
-     * 全局通用 横杠
+     * 字符常量：全局通用分隔符 {@code ','}
      */
-    Character HORIZONTAL = '-';
+    char DELIMITER = COMMA;
+
+    /**
+     * 字符常量：全局通用分隔符 下划线 {@code '_'}
+     */
+    char UNDERLINE = '_';
+
+    /**
+     * 字符常量：全局通用 横杠 {@code '-'}
+     */
+    char HORIZONTAL = '-';
+
+    /**
+     * 字符常量：全局通用分隔符 {@code ','}
+     */
+    char SEPARATOR = ',';
+
+    /**
+     * 字符常量：全局通用分隔符 斜杠 {@code '/'}
+     */
+    char SEPARATOR_SLASH = '/';
+
+    /**
+     * 全字符常量：局通用 冒号 {@code ':'}
+     */
+    char COLON = ':';
+
+    /**
+     * 字符常量：星号 {@code '*';}
+     */
+    char ASTERISK = '*';
+
+    /**
+     * 字符常量：左括号. {@code '('}
+     */
+    char PARENTHESIS_START = '(';
+
+    /**
+     * 字符常量：右括号. {@code ')'}
+     */
+    char PARENTHESIS_END = ')';
 
 
     /**
-     * 全局通用分隔符
+     * 字符常量：花括号（左） {@code '{'}
      */
-    Character SEPARATOR = ',';
+    char DELIM_START = '{';
 
     /**
-     * 全局通用分隔符 斜杠
+     * 字符常量：花括号（右） {@code '}'}
      */
-    Character SEPARATOR_SLASH = '/';
+    char DELIM_END = '}';
 
     /**
-     * 全局通用 冒号
+     * 字符常量：中括号（左） {@code '['}
      */
-    Character COLON = ':';
+    char BRACKET_START = '[';
 
     /**
-     * 星号
+     * 字符常量：中括号（右） {@code ']'}
      */
-    Character ASTERISK = '*';
+    char BRACKET_END = ']';
 
     /**
-     * 左括号.
+     * 字符常量：双引号 {@code '"'}
      */
-    Character LEFT_PARENTHESIS = '(';
+    char DOUBLE_QUOTES = '"';
 
     /**
-     * 右括号.
+     * 字符常量：单引号 {@code '\''}
      */
-    Character RIGHT_PARENTHESIS = ')';
+    char SINGLE_QUOTE = '\'';
+
+    /**
+     * 字符常量：与 {@code '&'}
+     */
+    char AMP = '&';
+
+    /**
+     * 字符常量：艾特 {@code '@'}
+     */
+    char AT = '@';
+
 }
