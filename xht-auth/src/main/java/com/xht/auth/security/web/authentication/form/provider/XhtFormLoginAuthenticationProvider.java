@@ -1,6 +1,7 @@
-package com.xht.auth.security.web.authentication;
+package com.xht.auth.security.web.authentication.form.provider;
 
-import com.xht.auth.security.web.authentication.form.XhtFormLoginToken;
+import com.xht.auth.security.web.authentication.AbstractXhtLoginAuthenticationProvider;
+import com.xht.auth.security.web.authentication.form.token.XhtFormLoginToken;
 import com.xht.framework.security.utils.PassWordUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -16,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @author xht
  **/
 @Slf4j
-public class XhtLoginAuthenticationProvider extends AbstractXhtLoginAuthenticationProvider<XhtFormLoginToken> {
+public class XhtFormLoginAuthenticationProvider extends AbstractXhtLoginAuthenticationProvider<XhtFormLoginToken> {
 
     /**
      * The plaintext password used to perform

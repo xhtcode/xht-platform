@@ -1,25 +1,48 @@
-package com.xht.auth.security.web.authentication.form;
+package com.xht.auth.security.web.authentication.form.filter;
 
 import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationFilter;
+import com.xht.auth.security.web.authentication.form.token.XhtFormLoginToken;
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import com.xht.framework.security.exception.BasicAuthenticationException;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Setter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-
-import java.io.IOException;
 
 /**
  * 表单登录过滤器
  *
  * @author xht
  **/
+@Setter
 public class XhtFormLoginFilter extends AbstractXhtAuthenticationFilter {
 
+    /**
+     * 用户名字段参数名
+     */
+    private String usernameParameter;
 
-    protected XhtFormLoginFilter(String loginUrl) {
+    /**
+     * 密码字段参数名
+     */
+    private String passwordParameter;
+
+    /**
+     * 验证码键字段参数名
+     */
+    private String captchaKeyParameter;
+
+    /**
+     * 验证码值字段参数名
+     */
+    private String captchaCodeParameter;
+
+    /**
+     * 表单登录过滤器
+     * @param loginUrl 登录URL
+     */
+    public XhtFormLoginFilter(String loginUrl) {
         super(loginUrl);
     }
 
@@ -34,15 +57,13 @@ public class XhtFormLoginFilter extends AbstractXhtAuthenticationFilter {
      * @param response HTTP响应对象，用于向客户端返回响应
      * @return 认证通过后的Authentication对象，包含用户身份和权限信息；如果认证失败或未完成则返回null
      * @throws AuthenticationException 当认证过程中发生错误时抛出异常，包括用户名或密码无效等情况
-     * @throws IOException 当读取请求数据或写入响应数据发生IO错误时抛出异常
-     * @throws ServletException 当Servlet处理过程中发生错误时抛出异常
      */
     @Override
-    protected Authentication xhtAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        String username = obtainParameter(request, "username");
-        String password = obtainParameter(request, "password");
-        String captchaKey = obtainParameter(request, "captchaKey");
-        String captchaCode = obtainParameter(request, "captchaCode");
+    protected Authentication xhtAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        String username = obtainParameter(request, usernameParameter);
+        String password = obtainParameter(request, passwordParameter);
+        String captchaKey = obtainParameter(request, captchaKeyParameter);
+        String captchaCode = obtainParameter(request, captchaCodeParameter);
         ThrowUtils.hasText(username, () -> new BasicAuthenticationException("用户名不能为空"));
         ThrowUtils.hasText(password, () -> new BasicAuthenticationException("密码不能为空"));
         ThrowUtils.hasText(captchaKey, () -> new BasicAuthenticationException("验证码key不能为空"));

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import com.xht.auth.security.web.authentication.form.XhtFormLoginToken;
+import com.xht.auth.security.web.authentication.form.token.XhtFormLoginToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.io.IOException;

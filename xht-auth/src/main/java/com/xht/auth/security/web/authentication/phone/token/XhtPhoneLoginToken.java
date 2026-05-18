@@ -1,4 +1,4 @@
-package com.xht.auth.security.web.authentication.form;
+package com.xht.auth.security.web.authentication.phone.token;
 
 import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationToken;
 import lombok.Getter;
@@ -25,7 +25,7 @@ import java.util.Collection;
  **/
 @Slf4j
 @Getter
-public class XhtFormLoginToken extends AbstractXhtAuthenticationToken {
+public class XhtPhoneLoginToken extends AbstractXhtAuthenticationToken {
 
     /**
      * 用户主体信息，通常是用户名或用户详情对象
@@ -47,7 +47,7 @@ public class XhtFormLoginToken extends AbstractXhtAuthenticationToken {
      * @param principal   用户主体信息（通常是用户名）
      * @param credentials 用户凭证信息（通常是密码）
      */
-    public XhtFormLoginToken(Object principal, Object credentials) {
+    public XhtPhoneLoginToken(Object principal, Object credentials) {
         super(null);
         this.principal = principal;
         this.credentials = credentials;
@@ -69,7 +69,7 @@ public class XhtFormLoginToken extends AbstractXhtAuthenticationToken {
      * @param credentials 用户凭证信息
      * @param authorities 用户拥有的权限集合
      */
-    public XhtFormLoginToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
+    public XhtPhoneLoginToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;
         this.credentials = credentials;
@@ -87,8 +87,8 @@ public class XhtFormLoginToken extends AbstractXhtAuthenticationToken {
      * @param credentials 用户凭证信息（通常是密码）
      * @return 未认证状态的XhtFormLoginToken实例
      */
-    public static XhtFormLoginToken unauthenticated(Object principal, Object credentials) {
-        return new XhtFormLoginToken(principal, credentials);
+    public static XhtPhoneLoginToken unauthenticated(Object principal, Object credentials) {
+        return new XhtPhoneLoginToken(principal, credentials);
     }
 
     /**
@@ -103,8 +103,8 @@ public class XhtFormLoginToken extends AbstractXhtAuthenticationToken {
      * @param authorities 用户拥有的权限集合
      * @return 已认证状态的XhtFormLoginToken实例
      */
-    public static XhtFormLoginToken authenticated(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
-        return new XhtFormLoginToken(principal, credentials, authorities);
+    public static XhtPhoneLoginToken authenticated(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
+        return new XhtPhoneLoginToken(principal, credentials, authorities);
     }
 
     /**

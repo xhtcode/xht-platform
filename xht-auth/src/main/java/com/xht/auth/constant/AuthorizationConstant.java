@@ -19,4 +19,34 @@ public interface AuthorizationConstant {
      */
     OAuth2TokenType STATE_TOKEN_TYPE = new OAuth2TokenType(OAuth2ParameterNames.STATE);
 
+    /**
+     * Spring Security 表单登录用户名字段名
+     */
+    String SPRING_SECURITY_FORM_USERNAME = "username";
+
+    /**
+     * Spring Security 表单登录密码字段名
+     */
+    String SPRING_SECURITY_FORM_PASSWORD = "password";
+
+    /**
+     * Spring Security 表单登录验证码键字段名
+     */
+    String SPRING_SECURITY_FORM_CAPTCHA_KEY = "captchaKey";
+
+    /**
+     * Spring Security 表单登录验证码值字段名
+     */
+    String SPRING_SECURITY_FORM_CAPTCHA_CODE = "captchaCode";
+
+    /**
+     * Spring Security 表单登录手机号码字段名
+     */
+    String SPRING_SECURITY_FORM_PHONE = "phone";
+
+    /**
+     * Spring Security 表单登录手机验证码字段名
+     */
+    String SPRING_SECURITY_FORM_PHONE_CODE = "phoneCode";
+
 }

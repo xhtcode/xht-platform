@@ -2,7 +2,7 @@ package com.xht.auth.security.jackson2;
 
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.xht.auth.security.web.authentication.form.XhtFormLoginToken;
+import com.xht.auth.security.web.authentication.form.token.XhtFormLoginToken;
 import com.xht.framework.core.jackson.mixin.HashSetMixin;
 
 import java.util.HashSet;

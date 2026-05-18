@@ -78,20 +78,9 @@ public class SecurityAutoConfiguration {
     @Bean
     @Order(2)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        XhtOauth2Properties.AuthorizationServer authorizationServer = xhtOauth2Properties.getAuthorizationServer();
         AuthenticationSuccessHandler successHandler = new AuthorizationServerSuccessHandler();
         AuthenticationFailureHandler failureHandler = new AuthorizationServerFailureHandler();
-        http.with(XhtFormLoginConfigurer.formLogin(), configurer -> {
-            configurer.setLoginSuccessHandler(successHandler);
-            configurer.setLoginFailureHandler(failureHandler);
-            configurer.setUserDetailsService(basicUserDetailsService);
-            configurer.setICaptchaService(iCaptchaService);
-        });
-        http.with(XhtPhoneLoginConfigurer.phoneLogin(), configurer -> {
-            configurer.setLoginSuccessHandler(successHandler);
-            configurer.setLoginFailureHandler(failureHandler);
-            configurer.setUserDetailsService(basicUserDetailsService);
-            configurer.setICaptchaService(iCaptchaService);
-        });
         CustomAuthorizeHttpRequestsConfigurer requestsConfigurer = new CustomAuthorizeHttpRequestsConfigurer(permitAllUrlProperties);
         // 开启CORS配置，配合下边的CorsConfigurationSource配置实现跨域配置
         http.cors(Customizer.withDefaults());
@@ -139,7 +128,18 @@ public class SecurityAutoConfiguration {
             configurer.setSuccessHandler(successHandler);
             configurer.setFailureHandler(failureHandler);
         });
-
+        http.with(XhtFormLoginConfigurer.formLogin(authorizationServer.getLoginPage()), configurer -> {
+            configurer.setLoginSuccessHandler(successHandler);
+            configurer.setLoginFailureHandler(failureHandler);
+            configurer.setUserDetailsService(basicUserDetailsService);
+            configurer.setICaptchaService(iCaptchaService);
+        });
+        http.with(XhtPhoneLoginConfigurer.phoneLogin(), configurer -> {
+            configurer.setLoginSuccessHandler(successHandler);
+            configurer.setLoginFailureHandler(failureHandler);
+            configurer.setUserDetailsService(basicUserDetailsService);
+            configurer.setICaptchaService(iCaptchaService);
+        });
         return http.build();
     }
 
