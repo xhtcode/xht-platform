@@ -10,12 +10,8 @@ import com.xht.auth.security.web.authentication.phone.provider.XhtPhoneLoginAuth
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
-import org.springframework.security.web.context.SecurityContextRepository;
 
 /**
  * 登录配置
@@ -71,7 +67,8 @@ public class XhtPhoneLoginConfigurer extends AbstractXhtLoginConfigurer<XhtPhone
      * @param http HTTP安全配置对象，用于配置各种安全相关的组件
      */
     @Override
-    public void init(HttpSecurity http) {
+    public void init(HttpSecurity http) throws Exception {
+        super.init(http);
         ThrowUtils.hasText(this.loginProcessingUrl, "loginProcessingUrl can not be null");
         ThrowUtils.hasText(this.phoneParameter, "phoneParameter can not be null");
         ThrowUtils.hasText(this.phoneCodeParameter, "phoneCodeParameter can not be null");
@@ -95,27 +92,10 @@ public class XhtPhoneLoginConfigurer extends AbstractXhtLoginConfigurer<XhtPhone
     @Override
     public void configure(HttpSecurity http) {
         log.debug("XhtLoginConfigurer configure");
-        XhtPhoneLoginFilter phoneLoginFilter = new XhtPhoneLoginFilter("/sso/unLogin");
+        XhtPhoneLoginFilter phoneLoginFilter = new XhtPhoneLoginFilter(this.loginProcessingUrl);
         phoneLoginFilter.setPhoneParameter(phoneParameter);
         phoneLoginFilter.setPhoneCodeParameter(phoneCodeParameter);
-        phoneLoginFilter.setICaptchaService(iCaptchaService);
-        phoneLoginFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
-        phoneLoginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
-        phoneLoginFilter.setAuthenticationFailureHandler(loginFailureHandler);
-        SessionAuthenticationStrategy sessionAuthenticationStrategy = http
-                .getSharedObject(SessionAuthenticationStrategy.class);
-        if (sessionAuthenticationStrategy != null) {
-            phoneLoginFilter.setSessionAuthenticationStrategy(sessionAuthenticationStrategy);
-        }
-        RememberMeServices rememberMeServices = http.getSharedObject(RememberMeServices.class);
-        if (rememberMeServices != null) {
-            phoneLoginFilter.setRememberMeServices(rememberMeServices);
-        }
-        SecurityContextRepository securityContextRepository = http.getSharedObject(SecurityContextRepository.class);
-        if (securityContextRepository != null) {
-            phoneLoginFilter.setSecurityContextRepository(securityContextRepository);
-        }
-        phoneLoginFilter.setSecurityContextHolderStrategy(getSecurityContextHolderStrategy());
+        authenticationFilterAddInformation(http, phoneLoginFilter);
         http.addFilterBefore(postProcess(phoneLoginFilter), UsernamePasswordAuthenticationFilter.class);
     }
 

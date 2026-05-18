@@ -9,12 +9,8 @@ import com.xht.auth.security.web.authentication.form.provider.XhtFormLoginAuthen
 import com.xht.framework.core.exception.utils.ThrowUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
-import org.springframework.security.web.context.SecurityContextRepository;
 
 /**
  * 登录配置
@@ -81,8 +77,9 @@ public class XhtFormLoginConfigurer extends AbstractXhtLoginConfigurer<XhtFormLo
      * @throws IllegalStateException 如果必要的配置参数为空时抛出异常
      */
     @Override
-    public void init(HttpSecurity http) {
+    public void init(HttpSecurity http) throws Exception {
         log.debug("XhtLoginConfigurer init");
+        super.init(http);
         ThrowUtils.hasText(this.loginProcessingUrl, "loginProcessingUrl can not be null");
         ThrowUtils.hasText(this.usernameParameter, "usernameParameter can not be null");
         ThrowUtils.hasText(this.passwordParameter, "passwordParameter can not be null");
@@ -108,29 +105,12 @@ public class XhtFormLoginConfigurer extends AbstractXhtLoginConfigurer<XhtFormLo
     @Override
     public void configure(HttpSecurity http) {
         log.debug("XhtLoginConfigurer configure");
-        XhtFormLoginFilter formLoginFilter = new XhtFormLoginFilter("/sso/unLogin");
+        XhtFormLoginFilter formLoginFilter = new XhtFormLoginFilter(this.loginProcessingUrl);
         formLoginFilter.setUsernameParameter(usernameParameter);
         formLoginFilter.setPasswordParameter(passwordParameter);
         formLoginFilter.setCaptchaKeyParameter(captchaKeyParameter);
         formLoginFilter.setCaptchaCodeParameter(captchaCodeParameter);
-        formLoginFilter.setICaptchaService(iCaptchaService);
-        formLoginFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
-        formLoginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
-        formLoginFilter.setAuthenticationFailureHandler(loginFailureHandler);
-        SessionAuthenticationStrategy sessionAuthenticationStrategy = http
-                .getSharedObject(SessionAuthenticationStrategy.class);
-        if (sessionAuthenticationStrategy != null) {
-            formLoginFilter.setSessionAuthenticationStrategy(sessionAuthenticationStrategy);
-        }
-        RememberMeServices rememberMeServices = http.getSharedObject(RememberMeServices.class);
-        if (rememberMeServices != null) {
-            formLoginFilter.setRememberMeServices(rememberMeServices);
-        }
-        SecurityContextRepository securityContextRepository = http.getSharedObject(SecurityContextRepository.class);
-        if (securityContextRepository != null) {
-            formLoginFilter.setSecurityContextRepository(securityContextRepository);
-        }
-        formLoginFilter.setSecurityContextHolderStrategy(getSecurityContextHolderStrategy());
+        authenticationFilterAddInformation(http, formLoginFilter);
         http.addFilterBefore(postProcess(formLoginFilter), UsernamePasswordAuthenticationFilter.class);
     }
 
