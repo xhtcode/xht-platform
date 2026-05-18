@@ -103,4 +103,15 @@ public record RedisRepositoryImpl(RedisTemplate<String, Object> redisTemplate) i
     public Long delete(Collection<String> keys) {
         return redisTemplate.delete(keys);
     }
+
+    /**
+     * 判断key是否存在
+     *
+     * @param key redis key
+     * @return boolean true存在
+     */
+    @Override
+    public Boolean hasKey(String key) {
+        return redisTemplate.hasKey(key);
+    }
 }

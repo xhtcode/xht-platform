@@ -1,5 +1,6 @@
 package com.xht.auth.security.web.authentication;
 
+import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.auth.security.web.authentication.qr.exception.QyLoginException;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.ServletUtil;
@@ -32,7 +33,7 @@ public class AuthorizationServerFailureHandler implements AuthenticationFailureH
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         log.error("登录失败 {} ", exception.getClass().getName(), exception);
-        if (exception instanceof QyLoginException || exception instanceof BasicAuthenticationException) {
+        if (exception instanceof QyLoginException || exception instanceof BasicAuthenticationException || exception instanceof CaptchaException) {
             ServletUtil.writeJson(response, R.error().msg(exception.getMessage()).build());
         } else {
             ServletUtil.writeJson(response, R.error().msg("用户名或者密码错误！").build());

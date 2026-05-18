@@ -1,5 +1,6 @@
 package com.xht.auth.security.web.authentication.phone.filter;
 
+import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnums;
 import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationFilter;
 import com.xht.auth.security.web.authentication.form.token.XhtFormLoginToken;
 import com.xht.framework.core.exception.utils.ThrowUtils;
@@ -52,9 +53,9 @@ public class XhtPhoneLoginFilter extends AbstractXhtAuthenticationFilter {
     protected Authentication xhtAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String phone = obtainParameter(request, phoneParameter);
         String phoneCode = obtainParameter(request, phoneCodeParameter);
-        ThrowUtils.hasText(phone, () -> new BasicAuthenticationException("手机号不能为空"));
-        ThrowUtils.hasText(phoneCode, () -> new BasicAuthenticationException("手机验证码不能为空"));
-        iCaptchaService.checkPhoneCode(phone, phoneCode);
+        ThrowUtils.hasText(phone, () -> new BasicAuthenticationException("参数错误：手机号不能为空"));
+        ThrowUtils.hasText(phoneCode, () -> new BasicAuthenticationException("参数错误：手机验证码不能为空"));
+        iCaptchaService.checkPhoneCode(phone, phoneCode, CaptchaBusinessTypeEnums.SSO);
         XhtFormLoginToken authRequest = XhtFormLoginToken.unauthenticated(phone, phoneCode);
         setDetails(request, authRequest);
         return getAuthenticationManager().authenticate(authRequest);

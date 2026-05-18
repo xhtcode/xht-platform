@@ -1,5 +1,6 @@
 package com.xht.auth.security.oauth2.server.authorization.phone;
 
+import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnums;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.constant.CustomAuthorizationGrantType;
 import com.xht.auth.security.oauth2.server.authorization.AbstractAuthenticationProvider;
@@ -46,7 +47,7 @@ public class PhoneAuthenticationProvider extends AbstractAuthenticationProvider 
     @Override
     protected BasicUserDetails getAuthenticatedPrincipal(RequestUserBO requestUserBO, Authentication authentication) {
         requestUserBO.checkUserName();
-        iCaptchaService.checkPhoneCode(requestUserBO.getUserName(), requestUserBO.getCaptcha());
+        iCaptchaService.checkPhoneCode(requestUserBO.getUserName(), requestUserBO.getCaptcha(), CaptchaBusinessTypeEnums.OAUTH2);
         BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnums.PHONE);
         basicUserDetailsService.validate(requestUserBO, basicUserDetails, false);
         return basicUserDetails;

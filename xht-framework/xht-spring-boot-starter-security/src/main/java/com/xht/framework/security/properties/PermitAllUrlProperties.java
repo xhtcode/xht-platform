@@ -1,6 +1,7 @@
 package com.xht.framework.security.properties;
 
 import cn.hutool.core.util.ReUtil;
+import com.xht.framework.core.exception.BusinessException;
 import com.xht.framework.core.properties.IProperties;
 import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
@@ -85,9 +86,15 @@ public class PermitAllUrlProperties implements InitializingBean, IProperties {
             // 获取类上边的注解, 替代path variable 为 *
             IgnoreAuth controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), IgnoreAuth.class);
             Optional.ofNullable(controller)
-                    .ifPresent(ignore -> Objects.requireNonNull(info.getPathPatternsCondition())
-                            .getPatternValues()
-                            .forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
+                    .ifPresent(ignore -> {
+                        if (Objects.nonNull(method)) {
+                            throw new BusinessException(handlerMethod.getBeanType() + "方法上边和类上边不能同时添加@IgnoreAuth注解");
+                        }
+                        Objects.requireNonNull(info.getPathPatternsCondition())
+                                .getPatternValues()
+                                .forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*")));
+
+                    });
         });
         log.debug("\n白名单URL:>>>>>>>>>>>>>>>>>>>>>>>>>>> \n{}", StringUtils.collectionToDelimitedString(urls, "\n", ANSI_GREEN, ANSI_RESET));
     }

@@ -11,7 +11,7 @@ import {
 
 const baseURL = '/api'
 enum Api {
-  GENERATE_CAPTCHA = '/login/captcha',
+  GENERATE_CAPTCHA = '/sso/login/captcha',
   SSO_LOGIN = '/sso/unLogin',
   OAUTH2_AUTHORIZE = '/oauth2/authorize',
   SSO_REGISTER = '/sso/register',

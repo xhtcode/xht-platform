@@ -84,4 +84,11 @@ public interface RedisRepository {
      */
     Long delete(Collection<String> keys);
 
+    /**
+     * 判断key是否存在
+     * @param key redis key
+     * @return boolean true存在
+     */
+    Boolean hasKey(String key);
+
 }
