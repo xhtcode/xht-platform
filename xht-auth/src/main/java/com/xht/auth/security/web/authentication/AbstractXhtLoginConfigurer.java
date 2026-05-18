@@ -21,7 +21,6 @@ import org.springframework.security.web.context.SecurityContextRepository;
 @Setter
 public abstract class AbstractXhtLoginConfigurer<T extends AbstractXhtLoginConfigurer<T>> extends AbstractHttpConfigurer<T, HttpSecurity> {
 
-
     protected AuthenticationSuccessHandler loginSuccessHandler;
 
     protected AuthenticationFailureHandler loginFailureHandler;
