@@ -75,13 +75,11 @@ const submitPasswordForm = () => {
       ssoLogin(ruleForm)
         .then((res) => {
           userStore.changeLoginStatus(true)
-          window.setTimeout(() => {
             if (res.data.targetUrl) {
               window.location.href = res.data.targetUrl
             } else {
               router.push('/home')
             }
-          }, 500)
         })
         .catch((_) => {
           refreshCaptcha()

@@ -4,7 +4,6 @@ import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.session.SessionLimit;
-import org.springframework.stereotype.Component;
 
 /**
  * 自定义动态会话限制
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
  * @author xht
  **/
 @Slf4j
-@Component
 public class XhtSessionLimit implements SessionLimit {
 
 
@@ -27,6 +25,7 @@ public class XhtSessionLimit implements SessionLimit {
         // 获取当前登录用户信息
         BasicUserDetails loginUser = (BasicUserDetails) authentication.getPrincipal();
         log.info("当前登录用户信息:{}", loginUser.getUsername());
-        return 100;
+        return 1;
     }
+
 }

@@ -4,6 +4,10 @@ server:
     session:
       timeout: 3600s
 spring:
+  session:
+    redis:
+      namespace: xht:sso
+      repository-type: default
   profiles:
     active: dev
   application:
@@ -66,13 +70,18 @@ springdoc:
     - /css/**
 xht:
   security:
+    remember-me:
+      cache-key: xht:rememberMe
+      cookie-name: xht-token
+      parameter: rememberMe
+      token-validity-seconds: 1209600
     oauth2:
       issuer: http://www.xht.sso.com
       authorization-server:
         login-page: http://www.xht.sso.com:5000/sso/login
         default-success-url: /
         login-processing-url: /sso/unLogin
-        consent-page: http://www.xht.sso.com/sso/confirm_access
+        consent-page: http://www.xht.sso.com:5000/sso/confirm_access
     ignore:
       whites:
         add-swagger-ignore-urls: true

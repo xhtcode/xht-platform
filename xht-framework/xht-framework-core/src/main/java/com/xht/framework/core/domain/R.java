@@ -22,9 +22,6 @@ import java.util.Objects;
 @Schema(description = "响应结果")
 public final class R<T> {
 
-    @Schema(description = "是否成功")
-    private final Boolean ok;
-
     @Schema(description = "返回码")
     private final Integer code;
 
@@ -46,14 +43,12 @@ public final class R<T> {
      */
     @JsonCreator
     public R(
-            @JsonProperty("ok") Boolean ok,
             @JsonProperty("code") Integer code,
             @JsonProperty("msg") String msg,
             @JsonProperty("data") T data,
             @JsonProperty("dataType") DataTypeEnums dataType,
             @JsonProperty("traceId") String traceId
     ) {
-        this.ok = ok;
         this.code = code;
         this.msg = msg;
         this.data = data;
@@ -67,7 +62,7 @@ public final class R<T> {
      * @return RBuilder 响应构建器实例
      */
     public static RBuilder ok() {
-        return new RBuilder(Boolean.TRUE).code(RConstants.SUCCESS).msg(RConstants.SUCCESS_MSG);
+        return new RBuilder().code(RConstants.SUCCESS).msg(RConstants.SUCCESS_MSG);
     }
 
     /**
@@ -90,14 +85,10 @@ public final class R<T> {
         if (Objects.equals(RConstants.SUCCESS, code)) {
             throw new UtilException("code cannot be SUCCESS");
         }
-        return new RBuilder(Boolean.FALSE).code(Objects.requireNonNullElse(code, RConstants.FAIL)).msg(RConstants.FAIL_MSG);
+        return new RBuilder().code(Objects.requireNonNullElse(code, RConstants.FAIL)).msg(RConstants.FAIL_MSG);
     }
 
     public static class RBuilder {
-        /**
-         * 是否成功
-         */
-        private final Boolean ok;
 
         /**
          * 返回码
@@ -117,10 +108,8 @@ public final class R<T> {
         /**
          * 构造响应构建器实例
          *
-         * @param ok 是否成功标识
          */
-        RBuilder(Boolean ok) {
-            this.ok = ok;
+        RBuilder() {
             this.dataType = DataTypeEnums.NORMAL;
         }
 
@@ -188,7 +177,7 @@ public final class R<T> {
          * @return R<T> 响应对象实例
          */
         public <T> R<T> build(T data) {
-            return new R<>(ok, code, msg, data, dataType, TraceIdUtils.getTraceId());
+            return new R<>(code, msg, data, dataType, TraceIdUtils.getTraceId());
         }
 
     }

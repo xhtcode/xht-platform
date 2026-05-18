@@ -6,7 +6,7 @@ import request from '@/utils/request'
 export function generateQrCode() {
   return request({
     method: 'get',
-    url: '/qrCode/login/generateQrCode',
+    url: '/sso/qrCode/login/generate',
   })
 }
 
@@ -17,6 +17,6 @@ export function generateQrCode() {
 export function fetch(qrCodeId: string) {
   return request({
     method: 'get',
-    url: `/qrCode/login/fetch/${qrCodeId}`,
+    url: `/sso/qrCode/login/fetch/${qrCodeId}`,
   })
 }

@@ -13,4 +13,8 @@ public class QyLoginException extends AuthenticationException {
     public QyLoginException(String msg) {
         super(msg);
     }
+
+    public QyLoginException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
 }

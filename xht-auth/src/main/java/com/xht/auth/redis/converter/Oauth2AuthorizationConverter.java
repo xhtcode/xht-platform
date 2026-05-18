@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.xht.auth.redis.entity.Oauth2AuthorizationEntity;
+import com.xht.auth.security.jackson2.XhtSecurityJackson2Modules;
 import com.xht.framework.core.converter.IConverter;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +54,7 @@ public final class Oauth2AuthorizationConverter implements IConverter<OAuth2Auth
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         // 此项必须配置，否则如果序列化的对象里边还有对象，会报如下错误：
         objectMapper.activateDefaultTyping(objectMapper.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
-
+        objectMapper.registerModule(new XhtSecurityJackson2Modules());
         ClassLoader classLoader = Oauth2AuthorizationConverter.class.getClassLoader();
         List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
         this.objectMapper.registerModules(securityModules);

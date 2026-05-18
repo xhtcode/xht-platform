@@ -1,4 +1,4 @@
-package com.xht.auth.configuration;
+package com.xht.auth.security.web.authentication;
 
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.ServletUtil;
@@ -29,6 +29,7 @@ public class AuthorizationServerSuccessHandler extends SimpleUrlAuthenticationSu
 
     private RequestCache requestCache = new HttpSessionRequestCache();
 
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         SavedRequest savedRequest = this.requestCache.getRequest(request, response);
@@ -42,7 +43,7 @@ public class AuthorizationServerSuccessHandler extends SimpleUrlAuthenticationSu
             this.requestCache.removeRequest(request, response);
         }
         clearAuthenticationAttributes(request);
-        ServletUtil.writeJson(response, R.ok().build(targetUrlMap));
+        ServletUtil.writeJson(response, R.ok().msg("登录成功").build(targetUrlMap));
     }
 
 }

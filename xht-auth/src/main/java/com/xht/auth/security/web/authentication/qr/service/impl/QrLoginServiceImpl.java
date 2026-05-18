@@ -67,7 +67,6 @@ public class QrLoginServiceImpl implements IQrLoginService {
      * @param loginScan 二维码扫描请求对象，包含二维码ID等扫描信息
      * @return 二维码扫描响应对象，包含扫描结果和后续操作指引
      */
-    @Override
     public QrCodeLoginScanResponse scan(QrCodeLoginScanRequest loginScan) {
         BasicUserDetails basicUser = SecurityUtils.getUser();
         // 校验二维码状态
@@ -103,7 +102,6 @@ public class QrLoginServiceImpl implements IQrLoginService {
      *
      * @param loginConsent 二维码登录授权请求对象，包含用户授权信息
      */
-    @Override
     public void consent(QrCodeLoginConsentRequest loginConsent) {
         String qrCodeId = loginConsent.getQrCodeId();
         BasicUserDetails user = SecurityUtils.getUser();
@@ -136,7 +134,6 @@ public class QrLoginServiceImpl implements IQrLoginService {
      * @param qrCodeId 二维码ID，唯一标识一个二维码
      * @return 二维码登录获取响应对象，包含登录状态和认证结果
      */
-    @Override
     public QrCodeLoginFetchResponse fetch(HttpServletRequest request, HttpServletResponse response, String qrCodeId) {
         // 校验二维码状态
         QrCodeInfo qrCodeInfo = qrDataManager.getQrCodeInfo(qrCodeId).orElseThrow(() -> new QyLoginException("无效二维码或二维码已过期."));

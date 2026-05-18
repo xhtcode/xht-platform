@@ -21,8 +21,6 @@ public final class ROptional<T> {
 
     private final Integer code;
 
-    private final Boolean ok;
-
     private final T data;
 
     private ROptional(R<T> value) {
@@ -31,7 +29,6 @@ public final class ROptional<T> {
         }
         this.value = value;
         this.code = value.getCode();
-        this.ok = value.getOk();
         this.data = value.getData();
     }
 
@@ -78,7 +75,7 @@ public final class ROptional<T> {
      * @return true：成功，false：失败
      */
     public boolean isSuccess() {
-        return Objects.equals(ok, Boolean.TRUE) && Objects.equals(code, RConstants.SUCCESS);
+        return Objects.equals(code, RConstants.SUCCESS);
     }
 
 }
