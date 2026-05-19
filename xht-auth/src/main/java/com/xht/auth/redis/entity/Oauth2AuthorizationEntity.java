@@ -23,7 +23,6 @@ public class Oauth2AuthorizationEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-
     /**
      * 数据id
      */
@@ -39,10 +38,6 @@ public class Oauth2AuthorizationEntity implements Serializable {
      * 认证用户名
      */
     private String principalName;
-
-    /**
-     * 认证用户id
-     */
 
     /**
      * 认证时使用的模式
