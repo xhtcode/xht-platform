@@ -3,6 +3,7 @@ package com.xht.auth.security.oauth2.server.authorization.client;
 import com.xht.auth.authentication.dao.IAuthenticationDao;
 import com.xht.auth.authentication.domain.dto.Oauth2ClientDTO;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
+import com.xht.auth.constant.AuthorizationConstant;
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.cache.utils.Keys;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-
-import static com.xht.framework.oauth2.constant.Oauth2Constant.OAUTH2_CLIENT_KEY_PREFIX;
 
 /**
  * 自定义注册客户端仓库
@@ -45,7 +44,7 @@ public class Oauth2RegisteredClientRepository implements RegisteredClientReposit
 
     @Override
     public RegisteredClient findByClientId(String clientId) {
-        String key = Keys.createKey(OAUTH2_CLIENT_KEY_PREFIX, clientId);
+        String key = Keys.createKey(AuthorizationConstant.OAUTH2_CLIENT_KEY_PREFIX, clientId);
         Oauth2ClientDTO clientDTO = null;
         Long expire = redisRepository.getExpire(key);
         if (expire > 0) {

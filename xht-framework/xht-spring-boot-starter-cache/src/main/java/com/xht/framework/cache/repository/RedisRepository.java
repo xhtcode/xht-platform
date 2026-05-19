@@ -1,6 +1,7 @@
 package com.xht.framework.cache.repository;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
@@ -42,6 +43,15 @@ public interface RedisRepository {
      * @return 数据
      */
     <T> T getSet(String key, long timeout, TimeUnit unit, Supplier<T> data);
+
+    /**
+     * 获取一个key的缓存数据
+     * @param key redis key
+     * @return  数据
+     */
+    default <T> Optional<T> getOptional(String key) {
+        return Optional.ofNullable(get(key));
+    }
 
     /**
      * 缓存数据

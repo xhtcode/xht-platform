@@ -9,6 +9,12 @@ import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
  * @author xht
  **/
 public interface AuthorizationConstant {
+
+    /**
+     * 客户端信息缓存key前缀
+     */
+    String OAUTH2_CLIENT_KEY_PREFIX = "xht:oauth2:client";
+
     /**
      * 令牌用户信息缓存键
      */

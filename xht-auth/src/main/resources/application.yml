@@ -79,8 +79,9 @@ xht:
       issuer: http://www.xht.sso.com
       authorization-server:
         login-page: http://www.xht.sso.com:5000/sso/login
-        login-processing-url: /sso/unLogin
         consent-page: http://www.xht.sso.com:5000/sso/confirm_access
+        form-login-url: /sso/unLogin
+        phone-login-url: /sso/phoneLogin
     ignore:
       whites:
         add-swagger-ignore-urls: true

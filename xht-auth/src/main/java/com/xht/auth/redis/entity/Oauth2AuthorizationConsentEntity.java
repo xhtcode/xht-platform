@@ -1,6 +1,5 @@
 package com.xht.auth.redis.entity;
 
-import com.xht.framework.oauth2.constant.Oauth2Constant;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
@@ -15,7 +14,7 @@ import java.util.Set;
  * @author xht
  */
 @Data
-@RedisHash(value = Oauth2Constant.AUTHORIZATION_CONSENT_KEY_PREFIX, timeToLive = 10L)
+@RedisHash(value = "authorizationConsent", timeToLive = 10L)
 public class Oauth2AuthorizationConsentEntity {
 
     /**
