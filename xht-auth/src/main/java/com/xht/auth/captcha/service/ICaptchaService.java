@@ -61,4 +61,15 @@ public interface ICaptchaService {
          */
         void checkPhoneCode(String phone, String captcha, CaptchaBusinessTypeEnums captchaBusinessType);
 
+    /**
+     * 删除手机短信验证码
+     * <p>
+     * 从服务端删除指定手机号对应的短信验证码，通常在验证码校验完成后调用以清理数据。
+     * </p>
+     *
+     * @param phone 手机号码
+     * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景
+     */
+    void removePhoneCode(String phone, CaptchaBusinessTypeEnums captchaBusinessType);
+
 }

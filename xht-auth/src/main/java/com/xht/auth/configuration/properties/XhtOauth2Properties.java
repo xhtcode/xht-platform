@@ -46,19 +46,19 @@ public class XhtOauth2Properties {
     public static class AuthorizationServer {
 
         /**
+         * 表单登录地址
+         */
+        private String formLoginUrl;
+
+        /**
+         * 手机号登录地址
+         */
+        private String phoneLoginUrl;
+
+        /**
          *如果需要进行身份验证，则会跳转至该登录页面。
          */
         private String loginPage;
-
-        /**
-         * 指定用于验证凭证的 URL。
-         */
-        private String loginProcessingUrl;
-
-        /**
-         * 登录成功后跳转的页面。
-         */
-        private String defaultSuccessUrl;
 
         /**
          * 授权页面

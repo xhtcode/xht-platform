@@ -48,13 +48,6 @@ public class XhtFormLoginConfigurer extends AbstractXhtLoginConfigurer<XhtFormLo
     private String captchaCodeParameter = AuthorizationConstant.SPRING_SECURITY_FORM_CAPTCHA_CODE;
 
     /**
-     * 登录请求处理URL
-     */
-    public XhtFormLoginConfigurer() {
-        this.loginProcessingUrl = "/sso/login";
-    }
-
-    /**
      * 使用指定登录处理URL构造配置器
      *
      * @param loginProcessingUrl 登录请求处理的URL地址，不能为空
@@ -112,18 +105,6 @@ public class XhtFormLoginConfigurer extends AbstractXhtLoginConfigurer<XhtFormLo
         formLoginFilter.setCaptchaCodeParameter(captchaCodeParameter);
         authenticationFilterAddInformation(http, formLoginFilter);
         http.addFilterBefore(postProcess(formLoginFilter), UsernamePasswordAuthenticationFilter.class);
-    }
-
-    /**
-     * 创建表单登录配置器实例
-     * <p>
-     * 使用默认的登录处理URL创建配置器
-     * </p>
-     *
-     * @return 新的XhtFormLoginConfigurer实例
-     */
-    public static XhtFormLoginConfigurer formLogin() {
-        return new XhtFormLoginConfigurer();
     }
 
     /**

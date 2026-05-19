@@ -4,7 +4,6 @@ import com.xht.auth.constant.AuthorizationConstant;
 import com.xht.auth.security.core.userdetails.XhtPostAuthenticationChecks;
 import com.xht.auth.security.core.userdetails.XhtPreAuthenticationChecks;
 import com.xht.auth.security.web.authentication.AbstractXhtLoginConfigurer;
-import com.xht.auth.security.web.authentication.form.XhtFormLoginConfigurer;
 import com.xht.auth.security.web.authentication.phone.filter.XhtPhoneLoginFilter;
 import com.xht.auth.security.web.authentication.phone.provider.XhtPhoneLoginAuthenticationProvider;
 import com.xht.framework.core.exception.utils.ThrowUtils;
@@ -37,13 +36,6 @@ public class XhtPhoneLoginConfigurer extends AbstractXhtLoginConfigurer<XhtPhone
      * 表单登录手机验证码字段名
      */
     private String phoneCodeParameter = AuthorizationConstant.SPRING_SECURITY_FORM_PHONE_CODE;
-
-    /**
-     * 登录请求处理URL
-     */
-    public XhtPhoneLoginConfigurer() {
-        this.loginProcessingUrl = "/sso/phone";
-    }
 
     /**
      * 使用指定登录处理URL构造配置器
@@ -102,37 +94,13 @@ public class XhtPhoneLoginConfigurer extends AbstractXhtLoginConfigurer<XhtPhone
     /**
      * 创建表单登录配置器实例
      * <p>
-     * 使用默认的登录处理URL创建配置器
-     * </p>
-     *
-     * @return 新的XhtFormLoginConfigurer实例
-     */
-    public static XhtFormLoginConfigurer formLogin() {
-        return new XhtFormLoginConfigurer();
-    }
-
-    /**
-     * 创建表单登录配置器实例
-     * <p>
-     * 使用指定的登录处理URL创建配置器
-     * </p>
-     *
-     * @return 新的XhtFormLoginConfigurer实例
-     */
-    public static XhtPhoneLoginConfigurer phoneLogin() {
-        return new XhtPhoneLoginConfigurer();
-    }
-
-    /**
-     * 创建表单登录配置器实例
-     * <p>
      * 使用指定的登录处理URL创建配置器
      * </p>
      *
      * @param loginProcessingUrl 登录请求处理的URL地址
      * @return 新的XhtFormLoginConfigurer实例
      */
-    public static XhtPhoneLoginConfigurer formLogin(String loginProcessingUrl) {
+    public static XhtPhoneLoginConfigurer phoneLogin(String loginProcessingUrl) {
         return new XhtPhoneLoginConfigurer(loginProcessingUrl);
     }
 

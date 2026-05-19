@@ -1,6 +1,7 @@
 package com.xht.auth.security.web.authentication.form.token;
 
 import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationToken;
+import com.xht.framework.core.enums.LoginTypeEnums;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -48,7 +49,7 @@ public class XhtFormLoginToken extends AbstractXhtAuthenticationToken {
      * @param credentials 用户凭证信息（通常是密码）
      */
     public XhtFormLoginToken(Object principal, Object credentials) {
-        super(null);
+        super(LoginTypeEnums.PASSWORD, null);
         this.principal = principal;
         this.credentials = credentials;
         setAuthenticated(false);
@@ -70,7 +71,7 @@ public class XhtFormLoginToken extends AbstractXhtAuthenticationToken {
      * @param authorities 用户拥有的权限集合
      */
     public XhtFormLoginToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
+        super(LoginTypeEnums.PASSWORD, authorities);
         this.principal = principal;
         this.credentials = credentials;
         super.setAuthenticated(true); // must use super, as we override

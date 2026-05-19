@@ -128,13 +128,13 @@ public class SecurityAutoConfiguration {
             configurer.setSuccessHandler(successHandler);
             configurer.setFailureHandler(failureHandler);
         });
-        http.with(XhtFormLoginConfigurer.formLogin(authorizationServer.getLoginPage()), configurer -> {
+        http.with(XhtFormLoginConfigurer.formLogin(authorizationServer.getFormLoginUrl()), configurer -> {
             configurer.setLoginSuccessHandler(successHandler);
             configurer.setLoginFailureHandler(failureHandler);
             configurer.setUserDetailsService(basicUserDetailsService);
             configurer.setICaptchaService(iCaptchaService);
         });
-        http.with(XhtPhoneLoginConfigurer.phoneLogin(), configurer -> {
+        http.with(XhtPhoneLoginConfigurer.phoneLogin(authorizationServer.getPhoneLoginUrl()), configurer -> {
             configurer.setLoginSuccessHandler(successHandler);
             configurer.setLoginFailureHandler(failureHandler);
             configurer.setUserDetailsService(basicUserDetailsService);

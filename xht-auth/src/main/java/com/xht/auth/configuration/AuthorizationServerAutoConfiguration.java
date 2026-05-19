@@ -25,7 +25,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -40,7 +39,6 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Refr
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import java.security.KeyPair;
@@ -72,7 +70,7 @@ public class AuthorizationServerAutoConfiguration {
     // @formatter:off
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http,
                                                                       OAuth2AuthorizationService authorizationService,
-                                                                      OAuth2TokenGenerator<?> tokenGenerator, JdbcTemplate jdbcTemplate
+                                                                      OAuth2TokenGenerator<?> tokenGenerator
 
     ) throws Exception {
         XhtOauth2Properties.AuthorizationServer authorizationServerProperties = xhtOauth2Properties.getAuthorizationServer();
@@ -124,15 +122,6 @@ public class AuthorizationServerAutoConfiguration {
                     exceptions.defaultAuthenticationEntryPointFor(loginUrlAuthenticationEntryPoint, mediaTypeRequestMatcher);
                 })
                 .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
-        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
-        jdbcTokenRepository.setJdbcTemplate(jdbcTemplate);
-        http.rememberMe(rememberMeConfigurer -> {
-            rememberMeConfigurer.rememberMeParameter("rememberMe");
-            rememberMeConfigurer.rememberMeCookieName("xht-token");
-            rememberMeConfigurer.tokenValiditySeconds(6000);
-            rememberMeConfigurer.userDetailsService(basicUserDetailsService);
-            rememberMeConfigurer.tokenRepository(jdbcTokenRepository);
-        });
         return http.build();
     }
     // @formatter:on

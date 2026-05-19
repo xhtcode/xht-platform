@@ -158,7 +158,23 @@ public class CaptchaServiceImpl implements ICaptchaService {
         if (!StringUtils.equals(captcha, phoneCode)) {
             throw new CaptchaException("输入的验证码不正确");
         }
-        removeCaptcha(captchaKey);
+    }
+
+    /**
+     * 删除手机短信验证码
+     * <p>
+     * 从服务端删除指定手机号对应的短信验证码，通常在验证码校验完成后调用以清理数据。
+     * </p>
+     *
+     * @param phone               手机号码
+     * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景
+     */
+    @Override
+    public void removePhoneCode(String phone, CaptchaBusinessTypeEnums captchaBusinessType) {
+        if (StringUtils.hasText(phone)) {
+            String captchaKey = Keys.createKey(SecurityConstant.REDIS_PHONE_CODE_KEY_PREFIX, captchaBusinessType.getValue(), phone);
+            redisRepository.delete(captchaKey);
+        }
     }
 
     /**
