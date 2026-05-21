@@ -5,6 +5,7 @@ import com.xht.auth.redis.entity.Oauth2AuthorizationEntity;
 import com.xht.auth.redis.repository.Oauth2AuthorizationRepository;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
@@ -13,6 +14,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -37,6 +39,11 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     @Override
     public void save(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
+        OAuth2Authorization.Token<OAuth2AccessToken> oAuth2AccessTokenToken = Optional.of(authorization).map(OAuth2Authorization::getAccessToken).orElse(null);
+        if (Objects.nonNull(oAuth2AccessTokenToken) && !oAuth2AccessTokenToken.isActive()) {
+            remove(authorization);
+            return;
+        }
         log.debug("将授权信息保存到缓存中，id:{}", authorization.getId());
         Oauth2AuthorizationEntity entity = authorizationConverter.convert(authorization);
         authorizationRepository.save(entity);
