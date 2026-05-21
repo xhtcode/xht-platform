@@ -9,12 +9,10 @@ import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -34,11 +32,9 @@ public class QrCodeScanAuthenticationFilter extends QrCodeAbstractAuthentication
      * @param request  请求
      * @param response 响应
      * @param chain    过滤器链
-     * @throws IOException      抛出IO异常
-     * @throws ServletException 抛出Servlet异常
      */
     @Override
-    protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
         String qrCodeId = request.getParameter("qrCodeId");
         BasicUserDetails basicUser = SecurityUtils.getUser();
         log.debug("用户扫描二维码 qrCodeId:{} username={}", qrCodeId, basicUser.getUsername());

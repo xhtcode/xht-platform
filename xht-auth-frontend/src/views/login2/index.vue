@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { fetch, generateQrCode } from '@/service/api/QrCodeLogin'
 import { useMessage } from '@/hooks/use-message'

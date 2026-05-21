@@ -1,6 +1,5 @@
 package com.xht.gateway.controller;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,12 +17,6 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 public class TokenEndpoint {
-
-    @GetMapping("/aa")
-    public String aa(HttpSession httpSession) {
-        httpSession.setAttribute("aa", "aa");
-        return "aa";
-    }
 
     /**
      * 获取管理员OAuth2认证信息

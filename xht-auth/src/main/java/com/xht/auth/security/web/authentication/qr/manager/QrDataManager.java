@@ -4,6 +4,7 @@ import com.xht.auth.security.web.authentication.qr.domain.QrCodeInfo;
 import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnums;
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.core.utils.IdUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -39,7 +40,7 @@ public class QrDataManager extends AbstractQrManager {
      */
     @Override
     public String generateQrTicket() {
-        return "2";
+        return IdUtils.simpleUUID();
     }
 
     /**

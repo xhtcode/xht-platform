@@ -79,7 +79,6 @@ public class CaptchaServiceImpl implements ICaptchaService {
     public void checkCaptcha(String requestKey, String requestCaptcha, CaptchaBusinessTypeEnums captchaBusinessType) {
         String cacheKey = null;
         try {
-            if (true) return;
             ThrowUtils.hasText(requestCaptcha, () -> new CaptchaException("验证码错误，请输入正确的验证码"));
             ThrowUtils.hasText(requestKey, () -> new CaptchaException("验证码错误，请输入正确的验证码"));
             cacheKey = Keys.createKey(REDIS_CAPTCHA_CODE_KEY_PREFIX, captchaBusinessType.getValue(), requestKey);

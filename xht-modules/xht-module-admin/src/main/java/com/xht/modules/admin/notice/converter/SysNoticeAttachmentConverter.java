@@ -48,9 +48,7 @@ public interface SysNoticeAttachmentConverter extends BasicConverter<SysNoticeAt
             return List.of(); // 使用Java 9+的不可变空列表
         }
         return sysNoticeAttachmentForms.stream()
-                .map(item -> {
-                    return toEntity(item, noticeId);
-                })
+                .map(item -> toEntity(item, noticeId))
                 .collect(Collectors.toList());
     }
 

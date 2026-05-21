@@ -32,7 +32,6 @@ class XhtFormLoginTokenDeserializer extends JsonDeserializer<XhtFormLoginToken> 
      * @param jp JSON解析器，用于读取JSON数据
      * @param context 反序列化上下文，提供反序列化过程中的相关信息
      * @return 反序列化后的XhtFormLoginToken对象
-     * @throws IOException 当JSON解析或读取发生错误时抛出
      */
     @Override
     public XhtFormLoginToken deserialize(JsonParser jp, DeserializationContext context)

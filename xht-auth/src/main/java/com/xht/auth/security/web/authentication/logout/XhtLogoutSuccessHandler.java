@@ -14,7 +14,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-import java.io.IOException;
 import java.io.Serial;
 
 /**
@@ -28,10 +27,9 @@ public class XhtLogoutSuccessHandler implements LogoutSuccessHandler {
     private static final String REDIRECT_URL = "redirect_url";
 
     @Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         if (response == null) {
             log.warn("退出成功 response is null");
-            ServletUtil.writeJson(response, R.ok().msg("退出成功").build());
             return;
         }
         LogoutResponse logoutResponse = null;

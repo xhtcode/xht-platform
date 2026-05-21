@@ -116,7 +116,7 @@ public final class XhtOAuth2AccessTokenGenerator implements OAuth2TokenGenerator
 
         OAuth2TokenClaimsSet accessTokenClaimsSet = claimsBuilder.build();
 
-        return new OAuth2AccessTokenClaims(OAuth2AccessToken.TokenType.BEARER,
+        return new OAuth2AccessTokenClaims(
                 IdUtil.fastSimpleUUID(), accessTokenClaimsSet.getIssuedAt(),
                 accessTokenClaimsSet.getExpiresAt(), context.getAuthorizedScopes(), accessTokenClaimsSet.getClaims());
     }
@@ -138,9 +138,9 @@ public final class XhtOAuth2AccessTokenGenerator implements OAuth2TokenGenerator
 
         private final Map<String, Object> claims;
 
-        private OAuth2AccessTokenClaims(TokenType tokenType, String tokenValue, Instant issuedAt, Instant expiresAt,
+        private OAuth2AccessTokenClaims(String tokenValue, Instant issuedAt, Instant expiresAt,
                                         Set<String> scopes, Map<String, Object> claims) {
-            super(tokenType, tokenValue, issuedAt, expiresAt, scopes);
+            super(OAuth2AccessToken.TokenType.BEARER, tokenValue, issuedAt, expiresAt, scopes);
             this.claims = claims;
         }
 

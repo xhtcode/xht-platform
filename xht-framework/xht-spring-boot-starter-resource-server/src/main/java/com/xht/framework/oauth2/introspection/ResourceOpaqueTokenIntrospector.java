@@ -30,6 +30,7 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
     private final TokenInfoLightningCache tokenInfoLightningCache;
 
     public ResourceOpaqueTokenIntrospector(TokenInfoLightningCache tokenInfoLightningCache, OAuth2ResourceServerProperties.Opaquetoken opaquetoken) {
+        log.debug("opaquetoken:{}", opaquetoken);
         this.tokenInfoLightningCache = tokenInfoLightningCache;
         this.opaqueTokenIntrospector = SpringOpaqueTokenIntrospector.withIntrospectionUri(opaquetoken.getIntrospectionUri()).clientId(opaquetoken.getClientId()).clientSecret(opaquetoken.getClientSecret()).build();
     }

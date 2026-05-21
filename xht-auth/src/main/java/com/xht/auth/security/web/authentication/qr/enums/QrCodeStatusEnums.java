@@ -26,7 +26,7 @@ public enum QrCodeStatusEnums implements XhtEnum<Integer> {
     /**
      * 已确认
      */
-    CONFIRMED(2, "已确认");;
+    CONFIRMED(2, "已确认");
 
     /**
      * 状态码

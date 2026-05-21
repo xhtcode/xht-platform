@@ -22,7 +22,6 @@ public @interface CheckMenu {
      */
     String[] value() default {};
 
-
 }
 
 

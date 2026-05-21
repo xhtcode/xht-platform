@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @author xht
  **/
 @Slf4j
-@SuppressWarnings("unchecked")
+@SuppressWarnings("all")
 @RequiredArgsConstructor
 public class RedisTokenInfoLightningCache implements TokenInfoLightningCache {
 

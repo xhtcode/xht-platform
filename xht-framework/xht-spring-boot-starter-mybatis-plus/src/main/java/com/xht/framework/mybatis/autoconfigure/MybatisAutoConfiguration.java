@@ -20,7 +20,6 @@ import com.xht.framework.mybatis.handler.MybatisPlusMetaObjectHandler;
 import com.xht.framework.mybatis.handler.MybatisPlusSecurityMetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -93,18 +92,6 @@ public class MybatisAutoConfiguration implements CommandLineRunner {
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.registerModules(new CustomJacksonModule());
         JacksonTypeHandler.setObjectMapper(objectMapper);
-    }
-
-    /**
-     * 通用Mapper扫描接口
-     *
-     * @return MapperScannerConfigurer
-     */
-    @Bean
-    public MapperScannerConfigurer commonMapperScannerConfigurer() {
-        MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
-        scannerConfigurer.setBasePackage("com.xht.framework.mybatis.mapper.common");
-        return scannerConfigurer;
     }
 
     /**

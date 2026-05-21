@@ -3,7 +3,6 @@ package com.xht.framework.security.web;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.exception.code.GlobalErrorStatusCode;
 import com.xht.framework.core.utils.ServletUtil;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import java.io.IOException;
-
 /**
  * 没带 Token / Token 过期 / Token 非法 → 根本没登录成功
  *
@@ -25,7 +22,7 @@ import java.io.IOException;
 public class XhtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
         String error = buildErrorMessage(authException);
         GlobalErrorStatusCode unauthorized = GlobalErrorStatusCode.UNAUTHORIZED;
         if (authException instanceof InsufficientAuthenticationException || authException instanceof OAuth2AuthenticationException) {

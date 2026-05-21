@@ -32,7 +32,7 @@ public class XhtQrCodeLoginConfigurer extends AbstractHttpConfigurer<XhtQrCodeLo
     protected AuthenticationFailureHandler failureHandler;
 
     @Override
-    public void init(HttpSecurity http) throws Exception {
+    public void init(HttpSecurity http) {
         ThrowUtils.notNull(this.qrDataManager, "qrDataManager cannot be null");
         ThrowUtils.notNull(this.successHandler, "successHandler cannot be null");
         ThrowUtils.notNull(this.failureHandler, "failureHandler cannot be null");

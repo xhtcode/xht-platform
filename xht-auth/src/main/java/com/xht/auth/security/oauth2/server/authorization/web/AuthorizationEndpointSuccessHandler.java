@@ -5,7 +5,6 @@ import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.BasicResponse;
 import com.xht.framework.core.utils.ServletUtil;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
@@ -36,7 +35,7 @@ public class AuthorizationEndpointSuccessHandler implements AuthenticationSucces
     private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         log.info("授权成功 {} {} {}",request.getMethod(),authentication.isAuthenticated(),authentication.getClass().getName());
         OAuth2AuthorizationCodeRequestAuthenticationToken authenticationToken = (OAuth2AuthorizationCodeRequestAuthenticationToken) authentication;
         String redirectUri = authenticationToken.getRedirectUri();

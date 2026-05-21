@@ -17,7 +17,7 @@ import java.util.Objects;
  * @author xht
  **/
 @SpringBootTest(classes = AdminApplication.class)
-public class GenerateMenuSql {
+public class GenerateMenuSqlTest {
 
     final static String sql = "INSERT INTO `sys_menu`" +
             " (`id`, `parent_id`, `menu_type`, `menu_name`, `menu_icon`, `menu_path`, `menu_hidden`, `menu_cache`, `menu_status`, `menu_authority`, `menu_sort`, `view_name`, `view_path`, `active_menu_path`, `frame_flag`,`affix_status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES " +

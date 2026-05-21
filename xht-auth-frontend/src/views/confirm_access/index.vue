@@ -2,7 +2,6 @@
 import { computed, nextTick, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getConsentParameters, getOauth2Authorize } from '@/service/api/auth.api'
-import { useMessage } from '@/hooks/use-message'
 import { CircleClose } from '@element-plus/icons-vue'
 
 const route = useRoute()

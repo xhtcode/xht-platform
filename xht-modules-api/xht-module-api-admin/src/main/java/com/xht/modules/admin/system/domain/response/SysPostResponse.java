@@ -1,7 +1,6 @@
 package com.xht.modules.admin.system.domain.response;
 
 import com.xht.framework.core.domain.response.MetaResponse;
-import com.xht.framework.core.enums.SystemFlagEnums;
 import com.xht.modules.admin.system.enums.DeptPostStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

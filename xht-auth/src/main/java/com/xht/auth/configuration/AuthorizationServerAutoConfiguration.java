@@ -85,9 +85,7 @@ public class AuthorizationServerAutoConfiguration {
         http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .with(authorizationServerConfigurer, (authorizationServer) ->
                         authorizationServer
-                                .oidc(oidc->oidc.userInfoEndpoint(userInfoEndpoint-> {
-                                    userInfoEndpoint.userInfoMapper(new OidcUserInfoMapper());
-                                }))  // Enable OpenID Connect 1.0
+                                .oidc(oidc->oidc.userInfoEndpoint(userInfoEndpoint-> userInfoEndpoint.userInfoMapper(new OidcUserInfoMapper())))  // Enable OpenID Connect 1.0
                                 .authorizationEndpoint(authorizationEndpoint -> {
                                     authorizationEndpoint.consentPage(authorizationServerProperties.getConsentPage());
                                     authorizationEndpoint.authorizationResponseHandler(new AuthorizationEndpointSuccessHandler());

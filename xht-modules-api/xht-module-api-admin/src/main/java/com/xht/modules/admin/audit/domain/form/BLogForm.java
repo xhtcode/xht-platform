@@ -1,7 +1,6 @@
 package com.xht.modules.admin.audit.domain.form;
 
 import com.xht.framework.core.domain.form.BasicForm;
-import com.xht.framework.core.support.blog.enums.LogStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

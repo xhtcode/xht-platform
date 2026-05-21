@@ -2,7 +2,6 @@ package com.xht.auth.security.web.authentication;
 
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.framework.core.constant.HttpConstants;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Setter;
@@ -43,7 +42,7 @@ public abstract class AbstractXhtAuthenticationFilter extends AbstractAuthentica
     }
 
     @Override
-    public final Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+    public final Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
         validateRequestMethod(request);
         return xhtAuthentication(request, response);
     }
@@ -60,9 +59,8 @@ public abstract class AbstractXhtAuthenticationFilter extends AbstractAuthentica
      * @return 认证通过后的Authentication对象，包含用户身份和权限信息；如果认证失败或未完成则返回null
      * @throws AuthenticationException 当认证过程中发生错误时抛出异常，包括用户名或密码无效等情况
      * @throws IOException 当读取请求数据或写入响应数据发生IO错误时抛出异常
-     * @throws ServletException 当Servlet处理过程中发生错误时抛出异常
      */
-    protected abstract Authentication xhtAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException;
+    protected abstract Authentication xhtAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException;
 
     /**
      * 验证HTTP请求方法是否符合要求
