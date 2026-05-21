@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.xht.framework.core.support.blog.enums.LogStatusEnums;
 import com.xht.framework.mybatis.domain.entity.DeleteEntity;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
  * 登录日志
@@ -16,7 +19,7 @@ import java.time.LocalDateTime;
  * @author xht
  */
 @Data
-@TableName(value = "sys_login_log")
+@TableName(value = "sys_login_log", autoResultMap = true)
 public class SysLoginLogEntity extends DeleteEntity implements Serializable {
 
     /**
@@ -65,24 +68,18 @@ public class SysLoginLogEntity extends DeleteEntity implements Serializable {
      * 登录状态：1-成功，0-失败
      */
     @TableField(value = "login_status")
-    private Boolean loginStatus;
-
-    /**
-     * token值
-     */
-    @TableField(value = "token_value")
-    private String tokenValue;
-
-    /**
-     * 登录失败原因
-     */
-    @TableField(value = "fail_reason")
-    private String failReason;
+    private LogStatusEnums loginStatus;
 
     /**
      * 登录信息
      */
-    @TableField(value = "login_desc")
-    private String loginDesc;
+    @TableField(value = "login_request_info", typeHandler = JacksonTypeHandler.class)
+    private Map<String, Object> loginRequestInfo;
+
+    /**
+     * 登录失败原因
+     */
+    @TableField(value = "login_fail_reason")
+    private String loginFailReason;
 
 }

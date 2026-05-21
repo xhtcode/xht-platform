@@ -13,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.Assert;
 
 import java.util.Objects;
@@ -51,14 +50,7 @@ public abstract class AbstractXhtLoginAuthenticationProvider<T extends AbstractX
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         Assert.isInstanceOf(AbstractXhtAuthenticationToken.class, authentication, () -> "AbstractUserDetailsAuthenticationProvider.onlySupports Only AbstractXhtAuthenticationToken is supported");
         T authenticationToken = (T) authentication;
-        String username = authentication.getName();
-        UserDetails user;
-        try {
-            user = retrieveUser(authenticationToken);
-        } catch (UsernameNotFoundException e) {
-            log.debug("Failed to find user {}", username);
-            throw new BadCredentialsException("AbstractUserDetailsAuthenticationProvider.badCredentials Bad credentials");
-        }
+        UserDetails user = retrieveUser(authenticationToken);
         Assert.notNull(user, "retrieveUser returned null - a violation of the interface contract");
         performPreCheck(user, authenticationToken);
         this.postAuthenticationChecks.check(user);
@@ -102,6 +94,10 @@ public abstract class AbstractXhtLoginAuthenticationProvider<T extends AbstractX
      * @throws AuthenticationException 当凭据为空或密码不匹配时抛出异常
      */
     private void additionalAuthenticationChecks(UserDetails userDetails, T authentication) throws AuthenticationException {
+        LoginTypeEnums loginType = authentication.getLoginType();
+        if (Objects.equals(loginType, LoginTypeEnums.PHONE)) {
+            return;
+        }
         if (authentication.getCredentials() == null) {
             log.debug("Failed to authenticate since no credentials provided");
             throw new BadCredentialsException("AbstractUserDetailsAuthenticationProvider.badCredentials Bad credentials");
@@ -110,10 +106,6 @@ public abstract class AbstractXhtLoginAuthenticationProvider<T extends AbstractX
         String passWordSalt = null;
         if (userDetails instanceof BasicUserDetails basicUserDetails) {
             passWordSalt = basicUserDetails.getPassWordSalt();
-        }
-        LoginTypeEnums loginType = authentication.getLoginType();
-        if (Objects.equals(loginType, LoginTypeEnums.PHONE)) {
-            return;
         }
         if (!PassWordUtils.matchPassword(rawPassword, passWordSalt, userDetails.getPassword())) {
             log.debug("Failed to authenticate since password does not match stored value");

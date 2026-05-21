@@ -44,7 +44,7 @@ public class Oauth2UserDetailsService extends BasicUserDetailsService {
     public BasicUserDetails loadUserByUsername(String username, LoginTypeEnums loginType) throws UsernameNotFoundException {
         UserLoginDTO loginVo = authenticationDao.findByUsernameAndLoginType(username, loginType);
         if (loginVo == null) {
-            return null;
+            throw new UsernameNotFoundException(String.format("用户名%s不存在", username));
         }
         Set<String> roleCodes = authenticationDao.findRoleCodesByUserId(loginVo.getId());
         Set<String> menuCodes = authenticationDao.findMenuCodesByUserId(loginVo.getId());

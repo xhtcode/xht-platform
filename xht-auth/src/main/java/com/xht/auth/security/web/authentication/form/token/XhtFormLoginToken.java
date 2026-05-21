@@ -3,6 +3,7 @@ package com.xht.auth.security.web.authentication.form.token;
 import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationToken;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.Assert;
@@ -37,6 +38,18 @@ public class XhtFormLoginToken extends AbstractXhtAuthenticationToken {
      * 用户凭证信息，通常是密码或其他认证凭据
      */
     private Object credentials;
+
+    /**
+     * 验证码标识key
+     */
+    @Setter
+    private String captchaKey;
+
+    /**
+     * 验证码内容（用户输入/生成的验证码字符串）
+     */
+    @Setter
+    private String captchaCode;
 
     /**
      * 构造未认证的表单登录令牌

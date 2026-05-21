@@ -2,6 +2,7 @@ package com.xht.auth.security.web.authentication;
 
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.framework.core.constant.HttpConstants;
+import com.xht.framework.core.exception.utils.ThrowUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Setter;
@@ -13,7 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
-import java.io.IOException;
+import java.util.Objects;
 
 /**
  * 认证过滤器抽象类
@@ -32,7 +33,7 @@ import java.io.IOException;
  **/
 @Slf4j
 @Setter
-public abstract class AbstractXhtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public abstract class AbstractXhtAuthenticationFilter<T extends AbstractXhtAuthenticationToken> extends AbstractAuthenticationProcessingFilter {
 
     protected ICaptchaService iCaptchaService;
 
@@ -41,26 +42,64 @@ public abstract class AbstractXhtAuthenticationFilter extends AbstractAuthentica
                 .matcher(pathUrl));
     }
 
-    @Override
-    public final Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
-        validateRequestMethod(request);
-        return xhtAuthentication(request, response);
-    }
-
     /**
-     * 执行表单登录认证逻辑
      * <p>
-     * 该方法处理基于表单的用户认证请求，从解析后的请求对象中提取认证相关信息，
-     * 创建认证令牌并调用认证管理器进行身份验证。
+     * 该方法用于执行具体的认证逻辑。它从HTTP请求中提取认证信息，创建认证Token对象，并调用认证管理器进行认证。
+     * 认证成功后，设置SecurityContext并调用成功处理器；认证失败时，清除SecurityContext并调用失败处理器。
      * </p>
      *
-     * @param request HTTP请求对象，包含客户端发送的请求信息
-     * @param response HTTP响应对象，用于向客户端返回响应
-     * @return 认证通过后的Authentication对象，包含用户身份和权限信息；如果认证失败或未完成则返回null
-     * @throws AuthenticationException 当认证过程中发生错误时抛出异常，包括用户名或密码无效等情况
-     * @throws IOException 当读取请求数据或写入响应数据发生IO错误时抛出异常
+     * @param request  from which to extract parameters and perform the authentication
+     * @param response the response, which may be needed if the implementation has to do a
+     *                 redirect as part of a multi-stage authentication process (such as OIDC).
+     * @return the authenticated object
+     * @throws AuthenticationException if authentication fails
      */
-    protected abstract Authentication xhtAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException;
+    @Override
+    public final Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        validateRequestMethod(request);
+        T authenticationToken = null;
+        try {
+            authenticationToken = createAuthenticationToken(request);
+            boolean authenticated = authenticationToken.isAuthenticated();
+            ThrowUtils.throwIf(authenticated, () -> new AuthenticationServiceException("Prohibit the creation of already-verified AbstractXhtAuthenticationToken"));
+            checkAuthentication(authenticationToken);
+            setDetails(request, authenticationToken);
+            return getAuthenticationManager().authenticate(authenticationToken);
+        } catch (AuthenticationException e) {
+            log.error("Authentication request failed: ", e);
+            if (Objects.nonNull(authenticationToken)) {
+                e.setAuthenticationRequest(authenticationToken);
+            }
+            throw e;
+        }
+    }
+
+
+    /**
+     * 创建认证Token对象
+     * <p>
+     * 该方法由子类实现，用于从HTTP请求中提取认证信息并创建对应的认证Token对象。
+     * 通常包括获取用户名、密码、验证码等认证凭据，并封装为XhtFormLoginToken实例。
+     * </p>
+     *
+     * @param request HTTP请求对象，包含认证所需的参数
+     * @return 认证Token对象，用于后续的身份验证流程
+     */
+    protected abstract T createAuthenticationToken(HttpServletRequest request);
+
+    /**
+     * 检查认证Token的有效性
+     * <p>
+     * 该方法由子类实现，用于在正式认证前对Token进行预检查。
+     * 可以包括验证验证码是否正确、检查账号状态、验证请求参数完整性等操作。
+     * 如果检查不通过，应抛出相应的认证异常。
+     * </p>
+     *
+     * @param authenticationToken 待检查的认证Token对象
+     * @throws AuthenticationException 当Token检查不通过时抛出异常
+     */
+    protected abstract void checkAuthentication(T authenticationToken);
+
 
     /**
      * 验证HTTP请求方法是否符合要求
@@ -97,7 +136,7 @@ public abstract class AbstractXhtAuthenticationFilter extends AbstractAuthentica
      * @param request：用于创建身份验证请求的对象
      * @param authRequest：该身份验证请求对象，其详细信息应已完成设置
      */
-    protected final void setDetails(HttpServletRequest request, AbstractAuthenticationToken authRequest) {
+    void setDetails(HttpServletRequest request, AbstractAuthenticationToken authRequest) {
         authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
     }
 

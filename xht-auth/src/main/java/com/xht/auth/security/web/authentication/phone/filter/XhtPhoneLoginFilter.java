@@ -4,11 +4,10 @@ import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnums;
 import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationFilter;
 import com.xht.auth.security.web.authentication.phone.token.XhtPhoneLoginToken;
 import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.security.exception.BasicAuthenticationException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.Setter;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
 /**
@@ -17,7 +16,7 @@ import org.springframework.security.core.AuthenticationException;
  * @author xht
  **/
 @Setter
-public class XhtPhoneLoginFilter extends AbstractXhtAuthenticationFilter {
+public class XhtPhoneLoginFilter extends AbstractXhtAuthenticationFilter<XhtPhoneLoginToken> {
 
     /**
      * 表单登录手机号码字段名
@@ -38,29 +37,40 @@ public class XhtPhoneLoginFilter extends AbstractXhtAuthenticationFilter {
     }
 
     /**
-     * 执行表单登录认证逻辑
+     * 创建认证Token对象
      * <p>
-     * 该方法处理基于表单的用户认证请求，从解析后的请求对象中提取认证相关信息，
-     * 创建认证令牌并调用认证管理器进行身份验证。
+     * 该方法由子类实现，用于从HTTP请求中提取认证信息并创建对应的认证Token对象。
+     * 通常包括获取用户名、密码、验证码等认证凭据，并封装为XhtFormLoginToken实例。
      * </p>
      *
-     * @param request HTTP请求对象，包含客户端发送的请求信息
-     * @param response HTTP响应对象，用于向客户端返回响应
-     * @return 认证通过后的Authentication对象，包含用户身份和权限信息；如果认证失败或未完成则返回null
-     * @throws AuthenticationException 当认证过程中发生错误时抛出异常，包括用户名或密码无效等情况
+     * @param request HTTP请求对象，包含认证所需的参数
+     * @return 认证Token对象，用于后续的身份验证流程
      */
     @Override
-    protected Authentication xhtAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    protected XhtPhoneLoginToken createAuthenticationToken(HttpServletRequest request) {
         String phone = obtainParameter(request, phoneParameter);
         String phoneCode = obtainParameter(request, phoneCodeParameter);
+        return XhtPhoneLoginToken.unauthenticated(phone, phoneCode);
+    }
+
+    /**
+     * 检查认证Token的有效性
+     * <p>
+     * 该方法由子类实现，用于在正式认证前对Token进行预检查。
+     * 可以包括验证验证码是否正确、检查账号状态、验证请求参数完整性等操作。
+     * 如果检查不通过，应抛出相应的认证异常。
+     * </p>
+     *
+     * @param authenticationToken 待检查的认证Token对象
+     * @throws AuthenticationException 当Token检查不通过时抛出异常
+     */
+    @Override
+    protected void checkAuthentication(XhtPhoneLoginToken authenticationToken) {
+        String phone = authenticationToken.getName();
+        String phoneCode = StringUtils.str(authenticationToken.getCredentials());
         ThrowUtils.hasText(phone, () -> new BasicAuthenticationException("参数错误：手机号不能为空"));
         ThrowUtils.hasText(phoneCode, () -> new BasicAuthenticationException("参数错误：手机验证码不能为空"));
         iCaptchaService.checkPhoneCode(phone, phoneCode, CaptchaBusinessTypeEnums.SSO);
-        XhtPhoneLoginToken authRequest = XhtPhoneLoginToken.unauthenticated(phone, phoneCode);
-        setDetails(request, authRequest);
-        Authentication authenticate = getAuthenticationManager().authenticate(authRequest);
-        iCaptchaService.removePhoneCode(phone, CaptchaBusinessTypeEnums.SSO);
-        return authenticate;
     }
 
 }

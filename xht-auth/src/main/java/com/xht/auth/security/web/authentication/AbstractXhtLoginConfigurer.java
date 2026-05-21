@@ -60,7 +60,7 @@ public abstract class AbstractXhtLoginConfigurer<T extends AbstractXhtLoginConfi
      * @param http HttpSecurity对象，用于获取Spring Security的共享组件
      * @param authenticationFilter 需要配置的认证过滤器实例
      */
-    protected final void authenticationFilterAddInformation(HttpSecurity http, AbstractXhtAuthenticationFilter authenticationFilter) {
+    protected final <E extends AbstractXhtAuthenticationToken> void authenticationFilterAddInformation(HttpSecurity http, AbstractXhtAuthenticationFilter<E> authenticationFilter) {
         authenticationFilter.setICaptchaService(iCaptchaService);
         authenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
         authenticationFilter.setAuthenticationSuccessHandler(loginSuccessHandler);

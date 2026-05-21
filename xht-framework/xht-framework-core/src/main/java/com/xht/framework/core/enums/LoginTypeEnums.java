@@ -29,16 +29,6 @@ public enum LoginTypeEnums implements XhtEnum<String>, Serializable {
      * 短信验证码
      */
     PHONE("phone"),
-
-    /**
-     * 微信
-     */
-    WECHAT("wechat"),
-
-    /**
-     * QQ
-     */
-    QQ("qq"),
     ;
 
     /**

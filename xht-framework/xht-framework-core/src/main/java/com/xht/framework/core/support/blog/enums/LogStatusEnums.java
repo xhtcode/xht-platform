@@ -13,16 +13,18 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum LogStatusEnums implements XhtEnum<Integer> {
-
+    /**
+     * 其他类型
+     */
+    OTHER(0, "其他"),
     /**
      * 正常日志类型
      */
-    NORMAL(0, "正常日志"),
-
+    NORMAL(0, "正常"),
     /**
      * 错误日志类型
      */
-    ERROR(1, "错误日志");
+    ERROR(1, "错误");
 
     /**
      * 类型
