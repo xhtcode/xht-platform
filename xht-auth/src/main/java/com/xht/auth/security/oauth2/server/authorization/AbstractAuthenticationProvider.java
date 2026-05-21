@@ -74,20 +74,20 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
             // 验证scope
             Set<String> authorizedScopes = getAuthorizedScopes(registeredClient, authenticationToken.getScopes());
             // @formatter:off
-        OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
-                .authorizedScopes(authorizedScopes)
-                .principalName(principal.getName())
-                .authorizationGrantType(getGrantType())
-                .attribute(Principal.class.getName(), principal.getPrincipal())
-                ;
-        DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
-                .registeredClient(registeredClient)
-                .principal(principal)
-                .authorizationServerContext(AuthorizationServerContextHolder.getContext())
-                .authorizedScopes(authorizedScopes)
-                .authorizationGrantType(getGrantType())
-                .authorizationGrant(clientPrincipal);
-        // @formatter:on
+            OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
+                    .authorizedScopes(authorizedScopes)
+                    .principalName(principal.getName())
+                    .authorizationGrantType(getGrantType())
+                    .attribute(Principal.class.getName(), principal.getPrincipal())
+                    ;
+            DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
+                    .registeredClient(registeredClient)
+                    .principal(principal)
+                    .authorizationServerContext(AuthorizationServerContextHolder.getContext())
+                    .authorizedScopes(authorizedScopes)
+                    .authorizationGrantType(getGrantType())
+                    .authorizationGrant(clientPrincipal);
+            // @formatter:on
             OAuth2AccessToken accessToken = generateAccessToken(tokenContextBuilder, authorizationBuilder);
             OAuth2RefreshToken refreshToken = generateOAuth2RefreshToken(tokenContextBuilder, authorizationBuilder, tokenGenerator, clientPrincipal, registeredClient);
             OidcIdToken oidcIdToken = null;
@@ -106,8 +106,10 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
         } catch (CaptchaException e) {
             OAuth2Error oAuth2Error = new OAuth2Error(e.getMessage());
             throw new OAuth2AuthenticationException(oAuth2Error, e);
+        } catch (OAuth2AuthenticationException e) {
+            throw new OAuth2AuthenticationException(e.getError(), e);
         } catch (Exception e) {
-            OAuth2Error oAuth2Error = new OAuth2Error("用户名或密码错误", e.getMessage(), ERROR_URI);
+            OAuth2Error oAuth2Error = new OAuth2Error(OAuth2ErrorCodes.INVALID_REQUEST, e.getMessage(), ERROR_URI);
             throw new OAuth2AuthenticationException(oAuth2Error, e);
         }
     }
@@ -235,7 +237,7 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
                 .build();
         OAuth2Token generatedIdToken =
                 Optional.ofNullable(tokenGenerator.generate(tokenContext))
-                        .orElseThrow(() -> new OAuth2AuthenticationException(new OAuth2Error("getCode", "desc", "uri")));
+                        .orElseThrow(() -> new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "The token generator failed to generate the ID token.", ERROR_URI)));
         if (!(generatedIdToken instanceof Jwt)) {
             OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
                     "The token generator failed to generate the ID token.", ERROR_URI);

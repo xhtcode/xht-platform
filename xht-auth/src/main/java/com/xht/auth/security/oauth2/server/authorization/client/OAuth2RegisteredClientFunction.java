@@ -94,7 +94,7 @@ class OAuth2RegisteredClientFunction implements Function<Oauth2ClientDTO, Regist
      */
     private TokenSettings tokenSettings(Oauth2ClientDTO clientDTO) {
         return TokenSettings.builder()
-                .accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED)
+                .accessTokenFormat(OAuth2TokenFormat.REFERENCE)
                 .accessTokenTimeToLive(Duration.ofSeconds(clientDTO.getAccessTokenValidity()))
                 .refreshTokenTimeToLive(Duration.ofSeconds(clientDTO.getRefreshTokenValidity()))
                 .build();
