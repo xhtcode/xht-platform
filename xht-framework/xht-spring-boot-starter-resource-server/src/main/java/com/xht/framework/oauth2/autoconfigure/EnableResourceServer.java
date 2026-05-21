@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 @Inherited
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Import(value = {SecurityAutoConfiguration.class, ResourceServerAutoConfiguration.class})
+@Import(value = {ResourceServerAutoConfiguration.class})
 public @interface EnableResourceServer {
 
 }

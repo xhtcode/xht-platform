@@ -19,6 +19,8 @@ spring:
           introspection-uri: http://127.0.0.1:9000/oauth2/introspect
           client-id: oidc-client
           client-secret: secret
+        jwt:
+          issuer-uri: ${xht.security.oauth2.issuer}
   # 数据源配置
   datasource:
     password: 123456
@@ -78,19 +80,18 @@ xht:
     oauth2:
       issuer: http://www.xht.sso.com
       authorization-server:
-        login-page: http://www.xht.sso.com:5000/sso/login
-        consent-page: http://www.xht.sso.com:5000/sso/confirm_access
+        logout-url: /sso/logout
         form-login-url: /sso/unLogin
         phone-login-url: /sso/phoneLogin
+        login-page: http://www.xht.sso.com:5000/sso/login
+        consent-page: http://www.xht.sso.com:5000/sso/confirm_access
     ignore:
       whites:
         add-swagger-ignore-urls: true
         add-default-ignore-urls: true
         urls:
-          - /sso/login
+          - /sso/phoneLogin
           - /sso/unLogin
-          - /css/**
-          - /.well-known/**
   safety:
     xss:
       enable: true

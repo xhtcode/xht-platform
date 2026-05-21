@@ -41,6 +41,7 @@ public class AuthorizationEndpointFailureHandler implements AuthenticationFailur
             ServletUtil.writeJson(response, R.error().info(GlobalErrorStatusCode.TOKEN_EXPIRED).build());
             return;
         }
+        SecurityContextHolder.clearContext();
         OAuth2AuthorizationCodeRequestAuthenticationException authenticationException = (OAuth2AuthorizationCodeRequestAuthenticationException) exception;
         OAuth2Error error = authenticationException.getError();
         OAuth2AuthorizationCodeRequestAuthenticationToken authenticationToken = authenticationException.getAuthorizationCodeRequestAuthentication();

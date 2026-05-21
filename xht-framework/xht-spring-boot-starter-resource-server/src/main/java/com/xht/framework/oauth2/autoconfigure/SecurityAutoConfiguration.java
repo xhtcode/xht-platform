@@ -1,17 +1,15 @@
 package com.xht.framework.oauth2.autoconfigure;
 
 import com.xht.framework.oauth2.handler.PermissionCheckHandler;
-import com.xht.framework.oauth2.handler.ResourceAuthenticationEntryPoint;
-import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
 import com.xht.framework.oauth2.introspection.ResourceOpaqueTokenIntrospector;
 import com.xht.framework.oauth2.token.RedisTokenInfoLightningCache;
 import com.xht.framework.oauth2.token.TokenInfoLightningCache;
 import com.xht.framework.oauth2.token.TokenLightningCacheProperties;
-import com.xht.framework.security.properties.PermitAllUrlProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
@@ -25,6 +23,7 @@ import java.util.Objects;
  * @author xht
  **/
 @Slf4j
+@EnableConfigurationProperties(TokenLightningCacheProperties.class)
 public class SecurityAutoConfiguration {
 
     public SecurityAutoConfiguration() {
@@ -43,25 +42,6 @@ public class SecurityAutoConfiguration {
         return new AnnotationTemplateExpressionDefaults();
     }
 
-    /**
-     * 资源服务器异常处理
-     *
-     * @return ResourceAuthenticationEntryPoint
-     */
-    @Bean
-    public ResourceAuthenticationEntryPoint permitAllUrlProperties() {
-        return new ResourceAuthenticationEntryPoint();
-    }
-
-    /**
-     * 资源服务器token处理
-     *
-     * @return ResourceBearerTokenResolver
-     */
-    @Bean
-    public ResourceBearerTokenResolver bearerTokenHandler(PermitAllUrlProperties permitAllUrlProperties) {
-        return new ResourceBearerTokenResolver(permitAllUrlProperties);
-    }
 
     @Bean
     @ConditionalOnClass(RedisTemplate.class)

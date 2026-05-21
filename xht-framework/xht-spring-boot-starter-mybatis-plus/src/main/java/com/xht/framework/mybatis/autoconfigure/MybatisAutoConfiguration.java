@@ -80,7 +80,7 @@ public class MybatisAutoConfiguration implements CommandLineRunner {
     public void run(String... args) {
         ObjectMapper objectMapper = new ObjectMapper();
         // 对象的所有字段全部列入，还是其他的选项，可以忽略null等
-        objectMapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
+        objectMapper.setDefaultPropertyInclusion(JsonInclude.Include.ALWAYS);
         // 忽略空Bean转json的错误
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         // 忽略未知属性，防止json字符串中存在，java对象中不存在对应属性的情况出现错误

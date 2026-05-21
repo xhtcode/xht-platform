@@ -67,22 +67,13 @@ public class DefaultGlobalExceptionHandler implements Serializable {
 
 
     /**
-     * controller 接口拦截  {@link NoHandlerFoundException}
+     * controller 接口拦截  {@link NoHandlerFoundException} 以及 {@link NoResourceFoundException}
      */
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public R<String> handle(NoHandlerFoundException e, HttpServletRequest request) {
-        log.debug(" {} 请求URL404: {}", request.getRequestURI(), e.getMessage(), e);
+    @ExceptionHandler(value = {NoHandlerFoundException.class, NoResourceFoundException.class})
+    public R<String> handle() {
         return R.error().info(GlobalErrorStatusCode.NOT_FOUND).build();
     }
 
-    /**
-     * 静态资源拦截 {@link NoResourceFoundException}
-     */
-    @ExceptionHandler(value = NoResourceFoundException.class)
-    public R<String> handle(NoResourceFoundException e, HttpServletRequest request) {
-        log.debug(" {} 静态资源请求404: {}", request.getRequestURI(), e.getMessage(), e);
-        return R.error().info(GlobalErrorStatusCode.NOT_FOUND).build();
-    }
 
     /**
      * 错误的请求  {@link HttpRequestMethodNotSupportedException}

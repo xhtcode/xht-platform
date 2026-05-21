@@ -15,9 +15,9 @@ import com.xht.auth.security.oauth2.server.authorization.phone.PhoneAuthenticati
 import com.xht.auth.security.oauth2.server.authorization.token.JwtTokenCustomizer;
 import com.xht.auth.security.oauth2.server.authorization.web.AuthorizationEndpointFailureHandler;
 import com.xht.auth.security.oauth2.server.authorization.web.AuthorizationEndpointSuccessHandler;
-import com.xht.auth.security.web.authentication.*;
-import com.xht.framework.core.domain.R;
-import com.xht.framework.core.utils.ServletUtil;
+import com.xht.auth.security.web.authentication.OAuth2ClientAuthenticationFailureHandler;
+import com.xht.auth.security.web.authentication.TokenRevocationAuthenticationFailureHandler;
+import com.xht.auth.security.web.authentication.TokenRevocationAuthenticationSuccessHandler;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -83,15 +83,9 @@ public class AuthorizationServerAutoConfiguration {
         http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .with(authorizationServerConfigurer, (authorizationServer) ->
                         authorizationServer
-                                .oidc(oidc->{
-                                    oidc.userInfoEndpoint(userInfoEndpoint-> {
-                                        userInfoEndpoint.errorResponseHandler((request,response,exception)-> {
-                                                log.error("用户信息获取失败",exception);
-                                                ServletUtil.writeJson(response, R.error().msg(exception.getMessage()).build());
-                                            });
-                                        userInfoEndpoint.userInfoMapper(new OidcUserInfoMapper());
-                                    });
-                                })  // Enable OpenID Connect 1.0
+                                .oidc(oidc->oidc.userInfoEndpoint(userInfoEndpoint-> {
+                                    userInfoEndpoint.userInfoMapper(new OidcUserInfoMapper());
+                                }))  // Enable OpenID Connect 1.0
                                 .authorizationEndpoint(authorizationEndpoint -> {
                                     authorizationEndpoint.consentPage(authorizationServerProperties.getConsentPage());
                                     authorizationEndpoint.authorizationResponseHandler(new AuthorizationEndpointSuccessHandler());
@@ -99,8 +93,6 @@ public class AuthorizationServerAutoConfiguration {
                                 })
                                 // 令牌端点
                                 .tokenEndpoint(tokenEndpoint -> {
-                                    tokenEndpoint.accessTokenResponseHandler(new TokenAuthenticationSuccessHandler());
-                                    tokenEndpoint.errorResponseHandler(new TokenAuthenticationFailureHandler());
                                     tokenEndpoint.authenticationProviders(providers -> {
                                         providers.add(passWordAuthenticationProvider);
                                         providers.add(phoneAuthenticationProvider);

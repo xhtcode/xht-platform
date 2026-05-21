@@ -1,6 +1,5 @@
 package com.xht.auth;
 
-import com.xht.framework.oauth2.autoconfigure.EnableResourceServer;
 import com.xht.framework.swagger.autoconfigure.EnableCustomSwagger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +14,6 @@ import static org.springframework.data.redis.core.RedisKeyValueAdapter.EnableKey
  * @author xht
  **/
 @EnableCustomSwagger
-@EnableResourceServer
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableRedisRepositories(enableKeyspaceEvents = ON_STARTUP)

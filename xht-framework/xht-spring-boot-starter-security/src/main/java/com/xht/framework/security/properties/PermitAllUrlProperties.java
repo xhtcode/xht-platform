@@ -2,8 +2,8 @@ package com.xht.framework.security.properties;
 
 import cn.hutool.core.util.ReUtil;
 import com.xht.framework.core.exception.BusinessException;
+import com.xht.framework.core.jackson.JsonUtils;
 import com.xht.framework.core.properties.IProperties;
-import com.xht.framework.core.utils.StringUtils;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import lombok.Data;
@@ -96,7 +96,7 @@ public class PermitAllUrlProperties implements InitializingBean, IProperties {
 
                     });
         });
-        log.debug("\n白名单URL:>>>>>>>>>>>>>>>>>>>>>>>>>>> \n{}", StringUtils.collectionToDelimitedString(urls, "\n", ANSI_GREEN, ANSI_RESET));
+        log.debug("\n白名单URL:>>>>>>>>>>>>>>>>>>>>>>>>>>> \n{}{}{}", ANSI_GREEN, JsonUtils.toJsonString(urls), ANSI_RESET);
     }
 
 }

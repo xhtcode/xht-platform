@@ -46,6 +46,11 @@ public class XhtOauth2Properties {
     public static class AuthorizationServer {
 
         /**
+         * 退出登录
+         */
+        private String logoutUrl;
+
+        /**
          * 表单登录地址
          */
         private String formLoginUrl;

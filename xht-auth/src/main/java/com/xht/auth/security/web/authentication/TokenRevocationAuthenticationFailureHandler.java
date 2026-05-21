@@ -18,7 +18,7 @@ public class TokenRevocationAuthenticationFailureHandler implements Authenticati
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
-        String message = exception.getMessage();
+        String message = String.format("token注销失败:%s", exception.getMessage());
         log.error("token 注销失败处理器:{}", message, exception);
         ServletUtil.writeJson(response, R.error().msg(message).build());
     }

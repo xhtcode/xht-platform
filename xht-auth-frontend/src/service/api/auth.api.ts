@@ -1,12 +1,12 @@
-import type { AxiosPromise } from 'axios'
+import type {AxiosPromise} from 'axios'
 import request from '@/utils/request'
 import {
-  AppInfoResponse,
-  CaptchaResponseType,
-  LoginRequestType,
-  RegisterRequestType,
-  SendSmsRequestType,
-  SmsLoginRequestType,
+    AppInfoResponse,
+    CaptchaResponseType,
+    LoginRequestType,
+    RegisterRequestType,
+    SendSmsRequestType,
+    SmsLoginRequestType,
 } from '@/service/model/api.model'
 
 const baseURL = '/api'
@@ -89,6 +89,18 @@ export const smsLogin = (data: SmsLoginRequestType) => {
     data,
   })
 }
+
+/**
+ * 退出登录 /sso/lout
+ */
+export const ssoLogout = () => {
+    return request({
+        method: 'post',
+        url: '/sso/logout',
+        baseURL: baseURL,
+    })
+}
+
 
 /**
  * 获取授权参数

@@ -1,8 +1,8 @@
-import { ref } from 'vue'
-import { defineStore } from 'pinia'
+import {ref} from 'vue'
+import {defineStore} from 'pinia'
 import pInIaPersistConfig from '@/stores/pinia-persist'
-import { AppInfoResponse, TokenUserInfoResponse } from '@/service/model/api.model'
-import { getAppList, getTokenUserInfo } from '@/service/api/auth.api'
+import {AppInfoResponse, TokenUserInfoResponse} from '@/service/model/api.model'
+import {getAppList, getTokenUserInfo, ssoLogout} from '@/service/api/auth.api'
 
 export const useUserStore = defineStore(
   'login',
@@ -48,9 +48,17 @@ export const useUserStore = defineStore(
     }
 
     function clearUserInfo() {
-      loginStatus.value = false
-      userInfo.value = undefined
-      appList.value = []
+        return new Promise((resolve, reject) => {
+            ssoLogout().then(res => {
+                console.log(res)
+                loginStatus.value = false
+                userInfo.value = undefined
+                appList.value = []
+                resolve(res)
+            }).catch(err => {
+                reject(err)
+            })
+        })
     }
 
     return {

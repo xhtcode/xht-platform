@@ -10,6 +10,7 @@ import com.xht.framework.core.utils.mdc.TraceIdUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -20,7 +21,8 @@ import java.util.Objects;
  **/
 @Getter
 @Schema(description = "响应结果")
-public final class R<T> {
+@SuppressWarnings("all")
+public final class R<T> implements Serializable {
 
     @Schema(description = "返回码")
     private final Integer code;

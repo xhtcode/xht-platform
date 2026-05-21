@@ -5,14 +5,11 @@ import com.xht.auth.security.web.authentication.qr.exception.QyLoginException;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.security.exception.BasicAuthenticationException;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-
-import java.io.IOException;
 
 /**
  * 扫码登录失败处理器
@@ -31,7 +28,7 @@ public class AuthorizationServerFailureHandler implements AuthenticationFailureH
      *                  request.
      */
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
         log.error("登录失败 {} ", exception.getClass().getName(), exception);
         if (exception instanceof QyLoginException || exception instanceof BasicAuthenticationException || exception instanceof CaptchaException) {
             ServletUtil.writeJson(response, R.error().msg(exception.getMessage()).build());

@@ -14,12 +14,12 @@ import com.xht.auth.security.web.authentication.qr.manager.AbstractQrManager;
 import com.xht.auth.security.web.authentication.session.XhtSessionLimit;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.utils.ServletUtil;
-import com.xht.framework.oauth2.handler.ResourceAuthenticationEntryPoint;
 import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
 import com.xht.framework.security.configurers.CustomAuthorizeHttpRequestsConfigurer;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
-import com.xht.framework.security.web.access.Http401AccessDeniedHandler;
+import com.xht.framework.security.web.XhtAuthenticationEntryPoint;
+import com.xht.framework.security.web.access.XhtAccessDeniedHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,12 +52,6 @@ public class SecurityAutoConfiguration {
 
     private final PermitAllUrlProperties permitAllUrlProperties;
 
-    private final ResourceAuthenticationEntryPoint resourceAuthenticationEntryPoint;
-
-    private final ResourceBearerTokenResolver resourceBearerTokenResolver;
-
-    private final OpaqueTokenIntrospector opaqueTokenIntrospector;
-
     private final PersistentTokenRepository persistentTokenRepository;
 
     private final RememberMeProperties rememberMeProperties;
@@ -65,6 +59,8 @@ public class SecurityAutoConfiguration {
     private final AbstractQrManager qrDataManager;
 
     private final ICaptchaService iCaptchaService;
+
+    private final OpaqueTokenIntrospector opaqueTokenIntrospector;
 
     /**
      * 配置默认的安全过滤器链
@@ -89,17 +85,17 @@ public class SecurityAutoConfiguration {
         http.authorizeHttpRequests(requestsConfigurer);
         http.formLogin(AbstractHttpConfigurer::disable);
         http.oauth2ResourceServer(configurer -> {
-            configurer.opaqueToken(opaqueToken -> opaqueToken.introspector(opaqueTokenIntrospector));
-            configurer.authenticationEntryPoint(resourceAuthenticationEntryPoint);
-            configurer.bearerTokenResolver(resourceBearerTokenResolver);
+            configurer.opaqueToken(opaqueTokenConfigurer -> opaqueTokenConfigurer.introspector(opaqueTokenIntrospector));
+            configurer.authenticationEntryPoint(new XhtAuthenticationEntryPoint());
+            configurer.bearerTokenResolver(new ResourceBearerTokenResolver(permitAllUrlProperties));
         });
         http.exceptionHandling(handlingConfigurer -> {
-            handlingConfigurer.accessDeniedHandler(new Http401AccessDeniedHandler());// 请求未授权的接口
-            handlingConfigurer.authenticationEntryPoint(new ResourceAuthenticationEntryPoint());
+            handlingConfigurer.accessDeniedHandler(new XhtAccessDeniedHandler());// 请求未授权的接口
+            handlingConfigurer.authenticationEntryPoint(new XhtAuthenticationEntryPoint());
         });
         http.authenticationProvider(new CustomAuthenticationProvider(basicUserDetailsService));
         http.logout(logoutConfigurer -> {
-            logoutConfigurer.logoutUrl("/oauth2/logout");
+            logoutConfigurer.logoutUrl(authorizationServer.getLogoutUrl());
             logoutConfigurer.deleteCookies("JSESSIONID");
             logoutConfigurer.invalidateHttpSession(true);
             logoutConfigurer.clearAuthentication(true);

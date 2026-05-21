@@ -3,6 +3,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { computed } from 'vue'
 import logImage from '@/assets/logo.svg'
 import { useUserStore } from '@/stores/modules/user.store'
+import {useMessage} from "@/hooks/use-message";
 
 const route = useRoute()
 const router = useRouter()
@@ -26,8 +27,12 @@ const handleLogout = () => {
     type: 'warning',
   })
     .then(() => {
-      userStore.clearUserInfo()
-      router.push('/sso/login')
+      userStore.clearUserInfo().then(() => {
+        router.push('/sso/login')
+        useMessage().success('退出登录成功')
+      }).catch(() => {
+        useMessage().error('退出登录失败')
+      })
     })
     .catch(() => {})
 }

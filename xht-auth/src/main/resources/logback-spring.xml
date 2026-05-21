@@ -130,7 +130,6 @@
         </root>
     </springProfile>
     <springProfile name="test">
-        <logger name="org.springframework.security" level="trace"/>
         <root level="info">
             <appender-ref ref="console"/>
             <appender-ref ref="file_info"/>
@@ -140,7 +139,6 @@
         </root>
     </springProfile>
     <springProfile name="prod">
-        <logger name="org.springframework.security" level="error"/>
         <root level="info">
             <appender-ref ref="console"/>
             <appender-ref ref="file_info"/>
