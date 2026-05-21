@@ -4,6 +4,7 @@ import com.xht.auth.authentication.dao.CustomAuthenticationProvider;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.configuration.properties.RememberMeProperties;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
+import com.xht.auth.filter.TraceIdRequestFilter;
 import com.xht.auth.security.web.authentication.AuthorizationServerFailureHandler;
 import com.xht.auth.security.web.authentication.AuthorizationServerSuccessHandler;
 import com.xht.auth.security.web.authentication.form.XhtFormLoginConfigurer;
@@ -34,6 +35,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.session.DisableEncodeUrlFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 /**
@@ -136,6 +138,7 @@ public class SecurityAutoConfiguration {
             configurer.setUserDetailsService(basicUserDetailsService);
             configurer.setICaptchaService(iCaptchaService);
         });
+        http.addFilterBefore(new TraceIdRequestFilter(), DisableEncodeUrlFilter.class);
         return http.build();
     }
 
