@@ -38,6 +38,15 @@ public interface SecurityConstant {
      */
     String REQUEST_CAPTCHA_CODE_KEY = "captcha_key";
 
+    /**
+     * 手机号
+     */
+    String REQUEST_PHONE = "phone";
+
+    /**
+     * 手机号验证码
+     */
+    String REQUEST_PHONE_CODE = "phone_code";
 
     /**
      * 验证码 redis key 前缀

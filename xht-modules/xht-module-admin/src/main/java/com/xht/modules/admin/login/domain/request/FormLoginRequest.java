@@ -1,4 +1,4 @@
-package com.xht.framework.core.security.request;
+package com.xht.modules.admin.login.domain.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xht.framework.core.domain.IRequest;
@@ -6,13 +6,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 登录请求参数
+ * 表单登录请求参数
  *
  * @author xht
  **/
 @Data
-@Schema(description = "登录请求参数")
-public class LoginRequest implements IRequest {
+@Schema(description = "表单登录请求参数")
+public class FormLoginRequest implements IRequest {
 
     /**
      * 用户名

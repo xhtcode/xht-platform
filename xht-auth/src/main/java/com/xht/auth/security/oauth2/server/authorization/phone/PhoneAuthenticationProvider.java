@@ -15,6 +15,8 @@ import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 
+import java.util.Map;
+
 /**
  * 密码授权类型认证提供者
  *
@@ -38,6 +40,17 @@ public class PhoneAuthenticationProvider extends AbstractAuthenticationProvider 
 
 
     /**
+     * 创建用户请求信息对象
+     *
+     * @param additionalParameters 附加参数
+     * @return {@link RequestUserBO}
+     */
+    @Override
+    protected RequestUserBO createRequestUserBO(Map<String, Object> additionalParameters) {
+        return RequestUserBO.builderPhone(additionalParameters);
+    }
+
+    /**
      * 获取认证过的用户信息
      *
      * @param requestUserBO  用户请求信息
@@ -47,7 +60,7 @@ public class PhoneAuthenticationProvider extends AbstractAuthenticationProvider 
     @Override
     protected BasicUserDetails getAuthenticatedPrincipal(RequestUserBO requestUserBO, Authentication authentication) {
         requestUserBO.checkUserName();
-        iCaptchaService.checkPhoneCode(requestUserBO.getUserName(), requestUserBO.getCaptcha(), CaptchaBusinessTypeEnums.OAUTH2);
+        iCaptchaService.checkPhoneCode(requestUserBO.getPhone(), requestUserBO.getPhoneCode(), CaptchaBusinessTypeEnums.OAUTH2);
         BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnums.PHONE);
         basicUserDetailsService.validate(requestUserBO, basicUserDetails, false);
         return basicUserDetails;

@@ -61,9 +61,16 @@ xht:
       whites:
         add-default-ignore-urls: true
         add-swagger-ignore-urls: true
-        token-revocation-endpoint: true
   blog:
     repository-type: default
+  oauth2:
+    login:
+      login-url: http://127.0.0.1:9000/oauth2/token
+      client-id: oidc-client
+      client-secret: secret
+      scope:
+        - openid
+        - user_info
 mybatis-plus:
   configuration:
     default-executor-type: batch

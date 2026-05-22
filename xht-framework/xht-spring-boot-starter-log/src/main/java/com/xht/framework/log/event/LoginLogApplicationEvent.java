@@ -1,6 +1,5 @@
 package com.xht.framework.log.event;
 
-import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.support.blog.enums.LogStatusEnums;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,7 +41,7 @@ public class LoginLogApplicationEvent extends ApplicationEvent {
     /**
      * 登录类型
      */
-    private LoginTypeEnums loginType;
+    private String loginType;
 
     /**
      * 登录时间

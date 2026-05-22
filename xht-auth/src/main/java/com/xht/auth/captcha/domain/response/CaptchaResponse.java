@@ -1,4 +1,4 @@
-package com.xht.framework.core.security.response;
+package com.xht.auth.captcha.domain.response;
 
 import com.xht.framework.core.domain.response.BasicResponse;
 import lombok.Data;

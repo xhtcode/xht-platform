@@ -1,11 +1,12 @@
-package com.xht.framework.core.security.response;
+package com.xht.framework.oauth2.token.response;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xht.framework.core.domain.response.BasicResponse;
+import com.xht.framework.core.constant.basic.RConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -15,10 +16,25 @@ import java.util.Map;
  *
  * @author xht
  **/
-@Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@Setter
+@Getter
 @Schema(description = "token返回值")
-public class TokenResponse extends BasicResponse implements Serializable {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Oauth2TokenResponse extends AbstractOauth2Response implements Serializable {
+
+    /**
+     * 默认构造函数
+     */
+    public Oauth2TokenResponse() {
+        super(RConstants.SUCCESS);
+    }
+
+    /**
+     * 授权类型
+     */
+    @Schema(name = "grant_type", defaultValue = "授权类型")
+    @JsonProperty(value = "grant_type")
+    private String grantType;
 
     /**
      * 访问令牌

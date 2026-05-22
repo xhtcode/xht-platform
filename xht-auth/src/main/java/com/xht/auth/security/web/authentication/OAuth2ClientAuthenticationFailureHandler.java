@@ -1,7 +1,8 @@
 package com.xht.auth.security.web.authentication;
 
-import com.xht.framework.core.domain.R;
+import com.xht.auth.security.web.OAuth2ErrorHelper;
 import com.xht.framework.core.utils.ServletUtil;
+import com.xht.framework.oauth2.token.response.Oauth2ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ public class OAuth2ClientAuthenticationFailureHandler implements AuthenticationF
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
+        log.error("Authentication Failure {}", exception.getMessage(), exception);
         SecurityContextHolder.clearContext();
         OAuth2Error error = ((OAuth2AuthenticationException) exception).getError();
         HttpStatus unauthorized;
@@ -31,7 +33,14 @@ public class OAuth2ClientAuthenticationFailureHandler implements AuthenticationF
         } else {
             unauthorized = HttpStatus.BAD_REQUEST;
         }
-        ServletUtil.writeJson(response, unauthorized, R.error().msg("客户端不存在或密钥错误").build());
+        OAuth2ErrorHelper oAuth2ErrorHelper = new OAuth2ErrorHelper(error);
+        Oauth2ErrorResponse oauth2ErrorResponse = new Oauth2ErrorResponse();
+        oauth2ErrorResponse.setCode(oAuth2ErrorHelper.getCode());
+        oauth2ErrorResponse.setMessage(oAuth2ErrorHelper.getMessage());
+        oauth2ErrorResponse.setError(error.getErrorCode());
+        oauth2ErrorResponse.setErrorDescription(oAuth2ErrorHelper.getMessage());
+        oauth2ErrorResponse.setErrorUri(error.getUri());
+        ServletUtil.writeJson(response, unauthorized, oauth2ErrorResponse);
     }
 
 }

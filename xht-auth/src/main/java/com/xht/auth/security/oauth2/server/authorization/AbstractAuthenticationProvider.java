@@ -1,6 +1,5 @@
 package com.xht.auth.security.oauth2.server.authorization;
 
-import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.domain.RequestUserBO;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +45,7 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
 
     protected final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
 
+
     public AbstractAuthenticationProvider(OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
         this.authorizationService = authorizationService;
         this.tokenGenerator = tokenGenerator;
@@ -54,14 +54,14 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
     @Override
     public final Authentication authenticate(Authentication authentication) throws AuthenticationException {
         AbstractAuthenticationToken authenticationToken = (AbstractAuthenticationToken) authentication;
-        RequestUserBO requestUserBO = RequestUserBO.builderUser(authenticationToken.getAdditionalParameters());
+        RequestUserBO requestUserBO = createRequestUserBO(authenticationToken.getAdditionalParameters());
         UsernamePasswordAuthenticationToken principal;
         try {
             BasicUserDetails userDetails = getAuthenticatedPrincipal(requestUserBO, authentication);
             principal = UsernamePasswordAuthenticationToken.authenticated(userDetails, userDetails.getUsername(), userDetails.getAuthorities());
             principal.setDetails(authentication.getDetails());
             if (!principal.isAuthenticated()) {
-                throw new OAuth2AuthenticationException("用户名或密码错误");
+                throw new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.INVALID_REQUEST, "用户名或密码错误", ERROR_URI));
             }
             OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(authenticationToken);
             RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
@@ -103,9 +103,6 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
             OAuth2Authorization authorization = authorizationBuilder.build();
             this.authorizationService.save(authorization);
             return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken, additionalParameters);
-        } catch (CaptchaException e) {
-            OAuth2Error oAuth2Error = new OAuth2Error(e.getMessage());
-            throw new OAuth2AuthenticationException(oAuth2Error, e);
         } catch (OAuth2AuthenticationException e) {
             throw new OAuth2AuthenticationException(e.getError(), e);
         } catch (Exception e) {
@@ -251,6 +248,14 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
                 .put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, idToken.getClaims()));
         return idToken;
     }
+
+    /**
+     * 创建用户请求信息对象
+     *
+     * @param additionalParameters 附加参数
+     * @return {@link RequestUserBO}
+     */
+    protected abstract RequestUserBO createRequestUserBO(Map<String, Object> additionalParameters);
 
     /**
      * 获取认证过的用户信息

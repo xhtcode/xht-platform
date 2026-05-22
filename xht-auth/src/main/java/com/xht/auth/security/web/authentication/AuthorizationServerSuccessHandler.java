@@ -1,14 +1,9 @@
 package com.xht.auth.security.web.authentication;
 
+import com.xht.auth.security.LoginLogUtils;
 import com.xht.framework.core.domain.R;
-import com.xht.framework.core.enums.LoginTypeEnums;
-import com.xht.framework.core.support.blog.enums.LogStatusEnums;
-import com.xht.framework.core.utils.IpUtils;
 import com.xht.framework.core.utils.ServletUtil;
 import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.core.utils.mdc.TraceIdUtils;
-import com.xht.framework.core.utils.spring.SpringContextUtils;
-import com.xht.framework.log.event.LoginLogApplicationEvent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Setter;
@@ -22,7 +17,6 @@ import org.springframework.security.web.util.UrlUtils;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,7 +50,7 @@ public class AuthorizationServerSuccessHandler extends SimpleUrlAuthenticationSu
         clearAuthenticationAttributes(request);
         Map<String, Object> targetUrlMap = new HashMap<>();
         targetUrlMap.put("targetUrl", getRedirectUrl(redirectUrl));
-        saveSuccessLog(request, authentication);
+        LoginLogUtils.saveSuccessLog(request, authentication);
         ServletUtil.writeJson(response, R.ok().msg("登录成功").build(targetUrlMap));
     }
 
@@ -74,20 +68,6 @@ public class AuthorizationServerSuccessHandler extends SimpleUrlAuthenticationSu
             }
         }
         return null;
-    }
-
-    public void saveSuccessLog(HttpServletRequest request, Authentication authentication) {
-        String userName = authentication.getName();
-        LoginLogApplicationEvent event = new LoginLogApplicationEvent(userName, LogStatusEnums.NORMAL);
-        event.setTraceId(TraceIdUtils.getTraceId());
-        if (authentication instanceof AbstractXhtAuthenticationToken authenticationToken) {
-            LoginTypeEnums loginType = authenticationToken.getLoginType();
-            event.setLoginType(loginType);
-        }
-        event.setLoginTime(LocalDateTime.now());
-        event.setLoginIp(IpUtils.getIpAddr(request));
-        event.setLoginRequestInfo(Map.of("request", ServletUtil.getParamMap(request), "header", ServletUtil.getHeaderMap(request)));
-        SpringContextUtils.publishEvent(event);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.xht.auth.captcha.service;
 
 import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnums;
-import com.xht.framework.core.security.response.CaptchaResponse;
+import com.xht.auth.captcha.domain.response.CaptchaResponse;
 
 /**
  * 验证码

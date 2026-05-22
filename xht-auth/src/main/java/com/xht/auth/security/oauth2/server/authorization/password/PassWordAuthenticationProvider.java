@@ -15,6 +15,8 @@ import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 
+import java.util.Map;
+
 /**
  * 密码授权类型认证提供者
  *
@@ -36,6 +38,17 @@ public class PassWordAuthenticationProvider extends AbstractAuthenticationProvid
         this.iCaptchaService = iCaptchaService;
     }
 
+
+    /**
+     * 创建用户请求信息对象
+     *
+     * @param additionalParameters 附加参数
+     * @return {@link RequestUserBO}
+     */
+    @Override
+    protected RequestUserBO createRequestUserBO(Map<String, Object> additionalParameters) {
+        return RequestUserBO.builderPassword(additionalParameters);
+    }
 
     /**
      * 获取认证过的用户信息

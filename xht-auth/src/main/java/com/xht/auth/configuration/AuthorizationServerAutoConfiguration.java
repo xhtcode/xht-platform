@@ -18,9 +18,7 @@ import com.xht.auth.security.oauth2.server.authorization.token.XhtOAuth2AccessTo
 import com.xht.auth.security.oauth2.server.authorization.token.XhtOAuth2RefreshTokenGenerator;
 import com.xht.auth.security.oauth2.server.authorization.web.AuthorizationEndpointFailureHandler;
 import com.xht.auth.security.oauth2.server.authorization.web.AuthorizationEndpointSuccessHandler;
-import com.xht.auth.security.web.authentication.OAuth2ClientAuthenticationFailureHandler;
-import com.xht.auth.security.web.authentication.TokenRevocationAuthenticationFailureHandler;
-import com.xht.auth.security.web.authentication.TokenRevocationAuthenticationSuccessHandler;
+import com.xht.auth.security.web.authentication.*;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +64,6 @@ public class AuthorizationServerAutoConfiguration {
     private final XhtOauth2Properties xhtOauth2Properties;
 
 
-
     @Bean
     @Order(1)
     // @formatter:off
@@ -93,6 +90,8 @@ public class AuthorizationServerAutoConfiguration {
                                 })
                                 // 令牌端点
                                 .tokenEndpoint(tokenEndpoint -> {
+                                    tokenEndpoint.accessTokenResponseHandler(new TokenEndpointSuccessHandler());
+                                    tokenEndpoint.errorResponseHandler(new TokenEndpointFailureHandler());
                                     tokenEndpoint.authenticationProviders(providers -> {
                                         providers.add(passWordAuthenticationProvider);
                                         providers.add(phoneAuthenticationProvider);
