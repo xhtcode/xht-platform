@@ -1,10 +1,11 @@
-package com.xht.auth.authentication.entity;
+package com.xht.modules.admin.login.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.xht.framework.core.enums.LoginTypeEnums;
 import com.xht.framework.core.support.blog.enums.LogStatusEnums;
 import com.xht.framework.log.event.LoginRequestInfo;
 import com.xht.framework.mybatis.domain.entity.DeleteEntity;
@@ -62,7 +63,7 @@ public class SysLoginLogEntity extends DeleteEntity implements Serializable {
      * 登录类型：PASSWORD-密码登录 PHONE-手机号登录
      */
     @TableField(value = "login_type")
-    private String loginType;
+    private LoginTypeEnums loginType;
 
     /**
      * 登录IP地址

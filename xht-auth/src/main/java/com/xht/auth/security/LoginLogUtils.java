@@ -3,6 +3,7 @@ package com.xht.auth.security;
 import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationToken;
 import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.core.properties.XhtConfigProperties;
 import com.xht.framework.core.support.blog.enums.LogStatusEnums;
 import com.xht.framework.core.utils.IpUtils;
 import com.xht.framework.core.utils.ServletUtil;
@@ -71,13 +72,14 @@ public final class LoginLogUtils {
      * @param errorMessage 登录失败原因描述
      */
     private static void formatLog(LoginLogApplicationEvent event, HttpServletRequest request, String errorMessage) {
+        event.setApplicationName(SpringContextUtils.getApplicationName());
         event.setTraceId(TraceIdUtils.getTraceId());
+        event.setAppName(SpringContextUtils.getConfigProperties().map(XhtConfigProperties::getGlobal).map(XhtConfigProperties.GlobalConfigProperties::getAppName).orElse(null));
         event.setLoginTime(LocalDateTime.now());
         event.setLoginIp(IpUtils.getClientIP(request));
         event.setLoginRequestInfo(new LoginRequestInfo(ServletUtil.getParamMap(request), ServletUtil.getHeaderMap(request)));
         event.setLoginFailReason(errorMessage);
         event.setUserAgent(ServletUtil.getHeader(request, HttpConstants.Header.USER_AGENT.getValue()));
-        event.setAbnormal(false);
     }
 
 }

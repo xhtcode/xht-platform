@@ -29,7 +29,7 @@ public final class Keys {
      * 私有构造方法，防止工具类被实例化
      */
     private Keys() {
-        throw new UtilException("禁止实例化工具类");
+        throw new UtilException("This is a utility class and cannot be instantiated");
     }
 
     /**

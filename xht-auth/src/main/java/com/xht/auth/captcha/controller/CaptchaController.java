@@ -108,23 +108,4 @@ public class CaptchaController {
         return R.ok().build();
     }
 
-    @IgnoreAuth(aop = false)
-    @GetMapping("/test")
-    public R<LoginLogApplicationEvent> test(HttpServletRequest request) {
-        LoginLogApplicationEvent event = new LoginLogApplicationEvent("userName", LogStatusEnums.ERROR);
-        event.setTraceId(TraceIdUtils.getTraceId());
-        event.setLoginType("loginType");
-        event.setLoginTime(LocalDateTime.now());
-        event.setLoginIp(IpUtils.getClientIP(request));
-        event.setLoginRequestInfo(new LoginRequestInfo(ServletUtil.getParamMap(request), ServletUtil.getHeaderMap(request)));
-        event.setLoginFailReason("LoginFailReason");
-        event.setIpLocation(JakartaServletUtil.getClientIP(request));
-        event.setUserAgent(request.getHeader(HttpConstants.Header.USER_AGENT.getValue()));
-        event.setClientId("");
-        event.setClientName("");
-        event.setAbnormal(false);
-        return R.ok().build(event);
-    }
-
-
 }

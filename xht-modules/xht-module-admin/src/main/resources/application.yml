@@ -56,6 +56,7 @@ xht:
   global:
     banner:
       enable: true
+    app-name: 后台管理
   security:
     ignore:
       whites:

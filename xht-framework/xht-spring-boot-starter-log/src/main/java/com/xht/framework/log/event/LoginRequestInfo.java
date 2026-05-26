@@ -1,9 +1,9 @@
 package com.xht.framework.log.event;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -12,8 +12,6 @@ import java.util.Map;
  * @author xht
  **/
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class LoginRequestInfo {
 
     /**
@@ -25,4 +23,24 @@ public class LoginRequestInfo {
      * 请求头信息
      */
     private Map<String, String> headers;
+
+    /**
+     * 扩展信息
+     */
+    @JsonAnyGetter
+    private Map<String, Object> extend;
+
+    public LoginRequestInfo() {
+    }
+
+    public LoginRequestInfo(Map<String, String> requestParams, Map<String, String> headers) {
+        this.requestParams = requestParams;
+        this.headers = headers;
+        this.extend = new HashMap<>();
+    }
+
+    public void addExtend(String key, Object value) {
+        this.extend.put(key, value);
+    }
+
 }

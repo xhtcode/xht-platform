@@ -3,6 +3,7 @@ package com.xht.modules.helper;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.xht.framework.core.exception.UtilException;
 import com.xht.framework.core.utils.spring.SpringContextUtils;
 import com.xht.modules.cache.TypeMappingCache;
 import com.xht.modules.common.enums.DataBaseTypeEnums;
@@ -32,7 +33,7 @@ public final class GenInfoHelper {
      * 私有构造方法，防止实例化工具类
      */
     private GenInfoHelper() {
-        throw new AssertionError("禁止实例化工具类");
+        throw new UtilException("This is a utility class and cannot be instantiated");
     }
 
     /**

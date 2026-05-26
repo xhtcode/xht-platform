@@ -37,6 +37,11 @@ public class XhtConfigProperties implements IProperties {
     public static class GlobalConfigProperties {
 
         /**
+         * 应用名称
+         */
+        private String appName;
+
+        /**
          * 启动Banner属性
          */
         @NestedConfigurationProperty

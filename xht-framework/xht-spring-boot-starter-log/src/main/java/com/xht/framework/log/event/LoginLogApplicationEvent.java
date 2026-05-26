@@ -28,9 +28,19 @@ public class LoginLogApplicationEvent extends ApplicationEvent {
     }
 
     /**
-     * 链路跟踪ID
+     * 链路追踪ID
      */
     private String traceId;
+
+    /**
+     * 应用名称（英文标识）
+     */
+    private String applicationName;
+
+    /**
+     * 应用名称（中文名称）
+     */
+    private String appName;
 
     /**
      * 登录账号
@@ -38,14 +48,14 @@ public class LoginLogApplicationEvent extends ApplicationEvent {
     private final String userName;
 
     /**
-     * 登录类型
+     * 登录令牌Token
      */
-    private String loginType;
+    private String accessToken;
 
     /**
-     * 登录时间
+     * 登录类型：PASSWORD-密码登录 PHONE-手机号登录
      */
-    private LocalDateTime loginTime;
+    private String loginType;
 
     /**
      * 登录IP地址
@@ -53,38 +63,32 @@ public class LoginLogApplicationEvent extends ApplicationEvent {
     private String loginIp;
 
     /**
-     * 登录状态：1-成功，0-失败
+     * 浏览器/客户端标识
      */
-    private final LogStatusEnums loginStatus;
+    private String userAgent;
 
     /**
-     * 登录信息
+     * 登录时间
      */
-    private LoginRequestInfo loginRequestInfo;
+    private LocalDateTime loginTime;
+
+    /**
+     * 登录状态：0-失败 1-成功
+     */
+    private final LogStatusEnums loginStatus;
 
     /**
      * 登录失败原因
      */
     private String loginFailReason;
-    /**
-     * IP归属地
-     */
-    private String ipLocation;
-    /**
-     * UA浏览器/设备信息
-     */
-    private String userAgent;
-    /**
-     * 客户端ID
-     */
-    private String clientId;
-    /**
-     * 客户端名称
-     */
-    private String clientName;
 
     /**
-     * 是否异常登录
+     * 登录请求信息（参数+请求头+请求体）
      */
-    private boolean isAbnormal;
+    private LoginRequestInfo loginRequestInfo;
+
+    /**
+     * 登录响应信息
+     */
+    private Object loginResponseInfo;
 }

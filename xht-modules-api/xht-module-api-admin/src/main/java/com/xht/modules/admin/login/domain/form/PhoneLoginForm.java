@@ -1,6 +1,6 @@
-package com.xht.modules.admin.login.domain.request;
+package com.xht.modules.admin.login.domain.form;
 
-import com.xht.framework.core.domain.IRequest;
+import com.xht.framework.core.domain.form.BasicForm;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -11,7 +11,7 @@ import lombok.Data;
  **/
 @Data
 @Schema(description = "手机号登录请求参数")
-public class PhoneLoginRequest implements IRequest {
+public class PhoneLoginForm extends BasicForm {
 
     /**
      * 手机号

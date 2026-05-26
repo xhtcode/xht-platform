@@ -24,6 +24,8 @@ const goToApp = (url: string) => {
 const handleClick = () => {
   window.location.href =
     'http://www.xht.sso.com:9000/oauth2/authorize?client_id=oidc-client&response_type=code&scope=openid write&redirect_uri=https://www.baidu.com'
+    'http://www.xht.sso.com:9000/oauth2/authorize?response_type=code&client_id=oidc-client&scope=openid%20write&redirect_uri=http://www.xht.com:8080/login/oauth2/code/spring'
+
 }
 onMounted(() => {
   //   getAppList()

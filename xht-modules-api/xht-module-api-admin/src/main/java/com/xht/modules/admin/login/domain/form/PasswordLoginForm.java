@@ -1,7 +1,7 @@
-package com.xht.modules.admin.login.domain.request;
+package com.xht.modules.admin.login.domain.form;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xht.framework.core.domain.IRequest;
+import com.xht.framework.core.domain.form.BasicForm;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import lombok.Data;
  **/
 @Data
 @Schema(description = "表单登录请求参数")
-public class FormLoginRequest implements IRequest {
+public class PasswordLoginForm extends BasicForm {
 
     /**
      * 用户名

@@ -17,7 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public final class SmsUtils {
 
     private SmsUtils() {
-        throw new UtilException("禁止实例化工具类");
+        throw new UtilException("This is a utility class and cannot be instantiated");
     }
 
     /**
