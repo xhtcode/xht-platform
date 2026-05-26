@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 /**
  * 登录日志 事件
@@ -61,11 +60,31 @@ public class LoginLogApplicationEvent extends ApplicationEvent {
     /**
      * 登录信息
      */
-    private Map<String, Object> loginRequestInfo;
+    private LoginRequestInfo loginRequestInfo;
 
     /**
      * 登录失败原因
      */
     private String loginFailReason;
+    /**
+     * IP归属地
+     */
+    private String ipLocation;
+    /**
+     * UA浏览器/设备信息
+     */
+    private String userAgent;
+    /**
+     * 客户端ID
+     */
+    private String clientId;
+    /**
+     * 客户端名称
+     */
+    private String clientName;
 
+    /**
+     * 是否异常登录
+     */
+    private boolean isAbnormal;
 }

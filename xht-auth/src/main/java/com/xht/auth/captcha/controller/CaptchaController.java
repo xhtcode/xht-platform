@@ -1,16 +1,28 @@
 package com.xht.auth.captcha.controller;
 
+import cn.hutool.extra.servlet.JakartaServletUtil;
+import com.xht.auth.captcha.domain.response.CaptchaResponse;
 import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnums;
 import com.xht.auth.captcha.service.ICaptchaService;
+import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.domain.R;
-import com.xht.auth.captcha.domain.response.CaptchaResponse;
+import com.xht.framework.core.support.blog.enums.LogStatusEnums;
+import com.xht.framework.core.utils.IpUtils;
+import com.xht.framework.core.utils.ServletUtil;
+import com.xht.framework.core.utils.mdc.TraceIdUtils;
+import com.xht.framework.log.event.LoginLogApplicationEvent;
+import com.xht.framework.log.event.LoginRequestInfo;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
 
 import static com.xht.framework.security.constant.SecurityConstant.REQUEST_CAPTCHA_CODE_KEY;
 
@@ -95,5 +107,24 @@ public class CaptchaController {
         captchaService.getPhoneCaptcha(phone, CaptchaBusinessTypeEnums.OAUTH2);
         return R.ok().build();
     }
+
+    @IgnoreAuth(aop = false)
+    @GetMapping("/test")
+    public R<LoginLogApplicationEvent> test(HttpServletRequest request) {
+        LoginLogApplicationEvent event = new LoginLogApplicationEvent("userName", LogStatusEnums.ERROR);
+        event.setTraceId(TraceIdUtils.getTraceId());
+        event.setLoginType("loginType");
+        event.setLoginTime(LocalDateTime.now());
+        event.setLoginIp(IpUtils.getClientIP(request));
+        event.setLoginRequestInfo(new LoginRequestInfo(ServletUtil.getParamMap(request), ServletUtil.getHeaderMap(request)));
+        event.setLoginFailReason("LoginFailReason");
+        event.setIpLocation(JakartaServletUtil.getClientIP(request));
+        event.setUserAgent(request.getHeader(HttpConstants.Header.USER_AGENT.getValue()));
+        event.setClientId("");
+        event.setClientName("");
+        event.setAbnormal(false);
+        return R.ok().build(event);
+    }
+
 
 }

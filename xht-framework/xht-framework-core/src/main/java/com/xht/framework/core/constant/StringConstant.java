@@ -133,4 +133,9 @@ public interface StringConstant {
      */
     String AT = "@";
 
+    /**
+     * 字符常量：localhost {@code "localhost"}
+     */
+    String LOCALHOST = "localhost";
+
 }

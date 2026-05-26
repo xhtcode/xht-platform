@@ -48,7 +48,7 @@ public class FeignTraceLogInterceptor implements RequestInterceptor {
         template.header(REQUEST_TRACE_ID, traceId);
         template.header(REQUEST_USER_ACCOUNT, request.getHeader(REQUEST_USER_ACCOUNT));
         template.header(REQUEST_USER_ID, request.getHeader(REQUEST_USER_ID));
-        template.header("X-Forwarded-For", IpUtils.getIpAddr());
+        template.header("X-Forwarded-For", IpUtils.getClientIP(request));
     }
 
 }

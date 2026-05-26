@@ -1,5 +1,6 @@
 package com.xht.framework.log.aspect;
 
+import cn.hutool.core.net.NetUtil;
 import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.constant.StringConstant;
 import com.xht.framework.core.jackson.JsonUtils;
@@ -69,10 +70,10 @@ public class BLogAspect {
             bLogDTO.setLogDesc(bLog.description());
             bLogDTO.setTraceId(TraceIdUtils.getTraceId());
             bLogDTO.setServiceName(applicationName);
-            bLogDTO.setServerAddr(IpUtils.getHostIp());
+            bLogDTO.setServerAddr(NetUtil.getLocalhostStr());
             Optional<HttpServletRequest> optHttpServletRequest = ServletUtil.getOptHttpServletRequest();
             optHttpServletRequest.ifPresent(request -> {
-                bLogDTO.setRequestIp(IpUtils.getIpAddr());
+                bLogDTO.setRequestIp(IpUtils.getClientIP(request));
                 bLogDTO.setRequestHeaders(JsonUtils.toJsonString(ServletUtil.getHeaderMap(request)));
                 bLogDTO.setRequestAccount(request.getHeader(HttpConstants.Header.USER_ACCOUNT.getValue()));
                 bLogDTO.setRequestType(request.getMethod());

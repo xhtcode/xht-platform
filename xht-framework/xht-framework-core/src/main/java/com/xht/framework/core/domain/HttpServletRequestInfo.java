@@ -189,7 +189,7 @@ public record HttpServletRequestInfo(String requestUrl, Map<String, String> para
          * @return 返回请求IP
          */
         public RequestInfoBuilder ip() {
-            this.ip = IpUtils.getIpAddr(request);
+            this.ip = IpUtils.getClientIP(request);
             return this;
         }
 

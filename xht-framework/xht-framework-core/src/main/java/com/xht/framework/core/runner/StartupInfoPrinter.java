@@ -1,9 +1,9 @@
 package com.xht.framework.core.runner;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.net.NetUtil;
 import com.xht.framework.core.properties.XhtConfigProperties;
 import com.xht.framework.core.properties.basic.EnableProperties;
-import com.xht.framework.core.utils.IpUtils;
 import com.xht.framework.core.utils.StringUtils;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
@@ -85,7 +85,7 @@ public class StartupInfoPrinter implements ApplicationRunner {
         // @formatter:on
         if (banner) {
             // 获取并校验本机IP地址（防止获取失败导致的空指针）
-            String serverIp = StringUtils.emptyToDefault(IpUtils.getHostIp(), DEFAULT_IP);
+            String serverIp = StringUtils.emptyToDefault(NetUtil.getLocalhostStr(), DEFAULT_IP);
             StringBuilder sb = new StringBuilder();
             appendString(sb, SEPARATOR);
             appendString(sb, "\n");

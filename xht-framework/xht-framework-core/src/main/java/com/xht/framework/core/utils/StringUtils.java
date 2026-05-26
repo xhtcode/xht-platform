@@ -193,4 +193,53 @@ public final class StringUtils extends org.springframework.util.StringUtils {
         }
     }
 
+    /**
+     * 改进JDK subString<br>
+     * index从0开始计算，最后一个字符为-1<br>
+     * 如果from和to位置一样，返回 "" <br>
+     * 如果from或to为负数，则按照length从后向前数位置，如果绝对值大于字符串长度，则from归到0，to归到length<br>
+     * 如果经过修正的index中from大于to，则互换from和to example: <br>
+     * abcdefgh 2 3 =》 c <br>
+     * abcdefgh 2 -3 =》 cde <br>
+     *
+     * @param str              String
+     * @param fromIndexInclude 开始的index（包括）
+     * @param toIndexExclude   结束的index（不包括）
+     * @return 字串
+     */
+    public static String substring(CharSequence str, int fromIndexInclude, int toIndexExclude) {
+        if (!hasText(str)) {
+            return str(str);
+        }
+        int len = str.length();
+
+        if (fromIndexInclude < 0) {
+            fromIndexInclude = len + fromIndexInclude;
+            if (fromIndexInclude < 0) {
+                fromIndexInclude = 0;
+            }
+        } else if (fromIndexInclude > len) {
+            fromIndexInclude = len;
+        }
+
+        if (toIndexExclude < 0) {
+            toIndexExclude = len + toIndexExclude;
+            if (toIndexExclude < 0) {
+                toIndexExclude = len;
+            }
+        } else if (toIndexExclude > len) {
+            toIndexExclude = len;
+        }
+
+        if (toIndexExclude < fromIndexInclude) {
+            int tmp = fromIndexInclude;
+            fromIndexInclude = toIndexExclude;
+            toIndexExclude = tmp;
+        }
+
+        if (fromIndexInclude == toIndexExclude) {
+            return StringConstant.EMPTY;
+        }
+        return str.toString().substring(fromIndexInclude, toIndexExclude);
+    }
 }

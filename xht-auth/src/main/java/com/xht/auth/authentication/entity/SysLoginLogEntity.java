@@ -6,12 +6,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.xht.framework.core.support.blog.enums.LogStatusEnums;
+import com.xht.framework.log.event.LoginRequestInfo;
 import com.xht.framework.mybatis.domain.entity.DeleteEntity;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Map;
 
 /**
  * 登录日志
@@ -74,7 +74,7 @@ public class SysLoginLogEntity extends DeleteEntity implements Serializable {
      * 登录信息
      */
     @TableField(value = "login_request_info", typeHandler = JacksonTypeHandler.class)
-    private Map<String, Object> loginRequestInfo;
+    private LoginRequestInfo loginRequestInfo;
 
     /**
      * 登录失败原因

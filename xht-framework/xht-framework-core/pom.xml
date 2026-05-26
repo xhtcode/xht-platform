@@ -17,11 +17,7 @@
         <!-- huTool 工具类库 核心包 -->
         <dependency>
             <groupId>cn.hutool</groupId>
-            <artifactId>hutool-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-http</artifactId>
+            <artifactId>hutool-all</artifactId>
         </dependency>
         <!-- Swagger Core -->
         <dependency>

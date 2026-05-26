@@ -106,10 +106,8 @@
             <!-- hutool 工具类库 -->
             <dependency>
                 <groupId>cn.hutool</groupId>
-                <artifactId>hutool-bom</artifactId>
+                <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
             <!-- Swagger-Knife4j -->
             <dependency>
