@@ -18,15 +18,15 @@ spring:
               - openid
         provider:
           spring:
-            jwk-set-uri: http://xhtiam.com:9000/oauth2/jwks
+            jwk-set-uri: http://www.xht.sso.com:9000/oauth2/jwks
             # 授权端点（固定格式：授权服务器地址 + /oauth2/authorize）
-            authorization-uri: http://xhtiam.com:9000/oauth2/authorize
+            authorization-uri: http://www.xht.sso.com:9000/oauth2/authorize
             # 令牌获取端点（固定格式：授权服务器地址 + /oauth2/token）
-            token-uri: http://xhtiam.com:9000/oauth2/token
+            token-uri: http://www.xht.sso.com:9000/oauth2/token
             # 用户信息端点（获取登录用户信息，授权服务器默认接口）
-            user-info-uri: http://xhtiam.com:9000/userinfo
+            user-info-uri: http://www.xht.sso.com:9000/userinfo
             # 用户信息返回类型（固定）
-            user-info-authentication-method: header
+            user-name-attribute: sub
 
   data:
     redis:

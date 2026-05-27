@@ -51,7 +51,7 @@ public interface SecurityConstant {
     /**
      * 验证码 redis key 前缀
      */
-    String REDIS_CAPTCHA_CODE_KEY_PREFIX = "captcha:code:";
+    String REDIS_CAPTCHA_CODE_KEY_PREFIX = "captcha:code";
 
     /**
      * 手机验证码 redis key 前缀

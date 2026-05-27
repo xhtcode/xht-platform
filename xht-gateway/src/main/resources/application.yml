@@ -56,9 +56,7 @@ xht:
         add-swagger-ignore-urls: true
     gateway:
       authenticated-urls:
-        - /get/token
-        - /admin/**
-        - /generate/**
+        - /**
 knife4j:
   gateway:
     enabled: true     # ① 第一个配置，开启gateway聚合组件

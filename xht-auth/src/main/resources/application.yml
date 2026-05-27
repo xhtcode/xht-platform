@@ -78,7 +78,7 @@ xht:
       parameter: rememberMe
       token-validity-seconds: 1209600
     oauth2:
-      issuer: http://www.xht.sso.com
+      issuer: http://www.xht.sso.com:9000
       authorization-server:
         logout-url: /sso/logout
         form-login-url: /sso/unLogin

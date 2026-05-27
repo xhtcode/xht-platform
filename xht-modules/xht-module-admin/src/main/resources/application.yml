@@ -1,6 +1,6 @@
 # 服务器配置
 server:
-  port: 9600
+  port: 8081
 
 # Spring应用配置
 spring:
@@ -13,9 +13,9 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://127.0.0.1:9000
+          issuer-uri: http://www.xht.sso.com:9000
         opaquetoken:
-          introspection-uri: http://127.0.0.1:8080/auth/oauth2/introspect
+          introspection-uri: http://www.xht.sso.com:9000/oauth2/introspect
           client-id: oidc-client
           client-secret: secret
   # 数据源配置

@@ -47,7 +47,7 @@ public class AuthorizationEndpointFailureHandler implements AuthenticationFailur
             String errorMsg = StringUtils.emptyToDefault(error.getDescription(), "Invalid or missing redirect_uri");
             log.error("  oauth2 授权失败 {} ", errorMsg, authenticationException);
             //  // 第二次点击“拒绝”会因为之前取消时删除授权申请记录而找不到对应的数据，导致抛出 [invalid_request] OAuth 2.0 Parameter: state
-            ServletUtil.writeJson(response, R.error().msg("查询不到对应的授权申请记录").build());
+            ServletUtil.writeJson(response, R.error().msg(errorMsg).build());
             return;
         }
         AuthorizationEndpointFailureResponse failureResponse = new AuthorizationEndpointFailureResponse();

@@ -40,12 +40,20 @@ public class SecurityConfig {
                                 .pathMatchers(securityGatewayProperties.getAuthenticatedUrls()).authenticated()
                                 .anyExchange().permitAll()
                 );
-        http.oauth2Login(oauth2Login -> oauth2Login.authenticationFailureHandler((webFilterExchange, exception) -> {
-            ServerWebExchange exchange = webFilterExchange.getExchange();
-            ServerHttpResponse response = exchange.getResponse();
-            log.error("登录失败 {}", exception.getLocalizedMessage(), exception);
-            return WebFluxUtils.webFluxResponseWriter(response, R.error().build(exception.getMessage()));
-        }));
+        http.oauth2Login(oauth2Login -> {
+            oauth2Login.authenticationFailureHandler((webFilterExchange, exception) -> {
+                ServerWebExchange exchange = webFilterExchange.getExchange();
+                ServerHttpResponse response = exchange.getResponse();
+                log.error("登录失败 {}", exception.getLocalizedMessage(), exception);
+                return WebFluxUtils.webFluxResponseWriter(response, R.error().build(exception.getMessage()));
+            });
+            oauth2Login.authenticationSuccessHandler((webFilterExchange, authentication) -> {
+                ServerWebExchange exchange = webFilterExchange.getExchange();
+                ServerHttpResponse response = exchange.getResponse();
+                log.info("登录成功 {}", authentication.getName());
+                return WebFluxUtils.webFluxResponseWriter(response, R.ok().build());
+            });
+        });
         return http.build();
     }
 
