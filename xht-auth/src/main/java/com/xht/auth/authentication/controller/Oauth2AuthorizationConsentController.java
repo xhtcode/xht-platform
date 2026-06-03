@@ -30,4 +30,17 @@ public class Oauth2AuthorizationConsentController {
             @RequestParam(name = OAuth2ParameterNames.USER_CODE, required = false) String userCode) {
         return R.ok().build(oauth2AuthorizationConsentService.getConsentInfo(scope, clientId, state, userCode));
     }
+
+    // private final SessionRegistry sessionRegistry;
+    //
+    // public List<User> getLoginUser() {
+    //     List<Object> list = sessionRegistry.getAllPrincipals();
+    //     List<User> userList = new ArrayList<>();
+    //     for (Object o : list) {
+    //         if (o instanceof User user) {
+    //             userList.add(user);
+    //         }
+    //     }
+    //     return userList;
+    // }
 }

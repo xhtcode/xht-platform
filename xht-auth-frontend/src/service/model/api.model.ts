@@ -55,15 +55,3 @@ export interface TokenUserInfoResponse {
   deptName: string
   registerDate: string
 }
-
-/**
- * 应用信息
- */
-export interface AppInfoResponse {
-  appId: string
-  appName: string
-  appLogo: string
-  appUrl: string
-  appDescription: string
-  appStatus: string | number
-}

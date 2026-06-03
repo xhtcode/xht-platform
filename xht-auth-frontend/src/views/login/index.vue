@@ -73,7 +73,7 @@ const submitPasswordForm = () => {
     if (valid) {
       loading.value = true
       ssoLogin(ruleForm)
-        .then((res) => {
+        .then(() => {
           userStore.changeLoginStatus(true)
           console.log(targetUrl.value)
           console.log(route.query)

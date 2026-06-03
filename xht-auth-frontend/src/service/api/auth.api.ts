@@ -1,13 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import request from '@/utils/request'
-import {
-  AppInfoResponse,
-  CaptchaResponseType,
-  LoginRequestType,
-  RegisterRequestType,
-  SendSmsRequestType,
-  SmsLoginRequestType,
-} from '@/service/model/api.model'
+import type { CaptchaResponseType, LoginRequestType, RegisterRequestType, SendSmsRequestType, SmsLoginRequestType } from '@/service/model/api.model'
 
 const baseURL = '/api'
 
@@ -20,7 +13,6 @@ enum Api {
   SMS_LOGIN = '/sms/login',
   TOKEN_USER_INFO = '/token/info',
   CONFIRM_ACCESS = '/oauth2/authorization/consent/info',
-  APP_LIST = '/app/list',
 }
 
 /**
@@ -125,15 +117,6 @@ export const getTokenUserInfo = () => {
   })
 }
 
-/**
- * 获取应用列表
- */
-export const getAppList = (): AxiosPromise<AppInfoResponse[]> => {
-  return request({
-    method: 'get',
-    url: Api.APP_LIST,
-  })
-}
 /**
  * 提交授权
  * @param data 授权参数

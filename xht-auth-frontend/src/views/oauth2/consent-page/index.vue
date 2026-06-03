@@ -104,7 +104,7 @@ onMounted(async () => {
       <!-- 应用图标和标题 -->
       <div class="flex items-center p-4">
         <!-- 应用信息卡片 -->
-        <el-avatar :size="72" class="mr-4 flex-shrink-0 bg-blue-50 cursor-pointer">
+        <el-avatar :size="72" class="mr-4 flex-shrink-0 cursor-pointer bg-blue-50">
           <img src="https://picsum.photos/48/48" alt="应用图标" />
         </el-avatar>
         <div class="flex-1 text-left">
@@ -119,7 +119,7 @@ onMounted(async () => {
         <el-checkbox-group v-model="modelValue" size="large">
           <div v-for="scope in scopes" :key="scope.id" class="flex">
             <el-checkbox :value="scope.scopeName" :disabled="scope.disabled" size="large" />
-            <div class="flex w-full justify-between">
+            <div class="w-full flex justify-between">
               <el-text size="large" tag="b">{{ scope.scopeName }}</el-text>
               <el-text size="large" type="info">
                 {{ scope.scopeDesc }}
@@ -147,7 +147,7 @@ onMounted(async () => {
     </div>
     <div v-else class="text-center">
       <h1>存在错误</h1>
-      <div class="text-gray-500 pt-2">{{ state.errorMessage }}</div>
+      <div class="pt-2 text-gray-500">{{ state.errorMessage }}</div>
     </div>
   </div>
 </template>
