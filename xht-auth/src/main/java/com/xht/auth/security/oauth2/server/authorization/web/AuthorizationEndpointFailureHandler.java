@@ -32,7 +32,6 @@ public class AuthorizationEndpointFailureHandler implements AuthenticationFailur
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
-        log.error("  oauth2 授权失败 ", exception);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (Objects.isNull(authentication)) {
             // 登录已失效
@@ -40,6 +39,7 @@ public class AuthorizationEndpointFailureHandler implements AuthenticationFailur
             return;
         }
         SecurityContextHolder.clearContext();
+        log.error("  oauth2 授权失败 ", exception);
         OAuth2AuthorizationCodeRequestAuthenticationException authenticationException = (OAuth2AuthorizationCodeRequestAuthenticationException) exception;
         OAuth2Error error = authenticationException.getError();
         OAuth2AuthorizationCodeRequestAuthenticationToken authenticationToken = authenticationException.getAuthorizationCodeRequestAuthentication();
@@ -47,7 +47,7 @@ public class AuthorizationEndpointFailureHandler implements AuthenticationFailur
             String errorMsg = StringUtils.emptyToDefault(error.getDescription(), "Invalid or missing redirect_uri");
             log.error("  oauth2 授权失败 {} ", errorMsg, authenticationException);
             //  // 第二次点击“拒绝”会因为之前取消时删除授权申请记录而找不到对应的数据，导致抛出 [invalid_request] OAuth 2.0 Parameter: state
-            ServletUtil.writeJson(response, R.error().msg(errorMsg).build());
+            ServletUtil.writeJson(response, R.error().msg("授权失败，暂时无法登录，请稍后重试！").build());
             return;
         }
         AuthorizationEndpointFailureResponse failureResponse = new AuthorizationEndpointFailureResponse();

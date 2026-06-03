@@ -59,22 +59,26 @@ public class Oauth2AuthorizationConsentServiceImpl implements IOauth2Authorizati
     @SuppressWarnings("all")
     public Oauth2ConsentVo getConsentInfo(String scope, String clientId, String state, String userCode) {
         log.info("授权范围:{},客户端id:{},状态参数:{},userCode:{}", scope, clientId, state, userCode);
+        RegisteredClient registeredClient = registeredClientRepository.findByClientId(clientId);
+        if (registeredClient == null) {
+            // 客户端信息匹配失败 抛出异常
+            throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.CLIENT_ID, String.format("客户端`%s`不存在", clientId));
+        }
         OAuth2Authorization authorization = oAuth2AuthorizationService.findByToken(state, AuthorizationConstant.STATE_TOKEN_TYPE);
         if (authorization == null) {
-            throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.STATE, "查询不到授权信息");
+            throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.STATE, "未查询到有效授权资料");
         }
         Authentication principal = SecurityUtils.getAuthentication()
                 .orElseThrow(() -> {
-                    throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.STATE, "查询不到授权信息");
+                    throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.STATE, "未查询到有效授权资料");
                     return null;
                 });
         if (!isPrincipalAuthenticated(principal) || !principal.getName().equals(authorization.getPrincipalName())) {
-            throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.STATE, "非法请求信息");
+            throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.STATE, "当前请求不符合访问规范");
         }
         // 携带当前请求参数与nonceId重定向至前端页面
         BasicUserDetails user = SecurityUtils.getUser();
-        RegisteredClient registeredClient = registeredClientRepository.findByClientId(clientId);
-        if (registeredClient == null || !registeredClient.getId().equals(authorization.getRegisteredClientId())) {
+        if (!registeredClient.getId().equals(authorization.getRegisteredClientId())) {
             // 客户端信息匹配失败 抛出异常
             throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.CLIENT_ID, String.format("客户端`%s`信息匹配失败", clientId));
         }

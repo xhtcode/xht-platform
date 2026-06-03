@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, useTemplateRef } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, onMounted, reactive, ref, useTemplateRef } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
 import { useMessage } from '@/hooks/use-message'
 import { useUserStore } from '@/stores/modules/user.store'
@@ -14,7 +14,7 @@ defineOptions({
 const loginMode = ref<'password' | 'sms'>('password')
 const ruleFormRef = useTemplateRef<FormInstance>('ruleFormRef')
 const smsFormRef = useTemplateRef<FormInstance>('smsFormRef')
-
+const route = useRoute()
 const ruleForm = reactive<LoginRequestType>({
   username: 'admin',
   password: '123456',
@@ -32,7 +32,7 @@ const captchaImage = ref('')
 const captchaLoading = ref(false)
 const countdown = ref(0)
 let timer: ReturnType<typeof setInterval> | null = null
-
+const targetUrl = computed<any>(() => route.query.target)
 const rules = reactive<FormRules<typeof ruleForm>>({
   username: [{ required: true, message: '请输入用户名', trigger: ['blur', 'change'] }],
   password: [{ required: true, message: '请输入密码', trigger: ['blur', 'change'] }],
@@ -75,11 +75,13 @@ const submitPasswordForm = () => {
       ssoLogin(ruleForm)
         .then((res) => {
           userStore.changeLoginStatus(true)
-            if (res.data.targetUrl) {
-              window.location.href = res.data.targetUrl
-            } else {
-              router.push('/home')
-            }
+          console.log(targetUrl.value)
+          console.log(route.query)
+          if (targetUrl.value) {
+            window.location.href = targetUrl.value
+          } else {
+            router.push('/home')
+          }
         })
         .catch((_) => {
           refreshCaptcha()
@@ -123,10 +125,12 @@ const submitSmsForm = () => {
       smsLogin(smsForm)
         .then((res) => {
           userStore.changeLoginStatus(true)
+          console.log(res)
+          console.log(route.query)
           if (res.data.targetUrl) {
-            window.location.href = res.data.targetUrl
+            //  window.location.href = res.data.targetUrl
           } else {
-            router.push('/home')
+            // router.push('/home')
           }
         })
         .catch((_) => {})
@@ -158,6 +162,10 @@ const handleThirdPartyLogin = (name: string) => {
 onMounted(() => {
   getCaptcha()
 })
+const handleClick = () => {
+  window.location.href =
+    'http://www.xht.sso.com:9000/oauth2/authorize?client_id=oidc-client&response_type=code&scope=openid write user_info&redirect_uri=https://www.baidu.com'
+}
 </script>
 
 <template>
@@ -167,7 +175,8 @@ onMounted(() => {
         <h1 class="mt-6 text-3xl text-gray-900 font-bold tracking-tight">小糊涂统一身份认证</h1>
         <p class="mt-2 text-sm text-gray-600">请选择登录方式</p>
       </div>
-
+      <el-text>{{ route.query.targetUrl }}</el-text>
+      <el-button @click="handleClick">跳转到{{ targetUrl }}</el-button>
       <el-tabs v-model="loginMode" class="login-tabs" stretch>
         <el-tab-pane label="账号密码登录" name="password">
           <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-position="top" class="mt-5">

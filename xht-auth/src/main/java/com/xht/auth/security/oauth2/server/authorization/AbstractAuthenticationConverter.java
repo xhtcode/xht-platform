@@ -1,5 +1,6 @@
 package com.xht.auth.security.oauth2.server.authorization;
 
+import com.xht.auth.security.oauth2.OAuth2EndpointUtils;
 import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,7 +48,7 @@ public abstract class AbstractAuthenticationConverter implements AuthenticationC
             return null;
         }
         // 构建请求参数集合
-        MultiValueMap<String, String> parameters = getParameters(request);
+        MultiValueMap<String, String> parameters = OAuth2EndpointUtils.getFormParameters(request);
         List<String> scopes = parameters.get(OAuth2ParameterNames.SCOPE);
         // 判断scopes
         if (CollectionUtils.isEmpty(scopes)) {

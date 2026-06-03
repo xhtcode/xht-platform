@@ -20,7 +20,7 @@ public class SecurityCorsConfiguration {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("www.xht.sso.com");
         config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
         return source;

@@ -29,7 +29,7 @@ const refreshQrCode = () => {
       getQrCodeInfo.value.qrCodeId = r.data.qrCodeId
       getQrCodeInfo.value.imageData = r.data.imageData
       // 开始轮询获取二维码信息
-  //    fetchQrCodeInfo(r.data.qrCodeId)
+      //    fetchQrCodeInfo(r.data.qrCodeId)
     })
     .catch((e: any) => {
       useMessage().warning(`生成二维码失败：${e.message}`)

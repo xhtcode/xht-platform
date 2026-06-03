@@ -7,6 +7,7 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
+import com.xht.auth.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCancelApproveAuthenticationProvider;
 import com.xht.auth.security.oauth2.server.authorization.oidc.authentication.OidcUserInfoMapper;
 import com.xht.auth.security.oauth2.server.authorization.password.PassWordAuthenticationConverter;
 import com.xht.auth.security.oauth2.server.authorization.password.PassWordAuthenticationProvider;
@@ -38,7 +39,6 @@ import org.springframework.security.oauth2.server.authorization.token.Delegating
 import org.springframework.security.oauth2.server.authorization.token.JwtGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import java.security.KeyPair;
@@ -87,6 +87,7 @@ public class AuthorizationServerAutoConfiguration {
                                     authorizationEndpoint.consentPage(authorizationServerProperties.getConsentPage());
                                     authorizationEndpoint.authorizationResponseHandler(new AuthorizationEndpointSuccessHandler());
                                     authorizationEndpoint.errorResponseHandler(new AuthorizationEndpointFailureHandler());
+                                    authorizationEndpoint.authenticationProvider(new OAuth2AuthorizationCancelApproveAuthenticationProvider(authorizationService));
                                 })
                                 // 令牌端点
                                 .tokenEndpoint(tokenEndpoint -> {
@@ -108,7 +109,7 @@ public class AuthorizationServerAutoConfiguration {
                                 })
                 )
                 .exceptionHandling((exceptions) ->            {
-                    LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint = new LoginUrlAuthenticationEntryPoint(xhtOauth2Properties.getAuthorizationServer().getLoginPage());
+                    AuthorizationServerLoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint = new AuthorizationServerLoginUrlAuthenticationEntryPoint(xhtOauth2Properties.getAuthorizationServer().getLoginPage());
                     MediaTypeRequestMatcher mediaTypeRequestMatcher = new MediaTypeRequestMatcher(MediaType.TEXT_HTML);
                     exceptions.defaultAuthenticationEntryPointFor(loginUrlAuthenticationEntryPoint, mediaTypeRequestMatcher);
                 })

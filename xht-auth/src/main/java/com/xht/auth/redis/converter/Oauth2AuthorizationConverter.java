@@ -351,27 +351,4 @@ public final class Oauth2AuthorizationConverter implements IConverter<OAuth2Auth
         return time.atZone(ZoneId.systemDefault()).toInstant();
     }
 
-    private static class VirtualRegisteredClientRepository implements RegisteredClientRepository {
-
-        @Override
-        public void save(RegisteredClient registeredClient) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public RegisteredClient findById(String id) {
-            throw new UnsupportedOperationException();
-        }
-
-
-        @Override
-        public RegisteredClient findByClientId(String clientId) {
-            return RegisteredClient.withId(clientId).clientId(clientId)
-                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                    .redirectUri(clientId)
-                    .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                    .build();
-        }
-    }
-
 }

@@ -1,6 +1,8 @@
 package com.xht.auth.security.oauth2.server.authorization.web;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xht.auth.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCancelApproveAuthenticationToken;
 import com.xht.framework.core.constant.HttpConstants;
 import com.xht.framework.core.domain.R;
 import com.xht.framework.core.domain.response.BasicResponse;
@@ -37,28 +39,37 @@ public class AuthorizationEndpointSuccessHandler implements AuthenticationSucces
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         log.info("授权成功 {} {} {}",request.getMethod(),authentication.isAuthenticated(),authentication.getClass().getName());
-        OAuth2AuthorizationCodeRequestAuthenticationToken authenticationToken = (OAuth2AuthorizationCodeRequestAuthenticationToken) authentication;
-        String redirectUri = authenticationToken.getRedirectUri();
-        if (!StringUtils.hasText(redirectUri)) {
-            log.error("Invalid or missing redirect_uri");
-            ServletUtil.writeJson(response, R.error().msg("Invalid or missing redirect_uri").build());
-            return;
-        }
-        String tokenValue = Optional.ofNullable(authenticationToken.getAuthorizationCode()).map(AbstractOAuth2Token::getTokenValue).orElse(null);
-        String state = authenticationToken.getState();
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(redirectUri);
-        uriBuilder.queryParam(OAuth2ParameterNames.CODE, tokenValue);
-        if (StringUtils.hasText(state)) {
-            uriBuilder.queryParam(OAuth2ParameterNames.STATE, UriUtils.encode(state, StandardCharsets.UTF_8));
-        }
-        AuthorizationEndpointSuccessResponse endpointResponse = new AuthorizationEndpointSuccessResponse();
-        endpointResponse.setUsername(authenticationToken.getName());
-        endpointResponse.setCode(tokenValue);
-        endpointResponse.setState(state);
-        endpointResponse.setRedirectUri(uriBuilder.build(true).toUriString());
-        if (Objects.equals(request.getMethod(), HttpConstants.Method.GET.getValue())) {
-            redirectStrategy.sendRedirect(request, response, endpointResponse.getRedirectUri());
+        String redirectUri;
+        String userName = authentication.getName();
+        String tokenValue = null;
+        String state = null;
+        if (authentication instanceof OAuth2AuthorizationCancelApproveAuthenticationToken approveAuthenticationToken) {
+            redirectUri = approveAuthenticationToken.getRedirectUri();
         } else {
+            OAuth2AuthorizationCodeRequestAuthenticationToken authenticationToken = (OAuth2AuthorizationCodeRequestAuthenticationToken) authentication;
+            redirectUri = authenticationToken.getRedirectUri();
+            if (!StringUtils.hasText(redirectUri)) {
+                log.error("Invalid or missing redirect_uri");
+                ServletUtil.writeJson(response, R.error().msg("Invalid or missing redirect_uri").build());
+                return;
+            }
+            tokenValue = Optional.ofNullable(authenticationToken.getAuthorizationCode()).map(AbstractOAuth2Token::getTokenValue).orElse(null);
+            state = authenticationToken.getState();
+            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(redirectUri);
+            uriBuilder.queryParam(OAuth2ParameterNames.CODE, tokenValue);
+            if (StringUtils.hasText(state)) {
+                uriBuilder.queryParam(OAuth2ParameterNames.STATE, UriUtils.encode(state, StandardCharsets.UTF_8));
+            }
+            redirectUri = uriBuilder.build(true).toUriString();
+        }
+        if (Objects.equals(request.getMethod(), HttpConstants.Method.GET.getValue())) {
+            redirectStrategy.sendRedirect(request, response, redirectUri);
+        } else {
+            AuthorizationEndpointSuccessResponse endpointResponse = new AuthorizationEndpointSuccessResponse();
+            endpointResponse.setUsername(userName);
+            endpointResponse.setCode(tokenValue);
+            endpointResponse.setState(state);
+            endpointResponse.setRedirectUri(redirectUri);
             ServletUtil.writeJson(response, R.ok().build(endpointResponse));
         }
     }
@@ -69,6 +80,7 @@ public class AuthorizationEndpointSuccessHandler implements AuthenticationSucces
      * @author xht
      **/
     @Data
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class AuthorizationEndpointSuccessResponse extends BasicResponse {
 
         /**
