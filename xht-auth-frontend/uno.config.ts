@@ -2,12 +2,22 @@
 import {
     defineConfig,
     presetAttributify,
+    presetIcons,
     presetTypography,
-    presetWebFonts,
     presetWind3,
+    presetWebFonts,
     transformerDirectives,
     transformerVariantGroup,
 } from 'unocss'
+import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
+
+/**
+ * SVG图标转换函数
+ * @param svg SVG图标内容
+ */
+const transform = (svg: string) => {
+    return svg.includes('fill="') ? svg : svg.replace(/^<svg /, '<svg fill="currentColor" ')
+}
 
 // noinspection JSUnusedGlobalSymbols
 export default defineConfig({
@@ -18,7 +28,24 @@ export default defineConfig({
         presetWebFonts({
             fonts: {},
         }),
+        presetIcons({
+            scale: 1.2, // 图标缩放比例
+            prefix: 'i-', // 图标前缀
+            warn: true, //当缺少的图标匹配时发出警告
+            extraProperties: {
+                // 额外属性
+                display: 'inline-block',
+                width: '16px',
+                height: '16px',
+            },
+            // 图表集合
+            collections: {
+                // icon 是图标集合名称，使用 `i-icon:图标名` 调用
+                login: FileSystemIconLoader(`./src/assets/login`, transform),
+            },
+        }),
     ],
+    safelist: [],
     transformers: [transformerDirectives(), transformerVariantGroup()],
     shortcuts: {
         'm-0-auto': 'm-0 ma', // margin: 0 auto

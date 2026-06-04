@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Document, Location, Menu } from '@element-plus/icons-vue'
-import logImage from '@/assets/logo.svg'
+import logImage from '@/assets/svg/logo.svg'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()

@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 html,
@@ -51,4 +52,21 @@ body,
     border: 1px solid var(--el-border-color-light);
     overflow: hidden;
     color: var(--el-text-color-primary);
+}
+
+/* ========== 面板过渡动画 ========== */
+
+.panel-fade-enter-active,
+.panel-fade-leave-active {
+    transition: all 0.3s ease;
+}
+
+.panel-fade-enter-from {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.panel-fade-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
 }
