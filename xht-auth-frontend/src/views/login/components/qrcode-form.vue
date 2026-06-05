@@ -1,22 +1,64 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
+import {QrCodeStatusType} from "@/service/model/system/login.model";
+import {useUserStore} from "@/stores/modules/user.store";
+import {useRouter} from "vue-router";
+import {generateQrCode, queryQrCodeByID} from "@/service/api/QrCodeLogin";
+import {useMessage} from "@/hooks/use-message";
 
 defineOptions({
   name: 'QrCodeForm',
   inheritAttrs: false,
 })
-type QrStatusType = 'waiting' | 'scanned' | 'confirmed' | 'expired'
+const router = useRouter()
+const userStore = useUserStore()
+const qrCodeId = ref<string>()
+const qrCodeImage = ref<string>()
+const qrStatus = ref<QrCodeStatusType>('expired')
 
-const qrCodeImage = ref<string>('0000')
-const qrStatus = ref<QrStatusType>('scanned')
+/**
+ * 生成二维码
+ */
+const refreshQrCode = () => {
+  if (qrStatus.value === 'expired') {
+    generateQrCode()
+        .then((res) => {
+          qrCodeId.value = res.data.qrCodeId
+          qrCodeImage.value = res.data.imageData
+          qrStatus.value = 'waiting'
+          // 开始轮询获取二维码信息
+          fetchQrCodeInfo(res.data.qrCodeId)
+        })
+  }
+}
+/**
+ * 根据二维码id轮询二维码信息
+ * @param qrCodeId 二维码id
+ */
+const fetchQrCodeInfo = (qrCodeId: string) => {
+  queryQrCodeByID(qrCodeId).then(res => {
+    const {qrCodeStatus, beforeLoginRequestUri, beforeLoginQueryString} = res.data
+    qrStatus.value = qrCodeStatus
+    if (qrCodeStatus === 'waiting' || qrCodeStatus === 'scanned') {
+        fetchQrCodeInfo(qrCodeId)
+    }
+  }).catch(err => {
+    qrStatus.value = err?.data?.qrCodeStatus || 'expired'
+  })
+}
+onMounted(() => {
+  qrStatus.value = 'expired'
+  refreshQrCode()
+})
 </script>
 
 <template>
   <div class="qr-wrapper">
     <div class="qr-border">
       <div v-if="qrCodeImage" class="qr-image-wrap cursor-pointer">
-        <img src="https://ts1.tc.mm.bing.net/th?id=OJ.ilrwlLiKV5AQIA&w=80&h=80&c=8&rs=1&pid=academic" alt="扫码登录" class="qr-image" />
-        <div v-if="qrStatus !== 'waiting'" class="qr-overlay">
+        <img :src="qrCodeImage" alt="扫码登录"
+             class="qr-image"/>
+        <div v-if="qrStatus !== 'waiting'" class="qr-overlay" @click="refreshQrCode">
           <div v-if="qrStatus === 'scanned'" class="qr-status scanned-status">
             <div class="status-icon scanned-icon">&#10003;</div>
             <p>已扫描</p>

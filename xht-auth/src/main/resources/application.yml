@@ -92,6 +92,7 @@ xht:
         urls:
           - /sso/phoneLogin
           - /sso/unLogin
+          - /qrcode/query
   safety:
     xss:
       enable: true

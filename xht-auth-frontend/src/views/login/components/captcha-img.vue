@@ -30,7 +30,7 @@ onMounted(() => {
   refreshCaptcha()
 })
 defineExpose({
-  refreshCaptcha: refreshCaptcha()
+  refreshCaptcha
 })
 </script>
 

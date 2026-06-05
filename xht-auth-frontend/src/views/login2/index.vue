@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { fetch, generateQrCode } from '@/service/api/QrCodeLogin'
-import { useMessage } from '@/hooks/use-message'
-import { useUserStore } from '@/stores/modules/user.store'
+import {onMounted, ref} from 'vue'
+import {useRouter} from 'vue-router'
+import {queryQrCodeByID, generateQrCode} from '@/service/api/QrCodeLogin'
+import {useMessage} from '@/hooks/use-message'
+import {useUserStore} from '@/stores/modules/user.store'
 // 是否显示三方登录
 const showThirdLogin = ref(false)
 // 定义二维码信息的对象
@@ -25,15 +25,15 @@ const getQrCodeInfo = ref({
  */
 const refreshQrCode = () => {
   generateQrCode()
-    .then((r) => {
-      getQrCodeInfo.value.qrCodeId = r.data.qrCodeId
-      getQrCodeInfo.value.imageData = r.data.imageData
-      // 开始轮询获取二维码信息
-      //    fetchQrCodeInfo(r.data.qrCodeId)
-    })
-    .catch((e: any) => {
-      useMessage().warning(`生成二维码失败：${e.message}`)
-    })
+      .then((r) => {
+        getQrCodeInfo.value.qrCodeId = r.data.qrCodeId
+        getQrCodeInfo.value.imageData = r.data.imageData
+        // 开始轮询获取二维码信息
+        //    fetchQrCodeInfo(r.data.qrCodeId)
+      })
+      .catch((e: any) => {
+        useMessage().warning(`生成二维码失败：${e.message}`)
+      })
 }
 const userStore = useUserStore()
 const router = useRouter()
@@ -42,9 +42,8 @@ const router = useRouter()
  * @param qrCodeId 二维码id
  */
 const fetchQrCodeInfo = (qrCodeId: string) => {
-  fetch(qrCodeId)
-    .then((r: any) => {
-      if (r.ok) {
+  queryQrCodeByID(qrCodeId)
+      .then((r: any) => {
         qrCodeInfo.value = r.data
         if (qrCodeInfo.value.qrCodeStatus !== 0 && qrCodeInfo.value.avatarUrl) {
           // 只要不是待扫描并且头像不为空
@@ -72,13 +71,11 @@ const fetchQrCodeInfo = (qrCodeId: string) => {
             router.push('/home')
           }, 1000)
         }
-      } else {
-        useMessage().warning(r.message)
-      }
-    })
-    .catch((e: any) => {
-      useMessage().warning(`获取二维码信息失败：${e.message || e.statusText}`)
-    })
+
+      })
+      .catch((e: any) => {
+        useMessage().warning(`获取二维码信息失败：${e.message || e.statusText}`)
+      })
 }
 onMounted(() => {
   refreshQrCode()
@@ -87,8 +84,8 @@ onMounted(() => {
 
 <template>
   <div class="flex-center">
-    <el-input v-model="getQrCodeInfo.qrCodeId" type="textarea" :rows="10" />
-    <el-image width="300" :src="getQrCodeInfo.imageData" preview-disabled />
+    <el-input v-model="getQrCodeInfo.qrCodeId" type="textarea" :rows="10"/>
+    <el-image width="300" :src="getQrCodeInfo.imageData" preview-disabled/>
   </div>
 </template>
 

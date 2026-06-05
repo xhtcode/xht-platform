@@ -60,7 +60,7 @@ public class QrDataManager extends AbstractQrManager {
         String qrCodeId = "1";
         QrCodeInfo qrCodeInfo = QrCodeInfo.builder().qrCodeId(qrCodeId)
                 // 待扫描状态
-                .qrCodeStatus(QrCodeStatusEnums.WAIT_SCAN)
+                .qrCodeStatus(QrCodeStatusEnums.WAITING)
                 // 1分钟后过期
                 .expiresTime(LocalDateTime.now().plusMinutes(2L)).build();
         // 获取当前request
@@ -168,7 +168,6 @@ public class QrDataManager extends AbstractQrManager {
     public BasicUserDetails getUserData(QrCodeInfo qrCodeInfo) {
         ThrowUtils.notNull(qrCodeInfo, "二维码信息不能为空.");
         ThrowUtils.hasText(qrCodeInfo.getQrCodeId(), "二维码ID不能为空.");
-        ThrowUtils.throwIf(!Objects.equals(qrCodeInfo.getQrCodeStatus(), QrCodeStatusEnums.CONFIRMED), "用户未授权信息.");
         return redisRepository.get(buildQrUserinfoKey(qrCodeInfo.getQrCodeId()));
     }
 

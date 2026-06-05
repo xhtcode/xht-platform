@@ -53,12 +53,11 @@ const goRegister = () => {
         <!-- 登录面板区域 -->
         <Transition name="panel-fade" mode="out-in">
           <!-- 密码登录面板 -->
-          <PasswordLogin v-if="activeLoginType === 'password'" ref="passwordRef" :loading="loading"/>
-
+          <PasswordLogin v-if="activeLoginType === 'password'" :loading="loading"/>
           <!-- 手机号登录面板 -->
-          <SmsLogin v-else-if="activeLoginType === 'phone'" ref="smsRef" :loading="loading"/>
+          <SmsLogin v-else-if="activeLoginType === 'phone'" :loading="loading"/>
           <!-- 扫码登录面板 -->
-          <QrCodeLogin v-else-if="activeLoginType === 'qrcode'" ref="qrRef" :loading="loading"/>
+          <QrCodeLogin v-else-if="activeLoginType === 'qrcode'" :loading="loading"/>
         </Transition>
 
         <!-- 分割线 -->
@@ -299,7 +298,8 @@ const goRegister = () => {
   cursor: pointer;
   padding: 0;
   transition: color 0.2s;
-  &:hover{
+
+  &:hover {
     color: #2563eb;
     text-decoration: underline;
   }

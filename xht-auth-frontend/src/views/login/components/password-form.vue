@@ -29,6 +29,17 @@ const userStore = useUserStore()
 const targetUrl = computed<any>(() => route.query.target)
 const ruleFormRef = useTemplateRef<FormInstance>('ruleFormRef')
 const captchaRef = useTemplateRef('captchaRef')
+
+/**
+ * 提交密码登录表单
+ *
+ * 功能说明：
+ * 1. 验证表单数据的合法性
+ * 2. 调用SSO密码登录接口进行用户认证
+ * 3. 登录成功后更新用户登录状态并跳转到目标页面
+ * 4. 登录失败时刷新验证码以便用户重新输入
+ * @returns {void} 该函数无返回值
+ */
 const submitPasswordForm = () => {
   ruleFormRef.value?.validate((valid: boolean) => {
     if (valid) {

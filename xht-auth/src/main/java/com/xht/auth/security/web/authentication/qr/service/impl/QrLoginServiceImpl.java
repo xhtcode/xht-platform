@@ -3,30 +3,16 @@ package com.xht.auth.security.web.authentication.qr.service.impl;
 import cn.hutool.extra.qrcode.QrCodeUtil;
 import cn.hutool.extra.qrcode.QrConfig;
 import com.xht.auth.security.web.authentication.qr.domain.QrCodeInfo;
-import com.xht.auth.security.web.authentication.qr.domain.request.QrCodeLoginConsentRequest;
 import com.xht.auth.security.web.authentication.qr.domain.response.QrCodeGenerateResponse;
-import com.xht.auth.security.web.authentication.qr.domain.response.QrCodeLoginFetchResponse;
-import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnums;
-import com.xht.auth.security.web.authentication.qr.exception.QyLoginException;
 import com.xht.auth.security.web.authentication.qr.manager.QrDataManager;
 import com.xht.auth.security.web.authentication.qr.service.IQrLoginService;
-import com.xht.framework.oauth2.utils.SecurityUtils;
-import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
-
-import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 /**
  * 二维码登录接口实现

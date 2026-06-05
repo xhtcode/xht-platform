@@ -34,7 +34,17 @@ const formData = reactive<LoginPhoneFromModel>({
 
 let timer: ReturnType<typeof setInterval> | null = null
 
-
+/**
+ * 发送手机短信验证码
+ *
+ * 功能说明：
+ * 1. 验证手机号是否已输入且格式正确
+ * 2. 检查是否在冷却时间内（防止重复发送）
+ * 3. 调用短信发送接口并启动倒计时计时器
+ *
+ *
+ * @returns {void} 该函数无返回值
+ */
 const sendPhoneCode = () => {
   loading.value = true
   if (!formData.phone) {
@@ -67,6 +77,16 @@ const sendPhoneCode = () => {
       })
 }
 
+/**
+ * 提交短信验证码登录表单
+ *
+ * 功能说明：
+ * 1. 验证表单数据（手机号、验证码等）的合法性
+ * 2. 调用SSO手机号登录接口进行用户认证
+ * 3. 登录成功后更新用户登录状态并跳转到目标页面
+ *
+ * @returns {void} 该函数无返回值
+ */
 const submitSmsForm = () => {
   smsFormRef.value?.validate((valid) => {
     if (valid) {
@@ -99,7 +119,7 @@ const submitSmsForm = () => {
     </el-form-item>
     <el-form-item prop="captchaCode" disabled>
       <captcha-img v-model:captcha-key="formData.captchaKey" v-model:captcha-code="formData.captchaCode"
-                   ref="captchaRef"/>
+                   disabled />
     </el-form-item>
     <el-form-item prop="phoneCode">
       <div class="sms-row">

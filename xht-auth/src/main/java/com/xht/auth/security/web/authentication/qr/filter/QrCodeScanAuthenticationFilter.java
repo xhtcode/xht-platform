@@ -41,7 +41,7 @@ public class QrCodeScanAuthenticationFilter extends QrCodeAbstractAuthentication
         try {
             QrCodeInfo info = qrDataManager.getQrCodeInfo(qrCodeId).orElseThrow(() -> new QyLoginException("无效二维码."));
             // 验证状态
-            if (!Objects.equals(info.getQrCodeStatus(), QrCodeStatusEnums.WAIT_SCAN)) {
+            if (!Objects.equals(info.getQrCodeStatus(), QrCodeStatusEnums.WAITING)) {
                 throw new QyLoginException("二维码已被其他人扫描，无法重复扫描.");
             }
             QrCodeLoginScanResponse loginScanResponse = new QrCodeLoginScanResponse();

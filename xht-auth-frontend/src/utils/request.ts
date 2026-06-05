@@ -41,7 +41,6 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   (response) => {
-    console.log(response)
     if (response.data?.code !== 200) {
       if (response.data.code === 424) {
         window.location.href = '/sso/login?error'

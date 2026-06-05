@@ -19,3 +19,12 @@ export interface LoginPhoneFromModel {
     captchaKey?: string // 验证码key
     captchaCode: string // 验证码
 }
+
+/**
+ * 二维码状态类型
+ * waiting: 等待用户扫码
+ * scanned: 用户已扫码
+ * confirmed: 用户授权成功
+ * expired: 二维码已过期
+ */
+export type QrCodeStatusType = 'waiting' | 'scanned' | 'confirmed' | 'expired'
