@@ -3,6 +3,7 @@ package com.xht.auth.security.jackson2;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.xht.auth.security.web.authentication.form.token.XhtFormLoginToken;
+import com.xht.auth.security.web.authentication.phone.token.XhtPhoneLoginToken;
 import com.xht.framework.core.jackson.mixin.HashSetMixin;
 
 import java.util.HashSet;
@@ -33,6 +34,8 @@ public final class XhtSecurityJackson2Modules extends SimpleModule {
     public void setupModule(SetupContext context) {
         context.setMixInAnnotations(XhtFormLoginToken.class,
                 XhtFormLoginTokenMixin.class);
+        context.setMixInAnnotations(XhtPhoneLoginToken.class,
+                XhtPhoneLoginTokenMixin.class);
         context.setMixInAnnotations(HashSet.class,
                 HashSetMixin.class);
     }

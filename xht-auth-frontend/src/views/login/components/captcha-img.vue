@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {generateCaptcha} from "@/service/api/auth.api";
+import {onMounted, ref, useAttrs} from 'vue'
+import {generateCaptcha} from '@/service/api/auth.api'
 
 defineOptions({
   name: 'CaptchaImg',
-  inheritAttrs: false
+  inheritAttrs: false,
 })
-
+const attrs = useAttrs();
 const captchaCode = defineModel<string>('captchaCode')
 const captchaKey = defineModel<string>('captchaKey')
 const captchaImage = ref<string>()
@@ -14,7 +14,7 @@ const captchaLoading = ref<boolean>(false)
 /**
  * 获取验证码
  */
-const getCaptcha = async () => {
+const refreshCaptcha = async () => {
   captchaLoading.value = true
   try {
     const res = await generateCaptcha(captchaKey.value)
@@ -27,19 +27,21 @@ const getCaptcha = async () => {
   }
 }
 onMounted(() => {
-  getCaptcha()
+  refreshCaptcha()
+})
+defineExpose({
+  refreshCaptcha: refreshCaptcha()
 })
 </script>
 
 <template>
   <div class="captcha-row-container">
-    <el-input v-model="captchaCode" placeholder="图形验证码"
-              class="captcha-input">
+    <el-input v-model="captchaCode" placeholder="图形验证码" class="captcha-input" v-bind="{...attrs}">
       <template #prefix>
         <div class="i-login-code h-1rem w-1rem color-[var(--color)]"/>
       </template>
     </el-input>
-    <div class="captcha-img-wrap" v-loading="captchaLoading" @click="getCaptcha">
+    <div class="captcha-img-wrap" v-loading="captchaLoading" @click="refreshCaptcha">
       <el-image :src="captchaImage" alt="验证码" fit="fill" style="width: 100%; height: 100%; object-fit: cover"/>
     </div>
   </div>

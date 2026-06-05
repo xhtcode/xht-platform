@@ -50,7 +50,6 @@ public class AuthorizationServerSuccessHandler extends SimpleUrlAuthenticationSu
         clearAuthenticationAttributes(request);
         Map<String, Object> targetUrlMap = new HashMap<>();
         targetUrlMap.put("targetUrl", getRedirectUrl(redirectUrl));
-        targetUrlMap.put("targetUrl2", redirectUrl);
         LoginLogUtils.saveSuccessLog(request, authentication);
         ServletUtil.writeJson(response, R.ok().msg("登录成功").build(targetUrlMap));
     }

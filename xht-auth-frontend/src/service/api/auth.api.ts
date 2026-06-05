@@ -7,6 +7,7 @@ import type {
     SendSmsRequestType,
     SmsLoginRequestType
 } from '@/service/model/api.model'
+import {LoginPassWordFromModel, LoginPhoneFromModel} from "@/service/model/system/login.model";
 
 const baseURL = '/api'
 
@@ -15,8 +16,8 @@ enum Api {
     SSO_LOGIN = '/sso/unLogin',
     OAUTH2_AUTHORIZE = '/oauth2/authorize',
     SSO_REGISTER = '/sso/register',
-    SMS_SEND_CODE = '/sms/sendCode',
-    SMS_LOGIN = '/sms/login',
+    SMS_SEND_CODE = '/sso/login/smsCode',
+    SMS_LOGIN = '/sso/phoneLogin',
     TOKEN_USER_INFO = '/token/info',
     CONFIRM_ACCESS = '/oauth2/authorization/consent/info',
 }
@@ -41,7 +42,7 @@ export const generateCaptcha = (captchaKey?: string | null | undefined): AxiosPr
 /**
  * 登录
  */
-export const ssoLogin = (data: LoginRequestType) => {
+export const ssoPassWordLogin = (data: LoginPassWordFromModel) => {
     return request({
         method: 'post',
         url: Api.SSO_LOGIN,
@@ -73,14 +74,16 @@ export const sendSmsCode = (data: SendSmsRequestType) => {
         headers: {
             skipToken: true,
         },
-        data,
+        params: {
+            phone: data.phone
+        },
     })
 }
 
 /**
  * 短信登录
  */
-export const smsLogin = (data: SmsLoginRequestType) => {
+export const ssoPhoneLogin = (data: LoginPhoneFromModel) => {
     return request({
         method: 'post',
         url: Api.SMS_LOGIN,

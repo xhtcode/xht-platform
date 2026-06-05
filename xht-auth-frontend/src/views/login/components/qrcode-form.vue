@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {ref} from 'vue'
+import { ref } from 'vue'
 
 defineOptions({
   name: 'QrCodeForm',
@@ -15,8 +15,7 @@ const qrStatus = ref<QrStatusType>('scanned')
   <div class="qr-wrapper">
     <div class="qr-border">
       <div v-if="qrCodeImage" class="qr-image-wrap cursor-pointer">
-        <img src="https://ts1.tc.mm.bing.net/th?id=OJ.ilrwlLiKV5AQIA&w=80&h=80&c=8&rs=1&pid=academic" alt="扫码登录"
-             class="qr-image "/>
+        <img src="https://ts1.tc.mm.bing.net/th?id=OJ.ilrwlLiKV5AQIA&w=80&h=80&c=8&rs=1&pid=academic" alt="扫码登录" class="qr-image" />
         <div v-if="qrStatus !== 'waiting'" class="qr-overlay">
           <div v-if="qrStatus === 'scanned'" class="qr-status scanned-status">
             <div class="status-icon scanned-icon">&#10003;</div>
@@ -45,7 +44,6 @@ const qrStatus = ref<QrStatusType>('scanned')
 </template>
 
 <style lang="scss" scoped>
-
 .qr-wrapper {
   display: flex;
   flex-direction: column;

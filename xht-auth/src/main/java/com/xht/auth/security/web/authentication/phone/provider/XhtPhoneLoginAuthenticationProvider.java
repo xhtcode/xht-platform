@@ -1,7 +1,7 @@
 package com.xht.auth.security.web.authentication.phone.provider;
 
 import com.xht.auth.security.web.authentication.AbstractXhtLoginAuthenticationProvider;
-import com.xht.auth.security.web.authentication.form.token.XhtFormLoginToken;
+import com.xht.auth.security.web.authentication.phone.token.XhtPhoneLoginToken;
 import com.xht.framework.core.enums.LoginTypeEnums;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * @author xht
  **/
 @Slf4j
-public class XhtPhoneLoginAuthenticationProvider extends AbstractXhtLoginAuthenticationProvider<XhtFormLoginToken> {
+public class XhtPhoneLoginAuthenticationProvider extends AbstractXhtLoginAuthenticationProvider<XhtPhoneLoginToken> {
 
     /**
      * 检索用户信息
@@ -30,7 +30,7 @@ public class XhtPhoneLoginAuthenticationProvider extends AbstractXhtLoginAuthent
      * @throws AuthenticationException 当用户不存在或加载失败时抛出异常
      */
     @Override
-    protected UserDetails retrieveUser(XhtFormLoginToken authentication) throws AuthenticationException {
+    protected UserDetails retrieveUser(XhtPhoneLoginToken authentication) throws AuthenticationException {
         try {
             UserDetails loadedUser = userDetailsService.loadUserByUsername(authentication.getName(), LoginTypeEnums.PHONE);
             if (loadedUser == null) {
@@ -56,8 +56,8 @@ public class XhtPhoneLoginAuthenticationProvider extends AbstractXhtLoginAuthent
      * @return T 认证成功后的认证对象，包含完整的认证信息
      */
     @Override
-    protected XhtFormLoginToken createSuccessAuthentication(Authentication authentication, UserDetails user) {
-        XhtFormLoginToken authenticated = XhtFormLoginToken.authenticated(user, user.getPassword(), user.getAuthorities());
+    protected XhtPhoneLoginToken createSuccessAuthentication(Authentication authentication, UserDetails user) {
+        XhtPhoneLoginToken authenticated = XhtPhoneLoginToken.authenticated(user, user.getPassword(), user.getAuthorities());
         authenticated.setDetails(authentication.getDetails());
         return authenticated;
     }
@@ -65,7 +65,7 @@ public class XhtPhoneLoginAuthenticationProvider extends AbstractXhtLoginAuthent
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return XhtFormLoginToken.class.isAssignableFrom(authentication);
+        return XhtPhoneLoginToken.class.isAssignableFrom(authentication);
     }
 
 }

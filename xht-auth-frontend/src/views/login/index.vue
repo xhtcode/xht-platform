@@ -62,7 +62,7 @@ const goRegister = () => {
         </Transition>
 
         <!-- 分割线 -->
-        <el-divider>
+        <el-divider border-style="solid">
           <span class="divider-text">其他登录方式</span>
         </el-divider>
 
@@ -118,9 +118,7 @@ const goRegister = () => {
 
         <!-- 注册入口 -->
         <div class="register-row">
-          <el-link class="register-link"
-                   @click="goRegister">还没有账号？立即注册
-          </el-link>
+          <el-link class="register-link" @click="goRegister">还没有账号？立即注册</el-link>
         </div>
       </div>
     </div>
@@ -184,7 +182,7 @@ const goRegister = () => {
 }
 
 .divider-text {
-  font-size: 12px;
+  font-size: 10px;
   color: #94a3b8;
   white-space: nowrap;
 }
@@ -198,7 +196,6 @@ const goRegister = () => {
   font-size: 14px;
   color: #64748b;
 }
-
 
 /* ========== 响应式设计 ========== */
 
@@ -290,6 +287,42 @@ const goRegister = () => {
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
     }
+  }
+}
+</style>
+<style lang="scss">
+.forgot-link {
+  font-size: 13px;
+  color: #3b82f6;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+  &:hover{
+    color: #2563eb;
+    text-decoration: underline;
+  }
+}
+
+.login-button {
+  width: 100%;
+  height: 40px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border: none;
+  margin-bottom: 0.6rem;
+
+  &:hover {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 </style>
