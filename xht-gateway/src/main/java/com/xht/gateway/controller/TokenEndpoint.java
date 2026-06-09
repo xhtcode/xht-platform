@@ -1,6 +1,7 @@
 package com.xht.gateway.controller;
 
 import com.xht.framework.core.domain.R;
+import com.xht.gateway.properties.SecurityGatewayProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TokenEndpoint {
 
+    private final SecurityGatewayProperties securityGatewayProperties;
+
     /**
      * 获取管理员OAuth2认证信息
      * <p>
@@ -32,7 +35,6 @@ public class TokenEndpoint {
      * </p>
      *
      * @param authorizedClient 已注册的OAuth2授权客户端对象，包含访问令牌等认证信息
-     * @param oauth2User       当前认证通过的OAuth2用户主体，包含用户详细信息
      * @return 包含认证信息的Map对象，包括：
      *         - authorizedClient: OAuth2授权客户端对象
      *         - token: 访问令牌对象
@@ -52,12 +54,11 @@ public class TokenEndpoint {
         return R.ok().build(objectMap);
     }
 
-    String appBaseUri = "http://www.xht.com:3000/oauth2";
-
     @GetMapping("/authorized")
     public Mono<Void> root(ServerWebExchange exchange, @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
+        log.info("authorizedClient: {}", authorizedClient);
         exchange.getResponse().setStatusCode(HttpStatus.SEE_OTHER);
-        exchange.getResponse().getHeaders().setLocation(URI.create(appBaseUri));
+        exchange.getResponse().getHeaders().setLocation(URI.create(securityGatewayProperties.getAppBaseUri()));
         return exchange.getResponse().setComplete();
     }
 

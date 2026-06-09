@@ -62,6 +62,9 @@ xht:
       authenticated-urls:
         - /get/token
         - /authorized
+      allowed-origins:
+        - www.xht.com
+      app-base-uri: http://www.xht.com:3000/oauth2
 knife4j:
   gateway:
     enabled: true     # ① 第一个配置，开启gateway聚合组件

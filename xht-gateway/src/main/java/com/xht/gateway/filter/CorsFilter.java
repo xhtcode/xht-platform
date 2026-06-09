@@ -1,5 +1,6 @@
 package com.xht.gateway.filter;
 
+import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,8 +25,8 @@ import reactor.core.publisher.Mono;
 public class CorsFilter implements WebFilter {
 
     @Override
-    @SuppressWarnings("all")
-    public Mono<Void> filter(ServerWebExchange serverWebExchange, WebFilterChain webFilterChain) {
+    @Nonnull
+    public Mono<Void> filter(ServerWebExchange serverWebExchange, @Nonnull WebFilterChain webFilterChain) {
         // 获取request对象
         ServerHttpRequest request = serverWebExchange.getRequest();
         // 非跨域请求，直接放行
