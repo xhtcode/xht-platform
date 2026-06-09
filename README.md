@@ -59,15 +59,15 @@ xht-platform
 ├── xht-framework        # 框架核心
 │   ├── xht-framework-bom               # BOM管理
 │   ├── xht-framework-core              # 核心模块
-│   ├── xht-framework-log               # 日志模块
-│   ├── xht-framework-mybatis           # MyBatis扩展
-│   ├── xht-framework-openfeign         # OpenFeign扩展
-│   ├── xht-framework-redis             # Redis缓存模块
+│   ├── xht-spring-boot-starter-log               # 日志模块
+│   ├── xht-spring-boot-starter-mybatis-plus           # MyBatis扩展
+│   ├── xht-spring-boot-starter-openfeign         # OpenFeign扩展
+│   ├── xht-spring-boot-starter-cache             # Redis缓存模块
 │   ├── xht-framework-resource-server   # 资源服务器
 │   ├── xht-framework-security          # 安全模块
-│   ├── xht-framework-sms               # 短信模块
-│   ├── xht-framework-swagger           # Swagger扩展
-│   ├── xht-framework-web               # Web扩展
+│   ├── xht-spring-boot-starter-sms               # 短信模块
+│   ├── xht-spring-boot-starter-swagger           # Swagger扩展
+│   ├── xht-spring-boot-starter-web               # Web扩展
 │   ├── xht-spring-boot-starter         # Spring Boot启动器
 │   ├── xht-spring-cloud-starter        # Spring Cloud启动器
 │   └── pom.xml

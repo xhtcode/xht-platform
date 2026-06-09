@@ -8,10 +8,10 @@
         <artifactId>xht-framework</artifactId>
         <version>${revision}</version>
     </parent>
-    <name>xht-framework-swagger</name>
+    <name>xht-spring-boot-starter-swagger</name>
     <artifactId>xht-spring-boot-starter-swagger</artifactId>
     <packaging>jar</packaging>
-    <description>xht-framework-swagger 接口管理</description>
+    <description>xht-spring-boot-starter-swagger 接口管理</description>
     <dependencies>
         <!-- Swagger-Knife4j Webmvc -->
         <dependency>

@@ -8,10 +8,10 @@
         <artifactId>xht-framework</artifactId>
         <version>${revision}</version>
     </parent>
-    <name>xht-framework-openfeign</name>
+    <name>xht-spring-boot-starter-openfeign</name>
     <artifactId>xht-spring-boot-starter-openfeign</artifactId>
     <packaging>jar</packaging>
-    <description>xht-framework-openfeign openfeign</description>
+    <description>xht-spring-boot-starter-openfeign openfeign</description>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>

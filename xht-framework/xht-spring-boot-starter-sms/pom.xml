@@ -7,11 +7,10 @@
         <version>${revision}</version>
     </parent>
 
-    <name>xht-framework-sms</name>
+    <name>xht-spring-boot-starter-sms</name>
     <artifactId>xht-spring-boot-starter-sms</artifactId>
     <packaging>jar</packaging>
-
-    <description>xht-framework-sms 短信模块</description>
+    <description>xht-spring-boot-starter-sms 短信模块</description>
 
     <dependencies>
         <dependency>

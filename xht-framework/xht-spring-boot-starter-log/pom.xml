@@ -8,10 +8,10 @@
         <artifactId>xht-framework</artifactId>
         <version>${revision}</version>
     </parent>
-    <name>xht-framework-log</name>
+    <name>xht-spring-boot-starter-log</name>
     <artifactId>xht-spring-boot-starter-log</artifactId>
     <packaging>jar</packaging>
-    <description>xht-framework-log日志记录模块</description>
+    <description>xht-spring-boot-starter-log日志记录模块</description>
 
 
     <properties>

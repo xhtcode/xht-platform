@@ -9,7 +9,10 @@
         <version>${revision}</version>
     </parent>
 
+    <name>xht-spring-boot-starter-resource-server</name>
     <artifactId>xht-spring-boot-starter-resource-server</artifactId>
+    <packaging>jar</packaging>
+    <description>xht-spring-boot-starter-resource-server 资源服务器</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
