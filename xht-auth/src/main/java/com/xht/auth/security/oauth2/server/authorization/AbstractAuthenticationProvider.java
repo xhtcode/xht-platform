@@ -8,10 +8,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.*;
-import org.springframework.security.oauth2.core.oidc.OidcIdToken;
-import org.springframework.security.oauth2.core.oidc.OidcScopes;
-import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
@@ -28,7 +24,6 @@ import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 /**
  * 描述 ：抽象认证处理器
  *
@@ -39,12 +34,9 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
 
     protected static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
 
-    protected static final OAuth2TokenType ID_TOKEN_TOKEN_TYPE = new OAuth2TokenType(OidcParameterNames.ID_TOKEN);
-
     protected final OAuth2AuthorizationService authorizationService;
 
     protected final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
-
 
     public AbstractAuthenticationProvider(OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
         this.authorizationService = authorizationService;
@@ -90,19 +82,10 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
             // @formatter:on
             OAuth2AccessToken accessToken = generateAccessToken(tokenContextBuilder, authorizationBuilder);
             OAuth2RefreshToken refreshToken = generateOAuth2RefreshToken(tokenContextBuilder, authorizationBuilder, tokenGenerator, clientPrincipal, registeredClient);
-            OidcIdToken oidcIdToken = null;
-            if (authorizedScopes.contains(OidcScopes.OPENID)) {
-                oidcIdToken = generateOidcIdToken(tokenContextBuilder, authorizationBuilder, tokenGenerator);
-            }
-            Map<String, Object> additionalParameters = new HashMap<>(1);
-            if (Objects.nonNull(oidcIdToken)) {
-                additionalParameters.put(OidcParameterNames.ID_TOKEN, oidcIdToken.getTokenValue());
-            }
-            // Save the OAuth2Authorization
             authorizationBuilder.id(principal.getName());
             OAuth2Authorization authorization = authorizationBuilder.build();
             this.authorizationService.save(authorization);
-            return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken, additionalParameters);
+            return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken, Collections.emptyMap());
         } catch (OAuth2AuthenticationException e) {
             throw new OAuth2AuthenticationException(e.getError(), e);
         } catch (Exception e) {
@@ -213,40 +196,6 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
             authorizationBuilder.refreshToken(refreshToken);
         }
         return refreshToken;
-    }
-
-
-    /**
-     * 创建oidc Token
-     *
-     * @param tokenContextBuilder  oauth2token 构建
-     * @param authorizationBuilder oauth2 认证构建 {@link OAuth2Authorization.Builder}
-     * @param tokenGenerator       token 生成策略{@link OAuth2TokenGenerator}
-     * @return {@link OidcIdToken}
-     */
-    protected final OidcIdToken generateOidcIdToken(DefaultOAuth2TokenContext.Builder tokenContextBuilder,
-                                                    OAuth2Authorization.Builder authorizationBuilder,
-                                                    OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
-        DefaultOAuth2TokenContext tokenContext = tokenContextBuilder
-                .tokenType(ID_TOKEN_TOKEN_TYPE)
-                // ID令牌定制器可能需要访问访问令牌、刷新令牌
-                .authorization(authorizationBuilder.build())
-                .build();
-        OAuth2Token generatedIdToken =
-                Optional.ofNullable(tokenGenerator.generate(tokenContext))
-                        .orElseThrow(() -> new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "The token generator failed to generate the ID token.", ERROR_URI)));
-        if (!(generatedIdToken instanceof Jwt)) {
-            OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
-                    "The token generator failed to generate the ID token.", ERROR_URI);
-            throw new OAuth2AuthenticationException(error);
-        }
-        // 生成id_token
-        OidcIdToken idToken =
-                new OidcIdToken(generatedIdToken.getTokenValue(), generatedIdToken.getIssuedAt(),
-                        generatedIdToken.getExpiresAt(), ((Jwt) generatedIdToken).getClaims());
-        authorizationBuilder.token(idToken, (metadata) -> metadata
-                .put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, idToken.getClaims()));
-        return idToken;
     }
 
     /**
