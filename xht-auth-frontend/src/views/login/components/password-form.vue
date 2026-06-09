@@ -1,20 +1,20 @@
 <script lang="ts" setup>
-import {reactive, computed, useTemplateRef} from 'vue'
-import type {FormInstance} from 'element-plus'
-import {Lock, User} from '@element-plus/icons-vue'
+import { reactive, computed, useTemplateRef } from 'vue'
+import type { FormInstance } from 'element-plus'
+import { Lock, User } from '@element-plus/icons-vue'
 import CaptchaImg from '@/views/login/components/captcha-img.vue'
-import type {LoginPassWordFromModel} from "@/service/model/system/login.model";
-import {loginPassWordFromRules} from "@/views/login/login.data";
-import {useRoute, useRouter} from "vue-router";
-import {ssoPassWordLogin} from "@/service/api/auth.api";
-import {useUserStore} from "@/stores/modules/user.store";
-import {useMessage} from "@/hooks/use-message";
+import type { LoginPassWordFromModel } from '@/service/model/system/login.model'
+import { loginPassWordFromRules } from '@/views/login/login.data'
+import { useRoute, useRouter } from 'vue-router'
+import { ssoPassWordLogin } from '@/service/api/auth.api'
+import { useUserStore } from '@/stores/modules/user.store'
+import { useMessage } from '@/hooks/use-message'
 
-defineOptions({name: 'PasswordForm', inheritAttrs: false})
+defineOptions({ name: 'PasswordForm', inheritAttrs: false })
 
 const loading = defineModel<boolean>('loading', {
   required: true,
-  default: false
+  default: false,
 })
 const formData = reactive<LoginPassWordFromModel>({
   username: 'admin',
@@ -45,52 +45,47 @@ const submitPasswordForm = () => {
     if (valid) {
       loading.value = true
       ssoPassWordLogin(formData)
-          .then(() => {
-            userStore.changeLoginStatus(true)
-            if (targetUrl.value) {
-              window.location.href = targetUrl.value
-            } else {
-              router.push('/home')
-            }
-          })
-          .catch((_) => {
-            captchaRef.value.refreshCaptcha()
-          })
-          .finally(() => {
-            loading.value = false
-          })
+        .then(() => {
+          userStore.changeLoginStatus(true)
+          if (targetUrl.value) {
+            window.location.href = targetUrl.value
+          } else {
+            router.push('/home')
+          }
+        })
+        .catch((_) => {
+          captchaRef.value.refreshCaptcha()
+        })
+        .finally(() => {
+          loading.value = false
+        })
     } else {
       useMessage().error('校验未通过！')
     }
   })
 }
-
 </script>
 
 <template>
-  <el-form ref="ruleFormRef" :model="formData" :rules="loginPassWordFromRules" label-position="top" size="large"
-           class="h-[260px]">
+  <el-form ref="ruleFormRef" :model="formData" :rules="loginPassWordFromRules" label-position="top" size="large" class="h-[260px]">
     <el-form-item prop="username">
-      <el-input v-model="formData.username" placeholder="请输入用户账号" :prefix-icon="User" autocomplete="username"/>
+      <el-input v-model="formData.username" placeholder="请输入用户账号" :prefix-icon="User" autocomplete="username" />
     </el-form-item>
     <el-form-item prop="password">
       <el-input
-          v-model="formData.password"
-          placeholder="请输入用户密码"
-          :prefix-icon="Lock"
-          type="password"
-          show-password
-          autocomplete="current-password"
+        v-model="formData.password"
+        placeholder="请输入用户密码"
+        :prefix-icon="Lock"
+        type="password"
+        show-password
+        autocomplete="current-password"
       />
     </el-form-item>
     <el-form-item prop="captchaCode">
-      <captcha-img v-model:captcha-key="formData.captchaKey" v-model:captcha-code="formData.captchaCode"
-                   ref="captchaRef"/>
+      <captcha-img v-model:captcha-key="formData.captchaKey" v-model:captcha-code="formData.captchaCode" ref="captchaRef" />
     </el-form-item>
     <div class="flex items-center justify-between">
-      <el-checkbox v-model="formData.rememberMe" size="default">
-        记住我
-      </el-checkbox>
+      <el-checkbox v-model="formData.rememberMe" size="default">记住我</el-checkbox>
       <button class="forgot-link">忘记密码？</button>
     </div>
     <el-button type="primary" class="login-button" :loading="loading" @click="submitPasswordForm">登 录</el-button>

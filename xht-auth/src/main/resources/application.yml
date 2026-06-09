@@ -56,7 +56,7 @@ spring:
           max-idle: 8
           min-idle: 0
       password:
-      database: 0
+      database: 1
 springdoc:
   api-docs:
     enabled: true

@@ -19,7 +19,7 @@ import org.springframework.web.server.ServerWebExchange;
  */
 @Slf4j
 @Configuration(proxyBeanMethods = false)
-@EnableWebFluxSecurity
+@EnableWebFluxSecurity()
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -31,9 +31,6 @@ public class SecurityConfig {
         http.cors(ServerHttpSecurity.CorsSpec::disable);
         http.httpBasic(ServerHttpSecurity.HttpBasicSpec::disable);
         http.formLogin(ServerHttpSecurity.FormLoginSpec::disable);
-        http.sessionManagement(c -> {
-
-        });
         http
                 .authorizeExchange(authorize ->
                         authorize
@@ -47,12 +44,13 @@ public class SecurityConfig {
                 log.error("登录失败 {}", exception.getLocalizedMessage(), exception);
                 return WebFluxUtils.webFluxResponseWriter(response, R.error().build(exception.getMessage()));
             });
-            oauth2Login.authenticationSuccessHandler((webFilterExchange, authentication) -> {
-                ServerWebExchange exchange = webFilterExchange.getExchange();
-                ServerHttpResponse response = exchange.getResponse();
-                log.info("登录成功 {}", authentication.getName());
-                return WebFluxUtils.webFluxResponseWriter(response, R.ok().build());
-            });
+        })
+        ;
+        http.logout(logout -> {
+            logout.logoutSuccessHandler((exchange, authentication) -> WebFluxUtils.webFluxResponseWriter(exchange.getExchange().getResponse(), R.ok().build("退出登录成功")));
+        });
+        http.exceptionHandling(exception -> {
+        //    exception.authenticationEntryPoint(new RedirectServerAuthenticationEntryPoint("http://www.xht.com:3000/oauth2"));
         });
         return http.build();
     }

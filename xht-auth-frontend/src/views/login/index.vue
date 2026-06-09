@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {ref} from 'vue'
-import {useRouter} from 'vue-router'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import PasswordLogin from '@/views/login/components/password-form.vue'
 import SmsLogin from '@/views/login/components/phone-form.vue'
 import QrCodeLogin from '@/views/login/components/qrcode-form.vue'
 import LeftSide from '@/views/login/components/left-side.vue'
-import {useMessage} from '@/hooks/use-message'
+import { useMessage } from '@/hooks/use-message'
 
 defineOptions({
   name: 'LoginNew',
@@ -43,7 +43,7 @@ const goRegister = () => {
 <template>
   <div class="login-container">
     <!-- 左侧品牌展示区 -->
-    <left-side/>
+    <left-side />
 
     <!-- 右侧登录功能区 -->
     <div class="login-section select-none">
@@ -53,11 +53,11 @@ const goRegister = () => {
         <!-- 登录面板区域 -->
         <Transition name="panel-fade" mode="out-in">
           <!-- 密码登录面板 -->
-          <PasswordLogin v-if="activeLoginType === 'password'" :loading="loading"/>
+          <PasswordLogin v-if="activeLoginType === 'password'" :loading="loading" />
           <!-- 手机号登录面板 -->
-          <SmsLogin v-else-if="activeLoginType === 'phone'" :loading="loading"/>
+          <SmsLogin v-else-if="activeLoginType === 'phone'" :loading="loading" />
           <!-- 扫码登录面板 -->
-          <QrCodeLogin v-else-if="activeLoginType === 'qrcode'" :loading="loading"/>
+          <QrCodeLogin v-else-if="activeLoginType === 'qrcode'" :loading="loading" />
         </Transition>
 
         <!-- 分割线 -->
@@ -69,48 +69,47 @@ const goRegister = () => {
         <div class="other-party-login">
           <div class="other-party-icons">
             <div
-                :class="{ active: activeLoginType === 'password' }"
-                class="other-party-icon-item"
-                title="密码登录"
-                @click="handleChangeLoginType('password')"
+              :class="{ active: activeLoginType === 'password' }"
+              class="other-party-icon-item"
+              title="密码登录"
+              @click="handleChangeLoginType('password')"
             >
-              <div class="icon i-login-password"/>
+              <div class="icon i-login-password" />
             </div>
             <div
-                :class="{ active: activeLoginType === 'phone' }"
-                class="other-party-icon-item"
-                title="手机号登录"
-                @click="handleChangeLoginType('phone')"
+              :class="{ active: activeLoginType === 'phone' }"
+              class="other-party-icon-item"
+              title="手机号登录"
+              @click="handleChangeLoginType('phone')"
             >
-              <div class="icon i-login-phone"/>
+              <div class="icon i-login-phone" />
             </div>
             <div
-                :class="{ active: activeLoginType === 'qrcode' }"
-                class="other-party-icon-item"
-                title="扫码登录"
-                @click="handleChangeLoginType('qrcode')"
+              :class="{ active: activeLoginType === 'qrcode' }"
+              class="other-party-icon-item"
+              title="扫码登录"
+              @click="handleChangeLoginType('qrcode')"
             >
-              <div class="icon i-login-sm"/>
+              <div class="icon i-login-sm" />
             </div>
             <div
-                :class="{ active: activeLoginType === 'wechat' }"
-                class="other-party-icon-item"
-                title="微信登录"
-                @click="handleChangeLoginType('wechat')"
+              :class="{ active: activeLoginType === 'wechat' }"
+              class="other-party-icon-item"
+              title="微信登录"
+              @click="handleChangeLoginType('wechat')"
             >
-              <div class="icon i-login-wechat"/>
+              <div class="icon i-login-wechat" />
             </div>
-            <div :class="{ active: activeLoginType === 'qq' }" class="other-party-icon-item" title="QQ登录"
-                 @click="handleChangeLoginType('qq')">
-              <div class="icon i-login-qq"/>
+            <div :class="{ active: activeLoginType === 'qq' }" class="other-party-icon-item" title="QQ登录" @click="handleChangeLoginType('qq')">
+              <div class="icon i-login-qq" />
             </div>
             <div
-                :class="{ active: activeLoginType === 'dinging' }"
-                class="other-party-icon-item"
-                title="钉钉登录"
-                @click="handleChangeLoginType('dinging')"
+              :class="{ active: activeLoginType === 'dinging' }"
+              class="other-party-icon-item"
+              title="钉钉登录"
+              @click="handleChangeLoginType('dinging')"
             >
-              <div class="icon i-login-ding-ding"/>
+              <div class="icon i-login-ding-ding" />
             </div>
           </div>
         </div>
@@ -163,10 +162,11 @@ const goRegister = () => {
 }
 
 .login-title {
-  font-family: 'DM Sans',
-  -apple-system,
-  BlinkMacSystemFont,
-  sans-serif;
+  font-family:
+    'DM Sans',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   font-size: 22px;
   font-weight: 700;
   color: #0f172a;

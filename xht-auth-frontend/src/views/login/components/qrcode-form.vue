@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import {onMounted, ref} from 'vue'
-import {QrCodeStatusType} from "@/service/model/system/login.model";
-import {useUserStore} from "@/stores/modules/user.store";
-import {useRouter} from "vue-router";
-import {generateQrCode, queryQrCodeByID} from "@/service/api/QrCodeLogin";
-import {useMessage} from "@/hooks/use-message";
+import { onMounted, ref } from 'vue'
+import { QrCodeStatusType } from '@/service/model/system/login.model'
+import { useUserStore } from '@/stores/modules/user.store'
+import { useRouter } from 'vue-router'
+import { generateQrCode, queryQrCodeByID } from '@/service/api/QrCodeLogin'
+import { useMessage } from '@/hooks/use-message'
 
 defineOptions({
   name: 'QrCodeForm',
@@ -21,14 +21,13 @@ const qrStatus = ref<QrCodeStatusType>('expired')
  */
 const refreshQrCode = () => {
   if (qrStatus.value === 'expired') {
-    generateQrCode()
-        .then((res) => {
-          qrCodeId.value = res.data.qrCodeId
-          qrCodeImage.value = res.data.imageData
-          qrStatus.value = 'waiting'
-          // 开始轮询获取二维码信息
-          fetchQrCodeInfo(res.data.qrCodeId)
-        })
+    generateQrCode().then((res) => {
+      qrCodeId.value = res.data.qrCodeId
+      qrCodeImage.value = res.data.imageData
+      qrStatus.value = 'waiting'
+      // 开始轮询获取二维码信息
+      fetchQrCodeInfo(res.data.qrCodeId)
+    })
   }
 }
 /**
@@ -36,15 +35,17 @@ const refreshQrCode = () => {
  * @param qrCodeId 二维码id
  */
 const fetchQrCodeInfo = (qrCodeId: string) => {
-  queryQrCodeByID(qrCodeId).then(res => {
-    const {qrCodeStatus, beforeLoginRequestUri, beforeLoginQueryString} = res.data
-    qrStatus.value = qrCodeStatus
-    if (qrCodeStatus === 'waiting' || qrCodeStatus === 'scanned') {
+  queryQrCodeByID(qrCodeId)
+    .then((res) => {
+      const { qrCodeStatus, beforeLoginRequestUri, beforeLoginQueryString } = res.data
+      qrStatus.value = qrCodeStatus
+      if (qrCodeStatus === 'waiting' || qrCodeStatus === 'scanned') {
         fetchQrCodeInfo(qrCodeId)
-    }
-  }).catch(err => {
-    qrStatus.value = err?.data?.qrCodeStatus || 'expired'
-  })
+      }
+    })
+    .catch((err) => {
+      qrStatus.value = err?.data?.qrCodeStatus || 'expired'
+    })
 }
 onMounted(() => {
   qrStatus.value = 'expired'
@@ -56,8 +57,7 @@ onMounted(() => {
   <div class="qr-wrapper">
     <div class="qr-border">
       <div v-if="qrCodeImage" class="qr-image-wrap cursor-pointer">
-        <img :src="qrCodeImage" alt="扫码登录"
-             class="qr-image"/>
+        <img :src="qrCodeImage" alt="扫码登录" class="qr-image" />
         <div v-if="qrStatus !== 'waiting'" class="qr-overlay" @click="refreshQrCode">
           <div v-if="qrStatus === 'scanned'" class="qr-status scanned-status">
             <div class="status-icon scanned-icon">&#10003;</div>

@@ -33,7 +33,7 @@ export default ({command, mode}: ConfigEnv): UserConfig => {
             server: {
                 host: '0.0.0.0',
                 port: Number(env.VITE_APP_PORT) || 3009,
-                allowedHosts: ['xhtgateway.com', 'xhtiam.com', 'www.xht.gatway.com', 'www.xht.sso.com'],
+                allowedHosts: ['www.xht.sso.com'],
                 open: false, // 启动是否自动打开浏览器
                 proxy: {
                     [env.VITE_BASE_API]: {

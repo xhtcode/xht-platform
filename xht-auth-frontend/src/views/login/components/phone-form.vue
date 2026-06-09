@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import {computed, reactive, ref, useTemplateRef} from 'vue'
-import type {FormInstance} from 'element-plus'
-import {Iphone, Message} from '@element-plus/icons-vue'
+import { computed, reactive, ref, useTemplateRef } from 'vue'
+import type { FormInstance } from 'element-plus'
+import { Iphone, Message } from '@element-plus/icons-vue'
 import CaptchaImg from '@/views/login/components/captcha-img.vue'
-import {useRoute, useRouter} from "vue-router";
-import {useUserStore} from "@/stores/modules/user.store";
-import {loginPhoneFromRules} from "@/views/login/login.data";
-import {useMessage} from "@/hooks/use-message";
-import {sendSmsCode, ssoPhoneLogin} from "@/service/api/auth.api";
-import {LoginPhoneFromModel} from "@/service/model/system/login.model";
+import { useRoute, useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/modules/user.store'
+import { loginPhoneFromRules } from '@/views/login/login.data'
+import { useMessage } from '@/hooks/use-message'
+import { sendSmsCode, ssoPhoneLogin } from '@/service/api/auth.api'
+import { LoginPhoneFromModel } from '@/service/model/system/login.model'
 
 defineOptions({
   name: 'PhoneLogin',
@@ -16,7 +16,7 @@ defineOptions({
 })
 const loading = defineModel<boolean>('loading', {
   required: true,
-  default: false
+  default: false,
 })
 
 const route = useRoute()
@@ -59,22 +59,23 @@ const sendPhoneCode = () => {
   }
   if (timer) {
     useMessage().error('请注意查收手机短信')
-    return;
+    return
   }
-  sendSmsCode({phone: formData.phone}).then(() => {
-    useMessage().success('验证码已发送')
-    countdown.value = 120
-    timer = setInterval(() => {
-      countdown.value--
-      if (countdown.value <= 0 && timer) {
-        clearInterval(timer)
-        timer = null
-      }
-    }, 1000)
-  })
-      .finally(() => {
-        loading.value = false
-      })
+  sendSmsCode({ phone: formData.phone })
+    .then(() => {
+      useMessage().success('验证码已发送')
+      countdown.value = 120
+      timer = setInterval(() => {
+        countdown.value--
+        if (countdown.value <= 0 && timer) {
+          clearInterval(timer)
+          timer = null
+        }
+      }, 1000)
+    })
+    .finally(() => {
+      loading.value = false
+    })
 }
 
 /**
@@ -92,54 +93,42 @@ const submitSmsForm = () => {
     if (valid) {
       loading.value = true
       ssoPhoneLogin(formData)
-          .then(() => {
-            userStore.changeLoginStatus(true)
-            if (targetUrl.value) {
-              window.location.href = targetUrl.value
-            } else {
-              router.push('/home')
-            }
-          })
-          .finally(() => {
-            loading.value = false
-          })
+        .then(() => {
+          userStore.changeLoginStatus(true)
+          if (targetUrl.value) {
+            window.location.href = targetUrl.value
+          } else {
+            router.push('/home')
+          }
+        })
+        .finally(() => {
+          loading.value = false
+        })
     } else {
       useMessage().error('校验未通过！')
     }
   })
 }
-
 </script>
 
 <template>
-  <el-form ref="smsFormRef" :model="formData" :rules="loginPhoneFromRules" label-position="top" size="large"
-           class="h-[250px]">
+  <el-form ref="smsFormRef" :model="formData" :rules="loginPhoneFromRules" label-position="top" size="large" class="h-[250px]">
     <el-form-item prop="phone">
-      <el-input v-model="formData.phone" placeholder="请输入手机号" :prefix-icon="Iphone" maxlength="11"/>
+      <el-input v-model="formData.phone" placeholder="请输入手机号" :prefix-icon="Iphone" maxlength="11" />
     </el-form-item>
     <el-form-item prop="captchaCode" disabled>
-      <captcha-img v-model:captcha-key="formData.captchaKey" v-model:captcha-code="formData.captchaCode"
-                   disabled />
+      <captcha-img v-model:captcha-key="formData.captchaKey" v-model:captcha-code="formData.captchaCode" disabled />
     </el-form-item>
     <el-form-item prop="phoneCode">
       <div class="sms-row">
-        <el-input
-            v-model="formData.phoneCode"
-            placeholder="短信验证码"
-            :prefix-icon="Message"
-            class="sms-input"
-            maxlength="6"
-        />
-        <el-button class="sms-send-btn" :disabled="countdown > 0"
-                   @click="sendPhoneCode">
+        <el-input v-model="formData.phoneCode" placeholder="短信验证码" :prefix-icon="Message" class="sms-input" maxlength="6" />
+        <el-button class="sms-send-btn" :disabled="countdown > 0" @click="sendPhoneCode">
           {{ countdown > 0 ? `${countdown}s 后重发` : '获取验证码' }}
         </el-button>
       </div>
     </el-form-item>
     <div class="flex items-center justify-between">
-      <el-checkbox v-model="formData.rememberMe" size="default">
-        记住我
-      </el-checkbox>
+      <el-checkbox v-model="formData.rememberMe" size="default">记住我</el-checkbox>
       <button class="forgot-link">忘记密码？</button>
     </div>
     <el-button type="primary" class="login-button" :loading="loading" @click="submitSmsForm">登 录</el-button>
@@ -163,7 +152,6 @@ const submitSmsForm = () => {
 }
 
 /* ========== 密码登录面板样式 ========== */
-
 
 .sms-send-btn {
   width: 110px;

@@ -1,20 +1,26 @@
 package com.xht.gateway.controller;
 
+import com.xht.framework.core.domain.R;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.AbstractOAuth2Token;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Slf4j
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class TokenEndpoint {
 
@@ -32,15 +38,28 @@ public class TokenEndpoint {
      *         - token: 访问令牌对象
      *         - oauth2User: OAuth2用户信息对象
      */
+    @ResponseBody
     @GetMapping(path = "/get/token")
-    public Map<String, Object> getToken(
-            @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient,
-            @AuthenticationPrincipal OAuth2User oauth2User) {
+    public R<Object> getToken(
+            @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
         Map<String, Object> objectMap = new HashMap<>();
-        objectMap.put("authorizedClient", authorizedClient);
-        objectMap.put("token", authorizedClient.getAccessToken());
-        objectMap.put("oauth2User", oauth2User);
-        return objectMap;
+        objectMap.put("token", Optional
+                .ofNullable(authorizedClient)
+                .map(OAuth2AuthorizedClient::getAccessToken).
+                map(AbstractOAuth2Token::getTokenValue)
+                .orElse(null)
+        );
+        return R.ok().build(objectMap);
     }
+
+    String appBaseUri = "http://www.xht.com:3000/oauth2";
+
+    @GetMapping("/authorized")
+    public Mono<Void> root(ServerWebExchange exchange, @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
+        exchange.getResponse().setStatusCode(HttpStatus.SEE_OTHER);
+        exchange.getResponse().getHeaders().setLocation(URI.create(appBaseUri));
+        return exchange.getResponse().setComplete();
+    }
+
 
 }

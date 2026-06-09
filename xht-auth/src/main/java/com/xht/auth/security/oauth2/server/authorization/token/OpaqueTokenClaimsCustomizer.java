@@ -1,5 +1,6 @@
 package com.xht.auth.security.oauth2.server.authorization.token;
 
+import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationToken;
 import com.xht.framework.security.constant.TokenCustomizerIdConstant;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class OpaqueTokenClaimsCustomizer implements OAuth2TokenCustomizer<OAuth2
         Authentication principal = context.getPrincipal();
         addClaims(claims, TokenCustomizerIdConstant.GRANT_TYPE, () -> Optional.ofNullable(context.getAuthorizationGrantType()).map(AuthorizationGrantType::getValue).orElse(null));
         if (OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
-            if (principal instanceof UsernamePasswordAuthenticationToken && (principal.getPrincipal() instanceof BasicUserDetails details)) {
+            if ((principal instanceof UsernamePasswordAuthenticationToken || principal instanceof AbstractXhtAuthenticationToken) && (principal.getPrincipal() instanceof BasicUserDetails details)) {
                 addClaims(claims, TokenCustomizerIdConstant.USER_INFO, () -> details);
             }
         }

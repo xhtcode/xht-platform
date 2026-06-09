@@ -5,6 +5,10 @@ server:
       cookie:
         name: GATEWAY-CLIENT
 spring:
+  session:
+    redis:
+      flush-mode: on_save
+      namespace: gateway:session
   cloud:
     gateway:
       server:
@@ -26,6 +30,7 @@ spring:
                 - Path=/admin/**
               filters:
                 - StripPrefix=1
+                - TokenRelay
             - id: xht-module-generate
               uri: lb://xht-module-generate #此处需要使用lb协议
               predicates:
@@ -33,7 +38,6 @@ spring:
               filters:
                 - StripPrefix=1
           default-filters:
-            - TokenRelay
   data:
     redis:
       host: 192.168.100.1
@@ -56,7 +60,8 @@ xht:
         add-swagger-ignore-urls: true
     gateway:
       authenticated-urls:
-        - /**
+        - /get/token
+        - /authorized
 knife4j:
   gateway:
     enabled: true     # ① 第一个配置，开启gateway聚合组件
