@@ -7,19 +7,13 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
-import com.xht.auth.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCancelApproveAuthenticationProvider;
-import com.xht.auth.security.oauth2.server.authorization.oidc.authentication.OidcUserInfoMapper;
-import com.xht.auth.security.oauth2.server.authorization.password.PassWordAuthenticationConverter;
-import com.xht.auth.security.oauth2.server.authorization.password.PassWordAuthenticationProvider;
-import com.xht.auth.security.oauth2.server.authorization.phone.PhoneAuthenticationConverter;
-import com.xht.auth.security.oauth2.server.authorization.phone.PhoneAuthenticationProvider;
+import com.xht.auth.security.oauth2.OAuth2AuthorizationServerCustomizer;
+import com.xht.auth.security.oauth2.XhtAuthorizationServerConfigurer;
 import com.xht.auth.security.oauth2.server.authorization.token.JwtTokenCustomizer;
 import com.xht.auth.security.oauth2.server.authorization.token.OpaqueTokenClaimsCustomizer;
 import com.xht.auth.security.oauth2.server.authorization.token.XhtOAuth2AccessTokenGenerator;
 import com.xht.auth.security.oauth2.server.authorization.token.XhtOAuth2RefreshTokenGenerator;
-import com.xht.auth.security.oauth2.server.authorization.web.AuthorizationEndpointFailureHandler;
-import com.xht.auth.security.oauth2.server.authorization.web.AuthorizationEndpointSuccessHandler;
-import com.xht.auth.security.web.authentication.*;
+import com.xht.auth.security.web.authentication.AuthorizationServerLoginUrlAuthenticationEntryPoint;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,57 +60,31 @@ public class AuthorizationServerAutoConfiguration {
 
     @Bean
     @Order(1)
-    // @formatter:off
-    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http,
-                                                                      OAuth2AuthorizationService authorizationService,
-                                                                      OAuth2TokenGenerator<?> tokenGenerator
-
-    ) throws Exception {
+    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http, OAuth2AuthorizationService authorizationService) throws Exception {
         XhtOauth2Properties.AuthorizationServer authorizationServerProperties = xhtOauth2Properties.getAuthorizationServer();
-        PassWordAuthenticationProvider passWordAuthenticationProvider = new PassWordAuthenticationProvider(authorizationService, tokenGenerator, basicUserDetailsService, iCaptchaService);
-        PassWordAuthenticationConverter passWordAuthenticationConverter = new PassWordAuthenticationConverter();
-        PhoneAuthenticationProvider phoneAuthenticationProvider = new PhoneAuthenticationProvider(authorizationService, tokenGenerator, basicUserDetailsService, iCaptchaService);
-        PhoneAuthenticationConverter phoneAuthenticationConverter = new PhoneAuthenticationConverter();
+        // 配置授权服务器
         OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
-        authorizationServerConfigurer.clientAuthentication(configurer-> configurer.errorResponseHandler(new OAuth2ClientAuthenticationFailureHandler()));
-        http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
-                .with(authorizationServerConfigurer, (authorizationServer) ->
-                        authorizationServer
-                                .oidc(oidc->oidc.userInfoEndpoint(userInfoEndpoint-> userInfoEndpoint.userInfoMapper(new OidcUserInfoMapper())))  // Enable OpenID Connect 1.0
-                                .authorizationEndpoint(authorizationEndpoint -> {
-                                    authorizationEndpoint.consentPage(authorizationServerProperties.getConsentPage());
-                                    authorizationEndpoint.authorizationResponseHandler(new AuthorizationEndpointSuccessHandler());
-                                    authorizationEndpoint.errorResponseHandler(new AuthorizationEndpointFailureHandler());
-                                    authorizationEndpoint.authenticationProvider(new OAuth2AuthorizationCancelApproveAuthenticationProvider(authorizationService));
-                                })
-                                // 令牌端点
-                                .tokenEndpoint(tokenEndpoint -> {
-                                    tokenEndpoint.accessTokenResponseHandler(new TokenEndpointSuccessHandler());
-                                    tokenEndpoint.errorResponseHandler(new TokenEndpointFailureHandler());
-                                    tokenEndpoint.authenticationProviders(providers -> {
-                                        providers.add(passWordAuthenticationProvider);
-                                        providers.add(phoneAuthenticationProvider);
-                                    });
-                                    tokenEndpoint.accessTokenRequestConverters((converters) -> {
-                                        converters.add(passWordAuthenticationConverter);
-                                        converters.add(phoneAuthenticationConverter);
-                                    });
-                                })
-                                // 令牌注销端点
-                                .tokenRevocationEndpoint(tokenEndpoint ->{
-                                    tokenEndpoint.revocationResponseHandler(new TokenRevocationAuthenticationSuccessHandler());
-                                    tokenEndpoint.errorResponseHandler(new TokenRevocationAuthenticationFailureHandler());
-                                })
-                )
-                .exceptionHandling((exceptions) ->            {
-                    AuthorizationServerLoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint = new AuthorizationServerLoginUrlAuthenticationEntryPoint(xhtOauth2Properties.getAuthorizationServer().getLoginPage());
-                    MediaTypeRequestMatcher mediaTypeRequestMatcher = new MediaTypeRequestMatcher(MediaType.TEXT_HTML);
-                    exceptions.defaultAuthenticationEntryPointFor(loginUrlAuthenticationEntryPoint, mediaTypeRequestMatcher);
-                })
-                .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
+        // 配置授权服务器端点
+        OAuth2AuthorizationServerCustomizer authorizationServerCustomizer = new OAuth2AuthorizationServerCustomizer();
+        authorizationServerCustomizer.setAuthorizationService(authorizationService);
+        authorizationServerCustomizer.setAuthorizationServerProperties(authorizationServerProperties);
+        http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher()).with(authorizationServerConfigurer, authorizationServerCustomizer);
+        // 配置授权服务器 扩展
+        XhtAuthorizationServerConfigurer xhtAuthorizationServerConfigurer = XhtAuthorizationServerConfigurer.authorizationServer(authorizationServerConfigurer);
+        http.with(xhtAuthorizationServerConfigurer, (authorizationServer) -> {
+            authorizationServer.setCaptchaService(iCaptchaService);
+            authorizationServer.setUserDetailsService(basicUserDetailsService);
+        });
+        // 配置授权服务器 登录页面
+        http.exceptionHandling((exceptions) -> {
+            AuthorizationServerLoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint = new AuthorizationServerLoginUrlAuthenticationEntryPoint(xhtOauth2Properties.getAuthorizationServer().getLoginPage());
+            MediaTypeRequestMatcher mediaTypeRequestMatcher = new MediaTypeRequestMatcher(MediaType.TEXT_HTML);
+            exceptions.defaultAuthenticationEntryPointFor(loginUrlAuthenticationEntryPoint, mediaTypeRequestMatcher);
+        });
+        // 配置授权服务器 认证
+        http.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
         return http.build();
     }
-    // @formatter:on
 
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
