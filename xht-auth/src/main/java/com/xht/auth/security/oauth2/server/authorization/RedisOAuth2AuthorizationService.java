@@ -1,10 +1,13 @@
 package com.xht.auth.security.oauth2.server.authorization;
 
+import cn.hutool.crypto.digest.DigestUtil;
 import com.xht.auth.redis.converter.Oauth2AuthorizationConverter;
 import com.xht.auth.redis.entity.Oauth2AuthorizationEntity;
 import com.xht.auth.redis.repository.Oauth2AuthorizationRepository;
+import com.xht.framework.core.utils.secret.MD5Utils;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.codec.Hex;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
@@ -117,4 +120,9 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         return result.map(authorizationConverter::reverse).orElse(null);
     }
 
+    public static void main(String[] args) {
+        String str1 = DigestUtil.md5Hex("paramString");
+        System.out.println(new String(Hex.encode(MD5Utils.generateSignature("paramString").getBytes())));
+        System.out.println(str1);
+    }
 }

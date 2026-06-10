@@ -25,7 +25,6 @@
         <module>xht-spring-boot-starter-openfeign</module>
         <module>xht-spring-cloud-starter</module>
         <module>xht-spring-boot-starter-sms</module>
-        <module>xht-framework-crypto</module>
     </modules>
 
 </project>
