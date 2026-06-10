@@ -1,6 +1,6 @@
 package com.xht.modules.admin.notice.service;
 
-import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;

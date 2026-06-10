@@ -1,8 +1,8 @@
 package com.xht.framework.security.web;
 
-import com.xht.framework.core.domain.R;
-import com.xht.framework.core.exception.code.GlobalErrorStatusCode;
-import com.xht.framework.core.utils.ServletUtil;
+import com.xht.framework.common.domain.R;
+import com.xht.framework.exception.code.GlobalErrorStatusCode;
+import com.xht.framework.utils.ServletUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

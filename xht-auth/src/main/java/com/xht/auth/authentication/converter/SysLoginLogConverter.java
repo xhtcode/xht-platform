@@ -1,7 +1,7 @@
 package com.xht.auth.authentication.converter;
 
 import com.xht.auth.authentication.entity.SysLoginLogEntity;
-import com.xht.framework.core.converter.IConverter;
+import com.xht.framework.common.converter.IConverter;
 import com.xht.framework.log.event.LoginLogApplicationEvent;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

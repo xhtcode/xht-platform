@@ -1,6 +1,6 @@
 package com.xht.framework.openfeign.fallback;
 
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 

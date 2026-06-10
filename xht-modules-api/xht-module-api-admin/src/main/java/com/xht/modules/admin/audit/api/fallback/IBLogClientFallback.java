@@ -1,7 +1,7 @@
 package com.xht.modules.admin.audit.api.fallback;
 
-import com.xht.framework.core.domain.R;
-import com.xht.framework.core.support.blog.dto.BLogDTO;
+import com.xht.framework.common.domain.R;
+import com.xht.framework.core.blog.dto.BLogDTO;
 import com.xht.framework.openfeign.fallback.BasicFallback;
 import com.xht.modules.admin.audit.api.IBLogClient;
 

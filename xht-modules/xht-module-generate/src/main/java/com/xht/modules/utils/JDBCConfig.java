@@ -1,7 +1,7 @@
 package com.xht.modules.utils;
 
-import com.xht.framework.core.exception.UtilException;
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.exception.UtilException;
+import com.xht.framework.utils.StringUtils;
 import com.xht.modules.generate.entity.GenDataSourceEntity;
 import lombok.Getter;
 

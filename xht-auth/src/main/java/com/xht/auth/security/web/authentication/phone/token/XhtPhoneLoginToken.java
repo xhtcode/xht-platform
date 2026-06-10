@@ -1,7 +1,7 @@
 package com.xht.auth.security.web.authentication.phone.token;
 
 import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationToken;
-import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnums;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;

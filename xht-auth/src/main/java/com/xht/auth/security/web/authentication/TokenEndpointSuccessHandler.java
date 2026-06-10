@@ -1,8 +1,8 @@
 package com.xht.auth.security.web.authentication;
 
-import com.xht.framework.core.constant.StringConstant;
-import com.xht.framework.core.utils.ServletUtil;
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.common.constant.StringConstant;
+import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.StringUtils;
 import com.xht.framework.oauth2.token.response.Oauth2TokenResponse;
 import com.xht.framework.security.constant.TokenCustomizerIdConstant;
 import jakarta.servlet.http.HttpServletRequest;

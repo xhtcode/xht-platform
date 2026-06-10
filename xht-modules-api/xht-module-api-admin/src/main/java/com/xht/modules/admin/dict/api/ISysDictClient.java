@@ -1,8 +1,8 @@
 package com.xht.modules.admin.dict.api;
 
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import com.xht.modules.admin.dict.api.factory.ISysDictClientFallbackFactory;
-import com.xht.framework.core.support.dict.domain.DictVo;
+import com.xht.framework.core.dict.domain.DictVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

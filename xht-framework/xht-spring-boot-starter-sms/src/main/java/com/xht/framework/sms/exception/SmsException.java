@@ -1,6 +1,6 @@
 package com.xht.framework.sms.exception;
 
-import com.xht.framework.core.exception.BusinessException;
+import com.xht.framework.exception.BusinessException;
 
 /**
  * 短信异常

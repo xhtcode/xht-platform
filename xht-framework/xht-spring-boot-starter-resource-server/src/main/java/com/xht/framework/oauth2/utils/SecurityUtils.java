@@ -1,7 +1,7 @@
 package com.xht.framework.oauth2.utils;
 
-import com.xht.framework.core.enums.UserTypeEnums;
-import com.xht.framework.core.exception.UtilException;
+import com.xht.framework.common.enums.UserTypeEnums;
+import com.xht.framework.exception.UtilException;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.exception.BasicAuthenticationException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

@@ -1,7 +1,7 @@
 package com.xht.modules.admin.notice.converter;
 
-import com.xht.framework.core.exception.code.BusinessErrorCode;
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.modules.admin.notice.domain.form.SysNoticeAttachmentForm;
 import com.xht.modules.admin.notice.domain.response.SysNoticeAttachmentResponse;

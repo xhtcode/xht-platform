@@ -1,9 +1,9 @@
 package com.xht.modules.admin.oauth2.service.impl;
 
-import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.core.exception.BusinessException;
-import com.xht.framework.core.exception.code.BusinessErrorCode;
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.framework.exception.BusinessException;
+import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.modules.admin.oauth2.converter.SysOauth2ClientConverter;
 import com.xht.modules.admin.oauth2.dao.SysOauth2ClientDao;

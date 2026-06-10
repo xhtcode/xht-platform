@@ -1,6 +1,6 @@
 package com.xht.auth.captcha.domain.response;
 
-import com.xht.framework.core.domain.response.BasicResponse;
+import com.xht.framework.common.domain.response.BasicResponse;
 import lombok.Data;
 
 /**

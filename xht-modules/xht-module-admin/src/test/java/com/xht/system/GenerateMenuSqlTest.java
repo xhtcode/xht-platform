@@ -1,7 +1,7 @@
 package com.xht.system;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.utils.StringUtils;
 import com.xht.modules.admin.AdminApplication;
 import com.xht.modules.admin.system.dao.mapper.SysMenuMapper;
 import com.xht.modules.admin.system.entity.SysMenuEntity;

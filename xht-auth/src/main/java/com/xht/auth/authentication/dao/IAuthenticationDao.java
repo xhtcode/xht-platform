@@ -3,7 +3,7 @@ package com.xht.auth.authentication.dao;
 import com.xht.auth.authentication.domain.dto.Oauth2ClientDTO;
 import com.xht.auth.authentication.domain.dto.UserLoginDTO;
 import com.xht.auth.authentication.domain.response.TokenUserInfoResponse;
-import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnums;
 
 import java.util.Set;
 

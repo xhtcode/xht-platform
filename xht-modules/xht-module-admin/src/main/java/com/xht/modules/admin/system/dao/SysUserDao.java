@@ -1,7 +1,7 @@
 package com.xht.modules.admin.system.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.core.enums.UserStatusEnums;
+import com.xht.framework.common.enums.UserStatusEnums;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.system.domain.query.SysUserQuery;
 import com.xht.modules.admin.system.domain.vo.SysUserVo;

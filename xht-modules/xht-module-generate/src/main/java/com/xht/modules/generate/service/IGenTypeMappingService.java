@@ -1,6 +1,6 @@
 package com.xht.modules.generate.service;
 
-import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.modules.generate.domain.form.GenTypeMappingForm;
 import com.xht.modules.generate.domain.query.GenTypeMappingQuery;
 import com.xht.modules.generate.domain.response.GenTypeMappingResponse;

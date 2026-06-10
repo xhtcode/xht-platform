@@ -3,7 +3,7 @@ package com.xht.auth.captcha.controller;
 import com.xht.auth.captcha.domain.response.CaptchaResponse;
 import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnums;
 import com.xht.auth.captcha.service.ICaptchaService;
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,6 +1,6 @@
 package com.xht.gateway.controller;
 
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import com.xht.gateway.properties.SecurityGatewayProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

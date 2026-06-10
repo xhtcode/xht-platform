@@ -1,8 +1,9 @@
 package com.xht.modules.admin.system.domain.form;
 
-import com.xht.framework.core.constant.RegexConstant;
-import com.xht.framework.core.domain.form.BasicForm;
-import com.xht.framework.core.validation.Groups;
+import com.xht.framework.common.constant.RegexConstant;
+import com.xht.framework.common.domain.form.BasicForm;
+import com.xht.framework.validation.Groups;
+import com.xht.framework.validation.phone.Phone;
 import com.xht.modules.admin.system.enums.DeptStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
@@ -68,8 +69,7 @@ public class SysDeptForm extends BasicForm {
     /**
      * 联系电话
      */
-    @NotBlank(message = "联系电话参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Pattern(regexp = RegexConstant.MOBILE_PHONE, message = "联系电话格式不正确，格式示例：13800138000", groups = {Groups.Create.class, Groups.Update.class})
+    @Phone(message = "联系电话格式不正确，格式示例：13800138000", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "联系电话")
     private String phone;
 

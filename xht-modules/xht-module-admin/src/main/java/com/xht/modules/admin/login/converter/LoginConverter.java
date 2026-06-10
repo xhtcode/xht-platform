@@ -1,6 +1,6 @@
 package com.xht.modules.admin.login.converter;
 
-import com.xht.framework.core.exception.UtilException;
+import com.xht.framework.exception.UtilException;
 import com.xht.framework.oauth2.token.response.Oauth2TokenResponse;
 import com.xht.modules.admin.login.domain.response.LoginResponse;
 

@@ -1,6 +1,6 @@
 package com.xht.modules.admin.dict.service;
 
-import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.modules.admin.dict.domain.form.SysDictForm;
 import com.xht.modules.admin.dict.domain.query.SysDictQuery;
 import com.xht.modules.admin.dict.domain.response.SysDictResponse;

@@ -1,6 +1,6 @@
 package com.xht.auth.security.oauth2;
 
-import com.xht.framework.core.exception.UtilException;
+import com.xht.framework.exception.UtilException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;

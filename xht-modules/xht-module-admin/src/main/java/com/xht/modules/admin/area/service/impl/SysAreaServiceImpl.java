@@ -1,6 +1,6 @@
 package com.xht.modules.admin.area.service.impl;
 
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.modules.admin.area.AreaConstant;
 import com.xht.modules.admin.area.converter.SysAreaConverter;
 import com.xht.modules.admin.area.dao.SysAreaDao;

@@ -1,6 +1,6 @@
 package com.xht.modules.admin.system.service;
 
-import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.modules.admin.system.domain.form.SysPostForm;
 import com.xht.modules.admin.system.domain.query.SysPostQuery;
 import com.xht.modules.admin.system.domain.response.SysPostResponse;

@@ -1,11 +1,11 @@
 package com.xht.framework.openfeign.interceptor;
 
 
-import com.xht.framework.core.constant.HttpConstants;
-import com.xht.framework.core.utils.IpUtils;
-import com.xht.framework.core.utils.ServletUtil;
-import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.core.utils.mdc.TraceIdUtils;
+import com.xht.framework.common.constant.HttpConstants;
+import com.xht.framework.utils.IpUtils;
+import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.StringUtils;
+import com.xht.framework.utils.mdc.TraceIdUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;

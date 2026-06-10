@@ -1,8 +1,8 @@
 package com.xht.modules.generate.service.impl;
 
 import cn.hutool.core.io.IoUtil;
-import com.xht.framework.core.exception.BusinessException;
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.exception.BusinessException;
+import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.modules.generate.dao.GenTableColumnDao;
 import com.xht.modules.generate.dao.GenTableColumnQueryDao;
 import com.xht.modules.generate.dao.GenTableDao;

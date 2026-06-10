@@ -1,7 +1,7 @@
 package com.xht.modules.admin.notice.domain.query;
 
 
-import com.xht.framework.core.domain.query.PageBasicQuery;
+import com.xht.framework.common.domain.query.PageBasicQuery;
 import com.xht.modules.admin.notice.enums.MessageStarEnums;
 import com.xht.modules.admin.notice.enums.MessageStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;

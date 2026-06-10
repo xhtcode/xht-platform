@@ -4,7 +4,7 @@ import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnums;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.constant.CustomAuthorizationGrantType;
 import com.xht.auth.security.oauth2.server.authorization.AbstractAuthenticationProvider;
-import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnums;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.domain.RequestUserBO;

@@ -1,9 +1,9 @@
 package com.xht.framework.security.aspect;
 
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.framework.core.properties.SecurityHeaderProperties;
-import com.xht.framework.core.utils.ServletUtil;
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.StringUtils;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.framework.security.exception.IgnoreAuthException;
 import jakarta.servlet.http.HttpServletRequest;

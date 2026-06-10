@@ -1,7 +1,7 @@
 package com.xht.framework.security.domain;
 
 import cn.hutool.core.map.MapUtil;
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.framework.security.constant.SecurityConstant;
 import lombok.AccessLevel;
 import lombok.Getter;

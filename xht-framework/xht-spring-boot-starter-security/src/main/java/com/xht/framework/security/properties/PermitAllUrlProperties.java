@@ -1,10 +1,10 @@
 package com.xht.framework.security.properties;
 
 import cn.hutool.core.util.ReUtil;
-import com.xht.framework.core.exception.BusinessException;
-import com.xht.framework.core.jackson.JsonUtils;
+import com.xht.framework.exception.BusinessException;
+import com.xht.framework.jackson.JsonUtils;
 import com.xht.framework.core.properties.IProperties;
-import com.xht.framework.core.utils.spring.SpringContextUtils;
+import com.xht.framework.utils.spring.SpringContextUtils;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

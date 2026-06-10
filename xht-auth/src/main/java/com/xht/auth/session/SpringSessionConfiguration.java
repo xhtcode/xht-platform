@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.xht.auth.security.jackson2.XhtSecurityJackson2Modules;
-import com.xht.framework.core.jackson.CustomJacksonModule;
+import com.xht.framework.jackson.CustomJacksonModule;
 import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanClassLoaderAware;

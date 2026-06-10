@@ -2,8 +2,8 @@ package com.xht.auth.authentication.controller;
 
 import com.xht.auth.authentication.domain.response.TokenUserInfoResponse;
 import com.xht.auth.authentication.service.ITokenService;
-import com.xht.framework.core.constant.HttpConstants;
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.constant.HttpConstants;
+import com.xht.framework.common.domain.R;
 import com.xht.framework.oauth2.token.form.TokenForm;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.annotation.IgnoreAuth;

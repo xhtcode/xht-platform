@@ -1,6 +1,6 @@
 package com.xht.auth.authentication.domain.dto;
 
-import com.xht.framework.core.domain.response.BasicResponse;
+import com.xht.framework.common.domain.response.BasicResponse;
 import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

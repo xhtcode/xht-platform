@@ -1,9 +1,9 @@
 package com.xht.modules.admin.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.core.exception.code.BusinessErrorCode;
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.modules.admin.system.converter.SysPostConverter;
 import com.xht.modules.admin.system.dao.SysPostDao;

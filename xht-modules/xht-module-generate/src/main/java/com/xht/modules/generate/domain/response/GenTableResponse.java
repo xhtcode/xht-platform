@@ -1,7 +1,7 @@
 package com.xht.modules.generate.domain.response;
 
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.xht.framework.core.domain.response.MetaResponse;
+import com.xht.framework.common.domain.response.MetaResponse;
 import com.xht.modules.common.enums.DataBaseTypeEnums;
 import com.xht.modules.common.enums.PageStyleEnums;
 import io.swagger.v3.oas.annotations.media.Schema;

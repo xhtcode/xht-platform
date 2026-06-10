@@ -1,6 +1,6 @@
 package com.xht.demo.controller;
 
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import com.xht.framework.log.annotations.BLog;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,10 +1,10 @@
 package com.xht.modules.admin.dict.service;
 
-import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.query.SysDictItemQuery;
 import com.xht.modules.admin.dict.domain.response.SysDictItemResponse;
-import com.xht.framework.core.support.dict.domain.DictVo;
+import com.xht.framework.core.dict.domain.DictVo;
 
 import java.util.List;
 

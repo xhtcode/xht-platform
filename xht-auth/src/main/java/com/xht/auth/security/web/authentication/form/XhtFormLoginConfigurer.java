@@ -6,7 +6,7 @@ import com.xht.auth.security.core.userdetails.XhtPreAuthenticationChecks;
 import com.xht.auth.security.web.authentication.AbstractXhtLoginConfigurer;
 import com.xht.auth.security.web.authentication.form.filter.XhtFormLoginFilter;
 import com.xht.auth.security.web.authentication.form.provider.XhtFormLoginAuthenticationProvider;
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.exception.utils.ThrowUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

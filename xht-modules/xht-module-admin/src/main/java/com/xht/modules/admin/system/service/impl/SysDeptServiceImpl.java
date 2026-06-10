@@ -1,10 +1,10 @@
 package com.xht.modules.admin.system.service.impl;
 
-import com.xht.framework.core.exception.code.BusinessErrorCode;
-import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.framework.core.utils.tree.INode;
-import com.xht.framework.core.utils.tree.TreeNode;
-import com.xht.framework.core.utils.tree.TreeUtils;
+import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.tree.INode;
+import com.xht.framework.utils.tree.TreeNode;
+import com.xht.framework.utils.tree.TreeUtils;
 import com.xht.modules.admin.system.converter.SysDeptConverter;
 import com.xht.modules.admin.system.dao.SysDeptDao;
 import com.xht.modules.admin.system.domain.form.SysDeptForm;

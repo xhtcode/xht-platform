@@ -1,6 +1,6 @@
 package com.xht.modules.generate.domain.query;
 
-import com.xht.framework.core.domain.query.PageBasicQuery;
+import com.xht.framework.common.domain.query.PageBasicQuery;
 import com.xht.modules.common.enums.DataBaseTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;

@@ -1,7 +1,7 @@
 package com.xht.modules.admin.system.domain.form;
 
-import com.xht.framework.core.domain.form.BasicForm;
-import com.xht.framework.core.validation.Groups;
+import com.xht.framework.common.domain.form.BasicForm;
+import com.xht.framework.validation.Groups;
 import com.xht.modules.admin.system.enums.MenuCommonStatus;
 import com.xht.modules.admin.system.enums.MenuStatusEnums;
 import com.xht.modules.admin.system.enums.MenuTypeEnums;

@@ -1,11 +1,11 @@
 package com.xht.framework.web.handler;
 
 
-import com.xht.framework.core.domain.R;
-import com.xht.framework.core.exception.BusinessException;
-import com.xht.framework.core.exception.ValidationException;
-import com.xht.framework.core.exception.code.GlobalErrorStatusCode;
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.common.domain.R;
+import com.xht.framework.exception.BusinessException;
+import com.xht.framework.exception.ValidationException;
+import com.xht.framework.exception.code.GlobalErrorStatusCode;
+import com.xht.framework.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;

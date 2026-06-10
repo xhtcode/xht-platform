@@ -1,7 +1,7 @@
 package com.xht.auth.security.web.authentication;
 
 import com.xht.auth.captcha.service.ICaptchaService;
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import lombok.Setter;
 import org.springframework.security.authentication.AuthenticationManager;

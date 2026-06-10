@@ -2,9 +2,9 @@ package com.xht.modules.admin.notice.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.core.exception.BusinessException;
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.framework.exception.BusinessException;
+import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;

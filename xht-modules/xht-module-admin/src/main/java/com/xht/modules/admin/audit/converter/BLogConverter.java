@@ -1,6 +1,6 @@
 package com.xht.modules.admin.audit.converter;
 
-import com.xht.framework.core.support.blog.dto.BLogDTO;
+import com.xht.framework.core.blog.dto.BLogDTO;
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.modules.admin.audit.domain.form.BLogForm;
 import com.xht.modules.admin.audit.domain.response.BLogResponse;

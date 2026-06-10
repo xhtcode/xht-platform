@@ -1,7 +1,7 @@
 package com.xht.gateway.utils;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.xht.framework.core.jackson.JsonUtils;
+import com.xht.framework.jackson.JsonUtils;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;

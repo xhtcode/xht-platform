@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.xht.framework.core.jackson.CustomJacksonModule;
+import com.xht.framework.jackson.CustomJacksonModule;
 import com.xht.framework.mybatis.handler.MybatisPlusMetaObjectHandler;
 import com.xht.framework.mybatis.handler.MybatisPlusSecurityMetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;

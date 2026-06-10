@@ -1,9 +1,9 @@
 package com.xht.modules.generate.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.xht.framework.core.exception.BusinessException;
-import com.xht.framework.core.exception.code.BusinessErrorCode;
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.exception.BusinessException;
+import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.modules.common.constant.GenConstant;
 import com.xht.modules.generate.converter.GenTemplateConverter;
 import com.xht.modules.generate.dao.GenTemplateDao;

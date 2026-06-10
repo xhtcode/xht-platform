@@ -1,6 +1,6 @@
 package com.xht.modules.admin.system.domain.response;
 
-import com.xht.framework.core.domain.response.BasicResponse;
+import com.xht.framework.common.domain.response.BasicResponse;
 import com.xht.modules.admin.system.enums.DeptPostStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

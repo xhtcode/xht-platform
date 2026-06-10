@@ -1,8 +1,8 @@
 package com.xht.framework.openfeign.interceptor;
 
 import com.xht.framework.core.properties.SecurityHeaderProperties;
-import com.xht.framework.core.utils.ServletUtil;
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.StringUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +12,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collection;
 import java.util.Objects;
 
-import static com.xht.framework.core.constant.HttpConstants.Header.AUTHORIZATION;
+import static com.xht.framework.common.constant.HttpConstants.Header.AUTHORIZATION;
 
 /**
  * feign token拦截器

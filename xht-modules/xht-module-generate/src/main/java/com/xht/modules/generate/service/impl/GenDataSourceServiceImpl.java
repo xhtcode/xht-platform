@@ -1,7 +1,7 @@
 package com.xht.modules.generate.service.impl;
 
-import com.xht.framework.core.exception.code.BusinessErrorCode;
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.modules.generate.converter.GenDataSourceConverter;
 import com.xht.modules.generate.dao.GenDataSourceDao;
 import com.xht.modules.generate.domain.form.GenDataSourceForm;

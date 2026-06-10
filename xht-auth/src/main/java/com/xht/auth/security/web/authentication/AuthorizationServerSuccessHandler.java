@@ -1,9 +1,9 @@
 package com.xht.auth.security.web.authentication;
 
 import com.xht.auth.security.LoginLogUtils;
-import com.xht.framework.core.domain.R;
-import com.xht.framework.core.utils.ServletUtil;
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.common.domain.R;
+import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Setter;

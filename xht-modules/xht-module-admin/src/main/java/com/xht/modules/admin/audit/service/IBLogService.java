@@ -1,7 +1,7 @@
 package com.xht.modules.admin.audit.service;
 
-import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.core.support.blog.dto.BLogDTO;
+import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.framework.core.blog.dto.BLogDTO;
 import com.xht.modules.admin.audit.domain.query.BLogQuery;
 import com.xht.modules.admin.audit.domain.response.BLogResponse;
 

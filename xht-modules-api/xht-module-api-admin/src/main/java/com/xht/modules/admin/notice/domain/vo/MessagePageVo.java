@@ -1,10 +1,10 @@
 package com.xht.modules.admin.notice.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.modules.admin.notice.domain.response.SysMessageInfoResponse;
-import com.xht.framework.core.support.message.core.MessageExtendInfo;
-import com.xht.framework.core.support.message.enums.MessageTypeEnums;
+import com.xht.framework.core.message.core.MessageExtendInfo;
+import com.xht.framework.core.message.enums.MessageTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

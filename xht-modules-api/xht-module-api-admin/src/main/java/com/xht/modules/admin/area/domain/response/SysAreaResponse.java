@@ -1,6 +1,6 @@
 package com.xht.modules.admin.area.domain.response;
 
-import com.xht.framework.core.domain.response.BasicResponse;
+import com.xht.framework.common.domain.response.BasicResponse;
 import com.xht.modules.admin.area.enums.AreaHasChildEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

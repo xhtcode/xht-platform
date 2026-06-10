@@ -1,6 +1,6 @@
 package com.xht.framework.log.event;
 
-import com.xht.framework.core.support.blog.enums.LogStatusEnums;
+import com.xht.framework.core.blog.enums.LogStatusEnums;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;

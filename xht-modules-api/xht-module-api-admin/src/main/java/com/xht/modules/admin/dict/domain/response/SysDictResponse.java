@@ -1,6 +1,6 @@
 package com.xht.modules.admin.dict.domain.response;
 
-import com.xht.framework.core.domain.response.MetaResponse;
+import com.xht.framework.common.domain.response.MetaResponse;
 import com.xht.modules.admin.dict.enums.DictShowDisabledEnums;
 import com.xht.modules.admin.dict.enums.DictStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;

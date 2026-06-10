@@ -1,6 +1,6 @@
 package com.xht.modules.admin.notice.domain.vo;
 
-import com.xht.framework.core.domain.vo.IVO;
+import com.xht.framework.common.domain.vo.IVO;
 import com.xht.modules.admin.notice.domain.response.SysNoticeAttachmentResponse;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
 import io.swagger.v3.oas.annotations.media.Schema;

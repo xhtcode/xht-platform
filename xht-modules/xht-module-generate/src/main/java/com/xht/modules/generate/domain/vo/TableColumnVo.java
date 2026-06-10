@@ -1,6 +1,6 @@
 package com.xht.modules.generate.domain.vo;
 
-import com.xht.framework.core.domain.vo.IVO;
+import com.xht.framework.common.domain.vo.IVO;
 import com.xht.modules.generate.domain.response.GenTableColumnQueryResponse;
 import com.xht.modules.generate.domain.response.GenTableColumnResponse;
 import com.xht.modules.generate.domain.response.GenTableResponse;

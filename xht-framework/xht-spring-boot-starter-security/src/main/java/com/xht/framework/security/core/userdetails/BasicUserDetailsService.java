@@ -1,6 +1,6 @@
 package com.xht.framework.security.core.userdetails;
 
-import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnums;
 import com.xht.framework.security.domain.RequestUserBO;
 import com.xht.framework.security.utils.PassWordUtils;
 import lombok.extern.slf4j.Slf4j;

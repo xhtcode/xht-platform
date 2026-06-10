@@ -1,6 +1,6 @@
 package com.xht.framework.oauth2.token;
 
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;

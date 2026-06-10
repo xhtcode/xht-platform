@@ -4,7 +4,7 @@ import com.xht.auth.security.web.authentication.qr.filter.QrCodeConsentAuthentic
 import com.xht.auth.security.web.authentication.qr.filter.QrCodeQueryAuthenticationFilter;
 import com.xht.auth.security.web.authentication.qr.filter.QrCodeScanAuthenticationFilter;
 import com.xht.auth.security.web.authentication.qr.manager.AbstractQrManager;
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.exception.utils.ThrowUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

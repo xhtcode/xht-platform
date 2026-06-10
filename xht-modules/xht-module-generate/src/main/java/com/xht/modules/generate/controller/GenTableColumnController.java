@@ -1,6 +1,6 @@
 package com.xht.modules.generate.controller;
 
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import com.xht.modules.generate.domain.response.GenTableColumnResponse;
 import com.xht.modules.generate.service.IGenTableColumnService;
 import io.swagger.v3.oas.annotations.Operation;

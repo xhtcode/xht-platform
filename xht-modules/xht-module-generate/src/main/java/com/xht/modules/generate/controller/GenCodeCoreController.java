@@ -1,9 +1,9 @@
 package com.xht.modules.generate.controller;
 
 import cn.hutool.core.io.IoUtil;
-import com.xht.framework.core.constant.HttpConstants;
-import com.xht.framework.core.domain.R;
-import com.xht.framework.core.enums.CharacterEnums;
+import com.xht.framework.common.constant.HttpConstants;
+import com.xht.framework.common.domain.R;
+import com.xht.framework.common.enums.CharacterEnums;
 import com.xht.modules.generate.domain.form.GenCodeCoreForm;
 import com.xht.modules.generate.domain.vo.GenCodeCoreVo;
 import com.xht.modules.generate.service.IGenCodeCoreService;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**

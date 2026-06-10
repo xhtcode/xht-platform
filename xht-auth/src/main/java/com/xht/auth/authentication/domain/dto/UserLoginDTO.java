@@ -1,8 +1,8 @@
 package com.xht.auth.authentication.domain.dto;
 
-import com.xht.framework.core.domain.dto.BasicDTO;
-import com.xht.framework.core.enums.UserStatusEnums;
-import com.xht.framework.core.enums.UserTypeEnums;
+import com.xht.framework.common.domain.dto.BasicDTO;
+import com.xht.framework.common.enums.UserStatusEnums;
+import com.xht.framework.common.enums.UserTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

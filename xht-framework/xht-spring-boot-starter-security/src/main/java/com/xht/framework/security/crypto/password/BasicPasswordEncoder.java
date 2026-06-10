@@ -1,8 +1,8 @@
 package com.xht.framework.security.crypto.password;
 
-import com.xht.framework.core.exception.BusinessException;
-import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.core.utils.secret.MD5Utils;
+import com.xht.framework.exception.BusinessException;
+import com.xht.framework.utils.StringUtils;
+import com.xht.framework.utils.crypto.MD5Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

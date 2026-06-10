@@ -1,6 +1,6 @@
 package com.xht.modules.admin.login.controller;
 
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.modules.admin.login.domain.form.PasswordLoginForm;
 import com.xht.modules.admin.login.domain.form.PhoneLoginForm;

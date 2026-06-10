@@ -1,10 +1,10 @@
 package com.xht.framework.core.properties;
 
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.exception.utils.ThrowUtils;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import static com.xht.framework.core.constant.HttpConstants.Header.AUTH_KEY;
+import static com.xht.framework.common.constant.HttpConstants.Header.AUTH_KEY;
 
 /**
  * 描述 ：自定义 OpenFeign 配置

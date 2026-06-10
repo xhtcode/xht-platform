@@ -1,8 +1,8 @@
 package com.xht.auth.security.oauth2.server.authorization;
 
 import com.xht.auth.security.oauth2.OAuth2EndpointUtils;
-import com.xht.framework.core.constant.HttpConstants;
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.common.constant.HttpConstants;
+import com.xht.framework.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

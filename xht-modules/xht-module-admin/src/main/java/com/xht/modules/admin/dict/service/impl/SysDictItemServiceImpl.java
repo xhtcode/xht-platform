@@ -1,10 +1,10 @@
 package com.xht.modules.admin.dict.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.core.exception.BusinessException;
-import com.xht.framework.core.exception.code.BusinessErrorCode;
-import com.xht.framework.core.exception.utils.ThrowUtils;
+import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.framework.exception.BusinessException;
+import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.modules.admin.dict.converter.SysDictItemConverter;
 import com.xht.modules.admin.dict.dao.SysDictDao;
@@ -12,7 +12,7 @@ import com.xht.modules.admin.dict.dao.SysDictItemDao;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.query.SysDictItemQuery;
 import com.xht.modules.admin.dict.domain.response.SysDictItemResponse;
-import com.xht.framework.core.support.dict.domain.DictVo;
+import com.xht.framework.core.dict.domain.DictVo;
 import com.xht.modules.admin.dict.entity.SysDictEntity;
 import com.xht.modules.admin.dict.entity.SysDictItemEntity;
 import com.xht.modules.admin.dict.enums.DictShowDisabledEnums;

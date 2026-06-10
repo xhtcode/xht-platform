@@ -2,7 +2,7 @@ package com.xht.auth.security.web.authentication.qr.controller;
 
 import com.xht.auth.security.web.authentication.qr.domain.response.QrCodeGenerateResponse;
 import com.xht.auth.security.web.authentication.qr.service.IQrLoginService;
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

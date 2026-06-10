@@ -1,6 +1,6 @@
 package com.xht.modules.generate.domain.vo;
 
-import com.xht.framework.core.domain.vo.IVO;
+import com.xht.framework.common.domain.vo.IVO;
 import com.xht.modules.generate.domain.bo.GenCodeCoreBo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

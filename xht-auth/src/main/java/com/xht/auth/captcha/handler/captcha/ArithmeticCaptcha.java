@@ -1,7 +1,7 @@
 package com.xht.auth.captcha.handler.captcha;
 
 import com.xht.auth.captcha.handler.AbstractCaptcha;
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;

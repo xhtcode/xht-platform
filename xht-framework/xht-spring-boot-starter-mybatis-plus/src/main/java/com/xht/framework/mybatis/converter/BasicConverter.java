@@ -1,9 +1,9 @@
 package com.xht.framework.mybatis.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.core.domain.form.BasicForm;
-import com.xht.framework.core.domain.response.BasicResponse;
-import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.common.domain.form.BasicForm;
+import com.xht.framework.common.domain.response.BasicResponse;
+import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.mybatis.domain.entity.Entity;
 import org.springframework.util.CollectionUtils;
 

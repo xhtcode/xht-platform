@@ -1,6 +1,6 @@
 package com.xht.modules.admin.router;
 
-import com.xht.framework.core.exception.UtilException;
+import com.xht.framework.exception.UtilException;
 import com.xht.modules.admin.router.dto.RouterMetaDTO;
 import com.xht.modules.admin.system.domain.response.SysMenuResponse;
 import com.xht.modules.admin.system.enums.MenuCommonStatus;

@@ -1,6 +1,6 @@
 package com.xht.framework.web.convert;
 
-import com.xht.framework.core.enums.XhtEnum;
+import com.xht.framework.common.enums.XhtEnum;
 import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;

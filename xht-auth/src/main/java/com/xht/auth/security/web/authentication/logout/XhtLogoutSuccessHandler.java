@@ -1,10 +1,10 @@
 package com.xht.auth.security.web.authentication.logout;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.xht.framework.core.domain.R;
-import com.xht.framework.core.domain.response.BasicResponse;
-import com.xht.framework.core.utils.ServletUtil;
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.common.domain.R;
+import com.xht.framework.common.domain.response.BasicResponse;
+import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

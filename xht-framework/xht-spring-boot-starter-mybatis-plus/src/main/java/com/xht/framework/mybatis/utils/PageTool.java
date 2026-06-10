@@ -5,9 +5,9 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.core.constant.StringConstant;
-import com.xht.framework.core.domain.query.PageBasicQuery;
-import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.common.constant.StringConstant;
+import com.xht.framework.common.domain.query.PageBasicQuery;
+import com.xht.framework.common.domain.response.PageResponse;
 import org.springframework.util.StringUtils;
 
 import java.util.*;

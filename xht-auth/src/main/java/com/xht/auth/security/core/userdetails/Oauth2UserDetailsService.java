@@ -2,8 +2,8 @@ package com.xht.auth.security.core.userdetails;
 
 import com.xht.auth.authentication.dao.IAuthenticationDao;
 import com.xht.auth.authentication.domain.dto.UserLoginDTO;
-import com.xht.framework.core.enums.LoginTypeEnums;
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.common.enums.LoginTypeEnums;
+import com.xht.framework.utils.StringUtils;
 import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;

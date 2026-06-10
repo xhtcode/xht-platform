@@ -1,8 +1,8 @@
 package com.xht.modules.admin.notice;
 
 import com.xht.modules.admin.notice.api.ISysMessageClient;
-import com.xht.framework.core.support.message.IMessagePublisher;
-import com.xht.framework.core.support.message.core.MessagePayload;
+import com.xht.framework.core.message.IMessagePublisher;
+import com.xht.framework.core.message.core.MessagePayload;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 

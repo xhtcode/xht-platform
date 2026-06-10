@@ -2,7 +2,7 @@ package com.xht.auth.consent.controller;
 
 import com.xht.auth.consent.domain.response.SysOauth2AuthorizationConsentResponse;
 import com.xht.auth.consent.service.ISysOauth2AuthorizationConsentService;
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

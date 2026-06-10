@@ -1,6 +1,6 @@
 package com.xht.auth.security.web.authentication;
 
-import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnums;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.utils.PassWordUtils;

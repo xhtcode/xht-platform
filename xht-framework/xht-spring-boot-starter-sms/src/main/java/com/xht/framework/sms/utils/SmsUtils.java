@@ -1,11 +1,12 @@
 package com.xht.framework.sms.utils;
 
 import cn.hutool.core.util.ReUtil;
-import com.xht.framework.core.constant.PatternConstant;
-import com.xht.framework.core.exception.UtilException;
+import com.xht.framework.common.constant.RegexConstant;
+import com.xht.framework.exception.UtilException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.regex.Pattern;
 
 /**
  * 描述 ：短信验证码工具类
@@ -15,6 +16,11 @@ import java.util.concurrent.ThreadLocalRandom;
 @Slf4j
 @SuppressWarnings("all")
 public final class SmsUtils {
+
+    /**
+     * 手机号
+     */
+    private static final Pattern MOBILE_PHONE = Pattern.compile(RegexConstant.MOBILE_PHONE);
 
     private SmsUtils() {
         throw new UtilException("This is a utility class and cannot be instantiated");
@@ -43,7 +49,7 @@ public final class SmsUtils {
      * @return true表示手机号码格式正确，false表示格式错误
      */
     public static boolean validMobilePhone(String phone) {
-        return ReUtil.isMatch(PatternConstant.MOBILE_PHONE, phone);
+        return ReUtil.isMatch(MOBILE_PHONE, phone);
     }
 
 }

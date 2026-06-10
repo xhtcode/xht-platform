@@ -2,9 +2,9 @@ package com.xht.framework.security.core;
 
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.map.MapUtil;
-import com.xht.framework.core.enums.LoginTypeEnums;
-import com.xht.framework.core.enums.UserStatusEnums;
-import com.xht.framework.core.enums.UserTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.UserStatusEnums;
+import com.xht.framework.common.enums.UserTypeEnums;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 
 import java.util.Collections;

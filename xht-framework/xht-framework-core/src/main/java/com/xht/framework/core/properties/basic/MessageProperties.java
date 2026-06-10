@@ -1,7 +1,7 @@
 package com.xht.framework.core.properties.basic;
 
-import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.framework.core.support.message.core.MessageUser;
+import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.core.message.core.MessageUser;
 
 /**
  * 描述 ：基础属性

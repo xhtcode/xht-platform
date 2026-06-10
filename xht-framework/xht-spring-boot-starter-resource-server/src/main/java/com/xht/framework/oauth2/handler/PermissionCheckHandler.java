@@ -1,8 +1,8 @@
 package com.xht.framework.oauth2.handler;
 
 import cn.hutool.core.util.ArrayUtil;
-import com.xht.framework.core.enums.UserTypeEnums;
-import com.xht.framework.core.utils.ServletUtil;
+import com.xht.framework.common.enums.UserTypeEnums;
+import com.xht.framework.utils.ServletUtil;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import jakarta.servlet.http.HttpServletRequest;

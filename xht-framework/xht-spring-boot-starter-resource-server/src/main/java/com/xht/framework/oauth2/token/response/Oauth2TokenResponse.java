@@ -3,7 +3,7 @@ package com.xht.framework.oauth2.token.response;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xht.framework.core.constant.basic.RConstants;
+import com.xht.framework.common.constant.RConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;

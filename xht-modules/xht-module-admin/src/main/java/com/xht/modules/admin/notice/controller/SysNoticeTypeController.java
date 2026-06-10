@@ -1,7 +1,7 @@
 package com.xht.modules.admin.notice.controller;
 
-import com.xht.framework.core.domain.LabelValue;
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.LabelValue;
+import com.xht.framework.common.domain.R;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.modules.admin.notice.domain.form.SysNoticeTypeForm;

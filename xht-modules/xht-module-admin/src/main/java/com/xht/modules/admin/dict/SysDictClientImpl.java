@@ -1,9 +1,9 @@
 package com.xht.modules.admin.dict;
 
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.modules.admin.dict.api.ISysDictClient;
-import com.xht.framework.core.support.dict.domain.DictVo;
+import com.xht.framework.core.dict.domain.DictVo;
 import com.xht.modules.admin.dict.service.ISysDictItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

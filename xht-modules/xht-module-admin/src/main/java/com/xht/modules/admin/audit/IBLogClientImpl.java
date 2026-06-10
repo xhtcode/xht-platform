@@ -1,7 +1,7 @@
 package com.xht.modules.admin.audit;
 
-import com.xht.framework.core.domain.R;
-import com.xht.framework.core.support.blog.dto.BLogDTO;
+import com.xht.framework.common.domain.R;
+import com.xht.framework.core.blog.dto.BLogDTO;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.modules.admin.audit.api.IBLogClient;
 import com.xht.modules.admin.audit.service.IBLogService;

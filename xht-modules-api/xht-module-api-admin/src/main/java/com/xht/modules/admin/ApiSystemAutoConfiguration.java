@@ -1,7 +1,7 @@
 package com.xht.modules.admin;
 
-import com.xht.framework.core.support.dict.ISysDictFactory;
-import com.xht.framework.core.support.message.IMessagePublisher;
+import com.xht.framework.core.dict.ISysDictFactory;
+import com.xht.framework.core.message.IMessagePublisher;
 import com.xht.framework.log.annotations.ConditionalOnBLog;
 import com.xht.framework.log.configurers.BLogProperties;
 import com.xht.framework.log.repository.BLogRepository;

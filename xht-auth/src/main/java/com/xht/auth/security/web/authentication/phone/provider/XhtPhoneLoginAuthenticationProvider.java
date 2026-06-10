@@ -2,7 +2,7 @@ package com.xht.auth.security.web.authentication.phone.provider;
 
 import com.xht.auth.security.web.authentication.AbstractXhtLoginAuthenticationProvider;
 import com.xht.auth.security.web.authentication.phone.token.XhtPhoneLoginToken;
-import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnums;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;

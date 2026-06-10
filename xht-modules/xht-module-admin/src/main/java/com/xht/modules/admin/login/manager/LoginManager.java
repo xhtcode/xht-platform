@@ -1,14 +1,14 @@
 package com.xht.modules.admin.login.manager;
 
-import com.xht.framework.core.constant.HttpConstants;
-import com.xht.framework.core.domain.form.BasicForm;
-import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.common.constant.HttpConstants;
+import com.xht.framework.common.domain.form.BasicForm;
+import com.xht.framework.common.enums.LoginTypeEnums;
 import com.xht.framework.core.properties.XhtConfigProperties;
-import com.xht.framework.core.support.blog.enums.LogStatusEnums;
-import com.xht.framework.core.utils.IpUtils;
-import com.xht.framework.core.utils.ServletUtil;
-import com.xht.framework.core.utils.mdc.TraceIdUtils;
-import com.xht.framework.core.utils.spring.SpringContextUtils;
+import com.xht.framework.core.blog.enums.LogStatusEnums;
+import com.xht.framework.utils.IpUtils;
+import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.mdc.TraceIdUtils;
+import com.xht.framework.utils.spring.SpringContextUtils;
 import com.xht.framework.log.event.LoginRequestInfo;
 import com.xht.framework.oauth2.token.response.AbstractOauth2Response;
 import com.xht.modules.admin.login.dao.SysLoginLogDao;

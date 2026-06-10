@@ -1,6 +1,6 @@
 package com.xht.framework.security.utils;
 
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.utils.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Base64;

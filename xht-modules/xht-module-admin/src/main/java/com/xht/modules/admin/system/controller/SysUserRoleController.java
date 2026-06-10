@@ -1,6 +1,6 @@
 package com.xht.modules.admin.system.controller;
 
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.system.domain.form.UserBindRoleForm;

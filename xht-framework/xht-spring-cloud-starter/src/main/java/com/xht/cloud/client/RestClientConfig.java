@@ -1,6 +1,6 @@
 package com.xht.cloud.client;
 
-import com.xht.framework.core.constant.HttpConstants;
+import com.xht.framework.common.constant.HttpConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

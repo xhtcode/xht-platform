@@ -1,8 +1,8 @@
 package com.xht.modules.admin.system.converter;
 
-import com.xht.framework.core.utils.tree.INode;
-import com.xht.framework.core.utils.tree.TreeNode;
-import com.xht.framework.core.utils.tree.TreeUtils;
+import com.xht.framework.utils.tree.INode;
+import com.xht.framework.utils.tree.TreeNode;
+import com.xht.framework.utils.tree.TreeUtils;
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.modules.admin.system.domain.form.SysMenuForm;
 import com.xht.modules.admin.system.domain.response.SysMenuResponse;

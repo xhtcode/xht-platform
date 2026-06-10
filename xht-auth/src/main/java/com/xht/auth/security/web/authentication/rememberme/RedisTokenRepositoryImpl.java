@@ -2,7 +2,7 @@ package com.xht.auth.security.web.authentication.rememberme;
 
 import com.xht.auth.configuration.properties.RememberMeProperties;
 import com.xht.framework.cache.repository.RedisRepository;
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;

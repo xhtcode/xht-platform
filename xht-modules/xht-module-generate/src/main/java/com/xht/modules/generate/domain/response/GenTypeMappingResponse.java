@@ -1,6 +1,6 @@
 package com.xht.modules.generate.domain.response;
 
-import com.xht.framework.core.domain.response.MetaResponse;
+import com.xht.framework.common.domain.response.MetaResponse;
 import com.xht.modules.common.enums.DataBaseTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

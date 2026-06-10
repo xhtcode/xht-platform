@@ -1,8 +1,8 @@
 package com.xht.modules.admin.system.domain.query;
 
-import com.xht.framework.core.domain.query.PageBasicQuery;
-import com.xht.framework.core.enums.UserStatusEnums;
-import com.xht.framework.core.enums.UserTypeEnums;
+import com.xht.framework.common.domain.query.PageBasicQuery;
+import com.xht.framework.common.enums.UserStatusEnums;
+import com.xht.framework.common.enums.UserTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

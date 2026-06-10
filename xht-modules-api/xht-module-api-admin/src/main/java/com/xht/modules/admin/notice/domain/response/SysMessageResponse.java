@@ -2,9 +2,9 @@ package com.xht.modules.admin.notice.domain.response;
 
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.xht.framework.core.domain.response.MetaResponse;
-import com.xht.framework.core.support.message.core.MessageExtendInfo;
-import com.xht.framework.core.support.message.enums.MessageTypeEnums;
+import com.xht.framework.common.domain.response.MetaResponse;
+import com.xht.framework.core.message.core.MessageExtendInfo;
+import com.xht.framework.core.message.enums.MessageTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

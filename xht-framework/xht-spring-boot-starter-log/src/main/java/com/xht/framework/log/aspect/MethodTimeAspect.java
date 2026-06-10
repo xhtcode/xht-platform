@@ -1,6 +1,6 @@
 package com.xht.framework.log.aspect;
 
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.utils.StringUtils;
 import com.xht.framework.log.annotations.MethodTimeAnnotation;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

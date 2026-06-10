@@ -1,8 +1,8 @@
 package com.xht.modules.admin.notice.domain.query;
 
 
-import com.xht.framework.core.domain.query.PageBasicQuery;
-import com.xht.framework.core.support.message.enums.MessageTypeEnums;
+import com.xht.framework.common.domain.query.PageBasicQuery;
+import com.xht.framework.core.message.enums.MessageTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

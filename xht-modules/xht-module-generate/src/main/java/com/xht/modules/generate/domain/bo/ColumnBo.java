@@ -2,8 +2,8 @@ package com.xht.modules.generate.domain.bo;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-import com.xht.framework.core.constant.StringConstant;
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.common.constant.StringConstant;
+import com.xht.framework.utils.StringUtils;
 import com.xht.modules.common.enums.GenStatusEnums;
 import com.xht.modules.common.enums.IdPrimaryKeyEnums;
 import lombok.Getter;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.xht.auth.security.web.authentication.form.token.XhtFormLoginToken;
 import com.xht.auth.security.web.authentication.phone.token.XhtPhoneLoginToken;
-import com.xht.framework.core.jackson.mixin.HashSetMixin;
+import com.xht.framework.jackson.mixin.HashSetMixin;
 
 import java.util.HashSet;
 

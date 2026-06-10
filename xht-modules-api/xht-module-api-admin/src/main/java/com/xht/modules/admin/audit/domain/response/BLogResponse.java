@@ -1,7 +1,7 @@
 package com.xht.modules.admin.audit.domain.response;
 
-import com.xht.framework.core.domain.response.MetaResponse;
-import com.xht.framework.core.support.blog.enums.LogStatusEnums;
+import com.xht.framework.common.domain.response.MetaResponse;
+import com.xht.framework.core.blog.enums.LogStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

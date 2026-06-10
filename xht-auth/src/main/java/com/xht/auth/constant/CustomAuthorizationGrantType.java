@@ -1,6 +1,6 @@
 package com.xht.auth.constant;
 
-import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnums;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
 /**

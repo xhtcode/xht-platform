@@ -1,8 +1,8 @@
 package com.xht.auth.filter;
 
-import com.xht.framework.core.constant.HttpConstants;
-import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.core.utils.mdc.TraceIdUtils;
+import com.xht.framework.common.constant.HttpConstants;
+import com.xht.framework.utils.StringUtils;
+import com.xht.framework.utils.mdc.TraceIdUtils;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

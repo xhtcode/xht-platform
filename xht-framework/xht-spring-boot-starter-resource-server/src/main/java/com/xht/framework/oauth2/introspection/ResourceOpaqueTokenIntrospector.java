@@ -1,6 +1,6 @@
 package com.xht.framework.oauth2.introspection;
 
-import com.xht.framework.core.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnums;
 import com.xht.framework.oauth2.token.TokenInfoLightningCache;
 import com.xht.framework.security.constant.TokenCustomizerIdConstant;
 import com.xht.framework.security.core.BasicUserDetailsConvert;

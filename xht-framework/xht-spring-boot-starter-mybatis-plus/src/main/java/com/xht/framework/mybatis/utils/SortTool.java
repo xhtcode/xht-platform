@@ -1,9 +1,9 @@
 package com.xht.framework.mybatis.utils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.xht.framework.core.constant.StringConstant;
-import com.xht.framework.core.domain.query.BasicQuery;
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.common.constant.StringConstant;
+import com.xht.framework.common.domain.query.BasicQuery;
+import com.xht.framework.utils.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;

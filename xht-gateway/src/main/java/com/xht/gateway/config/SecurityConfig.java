@@ -1,6 +1,6 @@
 package com.xht.gateway.config;
 
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import com.xht.gateway.properties.SecurityGatewayProperties;
 import com.xht.gateway.utils.WebFluxUtils;
 import lombok.RequiredArgsConstructor;

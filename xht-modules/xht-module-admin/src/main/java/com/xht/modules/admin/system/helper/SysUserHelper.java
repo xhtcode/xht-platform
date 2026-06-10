@@ -1,6 +1,6 @@
 package com.xht.modules.admin.system.helper;
 
-import com.xht.framework.core.utils.IdCardUtils;
+import com.xht.framework.utils.IdCardUtils;
 import com.xht.modules.admin.system.converter.SysUserDetailConverter;
 import com.xht.modules.admin.system.domain.form.SysUserDetailForm;
 import com.xht.modules.admin.system.domain.form.SysUserForm;

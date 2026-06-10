@@ -1,7 +1,7 @@
 package com.xht.auth.authentication.domain.vo;
 
 import com.xht.auth.authentication.domain.response.SysOauth2ClientScopeResponse;
-import com.xht.framework.core.domain.vo.IVO;
+import com.xht.framework.common.domain.vo.IVO;
 import lombok.Data;
 
 import java.util.List;

@@ -2,7 +2,7 @@ package com.xht.auth.authentication.controller;
 
 import com.xht.auth.authentication.domain.vo.Oauth2ConsentVo;
 import com.xht.auth.authentication.service.IOauth2AuthorizationConsentService;
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;

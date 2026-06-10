@@ -1,6 +1,6 @@
 package com.xht.framework.oauth2.token.response;
 
-import com.xht.framework.core.domain.response.BasicResponse;
+import com.xht.framework.common.domain.response.BasicResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.xht.modules.admin.notice.service;
 
-import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.modules.admin.notice.domain.query.SysMessageInfoQuery;
 import com.xht.modules.admin.notice.domain.query.SysMessageQuery;
 import com.xht.modules.admin.notice.domain.response.SysMessageResponse;
@@ -8,7 +8,7 @@ import com.xht.modules.admin.notice.domain.vo.MessageInfoVo;
 import com.xht.modules.admin.notice.domain.vo.MessagePageVo;
 import com.xht.modules.admin.notice.enums.MessageStarEnums;
 import com.xht.modules.admin.notice.enums.MessageTopEnums;
-import com.xht.framework.core.support.message.core.MessagePayload;
+import com.xht.framework.core.message.core.MessagePayload;
 
 /**
  * 系统管理-站内信主表 Service

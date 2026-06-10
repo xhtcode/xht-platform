@@ -1,6 +1,6 @@
 package com.xht.modules.admin.audit;
 
-import com.xht.framework.core.support.blog.dto.BLogDTO;
+import com.xht.framework.core.blog.dto.BLogDTO;
 import com.xht.framework.log.repository.BLogRepository;
 import com.xht.modules.admin.audit.api.IBLogClient;
 import jakarta.annotation.Resource;

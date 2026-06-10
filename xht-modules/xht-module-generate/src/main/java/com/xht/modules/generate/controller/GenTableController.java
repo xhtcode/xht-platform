@@ -1,8 +1,8 @@
 package com.xht.modules.generate.controller;
 
-import com.xht.framework.core.domain.R;
-import com.xht.framework.core.domain.response.PageResponse;
-import com.xht.framework.core.validation.Groups;
+import com.xht.framework.common.domain.R;
+import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.framework.validation.Groups;
 import com.xht.modules.generate.domain.form.ImportTableForm;
 import com.xht.modules.generate.domain.form.TableColumnForm;
 import com.xht.modules.generate.domain.query.DataBaseQuery;

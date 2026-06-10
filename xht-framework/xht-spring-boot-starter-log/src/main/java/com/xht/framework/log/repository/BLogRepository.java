@@ -1,7 +1,7 @@
 package com.xht.framework.log.repository;
 
 import com.xht.framework.core.repository.IRepository;
-import com.xht.framework.core.support.blog.dto.BLogDTO;
+import com.xht.framework.core.blog.dto.BLogDTO;
 
 /**
  * blog 日志Repository

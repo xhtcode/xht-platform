@@ -1,6 +1,6 @@
 package com.xht.modules.admin.system.domain.query;
 
-import com.xht.framework.core.domain.query.PageBasicQuery;
+import com.xht.framework.common.domain.query.PageBasicQuery;
 import com.xht.modules.admin.system.enums.MenuStatusEnums;
 import com.xht.modules.admin.system.enums.MenuTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;

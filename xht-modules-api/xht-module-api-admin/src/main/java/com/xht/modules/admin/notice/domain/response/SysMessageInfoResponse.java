@@ -1,7 +1,7 @@
 package com.xht.modules.admin.notice.domain.response;
 
 
-import com.xht.framework.core.domain.response.MetaResponse;
+import com.xht.framework.common.domain.response.MetaResponse;
 import com.xht.modules.admin.notice.enums.MessageStarEnums;
 import com.xht.modules.admin.notice.enums.MessageStatusEnums;
 import com.xht.modules.admin.notice.enums.MessageTopEnums;

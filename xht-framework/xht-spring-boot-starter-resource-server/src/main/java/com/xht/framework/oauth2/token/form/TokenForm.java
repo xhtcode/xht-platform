@@ -1,6 +1,6 @@
 package com.xht.framework.oauth2.token.form;
 
-import com.xht.framework.core.domain.form.BasicForm;
+import com.xht.framework.common.domain.form.BasicForm;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;

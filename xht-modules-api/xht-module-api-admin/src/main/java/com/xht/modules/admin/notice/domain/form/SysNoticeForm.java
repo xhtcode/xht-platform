@@ -1,7 +1,7 @@
 package com.xht.modules.admin.notice.domain.form;
 
-import com.xht.framework.core.domain.form.BasicForm;
-import com.xht.framework.core.validation.Groups;
+import com.xht.framework.common.domain.form.BasicForm;
+import com.xht.framework.validation.Groups;
 import com.xht.modules.admin.notice.enums.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;

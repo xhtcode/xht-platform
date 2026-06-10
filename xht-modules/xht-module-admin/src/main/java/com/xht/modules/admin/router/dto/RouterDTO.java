@@ -1,6 +1,6 @@
 package com.xht.modules.admin.router.dto;
 
-import com.xht.framework.core.domain.vo.IVO;
+import com.xht.framework.common.domain.vo.IVO;
 
 import java.util.HashMap;
 

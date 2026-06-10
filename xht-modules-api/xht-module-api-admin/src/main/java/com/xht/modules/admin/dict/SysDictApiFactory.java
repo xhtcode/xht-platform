@@ -1,13 +1,13 @@
 package com.xht.modules.admin.dict;
 
 import com.xht.framework.cache.repository.RedisRepository;
-import com.xht.framework.core.domain.R;
-import com.xht.framework.core.exception.BusinessException;
+import com.xht.framework.common.domain.R;
+import com.xht.framework.exception.BusinessException;
 import com.xht.framework.core.properties.XhtConfigProperties;
 import com.xht.framework.core.properties.cache.CacheProperties;
-import com.xht.framework.core.support.dict.ISysDictFactory;
-import com.xht.framework.core.support.dict.domain.DictVo;
-import com.xht.framework.core.utils.ROptional;
+import com.xht.framework.core.dict.ISysDictFactory;
+import com.xht.framework.core.dict.domain.DictVo;
+import com.xht.framework.utils.ROptional;
 import com.xht.modules.admin.dict.api.ISysDictClient;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

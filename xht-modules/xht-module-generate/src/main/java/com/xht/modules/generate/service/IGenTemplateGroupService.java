@@ -1,6 +1,6 @@
 package com.xht.modules.generate.service;
 
-import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.modules.generate.domain.form.GenTemplateGroupForm;
 import com.xht.modules.generate.domain.query.GenTemplateGroupQuery;
 import com.xht.modules.generate.domain.response.GenTemplateGroupResponse;

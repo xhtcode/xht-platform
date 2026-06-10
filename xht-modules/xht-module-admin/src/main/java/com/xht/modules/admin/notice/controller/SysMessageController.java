@@ -1,7 +1,7 @@
 package com.xht.modules.admin.notice.controller;
 
-import com.xht.framework.core.domain.R;
-import com.xht.framework.core.domain.response.PageResponse;
+import com.xht.framework.common.domain.R;
+import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.modules.admin.notice.domain.query.SysMessageInfoQuery;
 import com.xht.modules.admin.notice.domain.query.SysMessageQuery;

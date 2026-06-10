@@ -1,6 +1,6 @@
 package com.xht.modules.admin.notice.service.impl;
 
-import com.xht.framework.core.domain.LabelValue;
+import com.xht.framework.common.domain.LabelValue;
 import com.xht.modules.admin.notice.converter.SysNoticeTypeConverter;
 import com.xht.modules.admin.notice.dao.SysNoticeTypeDao;
 import com.xht.modules.admin.notice.domain.form.SysNoticeTypeForm;

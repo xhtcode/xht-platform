@@ -1,6 +1,6 @@
 package com.xht.auth.security.oauth2.server.authorization.authentication;
 
-import com.xht.framework.core.utils.StringUtils;
+import com.xht.framework.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;

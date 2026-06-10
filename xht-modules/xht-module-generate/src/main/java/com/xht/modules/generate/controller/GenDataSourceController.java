@@ -1,7 +1,7 @@
 package com.xht.modules.generate.controller;
 
-import com.xht.framework.core.domain.R;
-import com.xht.framework.core.validation.Groups;
+import com.xht.framework.common.domain.R;
+import com.xht.framework.validation.Groups;
 import com.xht.modules.generate.domain.form.GenDataSourceForm;
 import com.xht.modules.generate.domain.query.GenDataSourceQuery;
 import com.xht.modules.generate.domain.response.GenDataSourceResponse;

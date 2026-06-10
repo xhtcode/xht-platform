@@ -1,9 +1,9 @@
 package com.xht.auth.captcha.handler;
 
 import cn.hutool.core.util.RandomUtil;
-import com.xht.framework.core.exception.utils.ThrowUtils;
-import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.core.utils.file.ResourceUtils;
+import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.StringUtils;
+import com.xht.framework.utils.file.ResourceUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 

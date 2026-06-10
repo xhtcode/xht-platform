@@ -1,9 +1,9 @@
 package com.xht.modules.admin.notice.api;
 
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
 import com.xht.modules.admin.audit.api.factory.BLogClientFallbackFactory;
-import com.xht.framework.core.support.message.core.MessagePayload;
+import com.xht.framework.core.message.core.MessagePayload;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

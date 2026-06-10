@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.xht.framework.core.enums.GenderEnums;
+import com.xht.framework.common.enums.GenderEnums;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import lombok.Data;
 

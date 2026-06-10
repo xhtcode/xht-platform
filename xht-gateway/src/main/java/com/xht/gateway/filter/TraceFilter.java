@@ -1,8 +1,8 @@
 package com.xht.gateway.filter;
 
-import com.xht.framework.core.constant.HttpConstants;
-import com.xht.framework.core.utils.StringUtils;
-import com.xht.framework.core.utils.mdc.TraceIdUtils;
+import com.xht.framework.common.constant.HttpConstants;
+import com.xht.framework.utils.StringUtils;
+import com.xht.framework.utils.mdc.TraceIdUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;

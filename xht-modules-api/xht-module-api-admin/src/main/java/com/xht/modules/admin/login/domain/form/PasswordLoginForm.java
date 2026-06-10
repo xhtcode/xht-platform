@@ -1,7 +1,7 @@
 package com.xht.modules.admin.login.domain.form;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xht.framework.core.domain.form.BasicForm;
+import com.xht.framework.common.domain.form.BasicForm;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

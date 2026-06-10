@@ -1,6 +1,6 @@
 package com.xht.modules.admin.area.controller;
 
-import com.xht.framework.core.domain.R;
+import com.xht.framework.common.domain.R;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.security.annotation.IgnoreAuth;

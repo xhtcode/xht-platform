@@ -1,7 +1,7 @@
 package com.xht.framework.mybatis.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.xht.framework.core.enums.XhtEnum;
+import com.xht.framework.common.enums.XhtEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
 package com.xht.modules.admin.system.domain.vo;
 
-import com.xht.framework.core.domain.vo.IVO;
+import com.xht.framework.common.domain.vo.IVO;
 import com.xht.modules.admin.system.domain.response.SysPostResponse;
 import com.xht.modules.admin.system.domain.response.SysUserDetailResponse;
 import com.xht.modules.admin.system.domain.response.SysUserResponse;

@@ -1,6 +1,6 @@
 package com.xht.modules.admin.login.exception;
 
-import com.xht.framework.core.exception.BusinessException;
+import com.xht.framework.exception.BusinessException;
 import com.xht.framework.oauth2.token.response.Oauth2ErrorResponse;
 import lombok.Getter;
 

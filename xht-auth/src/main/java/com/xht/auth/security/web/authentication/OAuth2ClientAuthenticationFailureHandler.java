@@ -1,7 +1,7 @@
 package com.xht.auth.security.web.authentication;
 
 import com.xht.auth.security.web.OAuth2ErrorHelper;
-import com.xht.framework.core.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtil;
 import com.xht.framework.oauth2.token.response.Oauth2ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

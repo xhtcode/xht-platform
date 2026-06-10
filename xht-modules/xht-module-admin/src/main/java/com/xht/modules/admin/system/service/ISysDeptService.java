@@ -1,6 +1,6 @@
 package com.xht.modules.admin.system.service;
 
-import com.xht.framework.core.utils.tree.INode;
+import com.xht.framework.utils.tree.INode;
 import com.xht.modules.admin.system.domain.form.SysDeptForm;
 import com.xht.modules.admin.system.domain.query.SysDeptTreeQuery;
 import com.xht.modules.admin.system.domain.response.SysDeptResponse;

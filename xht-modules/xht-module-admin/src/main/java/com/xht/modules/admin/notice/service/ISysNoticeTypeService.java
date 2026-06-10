@@ -1,6 +1,6 @@
 package com.xht.modules.admin.notice.service;
 
-import com.xht.framework.core.domain.LabelValue;
+import com.xht.framework.common.domain.LabelValue;
 import com.xht.modules.admin.notice.domain.form.SysNoticeTypeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeTypeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeTypeResponse;
