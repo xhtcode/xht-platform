@@ -52,10 +52,10 @@
         t1.user_status,t1.user_phone,t1.user_avatar,t1.dept_id,t1.dept_name,
         t1.create_time
         FROM sys_user t1 where t1.del_flag = #{delFlag}
-        <if test="loginType == @com.xht.framework.core.enums.LoginTypeEnums@PASSWORD.value">
+        <if test="loginType == @com.xht.framework.common.enums.LoginTypeEnums@PASSWORD.value">
             AND t1.user_name = #{userName}
         </if>
-        <if test="loginType == @com.xht.framework.core.enums.LoginTypeEnums@PHONE.value">
+        <if test="loginType == @com.xht.framework.common.enums.LoginTypeEnums@PHONE.value">
             AND t1.user_phone = #{userName}
         </if>
     </select>

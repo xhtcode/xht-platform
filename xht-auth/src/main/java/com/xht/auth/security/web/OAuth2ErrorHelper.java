@@ -72,8 +72,6 @@ public final class OAuth2ErrorHelper {
                 break;
 
             case OAuth2ErrorCodes.SERVER_ERROR:
-                this.code = 500;
-                this.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
                 this.message = "授权服务异常，请稍后重试";
                 break;
 

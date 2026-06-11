@@ -47,16 +47,14 @@ public final class XhtAuthorizationServerConfigurer extends AbstractHttpConfigur
      * @param http HTTP安全配置对象，用于配置各种安全相关的组件
      */
     @Override
-    public void init(HttpSecurity http) throws Exception {
+    public void init(HttpSecurity http) {
         log.info("XhtAuthorizationServerConfigurer init");
         Assert.notNull(userDetailsService, "basicUserDetailsService cannot be null");
         Assert.notNull(captchaService, "iCaptchaService cannot be null");
-        authorizationServerConfigurer.tokenEndpoint(tokenEndpoint -> {
-            tokenEndpoint.accessTokenRequestConverters((converters) -> {
-                converters.add(new PassWordAuthenticationConverter());
-                converters.add(new PhoneAuthenticationConverter());
-            });
-        });
+        authorizationServerConfigurer.tokenEndpoint(tokenEndpoint -> tokenEndpoint.accessTokenRequestConverters((converters) -> {
+            converters.add(new PassWordAuthenticationConverter());
+            converters.add(new PhoneAuthenticationConverter());
+        }));
     }
 
     /**
@@ -70,11 +68,10 @@ public final class XhtAuthorizationServerConfigurer extends AbstractHttpConfigur
      * @param http HTTP安全配置对象，用于获取共享对象和配置过滤器链
      */
     @Override
-    public void configure(HttpSecurity http) throws Exception {
+    public void configure(HttpSecurity http) {
         log.info("XhtAuthorizationServerConfigurer configure");
         OAuth2TokenGenerator<?> tokenGenerator = http.getSharedObject(OAuth2TokenGenerator.class);
         OAuth2AuthorizationService authorizationService = http.getSharedObject(OAuth2AuthorizationService.class);
-        OAuth2AuthorizationServerConfigurer configurer = http.getConfigurer(OAuth2AuthorizationServerConfigurer.class);
         PassWordAuthenticationProvider passWordAuthenticationProvider = new PassWordAuthenticationProvider(authorizationService, tokenGenerator, userDetailsService, captchaService);
         PhoneAuthenticationProvider phoneAuthenticationProvider = new PhoneAuthenticationProvider(authorizationService, tokenGenerator, userDetailsService, captchaService);
         http.authenticationProvider(passWordAuthenticationProvider);

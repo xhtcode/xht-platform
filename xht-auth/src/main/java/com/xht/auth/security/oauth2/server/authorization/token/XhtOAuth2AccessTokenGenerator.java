@@ -1,6 +1,5 @@
 package com.xht.auth.security.oauth2.server.authorization.token;
 
-import cn.hutool.core.util.IdUtil;
 import org.springframework.lang.Nullable;
 import org.springframework.security.oauth2.core.ClaimAccessor;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
@@ -102,7 +101,7 @@ public final class XhtOAuth2AccessTokenGenerator implements OAuth2TokenGenerator
         OAuth2TokenClaimsSet accessTokenClaimsSet = claimsBuilder.build();
 
         return new OAuth2AccessTokenClaims(
-                IdUtil.fastSimpleUUID(), accessTokenClaimsSet.getIssuedAt(),
+                TokenUtils.generateToken(context.getTokenType()), accessTokenClaimsSet.getIssuedAt(),
                 accessTokenClaimsSet.getExpiresAt(), context.getAuthorizedScopes(), accessTokenClaimsSet.getClaims());
     }
 

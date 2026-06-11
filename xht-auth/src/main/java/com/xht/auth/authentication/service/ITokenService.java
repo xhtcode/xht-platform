@@ -1,7 +1,6 @@
 package com.xht.auth.authentication.service;
 
 import com.xht.auth.authentication.domain.response.TokenUserInfoResponse;
-import com.xht.framework.oauth2.token.response.Oauth2TokenResponse;
 
 /**
  * 令牌服务接口

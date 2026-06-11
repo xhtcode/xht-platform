@@ -1,6 +1,5 @@
 package com.xht.auth.security.oauth2.server.authorization.token;
 
-import cn.hutool.core.util.IdUtil;
 import org.springframework.lang.Nullable;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -45,7 +44,7 @@ public final class XhtOAuth2RefreshTokenGenerator implements OAuth2TokenGenerato
 
         Instant issuedAt = Instant.now();
         Instant expiresAt = issuedAt.plus(context.getRegisteredClient().getTokenSettings().getRefreshTokenTimeToLive());
-        return new OAuth2RefreshToken(IdUtil.fastSimpleUUID(), issuedAt, expiresAt);
+        return new OAuth2RefreshToken(TokenUtils.generateToken(context.getTokenType()), issuedAt, expiresAt);
     }
 
 }

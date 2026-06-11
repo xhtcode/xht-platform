@@ -31,16 +31,4 @@ public class Oauth2AuthorizationConsentController {
         return R.ok().build(oauth2AuthorizationConsentService.getConsentInfo(scope, clientId, state, userCode));
     }
 
-    // private final SessionRegistry sessionRegistry;
-    //
-    // public List<User> getLoginUser() {
-    //     List<Object> list = sessionRegistry.getAllPrincipals();
-    //     List<User> userList = new ArrayList<>();
-    //     for (Object o : list) {
-    //         if (o instanceof User user) {
-    //             userList.add(user);
-    //         }
-    //     }
-    //     return userList;
-    // }
 }

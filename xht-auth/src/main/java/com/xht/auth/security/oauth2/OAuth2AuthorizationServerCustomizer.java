@@ -33,6 +33,7 @@ public class OAuth2AuthorizationServerCustomizer implements Customizer<OAuth2Aut
         authorizationServer.clientAuthentication(clientAuthenticationCustomizer());
         // Enable OpenID Connect 1.0
         authorizationServer.oidc(oidc());
+        // 授权端点
         authorizationServer.authorizationEndpoint(authorizationEndpoint());
         // 令牌端点
         authorizationServer.tokenEndpoint(tokenEndpoint());

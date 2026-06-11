@@ -9,6 +9,7 @@ import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
 import com.xht.auth.security.oauth2.OAuth2AuthorizationServerCustomizer;
 import com.xht.auth.security.oauth2.XhtAuthorizationServerConfigurer;
+import com.xht.auth.security.oauth2.jwt.XhtNimbusJwtDecoder;
 import com.xht.auth.security.oauth2.server.authorization.token.JwtTokenCustomizer;
 import com.xht.auth.security.oauth2.server.authorization.token.OpaqueTokenClaimsCustomizer;
 import com.xht.auth.security.oauth2.server.authorization.token.XhtOAuth2AccessTokenGenerator;
@@ -83,6 +84,8 @@ public class AuthorizationServerAutoConfiguration {
         });
         // 配置授权服务器 认证
         http.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
+        http.oauth2ResourceServer(rs -> {
+        });
         return http.build();
     }
 
@@ -94,8 +97,8 @@ public class AuthorizationServerAutoConfiguration {
     }
 
     @Bean
-    public OAuth2TokenGenerator<?> tokenGenerator(JWKSource<SecurityContext> jwkSource) {
-        JwtGenerator jwtGenerator = new JwtGenerator(new NimbusJwtEncoder(jwkSource));
+    public OAuth2TokenGenerator<?> tokenGenerator(JwtEncoder jwtEncoder) {
+        JwtGenerator jwtGenerator = new JwtGenerator(jwtEncoder);
         jwtGenerator.setJwtCustomizer(new JwtTokenCustomizer());
         XhtOAuth2AccessTokenGenerator accessTokenGenerator = new XhtOAuth2AccessTokenGenerator();
         accessTokenGenerator.setAccessTokenCustomizer(new OpaqueTokenClaimsCustomizer());
@@ -131,7 +134,8 @@ public class AuthorizationServerAutoConfiguration {
 
     @Bean
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+        JwtDecoder jwtDecoder = OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+        return new XhtNimbusJwtDecoder(jwtDecoder);
     }
 
     /**

@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Oauth2属性
  *
@@ -18,6 +20,11 @@ public class XhtOauth2Properties {
      * 认证服务器地址
      */
     private String issuer;
+    
+    /**
+     * 允许的跨域域名
+     */
+    private List<String> allowedOrigins;
 
     /**
      * 客户端属性

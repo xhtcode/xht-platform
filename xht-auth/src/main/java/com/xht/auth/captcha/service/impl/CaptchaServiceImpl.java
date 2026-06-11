@@ -77,9 +77,6 @@ public class CaptchaServiceImpl implements ICaptchaService {
      */
     @Override
     public void checkCaptcha(String requestKey, String requestCaptcha, CaptchaBusinessTypeEnums captchaBusinessType) {
-        if (true){
-            return;
-        }
         String cacheKey = null;
         try {
             ThrowUtils.hasText(requestCaptcha, () -> new CaptchaException("验证码错误，请输入正确的验证码"));
