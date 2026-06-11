@@ -31,7 +31,6 @@
 
     <!-- 分页查询 -->
     <select id="findPageList" resultMap="BaseResultMap">
-        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         SELECT t1.id,
         t1.notice_type_id,
         t2.notice_type_name,
@@ -56,7 +55,7 @@
         FROM sys_notice t1
         LEFT JOIN sys_notice_type t2
         on t1.notice_type_id = t2.id
-        where t1.del_flag = #{delFlag}
+        where t1.del_flag = ${delFlag}
         <!-- 通知快速查询 -->
         <if test="query.quick">
             <if test="query.keyWord != null and query.keyWord != ''">

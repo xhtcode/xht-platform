@@ -57,6 +57,7 @@ xht:
     banner:
       enable: true
     app-name: 后台管理
+    host-name: www.xht.sso.com
   security:
     ignore:
       whites:
@@ -81,3 +82,5 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
   mapper-locations: classpath*:mapper/**/*Mapper.xml
+  configuration-properties:
+    delFlag: ${mybatis-plus.global-config.db-config.logic-not-delete-value}

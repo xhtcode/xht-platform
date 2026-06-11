@@ -76,9 +76,11 @@ public class StartupInfoPrinter implements ApplicationRunner {
     @Override
     @SuppressWarnings("all")
     public void run(ApplicationArguments args) {
+        XhtConfigProperties.GlobalConfigProperties global = xhtConfigProperties.getGlobal();
+        String appName = Optional.ofNullable(global).map(XhtConfigProperties.GlobalConfigProperties::getAppName).orElse(applicationName);
+        String hostName = Optional.ofNullable(global).map(XhtConfigProperties.GlobalConfigProperties::getHostName).orElse("localhost");
         // @formatter:off
-        Boolean banner = Optional.ofNullable(xhtConfigProperties)
-                .map(XhtConfigProperties::getGlobal)
+        Boolean banner = Optional.ofNullable(global)
                 .map(XhtConfigProperties.GlobalConfigProperties::getBanner)
                 .map(EnableProperties::isEnable)
                 .orElse(true);
@@ -93,10 +95,10 @@ public class StartupInfoPrinter implements ApplicationRunner {
             appendString(sb, "\n");
             appendString(sb, "🙋‍♂️项目作者:\t👉小糊涂(xht)👈%n");
             appendString(sb, "⌚启动时间:\t👉%s👈%n", DateUtil.now());
-            appendString(sb, "🌴项目名称:\t%s%n", applicationName);
+            appendString(sb, "🌴服务名称:\t%s%n", applicationName);
+            appendString(sb, "🐣项目名称:\t%s%n", appName);
             appendString(sb, "🌎当前环境:\t%s%n", activeProfile);
-            appendString(sb, "🌐本地访问地址:\thttp://localhost:%s%s%n", serverPort, contextPath);
-            appendString(sb, "🌐外部访问地址:\thttp://%s:%s%s%n", serverIp, serverPort, contextPath);
+            appendString(sb, "🌐访问地址:\thttp://%s:%s%s%n",hostName, serverPort, contextPath);
             if (addSwaggerIgnoreUrls){
                 appendString(sb, "📚 接口文档地址:%n");
                 appendString(sb, "   ├─ Knife4j文档:\thttp://localhost:%s%s/doc.html%n", serverPort, contextPath);

@@ -45,6 +45,10 @@ xht:
     xss:
       enable: true
   global:
+    banner:
+      enable: true
+    app-name: 案例工程
+    host-name: www.xht.sso.com
     dict:
       unit: microseconds
       properties:
@@ -53,3 +57,14 @@ xht:
         retry-interval: 5000
   blog:
     repository-type: default
+mybatis-plus:
+  configuration:
+    default-executor-type: batch
+  global-config:
+    db-config:
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  configuration-properties:
+    delFlag: ${mybatis-plus.global-config.db-config.logic-not-delete-value}

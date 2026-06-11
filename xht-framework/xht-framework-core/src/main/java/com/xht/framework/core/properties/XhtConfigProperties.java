@@ -42,6 +42,11 @@ public class XhtConfigProperties implements IProperties {
         private String appName;
 
         /**
+         * 主机地址
+         */
+        private String hostName = "localhost";
+
+        /**
          * 启动Banner属性
          */
         @NestedConfigurationProperty

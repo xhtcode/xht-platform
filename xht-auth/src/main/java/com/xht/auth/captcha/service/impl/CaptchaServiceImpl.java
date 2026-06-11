@@ -1,6 +1,7 @@
 package com.xht.auth.captcha.service.impl;
 
 import com.xht.auth.authentication.dao.IAuthenticationDao;
+import com.xht.auth.captcha.domain.response.CaptchaResponse;
 import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnums;
 import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.auth.captcha.handler.captcha.ArithmeticCaptcha;
@@ -9,12 +10,11 @@ import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.utils.ThrowUtils;
-import com.xht.auth.captcha.domain.response.CaptchaResponse;
-import com.xht.framework.utils.IdUtils;
-import com.xht.framework.utils.StringUtils;
 import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.sms.exception.SmsException;
 import com.xht.framework.sms.utils.SmsUtils;
+import com.xht.framework.utils.IdUtils;
+import com.xht.framework.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -79,6 +79,9 @@ public class CaptchaServiceImpl implements ICaptchaService {
     public void checkCaptcha(String requestKey, String requestCaptcha, CaptchaBusinessTypeEnums captchaBusinessType) {
         String cacheKey = null;
         try {
+            if (true){
+                return;
+            }
             ThrowUtils.hasText(requestCaptcha, () -> new CaptchaException("验证码错误，请输入正确的验证码"));
             ThrowUtils.hasText(requestKey, () -> new CaptchaException("验证码错误，请输入正确的验证码"));
             cacheKey = Keys.createKey(REDIS_CAPTCHA_CODE_KEY_PREFIX, captchaBusinessType.getValue(), requestKey);

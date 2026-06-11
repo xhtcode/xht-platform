@@ -46,64 +46,61 @@
 
     <!-- 根据用户名和登录类型查询用户信息 -->
     <select id="findByUsernameAndLoginType" resultMap="DtoResultMap">
-        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         SELECT
         t1.id,t1.user_type,t1.user_name,t1.nick_name,t1.pass_word,t1.pass_word_salt,
         t1.user_status,t1.user_phone,t1.user_avatar,t1.dept_id,t1.dept_name,
         t1.create_time
-        FROM sys_user t1 where t1.del_flag = #{delFlag}
-        <if test="loginType == @com.xht.framework.common.enums.LoginTypeEnums@PASSWORD.value">
+        FROM sys_user t1 where t1.del_flag = ${delFlag}
+        <if test="loginType == 'password'">
             AND t1.user_name = #{userName}
         </if>
-        <if test="loginType == @com.xht.framework.common.enums.LoginTypeEnums@PHONE.value">
-            AND t1.user_phone = #{userName}
+        <if test="loginType == 'phone'">
+            AND t1.user_name = #{userName}
         </if>
     </select>
 
     <!-- 根据用户ID查询用户拥有的角色编码集合 -->
     <select id="findRoleCodesByUserId" resultType="java.lang.String">
-        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         SELECT
-        sys_role.role_code
+            sys_role.role_code
         FROM
-        sys_user_role
-        LEFT JOIN sys_role ON sys_user_role.role_id = sys_role.id
-        WHERE sys_role.del_flag = #{delFlag}
-        AND sys_user_role.user_id = #{userId}
+            sys_user_role
+                LEFT JOIN sys_role ON sys_user_role.role_id = sys_role.id
+        WHERE sys_role.del_flag = ${delFlag}
+          AND sys_user_role.user_id = #{userId}
     </select>
 
     <!-- 根据用户ID查询用户拥有的菜单编码集合 -->
     <select id="findMenuCodesByUserId" resultType="java.lang.String">
-        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         SELECT
-        sys_menu.menu_authority
+            sys_menu.menu_authority
         FROM
-        sys_role_menu
-        LEFT JOIN sys_menu ON sys_role_menu.menu_id = sys_menu.id
-        LEFT JOIN sys_role ON sys_role_menu.role_id = sys_role.id
-        LEFT JOIN sys_user_role ON sys_role.id = sys_user_role.role_id
-        WHERE sys_menu.del_flag = #{delFlag}
-        AND sys_menu.menu_status = '0'
-        AND sys_menu.menu_type = 'B'
-        AND sys_user_role.user_id = #{userId}
+            sys_role_menu
+                LEFT JOIN sys_menu ON sys_role_menu.menu_id = sys_menu.id
+                LEFT JOIN sys_role ON sys_role_menu.role_id = sys_role.id
+                LEFT JOIN sys_user_role ON sys_role.id = sys_user_role.role_id
+        WHERE sys_menu.del_flag = ${delFlag}
+          AND sys_menu.menu_status = '0'
+          AND sys_menu.menu_type = 'B'
+          AND sys_user_role.user_id = #{userId}
     </select>
 
     <!-- 根据客户端标识查询客户端信息 -->
     <select id="findClientDetailsById" resultMap="Oauth2ClientResultMap">
-        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         select id,client_id,client_id_issued_at,client_secret,client_secret_expires_at,client_name,
-        client_authentication_methods,authorization_grant_types,redirect_uris,scopes,access_token_validity,
-        refresh_token_validity,additional_information,auto_approve,remark,del_flag
-        from sys_oauth2_client where del_flag = #{delFlag} and client_id = #{clientId}
+               client_authentication_methods,authorization_grant_types,redirect_uris,scopes,access_token_validity,
+               refresh_token_validity,additional_information,auto_approve,remark
+        from sys_oauth2_client
+        where del_flag = ${delFlag}
+          and client_id = #{clientId}
     </select>
 
     <!-- 根据手机号查询用户信息是否存在 -->
     <select id="existsUserByPhone" resultType="java.lang.Long">
-        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         SELECT count(1)
         FROM sys_user
         WHERE user_phone = #{phone}
-        AND del_flag = #{delFlag}
+          AND del_flag = ${delFlag}
     </select>
 
     <resultMap id="TokenUserInfoMap" type="com.xht.auth.authentication.domain.response.TokenUserInfoResponse">
@@ -119,13 +116,13 @@
     </resultMap>
 
     <select id="findByUserId" resultMap="TokenUserInfoMap">
-        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         SELECT
-        t1.id,t1.user_type,t1.user_name,t1.nick_name,t1.pass_word,t1.pass_word_salt,
-        t1.user_status,t1.user_phone,t1.user_avatar,t1.dept_id,t1.dept_name,
-        t1.create_time
-        FROM sys_user t1 where t1.del_flag = #{delFlag}
-        AND t1.id = #{userId}
+            t1.user_type,t1.user_name,t1.nick_name,
+            t1.user_status,t1.user_phone,t1.user_avatar,t1.dept_id,t1.dept_name,
+            t1.create_time
+        FROM sys_user t1
+        where t1.del_flag = ${delFlag}
+          AND t1.id = #{userId}
     </select>
 
 </mapper>

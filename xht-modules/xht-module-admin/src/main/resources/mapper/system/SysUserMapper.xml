@@ -31,7 +31,6 @@
     </resultMap>
 
     <sql id="BaseQuerySQL">
-        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         SELECT
         t1.id,t1.user_type,t1.user_name,t1.nick_name,t1.pass_word,t1.pass_word_salt,
         CASE t1.pass_word_plain_text WHEN null THEN 1 ELSE 0 END as initial_password_flag,
@@ -42,7 +41,7 @@
         t2.nation,t2.create_by,t2.create_time,t2.update_by, t2.update_time
         FROM sys_user t1
         LEFT JOIN sys_user_detail t2 ON t2.user_id = t1.id
-        WHERE t1.del_flag = #{delFlag}
+        WHERE t1.del_flag = ${delFlag}
     </sql>
 
     <select id="findInfoByUserId" resultMap="BaseResultMap">

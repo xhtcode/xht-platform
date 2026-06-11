@@ -71,6 +71,11 @@ springdoc:
     - /favicon.ico
     - /css/**
 xht:
+  global:
+    banner:
+      enable: true
+    app-name: 授权服务
+    host-name: www.xht.sso.com
   security:
     remember-me:
       cache-key: xht:rememberMe
@@ -100,12 +105,14 @@ xht:
       enable: true
     header:
       auth-key: X-Auth-Token
-
-
 mybatis-plus:
+  configuration:
+    default-executor-type: batch
   global-config:
     db-config:
       logic-delete-field: delFlag
       logic-delete-value: 1
       logic-not-delete-value: 0
-  mapper-locations: classpath:mapper/*Mapper.xml
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  configuration-properties:
+    delFlag: 0

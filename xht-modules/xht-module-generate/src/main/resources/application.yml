@@ -31,6 +31,13 @@ spring:
   data:
     mongodb:
       uri: mongodb://127.0.0.1:27017/moa
+xht:
+  global:
+    banner:
+      enable: true
+    app-name: 代码生成器
+    host-name: www.xht.sso.com
+
 springdoc:
   api-docs:
     enabled: true
@@ -44,9 +51,13 @@ springdoc:
     - /actuator/**
     - /favicon.ico
 mybatis-plus:
+  configuration:
+    default-executor-type: batch
   global-config:
     db-config:
       logic-delete-field: delFlag
       logic-delete-value: 1
       logic-not-delete-value: 0
-  mapper-locations: classpath:mapper/*Mapper.xml
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  configuration-properties:
+    delFlag: ${mybatis-plus.global-config.db-config.logic-not-delete-value}

@@ -7,6 +7,7 @@ import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.crypto.MD5Utils;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
@@ -37,7 +38,12 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     public void save(OAuth2Authorization authorization) {
         remove(authorization);
         OAuth2AuthorizationWrapper authorizationWrapper = OAuth2AuthorizationWrapper.wrap(authorization);
-        String idKey = Keys.createKey(AuthorizationConstant.AUTHORIZATION_ID_KEY_PREFIX, authorization.getId());
+        String principalName = authorization.getPrincipalName();
+        AuthorizationGrantType authorizationGrantType = authorization.getAuthorizationGrantType();
+        if (AuthorizationGrantType.CLIENT_CREDENTIALS.equals(authorizationGrantType)){
+            principalName = authorization.getId();
+        }
+        String idKey = Keys.createKey(AuthorizationConstant.AUTHORIZATION_ID_KEY_PREFIX, principalName);
         authorizationWrapper
                 .accessToken((cacheInfo) -> save(cacheInfo.getKey(), authorization, cacheInfo.getTimeout(), cacheInfo.getTimeUnit()))
                 .refreshToken((cacheInfo) -> save(cacheInfo.getKey(), authorization, cacheInfo.getTimeout(), cacheInfo.getTimeUnit()))

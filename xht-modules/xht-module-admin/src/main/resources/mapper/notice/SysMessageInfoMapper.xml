@@ -32,7 +32,6 @@
 
 
     <select id="findInfoByMessageId" resultMap="BaseResultMap">
-        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         SELECT
         t1.id AS t1_id,
         t1.sender_name,
@@ -58,15 +57,14 @@
         sys_message t1
         LEFT JOIN sys_message_info t2 ON t1.id = t2.message_id
         WHERE
-        t1.del_flag = #{delFlag}
-        AND t2.del_flag = #{delFlag}
+        t1.del_flag = ${delFlag}
+        AND t2.del_flag = ${delFlag}
         AND t1.id = #{messageId}
         AND t2.recipient_id = #{userId}
     </select>
 
     <!-- 分页查询我接收的站内信  -->
     <select id="findMyMessagePageList" resultMap="BaseResultMap">
-        <bind name="delFlag" value="@com.xht.framework.mybatis.enums.DelFlagEnum@NORMAL.getValue()"/>
         SELECT
         t1.id AS t1_id,
         t1.sender_name,
@@ -85,8 +83,8 @@
         sys_message t1
         LEFT JOIN sys_message_info t2 ON t1.id = t2.message_id
         WHERE
-        t1.del_flag = #{delFlag}
-        AND t2.del_flag = #{delFlag}
+        t1.del_flag = ${delFlag}
+        AND t2.del_flag = ${delFlag}
         AND t2.recipient_id = #{query.recipientId}
         AND t2.message_status IN (1,2)
         <if test="query.messageStatus != null">
