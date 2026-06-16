@@ -17,7 +17,7 @@ public @interface DataPermission {
      * 数据权限类别
      * @return 数据权限类别
      */
-    String type() default "";
+    String type();
 
     /**
      * 是否忽略数据权限

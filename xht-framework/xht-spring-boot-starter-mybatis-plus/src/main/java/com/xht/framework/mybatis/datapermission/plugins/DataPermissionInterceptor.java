@@ -16,8 +16,6 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Arrays;
-
 /**
  * 描述：自定义mybatis拦截器
  *
@@ -38,18 +36,12 @@ public class DataPermissionInterceptor implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         // 在执行前进行拦截逻辑
-        System.out.println("Before executing the database operation...");
-        Object target = invocation.getTarget();
         Object[] args = invocation.getArgs();
         MappedStatement mappedStatement = (MappedStatement) args[0];
         SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
-        log.info("Target: {} Args: {}", target, Arrays.toString(args));
         dataPermissionContext.execute(args, mappedStatement, sqlCommandType);
         // 执行原始操作
-        Object result = invocation.proceed();
-        // 在执行后进行拦截逻辑
-        System.out.println("After executing the database operation...");
-        return result;
+        return invocation.proceed();
     }
 
 
