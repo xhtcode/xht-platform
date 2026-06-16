@@ -25,7 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class StartupInfoPrinter implements ApplicationRunner {
 
-    @Value("${xht.security.ignore.whites.add-swagger-ignore-urls:false}")
+    @Value("${xht.security.ignore.whites.add-swagger-ignore-urls:true}")
     private boolean addSwaggerIgnoreUrls;
 
     /**
@@ -93,17 +93,17 @@ public class StartupInfoPrinter implements ApplicationRunner {
             appendString(sb, "\n");
             appendString(sb, ASCII_ART);
             appendString(sb, "\n");
+            appendString(sb, "🐣项目名称:\t👉%s👈%n", appName);
             appendString(sb, "🙋‍♂️项目作者:\t👉小糊涂(xht)👈%n");
             appendString(sb, "⌚启动时间:\t👉%s👈%n", DateUtil.now());
             appendString(sb, "🌴服务名称:\t%s%n", applicationName);
-            appendString(sb, "🐣项目名称:\t%s%n", appName);
             appendString(sb, "🌎当前环境:\t%s%n", activeProfile);
             appendString(sb, "🌐访问地址:\thttp://%s:%s%s%n",hostName, serverPort, contextPath);
             if (addSwaggerIgnoreUrls){
                 appendString(sb, "📚 接口文档地址:%n");
-                appendString(sb, "   ├─ Knife4j文档:\thttp://localhost:%s%s/doc.html%n", serverPort, contextPath);
-                appendString(sb, "   ├─ Swagger文档:\thttp://localhost:%s%s/swagger-ui.html%n", serverPort, contextPath);
-                appendString(sb, "   └─ OpenAPI规范:\thttp://localhost:%s%s/v3/api-docs%n", serverPort, contextPath);
+                appendString(sb, "   ├─ Knife4j文档:\thttp://%s:%s%s/doc.html%n", hostName, serverPort, contextPath);
+                appendString(sb, "   ├─ Swagger文档:\thttp://%s:%s%s/swagger-ui.html%n", hostName, serverPort, contextPath);
+                appendString(sb, "   └─ OpenAPI规范:\thttp://%s:%s%s/v3/api-docs%n", hostName, serverPort, contextPath);
             }
             appendString(sb, "\n");
             appendString(sb, SEPARATOR);

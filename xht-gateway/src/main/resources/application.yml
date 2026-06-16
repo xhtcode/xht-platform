@@ -54,6 +54,11 @@ spring:
       database: 0
 
 xht:
+  global:
+    banner:
+      enable: true
+    app-name: 授权服务
+    host-name: www.xht.sso.com
   security:
     ignore:
       whites:

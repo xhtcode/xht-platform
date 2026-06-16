@@ -16,6 +16,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.xht.framework.jackson.CustomJacksonModule;
+import com.xht.framework.mybatis.datapermission.DataPermissionContext;
+import com.xht.framework.mybatis.datapermission.plugins.DataPermissionInterceptor;
+import com.xht.framework.mybatis.datapermission.strategy.AbstractDataPermissionStrategy;
 import com.xht.framework.mybatis.handler.MybatisPlusMetaObjectHandler;
 import com.xht.framework.mybatis.handler.MybatisPlusSecurityMetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +30,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.List;
 
 /**
  * 描述 ： mybatis 自动配置
@@ -55,6 +60,27 @@ public class MybatisAutoConfiguration implements CommandLineRunner {
         // 禁全表更删插件
         interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
         return interceptor;
+    }
+
+    /**
+     * 数据权限上下文
+     * @return 数据权限上下文
+     */
+    @Bean
+    public DataPermissionContext dataPermissionContext(List<AbstractDataPermissionStrategy> dataPermissionStrategies) {
+        return new DataPermissionContext(dataPermissionStrategies);
+    }
+
+    /**
+     * xht mybatis拦截器
+     * @return xht mybatis拦截器
+     */
+    @Bean
+    @Order
+    public DataPermissionInterceptor dataPermissionInterceptor(DataPermissionContext dataPermissionContext) {
+        DataPermissionInterceptor dataPermissionInterceptor = new DataPermissionInterceptor();
+        dataPermissionInterceptor.setDataPermissionContext(dataPermissionContext);
+        return dataPermissionInterceptor;
     }
 
     /**
