@@ -1,0 +1,24 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          gitee:
+            provider: gitee
+            client-name: 码云
+            client-id: d02c3b9c9763bccbed53da75a8beea01ed22a8ec98a55c2f8d20eace48d68221
+            client-secret: d9c4d4234c5465263beaa91968fdc5cc78b6b2b50f9c1ce5310ea96c8a9ed48b
+            authorization-grant-type: authorization_code
+            redirect-uri: http://www.xht.sso.com:9000/login/oauth2/code/gitee
+            scope: user_info
+        provider:
+          gitee:
+            # 设置用户信息响应体中账号的字段
+            user-name-attribute: id
+            # 获取token的地址
+            token-uri: https://gitee.com/oauth/token
+            # 获取用户信息的地址
+            user-info-uri: https://gitee.com/api/v5/user
+            # 发起授权申请的地址
+            authorization-uri: https://gitee.com/oauth/authorize
+

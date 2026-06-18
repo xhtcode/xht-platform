@@ -27,13 +27,6 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
     protected static final int DEFAULT_BATCH_SIZE = 100;
 
     /**
-     * 获取主键字段名
-     *
-     * @return 主键字段名
-     */
-    protected abstract SFunction<T, ?> getFieldId();
-
-    /**
      * 保存单个实体
      *
      * @param entity 实体
@@ -351,5 +344,13 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
     protected final <A> boolean condition(A[] array) {
         return array != null && array.length > 0;
     }
+
+
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    protected abstract SFunction<T, ?> getFieldId();
 
 }

@@ -1,4 +1,4 @@
-package com.xht.auth.authentication.dao;
+package com.xht.auth.security.authentication.dao;
 
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.utils.PassWordUtils;

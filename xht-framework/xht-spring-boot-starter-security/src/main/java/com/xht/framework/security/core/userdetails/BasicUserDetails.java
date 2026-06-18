@@ -12,14 +12,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 自定义用户信息
@@ -32,7 +29,7 @@ import java.util.Set;
 @JsonSerialize
 @NoArgsConstructor(force = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincipal, Serializable {
+public class BasicUserDetails implements UserDetails, OAuth2User, Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -76,7 +73,7 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
     /**
      * 用户权限集合
      */
-    private final Set<GrantedAuthority> authorities;
+    private final Collection<? extends GrantedAuthority> authorities;
 
     /**
      * 账号状态(1-正常,2-锁定,3-禁用,4-过期)
@@ -135,7 +132,7 @@ public class BasicUserDetails implements UserDetails, OAuth2AuthenticatedPrincip
     private LoginTypeEnums loginType;
 
 
-    public BasicUserDetails(Long userId, UserTypeEnums userType, String username, String nickName, String password, Set<GrantedAuthority> authorities) {
+    public BasicUserDetails(Long userId, UserTypeEnums userType, String username, String nickName, String password, Collection<? extends GrantedAuthority> authorities) {
         this.userId = userId;
         this.userType = userType;
         this.username = username;

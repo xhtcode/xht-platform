@@ -5,7 +5,7 @@ package com.xht.framework.mybatis.datapermission;
  *
  * @author xht
  **/
-public record DataPermissionColumnBO(String tableAlias, String columnName) {
+public record DataPermissionColumnBO(String type, String tableAlias, String columnName) {
 
     /**
      * 获取SQL别名列名

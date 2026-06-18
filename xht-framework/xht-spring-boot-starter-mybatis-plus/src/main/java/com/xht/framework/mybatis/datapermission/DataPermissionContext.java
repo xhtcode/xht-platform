@@ -1,7 +1,7 @@
 package com.xht.framework.mybatis.datapermission;
 
 import com.xht.framework.ibatis.mapping.XhtSqlSource;
-import com.xht.framework.mybatis.datapermission.annoataion.DataPermission;
+import com.xht.framework.mybatis.datapermission.annoataion.DataPermissions;
 import com.xht.framework.mybatis.datapermission.strategy.AbstractDataPermissionStrategy;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +50,9 @@ public record DataPermissionContext(List<AbstractDataPermissionStrategy> dataPer
     @SneakyThrows
     public void execute(Object[] args, MappedStatement mappedStatement, SqlCommandType sqlCommandType) {
         String mappedStatementId = mappedStatement.getId();
+        BoundSql boundSql = mappedStatement.getBoundSql(args[1]);
+        String oldSql = boundSql.getSql();
+        Statement statement = CCJSqlParserUtil.parse(oldSql);
         String simpleMappedStatementId = getClassName(mappedStatementId);
         DataPermissionBO dataPermissionBO = DATA_PERMISSION_MAP.get(mappedStatementId);
         if (Objects.isNull(dataPermissionBO)) {
@@ -67,6 +70,10 @@ public record DataPermissionContext(List<AbstractDataPermissionStrategy> dataPer
                 }
                 boolean support = dataPermissionStrategy.support(dataPermissionBO.getPermissionType(), mappedStatementId);
                 if (support) {
+                    log.info("数据权限策略：{}，statement：{}，SQL 类型：{}",
+                            dataPermissionBO.getPermissionType(),
+                            statement.getClass().getName(),
+                            sqlCommandType);
                     if (sqlCommandType == SqlCommandType.INSERT) {
                         newWhere = dataPermissionStrategy.executeInsert(dataPermissionBO);
                     } else if (sqlCommandType == SqlCommandType.DELETE) {
@@ -81,27 +88,32 @@ public record DataPermissionContext(List<AbstractDataPermissionStrategy> dataPer
                 }
             }
             if (Objects.nonNull(newWhere)) {
-                BoundSql boundSql = mappedStatement.getBoundSql(args[1]);
-                String sql = boundSql.getSql();
-                Statement stmt = CCJSqlParserUtil.parse(sql);
-                PlainSelect plain = ((Select) stmt).getPlainSelect();
-                Expression where = plain.getWhere();
-                if (Objects.isNull(where)) {
-                    plain.setWhere(newWhere);
-                } else {
-                    plain.setWhere(new AndExpression(where, newWhere));
-                }
-                XhtSqlSource xhtSqlSource = new XhtSqlSource(mappedStatement.getConfiguration(),
-                        stmt.toString(), boundSql.getParameterMappings());
-                if (args.length == 6) {
-                    args[args.length - 1] = xhtSqlSource.getBoundSql(boundSql.getParameterObject());
-                } else {
-                    args[0] = copyFromMappedStatement(mappedStatement, new XhtSqlSource(mappedStatement.getConfiguration(),
-                            stmt.toString(), boundSql.getParameterMappings()));
+                if (statement instanceof Select plain) {
+                    PlainSelect plainSelect = plain.getPlainSelect();
+                    executeSelectAddWhere(args, mappedStatement, boundSql, plainSelect, newWhere);
                 }
             }
         }
     }
+
+    private void executeSelectAddWhere(Object[] args, MappedStatement mappedStatement, BoundSql boundSql, PlainSelect plainSelect, Expression newWhere) throws Exception {
+        Expression where = plainSelect.getWhere();
+        if (Objects.isNull(where)) {
+            plainSelect.setWhere(newWhere);
+        } else {
+            plainSelect.setWhere(new AndExpression(where, newWhere));
+        }
+        XhtSqlSource xhtSqlSource = new XhtSqlSource(mappedStatement.getConfiguration(),
+                plainSelect.toString(), boundSql.getParameterMappings());
+        if (args.length == 6) {
+            args[args.length - 1] = xhtSqlSource.getBoundSql(boundSql.getParameterObject());
+        } else {
+            args[0] = copyFromMappedStatement(mappedStatement, new XhtSqlSource(mappedStatement.getConfiguration(),
+                    plainSelect.toString(), boundSql.getParameterMappings()));
+        }
+    }
+
+
 
     /**
      * 初始化数据权限
@@ -111,13 +123,13 @@ public record DataPermissionContext(List<AbstractDataPermissionStrategy> dataPer
     private void initDataPermission(String simpleMappedStatementId) {
         try {
             Class<?> clazz = Class.forName(simpleMappedStatementId);
-            DataPermission clas = clazz.getAnnotation(DataPermission.class);
+            DataPermissions clas = clazz.getAnnotation(DataPermissions.class);
             if (Objects.nonNull(clas)) {
                 DATA_PERMISSION_MAP.put(simpleMappedStatementId, DataPermissionBO.builder().of(clas).build());
             }
             Method[] var4 = clazz.getMethods();
             for (Method var8 : var4) {
-                DataPermission methodAnnotation = var8.getAnnotation(DataPermission.class);
+                DataPermissions methodAnnotation = var8.getAnnotation(DataPermissions.class);
                 if (Objects.nonNull(methodAnnotation)) {
                     DATA_PERMISSION_MAP.put(simpleMappedStatementId + "." + var8.getName(), DataPermissionBO.builder().of(methodAnnotation).build());
                 }

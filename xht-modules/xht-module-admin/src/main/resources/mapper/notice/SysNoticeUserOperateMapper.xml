@@ -5,12 +5,12 @@
 <mapper namespace="com.xht.modules.admin.notice.dao.mapper.SysNoticeUserOperateMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.modules.admin.notice.entity.SysNoticeUserOperateEntity">
-        <id property="id" column="id"/>
-        <result property="noticeId" column="notice_id"/>
-        <result property="userId" column="user_id"/>
-        <result property="operateType" column="operate_type"/>
-        <result property="operateTime" column="operate_time"/>
-        <result property="delFlag" column="del_flag"/>
+        <id property="id" dataPermission="id"/>
+        <result property="noticeId" dataPermission="notice_id"/>
+        <result property="userId" dataPermission="user_id"/>
+        <result property="operateType" dataPermission="operate_type"/>
+        <result property="operateTime" dataPermission="operate_time"/>
+        <result property="delFlag" dataPermission="del_flag"/>
     </resultMap>
 
     <sql id="Base_Column_List">

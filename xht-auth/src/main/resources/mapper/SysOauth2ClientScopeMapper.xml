@@ -6,10 +6,10 @@
 
     <resultMap id="ClientScopeResultMap"
                type="com.xht.auth.authentication.domain.response.SysOauth2ClientScopeResponse">
-        <id property="scopeId" column="id"/>
-        <result property="scopeName" column="scope_name"/>
-        <result property="scopeDesc" column="scope_desc"/>
-        <result property="disabled" column="system_resources"/>
+        <id property="scopeId" dataPermission="id"/>
+        <result property="scopeName" dataPermission="scope_name"/>
+        <result property="scopeDesc" dataPermission="scope_desc"/>
+        <result property="disabled" dataPermission="system_resources"/>
     </resultMap>
 
     <select id="findByClientId" resultMap="ClientScopeResultMap">

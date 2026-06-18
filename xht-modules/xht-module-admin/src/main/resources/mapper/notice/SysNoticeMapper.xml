@@ -5,28 +5,28 @@
 <mapper namespace="com.xht.modules.admin.notice.dao.mapper.SysNoticeMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.modules.admin.notice.domain.response.SysNoticeResponse">
-        <id property="id" column="id"/>
-        <result property="noticeTypeId" column="notice_type_id"/>
-        <result property="noticeTypeName" column="notice_type_name"/>
-        <result property="noticeTitle" column="notice_title"/>
-        <result property="noticeSummary" column="notice_summary"/>
-        <result property="noticeContent" column="notice_content"/>
-        <result property="noticeStatus" column="notice_status"/>
-        <result property="noticeOrder" column="notice_order"/>
-        <result property="noticeTop" column="notice_top"/>
-        <result property="noticeTimedPublish" column="notice_timed_publish"/>
-        <result property="noticePublishTime" column="notice_publish_time"/>
-        <result property="noticeExpireTime" column="notice_expire_time"/>
-        <result property="noticeOfflineTime" column="notice_offline_time"/>
-        <result property="noticeJumpType" column="notice_jump_type"/>
-        <result property="noticeJumpUrl" column="notice_jump_url"/>
-        <result property="noticeReadCount" column="notice_read_count"/>
-        <result property="noticeClickCount" column="notice_click_count"/>
-        <result property="noticeRemark" column="notice_remark"/>
-        <result property="createBy" column="create_by"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateBy" column="update_by"/>
-        <result property="updateTime" column="update_time"/>
+        <id property="id" dataPermission="id"/>
+        <result property="noticeTypeId" dataPermission="notice_type_id"/>
+        <result property="noticeTypeName" dataPermission="notice_type_name"/>
+        <result property="noticeTitle" dataPermission="notice_title"/>
+        <result property="noticeSummary" dataPermission="notice_summary"/>
+        <result property="noticeContent" dataPermission="notice_content"/>
+        <result property="noticeStatus" dataPermission="notice_status"/>
+        <result property="noticeOrder" dataPermission="notice_order"/>
+        <result property="noticeTop" dataPermission="notice_top"/>
+        <result property="noticeTimedPublish" dataPermission="notice_timed_publish"/>
+        <result property="noticePublishTime" dataPermission="notice_publish_time"/>
+        <result property="noticeExpireTime" dataPermission="notice_expire_time"/>
+        <result property="noticeOfflineTime" dataPermission="notice_offline_time"/>
+        <result property="noticeJumpType" dataPermission="notice_jump_type"/>
+        <result property="noticeJumpUrl" dataPermission="notice_jump_url"/>
+        <result property="noticeReadCount" dataPermission="notice_read_count"/>
+        <result property="noticeClickCount" dataPermission="notice_click_count"/>
+        <result property="noticeRemark" dataPermission="notice_remark"/>
+        <result property="createBy" dataPermission="create_by"/>
+        <result property="createTime" dataPermission="create_time"/>
+        <result property="updateBy" dataPermission="update_by"/>
+        <result property="updateTime" dataPermission="update_time"/>
     </resultMap>
 
     <!-- 分页查询 -->

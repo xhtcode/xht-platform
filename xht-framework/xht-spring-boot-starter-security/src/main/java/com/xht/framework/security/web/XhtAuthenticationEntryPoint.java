@@ -29,7 +29,7 @@ public class XhtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             unauthorized = GlobalErrorStatusCode.TOKEN_EXPIRED;
             error = unauthorized.getMsg();
         }
-        log.debug("身份验证失败处理器: ex_class={} message={}", authException.getClass().getName(), error, authException);
+        log.debug("身份验证失败处理器: url={} ex_class={} message={}", request.getRequestURI(), authException.getClass().getName(), error, authException);
         ServletUtil.writeJson(response, HttpStatus.UNAUTHORIZED, R
                 .ok()
                 .info(unauthorized)

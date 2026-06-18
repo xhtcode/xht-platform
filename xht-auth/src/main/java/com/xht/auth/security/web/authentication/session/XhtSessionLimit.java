@@ -23,9 +23,12 @@ public class XhtSessionLimit implements SessionLimit {
     @Override
     public Integer apply(Authentication authentication) {
         // 获取当前登录用户信息
-        BasicUserDetails loginUser = (BasicUserDetails) authentication.getPrincipal();
-        log.info("当前登录用户信息:{}", loginUser.getUsername());
-        return 1;
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof BasicUserDetails userDetails) {
+            log.info("当前登录用户信息:{}", userDetails.getUsername());
+            return 1;
+        }
+        return 100;
     }
 
 }

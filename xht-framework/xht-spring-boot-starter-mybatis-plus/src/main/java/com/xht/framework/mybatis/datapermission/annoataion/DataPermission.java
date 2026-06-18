@@ -1,34 +1,37 @@
 package com.xht.framework.mybatis.datapermission.annoataion;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * 描述：数据权限
+ * 描述：权限列
  *
  * @author xht
  **/
 @Documented
-@Inherited
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target({})
 public @interface DataPermission {
 
     /**
      * 数据权限类别
      * @return 数据权限类别
      */
-    String type();
+    String value() default "";
 
     /**
-     * 是否忽略数据权限
-     * @return 是否忽略数据权限
+     * 表别名
+     *
+     * @return 表别名
      */
-    boolean ignore() default false;
+    String tableAlias();
 
     /**
-     * 权限列
-     * @return 权限列
+     * 列名
+     * @return 列名
      */
-    Column[] value();
+    String columnName();
 
 }

@@ -5,28 +5,28 @@
 <mapper namespace="com.xht.modules.admin.system.dao.mapper.SysUserMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.modules.admin.system.domain.vo.SysUserVo">
-        <id property="id" column="id"/>
-        <result property="userType" column="user_type"/>
-        <result property="userName" column="user_name"/>
-        <result property="nickName" column="nick_name"/>
-        <result property="userStatus" column="user_status"/>
-        <result property="userPhone" column="user_phone"/>
-        <result property="userAvatar" column="user_avatar"/>
-        <result property="deptId" column="dept_id"/>
-        <result property="deptName" column="dept_name"/>
-        <result property="registerDate" column="create_time"/>
-        <result property="initialPasswordFlag" column="initial_password_flag"/>
+        <id property="id" dataPermission="id"/>
+        <result property="userType" dataPermission="user_type"/>
+        <result property="userName" dataPermission="user_name"/>
+        <result property="nickName" dataPermission="nick_name"/>
+        <result property="userStatus" dataPermission="user_status"/>
+        <result property="userPhone" dataPermission="user_phone"/>
+        <result property="userAvatar" dataPermission="user_avatar"/>
+        <result property="deptId" dataPermission="dept_id"/>
+        <result property="deptName" dataPermission="dept_name"/>
+        <result property="registerDate" dataPermission="create_time"/>
+        <result property="initialPasswordFlag" dataPermission="initial_password_flag"/>
         <association property="profile" javaType="com.xht.modules.admin.system.domain.response.SysUserDetailResponse">
-            <id property="userId" column="user_id"/>
-            <result property="realName" column="real_name"/>
-            <result property="idCard" column="id_card"/>
-            <result property="gender" column="gender"/>
-            <result property="birthDate" column="birth_date"/>
-            <result property="age" column="age"/>
-            <result property="address" column="address"/>
-            <result property="emergencyContact" column="emergency_contact"/>
-            <result property="emergencyPhone" column="emergency_phone"/>
-            <result property="nation" column="nation"/>
+            <id property="userId" dataPermission="user_id"/>
+            <result property="realName" dataPermission="real_name"/>
+            <result property="idCard" dataPermission="id_card"/>
+            <result property="gender" dataPermission="gender"/>
+            <result property="birthDate" dataPermission="birth_date"/>
+            <result property="age" dataPermission="age"/>
+            <result property="address" dataPermission="address"/>
+            <result property="emergencyContact" dataPermission="emergency_contact"/>
+            <result property="emergencyPhone" dataPermission="emergency_phone"/>
+            <result property="nation" dataPermission="nation"/>
         </association>
     </resultMap>
 

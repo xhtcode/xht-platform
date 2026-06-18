@@ -1,10 +1,11 @@
 package com.xht.auth.configuration;
 
-import com.xht.auth.authentication.dao.CustomAuthenticationProvider;
+import com.xht.auth.security.authentication.dao.CustomAuthenticationProvider;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.configuration.properties.RememberMeProperties;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
 import com.xht.auth.filter.TraceIdRequestFilter;
+import com.xht.auth.security.oauth2.client.CustomOAuth2LoginConfigurer;
 import com.xht.auth.security.web.authentication.AuthorizationServerFailureHandler;
 import com.xht.auth.security.web.authentication.AuthorizationServerSuccessHandler;
 import com.xht.auth.security.web.authentication.form.XhtFormLoginConfigurer;
@@ -14,13 +15,13 @@ import com.xht.auth.security.web.authentication.qr.XhtQrCodeLoginConfigurer;
 import com.xht.auth.security.web.authentication.qr.manager.AbstractQrManager;
 import com.xht.auth.security.web.authentication.session.XhtSessionLimit;
 import com.xht.framework.common.domain.R;
-import com.xht.framework.utils.ServletUtil;
 import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
 import com.xht.framework.security.configurers.CustomAuthorizeHttpRequestsConfigurer;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
 import com.xht.framework.security.web.XhtAuthenticationEntryPoint;
 import com.xht.framework.security.web.access.XhtAccessDeniedHandler;
+import com.xht.framework.utils.ServletUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -138,6 +139,7 @@ public class SecurityAutoConfiguration {
             configurer.setUserDetailsService(basicUserDetailsService);
             configurer.setICaptchaService(iCaptchaService);
         });
+        http.oauth2Login(new CustomOAuth2LoginConfigurer());
         http.addFilterBefore(new TraceIdRequestFilter(), DisableEncodeUrlFilter.class);
         return http.build();
     }

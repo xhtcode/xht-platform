@@ -105,4 +105,10 @@ public interface AuthorizationConstant {
      */
     String USER_CODE = OAuth2ParameterNames.USER_CODE;
 
+
+    /**
+     * 码云
+     */
+    String GITEE = "gitee";
+
 }

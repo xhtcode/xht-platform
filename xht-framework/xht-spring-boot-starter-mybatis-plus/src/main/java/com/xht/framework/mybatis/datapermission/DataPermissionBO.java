@@ -1,7 +1,8 @@
 package com.xht.framework.mybatis.datapermission;
 
-import com.xht.framework.mybatis.datapermission.annoataion.Column;
+import com.xht.framework.exception.BusinessException;
 import com.xht.framework.mybatis.datapermission.annoataion.DataPermission;
+import com.xht.framework.mybatis.datapermission.annoataion.DataPermissions;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,6 +34,18 @@ public final class DataPermissionBO {
      */
     private final List<DataPermissionColumnBO> columns;
 
+    /**
+     * 获取数据权限列集合中的第一个元素
+     *
+     * @return 数据权限列集合中的第一个元素，如果集合为空则返回 null
+     */
+    public DataPermissionColumnBO getFirstColumn() {
+        if (columns == null || columns.isEmpty()) {
+            throw new BusinessException("Columns cannot be null or empty");
+        }
+        return columns.get(0);
+    }
+
 
     /**
      * 创建 {@link Builder} 实例，用于链式构建 {@link DataPermissionBO} 对象
@@ -62,17 +75,17 @@ public final class DataPermissionBO {
         private List<DataPermissionColumnBO> columns;
 
         /**
-         * 从 {@link DataPermission} 注解中提取数据权限配置信息，填充到构建器中
+         * 从 {@link DataPermissions} 注解中提取数据权限配置信息，填充到构建器中
          *
-         * @param dataPermission 数据权限注解实例，包含权限类型和权限列定义
+         * @param dataPermissions 数据权限注解实例，包含权限类型和权限列定义
          * @return 当前 Builder 实例，支持链式调用
          */
-        public Builder of(DataPermission dataPermission) {
-            this.permissionType = dataPermission.type();
-            this.ignore = dataPermission.ignore();
+        public Builder of(DataPermissions dataPermissions) {
+            this.permissionType = dataPermissions.type();
+            this.ignore = dataPermissions.ignore();
             this.columns = new ArrayList<>();
-            for (Column column : dataPermission.value()) {
-                columns.add(new DataPermissionColumnBO(column.tableAlias(), column.columnName()));
+            for (DataPermission dataPermission : dataPermissions.value()) {
+                columns.add(new DataPermissionColumnBO(dataPermission.value(), dataPermission.tableAlias(), dataPermission.columnName()));
             }
             return this;
         }
