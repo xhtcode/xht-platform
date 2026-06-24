@@ -44,6 +44,12 @@ public class SysOauth2AuthorizationConsentEntity extends BasicEntity {
     private String principalName;
 
     /**
+     * 设备码
+     */
+    @TableField(value = "device_code")
+    private String deviceCode;
+
+    /**
      *授权信息
      */
     @TableField(value = "authorities", typeHandler = JacksonTypeHandler.class)

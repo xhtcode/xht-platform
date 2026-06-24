@@ -15,12 +15,11 @@ public abstract class AbstractDataPermissionStrategy implements Ordered {
 
     /**
      * 执行 INSERT 语句时的数据权限过滤逻辑
-     *
+     * 这里没有返回值，个人感觉这样设计更合理因为新增的时候我们会填充create_time等字段
+     * 这个地方没必要了 这里你可以抛出异常
      * @param dataPermissionBO  数据权限业务对象，包含权限类型与权限列定义
-     * @return Expression 新的 where 条件
      */
-    public Expression executeInsert(DataPermissionBO dataPermissionBO) throws Exception {
-        return null;
+    public void executeInsert(DataPermissionBO dataPermissionBO) throws Exception {
     }
 
     /**

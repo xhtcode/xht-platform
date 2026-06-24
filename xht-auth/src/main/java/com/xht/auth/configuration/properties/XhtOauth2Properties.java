@@ -1,5 +1,6 @@
 package com.xht.auth.configuration.properties;
 
+import com.xht.framework.utils.IdUtils;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -35,6 +36,11 @@ public class XhtOauth2Properties {
      * 授权服务器
      */
     private final AuthorizationServer authorizationServer = new AuthorizationServer();
+
+    /**
+     * 设备码属性
+     */
+    private final DeviceCode deviceCode = new DeviceCode();
 
     /**
      * 客户端属性
@@ -76,6 +82,24 @@ public class XhtOauth2Properties {
          * 授权页面
          */
         private String consentPage;
+
+    }
+
+    /**
+     * 设备码属性
+     */
+    @Data
+    public static class DeviceCode {
+
+        /**
+         * 设备码名称
+         */
+        private String deviceCodeName;
+
+        /**
+         * 设备码哈希盐值，从nacos读取
+         */
+        private String salt = IdUtils.simpleUUID();
 
     }
 

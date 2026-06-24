@@ -3,31 +3,14 @@ server:
 spring:
   application:
     name: xht-demo
+  # 数据源配置
+  datasource:
+    password: 123456
+    url: jdbc:mysql://localhost:3306/xht_platform?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
   profiles:
     active: dev
-  security:
-    oauth2:
-      client:
-        registration:
-          spring:
-            client-id: oidc-client
-            client-secret: secret
-            authorization-grant-type: authorization_code
-            redirect-uri: http://127.0.0.1:8180/login/oauth2/code/spring
-            scope:
-              - openid
-        provider:
-          spring:
-            jwk-set-uri: http://www.xht.sso.com:9000/oauth2/jwks
-            # 授权端点（固定格式：授权服务器地址 + /oauth2/authorize）
-            authorization-uri: http://www.xht.sso.com:9000/oauth2/authorize
-            # 令牌获取端点（固定格式：授权服务器地址 + /oauth2/token）
-            token-uri: http://www.xht.sso.com:9000/oauth2/token
-            # 用户信息端点（获取登录用户信息，授权服务器默认接口）
-            user-info-uri: http://www.xht.sso.com:9000/userinfo
-            # 用户信息返回类型（固定）
-            user-name-attribute: sub
-
   data:
     redis:
       password:
@@ -48,7 +31,7 @@ xht:
     banner:
       enable: true
     app-name: 案例工程
-    host-name: www.xht.sso.com
+    host-name: www.xht.com
     dict:
       unit: microseconds
       properties:
@@ -65,6 +48,7 @@ mybatis-plus:
       logic-delete-field: delFlag
       logic-delete-value: 1
       logic-not-delete-value: 0
+      update-strategy:
   mapper-locations: classpath*:mapper/**/*Mapper.xml
   configuration-properties:
     delFlag: ${mybatis-plus.global-config.db-config.logic-not-delete-value}

@@ -5,10 +5,10 @@
 <mapper namespace="com.xht.modules.admin.system.dao.mapper.SysUserRoleMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.modules.admin.system.entity.SysUserRoleEntity">
-        <id property="roleId" dataPermission="role_id"/>
-        <result property="userId" dataPermission="user_id"/>
-        <result property="createTime" dataPermission="create_time"/>
-        <result property="createBy" dataPermission="create_by"/>
+        <id property="roleId" column="role_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
     </resultMap>
 
 

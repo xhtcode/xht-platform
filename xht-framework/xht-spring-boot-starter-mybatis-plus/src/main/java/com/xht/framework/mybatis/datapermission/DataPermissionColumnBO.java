@@ -1,5 +1,7 @@
 package com.xht.framework.mybatis.datapermission;
 
+import com.xht.framework.utils.StringUtils;
+
 /**
  * 描述：数据权限列业务类
  *
@@ -13,6 +15,9 @@ public record DataPermissionColumnBO(String type, String tableAlias, String colu
      * @return SQL别名列名
      */
     public String getSqlAliasColumnName() {
+        if (StringUtils.isEmpty(tableAlias)) {
+            return columnName;
+        }
         return tableAlias + "." + columnName;
     }
 }

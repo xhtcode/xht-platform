@@ -9,8 +9,10 @@ import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.delete.Delete;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 import net.sf.jsqlparser.statement.select.Select;
+import net.sf.jsqlparser.statement.update.Update;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
@@ -70,12 +72,8 @@ public record DataPermissionContext(List<AbstractDataPermissionStrategy> dataPer
                 }
                 boolean support = dataPermissionStrategy.support(dataPermissionBO.getPermissionType(), mappedStatementId);
                 if (support) {
-                    log.info("数据权限策略：{}，statement：{}，SQL 类型：{}",
-                            dataPermissionBO.getPermissionType(),
-                            statement.getClass().getName(),
-                            sqlCommandType);
                     if (sqlCommandType == SqlCommandType.INSERT) {
-                        newWhere = dataPermissionStrategy.executeInsert(dataPermissionBO);
+                        dataPermissionStrategy.executeInsert(dataPermissionBO);
                     } else if (sqlCommandType == SqlCommandType.DELETE) {
                         newWhere = dataPermissionStrategy.executeDelete(dataPermissionBO);
                     } else if (sqlCommandType == SqlCommandType.UPDATE) {
@@ -90,26 +88,57 @@ public record DataPermissionContext(List<AbstractDataPermissionStrategy> dataPer
             if (Objects.nonNull(newWhere)) {
                 if (statement instanceof Select plain) {
                     PlainSelect plainSelect = plain.getPlainSelect();
-                    executeSelectAddWhere(args, mappedStatement, boundSql, plainSelect, newWhere);
+                    Expression oldWhere = plainSelect.getWhere();
+                    plainSelect.setWhere(createAndExpression(oldWhere, newWhere));
+                    updateSqlWhere(args, mappedStatement, boundSql, plainSelect);
+                } else if (statement instanceof Update update) {
+                    Expression oldWhere = update.getWhere();
+                    update.setWhere(createAndExpression(oldWhere, newWhere));
+                    updateSqlWhere(args, mappedStatement, boundSql, update);
+                } else if (statement instanceof Delete delete) {
+                    Expression oldWhere = delete.getWhere();
+                    delete.setWhere(createAndExpression(oldWhere, newWhere));
+                    updateSqlWhere(args, mappedStatement, boundSql, delete);
+                }  else {
+                    log.warn("数据权限策略查询不到：{}，statement：{}，SQL 类型：{}",
+                            dataPermissionBO.getPermissionType(),
+                            statement.getClass().getName(),
+                            sqlCommandType);
                 }
             }
         }
     }
 
-    private void executeSelectAddWhere(Object[] args, MappedStatement mappedStatement, BoundSql boundSql, PlainSelect plainSelect, Expression newWhere) throws Exception {
-        Expression where = plainSelect.getWhere();
-        if (Objects.isNull(where)) {
-            plainSelect.setWhere(newWhere);
-        } else {
-            plainSelect.setWhere(new AndExpression(where, newWhere));
+    /**
+     * 创建 AND 连接的条件表达式
+     *
+     * @param oldWhere 原有的 WHERE 条件
+     * @param newWhere 新增的数据权限 WHERE 条件
+     * @return 合并后的条件表达式
+     */
+    private Expression createAndExpression(Expression oldWhere, Expression newWhere) {
+        if (Objects.isNull(oldWhere)) {
+            return newWhere;
         }
+        return new AndExpression(oldWhere, newWhere);
+    }
+
+    /**
+     * 更新 SQL 的 WHERE 条件到 MyBatis 执行参数中
+     *
+     * @param args 拦截器方法参数数组
+     * @param mappedStatement 原始的 MappedStatement 对象
+     * @param boundSql 原始的 BoundSql 对象
+     * @param statement 修改后的 JSqlParser Statement 对象
+     */
+    private void updateSqlWhere(Object[] args, MappedStatement mappedStatement, BoundSql boundSql, Statement statement) {
         XhtSqlSource xhtSqlSource = new XhtSqlSource(mappedStatement.getConfiguration(),
-                plainSelect.toString(), boundSql.getParameterMappings());
+                statement.toString(), boundSql.getParameterMappings());
         if (args.length == 6) {
             args[args.length - 1] = xhtSqlSource.getBoundSql(boundSql.getParameterObject());
         } else {
             args[0] = copyFromMappedStatement(mappedStatement, new XhtSqlSource(mappedStatement.getConfiguration(),
-                    plainSelect.toString(), boundSql.getParameterMappings()));
+                    statement.toString(), boundSql.getParameterMappings()));
         }
     }
 

@@ -5,19 +5,19 @@
 <mapper namespace="com.xht.modules.admin.notice.dao.mapper.SysNoticeAttachmentMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.modules.admin.notice.entity.SysNoticeAttachmentEntity">
-        <id property="id" dataPermission="id"/>
-        <result property="noticeId" dataPermission="notice_id"/>
-        <result property="attachmentName" dataPermission="attachment_name"/>
-        <result property="attachmentShowName" dataPermission="attachment_show_name"/>
-        <result property="attachmentPath" dataPermission="attachment_path"/>
-        <result property="attachmentSize" dataPermission="attachment_size"/>
-        <result property="attachmentType" dataPermission="attachment_type"/>
-        <result property="attachmentOrder" dataPermission="attachment_order"/>
-        <result property="delFlag" dataPermission="del_flag"/>
-        <result property="createBy" dataPermission="create_by"/>
-        <result property="createTime" dataPermission="create_time"/>
-        <result property="updateBy" dataPermission="update_by"/>
-        <result property="updateTime" dataPermission="update_time"/>
+        <id property="id" column="id"/>
+        <result property="noticeId" column="notice_id"/>
+        <result property="attachmentName" column="attachment_name"/>
+        <result property="attachmentShowName" column="attachment_show_name"/>
+        <result property="attachmentPath" column="attachment_path"/>
+        <result property="attachmentSize" column="attachment_size"/>
+        <result property="attachmentType" column="attachment_type"/>
+        <result property="attachmentOrder" column="attachment_order"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <sql id="Base_Column_List">

@@ -85,7 +85,7 @@ public final class DataPermissionBO {
             this.ignore = dataPermissions.ignore();
             this.columns = new ArrayList<>();
             for (DataPermission dataPermission : dataPermissions.value()) {
-                columns.add(new DataPermissionColumnBO(dataPermission.value(), dataPermission.tableAlias(), dataPermission.columnName()));
+                columns.add(new DataPermissionColumnBO(dataPermission.type(), dataPermission.tableAlias(), dataPermission.columnName()));
             }
             return this;
         }

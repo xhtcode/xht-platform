@@ -5,26 +5,26 @@
 <mapper namespace="com.xht.modules.admin.system.dao.mapper.SysRoleMenuMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.modules.admin.system.domain.response.SysMenuResponse">
-        <id property="id" dataPermission="id"/>
-        <result property="parentId" dataPermission="parent_id"/>
-        <result property="menuType" dataPermission="menu_type"/>
-        <result property="menuName" dataPermission="menu_name"/>
-        <result property="menuIcon" dataPermission="menu_icon"/>
-        <result property="menuPath" dataPermission="menu_path"/>
-        <result property="menuHidden" dataPermission="menu_hidden"/>
-        <result property="menuCache" dataPermission="menu_cache"/>
-        <result property="menuStatus" dataPermission="menu_status"/>
-        <result property="menuAuthority" dataPermission="menu_authority"/>
-        <result property="menuSort" dataPermission="menu_sort"/>
-        <result property="viewName" dataPermission="view_name"/>
-        <result property="viewPath" dataPermission="view_path"/>
-        <result property="activeMenuPath" dataPermission="active_menu_path"/>
-        <result property="affixStatus" dataPermission="affix_status"/>
-        <result property="frameFlag" dataPermission="frame_flag"/>
-        <result property="createBy" dataPermission="create_by"/>
-        <result property="createTime" dataPermission="create_time"/>
-        <result property="updateBy" dataPermission="update_by"/>
-        <result property="updateTime" dataPermission="update_time"/>
+        <id property="id" column="id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="menuType" column="menu_type"/>
+        <result property="menuName" column="menu_name"/>
+        <result property="menuIcon" column="menu_icon"/>
+        <result property="menuPath" column="menu_path"/>
+        <result property="menuHidden" column="menu_hidden"/>
+        <result property="menuCache" column="menu_cache"/>
+        <result property="menuStatus" column="menu_status"/>
+        <result property="menuAuthority" column="menu_authority"/>
+        <result property="menuSort" column="menu_sort"/>
+        <result property="viewName" column="view_name"/>
+        <result property="viewPath" column="view_path"/>
+        <result property="activeMenuPath" column="active_menu_path"/>
+        <result property="affixStatus" column="affix_status"/>
+        <result property="frameFlag" column="frame_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <!-- 根据角色ID查询菜单ID列表 -->

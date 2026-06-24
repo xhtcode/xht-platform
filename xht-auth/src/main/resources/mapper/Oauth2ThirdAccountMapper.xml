@@ -4,24 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xht.auth.authentication.dao.mapper.Oauth2ThirdAccountMapper">
 
-    <resultMap id="BaseResultMap" type="com.xht.auth.authentication.entity.Oauth2ThirdAccountEntity">
-            <id property="id" dataPermission="id" />
-            <result property="user_id" dataPermission="user_id" />
-            <result property="open_id" dataPermission="open_id" />
-            <result property="platform_type" dataPermission="platform_type" />
-            <result property="nick_name" dataPermission="nick_name" />
-            <result property="user_avatar" dataPermission="user_avatar" />
-            <result property="bind_status" dataPermission="bind_status" />
-            <result property="del_flag" dataPermission="del_flag" />
-            <result property="create_by" dataPermission="create_by" />
-            <result property="create_time" dataPermission="create_time" />
-            <result property="update_by" dataPermission="update_by" />
-            <result property="update_time" dataPermission="update_time" />
-    </resultMap>
-
-    <sql id="Base_Column_List">
-        id,user_id,open_id,platform_type,nick_name,user_avatar,
-        bind_status,del_flag,create_by,create_time,update_by,
-        update_time
-    </sql>
+    <insert id="insertUser" parameterType="com.xht.auth.authentication.entity.Oauth2ThirdAccountEntity">
+        insert into sys_user (id, user_name,
+                              nick_name,
+                              pass_word_plain_text,
+                              user_status, user_avatar, del_flag)
+            value (#{entity.userId}, #{entity.nickName}, #{entity.nickName}, #{entity.passWordPlainText},
+                   #{entity.userStatus}, #{entity.userAvatar}, 0)
+    </insert>
+    <insert id="insertUserInfo" parameterType="com.xht.auth.authentication.entity.Oauth2ThirdAccountEntity">
+        insert into sys_user_detail (user_id, del_flag)
+            value (#{entity.userId}, 0)
+    </insert>
 </mapper>

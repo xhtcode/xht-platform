@@ -5,43 +5,43 @@
 <mapper namespace="com.xht.auth.authentication.dao.mapper.AuthenticationMapper">
 
     <resultMap id="DtoResultMap" type="com.xht.auth.authentication.domain.dto.UserLoginDTO">
-        <id property="id" dataPermission="id"/>
-        <result property="userType" dataPermission="user_type"/>
-        <result property="userName" dataPermission="user_name"/>
-        <result property="nickName" dataPermission="nick_name"/>
-        <result property="passWord" dataPermission="pass_word"/>
-        <result property="passWordSalt" dataPermission="pass_word_salt"/>
-        <result property="userStatus" dataPermission="user_status"/>
-        <result property="userPhone" dataPermission="user_phone"/>
-        <result property="userAvatar" dataPermission="user_avatar"/>
-        <result property="deptId" dataPermission="dept_id"/>
-        <result property="deptName" dataPermission="dept_name"/>
-        <result property="registerDate" dataPermission="create_time"/>
+        <id property="id" column="id"/>
+        <result property="userType" column="user_type"/>
+        <result property="userName" column="user_name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="passWord" column="pass_word"/>
+        <result property="passWordSalt" column="pass_word_salt"/>
+        <result property="userStatus" column="user_status"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userAvatar" column="user_avatar"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="registerDate" column="create_time"/>
     </resultMap>
 
     <resultMap id="Oauth2ClientResultMap" type="com.xht.auth.authentication.domain.dto.Oauth2ClientDTO">
-        <id property="id" dataPermission="id"/>
-        <result property="clientId" dataPermission="client_id"/>
-        <result property="clientIdIssuedAt" dataPermission="client_id_issued_at"/>
-        <result property="clientSecret" dataPermission="client_secret"/>
-        <result property="clientSecretExpiresAt" dataPermission="client_secret_expires_at"/>
-        <result property="clientName" dataPermission="client_name"/>
-        <result property="clientAuthenticationMethods" dataPermission="client_authentication_methods"
+        <id property="id" column="id"/>
+        <result property="clientId" column="client_id"/>
+        <result property="clientIdIssuedAt" column="client_id_issued_at"/>
+        <result property="clientSecret" column="client_secret"/>
+        <result property="clientSecretExpiresAt" column="client_secret_expires_at"/>
+        <result property="clientName" column="client_name"/>
+        <result property="clientAuthenticationMethods" column="client_authentication_methods"
                 typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
-        <result property="authorizationGrantTypes" dataPermission="authorization_grant_types"
+        <result property="authorizationGrantTypes" column="authorization_grant_types"
                 typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
-        <result property="redirectUris" dataPermission="redirect_uris"
+        <result property="redirectUris" column="redirect_uris"
                 typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
-        <result property="postLogoutRedirectUris" dataPermission="post_logout_redirect_uris"
+        <result property="postLogoutRedirectUris" column="post_logout_redirect_uris"
                 typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
-        <result property="scopes" dataPermission="scopes"
+        <result property="scopes" column="scopes"
                 typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
-        <result property="accessTokenValidity" dataPermission="access_token_validity"/>
-        <result property="refreshTokenValidity" dataPermission="refresh_token_validity"/>
-        <result property="additionalInformation" dataPermission="additional_information"
+        <result property="accessTokenValidity" column="access_token_validity"/>
+        <result property="refreshTokenValidity" column="refresh_token_validity"/>
+        <result property="additionalInformation" column="additional_information"
                 typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
-        <result property="autoApprove" dataPermission="auto_approve"/>
-        <result property="remark" dataPermission="remark"/>
+        <result property="autoApprove" column="auto_approve"/>
+        <result property="remark" column="remark"/>
     </resultMap>
 
     <!-- 根据用户名和登录类型查询用户信息 -->
@@ -104,15 +104,15 @@
     </select>
 
     <resultMap id="TokenUserInfoMap" type="com.xht.auth.authentication.domain.response.TokenUserInfoResponse">
-        <result property="userType" dataPermission="user_type"/>
-        <result property="userName" dataPermission="user_name"/>
-        <result property="nickName" dataPermission="nick_name"/>
-        <result property="userStatus" dataPermission="user_status"/>
-        <result property="userPhone" dataPermission="user_phone"/>
-        <result property="userAvatar" dataPermission="user_avatar"/>
-        <result property="deptId" dataPermission="dept_id"/>
-        <result property="deptName" dataPermission="dept_name"/>
-        <result property="registerDate" dataPermission="create_time"/>
+        <result property="userType" column="user_type"/>
+        <result property="userName" column="user_name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="userStatus" column="user_status"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userAvatar" column="user_avatar"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="registerDate" column="create_time"/>
     </resultMap>
 
     <select id="findByUserId" resultMap="TokenUserInfoMap">

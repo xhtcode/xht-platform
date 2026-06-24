@@ -5,16 +5,16 @@
 <mapper namespace="com.xht.modules.admin.system.dao.mapper.SysUserPostMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.modules.admin.system.domain.response.SysPostResponse">
-        <id property="id" dataPermission="t2_id"/>
-        <result property="postStatus" dataPermission="t2_post_status"/>
-        <result property="postCode" dataPermission="t2_post_code"/>
-        <result property="postName" dataPermission="t2_post_name"/>
-        <result property="postSort" dataPermission="t2_post_sort"/>
-        <result property="remark" dataPermission="t2_remark"/>
-        <result property="createTime" dataPermission="t2_create_time"/>
-        <result property="createBy" dataPermission="t2_create_by"/>
-        <result property="updateTime" dataPermission="t2_update_time"/>
-        <result property="updateBy" dataPermission="t2_update_by"/>
+        <id property="id" column="t2_id"/>
+        <result property="postStatus" column="t2_post_status"/>
+        <result property="postCode" column="t2_post_code"/>
+        <result property="postName" column="t2_post_name"/>
+        <result property="postSort" column="t2_post_sort"/>
+        <result property="remark" column="t2_remark"/>
+        <result property="createTime" column="t2_create_time"/>
+        <result property="createBy" column="t2_create_by"/>
+        <result property="updateTime" column="t2_update_time"/>
+        <result property="updateBy" column="t2_update_by"/>
     </resultMap>
 
     <select id="getPostByUserId" resultMap="BaseResultMap">

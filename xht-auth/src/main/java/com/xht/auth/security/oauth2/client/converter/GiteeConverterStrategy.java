@@ -51,7 +51,7 @@ public class GiteeConverterStrategy extends Oauth2UserConverterStrategy {
             dbAccountEntity.setNickName(MapUtil.getStr(attributes, "login"));
             dbAccountEntity.setUserAvatar(MapUtil.getStr(attributes, "avatar_url"));
             dbAccountEntity.setBindStatus(Oauth2BindStatus.BIND);
-            oauth2ThirdAccountDao.save(dbAccountEntity);
+            oauth2ThirdAccountDao.registerUser(dbAccountEntity);
         }
         return dbAccountEntity;
     }

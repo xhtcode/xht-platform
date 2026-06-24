@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.xht.framework.common.enums.UserStatusEnums;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import com.xht.framework.security.constant.Oauth2BindStatus;
 import lombok.Data;
@@ -62,4 +63,15 @@ public class Oauth2ThirdAccountEntity extends BasicEntity implements Serializabl
     @TableField(value = "bind_status")
     private Oauth2BindStatus bindStatus;
 
+    /**
+     * 明文密码
+     */
+    @TableField(exist = false)
+    private String passWordPlainText;
+
+    /**
+     * 用户状态
+     */
+    @TableField(exist = false)
+    private UserStatusEnums userStatus;
 }

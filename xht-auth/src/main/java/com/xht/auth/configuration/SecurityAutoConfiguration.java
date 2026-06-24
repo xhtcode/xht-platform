@@ -1,10 +1,10 @@
 package com.xht.auth.configuration;
 
-import com.xht.auth.security.authentication.dao.CustomAuthenticationProvider;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.configuration.properties.RememberMeProperties;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
 import com.xht.auth.filter.TraceIdRequestFilter;
+import com.xht.auth.security.authentication.dao.CustomAuthenticationProvider;
 import com.xht.auth.security.oauth2.client.CustomOAuth2LoginConfigurer;
 import com.xht.auth.security.web.authentication.AuthorizationServerFailureHandler;
 import com.xht.auth.security.web.authentication.AuthorizationServerSuccessHandler;
@@ -17,6 +17,8 @@ import com.xht.auth.security.web.authentication.session.XhtSessionLimit;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
 import com.xht.framework.security.configurers.CustomAuthorizeHttpRequestsConfigurer;
+import com.xht.framework.security.core.device.DeviceCodeConfigurer;
+import com.xht.framework.security.core.device.provider.DeviceCodeProvider;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
 import com.xht.framework.security.web.XhtAuthenticationEntryPoint;
@@ -78,6 +80,7 @@ public class SecurityAutoConfiguration {
     @Order(2)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         XhtOauth2Properties.AuthorizationServer authorizationServer = xhtOauth2Properties.getAuthorizationServer();
+        XhtOauth2Properties.DeviceCode deviceCode = xhtOauth2Properties.getDeviceCode();
         AuthenticationSuccessHandler successHandler = new AuthorizationServerSuccessHandler();
         AuthenticationFailureHandler failureHandler = new AuthorizationServerFailureHandler();
         CustomAuthorizeHttpRequestsConfigurer requestsConfigurer = new CustomAuthorizeHttpRequestsConfigurer(permitAllUrlProperties);
@@ -139,11 +142,14 @@ public class SecurityAutoConfiguration {
             configurer.setUserDetailsService(basicUserDetailsService);
             configurer.setICaptchaService(iCaptchaService);
         });
+        http.with(DeviceCodeConfigurer.deviceCode(), configurer -> {
+            configurer.setDeviceCodeName(deviceCode.getDeviceCodeName());
+            configurer.setDeviceCodeProvider(new DeviceCodeProvider(deviceCode.getSalt()));
+        });
         http.oauth2Login(new CustomOAuth2LoginConfigurer());
         http.addFilterBefore(new TraceIdRequestFilter(), DisableEncodeUrlFilter.class);
         return http.build();
     }
-
 
     @Bean
     public HttpSessionEventPublisher httpSessionEventPublisher() {

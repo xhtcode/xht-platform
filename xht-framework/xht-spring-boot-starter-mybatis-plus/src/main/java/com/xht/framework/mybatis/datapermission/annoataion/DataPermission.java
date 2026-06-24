@@ -19,14 +19,14 @@ public @interface DataPermission {
      * 数据权限类别
      * @return 数据权限类别
      */
-    String value() default "";
+    String type() default "";
 
     /**
      * 表别名
      *
      * @return 表别名
      */
-    String tableAlias();
+    String tableAlias() default "";
 
     /**
      * 列名

@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -58,7 +57,7 @@ public class MybatisAutoConfiguration implements CommandLineRunner {
         // 添加乐观锁拦截器
         interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         // 禁全表更删插件
-        interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
+        // interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
         return interceptor;
     }
 

@@ -47,16 +47,17 @@ public class SysOauth2AuthorizationConsentDaoImpl extends MapperRepositoryImpl<S
 
     /**
      * 根据注册客户端id和主体名称查询授权确认信息
-     *
      * @param registeredClientId 注册客户端id
-     * @param principalName      主体名称
+     * @param principalName 主体名称
+     * @param deviceCode 设备码
      * @return 授权确认信息
      */
     @Override
-    public List<SysOauth2AuthorizationConsentEntity> findByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName) {
+    public List<SysOauth2AuthorizationConsentEntity> findByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName, String deviceCode) {
         LambdaQueryWrapper<SysOauth2AuthorizationConsentEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysOauth2AuthorizationConsentEntity::getRegisteredClientId, registeredClientId);
         queryWrapper.eq(SysOauth2AuthorizationConsentEntity::getPrincipalName, principalName);
+        queryWrapper.eq(SysOauth2AuthorizationConsentEntity::getDeviceCode, deviceCode);
         return list(queryWrapper);
     }
 

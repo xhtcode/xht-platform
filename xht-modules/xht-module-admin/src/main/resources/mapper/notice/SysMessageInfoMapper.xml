@@ -5,28 +5,28 @@
 <mapper namespace="com.xht.modules.admin.notice.dao.mapper.SysMessageInfoMapper">
 
     <resultMap id="BaseResultMap" type="com.xht.modules.admin.notice.domain.vo.MessageInfoVo">
-        <id property="t1Id" dataPermission="t1_id"/>
-        <result property="senderName" dataPermission="sender_name"/>
-        <result property="messageType" dataPermission="message_type"/>
-        <result property="messageTitle" dataPermission="message_title"/>
-        <result property="messageContent" dataPermission="message_content"/>
-        <result property="messageExtend" dataPermission="message_extend"
+        <id property="t1Id" column="t1_id"/>
+        <result property="senderName" column="sender_name"/>
+        <result property="messageType" column="message_type"/>
+        <result property="messageTitle" column="message_title"/>
+        <result property="messageContent" column="message_content"/>
+        <result property="messageExtend" column="message_extend"
                 typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
         <association property="response" javaType="com.xht.modules.admin.notice.domain.response.SysMessageInfoResponse">
-            <id property="id" dataPermission="id"/>
-            <result property="messageId" dataPermission="message_id"/>
-            <result property="recipientId" dataPermission="recipient_id"/>
-            <result property="recipientName" dataPermission="recipient_name"/>
-            <result property="messageStatus" dataPermission="message_status"/>
-            <result property="messageTop" dataPermission="message_top"/>
-            <result property="messageStar" dataPermission="message_star"/>
-            <result property="readTime" dataPermission="read_time"/>
-            <result property="removeTime" dataPermission="remove_time"/>
-            <result property="cancelTime" dataPermission="cancel_time"/>
-            <result property="createBy" dataPermission="create_by"/>
-            <result property="createTime" dataPermission="create_time"/>
-            <result property="updateBy" dataPermission="update_by"/>
-            <result property="updateTime" dataPermission="update_time"/>
+            <id property="id" column="id"/>
+            <result property="messageId" column="message_id"/>
+            <result property="recipientId" column="recipient_id"/>
+            <result property="recipientName" column="recipient_name"/>
+            <result property="messageStatus" column="message_status"/>
+            <result property="messageTop" column="message_top"/>
+            <result property="messageStar" column="message_star"/>
+            <result property="readTime" column="read_time"/>
+            <result property="removeTime" column="remove_time"/>
+            <result property="cancelTime" column="cancel_time"/>
+            <result property="createBy" column="create_by"/>
+            <result property="createTime" column="create_time"/>
+            <result property="updateBy" column="update_by"/>
+            <result property="updateTime" column="update_time"/>
         </association>
     </resultMap>
 

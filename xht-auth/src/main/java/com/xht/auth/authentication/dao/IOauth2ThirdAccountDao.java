@@ -18,4 +18,11 @@ public interface IOauth2ThirdAccountDao extends MapperRepository<Oauth2ThirdAcco
      */
     Oauth2ThirdAccountEntity findByOpenid(String openid);
 
+    /**
+     * 注册用户
+     *
+     * @param dbAccountEntity 第三方账号信息
+     */
+    void registerUser(Oauth2ThirdAccountEntity dbAccountEntity);
+
 }
