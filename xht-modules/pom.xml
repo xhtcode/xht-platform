@@ -4,18 +4,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.xht</groupId>
+        <groupId>com.xht.platform</groupId>
         <artifactId>xht-platform</artifactId>
-        <version>${revision}</version>
+        <version>1.0.0</version>
     </parent>
 
+    <name>xht-modules</name>
     <artifactId>xht-modules</artifactId>
     <packaging>pom</packaging>
-
     <description>xht-modules业务模块</description>
+
     <modules>
         <module>xht-module-admin</module>
         <module>xht-module-generate</module>
     </modules>
 
+    <build>
+        <finalName>${project.artifactId}</finalName>
+    </build>
 </project>

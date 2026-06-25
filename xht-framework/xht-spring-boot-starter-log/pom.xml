@@ -4,26 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.xht</groupId>
+        <groupId>com.xht.framework</groupId>
         <artifactId>xht-framework</artifactId>
-        <version>${revision}</version>
+        <version>1.0.0</version>
     </parent>
+
     <name>xht-spring-boot-starter-log</name>
     <artifactId>xht-spring-boot-starter-log</artifactId>
     <packaging>jar</packaging>
     <description>xht-spring-boot-starter-log日志记录模块</description>
 
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <dependencies>
         <!-- xht-framework-core核心模块 -->
         <dependency>
-            <groupId>com.xht</groupId>
+            <groupId>com.xht.framework</groupId>
             <artifactId>xht-framework-core</artifactId>
         </dependency>
         <!-- Spring Aop -->
@@ -32,5 +26,7 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
     </dependencies>
-
+    <build>
+        <finalName>${project.artifactId}</finalName>
+    </build>
 </project>

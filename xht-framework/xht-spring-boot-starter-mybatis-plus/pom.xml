@@ -4,14 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.xht</groupId>
+        <groupId>com.xht.framework</groupId>
         <artifactId>xht-framework</artifactId>
-        <version>${revision}</version>
+        <version>1.0.0</version>
     </parent>
+
     <name>xht-spring-boot-starter-mybatis-plus</name>
     <artifactId>xht-spring-boot-starter-mybatis-plus</artifactId>
     <packaging>jar</packaging>
     <description>xht-spring-boot-starter-mybatis-plus mybatis plus 模块</description>
+
     <dependencies>
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -27,9 +29,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.xht</groupId>
+            <groupId>com.xht.framework</groupId>
             <artifactId>xht-framework-core</artifactId>
         </dependency>
     </dependencies>
-
+    <build>
+        <finalName>${project.artifactId}</finalName>
+    </build>
 </project>

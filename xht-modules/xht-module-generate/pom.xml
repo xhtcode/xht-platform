@@ -4,40 +4,35 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.xht</groupId>
+        <groupId>com.xht.platform</groupId>
         <artifactId>xht-modules</artifactId>
-        <version>${revision}</version>
+        <version>1.0.0</version>
     </parent>
 
-    <groupId>com.xht.modules.generate</groupId>
+    <name>xht-module-generate</name>
     <artifactId>xht-module-generate</artifactId>
     <packaging>jar</packaging>
     <description>xht-module-system 代码生成模块</description>
 
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-engine-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.xht</groupId>
+            <groupId>com.xht.framework</groupId>
             <artifactId>xht-spring-cloud-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.xht</groupId>
+            <groupId>com.xht.framework</groupId>
             <artifactId>xht-spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.xht</groupId>
+            <groupId>com.xht.framework</groupId>
             <artifactId>xht-spring-boot-starter-swagger</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.xht</groupId>
+            <groupId>com.xht.framework</groupId>
             <artifactId>xht-spring-boot-starter-mybatis-plus</artifactId>
         </dependency>
         <dependency>
