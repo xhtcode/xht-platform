@@ -155,4 +155,19 @@ public final class PageTool {
         return sql -> Arrays.stream(KEYWORDS).noneMatch(keyword -> StrUtil.containsIgnoreCase(sql, keyword));
     }
 
+    /**
+     * 根据总数计算总页数
+     *
+     * @param totalCount 总数
+     * @param pageSize   每页数
+     * @return 总页数
+     * @since 5.8.5
+     */
+    public static int totalPage(Number totalCount, Number pageSize) {
+        if (pageSize.longValue() == 0) {
+            return 0;
+        }
+        return Math.toIntExact(totalCount.longValue() % pageSize.longValue() == 0 ? (totalCount.longValue() / pageSize.longValue()) : (totalCount.longValue() / pageSize.longValue() + 1));
+    }
+
 }
