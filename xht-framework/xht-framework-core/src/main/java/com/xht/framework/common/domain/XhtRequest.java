@@ -10,6 +10,6 @@ import java.io.Serializable;
  * @author xht
  **/
 @Schema(description = "通用请求接口")
-public interface IRequest extends Serializable {
+public interface XhtRequest extends Serializable {
 
 }

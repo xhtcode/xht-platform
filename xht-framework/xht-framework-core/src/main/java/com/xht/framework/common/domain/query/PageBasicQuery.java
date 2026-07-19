@@ -1,5 +1,6 @@
 package com.xht.framework.common.domain.query;
 
+import com.xht.framework.common.domain.XhtRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ import java.io.Serial;
 @Setter
 @Getter
 @Schema(description = "通用分页请求实体")
-public abstract class PageBasicQuery extends BasicQuery {
+public abstract class PageBasicQuery extends BasicQuery implements XhtRequest {
 
     @Serial
     private static final long serialVersionUID = 1L;

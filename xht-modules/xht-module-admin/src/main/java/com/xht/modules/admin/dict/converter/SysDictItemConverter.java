@@ -3,7 +3,7 @@ package com.xht.modules.admin.dict.converter;
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.response.SysDictItemResponse;
-import com.xht.framework.core.dict.domain.DictVo;
+import com.xht.framework.core.dict.domain.DictVO;
 import com.xht.modules.admin.dict.entity.SysDictItemEntity;
 import com.xht.modules.admin.dict.enums.DictStatusEnums;
 import org.mapstruct.*;
@@ -31,7 +31,7 @@ public interface SysDictItemConverter extends BasicConverter<SysDictItemEntity, 
     @Mapping(source = "itemValue", target = "value")
     @Mapping(source = "itemColor", target = "color")
     @Mapping(source = "status", target = "disabled", qualifiedByName = "statusToDisabled")
-    DictVo toVo(SysDictItemEntity dictItemEntities);
+    DictVO toVo(SysDictItemEntity dictItemEntities);
 
     /**
      * 字典项实体转换成字典项视图对象列表
@@ -39,7 +39,7 @@ public interface SysDictItemConverter extends BasicConverter<SysDictItemEntity, 
      * @param dictItemEntities 字典项实体列表
      * @return 字典项视图对象列表
      */
-    default List<DictVo> toVo(List<SysDictItemEntity> dictItemEntities) {
+    default List<DictVO> toVo(List<SysDictItemEntity> dictItemEntities) {
         if (CollectionUtils.isEmpty(dictItemEntities)) {
             return List.of();
         }

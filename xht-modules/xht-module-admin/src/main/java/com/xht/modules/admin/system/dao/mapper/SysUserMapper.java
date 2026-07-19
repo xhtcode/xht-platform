@@ -1,7 +1,7 @@
 package com.xht.modules.admin.system.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
-import com.xht.modules.admin.system.domain.vo.SysUserVo;
+import com.xht.modules.admin.system.domain.vo.SysUserVO;
 import com.xht.modules.admin.system.entity.SysUserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,7 +19,7 @@ public interface SysUserMapper extends BaseMapperX<SysUserEntity> {
      * @param userId 用户ID
      * @return 用户信息
      */
-    SysUserVo findInfoByUserId(Long userId);
+    SysUserVO findInfoByUserId(Long userId);
 
 }
 

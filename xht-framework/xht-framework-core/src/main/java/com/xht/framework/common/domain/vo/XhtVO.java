@@ -1,5 +1,6 @@
 package com.xht.framework.common.domain.vo;
 
+import com.xht.framework.common.domain.response.XhtResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
@@ -11,5 +12,5 @@ import java.io.Serializable;
  * @author xht
  **/
 @Schema(description = "接口返回值对象")
-public interface IVO extends Serializable {
+public interface XhtVO extends XhtResponse, Serializable {
 }

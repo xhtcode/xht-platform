@@ -1,6 +1,6 @@
-package com.xht.framework.utils;
+package com.xht.framework.validation;
 
-import com.xht.framework.validation.bo.ValidationExceptionBo;
+import com.xht.framework.validation.bo.ValidationExceptionBO;
 import com.xht.framework.exception.UtilException;
 import com.xht.framework.exception.ValidationException;
 import jakarta.validation.ConstraintViolation;
@@ -59,14 +59,14 @@ public final class ValidationUtils {
      * @param object 校验对象
      * @param groups 分组
      */
-    public static <T> void validate(T object, Consumer<ValidationExceptionBo> consumer, Class<?>... groups) {
+    public static <T> void validate(T object, Consumer<ValidationExceptionBO> consumer, Class<?>... groups) {
         ValidatorFactory vf = null;
         try {
             vf = Validation.buildDefaultValidatorFactory();
             Validator validator = vf.getValidator();
             Set<ConstraintViolation<T>> validate = validator.validate(object, groups);
             for (ConstraintViolation<T> violation : validate) {
-                consumer.accept(new ValidationExceptionBo(String.valueOf(violation.getPropertyPath()), violation.getMessage()));
+                consumer.accept(new ValidationExceptionBO(String.valueOf(violation.getPropertyPath()), violation.getMessage()));
             }
         } catch (ValidationException e) {
             throw new ValidationException(e.getField(), e.getMessage());

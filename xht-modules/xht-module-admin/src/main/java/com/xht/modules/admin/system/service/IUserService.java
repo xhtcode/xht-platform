@@ -9,7 +9,7 @@ import com.xht.modules.admin.system.domain.form.SysUserForm;
 import com.xht.modules.admin.system.domain.form.UpdatePwdFrom;
 import com.xht.modules.admin.system.domain.query.SysUserQuery;
 import com.xht.modules.admin.system.domain.response.SysUserResponse;
-import com.xht.modules.admin.system.domain.vo.SysUserVo;
+import com.xht.modules.admin.system.domain.vo.SysUserVO;
 
 import java.util.List;
 
@@ -68,9 +68,9 @@ public interface IUserService {
      *
      * @return 用户信息
      */
-    default SysUserVo getUserProfileInfo() {
+    default SysUserVO getUserProfileInfo() {
         BasicUserDetails userDetails = SecurityUtils.getUser();
-        SysUserVo userVo = findByUserId(userDetails.getUserId());
+        SysUserVO userVo = findByUserId(userDetails.getUserId());
         userVo.setRoleCodes(userDetails.getRoleCodes());
         userVo.setMenuButtonCodes(userDetails.getMenuButtonCodes());
         return userVo;
@@ -82,7 +82,7 @@ public interface IUserService {
      * @param userId 用户 ID
      * @return 找到的用户对象，不存在时返回null
      */
-    SysUserVo findByUserId(Long userId);
+    SysUserVO findByUserId(Long userId);
 
     /**
      * 根据查询条件分页查找用户

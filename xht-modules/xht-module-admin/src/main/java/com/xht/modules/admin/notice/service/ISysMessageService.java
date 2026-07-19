@@ -4,8 +4,8 @@ import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.modules.admin.notice.domain.query.SysMessageInfoQuery;
 import com.xht.modules.admin.notice.domain.query.SysMessageQuery;
 import com.xht.modules.admin.notice.domain.response.SysMessageResponse;
-import com.xht.modules.admin.notice.domain.vo.MessageInfoVo;
-import com.xht.modules.admin.notice.domain.vo.MessagePageVo;
+import com.xht.modules.admin.notice.domain.vo.MessageInfoVO;
+import com.xht.modules.admin.notice.domain.vo.MessagePageVO;
 import com.xht.modules.admin.notice.enums.MessageStarEnums;
 import com.xht.modules.admin.notice.enums.MessageTopEnums;
 import com.xht.framework.core.message.core.MessagePayload;
@@ -75,7 +75,7 @@ public interface ISysMessageService {
      *
      * @param messageId 站内信ID
      */
-    MessageInfoVo findInfoByMessageId(Long messageId);
+    MessageInfoVO findInfoByMessageId(Long messageId);
 
     /**
      * 管理员分页查询站内信
@@ -91,7 +91,7 @@ public interface ISysMessageService {
      * @param query 查询参数
      * @return 站内信发送详情
      */
-    MessagePageVo findAdminPageSend(SysMessageInfoQuery query);
+    MessagePageVO findAdminPageSend(SysMessageInfoQuery query);
 
     /**
      * 分页查询我接收的站内信
@@ -99,6 +99,6 @@ public interface ISysMessageService {
      * @param query 查询参数
      * @return  站内信分页列表
      */
-    PageResponse<MessageInfoVo> findMyPage(SysMessageInfoQuery query);
+    PageResponse<MessageInfoVO> findMyPage(SysMessageInfoQuery query);
 
 }

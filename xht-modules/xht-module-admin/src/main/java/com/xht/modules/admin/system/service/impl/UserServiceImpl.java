@@ -28,7 +28,7 @@ import com.xht.modules.admin.system.domain.response.SysMenuResponse;
 import com.xht.modules.admin.system.domain.response.SysPostResponse;
 import com.xht.modules.admin.system.domain.response.SysUserDetailResponse;
 import com.xht.modules.admin.system.domain.response.SysUserResponse;
-import com.xht.modules.admin.system.domain.vo.SysUserVo;
+import com.xht.modules.admin.system.domain.vo.SysUserVO;
 import com.xht.modules.admin.system.entity.SysRoleEntity;
 import com.xht.modules.admin.system.entity.SysUserDetailEntity;
 import com.xht.modules.admin.system.entity.SysUserEntity;
@@ -203,9 +203,9 @@ public class UserServiceImpl implements IUserService {
      * @return 找到的用户对象，不存在时返回null
      */
     @Override
-    public SysUserVo findByUserId(Long userId) {
+    public SysUserVO findByUserId(Long userId) {
         ThrowUtils.notNull(userId, "用户ID不能为空");
-        SysUserVo sysUserVO = sysUserDao.findInfoByUserId(userId);
+        SysUserVO sysUserVO = sysUserDao.findInfoByUserId(userId);
         ThrowUtils.notNull(sysUserVO, "查询不到用户信息!");
         if (Objects.isNull(sysUserVO.getProfile())) {
             SysUserDetailResponse sysUserDetailResponse = new SysUserDetailResponse();

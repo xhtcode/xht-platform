@@ -5,7 +5,7 @@ import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.enums.CharacterEnums;
 import com.xht.modules.generate.domain.form.GenCodeCoreForm;
-import com.xht.modules.generate.domain.vo.GenCodeCoreVo;
+import com.xht.modules.generate.domain.vo.GenCodeCoreVO;
 import com.xht.modules.generate.service.IGenCodeCoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -63,7 +63,7 @@ public class GenCodeCoreController {
      */
     @Operation(summary = "生成代码")
     @PostMapping("/view")
-    public R<List<GenCodeCoreVo>> viewCode(@Validated @RequestBody GenCodeCoreForm genCodeCoreForm) {
+    public R<List<GenCodeCoreVO>> viewCode(@Validated @RequestBody GenCodeCoreForm genCodeCoreForm) {
         return R.ok().build(genCodeCoreService.viewCode(genCodeCoreForm));
     }
 

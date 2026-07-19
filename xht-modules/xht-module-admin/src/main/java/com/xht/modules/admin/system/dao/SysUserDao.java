@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.enums.UserStatusEnums;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.system.domain.query.SysUserQuery;
-import com.xht.modules.admin.system.domain.vo.SysUserVo;
+import com.xht.modules.admin.system.domain.vo.SysUserVO;
 import com.xht.modules.admin.system.entity.SysUserEntity;
 
 
@@ -46,7 +46,7 @@ public interface SysUserDao extends MapperRepository<SysUserEntity> {
      * @param userId 用户ID
      * @return 用户信息
      */
-    SysUserVo findInfoByUserId(Long userId);
+    SysUserVO findInfoByUserId(Long userId);
 
     /**
      * 根据手机号校验用户是否重复

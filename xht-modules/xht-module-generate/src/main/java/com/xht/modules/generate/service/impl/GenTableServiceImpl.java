@@ -24,7 +24,7 @@ import com.xht.modules.generate.domain.query.GenTableInfoQuery;
 import com.xht.modules.generate.domain.response.GenTableColumnQueryResponse;
 import com.xht.modules.generate.domain.response.GenTableColumnResponse;
 import com.xht.modules.generate.domain.response.GenTableResponse;
-import com.xht.modules.generate.domain.vo.TableColumnVo;
+import com.xht.modules.generate.domain.vo.TableColumnVO;
 import com.xht.modules.generate.entity.GenDataSourceEntity;
 import com.xht.modules.generate.entity.GenTableColumnEntity;
 import com.xht.modules.generate.entity.GenTableColumnQueryEntity;
@@ -224,8 +224,8 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
      * @return 表信息字段信息
      */
     @Override
-    public TableColumnVo findById(Long tableId) {
-        TableColumnVo result = new TableColumnVo();
+    public TableColumnVO findById(Long tableId) {
+        TableColumnVO result = new TableColumnVO();
         GenTableResponse tableResponse = genTableConverter.toResponse(genTableDao.findById(tableId));
         result.setTableInfo(Objects.requireNonNullElseGet(tableResponse, GenTableResponse::new));
         List<GenTableColumnResponse> columnResponses = genTableColumnConverter.toResponse(genTableColumnDao.findByTableId(tableId));

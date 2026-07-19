@@ -8,7 +8,7 @@ import com.xht.modules.generate.domain.form.TableColumnForm;
 import com.xht.modules.generate.domain.query.DataBaseQuery;
 import com.xht.modules.generate.domain.query.GenTableInfoQuery;
 import com.xht.modules.generate.domain.response.GenTableResponse;
-import com.xht.modules.generate.domain.vo.TableColumnVo;
+import com.xht.modules.generate.domain.vo.TableColumnVO;
 import com.xht.modules.generate.service.IGenTableService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -94,7 +94,7 @@ public class GenTableController {
      */
     @Operation(summary = "根据ID查询表信息")
     @GetMapping("/get/{id}")
-    public R<TableColumnVo> findById(@PathVariable @Parameter(description = "表信息ID", required = true) Long id) {
+    public R<TableColumnVO> findById(@PathVariable @Parameter(description = "表信息ID", required = true) Long id) {
         return R.ok().build(genTableInfoService.findById(id));
     }
 

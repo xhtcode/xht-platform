@@ -10,6 +10,6 @@ import java.io.Serializable;
  * @author xht
  **/
 @Schema(description = "全局响应实体")
-public abstract class BasicResponse implements Serializable {
+public abstract class BasicResponse implements XhtResponse, Serializable {
 
 }

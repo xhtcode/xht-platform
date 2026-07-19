@@ -17,7 +17,7 @@ import com.xht.modules.admin.notice.dao.SysNoticeUserOperateDao;
 import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
-import com.xht.modules.admin.notice.domain.vo.NoticeVo;
+import com.xht.modules.admin.notice.domain.vo.NoticeVO;
 import com.xht.modules.admin.notice.entity.SysNoticeAttachmentEntity;
 import com.xht.modules.admin.notice.entity.SysNoticeEntity;
 import com.xht.modules.admin.notice.entity.SysNoticeTypeEntity;
@@ -230,8 +230,8 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
      * @return 通知详情信息
      */
     @Override
-    public NoticeVo findById(Long noticeId) {
-        NoticeVo result = new NoticeVo();
+    public NoticeVO findById(Long noticeId) {
+        NoticeVO result = new NoticeVO();
         SysNoticeResponse noticeResponse = sysNoticeConverter.toResponse(sysNoticeDao.findById(noticeId));
         // @formater:off
         Optional.ofNullable(noticeResponse).ifPresent(item -> {

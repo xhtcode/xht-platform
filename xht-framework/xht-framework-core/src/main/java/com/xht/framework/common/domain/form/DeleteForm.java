@@ -1,6 +1,6 @@
 package com.xht.framework.common.domain.form;
 
-import com.xht.framework.common.domain.IRequest;
+import com.xht.framework.common.domain.XhtRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -11,7 +11,7 @@ import java.io.Serial;
  */
 @Data
 @Schema(description = "基础删除表单抽象类")
-public abstract class DeleteForm implements IRequest {
+public abstract class DeleteForm implements XhtForm, XhtRequest {
 
     @Serial
     private static final long serialVersionUID = 1L;

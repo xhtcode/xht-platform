@@ -3,7 +3,7 @@ package com.xht.modules.admin.notice.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.notice.domain.query.SysMessageInfoQuery;
-import com.xht.modules.admin.notice.domain.vo.MessageInfoVo;
+import com.xht.modules.admin.notice.domain.vo.MessageInfoVO;
 import com.xht.modules.admin.notice.entity.SysMessageInfoEntity;
 import com.xht.modules.admin.notice.enums.MessageStarEnums;
 import com.xht.modules.admin.notice.enums.MessageTopEnums;
@@ -82,7 +82,7 @@ public interface SysMessageInfoDao extends MapperRepository<SysMessageInfoEntity
      * @param query 查询参数
      * @return  站内信分页
      */
-    Page<MessageInfoVo> findMyMessagePageList(Page<SysMessageInfoEntity> page, SysMessageInfoQuery query);
+    Page<MessageInfoVO> findMyMessagePageList(Page<SysMessageInfoEntity> page, SysMessageInfoQuery query);
 
     /**
      * 查询站内信详情
@@ -91,6 +91,6 @@ public interface SysMessageInfoDao extends MapperRepository<SysMessageInfoEntity
      * @param userId    用户ID
      * @return 站内信详情信息
      */
-    MessageInfoVo findInfoByMessageId(Long messageId, Long userId);
+    MessageInfoVO findInfoByMessageId(Long messageId, Long userId);
 
 }

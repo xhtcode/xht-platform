@@ -1,6 +1,7 @@
 package com.xht.framework.web.handler;
 
 
+import com.xht.framework.common.domain.ErrorR;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.ValidationException;
@@ -44,6 +45,11 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      */
     private static final String MESSAGE = GlobalErrorStatusCode.PARAM_INVALID.getMsg();
 
+    /**
+     * 参数校验失败信息key
+     */
+    private static final String PARAMS_ERROR_KEY = "params";
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -51,18 +57,18 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      * 捕获 {@link Exception} 异常
      */
     @ExceptionHandler(value = Exception.class)
-    public R<String> handle(Exception e) {
+    public ErrorR<Void> handle(Exception e) {
         log.error("系统异常: {}", e.getMessage(), e);
-        return R.error().info(GlobalErrorStatusCode.ERROR).build();
+        return new ErrorR<>(R.error().info(GlobalErrorStatusCode.ERROR).build());
     }
 
     /**
      * 捕获 {@link BusinessException}  异常
      */
     @ExceptionHandler(value = {BusinessException.class})
-    public R<String> handle(BusinessException e) {
+    public ErrorR<Void> handle(BusinessException e) {
         log.error("自定义异常: code={} MESSAGE={}", e.getCode(), e.getMessage(), e);
-        return R.error(e.getCode()).msg(e.getMsg()).build();
+        return new ErrorR<>(R.error(e.getCode()).msg(e.getMsg()).build());
     }
 
 
@@ -70,8 +76,8 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      * controller 接口拦截  {@link NoHandlerFoundException} 以及 {@link NoResourceFoundException}
      */
     @ExceptionHandler(value = {NoHandlerFoundException.class, NoResourceFoundException.class})
-    public R<String> handle() {
-        return R.error().info(GlobalErrorStatusCode.NOT_FOUND).build();
+    public ErrorR<Void> handle() {
+        return new ErrorR<>(R.error().info(GlobalErrorStatusCode.NOT_FOUND).build());
     }
 
 
@@ -79,9 +85,9 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      * 错误的请求  {@link HttpRequestMethodNotSupportedException}
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public R<String> handle(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
+    public ErrorR<Void> handle(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
         log.debug(" {} 请求方法不支持: {}", request.getRequestURI(), e.getMessage(), e);
-        return R.error().info(GlobalErrorStatusCode.METHOD_NOT_ALLOWED).build();
+        return new ErrorR<>(R.error().info(GlobalErrorStatusCode.METHOD_NOT_ALLOWED).build());
     }
 
     /**
@@ -92,22 +98,20 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      * @return Result
      */
     @ExceptionHandler(BindException.class)
-    public R<Map<String, Object>> handleException(BindException e, HttpServletRequest request) {
+    public ErrorR<Void> handleException(BindException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         BindingResult bindingResult = e.getBindingResult();
-        String message = GlobalErrorStatusCode.PARAM_INVALID.getMsg();
         Map<String, Object> resultMap = new HashMap<>();
         if (bindingResult.hasErrors()) {
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
             if (!CollectionUtils.isEmpty(fieldErrors)) {
-                message = StringUtils.emptyToDefault(fieldErrors.get(0).getDefaultMessage(), "参数校验失败");
                 for (FieldError fieldError : fieldErrors) {
                     resultMap.put(fieldError.getField(), StringUtils.emptyToDefault(fieldError.getDefaultMessage(), "参数校验失败"));
                 }
             }
         }
         log.warn("请求地址:{}参数检验失败,请求方式：{} ,codeData={}", requestURI, request.getMethod(), resultMap, e);
-        return R.error().info(GlobalErrorStatusCode.PARAM_INVALID).msg(message).build(resultMap);
+        return new ErrorR<>(R.error().info(GlobalErrorStatusCode.PARAM_INVALID).build(), Map.of(PARAMS_ERROR_KEY, resultMap));
     }
 
     /**
@@ -118,12 +122,12 @@ public class DefaultGlobalExceptionHandler implements Serializable {
      * @return Result
      */
     @ExceptionHandler(ValidationException.class)
-    public R<Map<String, Object>> handleException(ValidationException e, HttpServletRequest request) {
+    public ErrorR<Void> handleException(ValidationException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put(e.getField(), StringUtils.emptyToDefault(e.getMessage(), MESSAGE));
         log.warn("请求地址:{}参数检验失败,请求方式：{} ,codeData={}", requestURI, request.getMethod(), resultMap, e);
-        return R.error().info(GlobalErrorStatusCode.PARAM_INVALID).build(resultMap);
+        return new ErrorR<>(R.error().info(GlobalErrorStatusCode.PARAM_INVALID).build(), Map.of(PARAMS_ERROR_KEY, resultMap));
     }
 
 }

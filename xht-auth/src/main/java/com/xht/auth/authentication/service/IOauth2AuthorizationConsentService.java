@@ -1,6 +1,6 @@
 package com.xht.auth.authentication.service;
 
-import com.xht.auth.authentication.domain.vo.Oauth2ConsentVo;
+import com.xht.auth.authentication.domain.vo.Oauth2ConsentVO;
 
 /**
  * 授权确认信息
@@ -18,7 +18,7 @@ public interface IOauth2AuthorizationConsentService {
      * @param userCode  设备码授权流程中的用户码
      * @return 获取授权确认信息
      */
-    Oauth2ConsentVo getConsentInfo(String scope, String clientId, String state, String userCode);
+    Oauth2ConsentVO getConsentInfo(String scope, String clientId, String state, String userCode);
 
 
 }

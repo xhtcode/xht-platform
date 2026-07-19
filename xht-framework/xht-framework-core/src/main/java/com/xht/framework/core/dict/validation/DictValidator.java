@@ -2,7 +2,7 @@ package com.xht.framework.core.dict.validation;
 
 import com.xht.framework.utils.spring.SpringContextUtils;
 import com.xht.framework.core.dict.ISysDictFactory;
-import com.xht.framework.core.dict.domain.DictVo;
+import com.xht.framework.core.dict.domain.DictVO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -32,8 +32,8 @@ public class DictValidator implements ConstraintValidator<Dict, String> {
      */
     @Override
     public boolean isValid(String var1, ConstraintValidatorContext var2) {
-        List<DictVo> dictList = SpringContextUtils.getBean(ISysDictFactory.class).getDictList(dictCode);
-        for (DictVo dictVo : dictList) {
+        List<DictVO> dictList = SpringContextUtils.getBean(ISysDictFactory.class).getDictList(dictCode);
+        for (DictVO dictVo : dictList) {
             if (dictVo.getDisabled() && Objects.equals(dictVo.getValue(), var1)) {
                 return true;
             }

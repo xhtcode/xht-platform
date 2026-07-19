@@ -2,7 +2,7 @@ package com.xht.auth.authentication.service.impl;
 
 import com.xht.auth.authentication.dao.ISysOauth2ClientScopeDao;
 import com.xht.auth.authentication.domain.response.SysOauth2ClientScopeResponse;
-import com.xht.auth.authentication.domain.vo.Oauth2ConsentVo;
+import com.xht.auth.authentication.domain.vo.Oauth2ConsentVO;
 import com.xht.auth.authentication.service.IOauth2AuthorizationConsentService;
 import com.xht.auth.constant.AuthorizationConstant;
 import com.xht.framework.oauth2.utils.SecurityUtils;
@@ -57,7 +57,7 @@ public class Oauth2AuthorizationConsentServiceImpl implements IOauth2Authorizati
      */
     @Override
     @SuppressWarnings("all")
-    public Oauth2ConsentVo getConsentInfo(String scope, String clientId, String state, String userCode) {
+    public Oauth2ConsentVO getConsentInfo(String scope, String clientId, String state, String userCode) {
         log.info("授权范围:{},客户端id:{},状态参数:{},userCode:{}", scope, clientId, state, userCode);
         RegisteredClient registeredClient = registeredClientRepository.findByClientId(clientId);
         if (registeredClient == null) {
@@ -116,7 +116,7 @@ public class Oauth2AuthorizationConsentServiceImpl implements IOauth2Authorizati
             }
             resultScope.add(response);
         }
-        Oauth2ConsentVo oauth2ConsentVo = new Oauth2ConsentVo();
+        Oauth2ConsentVO oauth2ConsentVo = new Oauth2ConsentVO();
         oauth2ConsentVo.setUsername(user.getUsername());
         oauth2ConsentVo.setClientId(clientId);
         oauth2ConsentVo.setClientName(registeredClient.getClientName());

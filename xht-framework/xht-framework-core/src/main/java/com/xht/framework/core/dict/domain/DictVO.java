@@ -1,6 +1,6 @@
 package com.xht.framework.core.dict.domain;
 
-import com.xht.framework.common.domain.vo.IVO;
+import com.xht.framework.common.domain.vo.XhtVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @Schema(description = "字典项视图对象响应信息")
-public class DictVo implements IVO {
+public class DictVO implements XhtVO {
 
     /**
      * 字典项标签

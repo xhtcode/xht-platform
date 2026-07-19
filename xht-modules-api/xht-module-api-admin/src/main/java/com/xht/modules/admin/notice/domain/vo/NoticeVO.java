@@ -1,6 +1,6 @@
 package com.xht.modules.admin.notice.domain.vo;
 
-import com.xht.framework.common.domain.vo.IVO;
+import com.xht.framework.common.domain.vo.XhtVO;
 import com.xht.modules.admin.notice.domain.response.SysNoticeAttachmentResponse;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,7 +14,7 @@ import java.util.List;
  **/
 @Data
 @Schema(description = "站内信详情VO")
-public class NoticeVo implements IVO {
+public class NoticeVO implements XhtVO {
 
     @Schema(description = "通知详情")
     private SysNoticeResponse notice;

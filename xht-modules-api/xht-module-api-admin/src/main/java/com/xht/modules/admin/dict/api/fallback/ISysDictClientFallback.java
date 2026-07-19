@@ -1,9 +1,9 @@
 package com.xht.modules.admin.dict.api.fallback;
 
 import com.xht.framework.common.domain.R;
+import com.xht.framework.core.dict.domain.DictVO;
 import com.xht.framework.openfeign.fallback.BasicFallback;
 import com.xht.modules.admin.dict.api.ISysDictClient;
-import com.xht.framework.core.dict.domain.DictVo;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class ISysDictClientFallback extends BasicFallback implements ISysDictCli
     }
 
     @Override
-    public R<List<DictVo>> getByDictCode(String dictCode) {
+    public R<List<DictVO>> getByDictCode(String dictCode) {
         return error();
     }
 

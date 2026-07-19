@@ -5,9 +5,11 @@ import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.common.domain.response.BasicResponse;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.mybatis.domain.entity.Entity;
+import com.xht.framework.mybatis.utils.PageTool;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -76,13 +78,10 @@ public interface BasicConverter<T extends Entity, Form extends BasicForm, Respon
      * @return 转换后的分页响应对象，包含当前页数据及分页信息，非null
      */
     default PageResponse<Response> toResponse(Page<T> page) {
-        PageResponse<Response> response = new PageResponse<>();
-        response.setCurrent(page.getCurrent());
-        response.setSize(page.getSize());
-        response.setTotal(page.getTotal());
-        response.setPages(page.getPages());
-        response.setRecords(toResponse(page.getRecords()));
-        return response;
+        if (Objects.isNull(page)) {
+            return PageTool.empty();
+        }
+        return PageTool.createPageVo(page.getCurrent(), page.getSize(), page.getTotal(), toResponse(page.getRecords()));
     }
 
 }

@@ -10,7 +10,7 @@ import com.xht.modules.generate.dao.GenTemplateDao;
 import com.xht.modules.generate.domain.bo.GenCodeCoreBo;
 import com.xht.modules.generate.domain.bo.TableInfoBo;
 import com.xht.modules.generate.domain.form.GenCodeCoreForm;
-import com.xht.modules.generate.domain.vo.GenCodeCoreVo;
+import com.xht.modules.generate.domain.vo.GenCodeCoreVO;
 import com.xht.modules.generate.entity.GenTableColumnEntity;
 import com.xht.modules.generate.entity.GenTableColumnQueryEntity;
 import com.xht.modules.generate.entity.GenTableEntity;
@@ -66,15 +66,15 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
      * @return List<GenCodeCoreBo> 代码预览信息列表，包含各个代码文件的内容
      */
     @Override
-    public List<GenCodeCoreVo> viewCode(GenCodeCoreForm genCodeCoreForm) {
+    public List<GenCodeCoreVO> viewCode(GenCodeCoreForm genCodeCoreForm) {
         if (Objects.isNull(genCodeCoreForm) || genCodeCoreForm.getTableIds().isEmpty()) {
             return Collections.emptyList();
         }
-        List<GenCodeCoreVo> result = new ArrayList<>();
+        List<GenCodeCoreVO> result = new ArrayList<>();
         List<GenCodeCoreBo> codeCoreBoList = generateCodeOriginal(genCodeCoreForm);
         Map<String, List<GenCodeCoreBo>> collect = codeCoreBoList.stream().collect(Collectors.groupingBy(GenCodeCoreBo::getTableName));
         collect.forEach((k, v) -> {
-            GenCodeCoreVo vo = new GenCodeCoreVo();
+            GenCodeCoreVO vo = new GenCodeCoreVO();
             vo.setTableName(k);
             vo.setCodes(v);
             result.add(vo);

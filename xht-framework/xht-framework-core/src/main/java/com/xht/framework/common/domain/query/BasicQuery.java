@@ -1,6 +1,6 @@
 package com.xht.framework.common.domain.query;
 
-import com.xht.framework.common.domain.IRequest;
+import com.xht.framework.common.domain.XhtRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @Schema(description = "查询参数")
-public abstract class BasicQuery implements IRequest, Serializable {
+public abstract class BasicQuery implements XhtQuery, XhtRequest, Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

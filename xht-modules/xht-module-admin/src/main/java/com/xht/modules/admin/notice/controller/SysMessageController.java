@@ -6,8 +6,8 @@ import com.xht.framework.log.annotations.BLog;
 import com.xht.modules.admin.notice.domain.query.SysMessageInfoQuery;
 import com.xht.modules.admin.notice.domain.query.SysMessageQuery;
 import com.xht.modules.admin.notice.domain.response.SysMessageResponse;
-import com.xht.modules.admin.notice.domain.vo.MessageInfoVo;
-import com.xht.modules.admin.notice.domain.vo.MessagePageVo;
+import com.xht.modules.admin.notice.domain.vo.MessageInfoVO;
+import com.xht.modules.admin.notice.domain.vo.MessagePageVO;
 import com.xht.modules.admin.notice.enums.MessageStarEnums;
 import com.xht.modules.admin.notice.enums.MessageTopEnums;
 import com.xht.modules.admin.notice.service.ISysMessageService;
@@ -126,7 +126,7 @@ public class SysMessageController {
      */
     @Operation(summary = "查询站内信详情")
     @GetMapping("/get/{messageId}")
-    public R<MessageInfoVo> findInfoByMessageId(@PathVariable Long messageId) {
+    public R<MessageInfoVO> findInfoByMessageId(@PathVariable Long messageId) {
         return R.ok().build(sysMessageService.findInfoByMessageId(messageId));
     }
 
@@ -148,7 +148,7 @@ public class SysMessageController {
      */
     @Operation(summary = "管理员分页查看站内信发送详情")
     @GetMapping("/admin/send/page")
-    public R<MessagePageVo> findAdminPageSend(SysMessageInfoQuery query) {
+    public R<MessagePageVO> findAdminPageSend(SysMessageInfoQuery query) {
         return R.ok().build(sysMessageService.findAdminPageSend(query));
     }
 
@@ -161,7 +161,7 @@ public class SysMessageController {
      */
     @Operation(summary = "分页查询我接收的站内信")
     @GetMapping("/my/page")
-    public R<PageResponse<MessageInfoVo>> findMyPage(SysMessageInfoQuery query) {
+    public R<PageResponse<MessageInfoVO>> findMyPage(SysMessageInfoQuery query) {
         return R.ok().build(sysMessageService.findMyPage(query));
     }
 

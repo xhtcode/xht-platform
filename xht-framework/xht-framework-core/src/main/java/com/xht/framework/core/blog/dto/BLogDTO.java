@@ -1,6 +1,6 @@
 package com.xht.framework.core.blog.dto;
 
-import com.xht.framework.common.domain.dto.BasicDTO;
+import com.xht.framework.common.domain.dto.XhtDTO;
 import com.xht.framework.core.blog.enums.LogStatusEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  **/
 @Data
 @Schema(description = "日志信息 DTO")
-public class BLogDTO extends BasicDTO {
+public class BLogDTO implements XhtDTO {
 
     /**
      * 日志名称

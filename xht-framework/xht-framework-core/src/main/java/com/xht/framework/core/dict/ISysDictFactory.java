@@ -1,6 +1,6 @@
 package com.xht.framework.core.dict;
 
-import com.xht.framework.core.dict.domain.DictVo;
+import com.xht.framework.core.dict.domain.DictVO;
 
 import java.util.List;
 
@@ -17,6 +17,6 @@ public interface ISysDictFactory {
      * @param dictCode 字典编码
      * @return 字典项列表
      */
-    List<DictVo> getDictList(String dictCode);
+    List<DictVO> getDictList(String dictCode);
 
 }

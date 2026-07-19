@@ -1,6 +1,6 @@
 package com.xht.modules.generate.domain.vo;
 
-import com.xht.framework.common.domain.vo.IVO;
+import com.xht.framework.common.domain.vo.XhtVO;
 import com.xht.modules.generate.domain.response.GenTableColumnQueryResponse;
 import com.xht.modules.generate.domain.response.GenTableColumnResponse;
 import com.xht.modules.generate.domain.response.GenTableResponse;
@@ -16,7 +16,7 @@ import java.util.List;
  **/
 @Data
 @Schema(description = "表字段信息")
-public class TableColumnVo implements IVO {
+public class TableColumnVO implements XhtVO {
 
     @Schema(description = "表信息")
     private GenTableResponse tableInfo;

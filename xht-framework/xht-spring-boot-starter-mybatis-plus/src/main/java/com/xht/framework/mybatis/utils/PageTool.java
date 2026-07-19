@@ -1,6 +1,5 @@
 package com.xht.framework.mybatis.utils;
 
-import cn.hutool.core.util.PageUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
@@ -89,12 +88,12 @@ public final class PageTool {
      * @param <T>     泛型对象
      * @return IPage
      */
-    public static <T> PageResponse<T> createPageVo(int current, int size, Integer total, List<T> list) {
+    public static <T> PageResponse<T> createPageVo(long current, long size, long total, List<T> list) {
         PageResponse<T> resultVo = new PageResponse<>();
         resultVo.setCurrent(current);
         resultVo.setSize(size);
         resultVo.setTotal(total);
-        resultVo.setPages(PageUtil.totalPage(total, size));
+        resultVo.setPages(totalPage(total, size));
         resultVo.setRecords(list);
         return resultVo;
     }

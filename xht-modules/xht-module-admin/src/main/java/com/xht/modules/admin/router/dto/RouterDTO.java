@@ -1,6 +1,6 @@
 package com.xht.modules.admin.router.dto;
 
-import com.xht.framework.common.domain.vo.IVO;
+import com.xht.framework.common.domain.dto.XhtDTO;
 
 import java.util.HashMap;
 
@@ -13,7 +13,7 @@ import static com.xht.modules.admin.router.constant.RouterConstant.*;
  * @version : 1.0
  **/
 @SuppressWarnings("unused")
-public class RouterDTO extends HashMap<String, Object> implements IVO {
+public class RouterDTO extends HashMap<String, Object> implements XhtDTO {
 
 
     /**

@@ -12,7 +12,7 @@ import com.xht.modules.admin.dict.dao.SysDictItemDao;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.query.SysDictItemQuery;
 import com.xht.modules.admin.dict.domain.response.SysDictItemResponse;
-import com.xht.framework.core.dict.domain.DictVo;
+import com.xht.framework.core.dict.domain.DictVO;
 import com.xht.modules.admin.dict.entity.SysDictEntity;
 import com.xht.modules.admin.dict.entity.SysDictItemEntity;
 import com.xht.modules.admin.dict.enums.DictShowDisabledEnums;
@@ -126,7 +126,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      * @return 系统字典项VO列表
      */
     @Override
-    public List<DictVo> getByDictCode(String dictCode) {
+    public List<DictVO> getByDictCode(String dictCode) {
         SysDictEntity sysDictEntity = sysDictDao.findOneOptional(SysDictEntity::getDictCode, dictCode)
                 .orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
         DictShowDisabledEnums showDisabled = sysDictEntity.getShowDisabled();

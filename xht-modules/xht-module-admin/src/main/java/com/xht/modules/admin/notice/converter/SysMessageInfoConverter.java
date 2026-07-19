@@ -3,7 +3,7 @@ package com.xht.modules.admin.notice.converter;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.converter.PageConverter;
 import com.xht.modules.admin.notice.domain.response.SysMessageInfoResponse;
-import com.xht.modules.admin.notice.domain.vo.MessagePageVo;
+import com.xht.modules.admin.notice.domain.vo.MessagePageVO;
 import com.xht.modules.admin.notice.entity.SysMessageEntity;
 import com.xht.modules.admin.notice.entity.SysMessageInfoEntity;
 import org.mapstruct.Mapper;
@@ -25,8 +25,8 @@ public interface SysMessageInfoConverter extends PageConverter<SysMessageInfoEnt
      * @param pageResponse  站内信收件人明细列表
      * @return 站内信发送详情
      */
-    default MessagePageVo toMessageVo(SysMessageEntity messageEntity, Page<SysMessageInfoEntity> pageResponse) {
-        MessagePageVo messagePageVo = new MessagePageVo();
+    default MessagePageVO toMessageVo(SysMessageEntity messageEntity, Page<SysMessageInfoEntity> pageResponse) {
+        MessagePageVO messagePageVo = new MessagePageVO();
         messagePageVo.setSenderName(messageEntity.getSenderName());
         messagePageVo.setMessageType(messageEntity.getMessageType());
         messagePageVo.setMessageTitle(messageEntity.getMessageTitle());

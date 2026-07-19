@@ -3,7 +3,7 @@ package com.xht.modules.admin.notice.dao.mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.modules.admin.notice.domain.query.SysMessageInfoQuery;
-import com.xht.modules.admin.notice.domain.vo.MessageInfoVo;
+import com.xht.modules.admin.notice.domain.vo.MessageInfoVO;
 import com.xht.modules.admin.notice.entity.SysMessageInfoEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -23,7 +23,7 @@ public interface SysMessageInfoMapper extends BaseMapperX<SysMessageInfoEntity> 
      * @param userId    用户ID
      * @return 站内信详情信息
      */
-    MessageInfoVo findInfoByMessageId(@Param("messageId") Long messageId, @Param("userId") Long userId);
+    MessageInfoVO findInfoByMessageId(@Param("messageId") Long messageId, @Param("userId") Long userId);
 
     /**
      * 分页查询我接收的站内信
@@ -32,7 +32,7 @@ public interface SysMessageInfoMapper extends BaseMapperX<SysMessageInfoEntity> 
      * @param query 查询参数
      * @return  站内信分页
      */
-    Page<MessageInfoVo> findMyMessagePageList(@Param("page") Page<?> page, @Param("query") SysMessageInfoQuery query);
+    Page<MessageInfoVO> findMyMessagePageList(@Param("page") Page<?> page, @Param("query") SysMessageInfoQuery query);
 
 }
 

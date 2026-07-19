@@ -8,7 +8,7 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.admin.notice.dao.SysMessageInfoDao;
 import com.xht.modules.admin.notice.dao.mapper.SysMessageInfoMapper;
 import com.xht.modules.admin.notice.domain.query.SysMessageInfoQuery;
-import com.xht.modules.admin.notice.domain.vo.MessageInfoVo;
+import com.xht.modules.admin.notice.domain.vo.MessageInfoVO;
 import com.xht.modules.admin.notice.entity.SysMessageInfoEntity;
 import com.xht.modules.admin.notice.enums.MessageStarEnums;
 import com.xht.modules.admin.notice.enums.MessageStatusEnums;
@@ -149,7 +149,7 @@ public class SysMessageInfoDaoImpl extends MapperRepositoryImpl<SysMessageInfoMa
      * @return  站内信分页
      */
     @Override
-    public Page<MessageInfoVo> findMyMessagePageList(Page<SysMessageInfoEntity> page, SysMessageInfoQuery query) {
+    public Page<MessageInfoVO> findMyMessagePageList(Page<SysMessageInfoEntity> page, SysMessageInfoQuery query) {
         return baseMapper.findMyMessagePageList(page, query);
     }
 
@@ -161,7 +161,7 @@ public class SysMessageInfoDaoImpl extends MapperRepositoryImpl<SysMessageInfoMa
      * @return 站内信详情信息
      */
     @Override
-    public MessageInfoVo findInfoByMessageId(Long messageId, Long userId) {
+    public MessageInfoVO findInfoByMessageId(Long messageId, Long userId) {
         return baseMapper.findInfoByMessageId(messageId, userId);
     }
 

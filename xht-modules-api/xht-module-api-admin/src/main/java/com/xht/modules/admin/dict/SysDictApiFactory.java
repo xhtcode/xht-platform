@@ -6,7 +6,7 @@ import com.xht.framework.exception.BusinessException;
 import com.xht.framework.core.properties.XhtConfigProperties;
 import com.xht.framework.core.properties.cache.CacheProperties;
 import com.xht.framework.core.dict.ISysDictFactory;
-import com.xht.framework.core.dict.domain.DictVo;
+import com.xht.framework.core.dict.domain.DictVO;
 import com.xht.framework.utils.ROptional;
 import com.xht.modules.admin.dict.api.ISysDictClient;
 import jakarta.annotation.Resource;
@@ -40,14 +40,14 @@ public class SysDictApiFactory implements ISysDictFactory {
      * @return 字典项列表
      */
     @Override
-    public List<DictVo> getDictList(String dictCode) {
+    public List<DictVO> getDictList(String dictCode) {
         CacheProperties dictCache = Optional
                 .ofNullable(xhtConfigProperties)
                 .map(XhtConfigProperties::getGlobal)
                 .map(XhtConfigProperties.GlobalConfigProperties::getDict)
                 .orElseThrow(() -> new BusinessException("字典配置查询不到"));
         return redisRepository.getSet(dictCache.getDictCacheKey(dictCode), dictCache.timeOut(), dictCache.unit(), () -> {
-            R<List<DictVo>> byDictCode = sysDictClient.getByDictCode(dictCode);
+            R<List<DictVO>> byDictCode = sysDictClient.getByDictCode(dictCode);
             return ROptional.of(byDictCode).get().orElse(Collections.emptyList());
         });
     }

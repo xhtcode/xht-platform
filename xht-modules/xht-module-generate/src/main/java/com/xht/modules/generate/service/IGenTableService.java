@@ -6,7 +6,7 @@ import com.xht.modules.generate.domain.form.TableColumnForm;
 import com.xht.modules.generate.domain.query.DataBaseQuery;
 import com.xht.modules.generate.domain.query.GenTableInfoQuery;
 import com.xht.modules.generate.domain.response.GenTableResponse;
-import com.xht.modules.generate.domain.vo.TableColumnVo;
+import com.xht.modules.generate.domain.vo.TableColumnVO;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public interface IGenTableService {
      * @param id 表信息ID
      * @return 表信息字段信息
      */
-    TableColumnVo findById(Long id);
+    TableColumnVO findById(Long id);
 
 
     /**

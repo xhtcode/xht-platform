@@ -1,10 +1,10 @@
 package com.xht.modules.admin.dict.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.framework.core.dict.domain.DictVO;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.query.SysDictItemQuery;
 import com.xht.modules.admin.dict.domain.response.SysDictItemResponse;
-import com.xht.framework.core.dict.domain.DictVo;
 
 import java.util.List;
 
@@ -61,6 +61,6 @@ public interface ISysDictItemService {
      * @param dictCode 字典编码
      * @return 系统字典项VO列表
      */
-    List<DictVo> getByDictCode(String dictCode);
+    List<DictVO> getByDictCode(String dictCode);
 
 }

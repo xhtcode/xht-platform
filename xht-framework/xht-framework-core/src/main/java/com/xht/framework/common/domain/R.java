@@ -21,8 +21,7 @@ import java.util.Objects;
  **/
 @Getter
 @Schema(description = "响应结果")
-@SuppressWarnings("all")
-public final class R<T> implements Serializable {
+public sealed class R<T> implements Serializable permits ErrorR {
 
     @Schema(description = "返回码")
     private final Integer code;

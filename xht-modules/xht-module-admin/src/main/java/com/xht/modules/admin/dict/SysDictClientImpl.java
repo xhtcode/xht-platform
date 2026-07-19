@@ -3,7 +3,7 @@ package com.xht.modules.admin.dict;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.modules.admin.dict.api.ISysDictClient;
-import com.xht.framework.core.dict.domain.DictVo;
+import com.xht.framework.core.dict.domain.DictVO;
 import com.xht.modules.admin.dict.service.ISysDictItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public class SysDictClientImpl implements ISysDictClient {
     @IgnoreAuth(aop = false)
     @GetMapping("/api/sys/dict/code/{dictCode}")
     @Operation(summary = "根据字典编码查询")
-    public R<List<DictVo>> getByDictCode(@PathVariable String dictCode) {
+    public R<List<DictVO>> getByDictCode(@PathVariable String dictCode) {
         return R.ok().build(sysDictItemService.getByDictCode(dictCode));
     }
 

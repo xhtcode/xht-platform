@@ -1,8 +1,7 @@
 package com.xht.modules.admin.notice.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.xht.framework.common.domain.vo.IVO;
+import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.modules.admin.notice.domain.response.SysMessageInfoResponse;
 import com.xht.framework.core.message.core.MessageExtendInfo;
 import com.xht.framework.core.message.enums.MessageTypeEnums;
@@ -10,18 +9,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 站内信收件人明细表VO
+ * 站内信详情VO
+ *
  * @author xht
  **/
 @Data
-@Schema(description = "站内信收件人明细表VO")
-public class MessageInfoVo implements IVO {
-
-    /**
-     * 主键ID
-     */
-    @JsonIgnore
-    private Long t1Id;
+@Schema(description = "站内信详情VO")
+public class MessagePageVO extends PageResponse<SysMessageInfoResponse> {
 
     /**
      * 发件人名称
@@ -54,9 +48,5 @@ public class MessageInfoVo implements IVO {
     @Schema(description = "消息扩展信息（如关联订单ID、跳转链接）")
     private MessageExtendInfo messageExtend;
 
-    /**
-     * 消息详情响应信息
-     */
-    @Schema(description = "消息详情响应信息")
-    private SysMessageInfoResponse response;
+
 }

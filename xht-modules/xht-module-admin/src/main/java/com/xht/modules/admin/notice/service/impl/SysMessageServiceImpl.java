@@ -15,8 +15,8 @@ import com.xht.modules.admin.notice.dao.SysMessageInfoDao;
 import com.xht.modules.admin.notice.domain.query.SysMessageInfoQuery;
 import com.xht.modules.admin.notice.domain.query.SysMessageQuery;
 import com.xht.modules.admin.notice.domain.response.SysMessageResponse;
-import com.xht.modules.admin.notice.domain.vo.MessageInfoVo;
-import com.xht.modules.admin.notice.domain.vo.MessagePageVo;
+import com.xht.modules.admin.notice.domain.vo.MessageInfoVO;
+import com.xht.modules.admin.notice.domain.vo.MessagePageVO;
 import com.xht.modules.admin.notice.entity.SysMessageEntity;
 import com.xht.modules.admin.notice.entity.SysMessageInfoEntity;
 import com.xht.modules.admin.notice.enums.MessageStarEnums;
@@ -194,10 +194,10 @@ public class SysMessageServiceImpl implements ISysMessageService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public MessageInfoVo findInfoByMessageId(Long messageId) {
-        MessageInfoVo messageInfoVo = sysMessageInfoDao.findInfoByMessageId(messageId, SecurityUtils.getUserId());
+    public MessageInfoVO findInfoByMessageId(Long messageId) {
+        MessageInfoVO messageInfoVo = sysMessageInfoDao.findInfoByMessageId(messageId, SecurityUtils.getUserId());
         Optional.ofNullable(messageInfoVo)
-                .map(MessageInfoVo::getResponse)
+                .map(MessageInfoVO::getResponse)
                 .ifPresentOrElse(response -> {
                     if (Objects.equals(MessageStatusEnums.UNREAD, response.getMessageStatus())) {
                         response.setMessageStatus(MessageStatusEnums.READ);
@@ -229,7 +229,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
      * @return 站内信发送详情
      */
     @Override
-    public MessagePageVo findAdminPageSend(SysMessageInfoQuery query) {
+    public MessagePageVO findAdminPageSend(SysMessageInfoQuery query) {
         ThrowUtils.notNull(query.getMessageId(), "查询不到信息id");
         SysMessageEntity messageEntity = sysMessageDao.findById(query.getMessageId());
         Page<SysMessageInfoEntity> page = sysMessageInfoDao.findAdminPageSend(PageTool.getPage(query), query);
@@ -243,9 +243,9 @@ public class SysMessageServiceImpl implements ISysMessageService {
      * @return  站内信分页列表
      */
     @Override
-    public PageResponse<MessageInfoVo> findMyPage(SysMessageInfoQuery query) {
+    public PageResponse<MessageInfoVO> findMyPage(SysMessageInfoQuery query) {
         query.setRecipientId(SecurityUtils.getUserId());
-        Page<MessageInfoVo> page = sysMessageInfoDao.findMyMessagePageList(PageTool.getPage(query), query);
+        Page<MessageInfoVO> page = sysMessageInfoDao.findMyMessagePageList(PageTool.getPage(query), query);
         return PageTool.getPageVo(page);
     }
 

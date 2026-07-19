@@ -1,7 +1,7 @@
 package com.xht.auth.authentication.domain.vo;
 
 import com.xht.auth.authentication.domain.response.SysOauth2ClientScopeResponse;
-import com.xht.framework.common.domain.vo.IVO;
+import com.xht.framework.common.domain.vo.XhtVO;
 import lombok.Data;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @author xht
  **/
 @Data
-public class Oauth2ConsentVo implements IVO {
+public class Oauth2ConsentVO implements XhtVO {
 
     /**
      * 账号

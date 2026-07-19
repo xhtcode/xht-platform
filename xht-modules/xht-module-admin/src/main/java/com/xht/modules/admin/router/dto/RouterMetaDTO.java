@@ -1,7 +1,7 @@
 package com.xht.modules.admin.router.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.xht.framework.common.domain.response.BasicResponse;
+import com.xht.framework.common.domain.dto.XhtDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 @Schema(description = "路由元信息响应对象")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RouterMetaDTO extends BasicResponse {
+public class RouterMetaDTO implements XhtDTO {
 
     /**
      * 设置该路由在侧边栏和面包屑中展示的名字

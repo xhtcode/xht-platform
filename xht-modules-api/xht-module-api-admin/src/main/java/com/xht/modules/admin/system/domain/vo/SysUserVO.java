@@ -1,6 +1,6 @@
 package com.xht.modules.admin.system.domain.vo;
 
-import com.xht.framework.common.domain.vo.IVO;
+import com.xht.framework.common.domain.vo.XhtVO;
 import com.xht.modules.admin.system.domain.response.SysPostResponse;
 import com.xht.modules.admin.system.domain.response.SysUserDetailResponse;
 import com.xht.modules.admin.system.domain.response.SysUserResponse;
@@ -19,7 +19,7 @@ import java.util.Set;
  **/
 @Data
 @Schema(description = "用户信息视图对象响应信息")
-public class SysUserVo extends SysUserResponse implements IVO {
+public class SysUserVO extends SysUserResponse implements XhtVO {
 
     /**
      * 是否初始密码

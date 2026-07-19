@@ -1,6 +1,6 @@
 package com.xht.auth.authentication.domain.dto;
 
-import com.xht.framework.common.domain.dto.BasicDTO;
+import com.xht.framework.common.domain.dto.XhtDTO;
 import com.xht.framework.common.enums.UserStatusEnums;
 import com.xht.framework.common.enums.UserTypeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,7 +17,7 @@ import java.util.Set;
  **/
 @Data
 @Schema(description = "用户登录信息")
-public class UserLoginDTO extends BasicDTO {
+public class UserLoginDTO implements XhtDTO {
 
     /**
      * 用户ID

@@ -1,5 +1,6 @@
 package com.xht.framework.common.domain.form;
 
+import com.xht.framework.common.domain.XhtRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -13,7 +14,7 @@ import java.io.Serializable;
  **/
 @Data
 @Schema(description = "删除表单ID实体类")
-public class DeleteIdForm<T extends Serializable> extends DeleteForm {
+public class DeleteIdForm<T extends Serializable> extends DeleteForm implements XhtForm, XhtRequest {
 
     @Serial
     private static final long serialVersionUID = 1L;

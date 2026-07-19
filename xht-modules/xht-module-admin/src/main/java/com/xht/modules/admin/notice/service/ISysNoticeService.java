@@ -4,7 +4,7 @@ import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
-import com.xht.modules.admin.notice.domain.vo.NoticeVo;
+import com.xht.modules.admin.notice.domain.vo.NoticeVO;
 import com.xht.modules.admin.notice.enums.NoticeTopEnums;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public interface ISysNoticeService {
      * @param id 通知详情ID
      * @return 通知详情信息
      */
-    NoticeVo findById(Long id);
+    NoticeVO findById(Long id);
 
     /**
      * todo 待完善

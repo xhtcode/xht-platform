@@ -1,6 +1,6 @@
 package com.xht.framework.common.domain.form;
 
-import com.xht.framework.common.domain.IRequest;
+import com.xht.framework.common.domain.XhtRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -13,7 +13,7 @@ import java.io.Serial;
  **/
 @Data
 @Schema(description = "基础表单抽象类")
-public abstract class BasicForm implements IRequest {
+public abstract class BasicForm implements XhtForm, XhtRequest {
 
     @Serial
     private static final long serialVersionUID = 1L;

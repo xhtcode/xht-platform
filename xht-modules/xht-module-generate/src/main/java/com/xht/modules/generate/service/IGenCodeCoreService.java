@@ -1,7 +1,7 @@
 package com.xht.modules.generate.service;
 
 import com.xht.modules.generate.domain.form.GenCodeCoreForm;
-import com.xht.modules.generate.domain.vo.GenCodeCoreVo;
+import com.xht.modules.generate.domain.vo.GenCodeCoreVO;
 
 import java.util.List;
 
@@ -28,5 +28,5 @@ public interface IGenCodeCoreService {
      * @param genCodeCoreForm 代码生成核心请求参数，包含生成代码所需的配置信息
      * @return List<GenCodeCoreBo> 代码预览信息列表，包含各个代码文件的内容
      */
-    List<GenCodeCoreVo> viewCode(GenCodeCoreForm genCodeCoreForm);
+    List<GenCodeCoreVO> viewCode(GenCodeCoreForm genCodeCoreForm);
 }

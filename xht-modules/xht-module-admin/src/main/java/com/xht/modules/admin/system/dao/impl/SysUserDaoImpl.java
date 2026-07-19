@@ -11,7 +11,7 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.admin.system.dao.SysUserDao;
 import com.xht.modules.admin.system.dao.mapper.SysUserMapper;
 import com.xht.modules.admin.system.domain.query.SysUserQuery;
-import com.xht.modules.admin.system.domain.vo.SysUserVo;
+import com.xht.modules.admin.system.domain.vo.SysUserVO;
 import com.xht.modules.admin.system.entity.SysUserEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -108,7 +108,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      * @return 用户信息
      */
     @Override
-    public SysUserVo findInfoByUserId(Long userId) {
+    public SysUserVO findInfoByUserId(Long userId) {
         return baseMapper.findInfoByUserId(userId);
     }
 

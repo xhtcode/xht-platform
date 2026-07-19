@@ -1,6 +1,6 @@
 package com.xht.auth.authentication.controller;
 
-import com.xht.auth.authentication.domain.vo.Oauth2ConsentVo;
+import com.xht.auth.authentication.domain.vo.Oauth2ConsentVO;
 import com.xht.auth.authentication.service.IOauth2AuthorizationConsentService;
 import com.xht.framework.common.domain.R;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class Oauth2AuthorizationConsentController {
     private final IOauth2AuthorizationConsentService oauth2AuthorizationConsentService;
 
     @RequestMapping("/consent/info")
-    public R<Oauth2ConsentVo> getConsentInfo(
+    public R<Oauth2ConsentVO> getConsentInfo(
             @RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
             @RequestParam(OAuth2ParameterNames.SCOPE) String scope,
             @RequestParam(OAuth2ParameterNames.STATE) String state,
