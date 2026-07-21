@@ -71,14 +71,14 @@ public class SysNoticeForm extends BasicForm {
      */
     @Schema(description = "是否置顶")
     @NotNull(message = "是否置顶参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    private NoticeTopEnums noticeTop;
+    private NoticeTopEnum noticeTop;
 
     /**
      * 是否定时发布(0:否(立即发布);1:是(按发布时间生效))
      */
     @Schema(description = "是否定时发布(0:否(立即发布);1:是(按发布时间生效))")
     @NotNull(message = "是否定时发布参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    private NoticeTimedPublishEnums noticeTimedPublish;
+    private NoticeTimedPublishEnum noticeTimedPublish;
 
     /**
      * 发布时间（正式生效时间）
@@ -91,7 +91,7 @@ public class SysNoticeForm extends BasicForm {
      */
     @Schema(description = "跳转类型")
     @NotNull(message = "跳转类型参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    private NoticeJumpTypeEnums noticeJumpType;
+    private NoticeJumpTypeEnum noticeJumpType;
 
     /**
      * 跳转地址（内部页面路径/外部URL）

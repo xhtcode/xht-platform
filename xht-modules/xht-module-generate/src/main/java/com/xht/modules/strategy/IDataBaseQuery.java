@@ -1,6 +1,6 @@
 package com.xht.modules.strategy;
 
-import com.xht.modules.common.enums.DataBaseTypeEnums;
+import com.xht.modules.common.enums.DataBaseTypeEnum;
 import com.xht.modules.generate.domain.bo.ColumnBo;
 import com.xht.modules.generate.domain.bo.TableBo;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -45,8 +45,8 @@ public abstract class IDataBaseQuery {
     /**
      * 支持的解析类型
      *
-     * @return 解析类型枚举 {@link DataBaseTypeEnums}
+     * @return 解析类型枚举 {@link DataBaseTypeEnum}
      */
-    public abstract DataBaseTypeEnums support();
+    public abstract DataBaseTypeEnum support();
 
 }

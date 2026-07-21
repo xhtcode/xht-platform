@@ -2,7 +2,7 @@ package com.xht.modules.admin.login.service.impl;
 
 import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.common.constant.RConstants;
-import com.xht.framework.common.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnum;
 import com.xht.framework.jackson.JsonUtils;
 import com.xht.framework.oauth2.token.response.Oauth2ErrorResponse;
 import com.xht.framework.oauth2.token.response.Oauth2TokenResponse;
@@ -64,7 +64,7 @@ public class ILoginServiceImpl implements ILoginService {
         formParams.add("password", passwordLoginForm.getPassword());
         formParams.add("captcha_key", passwordLoginForm.getCaptchaKey());
         formParams.add("captcha_code", passwordLoginForm.getCaptchaCode());
-        formParams.add("grant_type", LoginTypeEnums.PASSWORD.getValue());
+        formParams.add("grant_type", LoginTypeEnum.PASSWORD.getValue());
         try {
             Oauth2TokenResponse oauth2TokenResponse = createOauth2Request(formParams);
             loginManager.saveLoginLog(servletRequest, passwordLoginForm.getUsername(), oauth2TokenResponse.getAccessToken(), passwordLoginForm, oauth2TokenResponse);
@@ -92,7 +92,7 @@ public class ILoginServiceImpl implements ILoginService {
         MultiValueMap<String, String> formParams = new LinkedMultiValueMap<>();
         formParams.add("phone", phoneLoginForm.getPhone());
         formParams.add("phone_code", phoneLoginForm.getPhoneCode());
-        formParams.add("grant_type", LoginTypeEnums.PHONE.getValue());
+        formParams.add("grant_type", LoginTypeEnum.PHONE.getValue());
         try {
             Oauth2TokenResponse oauth2TokenResponse = createOauth2Request(formParams);
             return LoginConverter.converter(oauth2TokenResponse);

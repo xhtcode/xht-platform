@@ -2,7 +2,7 @@ package com.xht.modules.admin.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.xht.framework.mybatis.domain.entity.Entity;
-import com.xht.modules.admin.system.enums.PositionNatureEnums;
+import com.xht.modules.admin.system.enums.PositionNatureEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -27,7 +27,7 @@ public class SysUserPostEntity extends Entity implements Serializable {
      * 职位性质
      */
     @TableField(value = "position_nature")
-    private PositionNatureEnums positionNature;
+    private PositionNatureEnum positionNature;
 
     /**
      * 用户id

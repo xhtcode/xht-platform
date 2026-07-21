@@ -53,7 +53,7 @@ public class SysNoticeEntity extends BasicEntity {
      * 通知状态(0:未发布;1:已发布;2:已下架;3:已过期)
      */
     @TableField(value = "notice_status")
-    private NoticeStatusEnums noticeStatus;
+    private NoticeStatusEnum noticeStatus;
 
     /**
      * 通知排序（值越大越靠前）
@@ -65,13 +65,13 @@ public class SysNoticeEntity extends BasicEntity {
      * 是否置顶(0:否;1:是)
      */
     @TableField(value = "notice_top")
-    private NoticeTopEnums noticeTop;
+    private NoticeTopEnum noticeTop;
 
     /**
      * 是否定时发布(0:否(立即发布);1:是(按发布时间生效))
      */
     @TableField(value = "notice_timed_publish")
-    private NoticeTimedPublishEnums noticeTimedPublish;
+    private NoticeTimedPublishEnum noticeTimedPublish;
 
     /**
      * 发布时间（正式生效时间）
@@ -95,7 +95,7 @@ public class SysNoticeEntity extends BasicEntity {
      * 跳转类型(0:无跳转;1:内部页面;2:外部链接)
      */
     @TableField(value = "notice_jump_type")
-    private NoticeJumpTypeEnums noticeJumpType;
+    private NoticeJumpTypeEnum noticeJumpType;
 
     /**
      * 跳转地址（内部页面路径/外部URL）

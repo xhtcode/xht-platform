@@ -10,9 +10,9 @@ import com.xht.modules.admin.notice.dao.mapper.SysMessageInfoMapper;
 import com.xht.modules.admin.notice.domain.query.SysMessageInfoQuery;
 import com.xht.modules.admin.notice.domain.vo.MessageInfoVO;
 import com.xht.modules.admin.notice.entity.SysMessageInfoEntity;
-import com.xht.modules.admin.notice.enums.MessageStarEnums;
-import com.xht.modules.admin.notice.enums.MessageStatusEnums;
-import com.xht.modules.admin.notice.enums.MessageTopEnums;
+import com.xht.modules.admin.notice.enums.MessageStarEnum;
+import com.xht.modules.admin.notice.enums.MessageStatusEnum;
+import com.xht.modules.admin.notice.enums.MessageTopEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -36,11 +36,11 @@ public class SysMessageInfoDaoImpl extends MapperRepositoryImpl<SysMessageInfoMa
     @Override
     public void updateReadById(Long messageId, Long userId) {
         LambdaUpdateWrapper<SysMessageInfoEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(SysMessageInfoEntity::getMessageStatus, MessageStatusEnums.READ);
+        updateWrapper.set(SysMessageInfoEntity::getMessageStatus, MessageStatusEnum.READ);
         updateWrapper.set(SysMessageInfoEntity::getReadTime, LocalDateTime.now());
         updateWrapper.eq(condition(messageId), SysMessageInfoEntity::getMessageId, messageId);
         updateWrapper.eq(SysMessageInfoEntity::getRecipientId, userId);
-        updateWrapper.eq(SysMessageInfoEntity::getMessageStatus, MessageStatusEnums.UNREAD);
+        updateWrapper.eq(SysMessageInfoEntity::getMessageStatus, MessageStatusEnum.UNREAD);
         update(updateWrapper);
     }
 
@@ -49,12 +49,12 @@ public class SysMessageInfoDaoImpl extends MapperRepositoryImpl<SysMessageInfoMa
      *
      * @param messageId        站内信ID
      * @param userId           用户ID
-     * @param messageStarEnums 站内信收藏枚举
+     * @param messageStarEnum 站内信收藏枚举
      */
     @Override
-    public void updateStartById(Long messageId, Long userId, MessageStarEnums messageStarEnums) {
+    public void updateStartById(Long messageId, Long userId, MessageStarEnum messageStarEnum) {
         LambdaUpdateWrapper<SysMessageInfoEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(SysMessageInfoEntity::getMessageStar, messageStarEnums);
+        updateWrapper.set(SysMessageInfoEntity::getMessageStar, messageStarEnum);
         updateWrapper.eq(SysMessageInfoEntity::getMessageId, messageId);
         updateWrapper.eq(SysMessageInfoEntity::getRecipientId, userId);
         update(updateWrapper);
@@ -65,12 +65,12 @@ public class SysMessageInfoDaoImpl extends MapperRepositoryImpl<SysMessageInfoMa
      *
      * @param messageId       站内信ID
      * @param userId          用户ID
-     * @param messageTopEnums 站内信置顶枚举
+     * @param messageTopEnum 站内信置顶枚举
      */
     @Override
-    public void updateTopById(Long messageId, Long userId, MessageTopEnums messageTopEnums) {
+    public void updateTopById(Long messageId, Long userId, MessageTopEnum messageTopEnum) {
         LambdaUpdateWrapper<SysMessageInfoEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(SysMessageInfoEntity::getMessageTop, messageTopEnums);
+        updateWrapper.set(SysMessageInfoEntity::getMessageTop, messageTopEnum);
         updateWrapper.eq(SysMessageInfoEntity::getMessageId, messageId);
         updateWrapper.eq(SysMessageInfoEntity::getRecipientId, userId);
         update(updateWrapper);
@@ -85,7 +85,7 @@ public class SysMessageInfoDaoImpl extends MapperRepositoryImpl<SysMessageInfoMa
     @Override
     public void updateRemoveById(Long messageId, Long userId) {
         LambdaUpdateWrapper<SysMessageInfoEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(SysMessageInfoEntity::getMessageStatus, MessageStatusEnums.REMOVE);
+        updateWrapper.set(SysMessageInfoEntity::getMessageStatus, MessageStatusEnum.REMOVE);
         updateWrapper.set(SysMessageInfoEntity::getRemoveTime, LocalDateTime.now());
         updateWrapper.eq(SysMessageInfoEntity::getMessageId, messageId);
         updateWrapper.eq(SysMessageInfoEntity::getRecipientId, userId);
@@ -101,7 +101,7 @@ public class SysMessageInfoDaoImpl extends MapperRepositoryImpl<SysMessageInfoMa
     @Override
     public void updateCancelByMessageId(Long messageId, LocalDateTime cancelTime) {
         LambdaUpdateWrapper<SysMessageInfoEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(SysMessageInfoEntity::getMessageStatus, MessageStatusEnums.CANCEL);
+        updateWrapper.set(SysMessageInfoEntity::getMessageStatus, MessageStatusEnum.CANCEL);
         updateWrapper.set(SysMessageInfoEntity::getCancelTime, cancelTime);
         updateWrapper.eq(SysMessageInfoEntity::getMessageId, messageId);
         update(updateWrapper);
@@ -115,7 +115,7 @@ public class SysMessageInfoDaoImpl extends MapperRepositoryImpl<SysMessageInfoMa
     @Override
     public void updateCancelById(Long messageInfoId) {
         LambdaUpdateWrapper<SysMessageInfoEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(SysMessageInfoEntity::getMessageStatus, MessageStatusEnums.CANCEL);
+        updateWrapper.set(SysMessageInfoEntity::getMessageStatus, MessageStatusEnum.CANCEL);
         updateWrapper.set(SysMessageInfoEntity::getCancelTime, LocalDateTime.now());
         updateWrapper.eq(SysMessageInfoEntity::getId, messageInfoId);
         update(updateWrapper);

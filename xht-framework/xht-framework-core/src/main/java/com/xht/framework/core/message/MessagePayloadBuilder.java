@@ -6,7 +6,7 @@ import com.xht.framework.core.properties.basic.MessageProperties;
 import com.xht.framework.core.message.core.MessageExtendInfo;
 import com.xht.framework.core.message.core.MessagePayload;
 import com.xht.framework.core.message.core.MessageUser;
-import com.xht.framework.core.message.enums.MessageTypeEnums;
+import com.xht.framework.core.message.enums.MessageTypeEnum;
 import com.xht.framework.utils.StringFormatter;
 import com.xht.framework.utils.spring.SpringContextUtils;
 
@@ -44,7 +44,7 @@ public final class MessagePayloadBuilder {
     /**
      * 消息类型：1-系统通知 2-业务提醒
      */
-    private MessageTypeEnums messageType;
+    private MessageTypeEnum messageType;
 
     /**
      * 消息标题
@@ -132,7 +132,7 @@ public final class MessagePayloadBuilder {
      * @param messageType 消息类型枚举
      * @return MessagePayloadBuilder实例，支持链式调用
      */
-    public MessagePayloadBuilder messageType(MessageTypeEnums messageType) {
+    public MessagePayloadBuilder messageType(MessageTypeEnum messageType) {
         this.messageType = messageType;
         return this;
     }

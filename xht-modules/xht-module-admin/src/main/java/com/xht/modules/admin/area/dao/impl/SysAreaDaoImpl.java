@@ -8,7 +8,7 @@ import com.xht.modules.admin.area.dao.SysAreaDao;
 import com.xht.modules.admin.area.dao.mapper.SysAreaMapper;
 import com.xht.modules.admin.area.domain.form.SysAreaForm;
 import com.xht.modules.admin.area.entity.SysAreaEntity;
-import com.xht.modules.admin.area.enums.AreaHasChildEnums;
+import com.xht.modules.admin.area.enums.AreaHasChildEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -31,9 +31,9 @@ public class SysAreaDaoImpl extends MapperRepositoryImpl<SysAreaMapper, SysAreaE
      * @param hasChild 是否有子节点
      */
     @Override
-    public void updateHasChild(Long id, AreaHasChildEnums hasChild) {
+    public void updateHasChild(Long id, AreaHasChildEnum hasChild) {
         LambdaUpdateWrapper<SysAreaEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(SysAreaEntity::getHasChild, Objects.requireNonNullElse(hasChild, AreaHasChildEnums.NO_CHILD));
+        updateWrapper.set(SysAreaEntity::getHasChild, Objects.requireNonNullElse(hasChild, AreaHasChildEnum.NO_CHILD));
         updateWrapper.eq(SysAreaEntity::getId, id);
         update(updateWrapper);
     }

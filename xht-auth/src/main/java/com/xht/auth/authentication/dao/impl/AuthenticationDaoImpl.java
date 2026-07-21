@@ -5,7 +5,7 @@ import com.xht.auth.authentication.dao.mapper.AuthenticationMapper;
 import com.xht.auth.authentication.domain.dto.Oauth2ClientDTO;
 import com.xht.auth.authentication.domain.dto.UserLoginDTO;
 import com.xht.auth.authentication.domain.response.TokenUserInfoResponse;
-import com.xht.framework.common.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnum;
 import com.xht.framework.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +37,8 @@ public class AuthenticationDaoImpl implements IAuthenticationDao {
      * @return 用户信息
      */
     @Override
-    public UserLoginDTO findByUsernameAndLoginType(String userName, LoginTypeEnums loginType) {
-        return authenticationMapper.findByUsernameAndLoginType(userName, Objects.requireNonNullElse(loginType, LoginTypeEnums.PASSWORD).getValue());
+    public UserLoginDTO findByUsernameAndLoginType(String userName, LoginTypeEnum loginType) {
+        return authenticationMapper.findByUsernameAndLoginType(userName, Objects.requireNonNullElse(loginType, LoginTypeEnum.PASSWORD).getValue());
     }
 
     /**

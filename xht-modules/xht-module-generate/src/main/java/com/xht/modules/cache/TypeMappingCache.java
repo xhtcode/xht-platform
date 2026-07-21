@@ -1,7 +1,7 @@
 package com.xht.modules.cache;
 
 import com.xht.framework.exception.utils.ThrowUtils;
-import com.xht.modules.common.enums.DataBaseTypeEnums;
+import com.xht.modules.common.enums.DataBaseTypeEnum;
 import com.xht.modules.generate.dao.GenTypeMappingDao;
 import com.xht.modules.generate.entity.GenTypeMappingEntity;
 import jakarta.annotation.PostConstruct;
@@ -28,7 +28,7 @@ public class TypeMappingCache {
      * 类型映射缓存
      * 结构: [数据库类型][数据库字段类型] = 目标语言字段类型
      */
-    private static final Map<DataBaseTypeEnums, Map<String, GenTypeMappingEntity>> DB_TYPE_MAPPING_CACHE_TEMP = new HashMap<>();
+    private static final Map<DataBaseTypeEnum, Map<String, GenTypeMappingEntity>> DB_TYPE_MAPPING_CACHE_TEMP = new HashMap<>();
     private final GenTypeMappingDao genTypeMappingDao;
 
     /**
@@ -65,7 +65,7 @@ public class TypeMappingCache {
      * @param dbType 数据库类型
      * @return 类型映射实体集合
      */
-    public List<GenTypeMappingEntity> getTypeMappingList(DataBaseTypeEnums dbType) {
+    public List<GenTypeMappingEntity> getTypeMappingList(DataBaseTypeEnum dbType) {
         Map<String, GenTypeMappingEntity> cacheTempOrDefault = DB_TYPE_MAPPING_CACHE_TEMP.getOrDefault(dbType, Collections.emptyMap());
         //@formatter:off
         return cacheTempOrDefault
@@ -77,7 +77,7 @@ public class TypeMappingCache {
     }
 
 
-    public GenTypeMappingEntity getTargetType(DataBaseTypeEnums dbType, String dbDataType) {
+    public GenTypeMappingEntity getTargetType(DataBaseTypeEnum dbType, String dbDataType) {
         Map<String, GenTypeMappingEntity> cacheTempOrDefault = DB_TYPE_MAPPING_CACHE_TEMP.getOrDefault(dbType, Collections.emptyMap());
         GenTypeMappingEntity mappingEntity = cacheTempOrDefault.get(dbDataType);
         ThrowUtils.notNull(mappingEntity, "未找到类型映射关系");
@@ -93,7 +93,7 @@ public class TypeMappingCache {
         List<GenTypeMappingEntity> allMappings = genTypeMappingDao.findAll();
 
         // 按数据库类型分组
-        Map<DataBaseTypeEnums, List<GenTypeMappingEntity>> dbTypeGroups =
+        Map<DataBaseTypeEnum, List<GenTypeMappingEntity>> dbTypeGroups =
                 allMappings.stream()
                         .collect(Collectors.groupingBy(GenTypeMappingEntity::getDbType));
         // 替换旧缓存

@@ -4,7 +4,7 @@ import com.xht.framework.utils.tree.INode;
 import com.xht.modules.admin.system.domain.form.SysMenuForm;
 import com.xht.modules.admin.system.domain.query.SysMenuQuery;
 import com.xht.modules.admin.system.domain.response.SysMenuResponse;
-import com.xht.modules.admin.system.enums.MenuStatusEnums;
+import com.xht.modules.admin.system.enums.MenuStatusEnum;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public interface ISysMenuService {
      * @param id     菜单ID
      * @param status 菜单状态
      */
-    void updateStatus(Long id, MenuStatusEnums status);
+    void updateStatus(Long id, MenuStatusEnum status);
 
     /**
      * 根据ID查询菜单

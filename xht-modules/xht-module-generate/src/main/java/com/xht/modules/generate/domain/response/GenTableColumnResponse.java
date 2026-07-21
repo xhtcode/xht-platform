@@ -1,8 +1,8 @@
 package com.xht.modules.generate.domain.response;
 
 import com.xht.framework.common.domain.response.MetaResponse;
-import com.xht.modules.common.enums.GenStatusEnums;
-import com.xht.modules.common.enums.IdPrimaryKeyEnums;
+import com.xht.modules.common.enums.GenStatusEnum;
+import com.xht.modules.common.enums.IdPrimaryKeyEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -49,13 +49,13 @@ public class GenTableColumnResponse extends MetaResponse {
      * 字段主键：0-非主键，1-主键
      */
     @Schema(description = "字段主键：0-非主键，1-主键")
-    private IdPrimaryKeyEnums dbPrimary;
+    private IdPrimaryKeyEnum dbPrimary;
 
     /**
      * 字段必填：0-非必填，1-必填
      */
     @Schema(description = "字段必填：0-非必填，1-必填")
-    private GenStatusEnums dbRequired;
+    private GenStatusEnum dbRequired;
 
     /**
      * 字段注释
@@ -85,13 +85,13 @@ public class GenTableColumnResponse extends MetaResponse {
      * 表单新增：0-不显示，1-显示
      */
     @Schema(description = "表单新增")
-    private GenStatusEnums fromInsert;
+    private GenStatusEnum fromInsert;
 
     /**
      * 表单更新：0-不显示，1-显示
      */
     @Schema(description = "表单更新")
-    private GenStatusEnums fromUpdate;
+    private GenStatusEnum fromUpdate;
 
     /**
      * 表单输入长度
@@ -103,7 +103,7 @@ public class GenTableColumnResponse extends MetaResponse {
      * 表单必填：0-非必填，1-必填
      */
     @Schema(description = "表单必填：0-非必填，1-必填")
-    private GenStatusEnums fromFill;
+    private GenStatusEnum fromFill;
 
     /**
      * 表单组件
@@ -115,25 +115,25 @@ public class GenTableColumnResponse extends MetaResponse {
      * 列表显示：0-不显示，1-显示
      */
     @Schema(description = "列表显示：0-不显示，1-显示")
-    private GenStatusEnums listShow;
+    private GenStatusEnum listShow;
 
     /**
      * 字段排序
      */
     @Schema(description = "字段排序")
-    private GenStatusEnums listSortable;
+    private GenStatusEnum listSortable;
 
     /**
      * 显示切换禁用：0-不禁用，1-禁用
      */
     @Schema(description = "显示切换禁用：0-不禁用，1-禁用")
-    private GenStatusEnums listDisabled;
+    private GenStatusEnum listDisabled;
 
     /**
      * 默认隐藏：0-不隐藏，1-隐藏
      */
     @Schema(description = "默认隐藏：0-不隐藏，1-隐藏")
-    private GenStatusEnums listHidden;
+    private GenStatusEnum listHidden;
 
     /**
      * java类型

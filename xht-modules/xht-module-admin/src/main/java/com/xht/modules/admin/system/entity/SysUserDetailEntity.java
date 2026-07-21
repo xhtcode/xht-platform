@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.xht.framework.common.enums.GenderEnums;
+import com.xht.framework.common.enums.GenderEnum;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import lombok.Data;
 
@@ -42,7 +42,7 @@ public class SysUserDetailEntity extends BasicEntity implements Serializable {
      * 用户性别
      */
     @TableField(value = "gender")
-    private GenderEnums gender;
+    private GenderEnum gender;
 
     /**
      * 出生日期

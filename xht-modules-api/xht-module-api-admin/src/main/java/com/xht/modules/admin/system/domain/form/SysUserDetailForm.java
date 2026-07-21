@@ -1,7 +1,7 @@
 package com.xht.modules.admin.system.domain.form;
 
 import com.xht.framework.common.domain.form.BasicForm;
-import com.xht.framework.common.enums.GenderEnums;
+import com.xht.framework.common.enums.GenderEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -43,7 +43,7 @@ public class SysUserDetailForm extends BasicForm {
      */
     @Schema(description = "用户性别")
     @NotNull(message = "用户性别不能为空")
-    private GenderEnums gender;
+    private GenderEnum gender;
 
     /**
      * 出生日期

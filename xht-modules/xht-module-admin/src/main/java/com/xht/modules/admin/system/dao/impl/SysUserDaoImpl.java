@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.xht.framework.common.enums.UserStatusEnums;
-import com.xht.framework.common.enums.UserTypeEnums;
+import com.xht.framework.common.enums.UserStatusEnum;
+import com.xht.framework.common.enums.UserTypeEnum;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.admin.system.dao.SysUserDao;
 import com.xht.modules.admin.system.dao.mapper.SysUserMapper;
@@ -53,7 +53,7 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateStatus(Long userId, UserStatusEnums status) {
+    public void updateStatus(Long userId, UserStatusEnum status) {
         LambdaUpdateWrapper<SysUserEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.set(SysUserEntity::getUserStatus, status);
         lambdaUpdateWrapper.eq(SysUserEntity::getId, userId);
@@ -69,10 +69,10 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
      */
     @Override
     public Page<SysUserEntity> findPageList(Page<SysUserEntity> page, SysUserQuery query) {
-        UserTypeEnums userType = query.getUserType();
+        UserTypeEnum userType = query.getUserType();
         String userName = query.getUserName();
         String nickName = query.getNickName();
-        UserStatusEnums userStatus = query.getUserStatus();
+        UserStatusEnum userStatus = query.getUserStatus();
         String userPhone = query.getUserPhone();
         LambdaQueryWrapper<SysUserEntity> queryWrapper = new LambdaQueryWrapper<>();
         if (query.isQuick()) {

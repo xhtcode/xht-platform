@@ -2,7 +2,7 @@ package com.xht.modules.admin.notice.domain.form;
 
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
-import com.xht.modules.admin.notice.enums.NoticeTypeStatusEnums;
+import com.xht.modules.admin.notice.enums.NoticeTypeStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -40,7 +40,7 @@ public class SysNoticeTypeForm extends BasicForm {
      */
     @Schema(description = "通知类型状态")
     @NotNull(message = "通知类型状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    private NoticeTypeStatusEnums noticeTypeStatus;
+    private NoticeTypeStatusEnum noticeTypeStatus;
 
     /**
      * 通知排序

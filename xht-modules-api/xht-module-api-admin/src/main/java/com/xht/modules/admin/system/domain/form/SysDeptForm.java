@@ -4,7 +4,7 @@ import com.xht.framework.common.constant.RegexConstant;
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
 import com.xht.framework.validation.phone.Phone;
-import com.xht.modules.admin.system.enums.DeptStatusEnums;
+import com.xht.modules.admin.system.enums.DeptStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -56,7 +56,7 @@ public class SysDeptForm extends BasicForm {
      */
     @NotNull(message = "部门状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "部门状态")
-    private DeptStatusEnums deptStatus;
+    private DeptStatusEnum deptStatus;
 
     /**
      * 显示顺序

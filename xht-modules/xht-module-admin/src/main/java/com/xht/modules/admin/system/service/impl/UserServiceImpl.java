@@ -3,7 +3,7 @@ package com.xht.modules.admin.system.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.common.enums.UserStatusEnums;
+import com.xht.framework.common.enums.UserStatusEnum;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.exception.code.UserErrorCode;
@@ -32,7 +32,7 @@ import com.xht.modules.admin.system.domain.vo.SysUserVO;
 import com.xht.modules.admin.system.entity.SysRoleEntity;
 import com.xht.modules.admin.system.entity.SysUserDetailEntity;
 import com.xht.modules.admin.system.entity.SysUserEntity;
-import com.xht.modules.admin.system.enums.ImportRoleTypeEnums;
+import com.xht.modules.admin.system.enums.RoleTypeEnums;
 import com.xht.modules.admin.system.helper.SysUserHelper;
 import com.xht.modules.admin.system.service.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -92,7 +92,7 @@ public class UserServiceImpl implements IUserService {
         sysUser.setPassWordSalt(passwordSalt);
         sysUser.setPassWordPlainText(password);
         SysUserDetailEntity detailEntity = SysUserHelper.formatUser(detail, sysUser.getId());
-        List<SysRoleEntity> roleEntityList = sysRoleDao.findList(SysRoleEntity::getImportRoleType, ImportRoleTypeEnums.NONE);
+        List<SysRoleEntity> roleEntityList = sysRoleDao.findList(SysRoleEntity::getImportRoleType, RoleTypeEnums.NONE);
         sysUserDetailDao.saveUserInfo(sysUser, detailEntity, roleEntityList);
     }
 
@@ -161,7 +161,7 @@ public class UserServiceImpl implements IUserService {
     public void updatePassword(UpdatePwdFrom form) {
         Long userId = SecurityUtils.getUserId();
         SysUserEntity sysUserEntity = sysUserDao.findOptionalById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST));
-        if (!Objects.equals(sysUserEntity.getUserStatus(), UserStatusEnums.NORMAL)) {
+        if (!Objects.equals(sysUserEntity.getUserStatus(), UserStatusEnum.NORMAL)) {
             throw new BusinessException("用户状态不正确！");
         }
         String oldPassword = form.getOldPassword();
@@ -190,7 +190,7 @@ public class UserServiceImpl implements IUserService {
      * @param status 状态
      */
     @Override
-    public void updateStatus(Long userId, UserStatusEnums status) {
+    public void updateStatus(Long userId, UserStatusEnum status) {
         Boolean exists = sysUserDao.exists(SysUserEntity::getId, userId);
         ThrowUtils.throwIf(exists, UserErrorCode.DATA_NOT_EXIST, "用户不存在");
         sysUserDao.updateStatus(userId, status);

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import com.xht.framework.core.blog.enums.LogStatusEnums;
+import com.xht.framework.core.blog.enums.LogStatusEnum;
 import com.xht.framework.log.event.LoginRequestInfo;
 import com.xht.framework.mybatis.domain.entity.DeleteEntity;
 import lombok.Data;
@@ -86,7 +86,7 @@ public class SysLoginLogEntity extends DeleteEntity implements Serializable {
      * 登录状态：0-失败 1-成功
      */
     @TableField(value = "login_status")
-    private LogStatusEnums loginStatus;
+    private LogStatusEnum loginStatus;
 
     /**
      * 登录失败原因

@@ -1,7 +1,7 @@
 package com.xht.modules.admin.system.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.common.enums.UserStatusEnums;
+import com.xht.framework.common.enums.UserStatusEnum;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.system.domain.query.SysUserQuery;
 import com.xht.modules.admin.system.domain.vo.SysUserVO;
@@ -29,7 +29,7 @@ public interface SysUserDao extends MapperRepository<SysUserEntity> {
      * @param userId 用户ID
      * @param status 状态
      */
-    void updateStatus(Long userId, UserStatusEnums status);
+    void updateStatus(Long userId, UserStatusEnum status);
 
     /**
      * 分页查询用户信息

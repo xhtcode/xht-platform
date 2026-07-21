@@ -11,7 +11,7 @@ import com.xht.modules.admin.system.domain.form.SysDeptForm;
 import com.xht.modules.admin.system.domain.query.SysDeptTreeQuery;
 import com.xht.modules.admin.system.domain.response.SysDeptResponse;
 import com.xht.modules.admin.system.entity.SysDeptEntity;
-import com.xht.modules.admin.system.enums.DeptStatusEnums;
+import com.xht.modules.admin.system.enums.DeptStatusEnum;
 import com.xht.modules.admin.system.service.ISysDeptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -96,7 +96,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @param status 部门状态
      */
     @Override
-    public void updateStatus(Long id, DeptStatusEnums status) {
+    public void updateStatus(Long id, DeptStatusEnum status) {
         Boolean exists = sysDeptDao.exists(SysDeptEntity::getId, id);
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "部门不存在");
         sysDeptDao.updateStatus(id, status);

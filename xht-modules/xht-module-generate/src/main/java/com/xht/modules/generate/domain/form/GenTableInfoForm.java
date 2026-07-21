@@ -2,8 +2,8 @@ package com.xht.modules.generate.domain.form;
 
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
-import com.xht.modules.common.enums.DataBaseTypeEnums;
-import com.xht.modules.common.enums.PageStyleEnums;
+import com.xht.modules.common.enums.DataBaseTypeEnum;
+import com.xht.modules.common.enums.PageStyleEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -47,7 +47,7 @@ public class GenTableInfoForm extends BasicForm {
      */
     @NotNull(message = "数据库类型不能为空")
     @Schema(description = "数据库类型")
-    private DataBaseTypeEnums dataBaseType;
+    private DataBaseTypeEnum dataBaseType;
 
     /**
      * 引擎名称
@@ -150,7 +150,7 @@ public class GenTableInfoForm extends BasicForm {
      */
     @NotNull(message = "页面风格不能为空")
     @Schema(description = "页面风格")
-    private PageStyleEnums pageStyle;
+    private PageStyleEnum pageStyle;
 
     /**
      * 页面宽度

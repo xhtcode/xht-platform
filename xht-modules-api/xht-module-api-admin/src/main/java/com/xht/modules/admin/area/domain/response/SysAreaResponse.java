@@ -1,7 +1,7 @@
 package com.xht.modules.admin.area.domain.response;
 
 import com.xht.framework.common.domain.response.BasicResponse;
-import com.xht.modules.admin.area.enums.AreaHasChildEnums;
+import com.xht.modules.admin.area.enums.AreaHasChildEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -66,6 +66,6 @@ public class SysAreaResponse extends BasicResponse {
      * 是否存在下级
      */
     @Schema(description = "是否存在下级")
-    private AreaHasChildEnums hasChild;
+    private AreaHasChildEnum hasChild;
 
 }

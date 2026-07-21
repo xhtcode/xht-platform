@@ -1,6 +1,6 @@
 package com.xht.framework.utils;
 
-import com.xht.framework.common.enums.GenderEnums;
+import com.xht.framework.common.enums.GenderEnum;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -243,11 +243,11 @@ public final class IdCardUtils {
      * 从身份证号码提取性别
      *
      * @param idCard 身份证号码
-     * @return 性别 {@link GenderEnums}
+     * @return 性别 {@link GenderEnum}
      */
-    public static GenderEnums getGender(String idCard) {
+    public static GenderEnum getGender(String idCard) {
         if (!isValid(idCard)) {
-            return GenderEnums.UNKNOWN;
+            return GenderEnum.UNKNOWN;
         }
 
         String trimmedId = idCard.trim();
@@ -261,7 +261,7 @@ public final class IdCardUtils {
         }
 
         int genderValue = Integer.parseInt(genderDigit);
-        return genderValue % 2 == 1 ? GenderEnums.MALE : GenderEnums.FEMALE;
+        return genderValue % 2 == 1 ? GenderEnum.MALE : GenderEnum.FEMALE;
     }
 
     /**

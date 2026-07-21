@@ -1,7 +1,7 @@
 package com.xht.modules.admin.system.domain.query;
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import com.xht.modules.admin.system.enums.DeptPostStatusEnums;
+import com.xht.modules.admin.system.enums.DeptPostStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -36,6 +36,6 @@ public class SysPostQuery extends PageBasicQuery {
      * 岗位状态（0正常 1停用）
      */
     @Schema(description = "岗位状态")
-    private DeptPostStatusEnums postStatus;
+    private DeptPostStatusEnum postStatus;
 
 }

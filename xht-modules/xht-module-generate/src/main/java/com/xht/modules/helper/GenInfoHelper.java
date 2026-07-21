@@ -6,8 +6,8 @@ import cn.hutool.core.util.StrUtil;
 import com.xht.framework.exception.UtilException;
 import com.xht.framework.utils.spring.SpringContextUtils;
 import com.xht.modules.cache.TypeMappingCache;
-import com.xht.modules.common.enums.DataBaseTypeEnums;
-import com.xht.modules.common.enums.PageStyleEnums;
+import com.xht.modules.common.enums.DataBaseTypeEnum;
+import com.xht.modules.common.enums.PageStyleEnum;
 import com.xht.modules.generate.domain.bo.ColumnBo;
 import com.xht.modules.generate.domain.bo.TableBo;
 import com.xht.modules.generate.entity.*;
@@ -62,7 +62,7 @@ public final class GenInfoHelper {
         tableEntity.setParentMenuId(0L);
         tableEntity.setMenuIcon("dashboard");
         tableEntity.setMenuPath(tableBo.getUrlPrefix());
-        tableEntity.setPageStyle(PageStyleEnums.DRAWER);
+        tableEntity.setPageStyle(PageStyleEnum.DRAWER);
         tableEntity.setPageStyleWidth(45);
         tableEntity.setFromNumber(12);
         tableEntity.setTableCreateTime(tableBo.getTableCreateTime());
@@ -96,7 +96,7 @@ public final class GenInfoHelper {
      * @param columnBo 列信息业务对象
      * @return 表列实体对象
      */
-    private static GenTableColumnEntity convertColumnBoToEntity(DataBaseTypeEnums dataBaseTypeEnums, TableBo tableBo, ColumnBo columnBo) {
+    private static GenTableColumnEntity convertColumnBoToEntity(DataBaseTypeEnum dataBaseTypeEnum, TableBo tableBo, ColumnBo columnBo) {
         GenTableColumnEntity result = new GenTableColumnEntity();
         result.setId(IdUtil.getSnowflakeNextId());
         result.setTableId(tableBo.getTableId());
@@ -119,7 +119,7 @@ public final class GenInfoHelper {
         result.setListHidden(columnBo.getListHidden());
         result.setListSortable(columnBo.getListSortable());
         TypeMappingCache typeMappingCache = SpringContextUtils.getBean(TypeMappingCache.class);
-        GenTypeMappingEntity mappingEntity = typeMappingCache.getTargetType(dataBaseTypeEnums, columnBo.getDbType());
+        GenTypeMappingEntity mappingEntity = typeMappingCache.getTargetType(dataBaseTypeEnum, columnBo.getDbType());
         result.setCodeJava(StrUtil.emptyToDefault(mappingEntity.getJavaType(), "Object"));
         result.setCodeJavaPackage(mappingEntity.getImportPackage());
         String any = StrUtil.emptyToDefault(mappingEntity.getTsType(), "any");

@@ -1,7 +1,7 @@
 package com.xht.modules.generate.domain.query;
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import com.xht.modules.common.enums.DataBaseTypeEnums;
+import com.xht.modules.common.enums.DataBaseTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -20,7 +20,7 @@ public class GenTypeMappingQuery extends PageBasicQuery {
      */
     @NotNull(message = "数据库类型不能为空")
     @Schema(description = "数据库类型")
-    private DataBaseTypeEnums dbType;
+    private DataBaseTypeEnum dbType;
 
     /**
      * 数据库数据类型（如：INT/VARCHAR2）

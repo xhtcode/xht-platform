@@ -94,7 +94,7 @@ public class XhtOauth2Properties {
         /**
          * 设备码名称
          */
-        private String deviceCodeName;
+        private String deviceCodeName = "xht-device";
 
         /**
          * 设备码哈希盐值，从nacos读取

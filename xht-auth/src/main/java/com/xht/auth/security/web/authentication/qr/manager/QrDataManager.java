@@ -1,7 +1,7 @@
 package com.xht.auth.security.web.authentication.qr.manager;
 
 import com.xht.auth.security.web.authentication.qr.domain.QrCodeInfo;
-import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnums;
+import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnum;
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.framework.utils.IdUtils;
@@ -60,7 +60,7 @@ public class QrDataManager extends AbstractQrManager {
         String qrCodeId = "1";
         QrCodeInfo qrCodeInfo = QrCodeInfo.builder().qrCodeId(qrCodeId)
                 // 待扫描状态
-                .qrCodeStatus(QrCodeStatusEnums.WAITING)
+                .qrCodeStatus(QrCodeStatusEnum.WAITING)
                 // 1分钟后过期
                 .expiresTime(LocalDateTime.now().plusMinutes(2L)).build();
         // 获取当前request
@@ -131,7 +131,7 @@ public class QrDataManager extends AbstractQrManager {
         ThrowUtils.notNull(qrCodeInfo, "二维码信息不能为空.");
         ThrowUtils.hasText(qrCodeInfo.getQrCodeId(), "二维码ID不能为空.");
         ThrowUtils.notNull(basicUserDetails, "用户信息不能为空.");
-        ThrowUtils.throwIf(!Objects.equals(qrCodeInfo.getQrCodeStatus(), QrCodeStatusEnums.CONFIRMED), "用户未授权信息.");
+        ThrowUtils.throwIf(!Objects.equals(qrCodeInfo.getQrCodeStatus(), QrCodeStatusEnum.CONFIRMED), "用户未授权信息.");
         redisRepository.set(buildQrUserinfoKey(qrCodeInfo.getQrCodeId()), basicUserDetails, 1, TimeUnit.MINUTES);
     }
 

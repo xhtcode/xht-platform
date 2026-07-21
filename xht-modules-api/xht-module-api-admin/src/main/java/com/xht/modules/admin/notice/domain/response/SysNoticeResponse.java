@@ -56,7 +56,7 @@ public class SysNoticeResponse extends MetaResponse {
      * 通知状态(0:未发布;1:已发布;2:已下架;3:已过期)
      */
     @Schema(description = "通知状态")
-    private NoticeStatusEnums noticeStatus;
+    private NoticeStatusEnum noticeStatus;
 
     /**
      * 通知排序（值越大越靠前）
@@ -68,13 +68,13 @@ public class SysNoticeResponse extends MetaResponse {
      * 是否置顶(0:否;1:是)
      */
     @Schema(description = "是否置顶")
-    private NoticeTopEnums noticeTop;
+    private NoticeTopEnum noticeTop;
 
     /**
      * 是否定时发布(0:否(立即发布);1:是(按发布时间生效))
      */
     @Schema(description = "是否定时发布(0:否(立即发布);1:是(按发布时间生效))")
-    private NoticeTimedPublishEnums noticeTimedPublish;
+    private NoticeTimedPublishEnum noticeTimedPublish;
 
     /**
      * 发布时间（正式生效时间）
@@ -98,7 +98,7 @@ public class SysNoticeResponse extends MetaResponse {
      * 跳转类型(0:无跳转;1:内部页面;2:外部链接)
      */
     @Schema(description = "跳转类型")
-    private NoticeJumpTypeEnums noticeJumpType;
+    private NoticeJumpTypeEnum noticeJumpType;
 
     /**
      * 跳转地址（内部页面路径/外部URL）

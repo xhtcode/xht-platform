@@ -1,7 +1,7 @@
 package com.xht.auth.authentication.domain.dto;
 
 import com.xht.framework.common.domain.response.BasicResponse;
-import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnums;
+import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -107,7 +107,7 @@ public class Oauth2ClientDTO extends BasicResponse {
      * 是否自动放行
      */
     @Schema(description = "是否自动放行")
-    private Oauth2ClientAutoApproveEnums autoApprove;
+    private Oauth2ClientAutoApproveEnum autoApprove;
 
     /**
      * 备注

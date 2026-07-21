@@ -2,7 +2,7 @@ package com.xht.modules.admin.system.domain.form;
 
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
-import com.xht.modules.admin.system.enums.RoleStatusEnums;
+import com.xht.modules.admin.system.enums.RoleStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -54,7 +54,7 @@ public class SysRoleForm extends BasicForm {
      */
     @NotNull(message = "状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "状态（0正常 1停用）")
-    private RoleStatusEnums roleStatus;
+    private RoleStatusEnum roleStatus;
 
     /**
      * 显示顺序

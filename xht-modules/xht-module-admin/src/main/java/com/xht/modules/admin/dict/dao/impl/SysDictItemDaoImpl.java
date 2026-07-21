@@ -11,7 +11,7 @@ import com.xht.modules.admin.dict.dao.mapper.SysDictItemMapper;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.query.SysDictItemQuery;
 import com.xht.modules.admin.dict.entity.SysDictItemEntity;
-import com.xht.modules.admin.dict.enums.DictStatusEnums;
+import com.xht.modules.admin.dict.enums.DictStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -114,10 +114,10 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
      * @return 字典项列表
      */
     @Override
-    public List<SysDictItemEntity> findByDictCode(String dictCode, DictStatusEnums dictStatus) {
+    public List<SysDictItemEntity> findByDictCode(String dictCode, DictStatusEnum dictStatus) {
         LambdaQueryWrapper<SysDictItemEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysDictItemEntity::getDictCode, dictCode);
-        queryWrapper.eq(condition(dictStatus), SysDictItemEntity::getStatus, DictStatusEnums.ENABLE);
+        queryWrapper.eq(condition(dictStatus), SysDictItemEntity::getStatus, DictStatusEnum.ENABLE);
         queryWrapper.orderByDesc(SysDictItemEntity::getSortOrder);
         return list(queryWrapper);
     }

@@ -1,7 +1,7 @@
 package com.xht.framework.utils.crypto;
 
 
-import com.xht.framework.utils.crypto.enums.DigestAlgorithm;
+import com.xht.framework.utils.crypto.enums.DigestAlgorithmEnum;
 import com.xht.framework.utils.crypto.exception.CryptoException;
 
 import java.security.MessageDigest;
@@ -21,7 +21,7 @@ public final class JavaSecureUtils {
      * @param algorithm 算法枚举
      * @return {@link MessageDigest}
      */
-    public static MessageDigest createJdkMessageDigest(final DigestAlgorithm algorithm) {
+    public static MessageDigest createJdkMessageDigest(final DigestAlgorithmEnum algorithm) {
         if (algorithm == null) {
             throw new IllegalArgumentException("null algorithm name");
         }
@@ -35,7 +35,7 @@ public final class JavaSecureUtils {
      * @param provider  算法提供者
      * @return {@link MessageDigest}
      */
-    public static MessageDigest createJdkMessageDigest(final DigestAlgorithm algorithm, Provider provider) {
+    public static MessageDigest createJdkMessageDigest(final DigestAlgorithmEnum algorithm, Provider provider) {
         try {
             if (null == provider) {
                 return MessageDigest.getInstance(algorithm.getValue());

@@ -9,8 +9,8 @@ import com.xht.modules.admin.system.dao.mapper.SysMenuMapper;
 import com.xht.modules.admin.system.domain.form.SysMenuForm;
 import com.xht.modules.admin.system.domain.query.SysMenuQuery;
 import com.xht.modules.admin.system.entity.SysMenuEntity;
-import com.xht.modules.admin.system.enums.MenuStatusEnums;
-import com.xht.modules.admin.system.enums.MenuTypeEnums;
+import com.xht.modules.admin.system.enums.MenuStatusEnum;
+import com.xht.modules.admin.system.enums.MenuTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,7 +66,7 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateStatus(Long id, MenuStatusEnums status) {
+    public void updateStatus(Long id, MenuStatusEnum status) {
         LambdaUpdateWrapper<SysMenuEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(SysMenuEntity::getMenuStatus, status);
         updateWrapper.eq(SysMenuEntity::getId, id);
@@ -93,7 +93,7 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
      * @return 只返回菜单类型
      */
     @Override
-    public MenuTypeEnums getMenuType(Long menuId) {
+    public MenuTypeEnum getMenuType(Long menuId) {
         LambdaQueryWrapper<SysMenuEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(SysMenuEntity::getMenuType);
         queryWrapper.eq(SysMenuEntity::getId, menuId);
@@ -161,8 +161,8 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
                 SysMenuEntity::getMenuSort
         );
         lambdaQueryWrapper
-                .ne(Objects.equals(Boolean.FALSE,button),SysMenuEntity::getMenuType, MenuTypeEnums.B)
-                .eq(SysMenuEntity::getMenuStatus, MenuStatusEnums.NORMAL);
+                .ne(Objects.equals(Boolean.FALSE,button),SysMenuEntity::getMenuType, MenuTypeEnum.B)
+                .eq(SysMenuEntity::getMenuStatus, MenuStatusEnum.NORMAL);
         // @formatter:on
         lambdaQueryWrapper.orderByAsc(SysMenuEntity::getMenuSort);
         return list(lambdaQueryWrapper);

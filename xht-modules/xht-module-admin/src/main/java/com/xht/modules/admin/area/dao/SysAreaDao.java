@@ -3,7 +3,7 @@ package com.xht.modules.admin.area.dao;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.area.domain.form.SysAreaForm;
 import com.xht.modules.admin.area.entity.SysAreaEntity;
-import com.xht.modules.admin.area.enums.AreaHasChildEnums;
+import com.xht.modules.admin.area.enums.AreaHasChildEnum;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface SysAreaDao extends MapperRepository<SysAreaEntity> {
      * @param id       主键
      * @param hasChild 是否有子节点
      */
-    void updateHasChild(Long id, AreaHasChildEnums hasChild);
+    void updateHasChild(Long id, AreaHasChildEnum hasChild);
 
     /**
      * 根据主键`areaCode`更新系统管理-行政区划

@@ -8,7 +8,7 @@ import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.modules.admin.system.domain.form.SysDeptForm;
 import com.xht.modules.admin.system.domain.query.SysDeptTreeQuery;
 import com.xht.modules.admin.system.domain.response.SysDeptResponse;
-import com.xht.modules.admin.system.enums.DeptStatusEnums;
+import com.xht.modules.admin.system.enums.DeptStatusEnum;
 import com.xht.modules.admin.system.service.ISysDeptService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -89,7 +89,7 @@ public class SysDeptController {
     @CheckMenu("sys:dept:update")
     @PostMapping("/{id}/status/{status}")
     @Operation(summary = "更新部门状态")
-    public R<Void> updateStatus(@PathVariable Long id, @PathVariable DeptStatusEnums status) {
+    public R<Void> updateStatus(@PathVariable Long id, @PathVariable DeptStatusEnum status) {
         sysDeptService.updateStatus(id, status);
         return R.ok().build();
     }

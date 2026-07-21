@@ -1,7 +1,7 @@
 package com.xht.modules.admin.system.domain.query;
 
 import com.xht.framework.common.domain.query.BasicQuery;
-import com.xht.modules.admin.system.enums.DeptStatusEnums;
+import com.xht.modules.admin.system.enums.DeptStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -42,7 +42,7 @@ public class SysDeptTreeQuery extends BasicQuery {
      * 状态（0正常 1停用）
      */
     @Schema(description = "部门状态")
-    private DeptStatusEnums deptStatus;
+    private DeptStatusEnum deptStatus;
 
     /**
      * 联系电话

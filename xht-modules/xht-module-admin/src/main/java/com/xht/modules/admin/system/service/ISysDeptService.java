@@ -4,7 +4,7 @@ import com.xht.framework.utils.tree.INode;
 import com.xht.modules.admin.system.domain.form.SysDeptForm;
 import com.xht.modules.admin.system.domain.query.SysDeptTreeQuery;
 import com.xht.modules.admin.system.domain.response.SysDeptResponse;
-import com.xht.modules.admin.system.enums.DeptStatusEnums;
+import com.xht.modules.admin.system.enums.DeptStatusEnum;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public interface ISysDeptService {
      * @param id     部门ID
      * @param status 部门状态
      */
-    void updateStatus(Long id, DeptStatusEnums status);
+    void updateStatus(Long id, DeptStatusEnum status);
 
     /**
      * 根据ID查询部门

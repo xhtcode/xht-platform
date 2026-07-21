@@ -1,0 +1,28 @@
+package com.xht.modules.admin.system.enums;
+
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.xht.framework.common.enums.XhtEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+/**
+ * 描述 ：菜单类型
+ *
+ * @author xht
+ * @version : 1.0
+ **/
+@Getter
+@AllArgsConstructor
+public enum MenuTypeEnum implements XhtEnum<String> {
+
+    M("M", "目录"),
+
+    C("C", "菜单"),
+
+    B("B", "按钮");
+
+    @JsonValue
+    private final String value;
+
+    private final String desc;
+}

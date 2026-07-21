@@ -9,7 +9,7 @@ import com.xht.modules.admin.system.dao.SysDeptDao;
 import com.xht.modules.admin.system.dao.mapper.SysDeptMapper;
 import com.xht.modules.admin.system.domain.query.SysDeptTreeQuery;
 import com.xht.modules.admin.system.entity.SysDeptEntity;
-import com.xht.modules.admin.system.enums.DeptStatusEnums;
+import com.xht.modules.admin.system.enums.DeptStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,7 +73,7 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateStatus(Long id, DeptStatusEnums status) {
+    public void updateStatus(Long id, DeptStatusEnum status) {
         LambdaUpdateWrapper<SysDeptEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
@@ -114,7 +114,7 @@ public class SysDeptDaoImpl extends MapperRepositoryImpl<SysDeptMapper, SysDeptE
             sysDeptEntity.setId(0L);
             sysDeptEntity.setParentId(0L);
             sysDeptEntity.setDeptLevel(0);
-            sysDeptEntity.setDeptStatus(DeptStatusEnums.NORMAL);
+            sysDeptEntity.setDeptStatus(DeptStatusEnum.NORMAL);
             sysDeptEntity.setDeptSort(0);
             sysDeptEntity.setAncestors("0");
             return sysDeptEntity;

@@ -15,8 +15,8 @@ import com.xht.modules.admin.dict.domain.response.SysDictItemResponse;
 import com.xht.framework.core.dict.domain.DictVO;
 import com.xht.modules.admin.dict.entity.SysDictEntity;
 import com.xht.modules.admin.dict.entity.SysDictItemEntity;
-import com.xht.modules.admin.dict.enums.DictShowDisabledEnums;
-import com.xht.modules.admin.dict.enums.DictStatusEnums;
+import com.xht.modules.admin.dict.enums.DictShowDisabledEnum;
+import com.xht.modules.admin.dict.enums.DictStatusEnum;
 import com.xht.modules.admin.dict.service.ISysDictItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +53,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         Long dictId = form.getDictId();
         SysDictEntity dictEntity = sysDictDao.findById(dictId);
         ThrowUtils.throwIf(Objects.isNull(dictEntity), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
-        ThrowUtils.throwIf(!Objects.equals(DictStatusEnums.ENABLE, dictEntity.getStatus()), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
+        ThrowUtils.throwIf(!Objects.equals(DictStatusEnum.ENABLE, dictEntity.getStatus()), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
         Boolean checkDictCode = sysDictItemDao.checkDictValue(null, dictId, form.getItemLabel());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项值已存在");
         SysDictItemEntity entity = sysDictItemConverter.toEntity(form);
@@ -88,7 +88,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         Long dictId = form.getDictId();
         SysDictEntity dictEntity = sysDictDao.findById(dictId);
         ThrowUtils.throwIf(Objects.isNull(dictEntity), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
-        ThrowUtils.throwIf(!Objects.equals(DictStatusEnums.ENABLE, dictEntity.getStatus()), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
+        ThrowUtils.throwIf(!Objects.equals(DictStatusEnum.ENABLE, dictEntity.getStatus()), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
         // 校验字典项值 是否存在
         Boolean checkDictCode = sysDictItemDao.checkDictValue(id, dictId, form.getItemLabel());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
@@ -129,9 +129,9 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
     public List<DictVO> getByDictCode(String dictCode) {
         SysDictEntity sysDictEntity = sysDictDao.findOneOptional(SysDictEntity::getDictCode, dictCode)
                 .orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
-        DictShowDisabledEnums showDisabled = sysDictEntity.getShowDisabled();
-        DictStatusEnums dictStatusEnums = Objects.equals(DictShowDisabledEnums.SHOW, showDisabled) ? null : DictStatusEnums.ENABLE;
-        List<SysDictItemEntity> dictItemEntities = sysDictItemDao.findByDictCode(dictCode, dictStatusEnums);
+        DictShowDisabledEnum showDisabled = sysDictEntity.getShowDisabled();
+        DictStatusEnum dictStatusEnum = Objects.equals(DictShowDisabledEnum.SHOW, showDisabled) ? null : DictStatusEnum.ENABLE;
+        List<SysDictItemEntity> dictItemEntities = sysDictItemDao.findByDictCode(dictCode, dictStatusEnum);
         return sysDictItemConverter.toVo(dictItemEntities);
     }
 

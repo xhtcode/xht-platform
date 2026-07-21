@@ -3,9 +3,9 @@ package com.xht.framework.security.core.userdetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.xht.framework.common.enums.LoginTypeEnums;
-import com.xht.framework.common.enums.UserStatusEnums;
-import com.xht.framework.common.enums.UserTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnum;
+import com.xht.framework.common.enums.UserStatusEnum;
+import com.xht.framework.common.enums.UserTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,7 +49,7 @@ public class BasicUserDetails implements UserDetails, OAuth2User, Serializable {
      * 用户类型
      */
     @Schema(description = "用户类型")
-    private final UserTypeEnums userType;
+    private final UserTypeEnum userType;
 
     /**
      * 用户名
@@ -80,7 +80,7 @@ public class BasicUserDetails implements UserDetails, OAuth2User, Serializable {
      */
     @Setter
     @Schema(description = "账号状态(1-正常,2-锁定,3-禁用,4-过期)")
-    private UserStatusEnums userStatus;
+    private UserStatusEnum userStatus;
 
     /**
      * 密码盐
@@ -129,10 +129,10 @@ public class BasicUserDetails implements UserDetails, OAuth2User, Serializable {
      */
     @Setter
     @Schema(description = "登录类型")
-    private LoginTypeEnums loginType;
+    private LoginTypeEnum loginType;
 
 
-    public BasicUserDetails(Long userId, UserTypeEnums userType, String username, String nickName, String password, Collection<? extends GrantedAuthority> authorities) {
+    public BasicUserDetails(Long userId, UserTypeEnum userType, String username, String nickName, String password, Collection<? extends GrantedAuthority> authorities) {
         this.userId = userId;
         this.userType = userType;
         this.username = username;
@@ -156,7 +156,7 @@ public class BasicUserDetails implements UserDetails, OAuth2User, Serializable {
      */
     @Override
     public boolean isAccountNonExpired() {
-        return !Objects.equals(this.userStatus, UserStatusEnums.EXPIRED);
+        return !Objects.equals(this.userStatus, UserStatusEnum.EXPIRED);
     }
 
     /**
@@ -166,7 +166,7 @@ public class BasicUserDetails implements UserDetails, OAuth2User, Serializable {
      */
     @Override
     public boolean isAccountNonLocked() {
-        return !Objects.equals(this.userStatus, UserStatusEnums.LOCKED);
+        return !Objects.equals(this.userStatus, UserStatusEnum.LOCKED);
     }
 
     /**
@@ -187,7 +187,7 @@ public class BasicUserDetails implements UserDetails, OAuth2User, Serializable {
      */
     @Override
     public boolean isEnabled() {
-        return !Objects.equals(this.userStatus, UserStatusEnums.DISABLED);
+        return !Objects.equals(this.userStatus, UserStatusEnum.DISABLED);
     }
 
     @Override

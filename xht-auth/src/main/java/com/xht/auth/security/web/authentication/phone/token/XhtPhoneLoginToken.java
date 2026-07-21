@@ -1,7 +1,7 @@
 package com.xht.auth.security.web.authentication.phone.token;
 
 import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationToken;
-import com.xht.framework.common.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnum;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,7 +49,7 @@ public class XhtPhoneLoginToken extends AbstractXhtAuthenticationToken {
      * @param credentials 用户凭证信息（通常是密码）
      */
     public XhtPhoneLoginToken(Object principal, Object credentials) {
-        super(LoginTypeEnums.PHONE, null);
+        super(LoginTypeEnum.PHONE, null);
         this.principal = principal;
         this.credentials = credentials;
         setAuthenticated(false);
@@ -71,7 +71,7 @@ public class XhtPhoneLoginToken extends AbstractXhtAuthenticationToken {
      * @param authorities 用户拥有的权限集合
      */
     public XhtPhoneLoginToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
-        super(LoginTypeEnums.PHONE, authorities);
+        super(LoginTypeEnum.PHONE, authorities);
         this.principal = principal;
         this.credentials = credentials;
         super.setAuthenticated(true); // must use super, as we override

@@ -1,6 +1,6 @@
 package com.xht.auth.security.web.authentication;
 
-import com.xht.framework.common.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,25 +15,25 @@ import java.util.Collection;
 @Slf4j
 public abstract class AbstractXhtAuthenticationToken extends AbstractAuthenticationToken {
 
-    private final LoginTypeEnums loginTypeEnums;
+    private final LoginTypeEnum loginTypeEnum;
 
     /**
      * 根据所提供的权限数组创建一个令牌。*
      *
-     * @param loginTypeEnums：登录类型枚举
+     * @param loginTypeEnum：登录类型枚举
      * @param authorities：表示由此认证对象所代表的主体的权限集合（即 <tt>GrantedAuthority</tt> 类型的集合）
      */
-    public AbstractXhtAuthenticationToken(LoginTypeEnums loginTypeEnums, Collection<? extends GrantedAuthority> authorities) {
+    public AbstractXhtAuthenticationToken(LoginTypeEnum loginTypeEnum, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
-        this.loginTypeEnums = loginTypeEnums;
+        this.loginTypeEnum = loginTypeEnum;
     }
 
     /**
      * 获取登录类型
      * @return 登录类型枚举
      */
-    public final LoginTypeEnums getLoginType() {
-        return this.loginTypeEnums;
+    public final LoginTypeEnum getLoginType() {
+        return this.loginTypeEnum;
     }
 
 }

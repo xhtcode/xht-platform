@@ -5,9 +5,9 @@ import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.modules.admin.system.domain.form.SysMenuForm;
-import com.xht.modules.admin.system.enums.MenuCommonStatus;
-import com.xht.modules.admin.system.enums.MenuStatusEnums;
-import com.xht.modules.admin.system.enums.MenuTypeEnums;
+import com.xht.modules.admin.system.enums.MenuCommonStatusEnum;
+import com.xht.modules.admin.system.enums.MenuStatusEnum;
+import com.xht.modules.admin.system.enums.MenuTypeEnum;
 
 import java.util.Objects;
 
@@ -28,14 +28,14 @@ public final class MenuValidationFormat {
      * @param parentType 父菜单类型
      * @param menuType   菜单类型
      */
-    public static void checkParentType(MenuTypeEnums parentType, MenuTypeEnums menuType) {
+    public static void checkParentType(MenuTypeEnum parentType, MenuTypeEnum menuType) {
         switch (parentType) {
             case M:
-                ThrowUtils.throwIf(Objects.equals(menuType, MenuTypeEnums.B), () -> ex("menuType", "目录类型下不能添加按钮"));
+                ThrowUtils.throwIf(Objects.equals(menuType, MenuTypeEnum.B), () -> ex("menuType", "目录类型下不能添加按钮"));
                 break;
             case C:
-                ThrowUtils.throwIf(Objects.equals(menuType, MenuTypeEnums.M), () -> ex("menuType", "菜单类型下不能添加目录"));
-                ThrowUtils.throwIf(Objects.equals(menuType, MenuTypeEnums.C), () -> ex("menuType", "菜单类型下不能添加菜单"));
+                ThrowUtils.throwIf(Objects.equals(menuType, MenuTypeEnum.M), () -> ex("menuType", "菜单类型下不能添加目录"));
+                ThrowUtils.throwIf(Objects.equals(menuType, MenuTypeEnum.C), () -> ex("menuType", "菜单类型下不能添加菜单"));
                 break;
             case B:
                 ThrowUtils.throwDirect(BusinessErrorCode.PARAM_ERROR, "按钮类型下不能添加子菜单、目录、按钮");
@@ -52,17 +52,17 @@ public final class MenuValidationFormat {
     public static void validationFormat(SysMenuForm form) {
         ThrowUtils.notNull(form, "请求参数不能为空");
         Long parentId = form.getParentId();
-        MenuTypeEnums menuType = form.getMenuType();
+        MenuTypeEnum menuType = form.getMenuType();
         String menuName = form.getMenuName();
         String menuIcon = form.getMenuIcon();
         String menuPath = form.getMenuPath();
-        MenuCommonStatus menuHidden = form.getMenuHidden();
-        MenuStatusEnums menuStatus = form.getMenuStatus();
+        MenuCommonStatusEnum menuHidden = form.getMenuHidden();
+        MenuStatusEnum menuStatus = form.getMenuStatus();
         Integer menuSort = form.getMenuSort();
         String viewName = form.getViewName();
         String viewPath = form.getViewPath();
         String activeMenuPath = form.getActiveMenuPath();
-        MenuCommonStatus frameFlag = form.getFrameFlag();
+        MenuCommonStatusEnum frameFlag = form.getFrameFlag();
         // 公共字段的校验
         ThrowUtils.throwIf(Objects.isNull(parentId), () -> ex("parentId", "父菜单ID不能为空"));
         ThrowUtils.throwIf(Objects.isNull(menuType), () -> ex("menuType", "菜单类型不能为空"));
@@ -86,7 +86,7 @@ public final class MenuValidationFormat {
                 ThrowUtils.throwIf(StringUtils.isEmpty(menuPath), () -> ex("menuPath", "路由地址不能为空"));
                 ThrowUtils.throwIf(Objects.isNull(frameFlag), () -> ex("frameFlag", "是否为外链不能为空"));
                 ThrowUtils.throwIf(Objects.isNull(menuHidden), () -> ex("menuHidden", "显示状态不能为空"));
-                if (MenuCommonStatus.YES.equals(frameFlag)) {
+                if (MenuCommonStatusEnum.YES.equals(frameFlag)) {
                     form.setViewName(null);
                     form.setViewPath(null);
                     form.setMenuCache(null);
@@ -96,10 +96,10 @@ public final class MenuValidationFormat {
                 } else {
                     ThrowUtils.throwIf(StringUtils.isEmpty(viewName), () -> ex("viewName", "组件视图名称不能为空"));
                     ThrowUtils.throwIf(StringUtils.isEmpty(viewPath), () -> ex("viewPath", "组件视图路径不能为空"));
-                    if (MenuCommonStatus.NO.equals(menuHidden)) {
+                    if (MenuCommonStatusEnum.NO.equals(menuHidden)) {
                         ThrowUtils.throwIf(StringUtils.isEmpty(activeMenuPath), () -> ex("activeMenuPath", "菜单显示不能为空"));
-                        form.setMenuCache(MenuCommonStatus.NO);
-                        form.setAffixStatus(MenuCommonStatus.NO);
+                        form.setMenuCache(MenuCommonStatusEnum.NO);
+                        form.setAffixStatus(MenuCommonStatusEnum.NO);
                     } else {
                         form.setActiveMenuPath(StringUtils.emptyToDefault(form.getActiveMenuPath(), form.getMenuPath()));
                     }

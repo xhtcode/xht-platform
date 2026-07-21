@@ -11,8 +11,8 @@ import com.xht.modules.admin.system.dao.mapper.SysRoleMapper;
 import com.xht.modules.admin.system.domain.form.SysRoleForm;
 import com.xht.modules.admin.system.domain.query.SysRoleQuery;
 import com.xht.modules.admin.system.entity.SysRoleEntity;
-import com.xht.modules.admin.system.enums.ImportRoleTypeEnums;
-import com.xht.modules.admin.system.enums.RoleStatusEnums;
+import com.xht.modules.admin.system.enums.RoleTypeEnums;
+import com.xht.modules.admin.system.enums.RoleStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +55,7 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateStatus(Long id, RoleStatusEnums status) {
+    public void updateStatus(Long id, RoleStatusEnum status) {
         LambdaUpdateWrapper<SysRoleEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(SysRoleEntity::getRoleStatus, status);
         updateWrapper.eq(SysRoleEntity::getId, id);
@@ -114,7 +114,7 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper
                 .select(SysRoleEntity::getId, SysRoleEntity::getRoleCode, SysRoleEntity::getRoleName)
-                .eq(SysRoleEntity::getRoleStatus, RoleStatusEnums.NORMAL)
+                .eq(SysRoleEntity::getRoleStatus, RoleStatusEnum.NORMAL)
                 .orderByDesc(SysRoleEntity::getRoleSort);
         // @formatter:on
         return list(queryWrapper);
@@ -137,14 +137,14 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
      * 根据角色 ID 列表和导入类型统计数量
      *
      * @param roleIds                 角色 ID 列表
-     * @param importRoleTypeEnums 导入角色类型枚举
+     * @param roleTypeEnums 导入角色类型枚举
      * @return 符合条件的记录数量
      */
     @Override
-    public long countByRoleId(List<Long> roleIds, ImportRoleTypeEnums importRoleTypeEnums) {
+    public long countByRoleId(List<Long> roleIds, RoleTypeEnums roleTypeEnums) {
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(SysRoleEntity::getId, roleIds);
-        queryWrapper.eq(SysRoleEntity::getImportRoleType, importRoleTypeEnums);
+        queryWrapper.eq(SysRoleEntity::getImportRoleType, roleTypeEnums);
         return count(queryWrapper);
     }
 

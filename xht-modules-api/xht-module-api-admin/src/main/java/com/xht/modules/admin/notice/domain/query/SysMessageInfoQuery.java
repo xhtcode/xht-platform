@@ -2,8 +2,8 @@ package com.xht.modules.admin.notice.domain.query;
 
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import com.xht.modules.admin.notice.enums.MessageStarEnums;
-import com.xht.modules.admin.notice.enums.MessageStatusEnums;
+import com.xht.modules.admin.notice.enums.MessageStarEnum;
+import com.xht.modules.admin.notice.enums.MessageStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -32,12 +32,12 @@ public class SysMessageInfoQuery extends PageBasicQuery {
      * 消息状态：1-未读 2-已读 3-已删除（收件人侧）4-已撤回（发件人侧）
      */
     @Schema(description = "消息状态：1-未读 2-已读 3-已删除（收件人侧）4-已撤回（发件人侧）")
-    private MessageStatusEnums messageStatus;
+    private MessageStatusEnum messageStatus;
 
     /**
      * 信息收藏：0-否 1-是
      */
     @Schema(description = "信息收藏：0-否 1-是")
-    private MessageStarEnums messageStar;
+    private MessageStarEnum messageStar;
 
 }

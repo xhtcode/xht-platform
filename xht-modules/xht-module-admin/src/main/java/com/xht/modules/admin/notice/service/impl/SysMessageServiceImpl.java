@@ -19,14 +19,14 @@ import com.xht.modules.admin.notice.domain.vo.MessageInfoVO;
 import com.xht.modules.admin.notice.domain.vo.MessagePageVO;
 import com.xht.modules.admin.notice.entity.SysMessageEntity;
 import com.xht.modules.admin.notice.entity.SysMessageInfoEntity;
-import com.xht.modules.admin.notice.enums.MessageStarEnums;
-import com.xht.modules.admin.notice.enums.MessageStatusEnums;
-import com.xht.modules.admin.notice.enums.MessageTopEnums;
+import com.xht.modules.admin.notice.enums.MessageStarEnum;
+import com.xht.modules.admin.notice.enums.MessageStatusEnum;
+import com.xht.modules.admin.notice.enums.MessageTopEnum;
 import com.xht.modules.admin.notice.service.ISysMessageService;
 import com.xht.framework.core.message.core.MessageExtendInfo;
 import com.xht.framework.core.message.core.MessagePayload;
 import com.xht.framework.core.message.core.MessageUser;
-import com.xht.framework.core.message.enums.MessageTypeEnums;
+import com.xht.framework.core.message.enums.MessageTypeEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -71,7 +71,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
     public void sendMessage(MessagePayload payload) {
         MessageUser sendUser = payload.getSendUser();
         List<MessageUser> recipientUser = payload.getRecipientUser();
-        MessageTypeEnums messageType = payload.getMessageType();
+        MessageTypeEnum messageType = payload.getMessageType();
         long messageId = IdUtil.getSnowflakeNextId();
         SysMessageEntity entity = new SysMessageEntity();
         entity.setId(messageId);
@@ -87,9 +87,9 @@ public class SysMessageServiceImpl implements ISysMessageService {
             infoEntity.setMessageId(messageId);
             infoEntity.setRecipientId(messageUser.userId());
             infoEntity.setRecipientName(messageUser.userName());
-            infoEntity.setMessageStatus(MessageStatusEnums.UNREAD);
-            infoEntity.setMessageTop(MessageTopEnums.NO);
-            infoEntity.setMessageStar(MessageStarEnums.NO);
+            infoEntity.setMessageStatus(MessageStatusEnum.UNREAD);
+            infoEntity.setMessageTop(MessageTopEnum.NO);
+            infoEntity.setMessageStar(MessageStarEnum.NO);
             messageInfoEntities.add(infoEntity);
         }
         transactionTemplate.execute(status -> {
@@ -132,24 +132,24 @@ public class SysMessageServiceImpl implements ISysMessageService {
      * 收藏站内信（收件人侧）
      *
      * @param messageId        站内信ID
-     * @param messageStarEnums 站内信收藏枚举
+     * @param messageStarEnum 站内信收藏枚举
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateStartById(Long messageId, MessageStarEnums messageStarEnums) {
-        sysMessageInfoDao.updateStartById(messageId, SecurityUtils.getUserId(), messageStarEnums);
+    public void updateStartById(Long messageId, MessageStarEnum messageStarEnum) {
+        sysMessageInfoDao.updateStartById(messageId, SecurityUtils.getUserId(), messageStarEnum);
     }
 
     /**
      * 置顶站内信（收件人侧）
      *
      * @param messageId       站内信ID
-     * @param messageTopEnums 站内信置顶枚举
+     * @param messageTopEnum 站内信置顶枚举
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateTopById(Long messageId, MessageTopEnums messageTopEnums) {
-        sysMessageInfoDao.updateTopById(messageId, SecurityUtils.getUserId(), messageTopEnums);
+    public void updateTopById(Long messageId, MessageTopEnum messageTopEnum) {
+        sysMessageInfoDao.updateTopById(messageId, SecurityUtils.getUserId(), messageTopEnum);
     }
 
     /**
@@ -199,8 +199,8 @@ public class SysMessageServiceImpl implements ISysMessageService {
         Optional.ofNullable(messageInfoVo)
                 .map(MessageInfoVO::getResponse)
                 .ifPresentOrElse(response -> {
-                    if (Objects.equals(MessageStatusEnums.UNREAD, response.getMessageStatus())) {
-                        response.setMessageStatus(MessageStatusEnums.READ);
+                    if (Objects.equals(MessageStatusEnum.UNREAD, response.getMessageStatus())) {
+                        response.setMessageStatus(MessageStatusEnum.READ);
                         response.setReadTime(LocalDateTime.now());
                         sysMessageInfoDao.updateReadById(messageId, SecurityUtils.getUserId());
                     }

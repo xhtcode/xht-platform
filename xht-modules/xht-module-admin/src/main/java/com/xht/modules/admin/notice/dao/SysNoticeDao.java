@@ -6,8 +6,8 @@ import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
 import com.xht.modules.admin.notice.entity.SysNoticeEntity;
-import com.xht.modules.admin.notice.enums.NoticeStatusEnums;
-import com.xht.modules.admin.notice.enums.NoticeTopEnums;
+import com.xht.modules.admin.notice.enums.NoticeStatusEnum;
+import com.xht.modules.admin.notice.enums.NoticeTopEnum;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public interface SysNoticeDao extends MapperRepository<SysNoticeEntity> {
      * @param noticeId     通知id
      * @param noticeStatus 通知状态
      */
-    void updateStatusById(Long noticeId, NoticeStatusEnums noticeStatus);
+    void updateStatusById(Long noticeId, NoticeStatusEnum noticeStatus);
 
     /**
      * 根据通知id 置顶
@@ -39,7 +39,7 @@ public interface SysNoticeDao extends MapperRepository<SysNoticeEntity> {
      * @param noticeId 通知id
      * @param isTop    是否置顶
      */
-    void updateIsTopById(Long noticeId, NoticeTopEnums isTop);
+    void updateIsTopById(Long noticeId, NoticeTopEnum isTop);
 
     /**
      * 根据通知id 修改已读人数

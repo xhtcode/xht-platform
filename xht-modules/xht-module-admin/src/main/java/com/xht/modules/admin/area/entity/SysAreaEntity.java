@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.DeleteEntity;
-import com.xht.modules.admin.area.enums.AreaHasChildEnums;
+import com.xht.modules.admin.area.enums.AreaHasChildEnum;
 import lombok.Data;
 
 /**
@@ -69,6 +69,6 @@ public class SysAreaEntity extends DeleteEntity {
      * 是否存在下级
      */
     @TableField(value = "has_child")
-    private AreaHasChildEnums hasChild;
+    private AreaHasChildEnum hasChild;
 
 }

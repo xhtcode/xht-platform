@@ -1,6 +1,6 @@
 package com.xht.framework.security.core.userdetails;
 
-import com.xht.framework.common.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnum;
 import com.xht.framework.security.domain.RequestUserBO;
 import com.xht.framework.security.utils.PassWordUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ public abstract class BasicUserDetailsService implements UserDetailsService {
 
     @Override
     public final UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return loadUserByUsername(username, LoginTypeEnums.PASSWORD);
+        return loadUserByUsername(username, LoginTypeEnum.PASSWORD);
     }
 
     /**
@@ -36,7 +36,7 @@ public abstract class BasicUserDetailsService implements UserDetailsService {
      * @return 用户信息
      * @throws UsernameNotFoundException 异常
      */
-    public abstract BasicUserDetails loadUserByUsername(String username, LoginTypeEnums loginType) throws UsernameNotFoundException;
+    public abstract BasicUserDetails loadUserByUsername(String username, LoginTypeEnum loginType) throws UsernameNotFoundException;
 
 
     /**

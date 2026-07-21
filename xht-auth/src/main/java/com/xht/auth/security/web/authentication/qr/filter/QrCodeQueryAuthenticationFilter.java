@@ -2,7 +2,7 @@ package com.xht.auth.security.web.authentication.qr.filter;
 
 import com.xht.auth.security.web.authentication.qr.domain.QrCodeInfo;
 import com.xht.auth.security.web.authentication.qr.domain.response.QrCodeLoginFetchResponse;
-import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnums;
+import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnum;
 import com.xht.auth.security.web.authentication.qr.exception.QyLoginException;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.utils.ServletUtil;
@@ -56,17 +56,17 @@ public class QrCodeQueryAuthenticationFilter extends QrCodeAbstractAuthenticatio
             }
             boolean qrCodeExpire = qrCodeInfo.getExpiresTime().isBefore(LocalDateTime.now());
             if (qrCodeExpire) {
-                qrCodeInfo.setQrCodeStatus(QrCodeStatusEnums.EXPIRED);
+                qrCodeInfo.setQrCodeStatus(QrCodeStatusEnum.EXPIRED);
                 qrDataManager.removeQrInfo(qrCodeInfo);
                 // 二维码已过期
                 ServletUtil.writeJson(response, R.error().msg("二维码已到期").build(createQrCodeResponse(qrCodeInfo, null)));
                 return;
             }
-            if (Objects.equals(qrCodeInfo.getQrCodeStatus(), QrCodeStatusEnums.WAITING)) {
+            if (Objects.equals(qrCodeInfo.getQrCodeStatus(), QrCodeStatusEnum.WAITING)) {
                 ServletUtil.writeJson(response, R.ok().build(createQrCodeResponse(qrCodeInfo, null)));
                 return;
             }
-            if (Objects.equals(qrCodeInfo.getQrCodeStatus(), QrCodeStatusEnums.SCANNED)) {
+            if (Objects.equals(qrCodeInfo.getQrCodeStatus(), QrCodeStatusEnum.SCANNED)) {
                 ServletUtil.writeJson(response, R.ok().build(createQrCodeResponse(qrCodeInfo, null)));
                 return;
             }
@@ -96,7 +96,7 @@ public class QrCodeQueryAuthenticationFilter extends QrCodeAbstractAuthenticatio
             response.setBeforeLoginQueryString(qrCodeInfo.getBeforeLoginQueryString());
             response.setName(qrCodeInfo.getName());
         } else {
-            response.setQrCodeStatus(QrCodeStatusEnums.EXPIRED);
+            response.setQrCodeStatus(QrCodeStatusEnum.EXPIRED);
         }
         return response;
     }

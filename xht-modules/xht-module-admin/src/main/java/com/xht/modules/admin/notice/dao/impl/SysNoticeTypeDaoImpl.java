@@ -11,7 +11,7 @@ import com.xht.modules.admin.notice.dao.mapper.SysNoticeTypeMapper;
 import com.xht.modules.admin.notice.domain.form.SysNoticeTypeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeTypeQuery;
 import com.xht.modules.admin.notice.entity.SysNoticeTypeEntity;
-import com.xht.modules.admin.notice.enums.NoticeTypeStatusEnums;
+import com.xht.modules.admin.notice.enums.NoticeTypeStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -65,7 +65,7 @@ public class SysNoticeTypeDaoImpl extends MapperRepositoryImpl<SysNoticeTypeMapp
     public List<SysNoticeTypeEntity> findEnableList() {
         LambdaQueryWrapper<SysNoticeTypeEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(SysNoticeTypeEntity::getId, SysNoticeTypeEntity::getNoticeTypeName);
-        queryWrapper.eq(SysNoticeTypeEntity::getNoticeTypeStatus, NoticeTypeStatusEnums.ENABLE);
+        queryWrapper.eq(SysNoticeTypeEntity::getNoticeTypeStatus, NoticeTypeStatusEnum.ENABLE);
         queryWrapper.orderByDesc(SysNoticeTypeEntity::getNoticeTypeSort);
         return list(queryWrapper);
     }

@@ -4,8 +4,8 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.common.constant.StringConstant;
 import com.xht.framework.utils.StringUtils;
-import com.xht.modules.common.enums.GenStatusEnums;
-import com.xht.modules.common.enums.IdPrimaryKeyEnums;
+import com.xht.modules.common.enums.GenStatusEnum;
+import com.xht.modules.common.enums.IdPrimaryKeyEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -54,12 +54,12 @@ public class ColumnBo implements Serializable {
     /**
      * 字段必填：0-非必填，1-必填
      */
-    private GenStatusEnums dbRequired;
+    private GenStatusEnum dbRequired;
 
     /**
      * 字段主键：0-非主键，1-主键
      */
-    private IdPrimaryKeyEnums dbPrimary;
+    private IdPrimaryKeyEnum dbPrimary;
 
     /**
      * 字段排序
@@ -68,11 +68,11 @@ public class ColumnBo implements Serializable {
     private Integer sortOrder;
 
     public void setDbRequired(int dbRequired) {
-        this.dbRequired = GenStatusEnums.of(dbRequired);
+        this.dbRequired = GenStatusEnum.of(dbRequired);
     }
 
     public void setDbPrimary(int dbPrimary) {
-        this.dbPrimary = IdPrimaryKeyEnums.of(dbPrimary);
+        this.dbPrimary = IdPrimaryKeyEnum.of(dbPrimary);
     }
 
 
@@ -108,14 +108,14 @@ public class ColumnBo implements Serializable {
     /**
      * @return 设置 表单新增
      */
-    public GenStatusEnums getFromInsert() {
+    public GenStatusEnum getFromInsert() {
         return determineIncluded(COLUMN_NOT_FORM);
     }
 
     /**
      * @return 设置 表单更新
      */
-    public GenStatusEnums getFromUpdate() {
+    public GenStatusEnum getFromUpdate() {
         return determineIncluded(COLUMN_NOT_FORM);
     }
 
@@ -129,7 +129,7 @@ public class ColumnBo implements Serializable {
     /**
      * @return 设置 表单必填
      */
-    public GenStatusEnums getFromFill() {
+    public GenStatusEnum getFromFill() {
         return determineIncluded(COLUMN_NOT_FORM);
     }
 
@@ -169,21 +169,21 @@ public class ColumnBo implements Serializable {
     /**
      * @return 设置 列表显示
      */
-    public GenStatusEnums getListShow() {
+    public GenStatusEnum getListShow() {
         return determineIncluded(COLUMN_NOT_LIST);
     }
 
     /**
      * @return 设置 显示切换禁用
      */
-    public GenStatusEnums getListDisabled() {
+    public GenStatusEnum getListDisabled() {
         return determineIncluded(COLUMN_NOT_LIST);
     }
 
     /**
      * @return 设置 默认隐藏
      */
-    public GenStatusEnums getListHidden() {
+    public GenStatusEnum getListHidden() {
         return determineIncluded(COLUMN_NOT_LIST);
     }
 
@@ -193,13 +193,13 @@ public class ColumnBo implements Serializable {
      * @param excludedColumns 排除的列名数组
      * @return 若列名不在排除数组中则返回YES，否则返回NO
      */
-    private GenStatusEnums determineIncluded(String[] excludedColumns) {
-        if (StrUtil.isBlank(this.dbName) || Objects.equals(IdPrimaryKeyEnums.YES, this.dbPrimary) || ArrayUtil.isEmpty(excludedColumns)) {
-            return GenStatusEnums.NO;
+    private GenStatusEnum determineIncluded(String[] excludedColumns) {
+        if (StrUtil.isBlank(this.dbName) || Objects.equals(IdPrimaryKeyEnum.YES, this.dbPrimary) || ArrayUtil.isEmpty(excludedColumns)) {
+            return GenStatusEnum.NO;
         }
         return ArrayUtil.contains(excludedColumns, this.dbName)
-                ? GenStatusEnums.NO
-                : GenStatusEnums.YES;
+                ? GenStatusEnum.NO
+                : GenStatusEnum.YES;
     }
 
     /**
@@ -207,17 +207,17 @@ public class ColumnBo implements Serializable {
      *
      * @return 列表排序状态：0-否，1-是
      */
-    public GenStatusEnums getListSortable() {
+    public GenStatusEnum getListSortable() {
         if (ArrayUtil.contains(COLUMN_NOT_LIST, this.dbName)) {
-            return GenStatusEnums.NO;
+            return GenStatusEnum.NO;
         }
         if (StrUtil.containsAny(this.dbName, "sort", "status")) {
-            return GenStatusEnums.YES;
+            return GenStatusEnum.YES;
         }
         if (StrUtil.containsAny(this.dbComment, "排序", "状态")) {
-            return GenStatusEnums.YES;
+            return GenStatusEnum.YES;
         }
-        return GenStatusEnums.NO;
+        return GenStatusEnum.NO;
     }
 
 }

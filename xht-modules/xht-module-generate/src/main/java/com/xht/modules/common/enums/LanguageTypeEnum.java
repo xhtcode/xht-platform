@@ -1,0 +1,36 @@
+package com.xht.modules.common.enums;
+
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.xht.framework.common.enums.XhtEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+/**
+ * 语言类型枚举
+ * 包含常见编程语言的类型定义
+ */
+@Getter
+@AllArgsConstructor
+public enum LanguageTypeEnum implements XhtEnum<String> {
+
+    Java("Java", "js", "Object"),
+    TypeScript("TypeScript", "ts", "any");
+
+    /**
+     * 语言类型编码
+     */
+    @JsonValue
+    private final String value;
+
+    /**
+     * 简称
+     */
+    private final String shortName;
+
+    /**
+     * 默认类型
+     */
+    private final String defaultType;
+
+}
+    

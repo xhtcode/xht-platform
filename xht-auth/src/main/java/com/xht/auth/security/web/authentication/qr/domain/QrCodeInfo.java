@@ -1,6 +1,6 @@
 package com.xht.auth.security.web.authentication.qr.domain;
 
-import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnums;
+import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,7 +39,7 @@ public class QrCodeInfo implements Serializable {
      * 二维码状态
      * 0:待扫描，1:已扫描，2:已确认
      */
-    private QrCodeStatusEnums qrCodeStatus;
+    private QrCodeStatusEnum qrCodeStatus;
 
     /**
      * 二维码过期时间

@@ -12,8 +12,8 @@ import com.xht.modules.admin.system.domain.form.SysRoleForm;
 import com.xht.modules.admin.system.domain.query.SysRoleQuery;
 import com.xht.modules.admin.system.domain.response.SysRoleResponse;
 import com.xht.modules.admin.system.entity.SysRoleEntity;
-import com.xht.modules.admin.system.enums.ImportRoleTypeEnums;
-import com.xht.modules.admin.system.enums.RoleStatusEnums;
+import com.xht.modules.admin.system.enums.RoleTypeEnums;
+import com.xht.modules.admin.system.enums.RoleStatusEnum;
 import com.xht.modules.admin.system.service.ISysRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +48,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         Boolean exists = sysRoleDao.existsRoleCode(null, form.getRoleCode());
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
         SysRoleEntity entity = sysRoleConverter.toEntity(form);
-        entity.setImportRoleType(ImportRoleTypeEnums.NONE);
+        entity.setImportRoleType(RoleTypeEnums.NONE);
         sysRoleDao.saveTransactional(entity);
     }
 
@@ -61,7 +61,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Transactional(rollbackFor = Exception.class)
     public void removeByIds(List<Long> ids) {
         ThrowUtils.notNull(ids, BusinessErrorCode.PARAM_ERROR);
-        long countByRoleId = sysRoleDao.countByRoleId(ids, ImportRoleTypeEnums.NONE);
+        long countByRoleId = sysRoleDao.countByRoleId(ids, RoleTypeEnums.NONE);
         ThrowUtils.throwIf(countByRoleId != ids.size(), BusinessErrorCode.DATA_EXIST, "系统默认角色禁止删除!");
         Boolean existsInId = sysUserRoleDao.existsUserInRoleId(ids);
         ThrowUtils.throwIf(existsInId, BusinessErrorCode.DATA_EXIST, "角色已分配用户，禁止删除");
@@ -89,7 +89,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @param status 角色状态
      */
     @Override
-    public void updateStatus(Long id, RoleStatusEnums status) {
+    public void updateStatus(Long id, RoleStatusEnum status) {
         Boolean exists = sysRoleDao.exists(SysRoleEntity::getId, id);
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
         sysRoleDao.updateStatus(id, status);

@@ -2,7 +2,7 @@ package com.xht.modules.admin.system.controller;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.common.enums.UserStatusEnums;
+import com.xht.framework.common.enums.UserStatusEnum;
 import com.xht.framework.utils.tree.INode;
 import com.xht.framework.validation.Groups;
 import com.xht.framework.log.annotations.BLog;
@@ -122,7 +122,7 @@ public class SysUserController {
     @CheckMenu("sys:user:update")
     @PostMapping("/update/{userId}/{status}")
     @Operation(summary = "用户状态修改", description = "用户状态修改")
-    public R<Void> updateStatus(@PathVariable("userId") Long userId, @PathVariable("status") UserStatusEnums status) {
+    public R<Void> updateStatus(@PathVariable("userId") Long userId, @PathVariable("status") UserStatusEnum status) {
         userService.updateStatus(userId, status);
         return R.ok().build();
     }

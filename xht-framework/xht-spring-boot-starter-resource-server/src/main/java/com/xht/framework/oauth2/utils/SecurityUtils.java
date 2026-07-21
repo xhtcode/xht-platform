@@ -1,6 +1,6 @@
 package com.xht.framework.oauth2.utils;
 
-import com.xht.framework.common.enums.UserTypeEnums;
+import com.xht.framework.common.enums.UserTypeEnum;
 import com.xht.framework.exception.UtilException;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.exception.BasicAuthenticationException;
@@ -79,7 +79,7 @@ public final class SecurityUtils {
      * 判断当前登录用户是否为管理员
      */
     public static Boolean isAdmin() {
-        return Objects.equals(getUser().getUserType(), UserTypeEnums.ADMIN);
+        return Objects.equals(getUser().getUserType(), UserTypeEnum.ADMIN);
     }
 
 

@@ -13,7 +13,7 @@ import com.xht.modules.admin.dict.domain.form.SysDictForm;
 import com.xht.modules.admin.dict.domain.query.SysDictQuery;
 import com.xht.modules.admin.dict.entity.SysDictEntity;
 import com.xht.modules.admin.dict.entity.SysDictItemEntity;
-import com.xht.modules.admin.dict.enums.DictStatusEnums;
+import com.xht.modules.admin.dict.enums.DictStatusEnum;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -116,7 +116,7 @@ public class SysDictDaoImpl extends MapperRepositoryImpl<SysDictMapper, SysDictE
                 SysDictEntity::getDictCode,
                 SysDictEntity::getDictCode
         );
-        queryWrapper.eq(SysDictEntity::getStatus, DictStatusEnums.ENABLE);
+        queryWrapper.eq(SysDictEntity::getStatus, DictStatusEnum.ENABLE);
         queryWrapper.orderByAsc(SysDictEntity::getSortOrder);
         return list(queryWrapper);
     }

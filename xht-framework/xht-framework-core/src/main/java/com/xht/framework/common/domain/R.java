@@ -3,7 +3,7 @@ package com.xht.framework.common.domain;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xht.framework.common.constant.RConstants;
-import com.xht.framework.common.enums.DataTypeEnums;
+import com.xht.framework.common.enums.DataTypeEnum;
 import com.xht.framework.exception.UtilException;
 import com.xht.framework.exception.code.ErrorCode;
 import com.xht.framework.utils.mdc.TraceIdUtils;
@@ -33,7 +33,7 @@ public sealed class R<T> implements Serializable permits ErrorR {
     private final T data;
 
     @Schema(description = "数据类型")
-    private final DataTypeEnums dataType;
+    private final DataTypeEnum dataType;
 
     @Schema(description = "链路跟踪id")
     private final String traceId;
@@ -47,7 +47,7 @@ public sealed class R<T> implements Serializable permits ErrorR {
             @JsonProperty("code") Integer code,
             @JsonProperty("msg") String msg,
             @JsonProperty("data") T data,
-            @JsonProperty("dataType") DataTypeEnums dataType,
+            @JsonProperty("dataType") DataTypeEnum dataType,
             @JsonProperty("traceId") String traceId
     ) {
         this.code = code;
@@ -104,14 +104,14 @@ public sealed class R<T> implements Serializable permits ErrorR {
         /**
          * 数据类型
          */
-        private DataTypeEnums dataType;
+        private DataTypeEnum dataType;
 
         /**
          * 构造响应构建器实例
          *
          */
         RBuilder() {
-            this.dataType = DataTypeEnums.NORMAL;
+            this.dataType = DataTypeEnum.NORMAL;
         }
 
         /**
@@ -144,7 +144,7 @@ public sealed class R<T> implements Serializable permits ErrorR {
          * @return RBuilder 当前构建器实例
          */
         public RBuilder encrypt() {
-            this.dataType = DataTypeEnums.ENCRYPT;
+            this.dataType = DataTypeEnum.ENCRYPT;
             return this;
         }
 

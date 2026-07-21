@@ -3,7 +3,7 @@ package com.xht.auth.authentication.dao;
 import com.xht.auth.authentication.domain.dto.Oauth2ClientDTO;
 import com.xht.auth.authentication.domain.dto.UserLoginDTO;
 import com.xht.auth.authentication.domain.response.TokenUserInfoResponse;
-import com.xht.framework.common.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnum;
 
 import java.util.Set;
 
@@ -21,7 +21,7 @@ public interface IAuthenticationDao {
      * @param loginType 登录类型
      * @return 用户信息
      */
-    UserLoginDTO findByUsernameAndLoginType(String userName, LoginTypeEnums loginType);
+    UserLoginDTO findByUsernameAndLoginType(String userName, LoginTypeEnum loginType);
 
     /**
      * 根据用户ID查询用户拥有的角色编码集合

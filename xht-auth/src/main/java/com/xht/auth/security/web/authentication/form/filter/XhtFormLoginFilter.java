@@ -1,6 +1,6 @@
 package com.xht.auth.security.web.authentication.form.filter;
 
-import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnums;
+import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnum;
 import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationFilter;
 import com.xht.auth.security.web.authentication.form.token.XhtFormLoginToken;
 import com.xht.framework.exception.utils.ThrowUtils;
@@ -87,7 +87,7 @@ public class XhtFormLoginFilter extends AbstractXhtAuthenticationFilter<XhtFormL
         ThrowUtils.hasText(password, () -> new BasicAuthenticationException("参数错误：密码不能为空"));
         ThrowUtils.hasText(captchaKey, () -> new BasicAuthenticationException("参数错误：验证码key不能为空"));
         ThrowUtils.hasText(captchaCode, () -> new BasicAuthenticationException("参数错误：验证码不能为空"));
-        iCaptchaService.checkCaptcha(captchaKey, captchaCode, CaptchaBusinessTypeEnums.SSO);
+        iCaptchaService.checkCaptcha(captchaKey, captchaCode, CaptchaBusinessTypeEnum.SSO);
     }
 
 

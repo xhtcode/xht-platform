@@ -6,7 +6,7 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.admin.system.dao.SysUserRoleDao;
 import com.xht.modules.admin.system.dao.mapper.SysUserRoleMapper;
 import com.xht.modules.admin.system.entity.SysUserRoleEntity;
-import com.xht.modules.admin.system.enums.RoleStatusEnums;
+import com.xht.modules.admin.system.enums.RoleStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +49,7 @@ public class SysUserRoleDaoImpl extends MapperRepositoryImpl<SysUserRoleMapper, 
      */
     @Override
     public List<Long> getRoleId(String userId) {
-        return baseMapper.selectRoleIdByUserId(RoleStatusEnums.NORMAL, userId);
+        return baseMapper.selectRoleIdByUserId(RoleStatusEnum.NORMAL, userId);
     }
 
     /**

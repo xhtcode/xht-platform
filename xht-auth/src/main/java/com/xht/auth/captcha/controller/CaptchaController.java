@@ -1,7 +1,7 @@
 package com.xht.auth.captcha.controller;
 
 import com.xht.auth.captcha.domain.response.CaptchaResponse;
-import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnums;
+import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnum;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.security.annotation.IgnoreAuth;
@@ -39,7 +39,7 @@ public class CaptchaController {
     @PostMapping("/sso/login/captcha")
     @Operation(summary = "获取sso登录验证码", description = "生成并获取sso登录验证码图片")
     public R<CaptchaResponse> ssoCaptcha(@RequestParam(value = REQUEST_CAPTCHA_CODE_KEY, required = false) String captchaKey) {
-        return R.ok().build(captchaService.generateCaptcha(captchaKey, CaptchaBusinessTypeEnums.SSO));
+        return R.ok().build(captchaService.generateCaptcha(captchaKey, CaptchaBusinessTypeEnum.SSO));
     }
 
     /**
@@ -56,7 +56,7 @@ public class CaptchaController {
     @PostMapping("/sso/login/smsCode")
     @Operation(summary = "生成sso手机号验证码", description = "生成sso手机号验证码")
     public R<Void> ssoPhoneCaptcha(@RequestParam(value = "phone") String phone) {
-        captchaService.getPhoneCaptcha(phone, CaptchaBusinessTypeEnums.SSO);
+        captchaService.getPhoneCaptcha(phone, CaptchaBusinessTypeEnum.SSO);
         return R.ok().build();
     }
 
@@ -75,7 +75,7 @@ public class CaptchaController {
     @PostMapping("/oauth2/login/captcha")
     @Operation(summary = "获取oauth2登录验证码", description = "生成并获取oauth2登录验证码图片")
     public R<CaptchaResponse> oauth2Captcha(@RequestParam(value = REQUEST_CAPTCHA_CODE_KEY, required = false) String captchaKey) {
-        return R.ok().build(captchaService.generateCaptcha(captchaKey, CaptchaBusinessTypeEnums.OAUTH2));
+        return R.ok().build(captchaService.generateCaptcha(captchaKey, CaptchaBusinessTypeEnum.OAUTH2));
     }
 
     /**
@@ -92,7 +92,7 @@ public class CaptchaController {
     @PostMapping("/oauth2/login/smsCode")
     @Operation(summary = "生成oauth2手机号验证码", description = "生成oauth2手机号验证码")
     public R<Void> oauth2PhoneCaptcha(@RequestParam(value = "phone") String phone) {
-        captchaService.getPhoneCaptcha(phone, CaptchaBusinessTypeEnums.OAUTH2);
+        captchaService.getPhoneCaptcha(phone, CaptchaBusinessTypeEnum.OAUTH2);
         return R.ok().build();
     }
 

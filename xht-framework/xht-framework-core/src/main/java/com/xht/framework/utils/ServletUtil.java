@@ -8,7 +8,7 @@ import cn.hutool.core.map.CaseInsensitiveMap;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-import com.xht.framework.common.enums.CharacterEnums;
+import com.xht.framework.common.enums.CharacterEnum;
 import com.xht.framework.jackson.JsonUtils;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.Cookie;
@@ -288,7 +288,7 @@ public final class ServletUtil {
             // 允许自定义请求头token(允许head跨域)
             response.setHeader("Access-Control-Allow-Headers", "token, Accept, Origin, X-Requested-With, Content-Type, Last-Modified");
             response.setContentType("application/json;charset=UTF-8");
-            response.setCharacterEncoding(CharacterEnums.UTF_8.getValue());
+            response.setCharacterEncoding(CharacterEnum.UTF_8.getValue());
             writer = response.getWriter();
             writer.write(JsonUtils.toJsonString(obj));
             writer.flush();

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.modules.admin.notice.enums.NoticeTypeStatusEnums;
+import com.xht.modules.admin.notice.enums.NoticeTypeStatusEnum;
 import lombok.Data;
 
 /**
@@ -33,7 +33,7 @@ public class SysNoticeTypeEntity extends BasicEntity {
      * 通知类型状态(0:未启用1:启用)
      */
     @TableField(value = "notice_type_status")
-    private NoticeTypeStatusEnums noticeTypeStatus;
+    private NoticeTypeStatusEnum noticeTypeStatus;
 
     /**
      * 通知排序

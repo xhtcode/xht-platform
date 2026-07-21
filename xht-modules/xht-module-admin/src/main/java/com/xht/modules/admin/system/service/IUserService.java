@@ -1,7 +1,7 @@
 package com.xht.modules.admin.system.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.common.enums.UserStatusEnums;
+import com.xht.framework.common.enums.UserStatusEnum;
 import com.xht.framework.utils.tree.INode;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
@@ -61,7 +61,7 @@ public interface IUserService {
      * @param userId 用户 ID
      * @param status 状态
      */
-    void updateStatus(Long userId, UserStatusEnums status);
+    void updateStatus(Long userId, UserStatusEnum status);
 
     /**
      * 获取当前登录的用户信息

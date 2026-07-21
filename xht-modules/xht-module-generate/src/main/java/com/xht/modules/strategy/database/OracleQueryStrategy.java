@@ -1,7 +1,7 @@
 package com.xht.modules.strategy.database;
 
 import com.xht.framework.exception.utils.ThrowUtils;
-import com.xht.modules.common.enums.DataBaseTypeEnums;
+import com.xht.modules.common.enums.DataBaseTypeEnum;
 import com.xht.modules.generate.domain.bo.ColumnBo;
 import com.xht.modules.generate.domain.bo.TableBo;
 import com.xht.modules.sql.ColumnInfoRowMapper;
@@ -125,10 +125,10 @@ public class OracleQueryStrategy extends IDataBaseQuery {
     /**
      * 支持的解析类型
      *
-     * @return 解析类型枚举 {@link DataBaseTypeEnums}
+     * @return 解析类型枚举 {@link DataBaseTypeEnum}
      */
     @Override
-    public DataBaseTypeEnums support() {
-        return DataBaseTypeEnums.ORACLE;
+    public DataBaseTypeEnum support() {
+        return DataBaseTypeEnum.ORACLE;
     }
 }

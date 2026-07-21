@@ -4,8 +4,8 @@ import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.system.domain.form.SysMenuForm;
 import com.xht.modules.admin.system.domain.query.SysMenuQuery;
 import com.xht.modules.admin.system.entity.SysMenuEntity;
-import com.xht.modules.admin.system.enums.MenuStatusEnums;
-import com.xht.modules.admin.system.enums.MenuTypeEnums;
+import com.xht.modules.admin.system.enums.MenuStatusEnum;
+import com.xht.modules.admin.system.enums.MenuTypeEnum;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public interface SysMenuDao extends MapperRepository<SysMenuEntity> {
      * @param id     菜单ID
      * @param status 菜单状态
      */
-    void updateStatus(Long id, MenuStatusEnums status);
+    void updateStatus(Long id, MenuStatusEnum status);
 
     /**
      * 判断菜单ID是否存在
@@ -45,7 +45,7 @@ public interface SysMenuDao extends MapperRepository<SysMenuEntity> {
      * @param menuId 菜单ID
      * @return 只返回菜单类型
      */
-    MenuTypeEnums getMenuType(Long menuId);
+    MenuTypeEnum getMenuType(Long menuId);
 
     /**
      * 根据查询条件获取菜单列表

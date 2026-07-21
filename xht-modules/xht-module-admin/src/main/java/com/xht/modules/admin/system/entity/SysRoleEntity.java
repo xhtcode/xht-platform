@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.modules.admin.system.enums.ImportRoleTypeEnums;
-import com.xht.modules.admin.system.enums.RoleStatusEnums;
+import com.xht.modules.admin.system.enums.RoleTypeEnums;
+import com.xht.modules.admin.system.enums.RoleStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -42,13 +42,13 @@ public class SysRoleEntity extends BasicEntity implements Serializable {
      * 状态（0正常 1停用）
      */
     @TableField(value = "role_status")
-    private RoleStatusEnums roleStatus;
+    private RoleStatusEnum roleStatus;
 
     /**
      *创建用户时默认导入的角色
      */
-    @TableField(value = "import_role_type")
-    private ImportRoleTypeEnums importRoleType;
+    @TableField(value = "role_type")
+    private RoleTypeEnums importRoleType;
 
     /**
      * 显示顺序

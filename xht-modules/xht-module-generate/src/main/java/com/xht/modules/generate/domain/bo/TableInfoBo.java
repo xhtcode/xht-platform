@@ -3,8 +3,8 @@ package com.xht.modules.generate.domain.bo;
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.framework.utils.StringUtils;
-import com.xht.modules.common.enums.GenStatusEnums;
-import com.xht.modules.common.enums.IdPrimaryKeyEnums;
+import com.xht.modules.common.enums.GenStatusEnum;
+import com.xht.modules.common.enums.IdPrimaryKeyEnum;
 import com.xht.modules.generate.entity.GenTableColumnEntity;
 import com.xht.modules.generate.entity.GenTableColumnQueryEntity;
 import com.xht.modules.generate.entity.GenTableEntity;
@@ -87,7 +87,7 @@ public final class TableInfoBo {
         Map<Long, GenTableColumnEntity> allColumnsById = new HashMap<>();
         for (GenTableColumnEntity column : columns) {
             allColumnsById.put(column.getId(), column);
-            if (Objects.equals(column.getDbPrimary(), IdPrimaryKeyEnums.YES)) {
+            if (Objects.equals(column.getDbPrimary(), IdPrimaryKeyEnum.YES)) {
                 this.pkColumn = column;
             }
         }
@@ -149,21 +149,21 @@ public final class TableInfoBo {
             if (StringUtils.isEmpty(column.getCodeJavaPackage())) {
                 this.packages.add(column.getCodeJavaPackage());
             }
-            if (Objects.equals(column.getFromInsert(), GenStatusEnums.YES) || Objects.equals(column.getFromUpdate(), GenStatusEnums.YES)) {
+            if (Objects.equals(column.getFromInsert(), GenStatusEnum.YES) || Objects.equals(column.getFromUpdate(), GenStatusEnum.YES)) {
                 this.formColumns.add(column);
                 if (StringUtils.isEmpty(column.getCodeJavaPackage())) {
                     this.formColumnsPackage.add(column.getCodeJavaPackage());
                 }
-                if (!Objects.equals(column.getListShow(), GenStatusEnums.YES) && Objects.equals(column.getDbPrimary(), IdPrimaryKeyEnums.NO)) {
+                if (!Objects.equals(column.getListShow(), GenStatusEnum.YES) && Objects.equals(column.getDbPrimary(), IdPrimaryKeyEnum.NO)) {
                     this.formListDifferenceColumns.add(column);
                 }
             }
-            if (Objects.equals(column.getListShow(), GenStatusEnums.YES)) {
+            if (Objects.equals(column.getListShow(), GenStatusEnum.YES)) {
                 this.listColumns.add(column);
                 if (StringUtils.isEmpty(column.getCodeJavaPackage())) {
                     this.listColumnsPackage.add(column.getCodeJavaPackage());
                 }
-                if (!(Objects.equals(column.getFromInsert(), GenStatusEnums.YES) || Objects.equals(column.getFromUpdate(), GenStatusEnums.YES)) && Objects.equals(column.getDbPrimary(), IdPrimaryKeyEnums.NO)) {
+                if (!(Objects.equals(column.getFromInsert(), GenStatusEnum.YES) || Objects.equals(column.getFromUpdate(), GenStatusEnum.YES)) && Objects.equals(column.getDbPrimary(), IdPrimaryKeyEnum.NO)) {
                     this.formListDifferenceColumns.add(column);
                 }
             }
@@ -229,22 +229,22 @@ public final class TableInfoBo {
         columnMap.put("id", tableColumn.getId());
         columnMap.put("dbName", tableColumn.getDbName());
         columnMap.put("dbType", tableColumn.getDbType());
-        columnMap.put("dbPrimary", Objects.equals(IdPrimaryKeyEnums.YES, tableColumn.getDbPrimary()));
-        columnMap.put("dbRequired", Objects.equals(GenStatusEnums.YES, tableColumn.getDbRequired()));
+        columnMap.put("dbPrimary", Objects.equals(IdPrimaryKeyEnum.YES, tableColumn.getDbPrimary()));
+        columnMap.put("dbRequired", Objects.equals(GenStatusEnum.YES, tableColumn.getDbRequired()));
         columnMap.put("dbComment", tableColumn.getDbComment());
         columnMap.put("dbLength", tableColumn.getDbLength());
         columnMap.put("codeName", StrUtil.lowerFirst(tableColumn.getCodeName()));
         columnMap.put("codeNameUpperFirst", StrUtil.upperFirst(tableColumn.getCodeName()));
         columnMap.put("codeComment", tableColumn.getCodeComment());
-        columnMap.put("fromInsert", Objects.equals(GenStatusEnums.YES, tableColumn.getFromInsert()));
-        columnMap.put("fromUpdate", Objects.equals(GenStatusEnums.YES, tableColumn.getFromUpdate()));
+        columnMap.put("fromInsert", Objects.equals(GenStatusEnum.YES, tableColumn.getFromInsert()));
+        columnMap.put("fromUpdate", Objects.equals(GenStatusEnum.YES, tableColumn.getFromUpdate()));
         columnMap.put("fromLength", tableColumn.getFromLength());
-        columnMap.put("fromFill", Objects.equals(GenStatusEnums.YES, tableColumn.getFromFill()));
+        columnMap.put("fromFill", Objects.equals(GenStatusEnum.YES, tableColumn.getFromFill()));
         columnMap.put("fromComponent", tableColumn.getFromComponent());
-        columnMap.put("listShow", Objects.equals(GenStatusEnums.YES, tableColumn.getListShow()));
-        columnMap.put("listDisabled", Objects.equals(GenStatusEnums.YES, tableColumn.getListDisabled()));
-        columnMap.put("listHidden", Objects.equals(GenStatusEnums.YES, tableColumn.getListHidden()));
-        columnMap.put("listSortable", Objects.equals(GenStatusEnums.YES, tableColumn.getListSortable()));
+        columnMap.put("listShow", Objects.equals(GenStatusEnum.YES, tableColumn.getListShow()));
+        columnMap.put("listDisabled", Objects.equals(GenStatusEnum.YES, tableColumn.getListDisabled()));
+        columnMap.put("listHidden", Objects.equals(GenStatusEnum.YES, tableColumn.getListHidden()));
+        columnMap.put("listSortable", Objects.equals(GenStatusEnum.YES, tableColumn.getListSortable()));
         columnMap.put("codeJava", tableColumn.getCodeJava());
         columnMap.put("codeJavaPackage", tableColumn.getCodeJavaPackage());
         columnMap.put("codeTs", tableColumn.getCodeTs());

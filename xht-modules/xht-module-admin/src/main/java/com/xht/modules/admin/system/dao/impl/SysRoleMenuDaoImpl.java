@@ -7,7 +7,7 @@ import com.xht.modules.admin.system.dao.SysRoleMenuDao;
 import com.xht.modules.admin.system.dao.mapper.SysRoleMenuMapper;
 import com.xht.modules.admin.system.domain.response.SysMenuResponse;
 import com.xht.modules.admin.system.entity.SysRoleMenuEntity;
-import com.xht.modules.admin.system.enums.MenuStatusEnums;
+import com.xht.modules.admin.system.enums.MenuStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +51,7 @@ public class SysRoleMenuDaoImpl extends MapperRepositoryImpl<SysRoleMenuMapper, 
      */
     @Override
     public List<Long> findMenuIdByRoleId(String roleId) {
-        return baseMapper.selectMenuIdByRoleId(MenuStatusEnums.NORMAL, roleId);
+        return baseMapper.selectMenuIdByRoleId(MenuStatusEnum.NORMAL, roleId);
     }
 
     /**

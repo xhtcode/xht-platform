@@ -1,9 +1,9 @@
 package com.xht.modules.admin.system.domain.response;
 
 import com.xht.framework.common.domain.response.MetaResponse;
-import com.xht.modules.admin.system.enums.MenuCommonStatus;
-import com.xht.modules.admin.system.enums.MenuStatusEnums;
-import com.xht.modules.admin.system.enums.MenuTypeEnums;
+import com.xht.modules.admin.system.enums.MenuCommonStatusEnum;
+import com.xht.modules.admin.system.enums.MenuStatusEnum;
+import com.xht.modules.admin.system.enums.MenuTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -31,7 +31,7 @@ public class SysMenuResponse extends MetaResponse {
      * 类型
      */
     @Schema(description = "菜单类型")
-    private MenuTypeEnums menuType;
+    private MenuTypeEnum menuType;
 
     /**
      * 菜单名称
@@ -55,19 +55,19 @@ public class SysMenuResponse extends MetaResponse {
      * 显示状态 (0显示 1隐藏)
      */
     @Schema(description = "显示状态 (0显示 1隐藏)")
-    private MenuCommonStatus menuHidden;
+    private MenuCommonStatusEnum menuHidden;
 
     /**
      * 是否缓存 （0是 1否）
      */
     @Schema(description = "是否缓存 （0是 1否）")
-    private MenuCommonStatus menuCache;
+    private MenuCommonStatusEnum menuCache;
 
     /**
      * 菜单状态 （0正常 1停用）
      */
     @Schema(description = "菜单状态 （0正常 1停用）")
-    private MenuStatusEnums menuStatus;
+    private MenuStatusEnum menuStatus;
 
     /**
      * 菜单权限字符串
@@ -103,12 +103,12 @@ public class SysMenuResponse extends MetaResponse {
      * 固定状态
      */
     @Schema(description = "固定状态")
-    private MenuCommonStatus affixStatus;
+    private MenuCommonStatusEnum affixStatus;
 
     /**
      * 是否为外链
      */
     @Schema(description = "是否为外链")
-    private MenuCommonStatus frameFlag;
+    private MenuCommonStatusEnum frameFlag;
 
 }

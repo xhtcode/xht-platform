@@ -2,9 +2,9 @@ package com.xht.modules.admin.login.manager;
 
 import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.common.domain.form.BasicForm;
-import com.xht.framework.common.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnum;
+import com.xht.framework.core.blog.enums.LogStatusEnum;
 import com.xht.framework.core.properties.XhtConfigProperties;
-import com.xht.framework.core.blog.enums.LogStatusEnums;
 import com.xht.framework.utils.IpUtils;
 import com.xht.framework.utils.ServletUtil;
 import com.xht.framework.utils.mdc.TraceIdUtils;
@@ -43,7 +43,7 @@ public class LoginManager {
                              BasicForm basicForm, AbstractOauth2Response oauth2TokenResponse) {
         try {
             SysLoginLogEntity logEntity = buildBaseLogEntity(request, userName, basicForm, oauth2TokenResponse);
-            logEntity.setLoginStatus(LogStatusEnums.NORMAL);
+            logEntity.setLoginStatus(LogStatusEnum.NORMAL);
             logEntity.setAccessToken(acctToken);
             saveLog(logEntity);
         } catch (Exception e) {
@@ -58,7 +58,7 @@ public class LoginManager {
                                  AbstractOauth2Response oauth2TokenResponse, String loginFailReason) {
         try {
             SysLoginLogEntity logEntity = buildBaseLogEntity(request, userName, basicForm, oauth2TokenResponse);
-            logEntity.setLoginStatus(LogStatusEnums.ERROR);
+            logEntity.setLoginStatus(LogStatusEnum.ERROR);
             logEntity.setLoginFailReason(loginFailReason);
             saveLog(logEntity);
         } catch (Exception e) {
@@ -83,12 +83,12 @@ public class LoginManager {
     /**
      * 获取登录类型（密码/短信）
      */
-    private LoginTypeEnums getLoginType(BasicForm basicForm) {
+    private LoginTypeEnum getLoginType(BasicForm basicForm) {
         if (basicForm instanceof PasswordLoginForm) {
-            return LoginTypeEnums.PASSWORD;
+            return LoginTypeEnum.PASSWORD;
         }
         if (basicForm instanceof PhoneLoginForm) {
-            return LoginTypeEnums.PHONE;
+            return LoginTypeEnum.PHONE;
         }
         return null;
     }

@@ -1,8 +1,8 @@
 package com.xht.modules.admin.dict.domain.response;
 
 import com.xht.framework.common.domain.response.MetaResponse;
-import com.xht.modules.admin.dict.enums.DictShowDisabledEnums;
-import com.xht.modules.admin.dict.enums.DictStatusEnums;
+import com.xht.modules.admin.dict.enums.DictShowDisabledEnum;
+import com.xht.modules.admin.dict.enums.DictStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -46,12 +46,12 @@ public class SysDictResponse extends MetaResponse {
      * 状态(1:启用 0:禁用)
      */
     @Schema(description = "状态（1: 启用 0: 禁用）")
-    private DictStatusEnums status;
+    private DictStatusEnum status;
 
     /**
      * 子节点是否显示禁用状态
      */
     @Schema(description = "子节点是否显示禁用状态")
-    private DictShowDisabledEnums showDisabled;
+    private DictShowDisabledEnum showDisabled;
 
 }

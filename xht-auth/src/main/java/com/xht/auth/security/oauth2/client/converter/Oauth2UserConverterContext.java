@@ -3,7 +3,7 @@ package com.xht.auth.security.oauth2.client.converter;
 import com.xht.auth.authentication.entity.Oauth2ThirdAccountEntity;
 import com.xht.auth.constant.Oauth2PlatformEnums;
 import com.xht.framework.cache.repository.RedisRepository;
-import com.xht.framework.common.enums.UserTypeEnums;
+import com.xht.framework.common.enums.UserTypeEnum;
 import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
@@ -59,7 +59,7 @@ public class Oauth2UserConverterContext {
         if (Objects.nonNull(accountEntity)) {
             OAuth2AccessToken accessToken = userRequest.getAccessToken();
             redisRepository.set(accountEntity.getOpenId(), accessToken.getTokenValue());
-            return new BasicUserDetails(accountEntity.getUserId(), UserTypeEnums.USER,
+            return new BasicUserDetails(accountEntity.getUserId(), UserTypeEnum.USER,
                     accountEntity.getNickName(), accountEntity.getNickName(), null,new HashSet<>());
         }
         throw new OAuth2AuthenticationException("oauth2UserConverterStrategy not found");

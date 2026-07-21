@@ -1,6 +1,6 @@
 package com.xht.auth.security.web.authentication;
 
-import com.xht.framework.common.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnum;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.utils.PassWordUtils;
@@ -94,8 +94,8 @@ public abstract class AbstractXhtLoginAuthenticationProvider<T extends AbstractX
      * @throws AuthenticationException 当凭据为空或密码不匹配时抛出异常
      */
     private void additionalAuthenticationChecks(UserDetails userDetails, T authentication) throws AuthenticationException {
-        LoginTypeEnums loginType = authentication.getLoginType();
-        if (Objects.equals(loginType, LoginTypeEnums.PHONE)) {
+        LoginTypeEnum loginType = authentication.getLoginType();
+        if (Objects.equals(loginType, LoginTypeEnum.PHONE)) {
             return;
         }
         if (authentication.getCredentials() == null) {

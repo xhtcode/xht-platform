@@ -5,7 +5,7 @@ import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.common.constant.StringConstant;
 import com.xht.framework.core.blog.dto.BLogDTO;
 import com.xht.framework.jackson.JsonUtils;
-import com.xht.framework.core.blog.enums.LogStatusEnums;
+import com.xht.framework.core.blog.enums.LogStatusEnum;
 import com.xht.framework.utils.IpUtils;
 import com.xht.framework.utils.ServletUtil;
 import com.xht.framework.utils.mdc.TraceIdUtils;
@@ -82,9 +82,9 @@ public class BLogAspect {
             obj = point.proceed();
             bLogDTO.setClassMethod(decorateMethodName(className, methodName));
             bLogDTO.setRequestParams(getRequestParams(parameterNames, args));
-            bLogDTO.setExecuteStatus(LogStatusEnums.NORMAL);
+            bLogDTO.setExecuteStatus(LogStatusEnum.NORMAL);
         } catch (Exception e) {
-            bLogDTO.setExecuteStatus(LogStatusEnums.ERROR);
+            bLogDTO.setExecuteStatus(LogStatusEnum.ERROR);
             bLogDTO.setExecuteException(e.getMessage());
             throw e;
         } finally {

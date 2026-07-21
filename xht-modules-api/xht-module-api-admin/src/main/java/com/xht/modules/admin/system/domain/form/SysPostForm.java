@@ -2,7 +2,7 @@ package com.xht.modules.admin.system.domain.form;
 
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
-import com.xht.modules.admin.system.enums.DeptPostStatusEnums;
+import com.xht.modules.admin.system.enums.DeptPostStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -58,7 +58,7 @@ public class SysPostForm extends BasicForm {
      */
     @NotNull(message = "岗位状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "岗位状态")
-    private DeptPostStatusEnums postStatus;
+    private DeptPostStatusEnum postStatus;
 
     /**
      * 岗位描述，可以为空但不超过255个字符

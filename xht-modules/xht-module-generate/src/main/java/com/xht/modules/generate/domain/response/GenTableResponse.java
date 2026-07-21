@@ -2,8 +2,8 @@ package com.xht.modules.generate.domain.response;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.xht.framework.common.domain.response.MetaResponse;
-import com.xht.modules.common.enums.DataBaseTypeEnums;
-import com.xht.modules.common.enums.PageStyleEnums;
+import com.xht.modules.common.enums.DataBaseTypeEnum;
+import com.xht.modules.common.enums.PageStyleEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -40,7 +40,7 @@ public class GenTableResponse extends MetaResponse {
      * 数据库类型
      */
     @Schema(description = "数据库类型")
-    private DataBaseTypeEnums dataBaseType;
+    private DataBaseTypeEnum dataBaseType;
 
     /**
      * 引擎名称
@@ -130,7 +130,7 @@ public class GenTableResponse extends MetaResponse {
      * 页面风格
      */
     @Schema(description = "页面风格")
-    private PageStyleEnums pageStyle;
+    private PageStyleEnum pageStyle;
 
     /**
      * 页面宽度

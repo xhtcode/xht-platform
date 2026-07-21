@@ -1,6 +1,6 @@
 package com.xht.auth.security.web.authentication.qr.domain.response;
 
-import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnums;
+import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnum;
 import lombok.Data;
 
 /**
@@ -15,7 +15,7 @@ public class QrCodeLoginFetchResponse {
      * 二维码状态
      * 0:待扫描，1:已扫描，2:已确认
      */
-    private QrCodeStatusEnums qrCodeStatus;
+    private QrCodeStatusEnum qrCodeStatus;
 
     /**
      * 扫描人昵称

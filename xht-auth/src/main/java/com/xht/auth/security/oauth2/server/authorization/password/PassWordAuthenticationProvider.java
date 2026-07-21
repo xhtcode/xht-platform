@@ -1,10 +1,10 @@
 package com.xht.auth.security.oauth2.server.authorization.password;
 
-import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnums;
+import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnum;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.constant.CustomAuthorizationGrantType;
 import com.xht.auth.security.oauth2.server.authorization.AbstractAuthenticationProvider;
-import com.xht.framework.common.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnum;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.domain.RequestUserBO;
@@ -61,8 +61,8 @@ public class PassWordAuthenticationProvider extends AbstractAuthenticationProvid
     protected BasicUserDetails getAuthenticatedPrincipal(RequestUserBO requestUserBO, Authentication authentication) {
         requestUserBO.checkUserName();
         requestUserBO.checkPassWord();
-        iCaptchaService.checkCaptcha(requestUserBO.generateCaptchaKey(), requestUserBO.getCaptcha(), CaptchaBusinessTypeEnums.OAUTH2);
-        BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnums.PASSWORD);
+        iCaptchaService.checkCaptcha(requestUserBO.generateCaptchaKey(), requestUserBO.getCaptcha(), CaptchaBusinessTypeEnum.OAUTH2);
+        BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnum.PASSWORD);
         basicUserDetailsService.validate(requestUserBO, basicUserDetails, true);
         return basicUserDetails;
     }

@@ -2,8 +2,8 @@ package com.xht.modules.generate.domain.form;
 
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
-import com.xht.modules.common.enums.GenStatusEnums;
-import com.xht.modules.common.enums.IdPrimaryKeyEnums;
+import com.xht.modules.common.enums.GenStatusEnum;
+import com.xht.modules.common.enums.IdPrimaryKeyEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -62,14 +62,14 @@ public class GenColumnInfoForm extends BasicForm {
      */
     @NotNull(message = "字段主键不能为空")
     @Schema(description = "字段主键：0-非主键，1-主键")
-    private IdPrimaryKeyEnums dbPrimary;
+    private IdPrimaryKeyEnum dbPrimary;
 
     /**
      * 字段必填：0-非必填，1-必填
      */
     @NotNull(message = "字段必填不能为空")
     @Schema(description = "字段必填：0-非必填，1-必填")
-    private GenStatusEnums dbRequired;
+    private GenStatusEnum dbRequired;
 
     /**
      * 字段注释
@@ -104,14 +104,14 @@ public class GenColumnInfoForm extends BasicForm {
      */
     @NotNull(message = "表单新增不能为空")
     @Schema(description = "表单新增")
-    private GenStatusEnums fromInsert;
+    private GenStatusEnum fromInsert;
 
     /**
      * 表单更新：0-不显示，1-显示
      */
     @NotNull(message = "表单更新不能为空")
     @Schema(description = "表单更新")
-    private GenStatusEnums fromUpdate;
+    private GenStatusEnum fromUpdate;
 
     /**
      * 表单输入长度
@@ -125,7 +125,7 @@ public class GenColumnInfoForm extends BasicForm {
      */
     @NotNull(message = "表单必填不能为空")
     @Schema(description = "表单必填：0-非必填，1-必填")
-    private GenStatusEnums fromFill;
+    private GenStatusEnum fromFill;
 
     /**
      * 表单组件
@@ -139,28 +139,28 @@ public class GenColumnInfoForm extends BasicForm {
      */
     @NotNull(message = "列表显示不能为空")
     @Schema(description = "列表显示：0-不显示，1-显示")
-    private GenStatusEnums listShow;
+    private GenStatusEnum listShow;
 
     /**
      * 显示切换禁用：0-不禁用，1-禁用
      */
     @NotNull(message = "显示切换禁用不能为空")
     @Schema(description = "显示切换禁用：0-不禁用，1-禁用")
-    private GenStatusEnums listDisabled;
+    private GenStatusEnum listDisabled;
 
     /**
      * 默认隐藏：0-不隐藏，1-隐藏
      */
     @NotNull(message = "默认隐藏不能为空")
     @Schema(description = "默认隐藏：0-不隐藏，1-隐藏")
-    private GenStatusEnums listHidden;
+    private GenStatusEnum listHidden;
 
     /**
      * 字段排序
      */
     @NotNull(message = "字段排序不能为空")
     @Schema(description = "字段排序")
-    private GenStatusEnums listSortable;
+    private GenStatusEnum listSortable;
 
     /**
      * java类型

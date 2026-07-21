@@ -6,8 +6,8 @@ import com.xht.modules.admin.notice.domain.query.SysMessageQuery;
 import com.xht.modules.admin.notice.domain.response.SysMessageResponse;
 import com.xht.modules.admin.notice.domain.vo.MessageInfoVO;
 import com.xht.modules.admin.notice.domain.vo.MessagePageVO;
-import com.xht.modules.admin.notice.enums.MessageStarEnums;
-import com.xht.modules.admin.notice.enums.MessageTopEnums;
+import com.xht.modules.admin.notice.enums.MessageStarEnum;
+import com.xht.modules.admin.notice.enums.MessageTopEnum;
 import com.xht.framework.core.message.core.MessagePayload;
 
 /**
@@ -39,16 +39,16 @@ public interface ISysMessageService {
     /**
      * 收藏站内信（收件人侧）
      * @param messageId 站内信ID
-     * @param messageStarEnums  站内信收藏枚举
+     * @param messageStarEnum  站内信收藏枚举
      */
-    void updateStartById(Long messageId, MessageStarEnums messageStarEnums);
+    void updateStartById(Long messageId, MessageStarEnum messageStarEnum);
 
     /**
      * 置顶站内信（收件人侧）
      * @param messageId 站内信ID
-     * @param messageTopEnums  站内信置顶枚举
+     * @param messageTopEnum  站内信置顶枚举
      */
-    void updateTopById(Long messageId, MessageTopEnums messageTopEnums);
+    void updateTopById(Long messageId, MessageTopEnum messageTopEnum);
 
     /**
      * 删除站内信（收件人侧）

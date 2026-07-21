@@ -1,7 +1,7 @@
 package com.xht.framework.oauth2.handler;
 
 import cn.hutool.core.util.ArrayUtil;
-import com.xht.framework.common.enums.UserTypeEnums;
+import com.xht.framework.common.enums.UserTypeEnum;
 import com.xht.framework.utils.ServletUtil;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
@@ -26,7 +26,7 @@ public class PermissionCheckHandler {
      */
     public boolean isAdmin() {
         BasicUserDetails user = SecurityUtils.getUser();
-        return UserTypeEnums.isAdmin(user.getUserType());
+        return UserTypeEnum.isAdmin(user.getUserType());
     }
 
 
@@ -38,7 +38,7 @@ public class PermissionCheckHandler {
      */
     public boolean hasRoleCode(String... roleCodes) {
         BasicUserDetails user = SecurityUtils.getUser();
-        if (UserTypeEnums.isAdmin(user.getUserType())) {
+        if (UserTypeEnum.isAdmin(user.getUserType())) {
             return true;
         }
         if (ArrayUtil.isEmpty(roleCodes)) {
@@ -57,7 +57,7 @@ public class PermissionCheckHandler {
      */
     public boolean hasMenuCode(String... menuCodes) {
         BasicUserDetails user = SecurityUtils.getUser();
-        if (UserTypeEnums.isAdmin(user.getUserType())) {
+        if (UserTypeEnum.isAdmin(user.getUserType())) {
             return true;
         }
         if (ArrayUtil.isEmpty(menuCodes)) {

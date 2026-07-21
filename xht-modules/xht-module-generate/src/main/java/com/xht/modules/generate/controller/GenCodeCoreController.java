@@ -3,7 +3,7 @@ package com.xht.modules.generate.controller;
 import cn.hutool.core.io.IoUtil;
 import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.common.domain.R;
-import com.xht.framework.common.enums.CharacterEnums;
+import com.xht.framework.common.enums.CharacterEnum;
 import com.xht.modules.generate.domain.form.GenCodeCoreForm;
 import com.xht.modules.generate.domain.vo.GenCodeCoreVO;
 import com.xht.modules.generate.service.IGenCodeCoreService;
@@ -47,7 +47,7 @@ public class GenCodeCoreController {
     public void generateCode(@Validated @RequestBody GenCodeCoreForm genCodeCoreForm, HttpServletResponse response) throws IOException {
         byte[] bytes = genCodeCoreService.generateCode(genCodeCoreForm);
         response.reset();
-        String fileName = String.format("%s.zip", URLEncoder.encode("代码下载", CharacterEnums.UTF_8.getValue()));
+        String fileName = String.format("%s.zip", URLEncoder.encode("代码下载", CharacterEnum.UTF_8.getValue()));
         response.setHeader(HttpConstants.Header.DOWNLOAD_FILE.getValue(), fileName);
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=%s", fileName));
         response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(bytes.length));

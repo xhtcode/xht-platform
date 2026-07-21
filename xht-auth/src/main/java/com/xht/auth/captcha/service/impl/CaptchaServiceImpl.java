@@ -2,7 +2,7 @@ package com.xht.auth.captcha.service.impl;
 
 import com.xht.auth.authentication.dao.IAuthenticationDao;
 import com.xht.auth.captcha.domain.response.CaptchaResponse;
-import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnums;
+import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnum;
 import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.auth.captcha.handler.captcha.ArithmeticCaptcha;
 import com.xht.auth.captcha.service.ICaptchaService;
@@ -50,7 +50,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
      * @return CaptchaResponse 验证码响应对象，包含验证码图片的Base64编码和验证码key
      */
     @Override
-    public CaptchaResponse generateCaptcha(String captchaKey, CaptchaBusinessTypeEnums captchaBusinessType) {
+    public CaptchaResponse generateCaptcha(String captchaKey, CaptchaBusinessTypeEnum captchaBusinessType) {
         String removeKey = Keys.createKey(REDIS_CAPTCHA_CODE_KEY_PREFIX, captchaBusinessType.getValue(), captchaKey);
         removeCaptcha(removeKey);
         String id = IdUtils.simpleUUID();
@@ -76,7 +76,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
      * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景
      */
     @Override
-    public void checkCaptcha(String requestKey, String requestCaptcha, CaptchaBusinessTypeEnums captchaBusinessType) {
+    public void checkCaptcha(String requestKey, String requestCaptcha, CaptchaBusinessTypeEnum captchaBusinessType) {
         String cacheKey = null;
         try {
             if (true){
@@ -114,7 +114,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
      * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景
      */
     @Override
-    public void getPhoneCaptcha(String phone, CaptchaBusinessTypeEnums captchaBusinessType) {
+    public void getPhoneCaptcha(String phone, CaptchaBusinessTypeEnum captchaBusinessType) {
         if (!SmsUtils.validMobilePhone(phone)) {
             throw new SmsException("无效的手机号格式");
         }
@@ -145,7 +145,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
      * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景
      */
     @Override
-    public void checkPhoneCode(String phone, String captcha, CaptchaBusinessTypeEnums captchaBusinessType) {
+    public void checkPhoneCode(String phone, String captcha, CaptchaBusinessTypeEnum captchaBusinessType) {
         if (!SmsUtils.validMobilePhone(phone)) {
             throw new CaptchaException("无效的手机号格式");
         }
@@ -173,7 +173,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
      * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景
      */
     @Override
-    public void removePhoneCode(String phone, CaptchaBusinessTypeEnums captchaBusinessType) {
+    public void removePhoneCode(String phone, CaptchaBusinessTypeEnum captchaBusinessType) {
         if (StringUtils.hasText(phone)) {
             String captchaKey = Keys.createKey(SecurityConstant.REDIS_PHONE_CODE_KEY_PREFIX, captchaBusinessType.getValue(), phone);
             redisRepository.delete(captchaKey);

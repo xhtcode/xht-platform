@@ -1,7 +1,7 @@
 package com.xht.modules.admin.system.domain.response;
 
 import com.xht.framework.common.domain.response.MetaResponse;
-import com.xht.modules.admin.system.enums.DeptPostStatusEnums;
+import com.xht.modules.admin.system.enums.DeptPostStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -48,7 +48,7 @@ public class SysPostResponse extends MetaResponse {
      * 岗位状态（0正常 1停用）
      */
     @Schema(description = "岗位状态")
-    private DeptPostStatusEnums postStatus;
+    private DeptPostStatusEnum postStatus;
 
     /**
      * 岗位描述

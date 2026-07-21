@@ -1,7 +1,7 @@
 package com.xht.modules.generate.domain.response;
 
 import com.xht.framework.common.domain.response.MetaResponse;
-import com.xht.modules.common.enums.DataBaseTypeEnums;
+import com.xht.modules.common.enums.DataBaseTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -32,7 +32,7 @@ public class GenDataSourceResponse extends MetaResponse {
      * 数据库类型（MySQL/Oracle）
      */
     @Schema(description = "数据库类型")
-    private DataBaseTypeEnums dbType;
+    private DataBaseTypeEnum dbType;
 
     /**
      * 数据库地址

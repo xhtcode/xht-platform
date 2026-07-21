@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.DeleteEntity;
-import com.xht.modules.admin.notice.enums.NoticeOperateTypeEnums;
+import com.xht.modules.admin.notice.enums.NoticeOperateTypeEnum;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -41,7 +41,7 @@ public class SysNoticeUserOperateEntity extends DeleteEntity {
      * 操作类型(1:阅读;2:点击)
      */
     @TableField(value = "operate_type")
-    private NoticeOperateTypeEnums operateType;
+    private NoticeOperateTypeEnum operateType;
 
     /**
      * 操作时间

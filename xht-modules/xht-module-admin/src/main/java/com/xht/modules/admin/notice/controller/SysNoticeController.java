@@ -10,7 +10,7 @@ import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
 import com.xht.modules.admin.notice.domain.vo.NoticeVO;
-import com.xht.modules.admin.notice.enums.NoticeTopEnums;
+import com.xht.modules.admin.notice.enums.NoticeTopEnum;
 import com.xht.modules.admin.notice.service.ISysNoticeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -113,7 +113,7 @@ public class SysNoticeController {
     @BLog(value = "通知管理", description = "根据通知id 置顶")
     @Operation(summary = "根据通知id 置顶")
     @PostMapping("/top/{noticeId}/{isTop}")
-    public R<Void> updateIsTopById(@PathVariable Long noticeId, @PathVariable NoticeTopEnums isTop) {
+    public R<Void> updateIsTopById(@PathVariable Long noticeId, @PathVariable NoticeTopEnum isTop) {
         sysNoticeService.updateIsTopById(noticeId, isTop);
         return R.ok().build();
     }

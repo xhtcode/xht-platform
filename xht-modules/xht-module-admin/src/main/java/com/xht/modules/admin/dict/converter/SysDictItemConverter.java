@@ -5,7 +5,7 @@ import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.response.SysDictItemResponse;
 import com.xht.framework.core.dict.domain.DictVO;
 import com.xht.modules.admin.dict.entity.SysDictItemEntity;
-import com.xht.modules.admin.dict.enums.DictStatusEnums;
+import com.xht.modules.admin.dict.enums.DictStatusEnum;
 import org.mapstruct.*;
 import org.springframework.util.CollectionUtils;
 
@@ -47,8 +47,8 @@ public interface SysDictItemConverter extends BasicConverter<SysDictItemEntity, 
     }
 
     @Named("statusToDisabled")
-    default Boolean statusToDisabled(DictStatusEnums status) {
-        return Objects.equals(status, DictStatusEnums.DISABLE);
+    default Boolean statusToDisabled(DictStatusEnum status) {
+        return Objects.equals(status, DictStatusEnum.DISABLE);
     }
 
 

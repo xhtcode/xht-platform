@@ -5,7 +5,7 @@ import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.dict.domain.form.SysDictItemForm;
 import com.xht.modules.admin.dict.domain.query.SysDictItemQuery;
 import com.xht.modules.admin.dict.entity.SysDictItemEntity;
-import com.xht.modules.admin.dict.enums.DictStatusEnums;
+import com.xht.modules.admin.dict.enums.DictStatusEnum;
 
 import java.util.List;
 
@@ -51,5 +51,5 @@ public interface SysDictItemDao extends MapperRepository<SysDictItemEntity> {
      * @param dictStatus 字典状态
      * @return 字典项列表
      */
-    List<SysDictItemEntity> findByDictCode(String dictCode, DictStatusEnums dictStatus);
+    List<SysDictItemEntity> findByDictCode(String dictCode, DictStatusEnum dictStatus);
 }

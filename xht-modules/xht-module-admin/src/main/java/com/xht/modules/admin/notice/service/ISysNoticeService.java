@@ -5,7 +5,7 @@ import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
 import com.xht.modules.admin.notice.domain.vo.NoticeVO;
-import com.xht.modules.admin.notice.enums.NoticeTopEnums;
+import com.xht.modules.admin.notice.enums.NoticeTopEnum;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public interface ISysNoticeService {
      * @param noticeId 通知id
      * @param isTop    是否置顶
      */
-    void updateIsTopById(Long noticeId, NoticeTopEnums isTop);
+    void updateIsTopById(Long noticeId, NoticeTopEnum isTop);
 
     /**
      * 根据ID查询通知详情

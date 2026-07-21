@@ -1,8 +1,8 @@
 package com.xht.modules.admin.system.domain.query;
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import com.xht.modules.admin.system.enums.MenuStatusEnums;
-import com.xht.modules.admin.system.enums.MenuTypeEnums;
+import com.xht.modules.admin.system.enums.MenuStatusEnum;
+import com.xht.modules.admin.system.enums.MenuTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -19,7 +19,7 @@ public class SysMenuQuery extends PageBasicQuery {
      * 类型
      */
     @Schema(description = "菜单类型")
-    private MenuTypeEnums menuType;
+    private MenuTypeEnum menuType;
 
     /**
      * 菜单名称
@@ -31,7 +31,7 @@ public class SysMenuQuery extends PageBasicQuery {
      * 菜单状态 （0正常 1停用）
      */
     @Schema(description = "菜单状态 （0正常 1停用）")
-    private MenuStatusEnums menuStatus;
+    private MenuStatusEnum menuStatus;
 
 
 }

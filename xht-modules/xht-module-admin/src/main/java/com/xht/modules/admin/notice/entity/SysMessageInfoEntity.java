@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.modules.admin.notice.enums.MessageStarEnums;
-import com.xht.modules.admin.notice.enums.MessageStatusEnums;
-import com.xht.modules.admin.notice.enums.MessageTopEnums;
+import com.xht.modules.admin.notice.enums.MessageStarEnum;
+import com.xht.modules.admin.notice.enums.MessageStatusEnum;
+import com.xht.modules.admin.notice.enums.MessageTopEnum;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -49,19 +49,19 @@ public class SysMessageInfoEntity extends BasicEntity {
      * 消息状态：1-未读 2-已读 3-已删除（收件人侧）4-已撤回（发件人侧）
      */
     @TableField(value = "message_status")
-    private MessageStatusEnums messageStatus;
+    private MessageStatusEnum messageStatus;
 
     /**
      * 信息置顶：0-否 1-是
      */
     @TableField(value = "message_top")
-    private MessageTopEnums messageTop;
+    private MessageTopEnum messageTop;
 
     /**
      * 信息收藏：0-否 1-是
      */
     @TableField(value = "message_star")
-    private MessageStarEnums messageStar;
+    private MessageStarEnum messageStar;
 
     /**
      * 阅读时间

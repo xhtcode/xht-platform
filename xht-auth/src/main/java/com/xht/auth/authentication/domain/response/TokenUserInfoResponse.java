@@ -1,8 +1,8 @@
 package com.xht.auth.authentication.domain.response;
 
 import com.xht.framework.common.domain.response.BasicResponse;
-import com.xht.framework.common.enums.UserStatusEnums;
-import com.xht.framework.common.enums.UserTypeEnums;
+import com.xht.framework.common.enums.UserStatusEnum;
+import com.xht.framework.common.enums.UserTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -21,7 +21,7 @@ public class TokenUserInfoResponse extends BasicResponse {
      * 用户类型
      */
     @Schema(description = "用户类型")
-    private UserTypeEnums userType;
+    private UserTypeEnum userType;
 
     /**
      * 用户账号
@@ -39,7 +39,7 @@ public class TokenUserInfoResponse extends BasicResponse {
      * 账号状态
      */
     @Schema(description = "账号状态")
-    private UserStatusEnums userStatus;
+    private UserStatusEnum userStatus;
 
     /**
      * 手机号码

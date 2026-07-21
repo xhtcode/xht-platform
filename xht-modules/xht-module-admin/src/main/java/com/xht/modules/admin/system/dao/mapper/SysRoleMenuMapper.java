@@ -3,7 +3,7 @@ package com.xht.modules.admin.system.dao.mapper;
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.modules.admin.system.domain.response.SysMenuResponse;
 import com.xht.modules.admin.system.entity.SysRoleMenuEntity;
-import com.xht.modules.admin.system.enums.MenuStatusEnums;
+import com.xht.modules.admin.system.enums.MenuStatusEnum;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,7 +25,7 @@ public interface SysRoleMenuMapper extends BaseMapperX<SysRoleMenuEntity> {
      * @param roleId     角色ID
      * @return 菜单ID集合
      */
-    List<Long> selectMenuIdByRoleId(MenuStatusEnums menuStatus, String roleId);
+    List<Long> selectMenuIdByRoleId(MenuStatusEnum menuStatus, String roleId);
 
     /**
      * 用户id获取菜单集合

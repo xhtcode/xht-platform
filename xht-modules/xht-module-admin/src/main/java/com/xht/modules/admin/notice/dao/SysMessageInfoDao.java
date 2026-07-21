@@ -5,8 +5,8 @@ import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.modules.admin.notice.domain.query.SysMessageInfoQuery;
 import com.xht.modules.admin.notice.domain.vo.MessageInfoVO;
 import com.xht.modules.admin.notice.entity.SysMessageInfoEntity;
-import com.xht.modules.admin.notice.enums.MessageStarEnums;
-import com.xht.modules.admin.notice.enums.MessageTopEnums;
+import com.xht.modules.admin.notice.enums.MessageStarEnum;
+import com.xht.modules.admin.notice.enums.MessageTopEnum;
 
 import java.time.LocalDateTime;
 
@@ -30,18 +30,18 @@ public interface SysMessageInfoDao extends MapperRepository<SysMessageInfoEntity
      *
      * @param messageId        站内信ID
      * @param userId           用户ID
-     * @param messageStarEnums 站内信收藏枚举
+     * @param messageStarEnum 站内信收藏枚举
      */
-    void updateStartById(Long messageId, Long userId, MessageStarEnums messageStarEnums);
+    void updateStartById(Long messageId, Long userId, MessageStarEnum messageStarEnum);
 
     /**
      * 置顶站内信（收件人侧）
      *
      * @param messageId       站内信ID
      * @param userId           用户ID
-     * @param messageTopEnums 站内信置顶枚举
+     * @param messageTopEnum 站内信置顶枚举
      */
-    void updateTopById(Long messageId, Long userId, MessageTopEnums messageTopEnums);
+    void updateTopById(Long messageId, Long userId, MessageTopEnum messageTopEnum);
 
     /**
      * 删除站内信（收件人侧）

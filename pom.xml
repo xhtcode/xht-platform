@@ -11,12 +11,13 @@
 
     <modules>
         <module>xht-auth</module>
-        <module>xht-modules-api</module>
         <module>xht-demo</module>
         <module>xht-framework</module>
+        <module>xht-framework-dependencies</module>
         <module>xht-gateway</module>
         <module>xht-modules</module>
-        <module>xht-framework-dependencies</module>
+        <module>xht-modules-api</module>
+        <module>xht-workflow</module>
     </modules>
 
     <properties>

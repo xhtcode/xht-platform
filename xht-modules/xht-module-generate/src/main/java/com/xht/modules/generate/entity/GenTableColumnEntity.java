@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.NoneDeleteEntity;
-import com.xht.modules.common.enums.GenStatusEnums;
-import com.xht.modules.common.enums.IdPrimaryKeyEnums;
+import com.xht.modules.common.enums.GenStatusEnum;
+import com.xht.modules.common.enums.IdPrimaryKeyEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -54,13 +54,13 @@ public class GenTableColumnEntity extends NoneDeleteEntity implements Serializab
      * 字段主键：0-非主键，1-主键
      */
     @TableField(value = "db_primary")
-    private IdPrimaryKeyEnums dbPrimary;
+    private IdPrimaryKeyEnum dbPrimary;
 
     /**
      * 字段必填：0-非必填，1-必填
      */
     @TableField(value = "db_required")
-    private GenStatusEnums dbRequired;
+    private GenStatusEnum dbRequired;
 
     /**
      * 字段注释
@@ -90,13 +90,13 @@ public class GenTableColumnEntity extends NoneDeleteEntity implements Serializab
      * 表单新增：0-不显示，1-显示
      */
     @TableField(value = "from_insert")
-    private GenStatusEnums fromInsert;
+    private GenStatusEnum fromInsert;
 
     /**
      * 表单更新：0-不显示，1-显示
      */
     @TableField(value = "from_update")
-    private GenStatusEnums fromUpdate;
+    private GenStatusEnum fromUpdate;
 
     /**
      * 表单输入长度
@@ -108,7 +108,7 @@ public class GenTableColumnEntity extends NoneDeleteEntity implements Serializab
      * 表单必填：0-非必填，1-必填
      */
     @TableField(value = "from_fill")
-    private GenStatusEnums fromFill;
+    private GenStatusEnum fromFill;
 
     /**
      * 表单组件
@@ -120,25 +120,25 @@ public class GenTableColumnEntity extends NoneDeleteEntity implements Serializab
      * 列表显示：0-不显示，1-显示
      */
     @TableField(value = "list_show")
-    private GenStatusEnums listShow;
+    private GenStatusEnum listShow;
 
     /**
      * 显示切换禁用：0-不禁用，1-禁用
      */
     @TableField(value = "list_disabled")
-    private GenStatusEnums listDisabled;
+    private GenStatusEnum listDisabled;
 
     /**
      * 默认隐藏：0-不隐藏，1-隐藏
      */
     @TableField(value = "list_hidden")
-    private GenStatusEnums listHidden;
+    private GenStatusEnum listHidden;
 
     /**
      * 字段排序
      */
     @TableField(value = "list_sortable")
-    private GenStatusEnums listSortable;
+    private GenStatusEnum listSortable;
 
     /**
      * java类型

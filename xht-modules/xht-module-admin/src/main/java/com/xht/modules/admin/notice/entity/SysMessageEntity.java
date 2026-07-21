@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import com.xht.framework.core.message.core.MessageExtendInfo;
-import com.xht.framework.core.message.enums.MessageTypeEnums;
+import com.xht.framework.core.message.enums.MessageTypeEnum;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -43,7 +43,7 @@ public class SysMessageEntity extends BasicEntity {
      * 消息类型：1-系统通知 2-业务提醒
      */
     @TableField(value = "message_type")
-    private MessageTypeEnums messageType;
+    private MessageTypeEnum messageType;
 
     /**
      * 消息标题

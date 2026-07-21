@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.modules.common.enums.DataBaseTypeEnums;
+import com.xht.modules.common.enums.DataBaseTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -36,7 +36,7 @@ public class GenDataSourceEntity extends BasicEntity implements Serializable {
      * 数据库类型（MySQL/Oracle）
      */
     @TableField(value = "db_type")
-    private DataBaseTypeEnums dbType;
+    private DataBaseTypeEnum dbType;
 
     /**
      * 数据库地址

@@ -1,7 +1,7 @@
 package com.xht.modules.admin.audit.domain.query;
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import com.xht.framework.core.blog.enums.LogStatusEnums;
+import com.xht.framework.core.blog.enums.LogStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -42,6 +42,6 @@ public class BLogQuery extends PageBasicQuery {
      * 日志状态
      */
     @Schema(description = "日志状态")
-    private LogStatusEnums executeStatus;
+    private LogStatusEnum executeStatus;
 
 }

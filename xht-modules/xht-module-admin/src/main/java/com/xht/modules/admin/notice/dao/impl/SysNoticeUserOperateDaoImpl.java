@@ -6,7 +6,7 @@ import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.modules.admin.notice.dao.SysNoticeUserOperateDao;
 import com.xht.modules.admin.notice.dao.mapper.SysNoticeUserOperateMapper;
 import com.xht.modules.admin.notice.entity.SysNoticeUserOperateEntity;
-import com.xht.modules.admin.notice.enums.NoticeOperateTypeEnums;
+import com.xht.modules.admin.notice.enums.NoticeOperateTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -29,7 +29,7 @@ public class SysNoticeUserOperateDaoImpl extends MapperRepositoryImpl<SysNoticeU
      * @param operateType 操作类型枚举，表示用户对通知执行的具体操作类型
      */
     @Override
-    public void createNoticeUserOperate(Long noticeId, Long userId, NoticeOperateTypeEnums operateType) {
+    public void createNoticeUserOperate(Long noticeId, Long userId, NoticeOperateTypeEnum operateType) {
         SysNoticeUserOperateEntity entity = new SysNoticeUserOperateEntity();
         entity.setNoticeId(noticeId);
         entity.setUserId(userId);
@@ -47,7 +47,7 @@ public class SysNoticeUserOperateDaoImpl extends MapperRepositoryImpl<SysNoticeU
      * @return boolean 返回true表示该用户对该通知的指定操作记录已存在，返回false表示不存在
      */
     @Override
-    public boolean existsNoticeUserOperate(Long noticeId, Long userId, NoticeOperateTypeEnums operateType) {
+    public boolean existsNoticeUserOperate(Long noticeId, Long userId, NoticeOperateTypeEnum operateType) {
         LambdaQueryWrapper<SysNoticeUserOperateEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysNoticeUserOperateEntity::getNoticeId, noticeId);
         queryWrapper.eq(SysNoticeUserOperateEntity::getUserId, userId);

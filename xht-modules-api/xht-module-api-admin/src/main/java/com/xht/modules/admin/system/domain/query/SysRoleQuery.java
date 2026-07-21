@@ -1,7 +1,7 @@
 package com.xht.modules.admin.system.domain.query;
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import com.xht.modules.admin.system.enums.RoleStatusEnums;
+import com.xht.modules.admin.system.enums.RoleStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -32,5 +32,5 @@ public class SysRoleQuery extends PageBasicQuery {
      */
     @NotNull(message = "状态不能为空")
     @Schema(description = "状态（0正常 1停用）")
-    private RoleStatusEnums roleStatus;
+    private RoleStatusEnum roleStatus;
 }

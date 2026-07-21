@@ -2,7 +2,7 @@ package com.xht.auth.security.web.authentication.qr.filter;
 
 import com.xht.auth.security.web.authentication.qr.domain.QrCodeInfo;
 import com.xht.auth.security.web.authentication.qr.domain.response.QrCodeLoginScanResponse;
-import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnums;
+import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnum;
 import com.xht.auth.security.web.authentication.qr.exception.QyLoginException;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.utils.ServletUtil;
@@ -41,7 +41,7 @@ public class QrCodeScanAuthenticationFilter extends QrCodeAbstractAuthentication
         try {
             QrCodeInfo info = qrDataManager.getQrCodeInfo(qrCodeId).orElseThrow(() -> new QyLoginException("无效二维码."));
             // 验证状态
-            if (!Objects.equals(info.getQrCodeStatus(), QrCodeStatusEnums.WAITING)) {
+            if (!Objects.equals(info.getQrCodeStatus(), QrCodeStatusEnum.WAITING)) {
                 throw new QyLoginException("二维码已被其他人扫描，无法重复扫描.");
             }
             QrCodeLoginScanResponse loginScanResponse = new QrCodeLoginScanResponse();
@@ -52,7 +52,7 @@ public class QrCodeScanAuthenticationFilter extends QrCodeAbstractAuthentication
             info.setName(basicUser.getName());
             info.setAvatarUrl(basicUser.getNickName());
             info.setQrCodeTicket(qrCodeTicket);
-            info.setQrCodeStatus(QrCodeStatusEnums.SCANNED);
+            info.setQrCodeStatus(QrCodeStatusEnum.SCANNED);
             qrDataManager.updateQrCodeInfo(info);
             // 封装响应
             loginScanResponse.setQrCodeTicket(qrCodeTicket);

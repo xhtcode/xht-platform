@@ -1,7 +1,7 @@
 package com.xht.modules.admin.audit.domain.response;
 
 import com.xht.framework.common.domain.response.MetaResponse;
-import com.xht.framework.core.blog.enums.LogStatusEnums;
+import com.xht.framework.core.blog.enums.LogStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -104,7 +104,7 @@ public class BLogResponse extends MetaResponse {
      * 执行状态（success：成功，fail：失败）
      */
     @Schema(description = "执行状态")
-    private LogStatusEnums executeStatus;
+    private LogStatusEnum executeStatus;
 
     /**
      * 执行异常信息（失败时存储异常堆栈）

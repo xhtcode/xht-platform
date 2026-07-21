@@ -12,9 +12,9 @@ import com.xht.modules.admin.notice.domain.form.SysNoticeForm;
 import com.xht.modules.admin.notice.domain.query.SysNoticeQuery;
 import com.xht.modules.admin.notice.domain.response.SysNoticeResponse;
 import com.xht.modules.admin.notice.entity.SysNoticeEntity;
-import com.xht.modules.admin.notice.enums.NoticeStatusEnums;
-import com.xht.modules.admin.notice.enums.NoticeTimedPublishEnums;
-import com.xht.modules.admin.notice.enums.NoticeTopEnums;
+import com.xht.modules.admin.notice.enums.NoticeStatusEnum;
+import com.xht.modules.admin.notice.enums.NoticeTimedPublishEnum;
+import com.xht.modules.admin.notice.enums.NoticeTopEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,13 +63,13 @@ public class SysNoticeDaoImpl extends MapperRepositoryImpl<SysNoticeMapper, SysN
      * @param noticeStatus 通知状态
      */
     @Override
-    public void updateStatusById(Long noticeId, NoticeStatusEnums noticeStatus) {
-        ThrowUtils.throwIf(Objects.equals(noticeStatus, NoticeStatusEnums.NOT_PUBLISH), "请选择正确的状态！");
+    public void updateStatusById(Long noticeId, NoticeStatusEnum noticeStatus) {
+        ThrowUtils.throwIf(Objects.equals(noticeStatus, NoticeStatusEnum.NOT_PUBLISH), "请选择正确的状态！");
         LambdaUpdateWrapper<SysNoticeEntity> queryWrapper = new LambdaUpdateWrapper<>();
         queryWrapper.set(SysNoticeEntity::getNoticeStatus, noticeStatus);
-        queryWrapper.set(Objects.equals(noticeStatus, NoticeStatusEnums.PUBLISH), SysNoticeEntity::getNoticePublishTime, LocalDateTime.now());
-        queryWrapper.set(Objects.equals(noticeStatus, NoticeStatusEnums.UNDER_SHELVE), SysNoticeEntity::getNoticeOfflineTime, LocalDateTime.now());
-        queryWrapper.set(Objects.equals(noticeStatus, NoticeStatusEnums.EXPIRED), SysNoticeEntity::getNoticeExpireTime, LocalDateTime.now());
+        queryWrapper.set(Objects.equals(noticeStatus, NoticeStatusEnum.PUBLISH), SysNoticeEntity::getNoticePublishTime, LocalDateTime.now());
+        queryWrapper.set(Objects.equals(noticeStatus, NoticeStatusEnum.UNDER_SHELVE), SysNoticeEntity::getNoticeOfflineTime, LocalDateTime.now());
+        queryWrapper.set(Objects.equals(noticeStatus, NoticeStatusEnum.EXPIRED), SysNoticeEntity::getNoticeExpireTime, LocalDateTime.now());
         queryWrapper.eq(SysNoticeEntity::getId, noticeId);
         update(queryWrapper);
     }
@@ -81,7 +81,7 @@ public class SysNoticeDaoImpl extends MapperRepositoryImpl<SysNoticeMapper, SysN
      * @param isTop    是否置顶
      */
     @Override
-    public void updateIsTopById(Long noticeId, NoticeTopEnums isTop) {
+    public void updateIsTopById(Long noticeId, NoticeTopEnum isTop) {
         LambdaUpdateWrapper<SysNoticeEntity> queryWrapper = new LambdaUpdateWrapper<>();
         queryWrapper.set(SysNoticeEntity::getNoticeTop, isTop);
         queryWrapper.eq(SysNoticeEntity::getId, noticeId);
@@ -124,8 +124,8 @@ public class SysNoticeDaoImpl extends MapperRepositoryImpl<SysNoticeMapper, SysN
         LambdaQueryWrapper<SysNoticeEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(SysNoticeEntity::getId);
         queryWrapper.eq(SysNoticeEntity::getId, noticeId);
-        queryWrapper.eq(SysNoticeEntity::getNoticeStatus, NoticeStatusEnums.NOT_PUBLISH);
-        queryWrapper.eq(SysNoticeEntity::getNoticeTimedPublish, NoticeTimedPublishEnums.PUBLISH);
+        queryWrapper.eq(SysNoticeEntity::getNoticeStatus, NoticeStatusEnum.NOT_PUBLISH);
+        queryWrapper.eq(SysNoticeEntity::getNoticeTimedPublish, NoticeTimedPublishEnum.PUBLISH);
         queryWrapper.ge(SysNoticeEntity::getNoticePublishTime, LocalDateTime.now());
         return list(queryWrapper).stream().map(SysNoticeEntity::getId).collect(Collectors.toList());
     }

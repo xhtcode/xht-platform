@@ -2,7 +2,7 @@ package com.xht.modules.generate.domain.form;
 
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
-import com.xht.modules.common.enums.DataBaseTypeEnums;
+import com.xht.modules.common.enums.DataBaseTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -33,7 +33,7 @@ public class GenTypeMappingForm extends BasicForm {
      */
     @NotNull(message = "数据库类型不能为空", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "数据库类型")
-    private DataBaseTypeEnums dbType;
+    private DataBaseTypeEnum dbType;
 
     /**
      * 数据库数据类型（如：INT/VARCHAR2）

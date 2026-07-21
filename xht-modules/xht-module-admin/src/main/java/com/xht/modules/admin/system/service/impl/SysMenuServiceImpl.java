@@ -9,8 +9,8 @@ import com.xht.modules.admin.system.domain.form.SysMenuForm;
 import com.xht.modules.admin.system.domain.query.SysMenuQuery;
 import com.xht.modules.admin.system.domain.response.SysMenuResponse;
 import com.xht.modules.admin.system.entity.SysMenuEntity;
-import com.xht.modules.admin.system.enums.MenuStatusEnums;
-import com.xht.modules.admin.system.enums.MenuTypeEnums;
+import com.xht.modules.admin.system.enums.MenuStatusEnum;
+import com.xht.modules.admin.system.enums.MenuTypeEnum;
 import com.xht.modules.admin.system.service.ISysMenuService;
 import com.xht.modules.admin.system.utils.MenuValidationFormat;
 import lombok.RequiredArgsConstructor;
@@ -56,9 +56,9 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     private void checkExitsParentMenu(SysMenuForm form) {
         if (Objects.equals(DEFAULT_PARENT_ID, form.getParentId())) {
-            MenuValidationFormat.checkParentType(MenuTypeEnums.M, form.getMenuType());
+            MenuValidationFormat.checkParentType(MenuTypeEnum.M, form.getMenuType());
         } else {
-            MenuTypeEnums parentMenuType = sysMenuDao.getMenuType(form.getParentId());
+            MenuTypeEnum parentMenuType = sysMenuDao.getMenuType(form.getParentId());
             ThrowUtils.throwIf(Objects.isNull(parentMenuType), BusinessErrorCode.DATA_NOT_EXIST, "上级菜单不存在");
             MenuValidationFormat.checkParentType(parentMenuType, form.getMenuType());
         }
@@ -97,7 +97,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param status 菜单状态
      */
     @Override
-    public void updateStatus(Long id, MenuStatusEnums status) {
+    public void updateStatus(Long id, MenuStatusEnum status) {
         Boolean exists = sysMenuDao.exists(SysMenuEntity::getId, id);
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "菜单不存在");
         sysMenuDao.updateStatus(id, status);

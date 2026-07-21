@@ -1,6 +1,6 @@
 package com.xht.auth.captcha.service;
 
-import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnums;
+import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnum;
 import com.xht.auth.captcha.domain.response.CaptchaResponse;
 
 /**
@@ -21,7 +21,7 @@ public interface ICaptchaService {
          * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景（如SSO、OAuth2等）
          * @return CaptchaResponse 验证码响应对象，包含验证码图片的Base64编码和验证码key
          */
-        CaptchaResponse generateCaptcha(String captchaKey, CaptchaBusinessTypeEnums captchaBusinessType);
+        CaptchaResponse generateCaptcha(String captchaKey, CaptchaBusinessTypeEnum captchaBusinessType);
 
         /**
          * 校验验证码
@@ -34,7 +34,7 @@ public interface ICaptchaService {
          * @param requestCaptcha 用户输入的验证码内容
          * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景
          */
-        void checkCaptcha(String requestKey, String requestCaptcha, CaptchaBusinessTypeEnums captchaBusinessType);
+        void checkCaptcha(String requestKey, String requestCaptcha, CaptchaBusinessTypeEnum captchaBusinessType);
 
         /**
          * 获取手机短信验证码
@@ -46,7 +46,7 @@ public interface ICaptchaService {
          * @param phone 需要接收验证码的手机号码
          * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景
          */
-        void getPhoneCaptcha(String phone, CaptchaBusinessTypeEnums captchaBusinessType);
+        void getPhoneCaptcha(String phone, CaptchaBusinessTypeEnum captchaBusinessType);
 
         /**
          * 校验手机短信验证码
@@ -59,7 +59,7 @@ public interface ICaptchaService {
          * @param captcha 用户输入的短信验证码内容
          * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景
          */
-        void checkPhoneCode(String phone, String captcha, CaptchaBusinessTypeEnums captchaBusinessType);
+        void checkPhoneCode(String phone, String captcha, CaptchaBusinessTypeEnum captchaBusinessType);
 
     /**
      * 删除手机短信验证码
@@ -70,6 +70,6 @@ public interface ICaptchaService {
      * @param phone 手机号码
      * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景
      */
-    void removePhoneCode(String phone, CaptchaBusinessTypeEnums captchaBusinessType);
+    void removePhoneCode(String phone, CaptchaBusinessTypeEnum captchaBusinessType);
 
 }

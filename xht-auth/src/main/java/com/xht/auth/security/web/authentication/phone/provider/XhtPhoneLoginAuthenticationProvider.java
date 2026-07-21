@@ -2,7 +2,7 @@ package com.xht.auth.security.web.authentication.phone.provider;
 
 import com.xht.auth.security.web.authentication.AbstractXhtLoginAuthenticationProvider;
 import com.xht.auth.security.web.authentication.phone.token.XhtPhoneLoginToken;
-import com.xht.framework.common.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -32,7 +32,7 @@ public class XhtPhoneLoginAuthenticationProvider extends AbstractXhtLoginAuthent
     @Override
     protected UserDetails retrieveUser(XhtPhoneLoginToken authentication) throws AuthenticationException {
         try {
-            UserDetails loadedUser = userDetailsService.loadUserByUsername(authentication.getName(), LoginTypeEnums.PHONE);
+            UserDetails loadedUser = userDetailsService.loadUserByUsername(authentication.getName(), LoginTypeEnum.PHONE);
             if (loadedUser == null) {
                 throw new InternalAuthenticationServiceException("用户服务详情实现类返回了 null ，这违反了接口约定。");
             }

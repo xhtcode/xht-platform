@@ -3,7 +3,7 @@ package com.xht.modules.admin.router;
 import com.xht.framework.exception.UtilException;
 import com.xht.modules.admin.router.dto.RouterMetaDTO;
 import com.xht.modules.admin.system.domain.response.SysMenuResponse;
-import com.xht.modules.admin.system.enums.MenuCommonStatus;
+import com.xht.modules.admin.system.enums.MenuCommonStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
@@ -30,12 +30,12 @@ public final class RouterUtils {
         RouterMetaDTO metaDTO = new RouterMetaDTO();
         metaDTO.setTitle(menu.getMenuName());
         metaDTO.setIcon(menu.getMenuIcon());
-        metaDTO.setLinkStatus(Objects.requireNonNullElse(menu.getFrameFlag(), MenuCommonStatus.NO).getStatus());
+        metaDTO.setLinkStatus(Objects.requireNonNullElse(menu.getFrameFlag(), MenuCommonStatusEnum.NO).getStatus());
         metaDTO.setMenuType(menu.getMenuType().getValue());
-        metaDTO.setAffixStatus(Objects.requireNonNullElse(menu.getAffixStatus(), MenuCommonStatus.NO).getStatus());
+        metaDTO.setAffixStatus(Objects.requireNonNullElse(menu.getAffixStatus(), MenuCommonStatusEnum.NO).getStatus());
         metaDTO.setActiveMenuPath(menu.getActiveMenuPath());
-        metaDTO.setHiddenStatus(Objects.requireNonNullElse(menu.getMenuHidden(), MenuCommonStatus.YES).getStatus());
-        metaDTO.setKeepAliveStatus(Objects.requireNonNullElse(menu.getMenuCache(), MenuCommonStatus.YES).getStatus());
+        metaDTO.setHiddenStatus(Objects.requireNonNullElse(menu.getMenuHidden(), MenuCommonStatusEnum.YES).getStatus());
+        metaDTO.setKeepAliveStatus(Objects.requireNonNullElse(menu.getMenuCache(), MenuCommonStatusEnum.YES).getStatus());
         metaDTO.setRank(menu.getMenuSort());
         return metaDTO;
     }

@@ -8,8 +8,8 @@ import com.xht.modules.admin.notice.domain.query.SysMessageQuery;
 import com.xht.modules.admin.notice.domain.response.SysMessageResponse;
 import com.xht.modules.admin.notice.domain.vo.MessageInfoVO;
 import com.xht.modules.admin.notice.domain.vo.MessagePageVO;
-import com.xht.modules.admin.notice.enums.MessageStarEnums;
-import com.xht.modules.admin.notice.enums.MessageTopEnums;
+import com.xht.modules.admin.notice.enums.MessageStarEnum;
+import com.xht.modules.admin.notice.enums.MessageTopEnum;
 import com.xht.modules.admin.notice.service.ISysMessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -57,26 +57,26 @@ public class SysMessageController {
     /**
      * 收藏站内信(收件人侧)
      * @param messageId 站内信ID
-     * @param messageStarEnums  站内信收藏枚举
+     * @param messageStarEnum  站内信收藏枚举
      */
     @BLog(value = "站内信", description = "收藏站内信 (收件人侧)")
     @Operation(summary = "收藏站内信(收件人侧)")
     @PostMapping("/update/start/{messageId}/{start}")
-    public R<Void> updateStartById(@PathVariable Long messageId, @PathVariable("start") MessageStarEnums messageStarEnums) {
-        sysMessageService.updateStartById(messageId, messageStarEnums);
+    public R<Void> updateStartById(@PathVariable Long messageId, @PathVariable("start") MessageStarEnum messageStarEnum) {
+        sysMessageService.updateStartById(messageId, messageStarEnum);
         return R.ok().build();
     }
 
     /**
      * 置顶站内信(收件人侧)
      * @param messageId 站内信ID
-     * @param messageTopEnums  站内信置顶枚举
+     * @param messageTopEnum  站内信置顶枚举
      */
     @BLog(value = "站内信", description = "置顶站内信 (收件人侧)")
     @Operation(summary = "置顶站内信(收件人侧)")
     @PostMapping("/update/top/{messageId}/{top}")
-    public R<Void> updateTopById(@PathVariable Long messageId, @PathVariable("top") MessageTopEnums messageTopEnums) {
-        sysMessageService.updateTopById(messageId, messageTopEnums);
+    public R<Void> updateTopById(@PathVariable Long messageId, @PathVariable("top") MessageTopEnum messageTopEnum) {
+        sysMessageService.updateTopById(messageId, messageTopEnum);
         return R.ok().build();
     }
 

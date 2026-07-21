@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.modules.admin.system.enums.MenuCommonStatus;
-import com.xht.modules.admin.system.enums.MenuStatusEnums;
-import com.xht.modules.admin.system.enums.MenuTypeEnums;
+import com.xht.modules.admin.system.enums.MenuCommonStatusEnum;
+import com.xht.modules.admin.system.enums.MenuStatusEnum;
+import com.xht.modules.admin.system.enums.MenuTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -37,7 +37,7 @@ public class SysMenuEntity extends BasicEntity implements Serializable {
      * 类型
      */
     @TableField(value = "menu_type")
-    private MenuTypeEnums menuType;
+    private MenuTypeEnum menuType;
 
     /**
      * 菜单名称
@@ -61,19 +61,19 @@ public class SysMenuEntity extends BasicEntity implements Serializable {
      * 显示状态 (0显示 1隐藏)
      */
     @TableField(value = "menu_hidden")
-    private MenuCommonStatus menuHidden;
+    private MenuCommonStatusEnum menuHidden;
 
     /**
      * 是否缓存 （0是 1否）
      */
     @TableField(value = "menu_cache")
-    private MenuCommonStatus menuCache;
+    private MenuCommonStatusEnum menuCache;
 
     /**
      * 菜单状态 （0正常 1停用）
      */
     @TableField(value = "menu_status")
-    private MenuStatusEnums menuStatus;
+    private MenuStatusEnum menuStatus;
 
     /**
      * 菜单权限字符串
@@ -110,13 +110,13 @@ public class SysMenuEntity extends BasicEntity implements Serializable {
      * 固定状态
      */
     @TableField(value = "affix_status")
-    private MenuCommonStatus affixStatus;
+    private MenuCommonStatusEnum affixStatus;
 
     /**
      * 是否为外链
      */
     @TableField(value = "frame_flag")
-    private MenuCommonStatus frameFlag;
+    private MenuCommonStatusEnum frameFlag;
 
 
 }

@@ -1,7 +1,7 @@
 package com.xht.auth.security.web.authentication.qr.filter;
 
 import com.xht.auth.security.web.authentication.qr.domain.QrCodeInfo;
-import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnums;
+import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnum;
 import com.xht.auth.security.web.authentication.qr.exception.QyLoginException;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.utils.ServletUtil;
@@ -47,7 +47,7 @@ public class QrCodeConsentAuthenticationFilter extends QrCodeAbstractAuthenticat
                 qrDataManager.removeQrInfo(qrCodeInfo);
                 throw new QyLoginException("用户取消了授权");
             }
-            if (!Objects.equals(qrCodeInfo.getQrCodeStatus(), QrCodeStatusEnums.SCANNED)) {
+            if (!Objects.equals(qrCodeInfo.getQrCodeStatus(), QrCodeStatusEnum.SCANNED)) {
                 throw new QyLoginException("二维码已被其他人扫描，无法重复扫描.");
             }
             if (!Objects.equals(qrCodeInfo.getQrCodeTicket(), qrCodeTicket)) {
@@ -57,7 +57,7 @@ public class QrCodeConsentAuthenticationFilter extends QrCodeAbstractAuthenticat
                 throw new QyLoginException("非法请求，二维码盗刷");
             }
             // 更新二维码信息的状态
-            qrCodeInfo.setQrCodeStatus(QrCodeStatusEnums.CONFIRMED);
+            qrCodeInfo.setQrCodeStatus(QrCodeStatusEnum.CONFIRMED);
             // 存储用户信息 更新二维码信息
             qrDataManager.saveUserData(qrCodeInfo, user);
             qrDataManager.updateQrCodeInfo(qrCodeInfo);

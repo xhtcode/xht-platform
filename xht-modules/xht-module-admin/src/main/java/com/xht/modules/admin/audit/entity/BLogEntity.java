@@ -1,7 +1,7 @@
 package com.xht.modules.admin.audit.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.xht.framework.core.blog.enums.LogStatusEnums;
+import com.xht.framework.core.blog.enums.LogStatusEnum;
 import com.xht.framework.mybatis.domain.entity.Entity;
 import lombok.Data;
 
@@ -105,7 +105,7 @@ public class BLogEntity extends Entity implements Serializable {
      * 执行状态（success：成功，fail：失败）
      */
     @TableField(value = "execute_status")
-    private LogStatusEnums executeStatus;
+    private LogStatusEnum executeStatus;
 
     /**
      * 执行异常信息（失败时存储异常堆栈）

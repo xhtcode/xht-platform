@@ -78,7 +78,7 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
         // 封装通知实体
         SysNoticeEntity noticeEntity = sysNoticeConverter.toEntity(form);
         noticeEntity.setId(noticeId);
-        noticeEntity.setNoticeStatus(NoticeStatusEnums.NOT_PUBLISH);
+        noticeEntity.setNoticeStatus(NoticeStatusEnum.NOT_PUBLISH);
 
         // 处理通知附件
         List<SysNoticeAttachmentEntity> attachmentEntityList = new ArrayList<>();
@@ -87,11 +87,11 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
         }
 
         // 处理定时发布时间
-        if (Objects.equals(NoticeTimedPublishEnums.PUBLISH, noticeEntity.getNoticeTimedPublish())) {
+        if (Objects.equals(NoticeTimedPublishEnum.PUBLISH, noticeEntity.getNoticeTimedPublish())) {
             ThrowUtils.notNull(form.getNoticePublishTime(), "定时发布时间不能为空");
             noticeEntity.setNoticePublishTime(form.getNoticePublishTime());
         } else {
-            noticeEntity.setNoticeStatus(NoticeStatusEnums.PUBLISH);
+            noticeEntity.setNoticeStatus(NoticeStatusEnum.PUBLISH);
             noticeEntity.setNoticePublishTime(LocalDateTime.now());
         }
 
@@ -108,7 +108,7 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
     }
 
     private void handleJumpUrlValidation(SysNoticeEntity noticeEntity) {
-        if (Objects.equals(NoticeJumpTypeEnums.NO_JUMP, noticeEntity.getNoticeJumpType())) {
+        if (Objects.equals(NoticeJumpTypeEnum.NO_JUMP, noticeEntity.getNoticeJumpType())) {
             noticeEntity.setNoticeJumpUrl(null);
         } else {
             ThrowUtils.hasText(noticeEntity.getNoticeJumpUrl(), "跳转地址不能为空");
@@ -149,11 +149,11 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
             attachmentEntityList = sysNoticeAttachmentConverter.toEntity(form.getAttachmentList(), form.getId());
         }
         // 处理定时发布时间
-        if (Objects.equals(NoticeTimedPublishEnums.PUBLISH, form.getNoticeTimedPublish())) {
+        if (Objects.equals(NoticeTimedPublishEnum.PUBLISH, form.getNoticeTimedPublish())) {
             ThrowUtils.notNull(form.getNoticePublishTime(), "定时发布时间不能为空");
         }
         // 处理跳转URL
-        if (Objects.equals(NoticeJumpTypeEnums.NO_JUMP, form.getNoticeJumpType())) {
+        if (Objects.equals(NoticeJumpTypeEnum.NO_JUMP, form.getNoticeJumpType())) {
             form.setNoticeJumpUrl(null);
         } else {
             ThrowUtils.hasText(form.getNoticeJumpUrl(), "跳转地址不能为空");
@@ -177,11 +177,11 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
     public void publishNoticeId(Long noticeId) {
         SysNoticeEntity noticeEntity = sysNoticeDao.findById(noticeId);
         ThrowUtils.notNull(noticeEntity, "通知不存在!");
-        if (!(Objects.equals(noticeEntity.getNoticeStatus(), NoticeStatusEnums.NOT_PUBLISH) || Objects.equals(noticeEntity.getNoticeStatus(), NoticeStatusEnums.UNDER_SHELVE))) {
+        if (!(Objects.equals(noticeEntity.getNoticeStatus(), NoticeStatusEnum.NOT_PUBLISH) || Objects.equals(noticeEntity.getNoticeStatus(), NoticeStatusEnum.UNDER_SHELVE))) {
             throw new BusinessException("通知状态不匹配!");
         }
         // 校验定时发布时间是否已到
-        if (Objects.equals(NoticeTimedPublishEnums.PUBLISH, noticeEntity.getNoticeTimedPublish())) {
+        if (Objects.equals(NoticeTimedPublishEnum.PUBLISH, noticeEntity.getNoticeTimedPublish())) {
             if (LocalDateTime.now().isBefore(noticeEntity.getNoticePublishTime())) {
                 throw new BusinessException("定时发布时间未到,通知发布异常!");
             }
@@ -190,7 +190,7 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
         if (LocalDateTime.now().isAfter(noticeEntity.getNoticeExpireTime())) {
             throw new BusinessException("通知已过期,通知禁止发布!");
         }
-        sysNoticeDao.updateStatusById(noticeId, NoticeStatusEnums.PUBLISH);
+        sysNoticeDao.updateStatusById(noticeId, NoticeStatusEnum.PUBLISH);
     }
 
     /**
@@ -203,10 +203,10 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
     public void underShelveNoticeId(Long noticeId) {
         SysNoticeEntity noticeEntity = sysNoticeDao.findById(noticeId);
         ThrowUtils.notNull(noticeEntity, "通知不存在!");
-        if (!Objects.equals(noticeEntity.getNoticeStatus(), NoticeStatusEnums.PUBLISH)) {
+        if (!Objects.equals(noticeEntity.getNoticeStatus(), NoticeStatusEnum.PUBLISH)) {
             throw new BusinessException("通知状态不匹配!");
         }
-        sysNoticeDao.updateStatusById(noticeId, NoticeStatusEnums.UNDER_SHELVE);
+        sysNoticeDao.updateStatusById(noticeId, NoticeStatusEnum.UNDER_SHELVE);
     }
 
     /**
@@ -217,7 +217,7 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateIsTopById(Long noticeId, NoticeTopEnums isTop) {
+    public void updateIsTopById(Long noticeId, NoticeTopEnum isTop) {
         SysNoticeEntity noticeEntity = sysNoticeDao.findById(noticeId);
         ThrowUtils.notNull(noticeEntity, "通知不存在!");
         sysNoticeDao.updateIsTopById(noticeId, isTop);
@@ -242,16 +242,16 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
             result.setAttachments(sysNoticeAttachmentConverter.toResponse(attachmentList));
             BasicUserDetails user = SecurityUtils.getUser();
             // 记录已读
-            boolean readExists = sysNoticeUserOperateDao.existsNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnums.READ);
+            boolean readExists = sysNoticeUserOperateDao.existsNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnum.READ);
             if (!readExists) {
                 sysNoticeDao.updateReadNumById(noticeId);
-                sysNoticeUserOperateDao.createNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnums.READ);
+                sysNoticeUserOperateDao.createNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnum.READ);
             }
             // 记录点击
-            boolean clickExists = sysNoticeUserOperateDao.existsNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnums.CLICK);
+            boolean clickExists = sysNoticeUserOperateDao.existsNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnum.CLICK);
             if (!clickExists) {
                 sysNoticeDao.updateClickNumById(noticeId);
-                sysNoticeUserOperateDao.createNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnums.CLICK);
+                sysNoticeUserOperateDao.createNoticeUserOperate(noticeId, user.getUserId(), NoticeOperateTypeEnum.CLICK);
             }
         });
         result.setNotice(noticeResponse);

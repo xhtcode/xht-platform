@@ -1,8 +1,8 @@
 package com.xht.modules.admin.system.domain.query;
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import com.xht.framework.common.enums.UserStatusEnums;
-import com.xht.framework.common.enums.UserTypeEnums;
+import com.xht.framework.common.enums.UserStatusEnum;
+import com.xht.framework.common.enums.UserTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -19,7 +19,7 @@ public class SysUserQuery extends PageBasicQuery {
      * 用户类型
      */
     @Schema(description = "用户类型")
-    private UserTypeEnums userType;
+    private UserTypeEnum userType;
 
     /**
      * 用户账号
@@ -37,7 +37,7 @@ public class SysUserQuery extends PageBasicQuery {
      * 账号状态
      */
     @Schema(description = "账号状态")
-    private UserStatusEnums userStatus;
+    private UserStatusEnum userStatus;
 
     /**
      * 手机号码

@@ -1,6 +1,6 @@
 package com.xht.framework.oauth2.introspection;
 
-import com.xht.framework.common.enums.LoginTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnum;
 import com.xht.framework.oauth2.token.TokenInfoLightningCache;
 import com.xht.framework.security.constant.TokenCustomizerIdConstant;
 import com.xht.framework.security.core.BasicUserDetailsConvert;
@@ -69,7 +69,7 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
         String claimAsString = principal.getClaimAsString(TokenCustomizerIdConstant.GRANT_TYPE);
         if (Objects.equals(AuthorizationGrantType.CLIENT_CREDENTIALS.getValue(), claimAsString)) {
             BasicUserDetails basicUserDetails = new BasicUserDetails();
-            basicUserDetails.setLoginType(LoginTypeEnums.CLIENT_CREDENTIALS);
+            basicUserDetails.setLoginType(LoginTypeEnum.CLIENT_CREDENTIALS);
             return basicUserDetails;
         }
         Map<String, Object> resultMap = principal.getClaimAsMap(TokenCustomizerIdConstant.USER_INFO);

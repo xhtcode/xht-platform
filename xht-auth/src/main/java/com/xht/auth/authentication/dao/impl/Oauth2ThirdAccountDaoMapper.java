@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.auth.authentication.dao.IOauth2ThirdAccountDao;
 import com.xht.auth.authentication.dao.mapper.Oauth2ThirdAccountMapper;
 import com.xht.auth.authentication.entity.Oauth2ThirdAccountEntity;
-import com.xht.framework.common.enums.UserStatusEnums;
+import com.xht.framework.common.enums.UserStatusEnum;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.framework.security.utils.PassWordUtils;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class Oauth2ThirdAccountDaoMapper extends MapperRepositoryImpl<Oauth2Thir
     @Transactional(rollbackFor = Exception.class)
     public void registerUser(Oauth2ThirdAccountEntity dbAccountEntity) {
         dbAccountEntity.setPassWordPlainText(PassWordUtils.generatePasswordSalt());
-        dbAccountEntity.setUserStatus(UserStatusEnums.UNACTIVATED);
+        dbAccountEntity.setUserStatus(UserStatusEnum.UNACTIVATED);
         save(dbAccountEntity);
         baseMapper.insertUser(dbAccountEntity);
         baseMapper.insertUserInfo(dbAccountEntity);

@@ -8,7 +8,7 @@ import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.exception.utils.ThrowUtils;
 import com.xht.framework.utils.spring.SpringContextUtils;
 import com.xht.framework.mybatis.utils.PageTool;
-import com.xht.modules.common.enums.DataBaseTypeEnums;
+import com.xht.modules.common.enums.DataBaseTypeEnum;
 import com.xht.modules.generate.converter.GenTableColumnConverter;
 import com.xht.modules.generate.converter.GenTableColumnQueryConverter;
 import com.xht.modules.generate.converter.GenTableConverter;
@@ -71,7 +71,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
 
     private final GenTableColumnQueryConverter genTableColumnQueryConverter;
 
-    private final Map<DataBaseTypeEnums, IDataBaseQuery> queryMap = new ConcurrentHashMap<>();
+    private final Map<DataBaseTypeEnum, IDataBaseQuery> queryMap = new ConcurrentHashMap<>();
 
     /**
      * 导入表
@@ -89,7 +89,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
         try {
             JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity.getUrl(), dataSourceEntity.getUsername(), dataSourceEntity.getPassword(), dataSourceEntity.getDbType().getDriverClassName()).build();
             jdbcUtils = JDBCUtils.create(jdbcConfig);
-            DataBaseTypeEnums dbType = dataSourceEntity.getDbType();
+            DataBaseTypeEnum dbType = dataSourceEntity.getDbType();
             IDataBaseQuery dataBaseQuery = queryMap.get(dbType);
             ThrowUtils.notNull(dataBaseQuery, String.format("暂不支持该数据类型：%s", dbType));
             JdbcTemplate jdbcTemplate = jdbcUtils.getJdbcTemplate();
@@ -148,7 +148,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
         try {
             JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity).build();
             jdbcUtils = JDBCUtils.create(jdbcConfig);
-            DataBaseTypeEnums dbType = dataSourceEntity.getDbType();
+            DataBaseTypeEnum dbType = dataSourceEntity.getDbType();
             IDataBaseQuery dataBaseQuery = queryMap.get(dbType);
             ThrowUtils.notNull(dataBaseQuery, String.format("暂不支持该数据类型：%s", dbType));
             JdbcTemplate jdbcTemplate = jdbcUtils.getJdbcTemplate();
@@ -264,7 +264,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
         try {
             JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity).build();
             jdbcUtils = JDBCUtils.create(jdbcConfig);
-            DataBaseTypeEnums dbType = dataSourceEntity.getDbType();
+            DataBaseTypeEnum dbType = dataSourceEntity.getDbType();
             IDataBaseQuery dataBaseQuery = queryMap.get(dbType);
             ThrowUtils.notNull(dataBaseQuery, String.format("暂不支持该数据类型：%s", dbType));
             List<TableBo> tableBoList = dataBaseQuery.selectListTableByLike(jdbcUtils.getJdbcTemplate(), tableName);

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.modules.admin.system.enums.DeptPostStatusEnums;
+import com.xht.modules.admin.system.enums.DeptPostStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -61,7 +61,7 @@ public class SysPostEntity extends BasicEntity implements Serializable {
      * 岗位状态（0正常 1停用）
      */
     @TableField(value = "post_status")
-    private DeptPostStatusEnums postStatus;
+    private DeptPostStatusEnum postStatus;
 
     /**
      * 岗位描述

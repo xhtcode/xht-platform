@@ -1,7 +1,7 @@
 package com.xht.modules.admin.oauth2.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnums;
+import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnum;
 import com.xht.modules.admin.oauth2.domain.form.SysOauth2ClientForm;
 import com.xht.modules.admin.oauth2.domain.response.SysOauth2ClientResponse;
 import com.xht.modules.admin.oauth2.entity.SysOauth2ClientEntity;
@@ -40,8 +40,8 @@ public interface SysOauth2ClientConverter extends BasicConverter<SysOauth2Client
      * 转换自动授权枚举值
      */
     @Named("convertAutoApprove")
-    default Oauth2ClientAutoApproveEnums convertAutoApprove(Integer code) {
-        return Oauth2ClientAutoApproveEnums.of(code);
+    default Oauth2ClientAutoApproveEnum convertAutoApprove(Integer code) {
+        return Oauth2ClientAutoApproveEnum.of(code);
     }
 
 }

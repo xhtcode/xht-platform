@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xht.framework.common.domain.vo.XhtVO;
 import com.xht.modules.admin.notice.domain.response.SysMessageInfoResponse;
 import com.xht.framework.core.message.core.MessageExtendInfo;
-import com.xht.framework.core.message.enums.MessageTypeEnums;
+import com.xht.framework.core.message.enums.MessageTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -33,7 +33,7 @@ public class MessageInfoVO implements XhtVO {
      * 消息类型：1-系统通知 2-业务提醒
      */
     @Schema(description = "消息类型：1-系统通知 2-业务提醒")
-    private MessageTypeEnums messageType;
+    private MessageTypeEnum messageType;
 
     /**
      * 消息扩展信息消息标题

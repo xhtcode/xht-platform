@@ -2,9 +2,9 @@ package com.xht.framework.security.core;
 
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.map.MapUtil;
-import com.xht.framework.common.enums.LoginTypeEnums;
-import com.xht.framework.common.enums.UserStatusEnums;
-import com.xht.framework.common.enums.UserTypeEnums;
+import com.xht.framework.common.enums.LoginTypeEnum;
+import com.xht.framework.common.enums.UserStatusEnum;
+import com.xht.framework.common.enums.UserTypeEnum;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 
 import java.util.Collections;
@@ -84,18 +84,18 @@ public final class BasicUserDetailsConvert {
         }
         BasicUserDetails basicUserDetails = new BasicUserDetails(
                 MapUtil.getLong(target, USER_ID),
-                UserTypeEnums.getByValue(MapUtil.getInt(target, USER_TYPE)),
+                UserTypeEnum.getByValue(MapUtil.getInt(target, USER_TYPE)),
                 MapUtil.getStr(target, USER_NAME),
                 MapUtil.getStr(target, NICK_NAME),
                 null,
                 Collections.emptySet());
-        basicUserDetails.setUserStatus(UserStatusEnums.getByValue(MapUtil.getInt(target, USER_STATUS)));
+        basicUserDetails.setUserStatus(UserStatusEnum.getByValue(MapUtil.getInt(target, USER_STATUS)));
         basicUserDetails.setUserPhone(MapUtil.getStr(target, USER_PHONE));
         basicUserDetails.setDeptId(MapUtil.getLong(target, DEPT_ID));
         basicUserDetails.setDeptName(MapUtil.getStr(target, DEPT_NAME));
         basicUserDetails.setRoleCodes(MapUtil.get(target, ROLE_CODES, LIST_TYPE_REFERENCE));
         basicUserDetails.setMenuButtonCodes(MapUtil.get(target, MENU_BUTTON_CODE, LIST_TYPE_REFERENCE));
-        basicUserDetails.setLoginType(LoginTypeEnums.getByValue(MapUtil.getStr(target, LOGIN_TYPE)));
+        basicUserDetails.setLoginType(LoginTypeEnum.getByValue(MapUtil.getStr(target, LOGIN_TYPE)));
         return basicUserDetails;
     }
 

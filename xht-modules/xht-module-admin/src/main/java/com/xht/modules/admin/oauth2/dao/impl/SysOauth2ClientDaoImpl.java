@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnums;
+import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnum;
 import com.xht.modules.admin.oauth2.dao.SysOauth2ClientDao;
 import com.xht.modules.admin.oauth2.dao.mapper.SysOauth2ClientMapper;
 import com.xht.modules.admin.oauth2.domain.form.SysOauth2ClientForm;
@@ -47,7 +47,7 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
                 .set(condition(form.getScopes()), SysOauth2ClientEntity::getScopes, form.getScopes(), JACKSON_TYPE_HANDLER)
                 .set(condition(form.getAccessTokenValidity()), SysOauth2ClientEntity::getAccessTokenValidity, form.getAccessTokenValidity())
                 .set(condition(form.getRefreshTokenValidity()), SysOauth2ClientEntity::getRefreshTokenValidity, form.getRefreshTokenValidity())
-                .set(SysOauth2ClientEntity::getAutoApprove, Objects.requireNonNullElse(form.getAutoApprove(), Oauth2ClientAutoApproveEnums.NO))
+                .set(SysOauth2ClientEntity::getAutoApprove, Objects.requireNonNullElse(form.getAutoApprove(), Oauth2ClientAutoApproveEnum.NO))
                 .set(SysOauth2ClientEntity::getRemark, form.getRemark());
         // @formatter:on
         updateWrapper.eq(SysOauth2ClientEntity::getId, form.getId());

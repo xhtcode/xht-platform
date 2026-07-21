@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.modules.admin.system.enums.DeptStatusEnums;
+import com.xht.modules.admin.system.enums.DeptStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -53,7 +53,7 @@ public class SysDeptEntity extends BasicEntity implements Serializable {
      * 状态（0正常 1停用）
      */
     @TableField(value = "dept_status")
-    private DeptStatusEnums deptStatus;
+    private DeptStatusEnum deptStatus;
 
     /**
      * 显示顺序

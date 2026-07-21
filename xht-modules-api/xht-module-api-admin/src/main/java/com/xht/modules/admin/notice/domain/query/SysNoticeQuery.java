@@ -1,7 +1,7 @@
 package com.xht.modules.admin.notice.domain.query;
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import com.xht.modules.admin.notice.enums.NoticeStatusEnums;
+import com.xht.modules.admin.notice.enums.NoticeStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -32,7 +32,7 @@ public class SysNoticeQuery extends PageBasicQuery {
      * 通知状态(0:未发布;1:已发布;2:已下架;3:已过期)
      */
     @Schema(description = "通知状态")
-    private NoticeStatusEnums noticeStatus;
+    private NoticeStatusEnum noticeStatus;
 
     /**
      * 发布开始时间

@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.NoneDeleteEntity;
-import com.xht.modules.common.enums.DataBaseTypeEnums;
-import com.xht.modules.common.enums.PageStyleEnums;
+import com.xht.modules.common.enums.DataBaseTypeEnum;
+import com.xht.modules.common.enums.PageStyleEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -43,7 +43,7 @@ public class GenTableEntity extends NoneDeleteEntity implements Serializable {
      * 数据库类型
      */
     @TableField(value = "data_base_type")
-    private DataBaseTypeEnums dataBaseType;
+    private DataBaseTypeEnum dataBaseType;
 
     /**
      * 引擎名称
@@ -133,7 +133,7 @@ public class GenTableEntity extends NoneDeleteEntity implements Serializable {
      * 页面风格
      */
     @TableField(value = "page_style")
-    private PageStyleEnums pageStyle;
+    private PageStyleEnum pageStyle;
 
     /**
      * 页面宽度

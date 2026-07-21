@@ -7,7 +7,7 @@ import com.xht.modules.admin.area.dao.SysAreaDao;
 import com.xht.modules.admin.area.domain.form.SysAreaForm;
 import com.xht.modules.admin.area.domain.response.SysAreaResponse;
 import com.xht.modules.admin.area.entity.SysAreaEntity;
-import com.xht.modules.admin.area.enums.AreaHasChildEnums;
+import com.xht.modules.admin.area.enums.AreaHasChildEnum;
 import com.xht.modules.admin.area.service.ISysAreaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public class SysAreaServiceImpl implements ISysAreaService {
         checkForm(form);
         sysAreaDao.save(sysAreaConverter.toEntity(form));
         if (!Objects.equals(form.getParentId(), AreaConstant.DEFAULT_PARENT_CODE)) {
-            sysAreaDao.updateHasChild(form.getParentId(), AreaHasChildEnums.HAS_CHILD);
+            sysAreaDao.updateHasChild(form.getParentId(), AreaHasChildEnum.HAS_CHILD);
         }
     }
 
@@ -74,7 +74,7 @@ public class SysAreaServiceImpl implements ISysAreaService {
         SysAreaEntity entity = sysAreaConverter.toEntity(form);
         sysAreaDao.updateById(entity);
         if (!Objects.equals(form.getParentId(), AreaConstant.DEFAULT_PARENT_CODE)) {
-            sysAreaDao.updateHasChild(form.getParentId(), AreaHasChildEnums.HAS_CHILD);
+            sysAreaDao.updateHasChild(form.getParentId(), AreaHasChildEnum.HAS_CHILD);
         }
     }
 

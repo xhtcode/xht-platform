@@ -1,6 +1,6 @@
 package com.xht.auth.security.web.authentication.phone.filter;
 
-import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnums;
+import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnum;
 import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationFilter;
 import com.xht.auth.security.web.authentication.phone.token.XhtPhoneLoginToken;
 import com.xht.framework.exception.utils.ThrowUtils;
@@ -70,7 +70,7 @@ public class XhtPhoneLoginFilter extends AbstractXhtAuthenticationFilter<XhtPhon
         String phoneCode = StringUtils.str(authenticationToken.getCredentials());
         ThrowUtils.hasText(phone, () -> new BasicAuthenticationException("参数错误：手机号不能为空"));
         ThrowUtils.hasText(phoneCode, () -> new BasicAuthenticationException("参数错误：手机验证码不能为空"));
-        iCaptchaService.checkPhoneCode(phone, phoneCode, CaptchaBusinessTypeEnums.SSO);
+        iCaptchaService.checkPhoneCode(phone, phoneCode, CaptchaBusinessTypeEnum.SSO);
     }
 
 }
