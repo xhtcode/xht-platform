@@ -10,9 +10,41 @@
     </parent>
 
     <name>xht-workflow</name>
+    <modules>
+        <module>xht-workflow-common</module>
+        <module>xht-workflow-domain</module>
+        <module>xht-workflow-infrastructure</module>
+        <module>xht-workflow-adapter</module>
+        <module>xht-workflow-start</module>
+    </modules>
     <artifactId>xht-workflow</artifactId>
     <packaging>pom</packaging>
-    <description>xht-modules业务模块</description>
+    <description>xht-workflow工作流模块</description>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.xht.platform</groupId>
+                <artifactId>xht-workflow-common</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xht.platform</groupId>
+                <artifactId>xht-workflow-domain</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xht.platform</groupId>
+                <artifactId>xht-workflow-infrastructure</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xht.platform</groupId>
+                <artifactId>xht-workflow-adapter</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <finalName>${project.artifactId}</finalName>

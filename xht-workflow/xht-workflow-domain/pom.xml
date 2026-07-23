@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.xht.platform</groupId>
+        <artifactId>xht-workflow</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <name>xht-workflow-domain</name>
+    <artifactId>xht-workflow-domain</artifactId>
+    <packaging>jar</packaging>
+    <description>工作流 domain 层</description>
+
+    <dependencies>
+        <!-- Swagger Core -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations-jakarta</artifactId>
+        </dependency>
+    </dependencies>
+</project>

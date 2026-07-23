@@ -1,6 +1,7 @@
 package com.xht.framework.core.properties.cache;
 
 import com.xht.framework.utils.StringUtils;
+import lombok.Data;
 
 import java.util.Collections;
 import java.util.Map;
@@ -9,13 +10,12 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 字典项缓存属性
- *
- * @param keyPrefix  字典项缓存Key
- * @param timeOut    字典项缓存时间
- * @param unit       字典项缓存时间单位
- * @param properties 扩展属性
+ * @author xht
  */
-public record CacheProperties(String keyPrefix, Long timeOut, TimeUnit unit, Map<String, Object> properties) {
+@Data
+public class CacheProperties {
+
+
     /**
      * 缓存key前缀
      */
@@ -30,7 +30,26 @@ public record CacheProperties(String keyPrefix, Long timeOut, TimeUnit unit, Map
      * 缓存时间单位
      */
     private final static TimeUnit DEFAULT_UNIT = TimeUnit.SECONDS;
-    
+
+    /**
+     * 字典项缓存Key
+     */
+    private String keyPrefix;
+    /**
+     * 字典项缓存时间
+     */
+    private Long timeOut;
+    /**
+     * 字典项缓存时间单位
+     */
+    private TimeUnit unit;
+
+    /**
+     * 扩展属性
+     */
+    private Map<String, Object> properties;
+
+
     /**
      * 默认构造函数
      */

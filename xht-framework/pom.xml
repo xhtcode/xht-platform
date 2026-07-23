@@ -10,7 +10,6 @@
     </parent>
 
     <groupId>com.xht.framework</groupId>
-    <version>1.0.0</version>
     <name>xht-framework</name>
     <artifactId>xht-framework</artifactId>
     <packaging>pom</packaging>
