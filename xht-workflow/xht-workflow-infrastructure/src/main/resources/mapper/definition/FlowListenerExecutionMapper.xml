@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xht.workflow.definition.dao.mapper.FlowListenerExecutionMapper">
+
+    <resultMap id="BaseResultMap" type="com.xht.workflow.definition.entity.FlowListenerExecutionEntity">
+        <id property="id" column="id" />
+        <result property="eventType" column="event_type" />
+        <result property="listenerType" column="listener_type" />
+        <result property="javaClass" column="java_class" />
+        <result property="expressionValue" column="expression_value" />
+        <result property="delegateExpression" column="delegate_expression" />
+        <result property="scriptFormat" column="script_format" />
+        <result property="scriptType" column="script_type" />
+        <result property="scriptContent" column="script_content" />
+        <result property="scriptResource" column="script_resource" />
+        <result property="listenerStatus" column="listener_status" />
+        <result property="createBy" column="create_by" />
+        <result property="createTime" column="create_time" />
+        <result property="updateBy" column="update_by" />
+        <result property="updateTime" column="update_time" />
+    </resultMap>
+
+</mapper>

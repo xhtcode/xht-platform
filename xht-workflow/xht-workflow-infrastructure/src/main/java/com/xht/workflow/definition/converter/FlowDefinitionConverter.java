@@ -1,0 +1,18 @@
+package com.xht.workflow.definition.converter;
+
+import com.xht.framework.mybatis.converter.BasicConverter;
+import com.xht.workflow.definition.domain.form.FlowDefinitionForm;
+import com.xht.workflow.definition.domain.response.FlowDefinitionResponse;
+import com.xht.workflow.definition.entity.FlowDefinitionEntity;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
+
+/**
+ * 描述：流程定义转换器
+ *
+ * @author xht
+ **/
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface FlowDefinitionConverter extends BasicConverter<FlowDefinitionEntity, FlowDefinitionForm, FlowDefinitionResponse> {
+}

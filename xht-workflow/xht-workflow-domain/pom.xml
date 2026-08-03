@@ -20,5 +20,9 @@
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations-jakarta</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.xht.platform</groupId>
+            <artifactId>xht-workflow-common</artifactId>
+        </dependency>
     </dependencies>
 </project>

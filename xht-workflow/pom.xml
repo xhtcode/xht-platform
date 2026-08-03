@@ -10,17 +10,21 @@
     </parent>
 
     <name>xht-workflow</name>
-    <modules>
-        <module>xht-workflow-common</module>
-        <module>xht-workflow-domain</module>
-        <module>xht-workflow-infrastructure</module>
-        <module>xht-workflow-adapter</module>
-        <module>xht-workflow-start</module>
-    </modules>
     <artifactId>xht-workflow</artifactId>
     <packaging>pom</packaging>
     <description>xht-workflow工作流模块</description>
 
+    <modules>
+        <module>xht-workflow-adapter</module>
+        <module>xht-workflow-common</module>
+        <module>xht-workflow-domain</module>
+        <module>xht-workflow-infrastructure</module>
+        <module>xht-workflow-start</module>
+    </modules>
+
+    <properties>
+        <flowable.version>7.2.0</flowable.version>
+    </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -42,6 +46,11 @@
                 <groupId>com.xht.platform</groupId>
                 <artifactId>xht-workflow-adapter</artifactId>
                 <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.flowable</groupId>
+                <artifactId>flowable-spring-boot-starter</artifactId>
+                <version>${flowable.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

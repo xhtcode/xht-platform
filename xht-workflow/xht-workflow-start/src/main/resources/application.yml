@@ -6,21 +6,42 @@ spring:
     name: xht-workflow
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/xht_platform?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/xht_flowable?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
   profiles:
-    active: dev
+    active: @profiles.active@
   data:
     redis:
-      password:
+      password: 123456
       host: 127.0.0.1
       port: 6379
       database: 1
+  cloud:
+    nacos:
+      discovery:
+        server-addr: @nacos.discovery.address@
+        username: @nacos.username@
+        password: @nacos.password@
+        namespace: @nacos.namespace@
+        group: @nacos.group@
+      config:
+        server-addr: @nacos.config.address@
+        username: @nacos.username@
+        password: @nacos.password@
+        namespace: @nacos.namespace@
+        group: @nacos.group@
+        file-extension: yml
+        prefix: ${spring.application.name} # 默认配置
 springdoc:
+  swagger-ui:
+    enabled: true
   api-docs:
     enabled: true
+    path: /v3/api-docs
+    resolve-schema-properties: true
   override-with-generic-response: false # 解决springdoc和knife4版本冲突问题
+  default-flat-param-object: true # 解决参数列表显示问题
 xht:
   safety:
     xss:
@@ -41,3 +62,20 @@ mybatis-plus:
   mapper-locations: classpath*:mapper/**/*Mapper.xml
   configuration-properties:
     delFlag: ${mybatis-plus.global-config.db-config.logic-not-delete-value}
+flowable:
+  async-executor-activate: true
+  # 自动创建表结构
+  database-schema-update: true
+  # 关闭自动部署（生产建议关闭，手动部署bpmn文件）
+  check-process-definitions: false
+  # 开启REST接口
+  rest-api-enabled: true
+  idm:
+    # 关闭身份引擎
+    enabled: false
+  cmmn:
+    # 关闭CMMN案例引擎
+    enabled: false
+  dmn:
+    # 关闭DMN决策引擎
+    enabled: false

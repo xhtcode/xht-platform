@@ -13,6 +13,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.xht.platform</groupId>
+            <artifactId>xht-workflow-domain</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.xht.framework</groupId>
             <artifactId>xht-spring-boot-starter-web</artifactId>
         </dependency>
