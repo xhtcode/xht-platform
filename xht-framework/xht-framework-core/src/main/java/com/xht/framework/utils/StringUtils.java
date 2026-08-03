@@ -3,6 +3,7 @@ package com.xht.framework.utils;
 
 import com.xht.framework.common.constant.CharacterConstant;
 import com.xht.framework.common.constant.StringConstant;
+import com.xht.framework.exception.UtilException;
 
 /**
  * 描述 ：{@link StringUtils}工具类扩展
@@ -14,6 +15,10 @@ public final class StringUtils extends org.springframework.util.StringUtils {
 
     private static final String regex = "[\\u4e00-\\u9fff]+"; // 匹配一个或多个汉字
 
+    private StringUtils() {
+        throw new UtilException("工具类不允许实例化");
+    }
+
     /**
      * 判断字符串是否为空
      *
@@ -23,9 +28,6 @@ public final class StringUtils extends org.springframework.util.StringUtils {
     public static boolean isEmpty(String str) {
         return !hasText(str);
     }
-
-
-
 
 
     /**

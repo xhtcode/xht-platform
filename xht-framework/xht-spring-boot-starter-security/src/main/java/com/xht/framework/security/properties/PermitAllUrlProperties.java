@@ -3,9 +3,8 @@ package com.xht.framework.security.properties;
 import cn.hutool.core.util.ReUtil;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.jackson.JsonUtils;
-import com.xht.framework.core.properties.IProperties;
-import com.xht.framework.utils.spring.SpringContextUtils;
 import com.xht.framework.security.annotation.IgnoreAuth;
+import com.xht.framework.utils.spring.SpringContextUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -26,7 +25,7 @@ import java.util.regex.Pattern;
 @Slf4j
 @Data
 @ConfigurationProperties(prefix = "xht.security.ignore.whites")
-public class PermitAllUrlProperties implements InitializingBean, IProperties {
+public class PermitAllUrlProperties implements InitializingBean {
 
     private static final String ANSI_GREEN = "\033[32m";
 

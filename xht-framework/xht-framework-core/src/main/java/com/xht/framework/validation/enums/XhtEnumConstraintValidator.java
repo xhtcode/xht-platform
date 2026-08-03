@@ -11,13 +11,13 @@ import java.util.Objects;
  *
  * @author xht
  **/
-public class EnumsValidator implements ConstraintValidator<Enums, XhtEnum<?>> {
+public class XhtEnumConstraintValidator implements ConstraintValidator<XhtEnumValidator, XhtEnum<?>> {
 
     private XhtEnum<?>[] enumConstants;
 
     @Override
-    public void initialize(Enums enums) {
-        Class<? extends XhtEnum<?>> value = enums.value();
+    public void initialize(XhtEnumValidator xhtEnumValidator) {
+        Class<? extends XhtEnum<?>> value = xhtEnumValidator.value();
         this.enumConstants = value.getEnumConstants();
     }
 

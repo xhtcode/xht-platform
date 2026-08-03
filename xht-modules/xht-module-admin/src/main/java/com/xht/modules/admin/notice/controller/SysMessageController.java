@@ -62,8 +62,8 @@ public class SysMessageController {
     @BLog(value = "站内信", description = "收藏站内信 (收件人侧)")
     @Operation(summary = "收藏站内信(收件人侧)")
     @PostMapping("/update/start/{messageId}/{start}")
-    public R<Void> updateStartById(@PathVariable Long messageId, @PathVariable("start") MessageStarEnum messageStarEnum) {
-        sysMessageService.updateStartById(messageId, messageStarEnum);
+    public R<Void> updateStartById(@PathVariable Long messageId, @PathVariable MessageStarEnum start) {
+        sysMessageService.updateStartById(messageId, start);
         return R.ok().build();
     }
 
@@ -75,8 +75,8 @@ public class SysMessageController {
     @BLog(value = "站内信", description = "置顶站内信 (收件人侧)")
     @Operation(summary = "置顶站内信(收件人侧)")
     @PostMapping("/update/top/{messageId}/{top}")
-    public R<Void> updateTopById(@PathVariable Long messageId, @PathVariable("top") MessageTopEnum messageTopEnum) {
-        sysMessageService.updateTopById(messageId, messageTopEnum);
+    public R<Void> updateTopById(@PathVariable Long messageId, @PathVariable MessageTopEnum top) {
+        sysMessageService.updateTopById(messageId, top);
         return R.ok().build();
     }
 

@@ -120,10 +120,10 @@ public class SysUserController {
      */
     @BLog(value = "用户管理", description = "用户状态修改")
     @CheckMenu("sys:user:update")
-    @PostMapping("/update/{userId}/{status}")
+    @PostMapping("/update/{userId}/{userStatus}")
     @Operation(summary = "用户状态修改", description = "用户状态修改")
-    public R<Void> updateStatus(@PathVariable("userId") Long userId, @PathVariable("status") UserStatusEnum status) {
-        userService.updateStatus(userId, status);
+    public R<Void> updateStatus(@PathVariable Long userId, @PathVariable UserStatusEnum userStatus) {
+        userService.updateStatus(userId, userStatus);
         return R.ok().build();
     }
 

@@ -101,7 +101,7 @@ public class GenDataSourceController {
      */
     @Operation(summary = "测试链接", description = "测试链接")
     @GetMapping("/connection/{id}")
-    public R<Boolean> connection(@PathVariable("id") Long id) {
+    public R<Boolean> connection(@PathVariable Long id) {
         return R.ok().build(genDataSourceService.connection(id));
     }
 

@@ -47,7 +47,7 @@ public class XhtPage<T> implements Serializable {
         this.size = size;
         this.total = total;
         this.records = records;
-        this.totalPage = PageTool.totalPage(this.total, this.size);
+        this.totalPage = PageTool.totalPageSize(this.total, this.size);
     }
 
     public static <T> Builder<T> builder(List<T> records) {

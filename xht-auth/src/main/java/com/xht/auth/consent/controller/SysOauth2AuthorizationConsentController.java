@@ -41,7 +41,7 @@ public class SysOauth2AuthorizationConsentController {
      * @return 删除结果
      */
     @PostMapping("/remove/possess/{registeredClientId}")
-    public R<Void> removeMyByRegisteredClientId(@PathVariable("registeredClientId") String registeredClientId) {
+    public R<Void> removeMyByRegisteredClientId(@PathVariable String registeredClientId) {
         String userName = SecurityUtils.getUserName();
         sysOauth2AuthorizationConsentService.removeByRegisteredClientIdAndPrincipalName(userName, registeredClientId);
         return R.ok().build();

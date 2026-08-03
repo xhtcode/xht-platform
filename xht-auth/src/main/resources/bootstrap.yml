@@ -10,7 +10,8 @@ spring:
             client-secret: d9c4d4234c5465263beaa91968fdc5cc78b6b2b50f9c1ce5310ea96c8a9ed48b
             authorization-grant-type: authorization_code
             redirect-uri: http://www.xht.sso.com:9000/login/oauth2/code/gitee
-            scope: user_info
+            scope:
+              -  user_info
         provider:
           gitee:
             # 设置用户信息响应体中账号的字段

@@ -1,6 +1,5 @@
 package com.xht.framework.core.properties.basic;
 
-import com.xht.framework.core.properties.IProperties;
 import lombok.Data;
 
 /**
@@ -9,7 +8,7 @@ import lombok.Data;
  * @author xht
  **/
 @Data
-public class EnableProperties implements IProperties {
+public class EnableProperties {
 
     /**
      * 是否开启，默认为 true

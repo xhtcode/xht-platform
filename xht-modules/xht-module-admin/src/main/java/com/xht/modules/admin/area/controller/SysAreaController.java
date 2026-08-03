@@ -79,7 +79,7 @@ public class SysAreaController {
      */
     @Operation(summary = "根据主键`id`查询系统管理-行政区划")
     @GetMapping("/get/{id}")
-    public R<SysAreaResponse> findById(@PathVariable("id") Long id) {
+    public R<SysAreaResponse> findById(@PathVariable Long id) {
         return R.ok().build(sysAreaService.findById(id));
     }
 

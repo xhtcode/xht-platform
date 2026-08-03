@@ -1,6 +1,5 @@
 package com.xht.framework.oauth2.token;
 
-import com.xht.framework.core.properties.IProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -11,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  **/
 @Data
 @ConfigurationProperties(prefix = "xht.security.token.lightning-cache")
-public class TokenLightningCacheProperties implements IProperties {
+public class TokenLightningCacheProperties {
 
     /**
      * 缓存令牌有效期 默认 5 分钟

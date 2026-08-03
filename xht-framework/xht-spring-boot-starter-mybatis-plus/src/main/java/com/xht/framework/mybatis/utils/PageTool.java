@@ -93,7 +93,7 @@ public final class PageTool {
         resultVo.setCurrent(current);
         resultVo.setSize(size);
         resultVo.setTotal(total);
-        resultVo.setPages(totalPage(total, size));
+        resultVo.setPages(totalPageSize(total, size));
         resultVo.setRecords(list);
         return resultVo;
     }
@@ -162,7 +162,7 @@ public final class PageTool {
      * @return 总页数
      * @since 5.8.5
      */
-    public static int totalPage(Number totalCount, Number pageSize) {
+    public static int totalPageSize(Number totalCount, Number pageSize) {
         if (pageSize.longValue() == 0) {
             return 0;
         }

@@ -57,7 +57,7 @@ public final class JsonUtils {
      * 将json形式的字符串数据转换成单个对象
      */
     @SuppressWarnings("unchecked")
-    public static <T> T toObject(String json, Class<?> clazz) {
+    public static <T> T toObject(String json, Class<T> clazz) {
         if (StringUtils.hasText(json) && Objects.nonNull(clazz)) {
             try {
                 if (Objects.equals(String.class, clazz)) {

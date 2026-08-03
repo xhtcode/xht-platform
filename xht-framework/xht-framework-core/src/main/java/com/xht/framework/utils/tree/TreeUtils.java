@@ -1,6 +1,5 @@
 package com.xht.framework.utils.tree;
 
-import cn.hutool.core.lang.tree.Tree;
 import com.xht.framework.exception.UtilException;
 import org.springframework.util.CollectionUtils;
 
@@ -20,7 +19,7 @@ public final class TreeUtils {
     /**
      * 把树给拆解成list集合
      *
-     * @param node               {@link Tree<T>}
+     * @param node               {@link INode<T>}
      * @param includeCurrentNode 否包含当前节点的名称
      * @return {@link List<TreeNode> }
      */

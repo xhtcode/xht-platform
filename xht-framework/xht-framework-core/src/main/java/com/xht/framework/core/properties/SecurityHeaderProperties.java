@@ -13,7 +13,7 @@ import static com.xht.framework.common.constant.HttpConstants.Header.AUTH_KEY;
  **/
 @Data
 @ConfigurationProperties(prefix = "xht.safety")
-public class SecurityHeaderProperties implements IProperties {
+public class SecurityHeaderProperties {
 
     private Header header = new Header();
 

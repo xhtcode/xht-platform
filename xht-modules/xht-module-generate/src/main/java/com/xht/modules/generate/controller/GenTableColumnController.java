@@ -49,7 +49,7 @@ public class GenTableColumnController {
      */
     @Operation(summary = "根据表id查询字段信息", description = "根据表id查询字段信息")
     @GetMapping("/list/{tableId}")
-    public R<List<GenTableColumnResponse>> listByTableId(@PathVariable("tableId") String tableId) {
+    public R<List<GenTableColumnResponse>> listByTableId(@PathVariable String tableId) {
         return R.ok().build(genColumnInfoService.listByTableId(tableId));
     }
 

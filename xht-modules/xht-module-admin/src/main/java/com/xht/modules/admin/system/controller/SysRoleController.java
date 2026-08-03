@@ -98,11 +98,11 @@ public class SysRoleController {
 
     @BLog(value = "角色管理", description = "修改角色状态")
     @CheckMenu("sys:role:update")
-    @PostMapping("/updateStatus/{id}/{status}")
+    @PostMapping("/updateStatus/{id}/{roleStatus}")
     @Operation(summary = "修改角色状态", description = "根据提供的角色ID和状态修改角色状态")
-    public R<Void> updateStatus(@PathVariable("id") @Parameter(description = "角色ID", required = true) Long id,
-                                @PathVariable("status") @Parameter(description = "角色状态", required = true) RoleStatusEnum status) {
-        sysRoleService.updateStatus(id, status);
+    public R<Void> updateStatus(@PathVariable @Parameter(description = "角色ID", required = true) Long id,
+                                @PathVariable @Parameter(description = "角色状态", required = true) RoleStatusEnum roleStatus) {
+        sysRoleService.updateStatus(id, roleStatus);
         return R.ok().build();
     }
 
@@ -168,7 +168,7 @@ public class SysRoleController {
      */
     @GetMapping("/select/menu/{roleId}")
     @Operation(summary = "角色拥有的菜单", description = "获取当前角色拥有的菜单ID列表")
-    public R<RoleSelectedMenuResponse> selectMenuIdByRoleId(@PathVariable("roleId") String roleId) {
+    public R<RoleSelectedMenuResponse> selectMenuIdByRoleId(@PathVariable String roleId) {
         return R.ok().build(sysRoleMenuService.selectMenuIdByRoleId(roleId));
     }
 

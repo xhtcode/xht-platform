@@ -14,7 +14,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  **/
 @Data
 @ConfigurationProperties(prefix = "xht")
-public class XhtConfigProperties implements IProperties {
+public class XhtConfigProperties {
 
     /**
      * 全局配置

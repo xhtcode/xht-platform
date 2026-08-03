@@ -128,7 +128,7 @@ public class SysNoticeController {
     @Operation(summary = "根据主键`id`查询系统管理-通知详情")
     @IgnoreAuth(aop = false)
     @GetMapping("/get/{id}")
-    public R<NoticeVO> findById(@PathVariable("id") Long id) {
+    public R<NoticeVO> findById(@PathVariable Long id) {
         return R.ok().build(sysNoticeService.findById(id));
     }
 

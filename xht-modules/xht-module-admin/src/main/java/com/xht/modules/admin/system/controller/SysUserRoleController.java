@@ -51,7 +51,7 @@ public class SysUserRoleController {
      */
     @GetMapping("/{userId}")
     @Operation(summary = "获取当前用户拥有的角色ID列表", description = "获取当前用户拥有的角色ID列表")
-    public R<List<Long>> selectRoleIdByUserId(@PathVariable("userId") String userId) {
+    public R<List<Long>> selectRoleIdByUserId(@PathVariable String userId) {
         return R.ok().build(userRoleService.selectRoleIdByUserId(userId));
     }
 

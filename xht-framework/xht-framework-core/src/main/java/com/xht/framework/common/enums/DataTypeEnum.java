@@ -1,5 +1,6 @@
 package com.xht.framework.common.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -15,13 +16,15 @@ public enum DataTypeEnum implements XhtEnum<Integer> {
     /**
      * 普通数据
      */
-    NORMAL(1, "普通数据"),
+    NORMAL(0, "普通数据"),
 
     /**
      * 加密数据
      */
-    ENCRYPT(10, "加密数据"),
+    ENCRYPT(1, "加密数据"),
     ;
+
+    @JsonValue
     private final Integer value;
 
     private final String desc;

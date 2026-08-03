@@ -86,7 +86,7 @@ public class GenTemplateController {
      * @return 模板响应列表
      */
     @GetMapping("/list/{groupId}")
-    public R<List<GenTemplateResponse>> listByGroupId(@PathVariable("groupId") String groupId) {
+    public R<List<GenTemplateResponse>> listByGroupId(@PathVariable String groupId) {
         return R.ok().build(genTemplateService.listByGroupId(groupId));
     }
 

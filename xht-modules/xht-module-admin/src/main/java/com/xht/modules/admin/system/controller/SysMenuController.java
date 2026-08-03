@@ -88,11 +88,11 @@ public class SysMenuController {
      */
     @BLog(value = "菜单管理", description = "")
     @CheckMenu("sys:menu:update")
-    @PostMapping("/updateStatus/{id}/{status}")
+    @PostMapping("/updateStatus/{id}/{menuStatus}")
     @Operation(summary = "修改菜单状态", description = "根据提供的菜单ID和状态修改菜单状态")
-    public R<Void> updateStatus(@PathVariable("id") @Parameter(description = "菜单ID", required = true) Long id,
-                                @PathVariable("status") @Parameter(description = "菜单状态", required = true) MenuStatusEnum status) {
-        sysMenuService.updateStatus(id, status);
+    public R<Void> updateStatus(@PathVariable @Parameter(description = "菜单ID", required = true) Long id,
+                                @PathVariable @Parameter(description = "菜单状态", required = true) MenuStatusEnum menuStatus) {
+        sysMenuService.updateStatus(id, menuStatus);
         return R.ok().build();
     }
 

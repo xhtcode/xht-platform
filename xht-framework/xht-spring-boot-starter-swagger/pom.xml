@@ -20,11 +20,6 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
         </dependency>
-        <!-- xht-framework-core -->
-        <dependency>
-            <groupId>com.xht.framework</groupId>
-            <artifactId>xht-framework-core</artifactId>
-        </dependency>
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>

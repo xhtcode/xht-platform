@@ -5,7 +5,7 @@ spring:
   application:
     name: xht-module-generate
   profiles:
-    active: dev
+    active: @profiles.active@
   # 数据源配置
   datasource:
     password: 123456

@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8082
   servlet:
     session:
       cookie:
@@ -37,6 +37,12 @@ spring:
                 - Path=/generate/**
               filters:
                 - StripPrefix=1
+            - id: xht-workflow
+              uri: lb://xht-workflow #此处需要使用lb协议
+              predicates:
+                - Path=/workflow/**
+              filters:
+                - StripPrefix=1
           default-filters:
   data:
     redis:
@@ -57,8 +63,8 @@ xht:
   global:
     banner:
       enable: true
-    app-name: 授权服务
-    host-name: www.xht.sso.com
+    app-name: 网关服务
+    host-name: www.xht.com
   security:
     ignore:
       whites:

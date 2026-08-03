@@ -49,4 +49,18 @@ public class GenDataSourceForm extends BasicForm {
     @Schema(description = "数据库地址")
     private String url;
 
+    /**
+     * 数据库用户名
+     */
+    @NotBlank(message = "数据库用户名不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "数据库用户名")
+    private String username;
+
+    /**
+     * 密码
+     */
+    @NotBlank(message = "密码不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "密码")
+    private String password;
+
 }

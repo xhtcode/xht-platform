@@ -11,11 +11,11 @@ import java.lang.annotation.*;
  *
  * @author xht
  **/
-@Constraint(validatedBy = {EnumsValidator.class})
+@Constraint(validatedBy = {XhtEnumConstraintValidator.class})
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Enums {
+public @interface XhtEnumValidator {
 
     /**
      * 枚举类

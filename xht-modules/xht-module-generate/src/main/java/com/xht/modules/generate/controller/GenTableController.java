@@ -55,7 +55,7 @@ public class GenTableController {
      */
     @Operation(summary = "同步表信息")
     @PostMapping("/syncTable/{tableId}")
-    public R<Void> syncTable(@Validated @PathVariable("tableId") Long tableId) {
+    public R<Void> syncTable(@PathVariable @Validated Long tableId) {
         genTableInfoService.syncTable(tableId);
         return R.ok().build();
     }
