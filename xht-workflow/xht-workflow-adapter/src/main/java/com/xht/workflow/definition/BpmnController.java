@@ -1,5 +1,6 @@
 package com.xht.workflow.definition;
 
+import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.workflow.definition.domain.query.FlowListenerExecutionQuery;
 import com.xht.workflow.definition.domain.query.FlowListenerTaskQuery;
@@ -38,8 +39,8 @@ public class BpmnController {
      * @return 流程扩展-执行监听器信息
      */
     @GetMapping("/listener/execution/get/{listenerId}")
-    public FlowListenerExecutionVO findListenerExecutionById(@PathVariable Long listenerId) {
-        return null;
+    public R<FlowListenerExecutionVO> findListenerExecutionById(@PathVariable Long listenerId) {
+        return R.ok().build(iFlowBpmnService.findListenerExecutionById(listenerId));
     }
 
     /**
@@ -50,8 +51,8 @@ public class BpmnController {
      */
     @Operation(summary = "BPMN分页查询", description = "分页查询BPMN可用的流程扩展-执行监听器（仅显示状态）")
     @GetMapping("/listener/execution/page")
-    public PageResponse<FlowListenerExecutionResponse> findPageList(FlowListenerExecutionQuery query) {
-        return null;
+    public R<PageResponse<FlowListenerExecutionResponse>> findListenerExecutionPage(FlowListenerExecutionQuery query) {
+        return R.ok().build(iFlowBpmnService.findListenerExecutionPage(query));
     }
 
     /**
@@ -60,8 +61,10 @@ public class BpmnController {
      * @param listenerId 流程扩展-任务监听器主键
      * @return 流程扩展-任务监听器信息
      */
-    public FlowListenerTaskVO findListenerTaskById(Long listenerId) {
-        return null;
+    @Operation(summary = "BPMN查询", description = "根据主键`listenerId`查询流程扩展-任务监听器")
+    @GetMapping("/listener/task/get/{listenerId}")
+    public R<FlowListenerTaskVO> findListenerTaskById(@PathVariable Long listenerId) {
+        return R.ok().build(iFlowBpmnService.findListenerTaskById(listenerId));
     }
 
     /**
@@ -72,7 +75,7 @@ public class BpmnController {
      */
     @Operation(summary = "BPMN分页查询", description = "分页查询BPMN可用的流程扩展-执行监听器（仅显示状态）")
     @GetMapping("/listener/task/page")
-    public PageResponse<FlowListenerTaskResponse> findPageList(FlowListenerTaskQuery query) {
-        return null;
+    public R<PageResponse<FlowListenerTaskResponse>> findListenerTaskPage(FlowListenerTaskQuery query) {
+        return R.ok().build(iFlowBpmnService.findListenerTaskPage(query));
     }
 }
