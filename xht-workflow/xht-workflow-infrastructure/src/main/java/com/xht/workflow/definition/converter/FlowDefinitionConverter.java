@@ -9,7 +9,7 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
 /**
- * 描述：流程定义转换器
+ * 描述：流程扩展-流程定义
  *
  * @author xht
  **/

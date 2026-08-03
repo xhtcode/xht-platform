@@ -22,7 +22,7 @@ import java.util.Objects;
 import static com.xht.workflow.common.constant.CategoryConstant.DEFAULT_CATEGORY_ID;
 
 /**
- * 流程定义
+ * 流程扩展-流程定义
  *
  * @author xht
  */

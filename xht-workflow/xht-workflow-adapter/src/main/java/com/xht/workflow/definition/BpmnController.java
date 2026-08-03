@@ -38,7 +38,7 @@ public class BpmnController {
      * @return 流程扩展-执行监听器信息
      */
     @GetMapping("/listener/execution/get/{listenerId}")
-    public FlowListenerExecutionVO findByListenerId(@PathVariable Long listenerId) {
+    public FlowListenerExecutionVO findListenerExecutionById(@PathVariable Long listenerId) {
         return null;
     }
 
@@ -60,7 +60,7 @@ public class BpmnController {
      * @param listenerId 流程扩展-任务监听器主键
      * @return 流程扩展-任务监听器信息
      */
-    public FlowListenerTaskVO findById(Long listenerId) {
+    public FlowListenerTaskVO findListenerTaskById(Long listenerId) {
         return null;
     }
 

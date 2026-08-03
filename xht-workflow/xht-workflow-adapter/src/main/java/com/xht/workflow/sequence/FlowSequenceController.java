@@ -31,61 +31,61 @@ public class FlowSequenceController {
     private final IFlowSequenceService flowSequenceService;
 
     /**
-     * 创建流程分类
+     * 创建流程定义
      *
-     * @param form 流程分类信息
+     * @param form 流程定义信息
      */
     @PostMapping("/create")
-    @Operation(summary = "创建流程分类")
+    @Operation(summary = "创建流程定义")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody FlowSequenceForm form) {
         flowSequenceService.create(form);
         return R.ok().build();
     }
 
     /**
-     * 删除流程分类
+     * 删除流程定义
      *
-     * @param ids 流程分类ID集合
+     * @param ids 流程定义ID集合
      */
     @PostMapping("/remove")
-    @Operation(summary = "删除流程分类")
+    @Operation(summary = "删除流程定义")
     public R<Void> removeById(@RequestBody List<Long> ids) {
         flowSequenceService.removeById(ids);
         return R.ok().build();
     }
 
     /**
-     * 修改流程分类
+     * 修改流程定义
      *
-     * @param form 流程分类信息
+     * @param form 流程定义信息
      */
     @PostMapping("/update")
-    @Operation(summary = "修改流程分类")
+    @Operation(summary = "修改流程定义")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody FlowSequenceForm form) {
         flowSequenceService.updateById(form);
         return R.ok().build();
     }
 
     /**
-     * 获取流程分类详情
+     * 获取流程定义详情
      *
-     * @param id 流程分类ID
-     * @return 流程分类详情
+     * @param id 流程定义ID
+     * @return 流程定义详情
      */
     @GetMapping("/get/{id}")
-    @Operation(summary = "获取流程分类详情")
+    @Operation(summary = "获取流程定义详情")
     public R<FlowSequenceResponse> findById(@PathVariable Long id) {
         return R.ok().build(flowSequenceService.findById(id));
     }
 
     /**
-     * 分页查询流程分类
+     * 分页查询流程定义
      *
      * @param query 流程类别查询参数
      * @return 分页结果
      */
     @GetMapping("/page")
-    @Operation(summary = "分页查询流程分类")
+    @Operation(summary = "分页查询流程定义")
     public R<PageResponse<FlowSequenceResponse>> findPageList(FlowSequencePageQuery query) {
         return R.ok().build(flowSequenceService.findPageList(query));
     }

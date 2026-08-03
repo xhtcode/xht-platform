@@ -9,7 +9,7 @@ import com.xht.workflow.definition.enums.DefinitionStatusEnum;
 import java.util.List;
 
 /**
- * 流程定义
+ * 流程扩展-流程定义
  *
  * @author xht
  */

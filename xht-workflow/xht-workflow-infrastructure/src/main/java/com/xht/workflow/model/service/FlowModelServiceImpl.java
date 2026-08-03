@@ -47,7 +47,7 @@ public class FlowModelServiceImpl implements IFlowModelService {
     @Transactional(rollbackFor = Exception.class)
     public void modelInit(FlowModelInitForm modelInitForm) {
         FlowDefinitionEntity category = flowCategoryDao.findById(modelInitForm.getCategoryId());
-        ThrowUtils.throwIf(Objects.isNull(category), BusinessErrorCode.DATA_NOT_EXIST, "流程分类不存在");
+        ThrowUtils.throwIf(Objects.isNull(category), BusinessErrorCode.DATA_NOT_EXIST, "流程定义不存在");
         ModelInitBO build = ModelInitBuilder.builder()
                 .category(category.getDefinitionName())
                 .modelName(modelInitForm.getModelName())
@@ -77,7 +77,7 @@ public class FlowModelServiceImpl implements IFlowModelService {
     @Transactional(rollbackFor = Exception.class)
     public void updateModel(FlowModelUpdateForm modelUpdateForm) {
         FlowDefinitionEntity category = flowCategoryDao.findById(modelUpdateForm.getCategoryId());
-        ThrowUtils.throwIf(Objects.isNull(category), BusinessErrorCode.DATA_NOT_EXIST, "流程分类不存在");
+        ThrowUtils.throwIf(Objects.isNull(category), BusinessErrorCode.DATA_NOT_EXIST, "流程定义不存在");
         ModelUpdateBO modelUpdateBO = ModelUpdateBuilder.builder()
                 .category(category.getDefinitionName())
                 .modelId(modelUpdateForm.getModelId())

@@ -5,7 +5,7 @@ import com.xht.workflow.definition.entity.FlowDefinitionEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 流程分类
+ * 流程扩展-流程定义
  *
  * @author xht
  */
@@ -13,7 +13,3 @@ import org.apache.ibatis.annotations.Mapper;
 public interface FlowDefinitionMapper extends BaseMapperX<FlowDefinitionEntity> {
 
 }
-
-
-
-

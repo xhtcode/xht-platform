@@ -57,7 +57,7 @@ public class FlowBpmnServiceImpl implements IFlowBpmnService {
      * @return 流程扩展-执行监听器信息
      */
     @Override
-    public FlowListenerExecutionVO findByListenerId(Long listenerId) {
+    public FlowListenerExecutionVO findListenerExecutionById(Long listenerId) {
         FlowListenerExecutionVO result = new FlowListenerExecutionVO();
         FlowListenerExecutionEntity executionEntity = flowListenerExecutionDao.findById(listenerId);
         if (checkListener(executionEntity)) {
@@ -76,7 +76,7 @@ public class FlowBpmnServiceImpl implements IFlowBpmnService {
      * @return 流程扩展-执行监听器分页信息
      */
     @Override
-    public PageResponse<FlowListenerExecutionResponse> findPageList(FlowListenerExecutionQuery query) {
+    public PageResponse<FlowListenerExecutionResponse> findListenerExecutionPage(FlowListenerExecutionQuery query) {
         query.setListenerStatus(ListenerStatusEnum.SHOW);
         Page<FlowListenerExecutionEntity> page = flowListenerExecutionDao.findPageList(PageTool.getPage(query), query);
         return flowListenerExecutionConverter.toResponse(page);
@@ -89,7 +89,7 @@ public class FlowBpmnServiceImpl implements IFlowBpmnService {
      * @return 流程扩展-任务监听器信息
      */
     @Override
-    public FlowListenerTaskVO findById(Long listenerId) {
+    public FlowListenerTaskVO findListenerTaskById(Long listenerId) {
         FlowListenerTaskVO result = new FlowListenerTaskVO();
         FlowListenerTaskEntity taskEntity = flowListenerTaskDao.findById(listenerId);
         if (checkListener(taskEntity)) {
@@ -112,7 +112,7 @@ public class FlowBpmnServiceImpl implements IFlowBpmnService {
      * @return 流程扩展-任务监听器分页信息
      */
     @Override
-    public PageResponse<FlowListenerTaskResponse> findPageList(FlowListenerTaskQuery query) {
+    public PageResponse<FlowListenerTaskResponse> findListenerTaskPage(FlowListenerTaskQuery query) {
         query.setListenerStatus(ListenerStatusEnum.SHOW);
         Page<FlowListenerTaskEntity> page = flowListenerTaskDao.findPageList(PageTool.getPage(query), query);
         return flowListenerTaskConverter.toResponse(page);

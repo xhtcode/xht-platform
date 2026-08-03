@@ -11,75 +11,75 @@ import lombok.Data;
 import java.io.Serial;
 
 /**
- * 流程分类
+ * 流程扩展-流程定义
  *
  * @author xht
  */
 @Data
-@Schema(description = "流程分类表单")
+@Schema(description = "流程扩展-流程定义表单")
 public class FlowDefinitionForm extends BasicForm {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * 类别id
+     * 流程定义id
      */
-    @Null(message = "类别`id`唯一标识必须为空", groups = {Groups.Create.class})
-    @NotNull(message = "类别`id`唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "类别`id`唯一标识参数不合法", groups = {Groups.Update.class})
-    @Schema(description = "类别id")
+    @Null(message = "流程定义`id`唯一标识必须为空", groups = {Groups.Create.class})
+    @NotNull(message = "流程定义`id`唯一标识参数不合法", groups = {Groups.Update.class})
+    @Positive(message = "流程定义`id`唯一标识参数不合法", groups = {Groups.Update.class})
+    @Schema(description = "流程定义id")
     private Long id;
 
     /**
-     * 类别父级ID
+     * 流程定义父级ID
      */
-    @NotNull(message = "类别父级ID参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Positive(message = "类别父级ID参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "类别父级ID")
+    @NotNull(message = "流程定义父级ID参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Positive(message = "流程定义父级ID参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "流程定义父级ID")
     private Long parentId;
 
     /**
-     * 类别编码
+     * 流程定义编码
      */
-    @NotEmpty(message = "类别编码参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "类别编码")
+    @NotEmpty(message = "流程定义编码参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "流程定义编码")
     private String definitionCode;
 
     /**
-     * 类别名称
+     * 流程定义名称
      */
-    @NotEmpty(message = "类别名称参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "类别名称")
+    @NotEmpty(message = "流程定义名称参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "流程定义名称")
     private String definitionName;
 
     /**
-     * 类别类型：cate分类  order申请单据
+     * 流程定义类型：cate分类  order申请单据
      */
-    @NotNull(message = "类别类型参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "类别类型")
+    @NotNull(message = "流程定义类型参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "流程定义类型")
     private DefinitionTypeEnum definitionType;
 
     /**
-     * 类别描述
+     * 流程定义描述
      */
-    @NotEmpty(message = "类别描述参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "类别描述")
+    @NotEmpty(message = "流程定义描述参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "流程定义描述")
     private String definitionDesc;
 
     /**
-     * 类别状态
+     * 流程定义状态
      */
-    @NotNull(message = "类别状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "类别状态")
+    @NotNull(message = "流程定义状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "流程定义状态")
     private DefinitionStatusEnum definitionStatus;
 
     /**
-     * 类别排序
+     * 流程定义排序
      */
-    @NotNull(message = "类别排序参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @PositiveOrZero(message = "类别排序必须为非负数", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "类别排序")
+    @NotNull(message = "流程定义排序参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @PositiveOrZero(message = "流程定义排序必须为非负数", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "流程定义排序")
     private Integer definitionSort;
 
 }

@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 描述： 流程定义控制器
+ * 描述： 流程扩展-流程定义控制器
  *
  * @author xht
  **/
-@Tag(name = "流程定义管理", description = "流程定义管理")
+@Tag(name = "流程定义管理", description = "流程扩展-流程定义管理")
 @Slf4j
 @RestController
 @RequestMapping("/workflow/definition")

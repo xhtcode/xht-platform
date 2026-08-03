@@ -9,63 +9,63 @@ import lombok.Data;
 import java.io.Serial;
 
 /**
- * 流程分类
+ * 流程扩展-流程定义
  *
  * @author xht
  */
 @Data
-@Schema(description = "流程分类响应")
+@Schema(description = "流程扩展-流程定义响应")
 public class FlowDefinitionResponse extends MetaResponse {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * 类别id
+     * 流程定义id
      */
-    @Schema(description = "类别id")
+    @Schema(description = "流程定义id")
     private Long id;
 
     /**
-     * 类别父级ID
+     * 流程定义父级ID
      */
-    @Schema(description = "类别父级ID")
+    @Schema(description = "流程定义父级ID")
     private Long parentId;
 
     /**
-     * 类别编码
+     * 流程定义编码
      */
-    @Schema(description = "类别编码")
+    @Schema(description = "流程定义编码")
     private String definitionCode;
 
     /**
-     * 类别名称
+     * 流程定义名称
      */
-    @Schema(description = "类别名称")
+    @Schema(description = "流程定义名称")
     private String definitionName;
 
     /**
-     * 类别类型：cate分类  order申请单据
+     * 流程定义类型：cate分类  order申请单据
      */
-    @Schema(description = "类别类型")
+    @Schema(description = "流程定义类型")
     private DefinitionTypeEnum definitionType;
 
     /**
-     * 类别描述
+     * 流程定义描述
      */
-    @Schema(description = "类别描述")
+    @Schema(description = "流程定义描述")
     private String definitionDesc;
 
     /**
-     * 类别状态
+     * 流程定义状态
      */
-    @Schema(description = "类别状态")
+    @Schema(description = "流程定义状态")
     private DefinitionStatusEnum definitionStatus;
 
     /**
-     * 类别排序
+     * 流程定义排序
      */
-    @Schema(description = "类别排序")
+    @Schema(description = "流程定义排序")
     private Integer definitionSort;
 
 }
