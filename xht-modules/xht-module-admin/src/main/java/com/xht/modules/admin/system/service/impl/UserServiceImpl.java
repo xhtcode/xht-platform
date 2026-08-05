@@ -7,7 +7,7 @@ import com.xht.framework.common.enums.UserStatusEnum;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.exception.code.UserErrorCode;
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.tree.INode;
 import com.xht.framework.utils.tree.TreeNode;

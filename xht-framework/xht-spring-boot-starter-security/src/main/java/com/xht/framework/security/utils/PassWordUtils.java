@@ -1,6 +1,6 @@
 package com.xht.framework.security.utils;
 
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.security.exception.BasicAuthenticationException;
 import lombok.Getter;

@@ -1,0 +1,155 @@
+package com.xht.platform.notice.dao.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
+import  com.xht.platform.notice.dao.SysNoticeDao;
+import  com.xht.platform.notice.dao.mapper.SysNoticeMapper;
+import  com.xht.platform.notice.domain.form.SysNoticeForm;
+import  com.xht.platform.notice.domain.query.SysNoticeQuery;
+import  com.xht.platform.notice.domain.response.SysNoticeResponse;
+import  com.xht.platform.notice.entity.SysNoticeEntity;
+import  com.xht.platform.notice.enums.NoticeStatusEnum;
+import  com.xht.platform.notice.enums.NoticeTimedPublishEnum;
+import  com.xht.platform.notice.enums.NoticeTopEnum;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+/**
+ * 描述 ： 系统管理-通知详情 Dao
+ *
+ * @author xht
+ **/
+@Slf4j
+@Repository
+public class SysNoticeDaoImpl extends MapperRepositoryImpl<SysNoticeMapper, SysNoticeEntity> implements SysNoticeDao {
+
+    /**
+     * 根据主键`id`更新系统管理-通知详情
+     *
+     * @param form 系统管理-通知详情表单请求参数
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateFormRequest(SysNoticeForm form) {
+        LambdaUpdateWrapper<SysNoticeEntity> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.set(condition(form.getNoticeTypeId()), SysNoticeEntity::getNoticeTypeId, form.getNoticeTypeId());
+        updateWrapper.set(condition(form.getNoticeTitle()), SysNoticeEntity::getNoticeTitle, form.getNoticeTitle());
+        updateWrapper.set(condition(form.getNoticeSummary()), SysNoticeEntity::getNoticeSummary, form.getNoticeSummary());
+        updateWrapper.set(condition(form.getNoticeContent()), SysNoticeEntity::getNoticeContent, form.getNoticeContent());
+        updateWrapper.set(condition(form.getNoticeOrder()), SysNoticeEntity::getNoticeOrder, form.getNoticeOrder());
+        updateWrapper.set(condition(form.getNoticeTop()), SysNoticeEntity::getNoticeTop, form.getNoticeTop());
+        updateWrapper.set(condition(form.getNoticeTimedPublish()), SysNoticeEntity::getNoticeTimedPublish, form.getNoticeTimedPublish());
+        updateWrapper.set(condition(form.getNoticePublishTime()), SysNoticeEntity::getNoticePublishTime, form.getNoticePublishTime());
+        updateWrapper.set(condition(form.getNoticeJumpType()), SysNoticeEntity::getNoticeJumpType, form.getNoticeJumpType());
+        updateWrapper.set(condition(form.getNoticeJumpUrl()), SysNoticeEntity::getNoticeJumpUrl, form.getNoticeJumpUrl());
+        updateWrapper.set(condition(form.getNoticeRemark()), SysNoticeEntity::getNoticeRemark, form.getNoticeRemark());
+        updateWrapper.eq(SysNoticeEntity::getId, form.getId());
+        update(updateWrapper);
+    }
+    /**
+     * 根据通知id 修改状态
+     *
+     * @param noticeId     通知id
+     * @param noticeStatus 通知状态
+     */
+    @Override
+    public void updateStatusById(Long noticeId, NoticeStatusEnum noticeStatus) {
+        ThrowUtils.throwIf(Objects.equals(noticeStatus, NoticeStatusEnum.NOT_PUBLISH), "请选择正确的状态！");
+        LambdaUpdateWrapper<SysNoticeEntity> queryWrapper = new LambdaUpdateWrapper<>();
+        queryWrapper.set(SysNoticeEntity::getNoticeStatus, noticeStatus);
+        queryWrapper.set(Objects.equals(noticeStatus, NoticeStatusEnum.PUBLISH), SysNoticeEntity::getNoticePublishTime, LocalDateTime.now());
+        queryWrapper.set(Objects.equals(noticeStatus, NoticeStatusEnum.UNDER_SHELVE), SysNoticeEntity::getNoticeOfflineTime, LocalDateTime.now());
+        queryWrapper.set(Objects.equals(noticeStatus, NoticeStatusEnum.EXPIRED), SysNoticeEntity::getNoticeExpireTime, LocalDateTime.now());
+        queryWrapper.eq(SysNoticeEntity::getId, noticeId);
+        update(queryWrapper);
+    }
+
+    /**
+     * 根据通知id 置顶
+     *
+     * @param noticeId 通知id
+     * @param isTop    是否置顶
+     */
+    @Override
+    public void updateIsTopById(Long noticeId, NoticeTopEnum isTop) {
+        LambdaUpdateWrapper<SysNoticeEntity> queryWrapper = new LambdaUpdateWrapper<>();
+        queryWrapper.set(SysNoticeEntity::getNoticeTop, isTop);
+        queryWrapper.eq(SysNoticeEntity::getId, noticeId);
+        update(queryWrapper);
+    }
+
+    /**
+     * 根据通知id 修改已读人数
+     *
+     * @param noticeId 通知id
+     */
+    @Override
+    public void updateReadNumById(Long noticeId) {
+        LambdaUpdateWrapper<SysNoticeEntity> queryWrapper = new LambdaUpdateWrapper<>();
+        queryWrapper.setIncrBy(SysNoticeEntity::getNoticeReadCount, 1);
+        queryWrapper.eq(SysNoticeEntity::getId, noticeId);
+        update(queryWrapper);
+    }
+
+    /**
+     * 根据通知id 修改点击次数
+     *
+     * @param noticeId 通知id
+     */
+    @Override
+    public void updateClickNumById(Long noticeId) {
+        LambdaUpdateWrapper<SysNoticeEntity> queryWrapper = new LambdaUpdateWrapper<>();
+        queryWrapper.setIncrBy(SysNoticeEntity::getNoticeClickCount, 1);
+        queryWrapper.eq(SysNoticeEntity::getId, noticeId);
+        update(queryWrapper);
+    }
+
+    /**
+     * 根据通知id 获取定时发布的数据
+     *
+     * @param noticeId 通知id
+     */
+    @Override
+    public List<Long> listByReleaseTime(Long noticeId) {
+        LambdaQueryWrapper<SysNoticeEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(SysNoticeEntity::getId);
+        queryWrapper.eq(SysNoticeEntity::getId, noticeId);
+        queryWrapper.eq(SysNoticeEntity::getNoticeStatus, NoticeStatusEnum.NOT_PUBLISH);
+        queryWrapper.eq(SysNoticeEntity::getNoticeTimedPublish, NoticeTimedPublishEnum.PUBLISH);
+        queryWrapper.ge(SysNoticeEntity::getNoticePublishTime, LocalDateTime.now());
+        return list(queryWrapper).stream().map(SysNoticeEntity::getId).collect(Collectors.toList());
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param page        分页参数
+     * @param noticeQuery 查询参数
+     * @return 分页数据
+     */
+    @Override
+    public Page<SysNoticeResponse> findPageList(Page<SysNoticeEntity> page, SysNoticeQuery noticeQuery) {
+        return baseMapper.findPageList(page, noticeQuery);
+    }
+
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    @Override
+    protected SFunction<SysNoticeEntity, ?> getFieldId() {
+        return SysNoticeEntity::getId;
+    }
+
+}

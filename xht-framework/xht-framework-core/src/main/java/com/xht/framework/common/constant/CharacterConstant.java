@@ -1,11 +1,44 @@
 package com.xht.framework.common.constant;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 /**
- * 字符常量
+ * 描述：字符常量
  *
  * @author xht
  **/
 public interface CharacterConstant {
+
+    /**
+     * ISO‑8859‑1 西欧拉丁字符集
+     */
+    Charset ISO_8859_1 = StandardCharsets.ISO_8859_1;
+
+    /**
+     * US‑ASCII 标准ASCII字符集
+     */
+    Charset US_ASCII = StandardCharsets.US_ASCII;
+
+    /**
+     * UTF‑16 16位Unicode字符集（自动识别字节序）
+     */
+    Charset UTF_16 = StandardCharsets.UTF_16;
+
+    /**
+     * UTF‑16BE 大端序 UTF‑16
+     */
+    Charset UTF_16BE = StandardCharsets.UTF_16BE;
+
+    /**
+     * UTF‑16LE 小端序 UTF‑16
+     */
+    Charset UTF_16LE = StandardCharsets.UTF_16LE;
+
+    /**
+     * UTF‑8 变长Unicode字符集，项目默认编码
+     */
+    Charset UTF_8 = StandardCharsets.UTF_8;
 
     /**
      * 字符常量：空格符 {@code ' '}

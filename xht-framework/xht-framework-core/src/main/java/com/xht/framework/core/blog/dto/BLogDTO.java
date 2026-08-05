@@ -8,7 +8,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 日志信息DTO
+ * 操作日志信息DTO
  *
  * @author xht
  **/
@@ -35,7 +35,7 @@ public class BLogDTO implements XhtDTO {
     private String traceId;
 
     /**
-     * 服务名称（如demo-service）
+     * 服务名称（如demo‑service）
      */
     @Schema(description = "服务名称")
     private String serviceName;

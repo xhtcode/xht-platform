@@ -1,6 +1,6 @@
 package com.xht.framework.log.configurers;
 
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.log.annotations.ConditionalOnBLog;
 import org.springframework.context.annotation.Condition;

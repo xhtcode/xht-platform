@@ -2,7 +2,7 @@ package com.xht.modules.admin.system.utils;
 
 import com.xht.framework.exception.ValidationException;
 import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.modules.admin.system.domain.form.SysMenuForm;
 import com.xht.modules.admin.system.enums.MenuCommonStatusEnum;

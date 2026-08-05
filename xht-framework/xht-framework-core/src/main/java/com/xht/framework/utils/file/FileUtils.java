@@ -4,7 +4,7 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;

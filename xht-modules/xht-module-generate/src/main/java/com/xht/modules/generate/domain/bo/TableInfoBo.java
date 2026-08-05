@@ -1,7 +1,7 @@
 package com.xht.modules.generate.domain.bo;
 
 import cn.hutool.core.util.StrUtil;
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.modules.common.enums.GenStatusEnum;
 import com.xht.modules.common.enums.IdPrimaryKeyEnum;

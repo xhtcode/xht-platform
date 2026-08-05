@@ -1,0 +1,90 @@
+package com.xht.platform.system.domain.form;
+
+import com.xht.framework.common.constant.RegexConstant;
+import com.xht.framework.common.domain.form.BasicForm;
+import com.xht.framework.validation.Groups;
+import com.xht.framework.validation.phone.Phone;
+import com.xht.platform.system.enums.DeptStatusEnum;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.*;
+import lombok.Data;
+
+/**
+ * 部门表单请求参数
+ *
+ * @author xht
+ */
+@Data
+@Schema(description = "部门表单请求参数")
+public class SysDeptForm extends BasicForm {
+
+    /**
+     * 部门唯一标识
+     */
+    @Null(message = "部门唯一标识必须为空", groups = {Groups.Create.class})
+    @NotNull(message = "部门唯一标识参数不合法", groups = {Groups.Update.class})
+    @Positive(message = "部门唯一标识参数不合法", groups = {Groups.Update.class})
+    @Schema(description = "部门唯一标识")
+    private Long id;
+
+    /**
+     * 父部门id
+     */
+    @NotNull(message = "父部门ID参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Digits(integer = 19, fraction = 0, message = "父部门ID必须为数字", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "父部门ID")
+    private Long parentId;
+
+    /**
+     * 部门编码
+     */
+    @NotBlank(message = "部门编码参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Pattern(regexp = RegexConstant.DEPT_CODE, message = "部门编码格式不正确，格式示例：DEPT001", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "部门编码")
+    private String deptCode;
+
+    /**
+     * 部门名称
+     */
+    @NotBlank(message = "部门名称参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "部门名称")
+    private String deptName;
+
+
+    /**
+     * 状态（0正常 1停用）
+     */
+    @NotNull(message = "部门状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "部门状态")
+    private DeptStatusEnum deptStatus;
+
+    /**
+     * 显示顺序
+     */
+    @Min(value = 1, message = "显示顺序最小值为1")
+    @NotNull(message = "显示顺序参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "显示顺序")
+    private Integer deptSort;
+
+    /**
+     * 联系电话
+     */
+    @Phone(message = "联系电话格式不正确，格式示例：13800138000", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "联系电话")
+    private String phone;
+
+    /**
+     * 邮箱
+     */
+    @NotBlank(message = "邮箱参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Email(message = "邮箱格式不正确", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "邮箱")
+    private String email;
+
+    /**
+     * 备注
+     */
+    @Schema(description = "备注")
+    private String remark;
+
+}

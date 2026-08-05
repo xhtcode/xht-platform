@@ -1,6 +1,6 @@
 package com.xht.framework.core.properties;
 
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

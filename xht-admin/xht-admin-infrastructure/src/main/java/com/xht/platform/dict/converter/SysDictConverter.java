@@ -1,0 +1,19 @@
+package com.xht.platform.dict.converter;
+
+import com.xht.framework.mybatis.converter.BasicConverter;
+import  com.xht.platform.dict.domain.form.SysDictForm;
+import  com.xht.platform.dict.domain.response.SysDictResponse;
+import  com.xht.platform.dict.entity.SysDictEntity;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
+
+/**
+ * 字典类型转换
+ *
+ * @author xht
+ **/
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface SysDictConverter extends BasicConverter<SysDictEntity, SysDictForm, SysDictResponse> {
+
+}

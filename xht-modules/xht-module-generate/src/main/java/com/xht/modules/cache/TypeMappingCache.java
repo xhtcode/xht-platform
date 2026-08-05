@@ -1,6 +1,6 @@
 package com.xht.modules.cache;
 
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.modules.common.enums.DataBaseTypeEnum;
 import com.xht.modules.generate.dao.GenTypeMappingDao;
 import com.xht.modules.generate.entity.GenTypeMappingEntity;

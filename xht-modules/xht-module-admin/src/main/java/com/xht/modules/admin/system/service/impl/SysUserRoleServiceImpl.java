@@ -2,7 +2,7 @@ package com.xht.modules.admin.system.service.impl;
 
 import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.exception.code.UserErrorCode;
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.modules.admin.system.dao.SysRoleDao;
 import com.xht.modules.admin.system.dao.SysUserDao;
 import com.xht.modules.admin.system.dao.SysUserRoleDao;

@@ -1,7 +1,7 @@
 package com.xht.modules.admin.system.service.impl;
 
 import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.utils.tree.INode;
 import com.xht.framework.utils.tree.TreeNode;
 import com.xht.framework.utils.tree.TreeUtils;

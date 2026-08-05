@@ -1,0 +1,105 @@
+package com.xht.platform.system.dao.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
+import  com.xht.platform.system.dao.SysPostDao;
+import  com.xht.platform.system.dao.mapper.SysPostMapper;
+import  com.xht.platform.system.domain.form.SysPostForm;
+import  com.xht.platform.system.domain.query.SysPostQuery;
+import  com.xht.platform.system.entity.SysPostEntity;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
+
+/**
+ * 部门岗位管理
+ *
+ * @author xht
+ **/
+@Slf4j
+@Repository
+public class SysPostDaoImpl extends MapperRepositoryImpl<SysPostMapper, SysPostEntity> implements SysPostDao {
+
+    /**
+     * 判断岗位编码是否存在
+     *
+     * @param postCode 岗位编码
+     * @param postId   岗位ID
+     * @return true：存在；false：不存在
+     */
+    @Override
+    public Boolean existsPostCode(String postCode, Long postId) {
+        LambdaQueryWrapper<SysPostEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SysPostEntity::getPostCode, postCode)
+                .ne(Objects.nonNull(postId), SysPostEntity::getId, postId);
+        return SqlHelper.retBool(count(lambdaQueryWrapper));
+    }
+
+    /**
+     * 更新岗位信息
+     *
+     * @param form 岗位信息
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateFormRequest(SysPostForm form) {
+        LambdaUpdateWrapper<SysPostEntity> updateWrapper = new LambdaUpdateWrapper<>();
+        // @formatter:off
+        updateWrapper
+                .set(condition(form.getPostCode()), SysPostEntity::getPostCode, form.getPostCode())
+                .set(condition(form.getPostName()), SysPostEntity::getPostName, form.getPostName())
+                .set(condition(form.getPostSort()), SysPostEntity::getPostSort, form.getPostSort())
+                .set(condition(form.getRemark()), SysPostEntity::getRemark, form.getRemark())
+                .eq(SysPostEntity::getId, form.getId());
+        // @formatter:on
+        update(updateWrapper);
+    }
+
+    /**
+     * 分页查询部门岗位信息
+     *
+     * @param page  分页信息
+     * @param query 查询请求参数
+     * @return 分页数据
+     */
+    @Override
+    public Page<SysPostEntity> findPageList(Page<SysPostEntity> page, SysPostQuery query) {
+        LambdaQueryWrapper<SysPostEntity> queryWrapper = new LambdaQueryWrapper<>();
+        if (query.isQuick()) {
+            // @formatter:off
+            queryWrapper.and(
+                    condition(query.getKeyWord()), wrapper -> wrapper.or()
+                            .like(SysPostEntity::getPostCode, query.getKeyWord())
+                            .or()
+                            .like(SysPostEntity::getPostName, query.getKeyWord())
+            );
+            // @formatter:on
+        } else {
+            queryWrapper.like(condition(query.getPostCode()), SysPostEntity::getPostCode, query.getPostCode());
+            queryWrapper.like(condition(query.getPostName()), SysPostEntity::getPostName, query.getPostName());
+        }
+        if (condition(query.getDeptId())) {
+            queryWrapper.eq(SysPostEntity::getDeptId, query.getDeptId());
+        } else {
+            queryWrapper.isNull(SysPostEntity::getDeptId);
+        }
+        return page(page, queryWrapper);
+    }
+
+
+    /**
+     * 获取主键字段名
+     *
+     * @return 主键字段名
+     */
+    @Override
+    protected SFunction<SysPostEntity, ?> getFieldId() {
+        return SysPostEntity::getId;
+    }
+}

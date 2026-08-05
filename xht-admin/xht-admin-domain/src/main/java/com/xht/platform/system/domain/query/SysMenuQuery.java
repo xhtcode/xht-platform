@@ -1,0 +1,37 @@
+package com.xht.platform.system.domain.query;
+
+import com.xht.framework.common.domain.query.PageBasicQuery;
+import  com.xht.platform.system.enums.MenuStatusEnum;
+import  com.xht.platform.system.enums.MenuTypeEnum;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+/**
+ * 系统菜单分页查询参数
+ *
+ * @author xht
+ **/
+@Data
+@Schema(description = "系统菜单分页查询参数")
+public class SysMenuQuery extends PageBasicQuery {
+
+    /**
+     * 类型
+     */
+    @Schema(description = "菜单类型")
+    private MenuTypeEnum menuType;
+
+    /**
+     * 菜单名称
+     */
+    @Schema(description = "菜单名称")
+    private String menuName;
+
+    /**
+     * 菜单状态 （0正常 1停用）
+     */
+    @Schema(description = "菜单状态 （0正常 1停用）")
+    private MenuStatusEnum menuStatus;
+
+
+}

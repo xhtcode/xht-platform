@@ -3,7 +3,7 @@ package com.xht.auth.security.web.authentication.phone.filter;
 import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnum;
 import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationFilter;
 import com.xht.auth.security.web.authentication.phone.token.XhtPhoneLoginToken;
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.security.exception.BasicAuthenticationException;
 import jakarta.servlet.http.HttpServletRequest;

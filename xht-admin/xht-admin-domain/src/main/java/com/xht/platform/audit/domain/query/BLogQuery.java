@@ -1,0 +1,47 @@
+package com.xht.platform.audit.domain.query;
+
+import com.xht.framework.common.domain.query.PageBasicQuery;
+import com.xht.framework.core.blog.enums.LogStatusEnum;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+/**
+ * 系统日志分页查询参数
+ *
+ * @author xht
+ **/
+@Data
+@Schema(description = "系统日志管理分页查询参数")
+public class BLogQuery extends PageBasicQuery {
+
+    /**
+     * 日志名称
+     */
+    @Schema(description = "日志名称")
+    private String title;
+
+    /**
+     * 日志描述
+     */
+    @Schema(description = "日志描述")
+    private String logDesc;
+
+    /**
+     * 链路ID（全局唯一，如UUID）
+     */
+    @Schema(description = "链路ID")
+    private String traceId;
+
+    /**
+     * 服务名称
+     */
+    @Schema(description = "服务名称")
+    private String serviceName;
+
+    /**
+     * 日志状态
+     */
+    @Schema(description = "日志状态")
+    private LogStatusEnum executeStatus;
+
+}

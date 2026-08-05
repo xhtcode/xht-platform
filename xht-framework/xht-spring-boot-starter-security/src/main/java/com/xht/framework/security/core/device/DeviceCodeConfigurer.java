@@ -2,7 +2,7 @@ package com.xht.framework.security.core.device;
 
 import com.xht.framework.security.core.device.filter.DeviceCodeFilter;
 import com.xht.framework.security.core.device.provider.DeviceCodeProvider;
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;

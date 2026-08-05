@@ -1,0 +1,24 @@
+package com.xht.platform.notice.enums;
+
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.xht.framework.common.enums.XhtEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+/**
+ * 描述 ： 通知权限类型枚举 0:角色权限;1:用户权限;2:部门权限
+ *
+ * @author xht
+ **/
+@Getter
+@AllArgsConstructor
+public enum NoticePermTypeEnum implements XhtEnum<Integer> {
+
+    ROLE_PERM(0, "角色权限"),
+    USER_PERM(1, "用户权限"),
+    DEPT_PERM(2, "部门权限");
+    @JsonValue
+    private final Integer value;
+    private final String desc;
+
+}

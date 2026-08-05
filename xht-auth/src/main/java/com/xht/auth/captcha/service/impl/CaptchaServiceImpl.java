@@ -9,7 +9,7 @@ import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.exception.BusinessException;
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.sms.exception.SmsException;
 import com.xht.framework.sms.utils.SmsUtils;

@@ -1,6 +1,6 @@
 package com.xht.workflow.flowable.core.model;
 
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.flowable.core.BpmnBuilder;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

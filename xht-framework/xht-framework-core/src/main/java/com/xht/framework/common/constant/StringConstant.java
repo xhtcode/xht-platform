@@ -1,12 +1,44 @@
 package com.xht.framework.common.constant;
 
+import java.nio.charset.StandardCharsets;
+
 /**
- * 字符串常量
+ * 描述：字符串常量
  *
  * @author xht
  **/
 public interface StringConstant {
 
+    /**
+     * ISO‑8859‑1 西欧拉丁编码
+     */
+    String ISO_8859_1 = StandardCharsets.ISO_8859_1.name();
+
+    /**
+     * ASCII 美国标准信息交换码
+     */
+    String US_ASCII = StandardCharsets.US_ASCII.name();
+
+    /**
+     * UTF‑16 十六位通用字符编码（带字节序标记）
+     */
+    String UTF_16 = StandardCharsets.UTF_16.name();
+
+    /**
+     * UTF‑16BE 大端序十六位编码
+     */
+    String UTF_16BE = StandardCharsets.UTF_16BE.name();
+
+    /**
+     * UTF‑16LE 小端序十六位编码
+     */
+    String UTF_16LE = StandardCharsets.UTF_16LE.name();
+
+    /**
+     * UTF‑8 可变长度通用编码，项目默认推荐编码
+     */
+    String UTF_8 = StandardCharsets.UTF_8.name();
+    
     /**
      *字符常量：未知字符串 {@code "unknown"}
      */

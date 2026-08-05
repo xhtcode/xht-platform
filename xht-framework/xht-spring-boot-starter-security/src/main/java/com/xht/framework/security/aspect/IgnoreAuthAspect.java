@@ -1,6 +1,6 @@
 package com.xht.framework.security.aspect;
 
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.core.properties.SecurityHeaderProperties;
 import com.xht.framework.utils.ServletUtil;
 import com.xht.framework.utils.StringUtils;

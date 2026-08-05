@@ -1,6 +1,6 @@
 package com.xht.framework.core.properties.basic;
 
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.core.message.core.MessageUser;
 
 /**

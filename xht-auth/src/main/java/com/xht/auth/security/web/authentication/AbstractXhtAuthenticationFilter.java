@@ -2,7 +2,7 @@ package com.xht.auth.security.web.authentication;
 
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.framework.common.constant.HttpConstants;
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Setter;

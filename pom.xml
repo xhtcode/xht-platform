@@ -10,6 +10,7 @@
     <description>xht-platform</description>
 
     <modules>
+        <module>xht-admin</module>
         <module>xht-auth</module>
         <module>xht-demo</module>
         <module>xht-framework</module>
@@ -17,6 +18,7 @@
         <module>xht-gateway</module>
         <module>xht-modules</module>
         <module>xht-modules-api</module>
+        <module>xht-generate</module>
         <module>xht-workflow</module>
     </modules>
 

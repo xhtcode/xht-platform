@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.xht.platform</groupId>
+        <artifactId>xht-platform</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <name>xht-generate</name>
+    <artifactId>xht-generate</artifactId>
+    <packaging>pom</packaging>
+    <description>xht-generate 代码生成器模块</description>
+
+    <modules>
+        <module>xht-generate-adapter</module>
+        <module>xht-generate-common</module>
+        <module>xht-generate-domain</module>
+        <module>xht-generate-infrastructure</module>
+        <module>xht-generate-start</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.xht.platform</groupId>
+                <artifactId>xht-generate-common</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xht.platform</groupId>
+                <artifactId>xht-generate-domain</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xht.platform</groupId>
+                <artifactId>xht-generate-infrastructure</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xht.platform</groupId>
+                <artifactId>xht-generate-adapter</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+    </build>
+</project>

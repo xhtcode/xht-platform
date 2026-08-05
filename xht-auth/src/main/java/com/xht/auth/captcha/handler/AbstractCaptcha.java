@@ -1,7 +1,7 @@
 package com.xht.auth.captcha.handler;
 
 import cn.hutool.core.util.RandomUtil;
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.file.ResourceUtils;
 import lombok.extern.slf4j.Slf4j;

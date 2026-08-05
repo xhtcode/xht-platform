@@ -2,7 +2,7 @@ package com.xht.framework.utils.tree;
 
 import cn.hutool.core.map.MapUtil;
 import com.xht.framework.exception.UtilException;
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 
 import java.io.Serial;
 import java.io.Serializable;

@@ -2,7 +2,7 @@ package com.xht.workflow.model.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.SortTool;
 import com.xht.workflow.definition.dao.IFlowDefinitionDao;
 import com.xht.workflow.definition.entity.FlowDefinitionEntity;

@@ -4,7 +4,7 @@ import com.xht.auth.authentication.entity.Oauth2ThirdAccountEntity;
 import com.xht.auth.constant.Oauth2PlatformEnums;
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.common.enums.UserTypeEnum;
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import lombok.RequiredArgsConstructor;

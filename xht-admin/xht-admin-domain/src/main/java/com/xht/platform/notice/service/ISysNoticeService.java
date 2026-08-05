@@ -1,0 +1,87 @@
+package com.xht.platform.notice.service;
+
+import com.xht.framework.common.domain.response.PageResponse;
+import  com.xht.platform.notice.domain.form.SysNoticeForm;
+import  com.xht.platform.notice.domain.query.SysNoticeQuery;
+import  com.xht.platform.notice.domain.response.SysNoticeResponse;
+import  com.xht.platform.notice.domain.vo.NoticeVO;
+import  com.xht.platform.notice.enums.NoticeTopEnum;
+
+import java.util.List;
+
+/**
+ * 系统管理-通知详情 的数据库操作Service
+ *
+ * @author admin
+ */
+public interface ISysNoticeService {
+
+    /**
+     * 创建通知详情
+     *
+     * @param form 通知详情表单请求参数
+     */
+    void create(SysNoticeForm form);
+
+    /**
+     * 根据ID删除通知详情
+     *
+     * @param id 通知详情ID
+     */
+    void removeById(Long id);
+
+    /**
+     * 根据ID更新通知详情
+     *
+     * @param form 通知详情更新请求参数
+     */
+    void updateById(SysNoticeForm form);
+
+    /**
+     * 根据通知id 发布
+     *
+     * @param noticeId 通知id
+     */
+    void publishNoticeId(Long noticeId);
+
+    /**
+     * 根据通知id 下架
+     *
+     * @param noticeId 通知id
+     */
+    void underShelveNoticeId(Long noticeId);
+
+    /**
+     * 根据通知id 置顶
+     *
+     * @param noticeId 通知id
+     * @param isTop    是否置顶
+     */
+    void updateIsTopById(Long noticeId, NoticeTopEnum isTop);
+
+    /**
+     * 根据ID查询通知详情
+     *
+     * @param id 通知详情ID
+     * @return 通知详情信息
+     */
+    NoticeVO findById(Long id);
+
+    /**
+     * todo 待完善
+     * 根据通知id 获取定时发布的数据
+     *
+     * @param noticeId 通知id
+     * @return 定时发布数据
+     */
+    List<Long> listByReleaseTime(Long noticeId);
+
+    /**
+     * 分页查询通知详情
+     *
+     * @param query 通知详情查询请求参数
+     * @return 通知详情分页信息
+     */
+    PageResponse<SysNoticeResponse> findPageList(SysNoticeQuery query);
+
+}

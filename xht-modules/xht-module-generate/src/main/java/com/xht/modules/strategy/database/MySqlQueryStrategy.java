@@ -1,6 +1,6 @@
 package com.xht.modules.strategy.database;
 
-import com.xht.framework.exception.utils.ThrowUtils;
+import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.modules.common.enums.DataBaseTypeEnum;
 import com.xht.modules.generate.domain.bo.ColumnBo;
