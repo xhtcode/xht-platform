@@ -12,14 +12,13 @@
     <modules>
         <module>xht-admin</module>
         <module>xht-auth</module>
-        <module>xht-demo</module>
         <module>xht-framework</module>
         <module>xht-framework-dependencies</module>
         <module>xht-gateway</module>
         <module>xht-generate</module>
-        <module>xht-workflow</module>
         <module>xht-platform-common</module>
         <module>xht-platform-client</module>
+        <module>xht-workflow</module>
     </modules>
 
     <properties>
