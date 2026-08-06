@@ -2,7 +2,7 @@ package com.xht.platform.utils;
 
 import com.xht.framework.exception.UtilException;
 import com.xht.framework.utils.StringUtils;
-import com.xht.platform.generate.entity.GenDataSourceEntity;
+import com.xht.platform.datasource.entity.GenDataSourceEntity;
 import lombok.Getter;
 
 import java.util.Objects;
