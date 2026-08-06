@@ -1,7 +1,7 @@
 package com.xht.platform.dict.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.core.dict.domain.DictVO;
+import com.xht.platform.common.dict.domain.DictVO;
 import  com.xht.platform.dict.domain.form.SysDictItemForm;
 import  com.xht.platform.dict.domain.query.SysDictItemQuery;
 import  com.xht.platform.dict.domain.response.SysDictItemResponse;
@@ -13,40 +13,37 @@ import java.util.List;
  *
  * @author xht
  */
-@SuppressWarnings("all")
 public interface ISysDictItemService {
 
     /**
      * 根据创建请求创建系统字典项
      *
      * @param form 系统字典项表单请求参数
-     * @return 创建的系统字典项实体
      */
-    Boolean create(SysDictItemForm form);
+    void create(SysDictItemForm form);
 
     /**
      * 根据ID删除系统字典项
      *
-     * @param ids 系统字典项ID
-     * @return 删除是否成功
+     * @param dictItemId 系统字典项ID
      */
-    boolean removeById(List<Long> ids);
+    void removeById(Long dictItemId);
 
     /**
      * 根据ID更新系统字典项
      *
+     * @param dictItemId 系统字典项ID
      * @param form 系统字典项更新请求参数
-     * @return 更新是否成功
      */
-    boolean updateById(SysDictItemForm form);
+    void updateById(Long dictItemId, SysDictItemForm form);
 
     /**
      * 根据ID获取系统字典项
      *
-     * @param id 系统字典项ID
+     * @param dictItemId 系统字典项ID
      * @return 系统字典项响应信息
      */
-    SysDictItemResponse findById(Long id);
+    SysDictItemResponse findById(Long dictItemId);
 
     /**
      * 分页查询系统字典项

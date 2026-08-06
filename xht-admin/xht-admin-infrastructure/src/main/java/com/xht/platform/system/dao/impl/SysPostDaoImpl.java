@@ -44,11 +44,12 @@ public class SysPostDaoImpl extends MapperRepositoryImpl<SysPostMapper, SysPostE
     /**
      * 更新岗位信息
      *
-     * @param form 岗位信息
+     * @param postId 岗位ID
+     * @param form   岗位信息
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFormRequest(SysPostForm form) {
+    public void updateFormRequest(Long postId, SysPostForm form) {
         LambdaUpdateWrapper<SysPostEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
@@ -56,7 +57,7 @@ public class SysPostDaoImpl extends MapperRepositoryImpl<SysPostMapper, SysPostE
                 .set(condition(form.getPostName()), SysPostEntity::getPostName, form.getPostName())
                 .set(condition(form.getPostSort()), SysPostEntity::getPostSort, form.getPostSort())
                 .set(condition(form.getRemark()), SysPostEntity::getRemark, form.getRemark())
-                .eq(SysPostEntity::getId, form.getId());
+                .eq(SysPostEntity::getId, postId);
         // @formatter:on
         update(updateWrapper);
     }

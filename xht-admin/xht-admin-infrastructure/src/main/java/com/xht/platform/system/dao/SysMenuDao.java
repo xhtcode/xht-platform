@@ -19,9 +19,10 @@ public interface SysMenuDao extends MapperRepository<SysMenuEntity> {
     /**
      * 更新菜单信息
      *
-     * @param form 菜单信息
+      * @param menuId 菜单ID
+     * @param form   菜单信息
      */
-    void updateFormRequest(SysMenuForm form);
+    void updateFormRequest(Long menuId, SysMenuForm form);
 
     /**
      * 更新菜单状态

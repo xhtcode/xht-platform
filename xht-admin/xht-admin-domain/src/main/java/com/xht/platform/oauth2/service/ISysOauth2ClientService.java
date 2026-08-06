@@ -6,8 +6,6 @@ import  com.xht.platform.oauth2.domain.form.SysOauth2ClientPwdForm;
 import  com.xht.platform.oauth2.domain.query.SysOauth2ClientQuery;
 import  com.xht.platform.oauth2.domain.response.SysOauth2ClientResponse;
 
-import java.util.List;
-
 /**
  * OAuth2客户端管理
  *
@@ -25,16 +23,17 @@ public interface ISysOauth2ClientService {
     /**
      * 删除OAuth2客户端
      *
-     * @param ids OAuth2客户端标识集合
+     * @param oauth2Id OAuth2客户端标识集合
      */
-    void removeById(List<Long> ids);
+    void removeById(Long oauth2Id);
 
     /**
      * 修改OAuth2客户端
      *
+     * @param oauth2Id OAuth2客户端标识
      * @param form OAuth2客户端信息
      */
-    void updateById(SysOauth2ClientForm form);
+    void updateById(Long oauth2Id, SysOauth2ClientForm form);
 
     /**
      * 根据clientId 修改客户端密钥
@@ -46,10 +45,10 @@ public interface ISysOauth2ClientService {
     /**
      * 获取OAuth2客户端详情
      *
-     * @param id OAuth2客户端标识
+     * @param oauth2Id OAuth2客户端标识
      * @return OAuth2客户端详情
      */
-    SysOauth2ClientResponse findById(Long id);
+    SysOauth2ClientResponse findById(Long oauth2Id);
 
     /**
      * 分页查询OAuth2客户端

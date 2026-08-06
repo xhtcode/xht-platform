@@ -1,6 +1,6 @@
 package com.xht.platform.audit.converter;
 
-import com.xht.framework.core.blog.dto.BLogDTO;
+import com.xht.platform.common.blog.dto.BLogDTO;
 import com.xht.framework.mybatis.converter.BasicConverter;
 import  com.xht.platform.audit.domain.form.BLogForm;
 import  com.xht.platform.audit.domain.response.BLogResponse;
@@ -24,4 +24,5 @@ public interface BLogConverter extends BasicConverter<BLogEntity, BLogForm, BLog
      * @return 转换后的系统日志实体对象
      */
     BLogEntity toEntity(BLogDTO bLogDTO);
+
 }

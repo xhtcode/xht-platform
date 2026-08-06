@@ -35,4 +35,5 @@ public interface SysUserRoleDao extends MapperRepository<SysUserRoleEntity> {
      * @return 用户列表
      */
     Boolean existsUserInRoleId(List<Long> roleIds);
+
 }

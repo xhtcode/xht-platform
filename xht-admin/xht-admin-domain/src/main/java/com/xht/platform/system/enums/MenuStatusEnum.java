@@ -14,6 +14,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum MenuStatusEnum implements XhtEnum<Integer> {
+
     /**
      * 正常
      */
@@ -26,4 +27,5 @@ public enum MenuStatusEnum implements XhtEnum<Integer> {
 
     @JsonValue
     private final Integer value;
+
 }

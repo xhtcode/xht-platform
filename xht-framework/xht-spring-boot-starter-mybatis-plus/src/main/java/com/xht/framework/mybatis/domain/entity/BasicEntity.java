@@ -51,4 +51,5 @@ public class BasicEntity extends Entity implements Serializable {
     @TableLogic
     @TableField(value = "del_flag", fill = FieldFill.INSERT)
     private DelFlagEnum delFlag;
+
 }

@@ -1,7 +1,8 @@
 package com.xht.framework.log.repository;
 
-import com.xht.framework.core.blog.dto.BLogDTO;
 import com.xht.framework.core.repository.IRepository;
+
+import java.io.Serializable;
 
 /**
  * blog 日志Repository
@@ -9,13 +10,13 @@ import com.xht.framework.core.repository.IRepository;
  * @author xht
  **/
 @FunctionalInterface
-public interface BLogRepository extends IRepository {
+public interface BLogRepository<T> extends IRepository {
 
     /**
      * 保存日志
      *
-     * @param bLogDTO 日志DTO
+     * @param bLog 日志DTO
      */
-    void save(BLogDTO bLogDTO);
+    void save(T bLog);
 
 }

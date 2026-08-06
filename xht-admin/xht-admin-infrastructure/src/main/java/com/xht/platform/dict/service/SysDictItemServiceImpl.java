@@ -4,15 +4,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
+import com.xht.framework.utils.ThrowUtils;
+import com.xht.platform.common.dict.domain.DictVO;
 import  com.xht.platform.dict.converter.SysDictItemConverter;
 import  com.xht.platform.dict.dao.SysDictDao;
 import  com.xht.platform.dict.dao.SysDictItemDao;
 import  com.xht.platform.dict.domain.form.SysDictItemForm;
 import  com.xht.platform.dict.domain.query.SysDictItemQuery;
 import  com.xht.platform.dict.domain.response.SysDictItemResponse;
-import com.xht.framework.core.dict.domain.DictVO;
 import  com.xht.platform.dict.entity.SysDictEntity;
 import  com.xht.platform.dict.entity.SysDictItemEntity;
 import  com.xht.platform.dict.enums.DictShowDisabledEnum;
@@ -20,7 +20,6 @@ import  com.xht.platform.dict.enums.DictStatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -45,10 +44,9 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      * 根据创建请求创建系统字典项
      *
      * @param form 系统字典项表单请求参数
-     * @return 创建的系统字典项实体
      */
     @Override
-    public Boolean create(SysDictItemForm form) {
+    public void create(SysDictItemForm form) {
         Long dictId = form.getDictId();
         SysDictEntity dictEntity = sysDictDao.findById(dictId);
         ThrowUtils.throwIf(Objects.isNull(dictEntity), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
@@ -57,52 +55,49 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项值已存在");
         SysDictItemEntity entity = sysDictItemConverter.toEntity(form);
         entity.setDictCode(dictEntity.getDictCode());
-        return sysDictItemDao.saveTransactional(entity);
+        sysDictItemDao.saveTransactional(entity);
     }
 
     /**
      * 根据ID删除系统字典项
      *
-     * @param ids 系统字典项ID
-     * @return 删除是否成功
+     * @param dictItemId 系统字典项ID
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean removeById(List<Long> ids) {
-        return sysDictItemDao.removeAllById(ids);
+    public void removeById(Long dictItemId) {
+        sysDictItemDao.removeById(dictItemId);
     }
 
     /**
      * 根据ID更新系统字典项
      *
-     * @param form 系统字典项更新请求参数
-     * @return 更新是否成功
+     * @param dictItemId 系统字典项ID
+     * @param form   系统字典项更新请求参数
      */
     @Override
-    public boolean updateById(SysDictItemForm form) {
-        Long id = form.getId();
+    public void updateById(Long dictItemId, SysDictItemForm form) {
         // 校验数据是否存在
-        boolean exists = sysDictItemDao.exists(SysDictItemEntity::getId, id);
-        ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "字典项不存在");
         Long dictId = form.getDictId();
+        boolean exists = sysDictItemDao.exists(SysDictItemEntity::getId, dictItemId);
+        ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "字典项不存在");
         SysDictEntity dictEntity = sysDictDao.findById(dictId);
         ThrowUtils.throwIf(Objects.isNull(dictEntity), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
         ThrowUtils.throwIf(!Objects.equals(DictStatusEnum.ENABLE, dictEntity.getStatus()), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
         // 校验字典项值 是否存在
-        Boolean checkDictCode = sysDictItemDao.checkDictValue(id, dictId, form.getItemLabel());
+        Boolean checkDictCode = sysDictItemDao.checkDictValue(dictItemId, dictId, form.getItemLabel());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
-        return sysDictItemDao.updateFormRequest(form, dictEntity.getDictCode());
+        sysDictItemDao.updateFormRequest(dictId, form, dictEntity);
     }
 
     /**
      * 根据ID获取系统字典项
      *
-     * @param id 系统字典项ID
+     * @param dictItemId 系统字典项ID
      * @return 系统字典项响应信息
      */
     @Override
-    public SysDictItemResponse findById(Long id) {
-        return sysDictItemConverter.toResponse(sysDictItemDao.findById(id));
+    public SysDictItemResponse findById(Long dictItemId) {
+        return sysDictItemConverter.toResponse(sysDictItemDao.findById(dictItemId));
     }
 
     /**
@@ -116,7 +111,6 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         Page<SysDictItemEntity> page = sysDictItemDao.findPageList(PageTool.getPage(query), query);
         return sysDictItemConverter.toResponse(page);
     }
-
 
     /**
      * 根据字典编码获取系统字典项列表

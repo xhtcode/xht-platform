@@ -1,7 +1,7 @@
 package com.xht.platform.audit.domain.response;
 
 import com.xht.framework.common.domain.response.MetaResponse;
-import com.xht.framework.core.blog.enums.LogStatusEnum;
+import com.xht.framework.common.enums.LogStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -113,4 +113,3 @@ public class BLogResponse extends MetaResponse {
     private String executeException;
 
 }
-

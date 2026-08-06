@@ -12,6 +12,7 @@ import lombok.Data;
 @Data
 @Schema(description = "字典类型响应信息")
 public class SysDictResponse extends MetaResponse {
+
     /**
      * 字典ID
      */

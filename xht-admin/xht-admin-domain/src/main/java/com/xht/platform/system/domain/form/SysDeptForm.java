@@ -17,16 +17,7 @@ import lombok.Data;
 @Data
 @Schema(description = "部门表单请求参数")
 public class SysDeptForm extends BasicForm {
-
-    /**
-     * 部门唯一标识
-     */
-    @Null(message = "部门唯一标识必须为空", groups = {Groups.Create.class})
-    @NotNull(message = "部门唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "部门唯一标识参数不合法", groups = {Groups.Update.class})
-    @Schema(description = "部门唯一标识")
-    private Long id;
-
+    
     /**
      * 父部门id
      */

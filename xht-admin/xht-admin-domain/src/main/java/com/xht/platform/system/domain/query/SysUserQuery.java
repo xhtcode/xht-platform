@@ -51,5 +51,4 @@ public class SysUserQuery extends PageBasicQuery {
     @Schema(description = "部门ID")
     private Long deptId;
 
-
 }

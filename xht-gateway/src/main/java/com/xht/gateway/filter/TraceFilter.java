@@ -24,6 +24,7 @@ import reactor.core.publisher.Mono;
 @Component
 @RequiredArgsConstructor
 public class TraceFilter implements GlobalFilter, Ordered {
+
     /**
      * 分布式链路 ID
      */

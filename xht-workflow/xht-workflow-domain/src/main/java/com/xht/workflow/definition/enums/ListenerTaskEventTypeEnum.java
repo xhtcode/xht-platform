@@ -40,4 +40,5 @@ public enum ListenerTaskEventTypeEnum implements XhtEnum<String> {
      * 枚举描述
      */
     private final String desc;
+
 }

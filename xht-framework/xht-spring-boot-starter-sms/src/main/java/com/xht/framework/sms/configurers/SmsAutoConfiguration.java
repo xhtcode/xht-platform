@@ -11,4 +11,5 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 @Slf4j
 @AutoConfiguration
 public class SmsAutoConfiguration {
+
 }

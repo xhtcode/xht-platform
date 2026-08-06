@@ -3,11 +3,11 @@ package com.xht.platform.controller.system;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.common.enums.UserStatusEnum;
-import com.xht.framework.utils.tree.INode;
-import com.xht.framework.validation.Groups;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.oauth2.annotation.IsAdmin;
+import com.xht.framework.utils.tree.INode;
+import com.xht.framework.validation.Groups;
 import  com.xht.platform.system.domain.form.SysUserForm;
 import  com.xht.platform.system.domain.form.UpdatePwdFrom;
 import  com.xht.platform.system.domain.query.SysUserQuery;
@@ -44,8 +44,8 @@ public class SysUserController {
      */
     @BLog(value = "用户管理", description = "用户添加")
     @CheckMenu("sys:user:create")
-    @PostMapping("/create")
     @Operation(summary = "用户添加", description = "用户添加")
+    @PostMapping("/create")
     public R<Void> create(@Valid @RequestBody SysUserForm userForm) {
         userService.create(userForm);
         return R.ok().build();
@@ -59,8 +59,8 @@ public class SysUserController {
      */
     @BLog(value = "用户管理", description = "删除用户")
     @CheckMenu("sys:user:remove")
-    @PostMapping("/remove/{userId}")
     @Operation(summary = "删除用户", description = "根据ID删除用户")
+    @PostMapping("/remove/{userId}")
     public R<Void> removeById(@PathVariable Long userId) {
         userService.removeByUserId(userId);
         return R.ok().build();
@@ -73,11 +73,11 @@ public class SysUserController {
      * @return 返回一个R对象，其中包含一个布尔值，表示用户信息是否更新成功
      */
     @BLog(value = "用户管理", description = "更新用户信息")
-    @CheckMenu("sys:user:update")
-    @PostMapping("/update")
+    @CheckMenu("sys:user:updateById")
     @Operation(summary = "更新用户信息", description = "根据ID更新用户信息")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysUserForm userForm) {
-        userService.update(userForm);
+    @PostMapping("/update/{userId}")
+    public R<Void> updateById(@PathVariable Long userId, @Validated(value = {Groups.Update.class}) @RequestBody SysUserForm userForm) {
+        userService.updateById(userId, userForm);
         return R.ok().build();
     }
 
@@ -89,8 +89,8 @@ public class SysUserController {
      */
     @BLog(value = "用户管理", description = "密码重置")
     @IsAdmin
-    @PostMapping("/reset/{userId}/pwd")
     @Operation(summary = "密码重置", description = "密码重置")
+    @PostMapping("/reset/{userId}/pwd")
     public R<Void> resetPassword(@Valid @PathVariable Long userId) {
         userService.resetPassword(userId);
         return R.ok().build();
@@ -104,8 +104,8 @@ public class SysUserController {
      */
     @BLog(value = "用户管理", description = "密码修改")
     @CheckMenu("sys:user:pwd")
-    @PostMapping("/update/pwd")
     @Operation(summary = "密码修改", description = "密码修改")
+    @PostMapping("/update/pwd")
     public R<Void> updatePassword(@Valid @RequestBody UpdatePwdFrom form) {
         userService.updatePassword(form);
         return R.ok().build();
@@ -119,9 +119,9 @@ public class SysUserController {
      * @return 返回一个R对象，其中包含一个布尔值，表示状态是否修改成功
      */
     @BLog(value = "用户管理", description = "用户状态修改")
-    @CheckMenu("sys:user:update")
-    @PostMapping("/update/{userId}/{userStatus}")
+    @CheckMenu("sys:user:updateById")
     @Operation(summary = "用户状态修改", description = "用户状态修改")
+    @PostMapping("/update/{userId}/{userStatus}")
     public R<Void> updateStatus(@PathVariable Long userId, @PathVariable UserStatusEnum userStatus) {
         userService.updateStatus(userId, userStatus);
         return R.ok().build();
@@ -130,13 +130,13 @@ public class SysUserController {
     /**
      * 根据ID获取用户详情
      *
-     * @param id 用户唯一标识符
+     * @param userId 用户唯一标识符
      * @return 返回一个R对象，其中包含SysUserVO对象，表示用户详情信息
      */
-    @GetMapping("/get/{id}")
     @Operation(summary = "获取详情", description = "根据ID获取用户详情")
-    public R<SysUserVO> findById(@PathVariable Long id) {
-        return R.ok().build(userService.findByUserId(id));
+    @GetMapping("/get/{userId}")
+    public R<SysUserVO> findById(@PathVariable Long userId) {
+        return R.ok().build(userService.findByUserId(userId));
     }
 
     /**
@@ -145,8 +145,8 @@ public class SysUserController {
      * @param query 查询请求参数，可以包含分页信息、排序信息或过滤条件等
      * @return 返回一个R对象，其中包含Page<SysUserVO>对象，表示分页用户列表信息
      */
-    @GetMapping("/page")
     @Operation(summary = "分页查询", description = "分页获取用户列表")
+    @GetMapping("/page")
     public R<PageResponse<SysUserResponse>> findPageList(SysUserQuery query) {
         return R.ok().build(userService.findPageList(query));
     }
@@ -156,8 +156,8 @@ public class SysUserController {
      *
      * @return 登录用户信息
      */
-    @GetMapping("/profile")
     @Operation(summary = "获取当前登录的用户信息", description = "获取当前登录的用户信息")
+    @GetMapping("/profile")
     public R<SysUserVO> getUserProfileInfo() {
         return R.ok().build(userService.getUserProfileInfo());
     }
@@ -167,8 +167,8 @@ public class SysUserController {
      *
      * @return 当前登录用户所拥有的路由
      */
-    @GetMapping("/profile/routers")
     @Operation(summary = "获取当前登录用户所拥有的路由", description = "获取当前登录用户所拥有的路由")
+    @GetMapping("/profile/routers")
     public R<List<INode<Long>>> getRouters() {
         return R.ok().build(userService.getRouters());
     }

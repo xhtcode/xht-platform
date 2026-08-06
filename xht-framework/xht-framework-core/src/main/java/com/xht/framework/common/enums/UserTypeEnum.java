@@ -14,6 +14,7 @@ import java.util.Objects;
 @Getter
 @AllArgsConstructor
 public enum UserTypeEnum implements XhtEnum<Integer> {
+
     /**
      * 管理员用户
      */

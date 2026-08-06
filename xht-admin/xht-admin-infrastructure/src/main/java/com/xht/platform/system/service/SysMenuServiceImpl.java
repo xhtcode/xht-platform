@@ -15,6 +15,7 @@ import  com.xht.platform.system.utils.MenuValidationFormat;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -41,6 +42,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param form 菜单表单请求参数
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void create(SysMenuForm form) {
         MenuValidationFormat.validationFormat(form);
         checkExitsParentMenu(form);
@@ -66,51 +68,54 @@ public class SysMenuServiceImpl implements ISysMenuService {
     /**
      * 根据ID删除菜单
      *
-     * @param id 菜单ID
+     * @param menuId 菜单ID
      */
     @Override
-    public void removeById(Long id) {
-        Boolean exists = sysMenuDao.exists(SysMenuEntity::getParentId, id);
+    @Transactional(rollbackFor = Exception.class)
+    public void removeById(Long menuId) {
+        Boolean exists = sysMenuDao.exists(SysMenuEntity::getParentId, menuId);
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "菜单下存在子菜单，不能删除");
-        sysMenuDao.removeByIdTransactional(id);
+        sysMenuDao.removeByIdTransactional(menuId);
     }
 
     /**
      * 根据ID更新菜单
      *
-     * @param form 菜单更新请求参数
+     * @param menuId 菜单ID
+     * @param form   菜单更新请求参数
      */
     @Override
-    public void updateById(SysMenuForm form) {
+    @Transactional(rollbackFor = Exception.class)
+    public void updateById(Long menuId, SysMenuForm form) {
         MenuValidationFormat.validationFormat(form);
         checkExitsParentMenu(form);
-        Boolean menuExists = sysMenuDao.exists(SysMenuEntity::getId, form.getId());
+        Boolean menuExists = sysMenuDao.exists(SysMenuEntity::getId, menuId);
         ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "菜单不存在");
-        sysMenuDao.updateFormRequest(form);
+        sysMenuDao.updateFormRequest(menuId, form);
     }
 
     /**
      * 更新菜单状态
      *
-     * @param id     菜单ID
+     * @param menuId     菜单ID
      * @param status 菜单状态
      */
     @Override
-    public void updateStatus(Long id, MenuStatusEnum status) {
-        Boolean exists = sysMenuDao.exists(SysMenuEntity::getId, id);
+    public void updateStatus(Long menuId, MenuStatusEnum status) {
+        Boolean exists = sysMenuDao.exists(SysMenuEntity::getId, menuId);
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "菜单不存在");
-        sysMenuDao.updateStatus(id, status);
+        sysMenuDao.updateStatus(menuId, status);
     }
 
     /**
      * 根据ID查询菜单
      *
-     * @param id 菜单ID
+     * @param menuId 菜单ID
      * @return 菜单信息
      */
     @Override
-    public SysMenuResponse findById(Long id) {
-        return sysMenuConverter.toResponse(sysMenuDao.findById(id));
+    public SysMenuResponse findById(Long menuId) {
+        return sysMenuConverter.toResponse(sysMenuDao.findById(menuId));
     }
 
     /**

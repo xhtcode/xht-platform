@@ -26,4 +26,5 @@ public interface SysNoticeAttachmentDao extends MapperRepository<SysNoticeAttach
      * @return 附件信息
      */
     List<SysNoticeAttachmentEntity> findListByNoticeId(Long noticeId);
+
 }

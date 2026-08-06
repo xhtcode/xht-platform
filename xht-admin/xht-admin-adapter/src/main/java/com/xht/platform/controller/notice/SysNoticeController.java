@@ -2,10 +2,10 @@ package com.xht.platform.controller.notice;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.validation.Groups;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.security.annotation.IgnoreAuth;
+import com.xht.framework.validation.Groups;
 import  com.xht.platform.notice.domain.form.SysNoticeForm;
 import  com.xht.platform.notice.domain.query.SysNoticeQuery;
 import  com.xht.platform.notice.domain.response.SysNoticeResponse;
@@ -66,15 +66,16 @@ public class SysNoticeController {
     /**
      * 根据主键`id`更新系统管理-通知详情
      *
+     * @param id   系统管理-通知详情主键
      * @param form 系统管理-通知详情表单请求参数
      * @return 统一响应结果
      */
     @BLog(value = "通知管理", description = "系统管理-通知管理")
-    @CheckMenu("sys:notice:update")
+    @CheckMenu("sys:notice:updateById")
     @Operation(summary = "根据主键`id`更新系统管理-通知详情")
-    @PostMapping("/update")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysNoticeForm form) {
-        sysNoticeService.updateById(form);
+    @PostMapping("/update/{id}")
+    public R<Void> updateById(@PathVariable Long id, @Validated(value = {Groups.Update.class}) @RequestBody SysNoticeForm form) {
+        sysNoticeService.updateById(id, form);
         return R.ok().build();
     }
 
@@ -118,15 +119,14 @@ public class SysNoticeController {
         return R.ok().build();
     }
 
-
     /**
      * 根据主键`id`查询系统管理-通知详情
      *
      * @param id 系统管理-通知详情主键
      * @return 系统管理-通知详情信息
      */
-    @Operation(summary = "根据主键`id`查询系统管理-通知详情")
     @IgnoreAuth(aop = false)
+    @Operation(summary = "根据主键`id`查询系统管理-通知详情")
     @GetMapping("/get/{id}")
     public R<NoticeVO> findById(@PathVariable Long id) {
         return R.ok().build(sysNoticeService.findById(id));

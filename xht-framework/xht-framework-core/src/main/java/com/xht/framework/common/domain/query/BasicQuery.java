@@ -44,4 +44,5 @@ public abstract class BasicQuery implements XhtQuery, XhtRequest, Serializable {
      */
     @Schema(name = "descName", description = "倒序排序字段名")
     private String descName;
+
 }

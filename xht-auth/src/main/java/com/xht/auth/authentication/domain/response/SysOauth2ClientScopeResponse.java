@@ -34,4 +34,5 @@ public class SysOauth2ClientScopeResponse {
      * 选择状态
      */
     private boolean value;
+
 }

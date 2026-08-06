@@ -1,7 +1,6 @@
 package com.xht.framework.core.properties;
 
 import com.xht.framework.core.properties.basic.EnableProperties;
-import com.xht.framework.core.properties.basic.MessageProperties;
 import com.xht.framework.core.properties.cache.CacheProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -21,12 +20,6 @@ public class XhtConfigProperties {
      */
     @NestedConfigurationProperty
     private GlobalConfigProperties global;
-
-    /**
-     * 消息配置
-     */
-    @NestedConfigurationProperty
-    private MessageProperties message;
 
     /**
      * 小糊涂项目启动公共属性

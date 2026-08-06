@@ -16,7 +16,6 @@
 
     <modules>
         <module>xht-admin-adapter</module>
-        <module>xht-admin-common</module>
         <module>xht-admin-domain</module>
         <module>xht-admin-infrastructure</module>
         <module>xht-admin-start</module>
@@ -24,11 +23,6 @@
     
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.xht.platform</groupId>
-                <artifactId>xht-admin-common</artifactId>
-                <version>1.0.0</version>
-            </dependency>
             <dependency>
                 <groupId>com.xht.platform</groupId>
                 <artifactId>xht-admin-domain</artifactId>

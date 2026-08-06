@@ -8,6 +8,7 @@ import java.util.List;
  * @author xht
  **/
 public interface IUserRoleService {
+
     /**
      * 根据用户ID查询角色ID列表
      *
@@ -23,4 +24,5 @@ public interface IUserRoleService {
      * @return 角色ID列表
      */
     List<Long> selectRoleIdByUserId(String userId);
+
 }

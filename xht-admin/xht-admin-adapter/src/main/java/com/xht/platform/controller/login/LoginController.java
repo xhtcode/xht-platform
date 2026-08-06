@@ -36,8 +36,8 @@ public class LoginController {
      * @return OAuth2响应对象，包含访问令牌等信息
      */
     @IgnoreAuth(aop = false)
-    @PostMapping("/form")
     @Operation(summary = "账号密码登录")
+    @PostMapping("/form")
     public R<LoginResponse> formLogin(HttpServletRequest servletRequest, @RequestBody PasswordLoginForm loginForm) {
         return R.ok().build(loginService.formLogin(servletRequest,loginForm));
     }
@@ -50,8 +50,8 @@ public class LoginController {
      * @return OAuth2响应对象，包含访问令牌等信息
      */
     @IgnoreAuth(aop = false)
-    @PostMapping("/phone")
     @Operation(summary = "手机号登录")
+    @PostMapping("/phone")
     public R<LoginResponse> phoneLogin(HttpServletRequest servletRequest, @RequestBody PhoneLoginForm phoneLoginForm) {
         return R.ok().build(loginService.phoneLogin(servletRequest,phoneLoginForm));
     }

@@ -41,6 +41,7 @@ public interface SysUserRoleMapper extends BaseMapperX<SysUserRoleEntity> {
      * @return 角色列表
      */
     List<SysRoleEntity> findRoleListByUserId(Long userId);
+
 }
 
 

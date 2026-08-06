@@ -13,6 +13,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum DefinitionStatusEnum implements XhtEnum<Integer> {
+
     /**
      * 正常
      */
@@ -33,4 +34,5 @@ public enum DefinitionStatusEnum implements XhtEnum<Integer> {
      * 描述
      */
     private final String desc;
+
 }

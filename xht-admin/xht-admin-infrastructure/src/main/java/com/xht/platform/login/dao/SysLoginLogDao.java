@@ -9,4 +9,5 @@ import  com.xht.platform.login.entity.SysLoginLogEntity;
  * @author xht
  **/
 public interface SysLoginLogDao extends MapperRepository<SysLoginLogEntity> {
+
 }

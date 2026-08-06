@@ -3,8 +3,8 @@ package com.xht.platform.system.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
+import com.xht.framework.utils.ThrowUtils;
 import  com.xht.platform.system.converter.SysPostConverter;
 import  com.xht.platform.system.dao.SysPostDao;
 import  com.xht.platform.system.domain.form.SysPostForm;
@@ -15,8 +15,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * 部门岗位Service实现
@@ -48,47 +46,37 @@ public class SysPostServiceImpl implements ISysPostService {
     /**
      * 根据ID删除部门岗位
      *
-     * @param id 部门岗位ID
+     * @param postId 部门岗位ID
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void removeById(Long id) {
-        sysPostDao.removeById(id);
-    }
-
-    /**
-     * 根据ID数组批量删除部门岗位
-     *
-     * @param ids 部门岗位ID数组
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void removeByIds(List<Long> ids) {
-        ThrowUtils.notNull(ids, BusinessErrorCode.PARAM_ERROR);
-        sysPostDao.removeAllById(ids);
+    public void removeById(Long postId) {
+        sysPostDao.removeById(postId);
     }
 
     /**
      * 根据ID更新部门岗位
      *
-     * @param form 部门岗位更新请求参数
+     * @param postId 部门岗位ID
+     * @param form   部门岗位更新请求参数
      */
     @Override
-    public void updateById(SysPostForm form) {
-        Boolean postCodeExists = sysPostDao.existsPostCode(form.getPostCode(), form.getId());
+    @Transactional(rollbackFor = Exception.class)
+    public void updateById(Long postId, SysPostForm form) {
+        Boolean postCodeExists = sysPostDao.existsPostCode(form.getPostCode(), postId);
         ThrowUtils.throwIf(postCodeExists, BusinessErrorCode.DATA_NOT_EXIST, "岗位编码已存在");
-        sysPostDao.updateFormRequest(form);
+        sysPostDao.updateFormRequest(postId, form);
     }
 
     /**
      * 根据ID查询部门岗位
      *
-     * @param id 部门岗位ID
+     * @param postId 部门岗位ID
      * @return 部门岗位信息
      */
     @Override
-    public SysPostResponse findById(Long id) {
-        SysPostEntity sysPostEntity = sysPostDao.findOptionalById(id).orElse(null);
+    public SysPostResponse findById(Long postId) {
+        SysPostEntity sysPostEntity = sysPostDao.findOptionalById(postId).orElse(null);
         return sysPostConverter.toResponse(sysPostEntity);
     }
 

@@ -26,6 +26,7 @@ public interface Oauth2ThirdAccountMapper extends BaseMapperX<Oauth2ThirdAccount
      * @param dbAccountEntity 用户信息
      */
     void insertUserInfo(@Param("entity") Oauth2ThirdAccountEntity dbAccountEntity);
+
 }
 
 

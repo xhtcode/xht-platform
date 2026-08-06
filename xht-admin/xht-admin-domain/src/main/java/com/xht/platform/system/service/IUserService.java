@@ -3,8 +3,6 @@ package com.xht.platform.system.service;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.common.enums.UserStatusEnum;
 import com.xht.framework.utils.tree.INode;
-import com.xht.framework.oauth2.utils.SecurityUtils;
-import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import  com.xht.platform.system.domain.form.SysUserForm;
 import  com.xht.platform.system.domain.form.UpdatePwdFrom;
 import  com.xht.platform.system.domain.query.SysUserQuery;
@@ -37,9 +35,10 @@ public interface IUserService {
     /**
      * 更新用户信息
      *
+     * @param userId 用户 ID
      * @param userForm 用户更新请求对象
      */
-    void update(SysUserForm userForm);
+    void updateById(Long userId, SysUserForm userForm);
 
     /**
      * 重置密码
@@ -68,13 +67,7 @@ public interface IUserService {
      *
      * @return 用户信息
      */
-    default SysUserVO getUserProfileInfo() {
-        BasicUserDetails userDetails = SecurityUtils.getUser();
-        SysUserVO userVo = findByUserId(userDetails.getUserId());
-        userVo.setRoleCodes(userDetails.getRoleCodes());
-        userVo.setMenuButtonCodes(userDetails.getMenuButtonCodes());
-        return userVo;
-    }
+    SysUserVO getUserProfileInfo();
 
     /**
      * 根据 ID 查找用户

@@ -48,4 +48,5 @@ public interface IFlowDefinitionDao extends MapperRepository<FlowDefinitionEntit
      * @return 流程类别列表
      */
     List<FlowDefinitionEntity> findByParentId(Long parentId, DefinitionStatusEnum definitionStatusEnum);
+
 }

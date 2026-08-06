@@ -2,9 +2,9 @@ package com.xht.platform.controller.oauth2;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.validation.Groups;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
+import com.xht.framework.validation.Groups;
 import  com.xht.platform.oauth2.domain.form.SysOauth2ClientForm;
 import  com.xht.platform.oauth2.domain.form.SysOauth2ClientPwdForm;
 import  com.xht.platform.oauth2.domain.query.SysOauth2ClientQuery;
@@ -15,8 +15,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * OAuth2客户端管理
@@ -39,8 +37,8 @@ public class SysOauth2ClientController {
      */
     @BLog(value = "OAuth2客户端管理", description = "创建OAuth2客户端")
     @CheckMenu("sys:oauth2:create")
-    @PostMapping("/create")
     @Operation(summary = "创建OAuth2客户端", description = "创建OAuth2客户端")
+    @PostMapping("/create")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysOauth2ClientForm form) {
         sysOauth2ClientService.create(form);
         return R.ok().build();
@@ -49,30 +47,31 @@ public class SysOauth2ClientController {
     /**
      * 删除OAuth2客户端
      *
-     * @param ids OAuth2客户端标识集合
+     * @param oauth2Id OAuth2客户端标识集合
      * @return true成功、false失败
      */
     @BLog(value = "OAuth2客户端管理", description = "删除OAuth2客户端")
     @CheckMenu("sys:oauth2:remove")
-    @PostMapping("/remove")
     @Operation(summary = "删除OAuth2客户端", description = "删除OAuth2客户端")
-    public R<Void> removeById(@RequestBody List<Long> ids) {
-        sysOauth2ClientService.removeById(ids);
+    @PostMapping("/remove/{oauth2Id}")
+    public R<Void> remove(@PathVariable Long oauth2Id) {
+        sysOauth2ClientService.removeById(oauth2Id);
         return R.ok().build();
     }
 
     /**
      * 修改OAuth2客户端
      *
+     * @param oauth2Id   OAuth2客户端标识
      * @param form OAuth2客户端信息
      * @return true成功、false失败
      */
     @BLog(value = "OAuth2客户端管理", description = "修改OAuth2客户端")
-    @CheckMenu("sys:oauth2:update")
-    @PostMapping("/update")
+    @CheckMenu("sys:oauth2:updateById")
     @Operation(summary = "修改OAuth2客户端", description = "修改OAuth2客户端")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysOauth2ClientForm form) {
-        sysOauth2ClientService.updateById(form);
+    @PostMapping("/update/{oauth2Id}")
+    public R<Void> updateById(@PathVariable Long oauth2Id, @Validated(value = {Groups.Update.class}) @RequestBody SysOauth2ClientForm form) {
+        sysOauth2ClientService.updateById(oauth2Id, form);
         return R.ok().build();
     }
 
@@ -84,24 +83,23 @@ public class SysOauth2ClientController {
      */
     @BLog(value = "OAuth2客户端管理", description = "修改客户端密钥")
     @CheckMenu("sys:oauth2:create")
-    @PostMapping("/secret")
     @Operation(summary = "修改客户端密钥", description = "根据clientId 修改客户端密钥")
+    @PostMapping("/secret")
     public R<Void> updateClientSecret(@Validated @RequestBody SysOauth2ClientPwdForm pwdForm) {
         sysOauth2ClientService.updateClientSecret(pwdForm);
         return R.ok().build();
     }
 
-
     /**
      * 获取OAuth2客户端详情
      *
-     * @param id OAuth2客户端标识
+     * @param oauth2Id OAuth2客户端标识
      * @return OAuth2客户端详情
      */
-    @GetMapping("/get/{id}")
     @Operation(summary = "查询详情", description = "获取OAuth2客户端详情")
-    public R<SysOauth2ClientResponse> findById(@PathVariable Long id) {
-        return R.ok().build(sysOauth2ClientService.findById(id));
+    @GetMapping("/get/{oauth2Id}")
+    public R<SysOauth2ClientResponse> findById(@PathVariable Long oauth2Id) {
+        return R.ok().build(sysOauth2ClientService.findById(oauth2Id));
     }
 
     /**
@@ -110,8 +108,8 @@ public class SysOauth2ClientController {
      * @param query 查询请求参数
      * @return 分页结果
      */
-    @GetMapping("/page")
     @Operation(summary = "分页查询", description = "分页查询OAuth2客户端")
+    @GetMapping("/page")
     public R<PageResponse<SysOauth2ClientResponse>> findPageList(SysOauth2ClientQuery query) {
         return R.ok().build(sysOauth2ClientService.findPageList(query));
     }

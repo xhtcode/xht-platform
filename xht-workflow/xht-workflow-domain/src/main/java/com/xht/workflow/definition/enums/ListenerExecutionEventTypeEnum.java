@@ -19,4 +19,5 @@ public enum ListenerExecutionEventTypeEnum implements XhtEnum<String> {
     ;
 
     private final String value;
+
 }

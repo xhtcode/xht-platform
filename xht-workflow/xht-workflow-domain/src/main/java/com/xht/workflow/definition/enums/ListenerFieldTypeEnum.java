@@ -34,4 +34,5 @@ public enum ListenerFieldTypeEnum implements XhtEnum<String> {
      * 描述
      */
     private final String desc;
+
 }

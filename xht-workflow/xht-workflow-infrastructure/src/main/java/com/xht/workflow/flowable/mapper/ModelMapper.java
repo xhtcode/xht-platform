@@ -40,4 +40,5 @@ public interface ModelMapper {
     boolean checkModelKeyAndNameExist(@Param("modelKey") String modelKey,
                                       @Param("modelName") String modelName,
                                       @Param("excludeModelId") String excludeModelId);
+
 }

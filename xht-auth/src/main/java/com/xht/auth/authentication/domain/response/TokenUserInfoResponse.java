@@ -71,4 +71,5 @@ public class TokenUserInfoResponse extends BasicResponse {
      */
     @Schema(description = "注册日期")
     private LocalDateTime registerDate;
+
 }

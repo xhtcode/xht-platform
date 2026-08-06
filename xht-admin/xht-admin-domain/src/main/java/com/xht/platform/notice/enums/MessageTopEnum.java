@@ -28,4 +28,5 @@ public enum MessageTopEnum implements XhtEnum<Integer> {
      * 描述
      */
     private final String desc;
+
 }

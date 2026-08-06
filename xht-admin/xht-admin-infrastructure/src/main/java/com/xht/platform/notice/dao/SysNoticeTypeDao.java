@@ -17,9 +17,10 @@ public interface SysNoticeTypeDao extends MapperRepository<SysNoticeTypeEntity> 
     /**
      * 更新通知类型
      *
-     * @param form 通知类型
+     * @param noticeTypeId 通知类型ID
+     * @param form         通知类型
      */
-    void updateFormRequest(SysNoticeTypeForm form);
+    void updateFormRequest(Long noticeTypeId, SysNoticeTypeForm form);
 
     /**
      * 查询全部通知类型
@@ -43,4 +44,5 @@ public interface SysNoticeTypeDao extends MapperRepository<SysNoticeTypeEntity> 
      * @return 通知类型
      */
     String findTypeName(Long typeId);
+
 }

@@ -1,10 +1,10 @@
 package com.xht.platform.controller.system;
 
 import com.xht.framework.common.domain.R;
-import com.xht.framework.utils.tree.INode;
-import com.xht.framework.validation.Groups;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
+import com.xht.framework.utils.tree.INode;
+import com.xht.framework.validation.Groups;
 import  com.xht.platform.system.domain.form.SysMenuForm;
 import  com.xht.platform.system.domain.query.SysMenuQuery;
 import  com.xht.platform.system.domain.response.SysMenuResponse;
@@ -42,8 +42,8 @@ public class SysMenuController {
      */
     @BLog(value = "菜单管理", description = "")
     @CheckMenu("sys:menu:create")
-    @PostMapping("/create")
     @Operation(summary = "创建菜单", description = "根据提供的请求参数创建一个新的菜单")
+    @PostMapping("/create")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysMenuForm form) {
         sysMenuService.create(form);
         return R.ok().build();
@@ -52,60 +52,61 @@ public class SysMenuController {
     /**
      * 根据ID删除菜单
      *
-     * @param id 菜单ID
+     * @param menuId 菜单ID
      * @return 统一响应结果
      */
     @BLog(value = "菜单管理", description = "")
     @CheckMenu("sys:menu:remove")
-    @PostMapping("/remove/{id}")
     @Operation(summary = "根据ID删除菜单", description = "根据提供的菜单ID删除菜单")
-    public R<Void> removeById(@PathVariable @Parameter(description = "菜单ID", required = true) Long id) {
-        sysMenuService.removeById(id);
+    @PostMapping("/remove/{menuId}")
+    public R<Void> removeById(@PathVariable @Parameter(description = "菜单ID", required = true) Long menuId) {
+        sysMenuService.removeById(menuId);
         return R.ok().build();
     }
 
     /**
      * 根据ID更新菜单
      *
+     * @param menuId 菜单ID
      * @param form 菜单更新请求参数
      * @return 统一响应结果
      */
     @BLog(value = "菜单管理", description = "")
-    @CheckMenu("sys:menu:update")
-    @PostMapping("/update")
+    @CheckMenu("sys:menu:updateById")
     @Operation(summary = "根据ID更新菜单", description = "根据提供的菜单更新请求参数更新菜单")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysMenuForm form) {
-        sysMenuService.updateById(form);
+    @PostMapping("/update/{menuId}")
+    public R<Void> updateById(@PathVariable Long menuId, @Validated(value = {Groups.Update.class}) @RequestBody SysMenuForm form) {
+        sysMenuService.updateById(menuId, form);
         return R.ok().build();
     }
 
     /**
      * 修改菜单状态
      *
-     * @param id     菜单ID
-     * @param status 菜单状态
+     * @param menuId     菜单ID
+     * @param menuStatus 菜单状态
      * @return 统一响应结果 成功：true 失败：false
      */
     @BLog(value = "菜单管理", description = "")
-    @CheckMenu("sys:menu:update")
-    @PostMapping("/updateStatus/{id}/{menuStatus}")
+    @CheckMenu("sys:menu:updateById")
     @Operation(summary = "修改菜单状态", description = "根据提供的菜单ID和状态修改菜单状态")
-    public R<Void> updateStatus(@PathVariable @Parameter(description = "菜单ID", required = true) Long id,
+    @PostMapping("/updateStatus/{menuId}/{menuStatus}")
+    public R<Void> updateStatus(@PathVariable @Parameter(description = "菜单ID", required = true) Long menuId,
                                 @PathVariable @Parameter(description = "菜单状态", required = true) MenuStatusEnum menuStatus) {
-        sysMenuService.updateStatus(id, menuStatus);
+        sysMenuService.updateStatus(menuId, menuStatus);
         return R.ok().build();
     }
 
     /**
      * 根据ID查询菜单
      *
-     * @param id 菜单ID
+     * @param menuId 菜单ID
      * @return 菜单信息
      */
-    @GetMapping("/get/{id}")
     @Operation(summary = "查询详情", description = "根据提供的菜单ID查询菜单信息")
-    public R<SysMenuResponse> findById(@PathVariable @Parameter(description = "菜单ID", required = true) Long id) {
-        return R.ok().build(sysMenuService.findById(id));
+    @GetMapping("/get/{menuId}")
+    public R<SysMenuResponse> findById(@PathVariable @Parameter(description = "菜单ID", required = true) Long menuId) {
+        return R.ok().build(sysMenuService.findById(menuId));
     }
 
     /**
@@ -114,8 +115,8 @@ public class SysMenuController {
      * @param query 菜单查询请求参数
      * @return 菜单树形结构信息
      */
-    @GetMapping("/tree")
     @Operation(summary = "查询菜单列表(树形结构)", description = "根据提供的查询请求参数查询菜单列表(树形结构)信息")
+    @GetMapping("/tree")
     public R<List<INode<Long>>> findTree(SysMenuQuery query) {
         return R.ok().build(sysMenuService.findTree(query));
     }
@@ -125,8 +126,8 @@ public class SysMenuController {
      *
      * @return 菜单树形结构信息
      */
-    @GetMapping("/tree/system")
     @Operation(summary = "根据条件查询是否包含菜单类型为button菜单列表(树形结构)", description = "根据条件查询是否包含菜单类型为button菜单列表(树形结构)信息")
+    @GetMapping("/tree/system")
     public R<List<INode<Long>>> getMenuTreeSystemTool() {
         return R.ok().build(sysMenuService.getMenuTreeSystemTool());
     }

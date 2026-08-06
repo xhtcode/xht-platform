@@ -10,4 +10,5 @@ import java.io.Serializable;
  * @author xht
  **/
 public interface XhtQuery extends XhtRequest, Serializable {
+
 }

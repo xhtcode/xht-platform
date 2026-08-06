@@ -8,4 +8,5 @@ import com.xht.framework.common.domain.dto.XhtDTO;
  * @author xht
  **/
 public abstract class BpmnDTO implements XhtDTO {
+
 }

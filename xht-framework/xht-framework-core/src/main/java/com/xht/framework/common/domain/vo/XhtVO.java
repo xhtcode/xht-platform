@@ -13,4 +13,5 @@ import java.io.Serializable;
  **/
 @Schema(description = "接口返回值对象")
 public interface XhtVO extends XhtResponse, Serializable {
+
 }

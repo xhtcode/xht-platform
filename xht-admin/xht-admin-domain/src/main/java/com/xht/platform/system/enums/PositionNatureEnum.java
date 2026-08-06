@@ -40,6 +40,4 @@ public enum PositionNatureEnum implements XhtEnum<Integer> {
      */
     private final String name;
 
-
-}
-    
+}    

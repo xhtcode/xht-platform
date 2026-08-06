@@ -15,6 +15,7 @@ import lombok.Data;
 @Data
 @Schema(description = "系统菜单响应信息")
 public class SysMenuResponse extends MetaResponse {
+
     /**
      * 菜单ID
      */

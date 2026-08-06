@@ -30,4 +30,5 @@ public enum MenuCommonStatusEnum implements XhtEnum<Integer> {
     private final Integer value;
 
     private final Boolean status;
+
 }

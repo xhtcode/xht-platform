@@ -5,8 +5,6 @@ import com.xht.framework.validation.Groups;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
-import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 
@@ -18,15 +16,6 @@ import lombok.Data;
 @Data
 @Schema(description = "行政区划")
 public class SysAreaForm extends BasicForm {
-
-    /**
-     * 主键
-     */
-    @Null(message = "主键必须为空", groups = {Groups.Create.class})
-    @NotNull(message = "主键参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "主键参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "主键")
-    private Long id;
 
     /**
      * 上级

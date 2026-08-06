@@ -35,4 +35,5 @@ public class ModelBO extends BpmnBO {
      * 模型元信息
      */
     private String metaInfo;
+
 }

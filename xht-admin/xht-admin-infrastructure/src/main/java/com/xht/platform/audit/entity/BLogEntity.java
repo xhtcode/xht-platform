@@ -1,7 +1,7 @@
 package com.xht.platform.audit.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.xht.framework.core.blog.enums.LogStatusEnum;
+import com.xht.framework.common.enums.LogStatusEnum;
 import com.xht.framework.mybatis.domain.entity.Entity;
 import lombok.Data;
 

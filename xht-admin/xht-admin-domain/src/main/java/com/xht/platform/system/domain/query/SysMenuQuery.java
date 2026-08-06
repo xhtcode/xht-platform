@@ -33,5 +33,4 @@ public class SysMenuQuery extends PageBasicQuery {
     @Schema(description = "菜单状态 （0正常 1停用）")
     private MenuStatusEnum menuStatus;
 
-
 }

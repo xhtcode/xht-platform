@@ -6,8 +6,6 @@ import  com.xht.platform.system.enums.RoleStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
-import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 /**
@@ -18,16 +16,7 @@ import lombok.Data;
 @Data
 @Schema(description = "系统角色表单请求参数")
 public class SysRoleForm extends BasicForm {
-
-    /**
-     * 角色唯一标识
-     */
-    @Null(message = "角色唯一标识必须为空", groups = {Groups.Create.class})
-    @NotNull(message = "角色唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "角色唯一标识参数不合法", groups = {Groups.Update.class})
-    @Schema(description = "角色唯一标识")
-    private Long id;
-
+    
     /**
      * 角色编码
      */

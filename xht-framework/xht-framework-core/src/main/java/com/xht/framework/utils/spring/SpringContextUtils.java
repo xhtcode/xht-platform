@@ -33,6 +33,7 @@ import java.util.Optional;
 @Component
 @SuppressWarnings(value = {"unused", "unchecked"})
 public final class SpringContextUtils implements ApplicationContextAware, BeanFactoryPostProcessor {
+
     /**
      * "@PostConstruct"注解标记的类中，由于ApplicationContext还未加载，导致空指针<br>
      * 因此实现BeanFactoryPostProcessor注入ConfigurableListableBeanFactory实现bean的操作

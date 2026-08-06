@@ -130,4 +130,5 @@ public abstract class BpmnPageQueryBuilder<T extends BpmnPageQueryBO> implements
      * 填充查询参数
      */
     public abstract T createQueryData();
+
 }

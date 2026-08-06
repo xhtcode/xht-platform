@@ -3,8 +3,8 @@ package com.xht.platform.system.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
+import com.xht.framework.utils.ThrowUtils;
 import  com.xht.platform.system.converter.SysRoleConverter;
 import  com.xht.platform.system.dao.SysRoleDao;
 import  com.xht.platform.system.dao.SysUserRoleDao;
@@ -12,8 +12,9 @@ import  com.xht.platform.system.domain.form.SysRoleForm;
 import  com.xht.platform.system.domain.query.SysRoleQuery;
 import  com.xht.platform.system.domain.response.SysRoleResponse;
 import  com.xht.platform.system.entity.SysRoleEntity;
-import  com.xht.platform.system.enums.RoleTypeEnums;
+import com.xht.platform.system.entity.SysUserRoleEntity;
 import  com.xht.platform.system.enums.RoleStatusEnum;
+import com.xht.platform.system.enums.RoleTypeEnums;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -54,31 +55,30 @@ public class SysRoleServiceImpl implements ISysRoleService {
     /**
      * 批量删除角色
      *
-     * @param ids 角色id
+     * @param roleId 角色id
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void removeByIds(List<Long> ids) {
-        ThrowUtils.notNull(ids, BusinessErrorCode.PARAM_ERROR);
-        long countByRoleId = sysRoleDao.countByRoleId(ids, RoleTypeEnums.NONE);
-        ThrowUtils.throwIf(countByRoleId != ids.size(), BusinessErrorCode.DATA_EXIST, "系统默认角色禁止删除!");
-        Boolean existsInId = sysUserRoleDao.existsUserInRoleId(ids);
+    public void removeByIds(Long roleId) {
+        Boolean existsInId = sysUserRoleDao.exists(SysUserRoleEntity::getRoleId, roleId);
         ThrowUtils.throwIf(existsInId, BusinessErrorCode.DATA_EXIST, "角色已分配用户，禁止删除");
-        sysRoleDao.removeAllById(ids);
+        sysRoleDao.removeById(roleId);
     }
 
     /**
      * 根据ID更新角色
      *
-     * @param form 角色更新请求参数
+     * @param roleId 角色ID
+     * @param form   角色更新请求参数
      */
     @Override
-    public void updateById(SysRoleForm form) {
-        Boolean exists = sysRoleDao.existsRoleCode(form.getId(), form.getRoleCode());
+    @Transactional(rollbackFor = Exception.class)
+    public void updateById(Long roleId, SysRoleForm form) {
+        Boolean exists = sysRoleDao.existsRoleCode(roleId, form.getRoleCode());
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
-        Boolean roleExists = sysRoleDao.exists(SysRoleEntity::getId, form.getId());
+        Boolean roleExists = sysRoleDao.exists(SysRoleEntity::getId, roleId);
         ThrowUtils.throwIf(!roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
-        sysRoleDao.updateFormRequest(form);
+        sysRoleDao.updateFormRequest(roleId, form);
     }
 
     /**
@@ -97,12 +97,12 @@ public class SysRoleServiceImpl implements ISysRoleService {
     /**
      * 根据ID查询角色
      *
-     * @param id 角色ID
+     * @param roleId 角色ID
      * @return 角色信息
      */
     @Override
-    public SysRoleResponse findById(Long id) {
-        SysRoleEntity sysRoleEntity = sysRoleDao.findOptionalById(id).orElse(null);
+    public SysRoleResponse findById(Long roleId) {
+        SysRoleEntity sysRoleEntity = sysRoleDao.findOptionalById(roleId).orElse(null);
         return sysRoleConverter.toResponse(sysRoleEntity);
     }
 
@@ -126,6 +126,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     public List<SysRoleResponse> list() {
         return sysRoleConverter.toResponse(sysRoleDao.queryRolesByStatus());
     }
+
 }
 
 

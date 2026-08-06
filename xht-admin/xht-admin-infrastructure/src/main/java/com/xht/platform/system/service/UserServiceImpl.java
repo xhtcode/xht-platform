@@ -7,15 +7,15 @@ import com.xht.framework.common.enums.UserStatusEnum;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.exception.code.UserErrorCode;
-import com.xht.framework.utils.ThrowUtils;
-import com.xht.framework.utils.StringUtils;
-import com.xht.framework.utils.tree.INode;
-import com.xht.framework.utils.tree.TreeNode;
-import com.xht.framework.utils.tree.TreeUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.utils.PassWordUtils;
+import com.xht.framework.utils.StringUtils;
+import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.tree.INode;
+import com.xht.framework.utils.tree.TreeNode;
+import com.xht.framework.utils.tree.TreeUtils;
 import com.xht.platform.common.router.dto.RouterDTO;
 import  com.xht.platform.system.converter.SysUserConverter;
 import  com.xht.platform.system.dao.*;
@@ -33,6 +33,7 @@ import  com.xht.platform.system.entity.SysUserDetailEntity;
 import  com.xht.platform.system.entity.SysUserEntity;
 import  com.xht.platform.system.enums.RoleTypeEnums;
 import  com.xht.platform.system.helper.SysUserHelper;
+import com.xht.platform.system.utils.RouterUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -110,11 +111,11 @@ public class UserServiceImpl implements IUserService {
     /**
      * 更新用户信息
      *
+     * @param userId       用户 ID
      * @param userForm 用户更新请求对象
      */
     @Override
-    public void update(SysUserForm userForm) {
-        Long userId = userForm.getId();
+    public void updateById(Long userId, SysUserForm userForm) {
         SysUserDetailForm detail = userForm.getProfile();
         String idCard = detail.getIdCard();
         String userPhone = userForm.getUserPhone();
@@ -129,7 +130,7 @@ public class UserServiceImpl implements IUserService {
         ThrowUtils.throwIf(userIdCardExists, BusinessErrorCode.DATA_EXIST, "该身份证号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
         // 格式化数据类型
         SysUserEntity sysUser = SysUserHelper.formatUser(userForm);
-        sysUser.setId(userForm.getId());
+        sysUser.setId(userId);
         SysUserDetailEntity detailEntity = SysUserHelper.formatUser(detail, userId);
         sysUserDetailDao.updateUserInfo(sysUser, detailEntity);
     }
@@ -192,6 +193,20 @@ public class UserServiceImpl implements IUserService {
         Boolean exists = sysUserDao.exists(SysUserEntity::getId, userId);
         ThrowUtils.throwIf(exists, UserErrorCode.DATA_NOT_EXIST, "用户不存在");
         sysUserDao.updateStatus(userId, status);
+    }
+
+    /**
+     * 获取当前登录的用户信息
+     *
+     * @return 用户信息
+     */
+    @Override
+    public SysUserVO getUserProfileInfo() {
+        BasicUserDetails userDetails = SecurityUtils.getUser();
+        SysUserVO userVo = findByUserId(userDetails.getUserId());
+        userVo.setRoleCodes(userDetails.getRoleCodes());
+        userVo.setMenuButtonCodes(userDetails.getMenuButtonCodes());
+        return userVo;
     }
 
     /**

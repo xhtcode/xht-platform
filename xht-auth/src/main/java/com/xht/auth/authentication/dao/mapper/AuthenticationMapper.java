@@ -64,4 +64,5 @@ public interface AuthenticationMapper {
      * @return 用户信息
      */
     TokenUserInfoResponse findByUserId(@Param("userId") Long userId);
+
 }

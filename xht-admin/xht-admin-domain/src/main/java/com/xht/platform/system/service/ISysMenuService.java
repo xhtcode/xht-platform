@@ -26,32 +26,33 @@ public interface ISysMenuService {
     /**
      * 根据ID删除菜单
      *
-     * @param id 菜单ID
+     * @param menuId 菜单ID
      */
-    void removeById(Long id);
+    void removeById(Long menuId);
 
     /**
      * 根据ID更新菜单
      *
+     * @param menuId   菜单ID
      * @param form 菜单更新请求参数
      */
-    void updateById(SysMenuForm form);
+    void updateById(Long menuId, SysMenuForm form);
 
     /**
      * 更新菜单状态
      *
-     * @param id     菜单ID
+     * @param menuId     菜单ID
      * @param status 菜单状态
      */
-    void updateStatus(Long id, MenuStatusEnum status);
+    void updateStatus(Long menuId, MenuStatusEnum status);
 
     /**
      * 根据ID查询菜单
      *
-     * @param id 菜单ID
+     * @param menuId 菜单ID
      * @return 菜单信息
      */
-    SysMenuResponse findById(Long id);
+    SysMenuResponse findById(Long menuId);
 
     /**
      * 查询菜单列表(树形结构)

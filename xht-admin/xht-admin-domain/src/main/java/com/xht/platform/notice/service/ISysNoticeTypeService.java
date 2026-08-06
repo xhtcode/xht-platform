@@ -24,24 +24,25 @@ public interface ISysNoticeTypeService {
     /**
      * 根据ID删除通知类型
      *
-     * @param id 通知类型ID
+     * @param noticeTypeId 通知类型ID
      */
-    void removeById(Long id);
+    void removeById(Long noticeTypeId);
 
     /**
      * 根据ID更新通知类型
      *
+     * @param noticeTypeId 通知类型ID
      * @param form 通知类型更新请求参数
      */
-    void updateById(SysNoticeTypeForm form);
+    void updateById(Long noticeTypeId, SysNoticeTypeForm form);
 
     /**
      * 根据ID查询通知类型
      *
-     * @param id 通知类型ID
+     * @param noticeTypeId 通知类型ID
      * @return 通知类型信息
      */
-    SysNoticeTypeResponse findById(Long id);
+    SysNoticeTypeResponse findById(Long noticeTypeId);
 
     /**
      * 查询所有通知类型

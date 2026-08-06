@@ -17,4 +17,5 @@ public interface ISysOauth2ClientScopeDao {
      * @return 授权范围
      */
     List<SysOauth2ClientScopeResponse> findByClientId(String clientId);
+
 }

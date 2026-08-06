@@ -16,9 +16,10 @@ public interface SysOauth2ClientDao extends MapperRepository<SysOauth2ClientEnti
     /**
      * 更新OAuth2客户端信息
      *
-     * @param form OAuth2客户端修改信息
+     * @param oauth2Id OAuth2客户端ID
+     * @param form     OAuth2客户端修改信息
      */
-    void updateFormRequest(SysOauth2ClientForm form);
+    void updateFormRequest(Long oauth2Id, SysOauth2ClientForm form);
 
     /**
      * 根据clientId 修改客户端密钥

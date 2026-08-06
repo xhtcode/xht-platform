@@ -16,32 +16,31 @@ public interface ISysAreaService {
      * 添加系统管理-行政区划
      *
      * @param form 系统管理-行政区划
-     *
      */
     void create(SysAreaForm form);
 
     /**
-     * 根据主键`id`批量删除系统管理-行政区划
+     * 根据主键`areaId`批量删除系统管理-行政区划
      *
-     * @param id 系统管理-行政区划主键
+     * @param areaId 系统管理-行政区划主键
      */
-    void remove(Long id);
+    void remove(Long areaId);
 
     /**
      * 修改系统管理-行政区划
      *
+     * @param areaId 系统管理-行政区划主键
      * @param form 系统管理-行政区划
-     *
      */
-    void updateById(SysAreaForm form);
+    void updateById(Long areaId, SysAreaForm form);
 
     /**
-     * 根据主键`id`查询系统管理-行政区划
+     * 根据主键`areaId`查询系统管理-行政区划
      *
-     * @param id 系统管理-行政区划主键
+     * @param areaId 系统管理-行政区划主键
      * @return 系统管理-行政区划信息
      */
-    SysAreaResponse findById(Long id);
+    SysAreaResponse findById(Long areaId);
 
     /**
      * 查询系统管理-行政区划列表
@@ -50,4 +49,5 @@ public interface ISysAreaService {
      * @return 系统管理-行政区划列表
      */
     List<SysAreaResponse> listByParentId(Long parentId);
+
 }

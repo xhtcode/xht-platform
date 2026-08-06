@@ -55,4 +55,5 @@ public class SysDeptTreeQuery extends BasicQuery {
      */
     @Schema(description = "邮箱")
     private String email;
+
 }

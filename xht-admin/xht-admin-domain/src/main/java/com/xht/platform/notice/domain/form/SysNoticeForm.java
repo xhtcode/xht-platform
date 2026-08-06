@@ -2,13 +2,12 @@ package com.xht.platform.notice.domain.form;
 
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
-import  com.xht.platform.notice.domain.form.SysNoticeAttachmentForm;
-import  com.xht.platform.notice.enums.*;
+import com.xht.platform.notice.enums.NoticeJumpTypeEnum;
+import com.xht.platform.notice.enums.NoticeTimedPublishEnum;
+import com.xht.platform.notice.enums.NoticeTopEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
-import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -22,15 +21,6 @@ import java.util.List;
 @Data
 @Schema(description = "系统管理-通知详情")
 public class SysNoticeForm extends BasicForm {
-
-    /**
-     * 通知ID
-     */
-    @Schema(description = "主键ID")
-    @Null(message = "唯一标识必须为空", groups = {Groups.Create.class})
-    @NotNull(message = "唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "唯一标识参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    private Long id;
 
     /**
      * 通知类型（如：系统公告、活动通知等）

@@ -14,7 +14,6 @@ import lombok.Data;
 @Schema(description = "修改岗位类型请求参数")
 public class SysUserPostForm extends BasicForm {
 
-
     /**
      * 用户id
      */
@@ -35,6 +34,5 @@ public class SysUserPostForm extends BasicForm {
     @NotNull(message = "岗位id不能为空")
     @Schema(description = "post_id")
     private Long postId;
-
 
 }

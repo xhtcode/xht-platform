@@ -44,39 +44,40 @@ public class SysNoticeTypeController {
     /**
      * 根据ID删除通知类型
      *
-     * @param id 通知类型ID
+     * @param noticeTypeId 通知类型ID
      */
     @BLog(value = "通知类型", description = "根据ID删除通知类型")
     @Operation(summary = "根据ID删除通知类型")
-    @PostMapping("/remove/{id}")
-    public R<Void> removeById(@PathVariable Long id) {
-        sysNoticeTypeService.removeById(id);
+    @PostMapping("/remove/{noticeTypeId}")
+    public R<Void> removeById(@PathVariable Long noticeTypeId) {
+        sysNoticeTypeService.removeById(noticeTypeId);
         return R.ok().build();
     }
 
     /**
      * 根据ID更新通知类型
      *
+     * @param noticeTypeId 通知类型ID
      * @param form 通知类型更新请求参数
      */
     @BLog(value = "通知类型", description = "根据ID更新通知类型")
     @Operation(summary = "根据ID更新通知类型")
-    @PostMapping("/update")
-    public R<Void> updateById(@RequestBody SysNoticeTypeForm form) {
-        sysNoticeTypeService.updateById(form);
+    @PostMapping("/update/{noticeTypeId}")
+    public R<Void> updateById(@PathVariable Long noticeTypeId, @RequestBody SysNoticeTypeForm form) {
+        sysNoticeTypeService.updateById(noticeTypeId, form);
         return R.ok().build();
     }
 
     /**
      * 根据ID查询通知类型
      *
-     * @param id 通知类型ID
+     * @param noticeTypeId 通知类型ID
      * @return 通知类型信息
      */
     @Operation(summary = "根据ID查询通知类型")
-    @GetMapping("/get/{id}")
-    public R<SysNoticeTypeResponse> findById(@PathVariable Long id) {
-        return R.ok().build(sysNoticeTypeService.findById(id));
+    @GetMapping("/get/{noticeTypeId}")
+    public R<SysNoticeTypeResponse> findById(@PathVariable Long noticeTypeId) {
+        return R.ok().build(sysNoticeTypeService.findById(noticeTypeId));
     }
 
     /**
@@ -84,8 +85,8 @@ public class SysNoticeTypeController {
      * @param query 通知类型查询请求参数
      * @return 通知类型列表
      */
-    @Operation(summary = "查询所有通知类型")
     @GetMapping("/list")
+    @Operation(summary = "查询所有通知类型")
     public R<List<SysNoticeTypeResponse>> list(SysNoticeTypeQuery query) {
         return R.ok().build(sysNoticeTypeService.list(query));
     }
@@ -94,9 +95,9 @@ public class SysNoticeTypeController {
      * 查询所有通知类型
      * @return 通知类型列表
      */
-    @Operation(summary = "查询所有通知类型")
     @IgnoreAuth(aop = false)
     @GetMapping("/enable/all")
+    @Operation(summary = "查询所有通知类型")
     public R<List<LabelValue<Long, String>>> findEnableList() {
         return R.ok().build(sysNoticeTypeService.findEnableList());
     }

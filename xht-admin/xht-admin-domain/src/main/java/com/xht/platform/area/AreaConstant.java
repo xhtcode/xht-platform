@@ -16,4 +16,5 @@ public interface AreaConstant {
      * 默认上级
      */
     Long DEFAULT_PARENT_CODE = 1L;
+
 }

@@ -25,9 +25,10 @@ public interface SysAreaDao extends MapperRepository<SysAreaEntity> {
     /**
      * 根据主键`areaCode`更新系统管理-行政区划
      *
-     * @param form 系统管理-行政区划表单请求参数
+     * @param areaId 行政区划主键
+     * @param form   系统管理-行政区划表单请求参数
      */
-    void updateFormRequest(SysAreaForm form);
+    void updateFormRequest(Long areaId, SysAreaForm form);
 
     /**
      * 校验区划下是否有子区划

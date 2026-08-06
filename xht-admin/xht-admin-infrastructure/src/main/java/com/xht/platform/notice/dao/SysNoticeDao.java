@@ -21,9 +21,10 @@ public interface SysNoticeDao extends MapperRepository<SysNoticeEntity> {
     /**
      * 根据主键`id`更新系统管理-通知详情
      *
-     * @param form 系统管理-通知详情表单请求参数
+     * @param noticeId  通知id
+     * @param form     系统管理-通知详情表单请求参数
      */
-    void updateFormRequest(SysNoticeForm form);
+    void updateFormRequest(Long noticeId, SysNoticeForm form);
 
     /**
      * 根据通知id 修改状态

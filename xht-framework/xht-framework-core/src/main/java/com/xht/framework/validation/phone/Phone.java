@@ -37,4 +37,5 @@ public @interface Phone {
      * @return 负载
      */
     Class<? extends Payload>[] payload() default {};
+
 }

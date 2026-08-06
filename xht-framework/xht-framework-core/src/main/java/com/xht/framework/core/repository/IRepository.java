@@ -5,4 +5,5 @@ package com.xht.framework.core.repository;
  * @author xht
  **/
 public interface IRepository {
+
 }

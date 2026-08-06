@@ -16,4 +16,5 @@ import org.mapstruct.ReportingPolicy;
 @SuppressWarnings("unused")
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysUserDetailConverter extends BasicConverter<SysUserDetailEntity, SysUserDetailForm, SysUserDetailResponse> {
+
 }

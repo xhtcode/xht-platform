@@ -12,6 +12,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ListenerTypeEnums implements XhtEnum<String> {
+
     /**
      * java 类
      */

@@ -34,4 +34,5 @@ public interface ISysOauth2AuthorizationConsentDao extends MapperRepository<SysO
      * @return 授权确认信息
      */
     List<SysOauth2AuthorizationConsentEntity> findByPrincipalName(String principalName);
+
 }

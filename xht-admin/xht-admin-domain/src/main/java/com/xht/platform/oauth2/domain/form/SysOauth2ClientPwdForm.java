@@ -27,4 +27,5 @@ public class SysOauth2ClientPwdForm extends BasicForm {
     @NotBlank(message = "客户端密钥参数不合法")
     @Schema(description = "客户端密钥")
     private String clientSecret;
+
 }

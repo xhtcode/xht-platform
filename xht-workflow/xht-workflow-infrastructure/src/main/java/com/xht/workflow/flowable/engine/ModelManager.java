@@ -99,4 +99,5 @@ public interface ModelManager extends WorkFlowManager {
      * @return bpmn xml
      */
     String queryBpmnXmlById(String modelId);
+
 }

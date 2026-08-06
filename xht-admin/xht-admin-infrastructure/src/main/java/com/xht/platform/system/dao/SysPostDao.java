@@ -25,9 +25,10 @@ public interface SysPostDao extends MapperRepository<SysPostEntity> {
     /**
      * 更新岗位信息
      *
-     * @param form 岗位信息
+     * @param postId 岗位ID
+     * @param form   岗位信息
      */
-    void updateFormRequest(SysPostForm form);
+    void updateFormRequest(Long postId, SysPostForm form);
 
     /**
      * 分页查询部门岗位信息

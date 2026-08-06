@@ -9,4 +9,5 @@ import com.xht.framework.mybatis.repository.MapperRepository;
  * @author xht
  **/
 public interface SysLoginLogDao extends MapperRepository<SysLoginLogEntity> {
+
 }

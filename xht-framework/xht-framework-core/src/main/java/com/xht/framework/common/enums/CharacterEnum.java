@@ -30,4 +30,5 @@ public enum CharacterEnum {
      * 字符集描述信息
      */
     private final String info;
+
 }

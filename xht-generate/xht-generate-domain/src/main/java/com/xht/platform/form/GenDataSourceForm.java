@@ -1,0 +1,66 @@
+package com.xht.platform.form;
+
+import com.xht.framework.common.domain.form.BasicForm;
+import com.xht.framework.validation.Groups;
+import com.xht.platform.common.enums.DataBaseTypeEnum;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Positive;
+import lombok.Data;
+
+/**
+ * 数据源表单请求参数
+ *
+ * @author xht
+ **/
+@Data
+@Schema(description = "数据源表单请求参数")
+public class GenDataSourceForm extends BasicForm {
+
+    /**
+     * Id
+     */
+    @Null(message = "Id必须为空", groups = {Groups.Create.class})
+    @NotNull(message = "Id参数不合法", groups = {Groups.Update.class})
+    @Positive(message = "Id参数不合法", groups = {Groups.Update.class})
+    @Schema(description = "Id")
+    private Long id;
+
+    /**
+     * 数据源名称
+     */
+    @NotBlank(message = "数据源名称不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "数据源名称")
+    private String name;
+
+    /**
+     * 数据库类型（MySQL/Oracle）
+     */
+    @NotNull(message = "数据库类型不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "数据库类型")
+    private DataBaseTypeEnum dbType;
+
+    /**
+     * 数据库地址
+     */
+    @NotBlank(message = "数据库地址不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "数据库地址")
+    private String url;
+
+    /**
+     * 数据库用户名
+     */
+    @NotBlank(message = "数据库用户名不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "数据库用户名")
+    private String username;
+
+    /**
+     * 密码
+     */
+    @NotBlank(message = "密码不能为空", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "密码")
+    private String password;
+
+}

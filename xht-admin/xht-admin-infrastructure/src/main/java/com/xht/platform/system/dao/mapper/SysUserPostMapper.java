@@ -22,6 +22,7 @@ public interface SysUserPostMapper extends BaseMapperX<SysUserPostEntity> {
      * @return 部门岗位信息
      */
     List<SysPostResponse> getPostByUserId(Long userId);
+
 }
 
 

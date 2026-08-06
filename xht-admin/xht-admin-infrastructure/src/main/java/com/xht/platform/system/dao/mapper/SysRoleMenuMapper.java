@@ -42,6 +42,7 @@ public interface SysRoleMenuMapper extends BaseMapperX<SysRoleMenuEntity> {
      * @return 路由菜单集合
      */
     List<SysMenuResponse> findRouterByUserId(@Param("userId") Long userId);
+
 }
 
 

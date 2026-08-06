@@ -7,4 +7,5 @@ package com.xht.auth.authentication.entity;
  * @author xht
  **/
 public class SysOauth2ClientScopeEntity {
+
 }

@@ -21,4 +21,5 @@ public enum Oauth2BindStatus implements IEnum<Integer> {
 
     private final Integer value;
     private final String desc;
+
 }

@@ -3,8 +3,8 @@ package com.xht.platform.oauth2.service;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
+import com.xht.framework.utils.ThrowUtils;
 import  com.xht.platform.oauth2.converter.SysOauth2ClientConverter;
 import  com.xht.platform.oauth2.dao.SysOauth2ClientDao;
 import  com.xht.platform.oauth2.domain.form.SysOauth2ClientForm;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -59,27 +58,29 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
     /**
      * 删除OAuth2客户端
      *
-     * @param ids OAuth2客户端标识集合
+     * @param oauth2Id OAuth2客户端标识集合
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void removeById(List<Long> ids) {
-        sysOauth2ClientDao.removeAllById(ids);
+    public void removeById(Long oauth2Id) {
+        sysOauth2ClientDao.removeById(oauth2Id);
     }
 
     /**
      * 修改OAuth2客户端
      *
-     * @param form OAuth2客户端信息
+     * @param oauth2Id OAuth2客户端标识
+     * @param form     OAuth2客户端信息
      */
     @Override
-    public void updateById(SysOauth2ClientForm form) {
+    @Transactional(rollbackFor = Exception.class)
+    public void updateById(Long oauth2Id, SysOauth2ClientForm form) {
         validation(form);
-        Boolean deptExists = sysOauth2ClientDao.exists(SysOauth2ClientEntity::getId, form.getId());
+        Boolean deptExists = sysOauth2ClientDao.exists(SysOauth2ClientEntity::getId, oauth2Id);
         ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_NOT_EXIST, "客户端不存在");
-        Boolean exists = sysOauth2ClientDao.existsByClientId(form.getClientId(), form.getId());
+        Boolean exists = sysOauth2ClientDao.existsByClientId(form.getClientId(), oauth2Id);
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "客户端标识已存在.");
-        sysOauth2ClientDao.updateFormRequest(form);
+        sysOauth2ClientDao.updateFormRequest(oauth2Id, form);
     }
 
     /**
@@ -99,6 +100,11 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
         sysOauth2ClientDao.updateClientSecret(entity.getId(), encode);
     }
 
+    /**
+     * 验证
+     *
+     * @param form 表单
+     */
     private void validation(SysOauth2ClientForm form) {
         Set<String> authorizationGrantTypes = form.getAuthorizationGrantTypes();
         if (authorizationGrantTypes.contains(AuthorizationGrantType.AUTHORIZATION_CODE.getValue())) {
@@ -110,12 +116,12 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
     /**
      * 获取OAuth2客户端详情
      *
-     * @param id OAuth2客户端标识
+     * @param oauth2Id OAuth2客户端标识
      * @return OAuth2客户端详情
      */
     @Override
-    public SysOauth2ClientResponse findById(Long id) {
-        SysOauth2ClientEntity sysOauth2ClientEntity = sysOauth2ClientDao.findById(id);
+    public SysOauth2ClientResponse findById(Long oauth2Id) {
+        SysOauth2ClientEntity sysOauth2ClientEntity = sysOauth2ClientDao.findById(oauth2Id);
         return sysOauth2ClientConverter.toResponse(sysOauth2ClientEntity);
     }
 

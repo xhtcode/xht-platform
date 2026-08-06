@@ -6,7 +6,6 @@ import  com.xht.platform.system.enums.DeptPostStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import lombok.Data;
 
 /**
@@ -17,13 +16,6 @@ import lombok.Data;
 @Data
 @Schema(description = "新增部门岗位请求参数")
 public class SysPostForm extends BasicForm {
-
-    /**
-     * 部门岗位唯一标识
-     */
-    @Null(message = "ID唯一标识必须为空", groups = {Groups.Create.class})
-    @Schema(description = "部门岗位唯一标识")
-    private Long id;
 
     /**
      * 部门id
@@ -66,5 +58,6 @@ public class SysPostForm extends BasicForm {
     @NotEmpty(message = "岗位描述参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "岗位描述")
     private String remark;
+
 }
 

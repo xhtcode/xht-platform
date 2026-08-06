@@ -41,10 +41,11 @@ public class SysAreaDaoImpl extends MapperRepositoryImpl<SysAreaMapper, SysAreaE
     /**
      * 根据主键`areaCode`更新系统管理-行政区划
      *
-     * @param form 系统管理-行政区划表单请求参数
+     * @param areaId 行政区划主键
+     * @param form   系统管理-行政区划表单请求参数
      */
     @Override
-    public void updateFormRequest(SysAreaForm form) {
+    public void updateFormRequest(Long areaId, SysAreaForm form) {
         LambdaUpdateWrapper<SysAreaEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(condition(form.getParentId()), SysAreaEntity::getParentId, form.getParentId());
         updateWrapper.set(condition(form.getAreaCode()), SysAreaEntity::getAreaCode, form.getAreaCode());
@@ -53,7 +54,7 @@ public class SysAreaDaoImpl extends MapperRepositoryImpl<SysAreaMapper, SysAreaE
         updateWrapper.set(condition(form.getAreaLongitude()), SysAreaEntity::getAreaLongitude, form.getAreaLongitude());
         updateWrapper.set(condition(form.getAreaLatitude()), SysAreaEntity::getAreaLatitude, form.getAreaLatitude());
         updateWrapper.set(condition(form.getAreaSort()), SysAreaEntity::getAreaSort, form.getAreaSort());
-        updateWrapper.eq(SysAreaEntity::getId, form.getId());
+        updateWrapper.eq(SysAreaEntity::getId, areaId);
         update(updateWrapper);
     }
 

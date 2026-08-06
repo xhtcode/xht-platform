@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.xht.framework.common.enums.LoginTypeEnum;
-import com.xht.framework.core.blog.enums.LogStatusEnum;
+import com.xht.framework.common.enums.LogStatusEnum;
 import com.xht.framework.log.event.LoginRequestInfo;
 import com.xht.framework.mybatis.domain.entity.DeleteEntity;
 import lombok.Data;

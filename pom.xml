@@ -16,10 +16,10 @@
         <module>xht-framework</module>
         <module>xht-framework-dependencies</module>
         <module>xht-gateway</module>
-        <module>xht-modules</module>
-        <module>xht-modules-api</module>
         <module>xht-generate</module>
         <module>xht-workflow</module>
+        <module>xht-platform-common</module>
+        <module>xht-platform-client</module>
     </modules>
 
     <properties>
@@ -47,10 +47,19 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- 自定义的api暴露接口 -->
             <dependency>
                 <groupId>com.xht.platform</groupId>
-                <artifactId>xht-module-api-admin</artifactId>
+                <artifactId>xht-admin-common</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xht.platform</groupId>
+                <artifactId>xht-generate-common</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xht.platform</groupId>
+                <artifactId>xht-workflow-common</artifactId>
                 <version>1.0.0</version>
             </dependency>
         </dependencies>

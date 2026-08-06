@@ -12,6 +12,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum UserStatusEnum implements XhtEnum<Integer> {
+
     /**
      * 正常状态
      * <ul>

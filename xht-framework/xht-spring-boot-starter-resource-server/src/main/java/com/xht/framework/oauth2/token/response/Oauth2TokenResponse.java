@@ -77,4 +77,5 @@ public class Oauth2TokenResponse extends AbstractOauth2Response implements Seria
     @Schema(name = "additional", defaultValue = "额外的参数")
     @JsonAnyGetter
     private Map<String, Object> additionalParameters;
+
 }

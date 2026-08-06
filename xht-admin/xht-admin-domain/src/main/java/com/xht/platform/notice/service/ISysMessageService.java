@@ -8,7 +8,7 @@ import  com.xht.platform.notice.domain.vo.MessageInfoVO;
 import  com.xht.platform.notice.domain.vo.MessagePageVO;
 import  com.xht.platform.notice.enums.MessageStarEnum;
 import  com.xht.platform.notice.enums.MessageTopEnum;
-import com.xht.framework.core.message.core.MessagePayload;
+import com.xht.platform.common.message.core.MessagePayload;
 
 /**
  * 系统管理-站内信主表 Service

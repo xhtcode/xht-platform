@@ -31,10 +31,11 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
     /**
      * 更新OAuth2客户端信息
      *
-     * @param form OAuth2客户端修改信息
+     * @param oauth2Id OAuth2客户端ID
+     * @param form     OAuth2客户端修改信息
      */
     @Override
-    public void updateFormRequest(SysOauth2ClientForm form) {
+    public void updateFormRequest(Long oauth2Id, SysOauth2ClientForm form) {
         LambdaUpdateWrapper<SysOauth2ClientEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
@@ -50,7 +51,7 @@ public class SysOauth2ClientDaoImpl extends MapperRepositoryImpl<SysOauth2Client
                 .set(SysOauth2ClientEntity::getAutoApprove, Objects.requireNonNullElse(form.getAutoApprove(), Oauth2ClientAutoApproveEnum.NO))
                 .set(SysOauth2ClientEntity::getRemark, form.getRemark());
         // @formatter:on
-        updateWrapper.eq(SysOauth2ClientEntity::getId, form.getId());
+        updateWrapper.eq(SysOauth2ClientEntity::getId, oauth2Id);
         update(updateWrapper);
     }
 

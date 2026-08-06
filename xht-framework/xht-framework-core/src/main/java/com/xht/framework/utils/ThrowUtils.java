@@ -16,6 +16,7 @@ import java.util.function.Supplier;
  */
 @SuppressWarnings("unused")
 public final class ThrowUtils {
+
     /**
      * 立则抛异常
      *

@@ -13,6 +13,7 @@ import lombok.Data;
 @Data
 @Schema(description = "部门响应信息")
 public class SysDeptResponse extends MetaResponse {
+
     /**
      * 部门id
      */

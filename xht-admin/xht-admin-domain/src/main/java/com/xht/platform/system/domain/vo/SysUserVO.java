@@ -56,4 +56,5 @@ public class SysUserVO extends SysUserResponse implements XhtVO {
      */
     @Schema(description = "权限列表")
     private Set<String> menuButtonCodes = Collections.emptySet();
+
 }

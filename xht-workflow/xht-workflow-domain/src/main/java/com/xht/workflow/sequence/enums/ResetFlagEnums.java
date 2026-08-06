@@ -26,4 +26,5 @@ public enum ResetFlagEnums implements XhtEnum<Integer> {
     private final Integer value;
 
     private final String desc;
+
 }

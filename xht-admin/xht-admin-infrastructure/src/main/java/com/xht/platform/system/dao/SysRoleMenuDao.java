@@ -44,4 +44,5 @@ public interface SysRoleMenuDao extends MapperRepository<SysRoleMenuEntity> {
      * @return 路由菜单集合
      */
     List<SysMenuResponse> findRouterByUserId(Long userId);
+
 }

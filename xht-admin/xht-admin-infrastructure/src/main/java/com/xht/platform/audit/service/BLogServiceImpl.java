@@ -2,7 +2,7 @@ package com.xht.platform.audit.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.core.blog.dto.BLogDTO;
+import com.xht.platform.common.blog.dto.BLogDTO;
 import com.xht.framework.mybatis.utils.PageTool;
 import  com.xht.platform.audit.converter.BLogConverter;
 import  com.xht.platform.audit.dao.BLogDao;

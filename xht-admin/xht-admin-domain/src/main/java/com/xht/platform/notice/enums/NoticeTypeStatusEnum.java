@@ -21,4 +21,5 @@ public enum NoticeTypeStatusEnum implements XhtEnum<Integer> {
     @JsonValue
     private final Integer value;
     private final String desc;
+
 }

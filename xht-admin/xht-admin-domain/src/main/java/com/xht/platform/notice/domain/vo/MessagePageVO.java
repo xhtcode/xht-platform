@@ -3,8 +3,8 @@ package com.xht.platform.notice.domain.vo;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.xht.framework.common.domain.response.PageResponse;
 import  com.xht.platform.notice.domain.response.SysMessageInfoResponse;
-import com.xht.framework.core.message.core.MessageExtendInfo;
-import com.xht.framework.core.message.enums.MessageTypeEnum;
+import com.xht.platform.common.message.core.MessageExtendInfo;
+import com.xht.platform.common.message.enums.MessageTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -47,6 +47,5 @@ public class MessagePageVO extends PageResponse<SysMessageInfoResponse> {
     @JsonAlias("extend")
     @Schema(description = "消息扩展信息（如关联订单ID、跳转链接）")
     private MessageExtendInfo messageExtend;
-
 
 }

@@ -2,9 +2,9 @@ package com.xht.platform.controller.dict;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.validation.Groups;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
+import com.xht.framework.validation.Groups;
 import  com.xht.platform.dict.domain.form.SysDictForm;
 import  com.xht.platform.dict.domain.query.SysDictQuery;
 import  com.xht.platform.dict.domain.response.SysDictResponse;
@@ -14,8 +14,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 字典类型管理
@@ -38,8 +36,8 @@ public class SysDictController {
      */
     @BLog(value = "字典管理", description = "创建字典类型")
     @CheckMenu("sys:dict:create")
-    @PostMapping("/create")
     @Operation(summary = "创建字典类型")
+    @PostMapping("/create")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysDictForm form) {
         sysDictService.create(form);
         return R.ok().build();
@@ -48,43 +46,44 @@ public class SysDictController {
     /**
      * 删除字典类型
      *
-     * @param ids 字典类型ID集合
+     * @param dictId 字典类型ID集合
      * @return true成功、false失败
      */
     @BLog(value = "字典管理", description = "删除字典类型")
     @CheckMenu("sys:dict:remove")
-    @PostMapping("/remove")
     @Operation(summary = "删除字典类型")
-    public R<Void> removeById(@RequestBody List<Long> ids) {
-        sysDictService.removeById(ids);
+    @PostMapping("/remove/{dictId}")
+    public R<Void> remove(@PathVariable Long dictId) {
+        sysDictService.removeById(dictId);
         return R.ok().build();
     }
 
     /**
      * 修改字典类型
      *
+     * @param dictId 字典类型ID
      * @param form 字典类型信息
      * @return true成功、false失败
      */
     @BLog(value = "字典管理", description = "修改字典类型")
-    @CheckMenu("sys:dict:update")
-    @PostMapping("/update")
+    @CheckMenu("sys:dict:updateById")
     @Operation(summary = "修改字典类型")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody SysDictForm form) {
-        sysDictService.updateById(form);
+    @PostMapping("/update/{dictId}")
+    public R<Void> updateById(@PathVariable Long dictId, @Validated(value = {Groups.Update.class}) @RequestBody SysDictForm form) {
+        sysDictService.updateById(dictId, form);
         return R.ok().build();
     }
 
     /**
      * 获取字典类型详情
      *
-     * @param id 字典类型ID
+     * @param dictId 字典类型ID
      * @return 字典类型详情
      */
-    @GetMapping("/get/{id}")
     @Operation(summary = "获取字典类型详情")
-    public R<SysDictResponse> findById(@PathVariable Long id) {
-        return R.ok().build(sysDictService.findById(id));
+    @GetMapping("/get/{dictId}")
+    public R<SysDictResponse> findById(@PathVariable Long dictId) {
+        return R.ok().build(sysDictService.findById(dictId));
     }
 
     /**
@@ -93,22 +92,11 @@ public class SysDictController {
      * @param query 系统字典查询参数
      * @return 分页结果
      */
-    @GetMapping("/page")
     @Operation(summary = "分页查询字典类型")
+    @GetMapping("/page")
     public R<PageResponse<SysDictResponse>> findPageList(SysDictQuery query) {
         return R.ok().build(sysDictService.findPageList(query));
     }
 
-
-    /**
-     * 获取所有字典类型
-     *
-     * @return 字典类型列表
-     */
-    @GetMapping("/all")
-    @Operation(summary = "获取所有字典类型")
-    public R<List<SysDictResponse>> findAll() {
-        return R.ok().build(sysDictService.findAll());
-    }
 
 }

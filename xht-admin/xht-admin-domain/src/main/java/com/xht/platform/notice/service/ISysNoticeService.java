@@ -26,16 +26,17 @@ public interface ISysNoticeService {
     /**
      * 根据ID删除通知详情
      *
-     * @param id 通知详情ID
+     * @param noticeId 通知详情ID
      */
-    void removeById(Long id);
+    void removeById(Long noticeId);
 
     /**
      * 根据ID更新通知详情
      *
+     * @param noticeId   通知详情ID
      * @param form 通知详情更新请求参数
      */
-    void updateById(SysNoticeForm form);
+    void updateById(Long noticeId, SysNoticeForm form);
 
     /**
      * 根据通知id 发布
@@ -62,10 +63,10 @@ public interface ISysNoticeService {
     /**
      * 根据ID查询通知详情
      *
-     * @param id 通知详情ID
+     * @param noticeId 通知详情ID
      * @return 通知详情信息
      */
-    NoticeVO findById(Long id);
+    NoticeVO findById(Long noticeId);
 
     /**
      * todo 待完善

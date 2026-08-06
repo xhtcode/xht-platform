@@ -79,4 +79,5 @@ public class SysUserDetailEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "nation")
     private String nation;
+
 }

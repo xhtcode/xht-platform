@@ -48,4 +48,5 @@ public interface SysUserConverter extends BasicConverter<SysUserEntity, SysUserF
      * @return SysUserDetailEntity 用户配置文件实体对象，用于数据存储
      */
     SysUserDetailEntity toEntity(SysUserDetailForm profileForm);
+
 }

@@ -150,4 +150,5 @@ public abstract class AbstractQrManager {
      * @throws IllegalStateException 当二维码状态不是已确认状态时抛出异常
      */
     public abstract BasicUserDetails getUserData(QrCodeInfo qrCodeInfo);
+
 }

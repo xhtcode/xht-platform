@@ -11,4 +11,5 @@ import java.io.Serializable;
  * @author xht
  **/
 public interface XhtDTO extends XhtRequest, XhtResponse, Serializable {
+
 }

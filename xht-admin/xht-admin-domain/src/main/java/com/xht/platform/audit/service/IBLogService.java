@@ -1,7 +1,7 @@
 package com.xht.platform.audit.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.core.blog.dto.BLogDTO;
+import com.xht.platform.common.blog.dto.BLogDTO;
 import  com.xht.platform.audit.domain.query.BLogQuery;
 import  com.xht.platform.audit.domain.response.BLogResponse;
 
@@ -34,4 +34,5 @@ public interface IBLogService {
      * @return 系统日志岗位分页信息
      */
     PageResponse<BLogResponse> findPageList(BLogQuery query);
+
 }

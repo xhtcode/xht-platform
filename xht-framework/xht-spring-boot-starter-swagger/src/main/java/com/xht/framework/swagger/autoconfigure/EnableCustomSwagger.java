@@ -15,4 +15,5 @@ import java.lang.annotation.*;
 @Inherited
 @Import({SpringDocAutoConfiguration.class})
 public @interface EnableCustomSwagger {
+
 }

@@ -17,16 +17,7 @@ import lombok.Data;
 @Data
 @Schema(description = "系统菜单表单请求参数")
 public class SysMenuForm extends BasicForm {
-
-    /**
-     * 菜单`id`唯一标识
-     */
-    @Null(message = "菜单`id`唯一标识必须为空", groups = {Groups.Create.class})
-    @NotNull(message = "菜单`id`唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "菜单`id`唯一标识参数不合法", groups = {Groups.Update.class})
-    @Schema(description = "菜单`id`唯一标识")
-    private Long id;
-
+    
     /**
      * 父菜单`id`
      */
@@ -122,6 +113,5 @@ public class SysMenuForm extends BasicForm {
      */
     @Schema(description = "是否为外链")
     private MenuCommonStatusEnum frameFlag;
-
 
 }

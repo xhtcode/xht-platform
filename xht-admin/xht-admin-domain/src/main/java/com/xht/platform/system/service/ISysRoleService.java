@@ -25,16 +25,17 @@ public interface ISysRoleService {
     /**
      * 批量删除角色
      *
-     * @param ids 角色id
+     * @param roleId 角色id
      */
-    void removeByIds(List<Long> ids);
+    void removeByIds(Long roleId);
 
     /**
      * 根据ID更新角色
      *
+     * @param roleId   角色ID
      * @param form 角色更新请求参数
      */
-    void updateById(SysRoleForm form);
+    void updateById(Long roleId, SysRoleForm form);
 
     /**
      * 更新角色状态
@@ -47,10 +48,10 @@ public interface ISysRoleService {
     /**
      * 根据ID查询角色
      *
-     * @param id 角色ID
+     * @param roleId 角色ID
      * @return 角色信息
      */
-    SysRoleResponse findById(Long id);
+    SysRoleResponse findById(Long roleId);
 
     /**
      * 分页查询角色

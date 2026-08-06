@@ -40,4 +40,5 @@ public class SysUserRoleEntity extends Entity {
      */
     @TableField(value = "create_by", fill = FieldFill.INSERT)
     private String createBy;
+
 }

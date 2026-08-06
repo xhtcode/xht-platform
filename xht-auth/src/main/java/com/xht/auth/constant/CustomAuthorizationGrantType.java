@@ -22,4 +22,5 @@ public interface CustomAuthorizationGrantType {
      * 手机号验证码
      */
     AuthorizationGrantType PHONE = new AuthorizationGrantType(LoginTypeEnum.PHONE.getValue());
+
 }

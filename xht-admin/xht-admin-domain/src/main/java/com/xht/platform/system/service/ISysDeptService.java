@@ -25,32 +25,33 @@ public interface ISysDeptService {
     /**
      * 根据ID删除部门
      *
-     * @param id 部门ID
+     * @param deptId 部门ID
      */
-    void removeById(Long id);
+    void removeById(Long deptId);
 
     /**
      * 根据ID更新部门
      *
+     * @param deptId 部门ID
      * @param form 部门更新请求参数
      */
-    void updateById(SysDeptForm form);
+    void updateById(Long deptId, SysDeptForm form);
 
     /**
      * 更新部门状态
      *
-     * @param id     部门ID
+     * @param deptId     部门ID
      * @param status 部门状态
      */
-    void updateStatus(Long id, DeptStatusEnum status);
+    void updateStatus(Long deptId, DeptStatusEnum status);
 
     /**
      * 根据ID查询部门
      *
-     * @param id 部门ID
+     * @param deptId 部门ID
      * @return 部门信息
      */
-    SysDeptResponse findById(Long id);
+    SysDeptResponse findById(Long deptId);
 
     /**
      * 获取部门树形结构
@@ -59,4 +60,5 @@ public interface ISysDeptService {
      * @return 部门树形结构
      */
     List<INode<Long>> getDeptTree(SysDeptTreeQuery treeRequest);
+
 }

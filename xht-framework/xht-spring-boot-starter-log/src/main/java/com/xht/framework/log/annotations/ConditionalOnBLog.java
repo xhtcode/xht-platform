@@ -23,4 +23,5 @@ public @interface ConditionalOnBLog {
      * @return 存储仓库类型
      */
     BLogProperties.RepositoryType value() default BLogProperties.RepositoryType.DEFAULT;
+
 }

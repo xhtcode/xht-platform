@@ -5,8 +5,8 @@ import com.xht.framework.mybatis.repository.MapperRepository;
 import  com.xht.platform.system.domain.form.SysRoleForm;
 import  com.xht.platform.system.domain.query.SysRoleQuery;
 import  com.xht.platform.system.entity.SysRoleEntity;
-import  com.xht.platform.system.enums.RoleTypeEnums;
 import  com.xht.platform.system.enums.RoleStatusEnum;
+import com.xht.platform.system.enums.RoleTypeEnums;
 
 import java.util.List;
 
@@ -20,9 +20,10 @@ public interface SysRoleDao extends MapperRepository<SysRoleEntity> {
     /**
      * 更新角色信息
      *
-     * @param form 角色信息
+     * @param roleId 角色ID
+     * @param form   角色信息
      */
-    void updateFormRequest(SysRoleForm form);
+    void updateFormRequest(Long roleId, SysRoleForm form);
 
     /**
      * 更新角色状态

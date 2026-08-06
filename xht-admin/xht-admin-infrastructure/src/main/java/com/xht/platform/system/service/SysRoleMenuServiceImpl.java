@@ -29,7 +29,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
 
-
     private final SysRoleMenuDao sysRoleMenuDao;
 
     private final SysRoleDao sysRoleDao;
@@ -84,4 +83,5 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
         response.setMenuList(sysMenuConverter.toTree(menuEntityList));
         return response;
     }
+
 }

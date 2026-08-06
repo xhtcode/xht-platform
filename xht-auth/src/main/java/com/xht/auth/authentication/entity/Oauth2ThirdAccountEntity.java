@@ -74,4 +74,5 @@ public class Oauth2ThirdAccountEntity extends BasicEntity implements Serializabl
      */
     @TableField(exist = false)
     private UserStatusEnum userStatus;
+
 }

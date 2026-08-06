@@ -1,7 +1,7 @@
 package com.xht.platform.audit.domain.query;
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import com.xht.framework.core.blog.enums.LogStatusEnum;
+import com.xht.framework.common.enums.LogStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

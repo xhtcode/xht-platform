@@ -44,4 +44,5 @@ public @interface XhtEnumValidator {
      * @return 负载
      */
     Class<? extends Payload>[] payload() default {};
+
 }

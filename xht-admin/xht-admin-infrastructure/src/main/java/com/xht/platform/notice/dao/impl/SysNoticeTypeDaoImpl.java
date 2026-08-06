@@ -30,14 +30,15 @@ public class SysNoticeTypeDaoImpl extends MapperRepositoryImpl<SysNoticeTypeMapp
     /**
      * 更新通知类型
      *
-     * @param form 通知类型
+     * @param noticeTypeId 通知类型ID
+     * @param form         通知类型
      */
     @Override
-    public void updateFormRequest(SysNoticeTypeForm form) {
+    public void updateFormRequest(Long noticeTypeId, SysNoticeTypeForm form) {
         LambdaUpdateWrapper<SysNoticeTypeEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(SysNoticeTypeEntity::getNoticeTypeName, form.getNoticeTypeName());
         updateWrapper.set(SysNoticeTypeEntity::getNoticeTypeSort, form.getNoticeTypeSort());
-        updateWrapper.eq(SysNoticeTypeEntity::getId, form.getId());
+        updateWrapper.eq(SysNoticeTypeEntity::getId, noticeTypeId);
         update(updateWrapper);
     }
 

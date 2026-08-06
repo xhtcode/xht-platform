@@ -36,8 +36,8 @@ public class SysUserRoleController {
      */
     @BLog(value = "用户角色管理", description = "绑定角色")
     @CheckMenu("sys:user:role:bind")
-    @PostMapping("/bind")
     @Operation(description = "绑定角色", summary = "绑定角色")
+    @PostMapping("/bind")
     public R<Void> userBindRole(@Valid @RequestBody UserBindRoleForm bindRequest) {
         userRoleService.userBindRole(bindRequest.getUserId(), bindRequest.getRoleIds());
         return R.ok().build();
@@ -49,8 +49,8 @@ public class SysUserRoleController {
      * @param userId 用户ID
      * @return 角色ID列表
      */
-    @GetMapping("/{userId}")
     @Operation(summary = "获取当前用户拥有的角色ID列表", description = "获取当前用户拥有的角色ID列表")
+    @GetMapping("/{userId}")
     public R<List<Long>> selectRoleIdByUserId(@PathVariable String userId) {
         return R.ok().build(userRoleService.selectRoleIdByUserId(userId));
     }

@@ -37,12 +37,13 @@ public class SysDictDaoImpl extends MapperRepositoryImpl<SysDictMapper, SysDictE
     /**
      * 修改系统字典
      *
+     * @param dictId           字典ID
      * @param form             系统字典修改参数
      * @param updateItemStatus 是否更新字典项状态
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateRequest(SysDictForm form, boolean updateItemStatus) {
+    public void updateRequest(Long dictId, SysDictForm form, boolean updateItemStatus) {
         LambdaUpdateWrapper<SysDictEntity> updateWrapper = new LambdaUpdateWrapper<>();
         //@formatter:off
         updateWrapper
@@ -52,14 +53,14 @@ public class SysDictDaoImpl extends MapperRepositoryImpl<SysDictMapper, SysDictE
                 .set(condition(form.getRemark()), SysDictEntity::getRemark, form.getRemark())
                 .set(condition(form.getStatus()), SysDictEntity::getStatus, form.getStatus())
                 .set(condition(form.getShowDisabled()), SysDictEntity::getShowDisabled, form.getShowDisabled())
-                .eq(SysDictEntity::getId, form.getId());
+                .eq(SysDictEntity::getId, dictId);
         //@formatter:on
         if (updateItemStatus) {
             LambdaUpdateWrapper<SysDictItemEntity> itemEntityWrapper = new LambdaUpdateWrapper<>();
             itemEntityWrapper
                     .set(SysDictItemEntity::getStatus, form.getStatus())
                     .set(SysDictItemEntity::getDictCode, form.getDictCode())
-                    .eq(SysDictItemEntity::getDictId, form.getId());
+                    .eq(SysDictItemEntity::getDictId, dictId);
             sysDictItemMapper.update(itemEntityWrapper);
         }
         update(updateWrapper);

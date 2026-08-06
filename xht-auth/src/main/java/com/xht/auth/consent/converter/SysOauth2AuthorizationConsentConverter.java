@@ -14,4 +14,5 @@ import org.mapstruct.ReportingPolicy;
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysOauth2AuthorizationConsentConverter extends PageConverter<SysOauth2AuthorizationConsentEntity, SysOauth2AuthorizationConsentResponse> {
+
 }

@@ -30,11 +30,12 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
     /**
      * 更新菜单信息
      *
-     * @param form 菜单信息
+     * @param menuId 菜单ID
+     * @param form   菜单信息
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFormRequest(SysMenuForm form) {
+    public void updateFormRequest(Long menuId, SysMenuForm form) {
         LambdaUpdateWrapper<SysMenuEntity> updateWrapper = new LambdaUpdateWrapper<>();
         // @formatter:off
         updateWrapper
@@ -52,9 +53,8 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
                 .set(SysMenuEntity::getViewPath, form.getViewPath())
                 .set(SysMenuEntity::getActiveMenuPath, form.getActiveMenuPath())
                 .set(SysMenuEntity::getFrameFlag, form.getFrameFlag())
-                .eq(SysMenuEntity::getId, form.getId());
+                .eq(SysMenuEntity::getId, menuId);
         // @formatter:on
-        updateWrapper.eq(SysMenuEntity::getId, form.getId());
         update(updateWrapper);
     }
 

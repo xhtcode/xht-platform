@@ -20,4 +20,5 @@ public interface BLogDao extends MapperRepository<BLogEntity> {
      * @return 分页查询系统日志
      */
     Page<BLogEntity> findPageList(Page<BLogEntity> page, BLogQuery query);
+
 }

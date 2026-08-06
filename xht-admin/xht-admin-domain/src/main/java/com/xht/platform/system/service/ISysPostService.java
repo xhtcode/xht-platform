@@ -5,8 +5,6 @@ import  com.xht.platform.system.domain.form.SysPostForm;
 import  com.xht.platform.system.domain.query.SysPostQuery;
 import  com.xht.platform.system.domain.response.SysPostResponse;
 
-import java.util.List;
-
 /**
  * 部门岗位岗位Service接口
  *
@@ -24,31 +22,25 @@ public interface ISysPostService {
     /**
      * 根据ID删除部门岗位
      *
-     * @param id 部门岗位ID
+     * @param postId 部门岗位ID
      */
-    void removeById(Long id);
-
-    /**
-     * 根据ID数组批量删除部门岗位
-     *
-     * @param ids 部门岗位ID数组
-     */
-    void removeByIds(List<Long> ids);
-
+    void removeById(Long postId);
+    
     /**
      * 根据ID更新部门岗位
      *
+     * @param postId 部门岗位ID
      * @param form 部门岗位更新请求参数
      */
-    void updateById(SysPostForm form);
+    void updateById(Long postId, SysPostForm form);
 
     /**
      * 根据ID查询部门岗位
      *
-     * @param id 部门岗位ID
+     * @param postId 部门岗位ID
      * @return 部门岗位信息
      */
-    SysPostResponse findById(Long id);
+    SysPostResponse findById(Long postId);
 
     /**
      * 分页查询部门岗位

@@ -14,4 +14,5 @@ public interface BpmnSupplier<T, E> {
      * @return 结果
      */
     T get(E e);
+
 }

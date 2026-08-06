@@ -12,6 +12,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum DigestAlgorithmEnum implements XhtEnum<String> {
+
     /**
      * MD5
      */

@@ -8,4 +8,5 @@ import java.io.Serializable;
  * @author xht
  **/
 public interface XhtResponse extends Serializable {
+
 }

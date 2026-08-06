@@ -4,10 +4,10 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.BusinessException;
-import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
+import com.xht.framework.utils.ThrowUtils;
 import  com.xht.platform.notice.converter.SysNoticeAttachmentConverter;
 import  com.xht.platform.notice.converter.SysNoticeConverter;
 import  com.xht.platform.notice.dao.SysNoticeAttachmentDao;
@@ -66,25 +66,20 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
     public void create(SysNoticeForm form) {
         // 1、校验上传表单数据
         ThrowUtils.notNull(form, "通知详情表单参数不能为空");
-
         // 校验通知类型是否存在
         Boolean exists = sysNoticeTypeDao.exists(SysNoticeTypeEntity::getId, form.getNoticeTypeId());
         ThrowUtils.throwIf(!exists, "通知类型不存在!");
-
         // 生成通知ID
         long noticeId = IdUtil.getSnowflakeNextId();
-
         // 封装通知实体
         SysNoticeEntity noticeEntity = sysNoticeConverter.toEntity(form);
         noticeEntity.setId(noticeId);
         noticeEntity.setNoticeStatus(NoticeStatusEnum.NOT_PUBLISH);
-
         // 处理通知附件
         List<SysNoticeAttachmentEntity> attachmentEntityList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(form.getAttachmentList())) {
             attachmentEntityList = sysNoticeAttachmentConverter.toEntity(form.getAttachmentList(), noticeId);
         }
-
         // 处理定时发布时间
         if (Objects.equals(NoticeTimedPublishEnum.PUBLISH, noticeEntity.getNoticeTimedPublish())) {
             ThrowUtils.notNull(form.getNoticePublishTime(), "定时发布时间不能为空");
@@ -93,13 +88,10 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
             noticeEntity.setNoticeStatus(NoticeStatusEnum.PUBLISH);
             noticeEntity.setNoticePublishTime(LocalDateTime.now());
         }
-
         // 处理跳转URL
         handleJumpUrlValidation(noticeEntity);
-
         // 3、保存通知详情
         sysNoticeDao.save(noticeEntity);
-
         // 4、保存通知附件
         if (!CollectionUtils.isEmpty(attachmentEntityList)) {
             sysNoticeAttachmentDao.saveAll(attachmentEntityList);
@@ -118,24 +110,25 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
     /**
      * 根据ID删除通知详情
      *
-     * @param id 通知详情ID
+     * @param noticeId 通知详情ID
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void removeById(Long id) {
-        sysNoticeDao.removeById(id);
+    public void removeById(Long noticeId) {
+        sysNoticeDao.removeById(noticeId);
     }
 
     /**
      * 根据ID更新通知详情
      *
-     * @param form 通知详情更新请求参数
+     * @param noticeId 通知详情ID
+     * @param form     通知详情更新请求参数
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateById(SysNoticeForm form) {
+    public void updateById(Long noticeId, SysNoticeForm form) {
         // 检查通知是否存在
-        Boolean existingNotice = sysNoticeDao.exists(SysNoticeEntity::getId, form.getId());
+        Boolean existingNotice = sysNoticeDao.exists(SysNoticeEntity::getId, noticeId);
         ThrowUtils.throwIf(!existingNotice, "通知不存在!");
         // 校验通知类型是否存在
         if (form.getNoticeTypeId() != null) {
@@ -145,7 +138,7 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
         // 处理通知附件
         List<SysNoticeAttachmentEntity> attachmentEntityList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(form.getAttachmentList())) {
-            attachmentEntityList = sysNoticeAttachmentConverter.toEntity(form.getAttachmentList(), form.getId());
+            attachmentEntityList = sysNoticeAttachmentConverter.toEntity(form.getAttachmentList(), noticeId);
         }
         // 处理定时发布时间
         if (Objects.equals(NoticeTimedPublishEnum.PUBLISH, form.getNoticeTimedPublish())) {
@@ -158,9 +151,9 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
             ThrowUtils.hasText(form.getNoticeJumpUrl(), "跳转地址不能为空");
         }
         // 3、更新通知详情
-        sysNoticeDao.updateFormRequest(form);
+        sysNoticeDao.updateFormRequest(noticeId, form);
         // 4、删除旧附件并保存新附件
-        sysNoticeAttachmentDao.removeByNoticeId(form.getId());
+        sysNoticeAttachmentDao.removeByNoticeId(noticeId);
         if (!CollectionUtils.isEmpty(attachmentEntityList)) {
             sysNoticeAttachmentDao.saveAll(attachmentEntityList);
         }

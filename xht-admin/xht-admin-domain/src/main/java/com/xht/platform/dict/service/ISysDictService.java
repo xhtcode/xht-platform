@@ -5,8 +5,6 @@ import  com.xht.platform.dict.domain.form.SysDictForm;
 import  com.xht.platform.dict.domain.query.SysDictQuery;
 import  com.xht.platform.dict.domain.response.SysDictResponse;
 
-import java.util.List;
-
 /**
  * 字典管理
  *
@@ -24,24 +22,25 @@ public interface ISysDictService {
     /**
      * 删除字典类型
      *
-     * @param ids ID列表
+     * @param dictId ID列表
      */
-    void removeById(List<Long> ids);
+    void removeById(Long dictId);
 
     /**
      * 修改字典类型
      *
+     * @param dictId 字典ID
      * @param form 更新请求
      */
-    void updateById(SysDictForm form);
+    void updateById(Long dictId, SysDictForm form);
 
     /**
      * 获取字典类型详情
      *
-     * @param id 字典ID
+     * @param dictId 字典ID
      * @return 字典详情
      */
-    SysDictResponse findById(Long id);
+    SysDictResponse findById(Long dictId);
 
     /**
      * 分页查询字典类型
@@ -51,13 +50,4 @@ public interface ISysDictService {
      */
     PageResponse<SysDictResponse> findPageList(SysDictQuery query);
 
-
-    /**
-     * 查询所有字典类型
-     *
-     * @return 字典列表
-     */
-    List<SysDictResponse> findAll();
-
 }
-

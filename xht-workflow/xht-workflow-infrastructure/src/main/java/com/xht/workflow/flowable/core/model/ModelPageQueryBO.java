@@ -30,4 +30,5 @@ public class ModelPageQueryBO extends BpmnPageQueryBO {
      * 模型分类
      */
     private String category;
+
 }

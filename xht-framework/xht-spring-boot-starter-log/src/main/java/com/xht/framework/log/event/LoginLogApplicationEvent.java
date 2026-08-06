@@ -1,6 +1,5 @@
 package com.xht.framework.log.event;
 
-import com.xht.framework.core.blog.enums.LogStatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
@@ -21,7 +20,7 @@ public class LoginLogApplicationEvent extends ApplicationEvent {
      *
      * @param source 登录账号
      */
-    public LoginLogApplicationEvent(String source, LogStatusEnum loginStatus) {
+    public LoginLogApplicationEvent(String source, com.xht.framework.common.enums.LogStatusEnum loginStatus) {
         super(source);
         this.userName = source;
         this.loginStatus = loginStatus;
@@ -75,7 +74,7 @@ public class LoginLogApplicationEvent extends ApplicationEvent {
     /**
      * 登录状态：0-失败 1-成功
      */
-    private final LogStatusEnum loginStatus;
+    private final com.xht.framework.common.enums.LogStatusEnum loginStatus;
 
     /**
      * 登录失败原因
@@ -91,4 +90,5 @@ public class LoginLogApplicationEvent extends ApplicationEvent {
      * 登录响应信息
      */
     private Object loginResponseInfo;
+
 }

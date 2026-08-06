@@ -38,5 +38,6 @@ public interface RegexConstant {
      * 部门编码
      */
     String DEPT_CODE = "^[A-Z]{1,5}\\d{6}$";
+
 }
 

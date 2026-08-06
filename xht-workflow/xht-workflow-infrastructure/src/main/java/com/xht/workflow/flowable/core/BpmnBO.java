@@ -8,4 +8,5 @@ import com.xht.framework.common.domain.bo.XhtBO;
  * @author xht
  **/
 public abstract class BpmnBO implements XhtBO {
+
 }

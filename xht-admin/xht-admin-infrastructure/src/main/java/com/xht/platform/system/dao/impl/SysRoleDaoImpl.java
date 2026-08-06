@@ -11,8 +11,8 @@ import  com.xht.platform.system.dao.mapper.SysRoleMapper;
 import  com.xht.platform.system.domain.form.SysRoleForm;
 import  com.xht.platform.system.domain.query.SysRoleQuery;
 import  com.xht.platform.system.entity.SysRoleEntity;
-import  com.xht.platform.system.enums.RoleTypeEnums;
 import  com.xht.platform.system.enums.RoleStatusEnum;
+import com.xht.platform.system.enums.RoleTypeEnums;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,18 +32,19 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
     /**
      * 更新角色信息
      *
-     * @param form 角色信息
+     * @param roleId 角色ID
+     * @param form   角色信息
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFormRequest(SysRoleForm form) {
+    public void updateFormRequest(Long roleId, SysRoleForm form) {
         LambdaUpdateWrapper<SysRoleEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(condition(form.getRoleCode()), SysRoleEntity::getRoleCode, form.getRoleCode());
         updateWrapper.set(condition(form.getRoleName()), SysRoleEntity::getRoleName, form.getRoleName());
         updateWrapper.set(condition(form.getRoleStatus()), SysRoleEntity::getRoleStatus, form.getRoleStatus());
         updateWrapper.set(condition(form.getRoleSort()), SysRoleEntity::getRoleSort, form.getRoleSort());
         updateWrapper.set(condition(form.getRemark()), SysRoleEntity::getRemark, form.getRemark());
-        updateWrapper.eq(SysRoleEntity::getId, form.getId());
+        updateWrapper.eq(SysRoleEntity::getId, roleId);
         update(updateWrapper);
     }
 

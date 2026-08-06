@@ -17,16 +17,7 @@ import java.util.Set;
 @Data
 @Schema(description = "OAuth2客户端表单请求参数")
 public class SysOauth2ClientForm extends BasicForm {
-
-    /**
-     * ID
-     */
-    @Null(message = "唯一标识必须为空", groups = {Groups.Create.class})
-    @NotNull(message = "唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "唯一标识参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "id")
-    private Long id;
-
+    
     /**
      * 客户端标识
      */

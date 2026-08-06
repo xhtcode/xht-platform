@@ -10,6 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Users implements Serializable {
+
     /**
      * 用户名字段，作为主键标识用户
      */
@@ -19,4 +20,5 @@ public class Users implements Serializable {
      * 密码字段，存储用户的登录密码
      */
     private String password;
+
 }

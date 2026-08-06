@@ -13,6 +13,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum DeptPostStatusEnum implements XhtEnum<Integer> {
+
     /**
      * 正常
      */

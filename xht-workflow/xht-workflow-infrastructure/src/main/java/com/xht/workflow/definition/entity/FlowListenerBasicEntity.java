@@ -101,4 +101,5 @@ public class FlowListenerBasicEntity<T extends XhtEnum<String>> extends BasicEnt
      */
     @TableField(value = "listener_desc")
     private String listenerDesc;
+
 }

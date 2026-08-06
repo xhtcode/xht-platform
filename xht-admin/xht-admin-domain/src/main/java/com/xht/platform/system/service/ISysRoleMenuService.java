@@ -9,6 +9,7 @@ import  com.xht.platform.system.domain.response.RoleSelectedMenuResponse;
  * @author xht
  **/
 public interface ISysRoleMenuService {
+
     /**
      * 角色绑定菜单
      *
@@ -23,4 +24,5 @@ public interface ISysRoleMenuService {
      * @return {@link RoleSelectedMenuResponse}
      */
     RoleSelectedMenuResponse selectMenuIdByRoleId(String roleId);
+
 }

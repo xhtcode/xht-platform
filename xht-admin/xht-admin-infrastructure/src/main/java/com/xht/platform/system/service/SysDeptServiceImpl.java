@@ -55,34 +55,35 @@ public class SysDeptServiceImpl implements ISysDeptService {
     /**
      * 根据ID删除部门
      *
-     * @param id 部门ID
+     * @param deptId 部门ID
      */
     @Override
-    public void removeById(Long id) {
-        Boolean existsDeptPost = sysDeptDao.exists(SysDeptEntity::getId, id);
+    public void removeById(Long deptId) {
+        Boolean existsDeptPost = sysDeptDao.exists(SysDeptEntity::getId, deptId);
         ThrowUtils.throwIf(!existsDeptPost, BusinessErrorCode.DATA_NOT_EXIST, "该部门下已有部门，不能删除");
-        sysDeptDao.removeById(id);
+        sysDeptDao.removeById(deptId);
     }
 
     /**
      * 根据ID更新部门
      *
-     * @param form 部门更新请求参数
+     * @param deptId 部门ID
+     * @param form   部门更新请求参数
      */
     @Override
-    public void updateById(SysDeptForm form) {
+    public void updateById(Long deptId, SysDeptForm form) {
         // 1.校验部门是否存在
-        SysDeptEntity dbDept = sysDeptDao.findById(form.getId());
+        SysDeptEntity dbDept = sysDeptDao.findById(deptId);
         ThrowUtils.throwIf(Objects.isNull(dbDept), BusinessErrorCode.DATA_NOT_EXIST, "修改的部门不存在");
         // 2.校验部门编码是否唯一
         String deptCode = form.getDeptCode();
-        ThrowUtils.throwIf(sysDeptDao.checkDeptCodeUnique(form.getId(), deptCode), BusinessErrorCode.DATA_EXIST, "部门编码已存在");
+        ThrowUtils.throwIf(sysDeptDao.checkDeptCodeUnique(deptId, deptCode), BusinessErrorCode.DATA_EXIST, "部门编码已存在");
         // 3.校验上级部门是否存在
         SysDeptEntity parentDept = sysDeptDao.getDefaultParentDeptByParentId(form.getParentId());
         ThrowUtils.throwIf(Objects.isNull(parentDept), BusinessErrorCode.DATA_NOT_EXIST, "父部门不存在");
         // 转换部门实体
         SysDeptEntity entity = sysDeptConverter.toEntity(form);
-        entity.setId(form.getId());
+        entity.setId(deptId);
         entity.setDeptLevel(parentDept.getDeptLevel() + 1);
         entity.setAncestors(parentDept.getAncestors() + "," + parentDept.getId());
         sysDeptDao.updateFormRequest(entity);
@@ -91,25 +92,25 @@ public class SysDeptServiceImpl implements ISysDeptService {
     /**
      * 更新部门状态
      *
-     * @param id     部门ID
+     * @param deptId     部门ID
      * @param status 部门状态
      */
     @Override
-    public void updateStatus(Long id, DeptStatusEnum status) {
-        Boolean exists = sysDeptDao.exists(SysDeptEntity::getId, id);
+    public void updateStatus(Long deptId, DeptStatusEnum status) {
+        Boolean exists = sysDeptDao.exists(SysDeptEntity::getId, deptId);
         ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "部门不存在");
-        sysDeptDao.updateStatus(id, status);
+        sysDeptDao.updateStatus(deptId, status);
     }
 
     /**
      * 根据ID查询部门
      *
-     * @param id 部门ID
+     * @param deptId 部门ID
      * @return 部门信息
      */
     @Override
-    public SysDeptResponse findById(Long id) {
-        return sysDeptConverter.toResponse(sysDeptDao.findById(id));
+    public SysDeptResponse findById(Long deptId) {
+        return sysDeptConverter.toResponse(sysDeptDao.findById(deptId));
     }
 
     /**

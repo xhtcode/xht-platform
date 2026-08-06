@@ -16,15 +16,6 @@ import lombok.Data;
 public class SysDictForm extends BasicForm {
 
     /**
-     * 字典类型唯一标识
-     */
-    @Null(message = "唯一标识必须为空", groups = {Groups.Create.class})
-    @NotNull(message = "唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "唯一标识参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "字典类型唯一标识")
-    private Long id;
-
-    /**
      * 字典编码
      */
     @NotBlank(message = "字典编码参数不合法", groups = {Groups.Create.class, Groups.Update.class})

@@ -35,12 +35,11 @@ public class SysAreaServiceImpl implements ISysAreaService {
      * 添加系统管理-行政区划
      *
      * @param form 系统管理-行政区划
-     *
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(SysAreaForm form) {
-        checkForm(form);
+        checkForm(null, form);
         sysAreaDao.save(sysAreaConverter.toEntity(form));
         if (!Objects.equals(form.getParentId(), AreaConstant.DEFAULT_PARENT_CODE)) {
             sysAreaDao.updateHasChild(form.getParentId(), AreaHasChildEnum.HAS_CHILD);
@@ -50,42 +49,42 @@ public class SysAreaServiceImpl implements ISysAreaService {
     /**
      * 根据主键`id`批量删除系统管理-行政区划
      *
-     * @param id 系统管理-行政区划主键
+     * @param areaId 系统管理-行政区划主键
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void remove(Long id) {
-        boolean childStatus = sysAreaDao.existsChild(id);
+    public void remove(Long areaId) {
+        boolean childStatus = sysAreaDao.existsChild(areaId);
         ThrowUtils.throwIf(childStatus, "该区划下有子区划，请先删除子区划");
-        sysAreaDao.removeById(id);
+        sysAreaDao.removeById(areaId);
     }
 
     /**
      * 修改系统管理-行政区划
      *
-     * @param form 系统管理-行政区划
-     *
+     * @param areaId 系统管理-行政区划主键
+     * @param form   系统管理-行政区划
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateById(SysAreaForm form) {
-        checkForm(form);
-        SysAreaEntity entity = sysAreaConverter.toEntity(form);
-        sysAreaDao.updateById(entity);
+    public void updateById(Long areaId, SysAreaForm form) {
+        checkForm(areaId, form);
+        sysAreaDao.updateFormRequest(areaId, form);
         if (!Objects.equals(form.getParentId(), AreaConstant.DEFAULT_PARENT_CODE)) {
             sysAreaDao.updateHasChild(form.getParentId(), AreaHasChildEnum.HAS_CHILD);
         }
     }
 
+
     /**
      * 根据主键`id`查询系统管理-行政区划
      *
-     * @param id 系统管理-行政区划主键
+     * @param areaId 系统管理-行政区划主键
      * @return 系统管理-行政区划信息
      */
     @Override
-    public SysAreaResponse findById(Long id) {
-        SysAreaEntity areaEntity = sysAreaDao.findById(id);
+    public SysAreaResponse findById(Long areaId) {
+        SysAreaEntity areaEntity = sysAreaDao.findById(areaId);
         return sysAreaConverter.toResponse(areaEntity);
     }
 
@@ -108,16 +107,17 @@ public class SysAreaServiceImpl implements ISysAreaService {
     /**
      * 校验表单
      *
+     * @param areaId 区划代码
      * @param form 表单
      */
-    private void checkForm(SysAreaForm form) {
+    private void checkForm(Long areaId, SysAreaForm form) {
         ThrowUtils.notNull(form, "表单参数不能为空");
         Long parentId = form.getParentId();
         if (!Objects.equals(parentId, AreaConstant.DEFAULT_PARENT_CODE)) {
             Boolean parentArea = sysAreaDao.exists(SysAreaEntity::getId, parentId);
             ThrowUtils.throwIf(!parentArea, "上级区划代码不存在");
         }
-        boolean existsAreaCode = sysAreaDao.existsAreaCode(form.getAreaCode(), form.getId());
+        boolean existsAreaCode = sysAreaDao.existsAreaCode(form.getAreaCode(), areaId);
         ThrowUtils.throwIf(existsAreaCode, "区划编码已存在");
     }
 

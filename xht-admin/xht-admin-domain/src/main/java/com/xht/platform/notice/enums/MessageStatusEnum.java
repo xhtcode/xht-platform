@@ -34,5 +34,4 @@ public enum MessageStatusEnum implements XhtEnum<Integer> {
      */
     private final String desc;
 
-
 }

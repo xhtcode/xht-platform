@@ -28,5 +28,4 @@ public class UserBindRoleForm extends BasicForm {
     @Schema(description = "角色ID列表")
     private List<Long> roleIds;
 
-
 }

@@ -72,4 +72,5 @@ public class SysDictItemEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "status")
     private DictStatusEnum status;
+
 }

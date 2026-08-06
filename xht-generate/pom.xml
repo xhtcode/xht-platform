@@ -16,7 +16,6 @@
 
     <modules>
         <module>xht-generate-adapter</module>
-        <module>xht-generate-common</module>
         <module>xht-generate-domain</module>
         <module>xht-generate-infrastructure</module>
         <module>xht-generate-start</module>
@@ -24,11 +23,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.xht.platform</groupId>
-                <artifactId>xht-generate-common</artifactId>
-                <version>1.0.0</version>
-            </dependency>
             <dependency>
                 <groupId>com.xht.platform</groupId>
                 <artifactId>xht-generate-domain</artifactId>

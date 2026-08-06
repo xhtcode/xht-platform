@@ -3,7 +3,6 @@ package com.xht.platform.system.domain.form;
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.common.enums.UserStatusEnum;
 import com.xht.framework.common.enums.UserTypeEnum;
-import  com.xht.platform.system.domain.form.SysUserDetailForm;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -20,12 +19,6 @@ public class SysUserForm extends BasicForm {
 
     @Serial
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 用户ID
-     */
-    @Schema(description = "用户ID")
-    private Long id;
 
     /**
      * 用户类型

@@ -1,7 +1,7 @@
 package com.xht.platform.login.service;
 
-import com.xht.framework.constant.HttpConstants;
-import com.xht.framework.constant.RConstants;
+import com.xht.framework.common.constant.HttpConstants;
+import com.xht.framework.common.constant.RConstants;
 import com.xht.framework.common.enums.LoginTypeEnum;
 import com.xht.framework.jackson.JsonUtils;
 import com.xht.framework.oauth2.token.response.Oauth2ErrorResponse;

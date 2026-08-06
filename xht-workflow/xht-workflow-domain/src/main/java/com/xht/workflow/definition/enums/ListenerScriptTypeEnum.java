@@ -25,4 +25,5 @@ public enum ListenerScriptTypeEnum implements XhtEnum<String> {
     private final String value;
 
     private final String desc;
+
 }

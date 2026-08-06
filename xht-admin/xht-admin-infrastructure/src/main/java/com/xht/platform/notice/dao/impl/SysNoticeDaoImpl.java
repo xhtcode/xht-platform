@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
+import com.xht.framework.utils.ThrowUtils;
 import  com.xht.platform.notice.dao.SysNoticeDao;
 import  com.xht.platform.notice.dao.mapper.SysNoticeMapper;
 import  com.xht.platform.notice.domain.form.SysNoticeForm;
@@ -36,11 +36,12 @@ public class SysNoticeDaoImpl extends MapperRepositoryImpl<SysNoticeMapper, SysN
     /**
      * 根据主键`id`更新系统管理-通知详情
      *
-     * @param form 系统管理-通知详情表单请求参数
+     * @param noticeId 通知id
+     * @param form     系统管理-通知详情表单请求参数
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFormRequest(SysNoticeForm form) {
+    public void updateFormRequest(Long noticeId, SysNoticeForm form) {
         LambdaUpdateWrapper<SysNoticeEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(condition(form.getNoticeTypeId()), SysNoticeEntity::getNoticeTypeId, form.getNoticeTypeId());
         updateWrapper.set(condition(form.getNoticeTitle()), SysNoticeEntity::getNoticeTitle, form.getNoticeTitle());
@@ -53,7 +54,7 @@ public class SysNoticeDaoImpl extends MapperRepositoryImpl<SysNoticeMapper, SysN
         updateWrapper.set(condition(form.getNoticeJumpType()), SysNoticeEntity::getNoticeJumpType, form.getNoticeJumpType());
         updateWrapper.set(condition(form.getNoticeJumpUrl()), SysNoticeEntity::getNoticeJumpUrl, form.getNoticeJumpUrl());
         updateWrapper.set(condition(form.getNoticeRemark()), SysNoticeEntity::getNoticeRemark, form.getNoticeRemark());
-        updateWrapper.eq(SysNoticeEntity::getId, form.getId());
+        updateWrapper.eq(SysNoticeEntity::getId, noticeId);
         update(updateWrapper);
     }
     /**

@@ -18,10 +18,11 @@ public interface SysDictDao extends MapperRepository<SysDictEntity> {
     /**
      * 修改系统字典
      *
+     * @param dictId           字典id
      * @param form             系统字典修改参数
      * @param updateItemStatus 是否更新字典项状态
      */
-    void updateRequest(SysDictForm form, boolean updateItemStatus);
+    void updateRequest(Long dictId, SysDictForm form, boolean updateItemStatus);
 
     /**
      * 根据字典ID和字典项编码检查是否存在相同的字典项编码
@@ -47,4 +48,5 @@ public interface SysDictDao extends MapperRepository<SysDictEntity> {
      * @return 字典项列表
      */
     List<SysDictEntity> findAllByStatus();
+
 }

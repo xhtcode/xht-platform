@@ -62,4 +62,5 @@ public interface IAuthenticationDao {
      * @return 用户信息
      */
     TokenUserInfoResponse findByUserId(Long userId);
+
 }

@@ -34,4 +34,5 @@ public abstract class Oauth2UserConverterStrategy {
      * @return 若当前策略支持该注册标识则返回 {@code true}，否则返回 {@code false}
      */
     public abstract boolean supports(Oauth2PlatformEnums oauth2PlatformEnums);
+
 }

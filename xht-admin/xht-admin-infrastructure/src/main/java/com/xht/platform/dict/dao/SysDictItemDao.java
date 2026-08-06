@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import  com.xht.platform.dict.domain.form.SysDictItemForm;
 import  com.xht.platform.dict.domain.query.SysDictItemQuery;
+import com.xht.platform.dict.entity.SysDictEntity;
 import  com.xht.platform.dict.entity.SysDictItemEntity;
 import  com.xht.platform.dict.enums.DictStatusEnum;
 
@@ -19,11 +20,12 @@ public interface SysDictItemDao extends MapperRepository<SysDictItemEntity> {
     /**
      * 根据更新请求更新指定ID的字典项实体
      *
-     * @param form     更新请求
-     * @param dictCode 字典项编码
+      * @param dictId     字典ID
+     * @param form       更新请求
+     * @param dictEntity 字典实体
      * @return 更新结果
      */
-    boolean updateFormRequest(SysDictItemForm form, String dictCode);
+    boolean updateFormRequest(Long dictId, SysDictItemForm form, SysDictEntity dictEntity);
 
     /**
      * 检查字典项值是否存在
@@ -52,4 +54,5 @@ public interface SysDictItemDao extends MapperRepository<SysDictItemEntity> {
      * @return 字典项列表
      */
     List<SysDictItemEntity> findByDictCode(String dictCode, DictStatusEnum dictStatus);
+
 }

@@ -55,7 +55,7 @@ public class BpmnUtils {
 
     public static boolean isMultiInstance(BpmnModel model, String taskKey) {
         UserTask userTask = getUserTaskByKey(model, taskKey);
-        return userTask != null ? userTask.hasMultiInstanceLoopCharacteristics() : false;
+        return userTask != null && userTask.hasMultiInstanceLoopCharacteristics();
     }
 
     public static UserTask getUserTaskByKey(BpmnModel model, String taskKey) {
@@ -65,12 +65,12 @@ public class BpmnUtils {
     }
 
     public static List<UserTask> findNextUserTasks(FlowElement source) {
-        return findNextUserTasks(source, (Set) null, (List) null);
+        return findNextUserTasks(source, null, null);
     }
 
     public static List<UserTask> findNextUserTasks(FlowElement source, Set<String> hasSequenceFlow, List<UserTask> userTaskList) {
-        hasSequenceFlow = (Set) Optional.ofNullable(hasSequenceFlow).orElse(new HashSet());
-        userTaskList = (List) Optional.ofNullable(userTaskList).orElse(new ArrayList());
+        hasSequenceFlow = Optional.ofNullable(hasSequenceFlow).orElse(new HashSet<>());
+        userTaskList = Optional.ofNullable(userTaskList).orElse(new ArrayList<>());
         List<SequenceFlow> sequenceFlows = getElementOutgoingFlows(source);
         if (!sequenceFlows.isEmpty()) {
             for (SequenceFlow sequenceFlow : sequenceFlows) {
@@ -90,7 +90,7 @@ public class BpmnUtils {
     }
 
     public static List<SequenceFlow> getElementOutgoingFlows(FlowElement source) {
-        List<SequenceFlow> sequenceFlows = new ArrayList();
+        List<SequenceFlow> sequenceFlows = new ArrayList<>();
         if (source instanceof FlowNode) {
             sequenceFlows = ((FlowNode) source).getOutgoingFlows();
         }

@@ -42,33 +42,34 @@ public class ISysNoticeTypeServiceImpl implements ISysNoticeTypeService {
     /**
      * 根据ID删除通知类型
      *
-     * @param id 通知类型ID
+     * @param noticeTypeId 通知类型ID
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void removeById(Long id) {
-        sysNoticeTypeDao.removeById(id);
+    public void removeById(Long noticeTypeId) {
+        sysNoticeTypeDao.removeById(noticeTypeId);
     }
 
     /**
      * 根据ID更新通知类型
      *
-     * @param form 通知类型更新请求参数
+     * @param noticeTypeId 通知类型ID
+     * @param form         通知类型更新请求参数
      */
     @Override
-    public void updateById(SysNoticeTypeForm form) {
-        sysNoticeTypeDao.updateFormRequest(form);
+    public void updateById(Long noticeTypeId, SysNoticeTypeForm form) {
+        sysNoticeTypeDao.updateFormRequest(noticeTypeId, form);
     }
 
     /**
      * 根据ID查询通知类型
      *
-     * @param id 通知类型ID
+     * @param noticeTypeId 通知类型ID
      * @return 通知类型信息
      */
     @Override
-    public SysNoticeTypeResponse findById(Long id) {
-        return sysNoticeTypeConverter.toResponse(sysNoticeTypeDao.findById(id));
+    public SysNoticeTypeResponse findById(Long noticeTypeId) {
+        return sysNoticeTypeConverter.toResponse(sysNoticeTypeDao.findById(noticeTypeId));
     }
 
     /**

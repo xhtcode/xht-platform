@@ -12,4 +12,5 @@ import lombok.Data;
 @Data
 @Schema(description = "系统日志表单请求参数")
 public class BLogForm extends BasicForm {
+
 }

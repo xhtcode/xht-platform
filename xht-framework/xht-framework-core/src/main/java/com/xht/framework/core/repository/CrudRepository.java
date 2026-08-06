@@ -37,7 +37,6 @@ public interface CrudRepository<T> extends IRepository {
      */
     boolean removeById(Serializable id);
 
-
     /**
      * 根据ID列表批量删除实体
      *

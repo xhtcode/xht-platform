@@ -31,4 +31,5 @@ public class SysDictQuery extends PageBasicQuery {
      */
     @Schema(description = "状态（1: 启用 0: 禁用）")
     private DictStatusEnum status;
+
 }

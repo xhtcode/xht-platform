@@ -72,4 +72,5 @@ public interface SecurityConstant {
      * 二维码信息前缀
      */
     String QR_CODE_KEY_PREFIX = "xht:login:qrcode";
+
 }

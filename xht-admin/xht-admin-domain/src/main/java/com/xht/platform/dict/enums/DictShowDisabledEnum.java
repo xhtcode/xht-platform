@@ -29,4 +29,5 @@ public enum DictShowDisabledEnum implements XhtEnum<Integer> {
      */
     @JsonValue
     private final Integer value;
+
 }

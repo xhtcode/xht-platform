@@ -41,4 +41,5 @@ public class SysRoleMenuEntity extends Entity implements Serializable {
      */
     @TableField(value = "create_by", fill = FieldFill.INSERT)
     private String createBy;
+
 }

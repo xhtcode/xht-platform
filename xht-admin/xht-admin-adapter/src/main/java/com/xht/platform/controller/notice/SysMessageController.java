@@ -31,7 +31,6 @@ public class SysMessageController {
 
     /**
      * 全部已读(收件人侧)
-     *
      */
     @BLog(value = "站内信", description = "全部已读 (收件人侧)")
     @Operation(summary = "全部已读(收件人侧)")
@@ -62,8 +61,8 @@ public class SysMessageController {
     @BLog(value = "站内信", description = "收藏站内信 (收件人侧)")
     @Operation(summary = "收藏站内信(收件人侧)")
     @PostMapping("/update/start/{messageId}/{start}")
-    public R<Void> updateStartById(@PathVariable Long messageId, @PathVariable MessageStarEnum start) {
-        sysMessageService.updateStartById(messageId, start);
+    public R<Void> updateStartById(@PathVariable Long messageId, @PathVariable("start") MessageStarEnum messageStarEnum) {
+        sysMessageService.updateStartById(messageId, messageStarEnum);
         return R.ok().build();
     }
 
@@ -75,8 +74,8 @@ public class SysMessageController {
     @BLog(value = "站内信", description = "置顶站内信 (收件人侧)")
     @Operation(summary = "置顶站内信(收件人侧)")
     @PostMapping("/update/top/{messageId}/{top}")
-    public R<Void> updateTopById(@PathVariable Long messageId, @PathVariable MessageTopEnum top) {
-        sysMessageService.updateTopById(messageId, top);
+    public R<Void> updateTopById(@PathVariable Long messageId, @PathVariable("top") MessageTopEnum messageTopEnum) {
+        sysMessageService.updateTopById(messageId, messageTopEnum);
         return R.ok().build();
     }
 
@@ -118,7 +117,6 @@ public class SysMessageController {
         return R.ok().build();
     }
 
-
     /**
      * 查询站内信详情
      *
@@ -151,7 +149,6 @@ public class SysMessageController {
     public R<MessagePageVO> findAdminPageSend(SysMessageInfoQuery query) {
         return R.ok().build(sysMessageService.findAdminPageSend(query));
     }
-
 
     /**
      * 分页查询我接收的站内信
