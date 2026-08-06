@@ -3,19 +3,20 @@ package com.xht.platform.generate.service;
 import cn.hutool.core.io.IoUtil;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.utils.ThrowUtils;
-import com.xht.platform.generate.domain.form.GenCodeCoreForm;
 import com.xht.platform.generate.bo.GenCodeCoreBo;
 import com.xht.platform.generate.bo.TableInfoBo;
+import com.xht.platform.generate.converter.GenCodeCoreConverter;
+import com.xht.platform.generate.domain.form.GenCodeCoreForm;
+import com.xht.platform.generate.domain.vo.GenCodeCoreVO;
 import com.xht.platform.table.dao.GenTableColumnDao;
 import com.xht.platform.table.dao.GenTableColumnQueryDao;
 import com.xht.platform.table.dao.GenTableDao;
-import com.xht.platform.template.dao.GenTemplateDao;
 import com.xht.platform.table.entity.GenTableColumnEntity;
 import com.xht.platform.table.entity.GenTableColumnQueryEntity;
 import com.xht.platform.table.entity.GenTableEntity;
+import com.xht.platform.template.dao.GenTemplateDao;
 import com.xht.platform.template.entity.GenTemplateEntity;
 import com.xht.platform.utils.GenCodeHelper;
-import com.xht.platform.generate.domain.vo.GenCodeCoreVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,8 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
     private final GenTableColumnQueryDao columnQueryDao;
 
     private final GenTemplateDao templateDao;
+
+    private final GenCodeCoreConverter genCodeCoreConverter;
 
     /**
      * 生成代码
@@ -75,7 +78,7 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
         collect.forEach((k, v) -> {
             GenCodeCoreVO vo = new GenCodeCoreVO();
             vo.setTableName(k);
-            vo.setCodes(v);
+            vo.setCodes(genCodeCoreConverter.convert(v));
             result.add(vo);
         });
         return result;
