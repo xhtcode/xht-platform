@@ -15,10 +15,6 @@
     <description>xht-spring-boot-starter-swagger 接口管理</description>
 
     <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
         <!-- Swagger-Knife4j Webmvc -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
