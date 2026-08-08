@@ -5,37 +5,31 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.xht.framework</groupId>
-        <artifactId>xht-framework</artifactId>
+        <artifactId>xht-framework-parent</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <name>xht-spring-boot-starter-security</name>
-    <artifactId>xht-spring-boot-starter-security</artifactId>
+    <name>xht-spring-boot-starter-openfeign</name>
+    <artifactId>xht-spring-boot-starter-openfeign</artifactId>
     <packaging>jar</packaging>
-    <description>xht-spring-boot-starter-security 安全</description>
+    <description>xht-spring-boot-starter-openfeign openfeign</description>
 
     <dependencies>
         <dependency>
             <groupId>com.xht.framework</groupId>
             <artifactId>xht-framework-core</artifactId>
         </dependency>
-        <!-- Spring Aop -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <optional>true</optional>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
     </dependencies>
     <build>

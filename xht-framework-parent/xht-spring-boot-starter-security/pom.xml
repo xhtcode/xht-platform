@@ -5,32 +5,37 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.xht.framework</groupId>
-        <artifactId>xht-framework</artifactId>
+        <artifactId>xht-framework-parent</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <name>xht-spring-boot-starter-resource-server</name>
-    <artifactId>xht-spring-boot-starter-resource-server</artifactId>
+    <name>xht-spring-boot-starter-security</name>
+    <artifactId>xht-spring-boot-starter-security</artifactId>
     <packaging>jar</packaging>
-    <description>xht-spring-boot-starter-resource-server 资源服务器</description>
+    <description>xht-spring-boot-starter-security 安全</description>
 
     <dependencies>
         <dependency>
             <groupId>com.xht.framework</groupId>
-            <artifactId>xht-spring-boot-starter-security</artifactId>
+            <artifactId>xht-framework-core</artifactId>
+        </dependency>
+        <!-- Spring Aop -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-            <scope>provided</scope>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
     <build>

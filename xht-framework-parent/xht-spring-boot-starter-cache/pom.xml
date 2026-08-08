@@ -5,25 +5,23 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.xht.framework</groupId>
-        <artifactId>xht-framework</artifactId>
+        <artifactId>xht-framework-parent</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <name>xht-spring-boot-starter-log</name>
-    <artifactId>xht-spring-boot-starter-log</artifactId>
+    <name>xht-spring-boot-starter-cache</name>
+    <artifactId>xht-spring-boot-starter-cache</artifactId>
     <packaging>jar</packaging>
-    <description>xht-spring-boot-starter-log日志记录模块</description>
+    <description>xht-spring-boot-starter-cache 缓存模块</description>
 
     <dependencies>
-        <!-- xht-framework-core核心模块 -->
         <dependency>
             <groupId>com.xht.framework</groupId>
             <artifactId>xht-framework-core</artifactId>
         </dependency>
-        <!-- Spring Aop -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
     </dependencies>
     <build>

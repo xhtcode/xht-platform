@@ -5,20 +5,25 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.xht.framework</groupId>
-        <artifactId>xht-framework</artifactId>
+        <artifactId>xht-framework-parent</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <name>xht-spring-boot-starter-swagger</name>
-    <artifactId>xht-spring-boot-starter-swagger</artifactId>
+    <name>xht-spring-boot-starter-log</name>
+    <artifactId>xht-spring-boot-starter-log</artifactId>
     <packaging>jar</packaging>
-    <description>xht-spring-boot-starter-swagger 接口管理</description>
+    <description>xht-spring-boot-starter-log日志记录模块</description>
 
     <dependencies>
-        <!-- Swagger-Knife4j Webmvc -->
+        <!-- xht-framework-core核心模块 -->
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+            <groupId>com.xht.framework</groupId>
+            <artifactId>xht-framework-core</artifactId>
+        </dependency>
+        <!-- Spring Aop -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
     </dependencies>
     <build>
