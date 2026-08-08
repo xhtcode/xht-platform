@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace=" com.xht.platform.notice.dao.mapper.SysMessageInfoMapper">
+<mapper namespace="com.xht.platform.notice.dao.mapper.SysMessageInfoMapper">
 
-    <resultMap id="BaseResultMap" type=" com.xht.platform.notice.domain.vo.MessageInfoVO">
+    <resultMap id="BaseResultMap" type="com.xht.platform.notice.domain.vo.MessageInfoVO">
         <id property="t1Id" column="t1_id"/>
         <result property="senderName" column="sender_name"/>
         <result property="messageType" column="message_type"/>
@@ -12,7 +12,7 @@
         <result property="messageContent" column="message_content"/>
         <result property="messageExtend" column="message_extend"
                 typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
-        <association property="response" javaType=" com.xht.platform.notice.domain.response.SysMessageInfoResponse">
+        <association property="response" javaType="com.xht.platform.notice.domain.response.SysMessageInfoResponse">
             <id property="id" column="id"/>
             <result property="messageId" column="message_id"/>
             <result property="recipientId" column="recipient_id"/>

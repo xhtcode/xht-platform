@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace=" com.xht.platform.notice.dao.mapper.SysNoticeAttachmentMapper">
+<mapper namespace="com.xht.platform.notice.dao.mapper.SysNoticeAttachmentMapper">
 
-    <resultMap id="BaseResultMap" type=" com.xht.platform.notice.entity.SysNoticeAttachmentEntity">
+    <resultMap id="BaseResultMap" type="com.xht.platform.notice.entity.SysNoticeAttachmentEntity">
         <id property="id" column="id"/>
         <result property="noticeId" column="notice_id"/>
         <result property="attachmentName" column="attachment_name"/>

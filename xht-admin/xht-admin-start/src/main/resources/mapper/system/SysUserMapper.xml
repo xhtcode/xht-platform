@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace=" com.xht.platform.system.dao.mapper.SysUserMapper">
+<mapper namespace="com.xht.platform.system.dao.mapper.SysUserMapper">
 
-    <resultMap id="BaseResultMap" type=" com.xht.platform.system.domain.vo.SysUserVO">
+    <resultMap id="BaseResultMap" type="com.xht.platform.system.domain.vo.SysUserVO">
         <id property="id" column="id"/>
         <result property="userType" column="user_type"/>
         <result property="userName" column="user_name"/>
@@ -16,7 +16,7 @@
         <result property="deptName" column="dept_name"/>
         <result property="registerDate" column="create_time"/>
         <result property="initialPasswordFlag" column="initial_password_flag"/>
-        <association property="profile" javaType=" com.xht.platform.system.domain.response.SysUserDetailResponse">
+        <association property="profile" javaType="com.xht.platform.system.domain.response.SysUserDetailResponse">
             <id property="userId" column="user_id"/>
             <result property="realName" column="real_name"/>
             <result property="idCard" column="id_card"/>

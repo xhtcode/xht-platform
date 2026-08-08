@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace=" com.xht.platform.system.dao.mapper.SysUserRoleMapper">
+<mapper namespace="com.xht.platform.system.dao.mapper.SysUserRoleMapper">
 
-    <resultMap id="BaseResultMap" type=" com.xht.platform.system.entity.SysUserRoleEntity">
+    <resultMap id="BaseResultMap" type="com.xht.platform.system.entity.SysUserRoleEntity">
         <id property="roleId" column="role_id"/>
         <result property="userId" column="user_id"/>
         <result property="createTime" column="create_time"/>

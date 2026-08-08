@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
     <name>xht-platform</name>
     <description>xht-platform</description>
-    <version>1.0.0</version>
 
     <modules>
         <module>xht-admin</module>
@@ -93,7 +92,7 @@
             <id>dev</id>
             <properties>
                 <profiles.active>dev</profiles.active>
-                <log.file.path>D:\xht-logs</log.file.path>
+                <log.file.path>logs</log.file.path>
                 <!-- nacos相关配置 -->
                 <nacos.username>nacos</nacos.username>
                 <nacos.password>nacos</nacos.password>

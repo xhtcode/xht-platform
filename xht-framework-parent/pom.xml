@@ -43,6 +43,7 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <resources>
+            <!-- 资源1：开启变量过滤，只拷贝spring配置文件 -->
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
@@ -50,14 +51,18 @@
                     <include>**/application*.yml</include>
                     <include>**/application*.yaml</include>
                     <include>**/application*.properties</include>
+                    <include>**/logback-spring.xml</include>
                 </includes>
             </resource>
+            <!-- 资源2：拷贝剩余所有资源，排除spring配置文件、关闭过滤 -->
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
+                <filtering>false</filtering>
                 <excludes>
                     <exclude>**/application*.yml</exclude>
                     <exclude>**/application*.yaml</exclude>
                     <exclude>**/application*.properties</exclude>
+                    <exclude>**/logback-spring.xml</exclude>
                 </excludes>
             </resource>
         </resources>
