@@ -32,7 +32,14 @@
         <module>xht-spring-boot-starter-web</module>
         <module>xht-spring-cloud-starter</module>
     </modules>
-
+    <dependencies>
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
         <resources>
