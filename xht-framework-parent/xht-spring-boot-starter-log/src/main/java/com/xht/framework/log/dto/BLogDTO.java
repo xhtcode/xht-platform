@@ -1,4 +1,4 @@
-package com.xht.platform.common.blog.dto;
+package com.xht.framework.log.dto;
 
 import com.xht.framework.common.domain.dto.XhtDTO;
 import com.xht.framework.common.enums.LogStatusEnum;

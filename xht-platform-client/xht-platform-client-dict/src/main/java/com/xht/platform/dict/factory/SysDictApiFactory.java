@@ -1,4 +1,4 @@
-package com.xht.platform.dict;
+package com.xht.platform.dict.factory;
 
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.common.domain.R;
@@ -6,8 +6,8 @@ import com.xht.framework.core.properties.XhtConfigProperties;
 import com.xht.framework.core.properties.cache.CacheProperties;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.utils.ROptional;
-import com.xht.platform.common.dict.ISysDictClient;
-import com.xht.platform.common.dict.ISysDictFactory;
+import com.xht.platform.common.dict.api.ISysDictClient;
+import com.xht.platform.common.dict.factory.ISysDictFactory;
 import com.xht.platform.common.dict.domain.DictVO;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,6 @@ public class SysDictApiFactory implements ISysDictFactory {
 
     @Resource
     private XhtConfigProperties xhtConfigProperties;
-
 
     /**
      * 根据字典编码查询

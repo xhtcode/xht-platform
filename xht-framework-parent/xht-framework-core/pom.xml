@@ -20,6 +20,10 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
         <!-- Swagger Core -->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>

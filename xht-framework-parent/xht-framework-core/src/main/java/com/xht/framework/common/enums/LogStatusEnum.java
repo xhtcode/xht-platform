@@ -17,10 +17,12 @@ public enum LogStatusEnum implements XhtEnum<Integer> {
      * 其他类型
      */
     OTHER(0, "其他"),
+
     /**
      * 正常日志类型
      */
     NORMAL(0, "正常"),
+
     /**
      * 错误日志类型
      */

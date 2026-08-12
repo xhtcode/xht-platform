@@ -13,6 +13,7 @@
     <artifactId>xht-platform-client-dict</artifactId>
     <packaging>jar</packaging>
     <description>xht-platform-client-dict 字典</description>
+
     <dependencies>
         <dependency>
             <groupId>com.xht.platform</groupId>
@@ -22,6 +23,13 @@
             <groupId>com.xht.framework</groupId>
             <artifactId>xht-spring-boot-starter-cache</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.xht.framework</groupId>
+            <artifactId>xht-spring-boot-starter-openfeign</artifactId>
+        </dependency>
     </dependencies>
 
+    <build>
+        <finalName>${project.artifactId}</finalName>
+    </build>
 </project>

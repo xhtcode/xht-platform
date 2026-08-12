@@ -9,10 +9,10 @@
         <version>1.0.0</version>
     </parent>
 
-    <name>xht-platform-starter</name>
+    <name>xht-platform-client</name>
     <packaging>pom</packaging>
     <artifactId>xht-platform-client</artifactId>
-    <description>xht-platform-starter 平台自定义的启动器</description>
+    <description>xht-platform-client 平台client</description>
 
     <modules>
         <module>xht-platform-client-dict</module>
@@ -20,4 +20,7 @@
         <module>xht-platform-client-message</module>
     </modules>
 
+    <build>
+        <finalName>${project.artifactId}</finalName>
+    </build>
 </project>

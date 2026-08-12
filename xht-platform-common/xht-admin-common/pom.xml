@@ -9,7 +9,7 @@
         <version>1.0.0</version>
     </parent>
 
-    <name>xht-platform-common-admin</name>
+    <name>xht-admin-common</name>
     <artifactId>xht-admin-common</artifactId>
     <packaging>jar</packaging>
     <description>xht-platform-common-admin 后台管理 通用模块</description>
@@ -18,6 +18,15 @@
         <dependency>
             <groupId>com.xht.framework</groupId>
             <artifactId>xht-framework-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xht.framework</groupId>
+            <artifactId>xht-spring-boot-starter-openfeign</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.xht.framework</groupId>
+            <artifactId>xht-spring-boot-starter-log</artifactId>
         </dependency>
     </dependencies>
 

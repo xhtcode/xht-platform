@@ -1,9 +1,16 @@
 package com.xht.framework.log.aspect;
 
+import cn.hutool.core.net.NetUtil;
+import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.common.constant.StringConstant;
+import com.xht.framework.common.enums.LogStatusEnum;
 import com.xht.framework.jackson.JsonUtils;
 import com.xht.framework.log.annotations.BLog;
+import com.xht.framework.log.dto.BLogDTO;
 import com.xht.framework.log.repository.BLogRepository;
+import com.xht.framework.utils.IpUtils;
+import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.mdc.TraceIdUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
@@ -13,13 +20,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.CodeSignature;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StopWatch;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 日志切面
@@ -49,44 +59,44 @@ public class BLogAspect {
         // 发送异步日志事件
         StopWatch stopWatch = new StopWatch("blog日志");
         stopWatch.start();
-    //    BLogDTO bLogDTO = new BLogDTO();
+        BLogDTO bLogDTO = new BLogDTO();
         Object obj;
-        // try {
-        //     String className = point.getTarget().getClass().getName();
-        //     String methodName = point.getSignature().getName();
-        //     Object[] args = point.getArgs();
-        //     String[] parameterNames = ((CodeSignature) point.getSignature()).getParameterNames();
-        //     bLogDTO.setTitle(bLog.value());
-        //     bLogDTO.setLogDesc(bLog.description());
-        //     bLogDTO.setTraceId(TraceIdUtils.getTraceId());
-        //     bLogDTO.setServiceName(applicationName);
-        //     bLogDTO.setServerAddr(NetUtil.getLocalhostStr());
-        //     Optional<HttpServletRequest> optHttpServletRequest = ServletUtil.getOptHttpServletRequest();
-        //     optHttpServletRequest.ifPresent(request -> {
-        //         bLogDTO.setRequestIp(IpUtils.getClientIP(request));
-        //         bLogDTO.setRequestHeaders(JsonUtils.toJsonString(ServletUtil.getHeaderMap(request)));
-        //         bLogDTO.setRequestAccount(request.getHeader(HttpConstants.Header.USER_ACCOUNT.getValue()));
-        //         bLogDTO.setRequestType(request.getMethod());
-        //     });
-        //     bLogDTO.setExecuteTime(LocalDateTime.now());
-        //     obj = point.proceed();
-        //     bLogDTO.setClassMethod(decorateMethodName(className, methodName));
-        //     bLogDTO.setRequestParams(getRequestParams(parameterNames, args));
-        //     bLogDTO.setExecuteStatus(com.xht.framework.common.enums.LogStatusEnum.NORMAL);
-        // } catch (Exception e) {
-        //     bLogDTO.setExecuteStatus(com.xht.framework.common.enums.LogStatusEnum.ERROR);
-        //     bLogDTO.setExecuteException(e.getMessage());
-        //     throw e;
-        // } finally {
-        //     stopWatch.stop();
-        //     bLogDTO.setExecuteCost(stopWatch.getTotalTimeMillis());
-        //     try {
-        //         bLogRepository.save(bLogDTO);
-        //     } catch (Exception e) {
-        //         log.error("日志保存失败 {}", e.getMessage(), e);
-        //     }
-        // }
-        return null;
+        try {
+            String className = point.getTarget().getClass().getName();
+            String methodName = point.getSignature().getName();
+            Object[] args = point.getArgs();
+            String[] parameterNames = ((CodeSignature) point.getSignature()).getParameterNames();
+            bLogDTO.setTitle(bLog.value());
+            bLogDTO.setLogDesc(bLog.description());
+            bLogDTO.setTraceId(TraceIdUtils.getTraceId());
+            bLogDTO.setServiceName(applicationName);
+            bLogDTO.setServerAddr(NetUtil.getLocalhostStr());
+            Optional<HttpServletRequest> optHttpServletRequest = ServletUtil.getOptHttpServletRequest();
+            optHttpServletRequest.ifPresent(request -> {
+                bLogDTO.setRequestIp(IpUtils.getClientIP(request));
+                bLogDTO.setRequestHeaders(JsonUtils.toJsonString(ServletUtil.getHeaderMap(request)));
+                bLogDTO.setRequestAccount(request.getHeader(HttpConstants.Header.USER_ACCOUNT.getValue()));
+                bLogDTO.setRequestType(request.getMethod());
+            });
+            bLogDTO.setExecuteTime(LocalDateTime.now());
+            obj = point.proceed();
+            bLogDTO.setClassMethod(decorateMethodName(className, methodName));
+            bLogDTO.setRequestParams(getRequestParams(parameterNames, args));
+            bLogDTO.setExecuteStatus(LogStatusEnum.NORMAL);
+        } catch (Exception e) {
+            bLogDTO.setExecuteStatus(LogStatusEnum.ERROR);
+            bLogDTO.setExecuteException(e.getMessage());
+            throw e;
+        } finally {
+            stopWatch.stop();
+            bLogDTO.setExecuteCost(stopWatch.getTotalTimeMillis());
+            try {
+                bLogRepository.save(bLogDTO);
+            } catch (Exception e) {
+                log.error("日志保存失败 {}", e.getMessage(), e);
+            }
+        }
+        return obj;
     }
 
     /**

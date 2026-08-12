@@ -1,11 +1,11 @@
-package com.xht.platform.common.dict;
+package com.xht.platform.common.dict.factory;
 
 import com.xht.platform.common.dict.domain.DictVO;
 
 import java.util.List;
 
 /**
- * 字典工厂
+ * 描述：字典工厂
  *
  * @author xht
  **/

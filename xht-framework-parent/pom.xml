@@ -7,7 +7,7 @@
         <groupId>com.xht.framework</groupId>
         <artifactId>xht-framework-dependencies</artifactId>
         <version>1.0.0</version>
-        <relativePath/>
+        <relativePath>xht-framework-dependencies/pom.xml</relativePath>
     </parent>
     <name>xht-framework-parent</name>
     <artifactId>xht-framework-parent</artifactId>

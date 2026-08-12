@@ -3,6 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.15</version>
+        <relativePath/>
+    </parent>
     <groupId>com.xht.framework</groupId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
@@ -16,6 +22,10 @@
         <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <commons.io.version>2.22.0</commons.io.version>
+        <commons-lang3.version>3.20.0</commons-lang3.version>
+        <commons-fileupload.version>1.6.0</commons-fileupload.version>
+        <bouncycastle.version>1.85.2</bouncycastle.version>
         <hutool.version>5.8.42</hutool.version>
         <knife4j-springdoc.version>4.5.0</knife4j-springdoc.version>
         <mapstruct.version>1.6.3</mapstruct.version>
@@ -31,14 +41,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- SpringBoot 依赖配置 -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <!-- SpringCloud 微服务 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -60,6 +62,31 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk18on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons.io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
             <!-- Swagger-Knife4j -->
             <dependency>

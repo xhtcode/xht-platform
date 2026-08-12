@@ -9,7 +9,10 @@
         <version>1.0.0</version>
     </parent>
 
+    <name>xht-platform-client-dict</name>
     <artifactId>xht-platform-client-blog</artifactId>
+    <packaging>jar</packaging>
+    <description>xht-platform-client-blog 日志模板</description>
 
     <dependencies>
         <dependency>
@@ -20,6 +23,13 @@
             <groupId>com.xht.framework</groupId>
             <artifactId>xht-spring-boot-starter-log</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.xht.framework</groupId>
+            <artifactId>xht-spring-boot-starter-openfeign</artifactId>
+        </dependency>
     </dependencies>
 
+    <build>
+        <finalName>${project.artifactId}</finalName>
+    </build>
 </project>

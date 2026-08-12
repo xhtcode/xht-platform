@@ -1,6 +1,7 @@
 package com.xht.framework.log.repository.impl;
 
 import com.xht.framework.jackson.JsonUtils;
+import com.xht.framework.log.dto.BLogDTO;
 import com.xht.framework.log.repository.BLogRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author xht
  **/
 @Slf4j
-public class JsonBLogRepository implements BLogRepository<Object> {
+public class JsonBLogRepository implements BLogRepository {
 
     /**
      * 保存日志
@@ -18,7 +19,7 @@ public class JsonBLogRepository implements BLogRepository<Object> {
      * @param bLogDTO 日志DTO
      */
     @Override
-    public void save(Object bLogDTO) {
+    public void save(BLogDTO bLogDTO) {
         log.debug("日志保存成功:{}", JsonUtils.toJsonString(bLogDTO));
     }
 

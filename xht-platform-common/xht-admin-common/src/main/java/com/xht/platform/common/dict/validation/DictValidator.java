@@ -1,7 +1,7 @@
 package com.xht.platform.common.dict.validation;
 
 import com.xht.framework.utils.spring.SpringContextUtils;
-import com.xht.platform.common.dict.ISysDictFactory;
+import com.xht.platform.common.dict.factory.ISysDictFactory;
 import com.xht.platform.common.dict.domain.DictVO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

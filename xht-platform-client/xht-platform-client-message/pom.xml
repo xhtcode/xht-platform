@@ -9,13 +9,23 @@
         <version>1.0.0</version>
     </parent>
 
+    <name>xht-platform-client-message</name>
+    <packaging>jar</packaging>
     <artifactId>xht-platform-client-message</artifactId>
+    <description>xht-platform-client-message 平台自定义 消息</description>
 
     <dependencies>
         <dependency>
             <groupId>com.xht.platform</groupId>
             <artifactId>xht-admin-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.xht.framework</groupId>
+            <artifactId>xht-spring-boot-starter-openfeign</artifactId>
+        </dependency>
     </dependencies>
 
+    <build>
+        <finalName>${project.artifactId}</finalName>
+    </build>
 </project>

@@ -2,6 +2,7 @@ package com.xht.auth.security;
 
 import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationToken;
 import com.xht.framework.common.constant.HttpConstants;
+import com.xht.framework.common.enums.LogStatusEnum;
 import com.xht.framework.common.enums.LoginTypeEnum;
 import com.xht.framework.core.properties.XhtConfigProperties;
 import com.xht.framework.log.event.LoginLogApplicationEvent;
@@ -32,7 +33,7 @@ public final class LoginLogUtils {
      */
     public static void saveSuccessLog(HttpServletRequest request, Authentication authentication) {
         String userName = authentication.getName();
-        LoginLogApplicationEvent event = new LoginLogApplicationEvent(userName, com.xht.framework.common.enums.LogStatusEnum.NORMAL);
+        LoginLogApplicationEvent event = new LoginLogApplicationEvent(userName, LogStatusEnum.NORMAL);
         if (authentication instanceof AbstractXhtAuthenticationToken authenticationToken) {
             event.setLoginType(Optional.of(authenticationToken).map(AbstractXhtAuthenticationToken::getLoginType).map(LoginTypeEnum::getValue).orElse("异常登录"));
         } else {
@@ -54,7 +55,7 @@ public final class LoginLogUtils {
             return;
         }
         String userName = authenticationRequest.getName();
-        LoginLogApplicationEvent event = new LoginLogApplicationEvent(userName, com.xht.framework.common.enums.LogStatusEnum.ERROR);
+        LoginLogApplicationEvent event = new LoginLogApplicationEvent(userName, LogStatusEnum.ERROR);
         if (authenticationRequest instanceof AbstractXhtAuthenticationToken authenticationToken) {
             event.setLoginType(Optional.of(authenticationToken).map(AbstractXhtAuthenticationToken::getLoginType).map(LoginTypeEnum::getValue).orElse("异常登录"));
         } else {
