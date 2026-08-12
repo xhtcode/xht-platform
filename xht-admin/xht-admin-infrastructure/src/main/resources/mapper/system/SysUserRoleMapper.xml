@@ -32,7 +32,7 @@
 
     <!-- 根据用户ID获取角色列表-->
     <select id="findRoleListByUserId"
-            resultMap=" com.xht.platform.system.dao.mapper.SysRoleMapper.BaseResultMap">
+            resultMap="com.xht.platform.system.dao.mapper.SysRoleMapper.BaseResultMap">
         SELECT sys_role.*
         FROM sys_user_role
         left join sys_role on sys_user_role.role_id = sys_role.id

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <!--定义应用的名称-->
-    <property name="project.name" value="${build.finalName}"/>
+    <property name="project.name" value="@build.finalName@"/>
     <!-- 日志存放路径 -->
-    <property name="log.path" value="${log.file.path}"/>
+    <property name="log.path" value="@log.file.path@"/>
     <!-- 日志输出彩色日志格式 -->
     <!-- 彩色日志格式 -->
     <property name="console.log.pattern"

@@ -22,7 +22,6 @@
         <dependency>
             <groupId>com.xht.framework</groupId>
             <artifactId>xht-spring-boot-starter-openfeign</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.xht.framework</groupId>

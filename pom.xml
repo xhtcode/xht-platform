@@ -15,8 +15,8 @@
     <description>xht-platform</description>
 
     <modules>
-        <module>xht-admin</module>
         <module>xht-framework-parent</module>
+        <module>xht-admin</module>
         <module>xht-auth</module>
         <module>xht-gateway</module>
         <module>xht-generate</module>
@@ -87,6 +87,17 @@
 
     <!-- 构建配置 -->
     <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <!-- 资源文件配置，启用过滤功能以替换属性值 -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <!-- Maven 资源插件 -->
             <plugin>

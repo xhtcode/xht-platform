@@ -14,7 +14,6 @@
     <packaging>jar</packaging>
     <description>xht-admin-adapter 后台管理 adapter 层</description>
 
-
     <dependencies>
         <dependency>
             <groupId>com.xht.platform</groupId>
