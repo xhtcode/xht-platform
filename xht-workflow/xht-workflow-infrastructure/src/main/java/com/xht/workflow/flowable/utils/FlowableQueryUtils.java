@@ -3,8 +3,8 @@ package com.xht.workflow.flowable.utils;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.StringUtils;
-import com.xht.workflow.flowable.core.BpmnPageQueryBO;
-import com.xht.workflow.flowable.core.BpmnSupplier;
+import com.xht.workflow.flowable.common.bo.BpmnPageQueryBO;
+import com.xht.workflow.flowable.common.BpmnSupplier;
 import org.flowable.common.engine.api.query.Query;
 
 import java.util.List;

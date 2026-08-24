@@ -1,8 +1,8 @@
 package com.xht.workflow.definition.domain.form;
 
-import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
 import com.xht.framework.validation.enums.XhtEnumValidator;
+import com.xht.workflow.common.domain.form.WorkFlowForm;
 import com.xht.workflow.definition.enums.ListenerFieldStatusEnum;
 import com.xht.workflow.definition.enums.ListenerFieldTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,7 +19,7 @@ import lombok.Data;
  **/
 @Data
 @Schema(description = "流程扩展-监听器（字段管理）表单请求参数")
-public class FlowListenerFieldForm extends BasicForm {
+public class FlowListenerFieldForm extends WorkFlowForm {
 
     /**
      * 监听器字段id

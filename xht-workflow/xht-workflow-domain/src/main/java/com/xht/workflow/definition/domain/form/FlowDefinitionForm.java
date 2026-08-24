@@ -1,11 +1,13 @@
 package com.xht.workflow.definition.domain.form;
 
-import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
+import com.xht.workflow.common.domain.form.WorkFlowForm;
 import com.xht.workflow.definition.enums.DefinitionStatusEnum;
 import com.xht.workflow.definition.enums.DefinitionTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 import java.io.Serial;
@@ -17,7 +19,7 @@ import java.io.Serial;
  */
 @Data
 @Schema(description = "流程扩展-流程定义表单")
-public class FlowDefinitionForm extends BasicForm {
+public class FlowDefinitionForm extends WorkFlowForm {
 
     @Serial
     private static final long serialVersionUID = 1L;

@@ -1,8 +1,8 @@
 package com.xht.workflow.definition.domain.form;
 
-import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.common.enums.XhtEnum;
 import com.xht.framework.validation.Groups;
+import com.xht.workflow.common.domain.form.WorkFlowForm;
 import com.xht.workflow.definition.enums.ListenerScriptTypeEnum;
 import com.xht.workflow.definition.enums.ListenerStatusEnum;
 import com.xht.workflow.definition.enums.ListenerTypeEnums;
@@ -20,7 +20,7 @@ import lombok.Data;
  **/
 @Data
 @Schema(description = "流程监听器表单")
-public class FlowListenerBasicForm<T extends XhtEnum<String>> extends BasicForm {
+public class FlowListenerBasicForm<T extends XhtEnum<String>> extends WorkFlowForm {
 
     /**
      * 序列id

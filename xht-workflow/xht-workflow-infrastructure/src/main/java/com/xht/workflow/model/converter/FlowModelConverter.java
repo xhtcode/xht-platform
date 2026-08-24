@@ -2,8 +2,8 @@ package com.xht.workflow.model.converter;
 
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.mybatis.utils.PageTool;
-import com.xht.workflow.flowable.core.MetaInfoBO;
-import com.xht.workflow.flowable.core.model.ModelDTO;
+import com.xht.workflow.flowable.common.bo.MetaInfoBO;
+import com.xht.workflow.flowable.model.common.ModelDTO;
 import com.xht.workflow.model.domain.response.FlowModelResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;

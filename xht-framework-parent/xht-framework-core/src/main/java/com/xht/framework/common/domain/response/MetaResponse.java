@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
  **/
 @Data
 @Schema(description = "响应实体")
-public class MetaResponse extends BasicResponse {
+public class MetaResponse implements XhtResponse, Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

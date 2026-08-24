@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+             targetNamespace="http://www.taiji.com.cn/gov-workflow">
+    <process id="ITEM_20003003" name="holiday" isExecutable="true">
+        <startEvent id="Start_APPLY" name="开始"/>
+        <userTask xmlns:flowable="http://flowable.org/bpmn" id="APPLY_SUBMIT" name="事项申请" flowable:dataType="ROLES"
+                  flowable:candidateGroups="ROLE_R_APPLICANT" flowable:text="事项申请">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="item_status" value="100"/>
+                    <flowable:property name="node_code" value="APPLY_SUBMIT"/>
+                    <flowable:property name="node_name" value="事项申请"/>
+                </flowable:properties>
+            </extensionElements>
+        </userTask>
+        <userTask xmlns:flowable="http://flowable.org/bpmn" id="HALL_RECEIVE" name="大厅接收" flowable:dataType="ROLES"
+                  flowable:candidateGroups="ROLE_FLCK_DTJS" flowable:text="肥料窗口_大厅接收">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="item_status" value="210"/>
+                    <flowable:property name="node_code" value="HALL_RECEIVE"/>
+                    <flowable:property name="node_name" value="大厅接收"/>
+                </flowable:properties>
+            </extensionElements>
+        </userTask>
+        <userTask xmlns:flowable="http://flowable.org/bpmn" id="HALL_ACCEPT" name="大厅受理" flowable:dataType="ROLES"
+                  flowable:candidateGroups="ROLE_FLCK_DTSL" flowable:text="肥料窗口_大厅受理">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="item_status" value="250"/>
+                    <flowable:property name="node_code" value="HALL_ACCEPT"/>
+                    <flowable:property name="node_name" value="大厅受理"/>
+                </flowable:properties>
+            </extensionElements>
+        </userTask>
+        <exclusiveGateway id="GW_HALL_ACCEPT" name="大厅受理结果"/>
+        <userTask xmlns:flowable="http://flowable.org/bpmn" id="BUREAU_APPROVAL" name="司局审批"
+                  flowable:dataType="ROLES" flowable:candidateGroups="ROLE_ZZS_SJSP" flowable:text="种植业司_司局审批">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="item_status" value="260"/>
+                    <flowable:property name="node_code" value="BUREAU_APPROVAL"/>
+                    <flowable:property name="node_name" value="司局审批"/>
+                </flowable:properties>
+            </extensionElements>
+        </userTask>
+        <exclusiveGateway id="GW_BUREAU_APPROVAL" name="司局审批结果"/>
+        <userTask xmlns:flowable="http://flowable.org/bpmn" id="HALL_CLOSE_APPROVED" name="大厅窗口办结（批准）"
+                  flowable:dataType="ROLES" flowable:candidateGroups="ROLE_FLCK_DTBJ" flowable:text="肥料窗口_大厅办结">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="item_status" value="270"/>
+                    <flowable:property name="node_code" value="HALL_CLOSE_APPROVED"/>
+                    <flowable:property name="node_name" value="大厅窗口办结（批准）"/>
+                </flowable:properties>
+            </extensionElements>
+        </userTask>
+        <userTask xmlns:flowable="http://flowable.org/bpmn" id="HALL_CLOSE_NOT_APPROVED" name="大厅窗口办结（不批准）"
+                  flowable:dataType="ROLES" flowable:candidateGroups="ROLE_FLCK_DTBJ" flowable:text="肥料窗口_大厅办结">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="item_status" value="280"/>
+                    <flowable:property name="node_code" value="HALL_CLOSE_NOT_APPROVED"/>
+                    <flowable:property name="node_name" value="大厅窗口办结（不批准）"/>
+                </flowable:properties>
+            </extensionElements>
+        </userTask>
+        <endEvent id="APPROVE_COMPLETE" name="批准">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="item_status" value="900"/>
+                    <flowable:property name="node_code" value="APPROVED"/>
+                    <flowable:property name="node_name" value="批准"/>
+                </flowable:properties>
+            </extensionElements>
+        </endEvent>
+        <endEvent id="NOT_ACCEPTED" name="不予受理">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="item_status" value="910"/>
+                    <flowable:property name="node_code" value="NOT_ACCEPTED"/>
+                    <flowable:property name="node_name" value="不予受理"/>
+                </flowable:properties>
+            </extensionElements>
+        </endEvent>
+        <endEvent id="APPROVE_REJECT" name="不予批准">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="item_status" value="920"/>
+                    <flowable:property name="node_code" value="NOT_APPROVED"/>
+                    <flowable:property name="node_name" value="不予批准"/>
+                </flowable:properties>
+            </extensionElements>
+        </endEvent>
+        <sequenceFlow id="Flow_Start_To_APPLY_SUBMIT" sourceRef="Start_APPLY" targetRef="APPLY_SUBMIT"/>
+        <sequenceFlow id="Flow_APPLY_SUBMIT_To_HALL_RECEIVE" name="提交" sourceRef="APPLY_SUBMIT"
+                      targetRef="HALL_RECEIVE">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="action_code" value="SUBMIT"/>
+                </flowable:properties>
+            </extensionElements>
+        </sequenceFlow>
+        <sequenceFlow id="Flow_HALL_RECEIVE_To_HALL_ACCEPT" name="同意接收" sourceRef="HALL_RECEIVE"
+                      targetRef="HALL_ACCEPT">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="action_code" value="RECEIVE_PASS"/>
+                </flowable:properties>
+            </extensionElements>
+        </sequenceFlow>
+        <sequenceFlow id="Flow_HALL_ACCEPT_To_GW" sourceRef="HALL_ACCEPT" targetRef="GW_HALL_ACCEPT"/>
+        <sequenceFlow id="Flow_GW_HALL_ACCEPT_To_BUREAU_APPROVAL" name="同意受理" sourceRef="GW_HALL_ACCEPT"
+                      targetRef="BUREAU_APPROVAL">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="action_code" value="ACCEPT_PASS"/>
+                </flowable:properties>
+            </extensionElements>
+            <conditionExpression xsi:type="tFormalExpression">${actionCode == "ACCEPT_PASS"}</conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow id="Flow_GW_HALL_ACCEPT_To_NOT_ACCEPTED" name="不予受理" sourceRef="GW_HALL_ACCEPT"
+                      targetRef="NOT_ACCEPTED">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="action_code" value="NOT_ACCEPT"/>
+                </flowable:properties>
+            </extensionElements>
+            <conditionExpression xsi:type="tFormalExpression">${actionCode == "NOT_ACCEPT"}</conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow id="Flow_BUREAU_APPROVAL_To_GW" sourceRef="BUREAU_APPROVAL" targetRef="GW_BUREAU_APPROVAL"/>
+        <sequenceFlow id="Flow_GW_BUREAU_APPROVAL_To_HALL_CLOSE_APPROVED" name="批准" sourceRef="GW_BUREAU_APPROVAL"
+                      targetRef="HALL_CLOSE_APPROVED">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="action_code" value="APPROVE_PASS"/>
+                </flowable:properties>
+            </extensionElements>
+            <conditionExpression xsi:type="tFormalExpression">${actionCode == "APPROVE_PASS"}</conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow id="Flow_GW_BUREAU_APPROVAL_To_HALL_CLOSE_NOT_APPROVED" name="不予批准"
+                      sourceRef="GW_BUREAU_APPROVAL" targetRef="HALL_CLOSE_NOT_APPROVED">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="action_code" value="NOT_APPROVE"/>
+                </flowable:properties>
+            </extensionElements>
+            <conditionExpression xsi:type="tFormalExpression">${actionCode == "NOT_APPROVE"}</conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow id="Flow_HALL_CLOSE_APPROVED_To_APPROVE_COMPLETE" name="办结" sourceRef="HALL_CLOSE_APPROVED"
+                      targetRef="APPROVE_COMPLETE">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="action_code" value="CLOSE_APPROVED"/>
+                </flowable:properties>
+            </extensionElements>
+        </sequenceFlow>
+        <sequenceFlow id="Flow_HALL_CLOSE_NOT_APPROVED_To_APPROVE_REJECT" name="办结"
+                      sourceRef="HALL_CLOSE_NOT_APPROVED" targetRef="APPROVE_REJECT">
+            <extensionElements>
+                <flowable:properties>
+                    <flowable:property name="action_code" value="CLOSE_NOT_APPROVED"/>
+                </flowable:properties>
+            </extensionElements>
+        </sequenceFlow>
+    </process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_item_0320">
+        <bpmndi:BPMNPlane id="BPMNPlane_item_0320" bpmnElement="item_0320">
+            <bpmndi:BPMNShape id="BPMNShape_Start_APPLY" bpmnElement="Start_APPLY">
+                <omgdc:Bounds x="40" y="222" width="36" height="36"/>
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="44" y="263" width="28" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_APPLY_SUBMIT" bpmnElement="APPLY_SUBMIT">
+                <omgdc:Bounds x="110" y="200" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_HALL_RECEIVE" bpmnElement="HALL_RECEIVE">
+                <omgdc:Bounds x="270" y="200" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_HALL_ACCEPT" bpmnElement="HALL_ACCEPT">
+                <omgdc:Bounds x="430" y="200" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_GW_HALL_ACCEPT" bpmnElement="GW_HALL_ACCEPT" isMarkerVisible="true">
+                <omgdc:Bounds x="595" y="215" width="50" height="50"/>
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="585" y="272" width="70" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_BUREAU_APPROVAL" bpmnElement="BUREAU_APPROVAL">
+                <omgdc:Bounds x="710" y="200" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_GW_BUREAU_APPROVAL" bpmnElement="GW_BUREAU_APPROVAL" isMarkerVisible="true">
+                <omgdc:Bounds x="875" y="215" width="50" height="50"/>
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="864" y="272" width="72" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_HALL_CLOSE_APPROVED" bpmnElement="HALL_CLOSE_APPROVED">
+                <omgdc:Bounds x="990" y="200" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_HALL_CLOSE_NOT_APPROVED" bpmnElement="HALL_CLOSE_NOT_APPROVED">
+                <omgdc:Bounds x="990" y="310" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_APPROVE_COMPLETE" bpmnElement="APPROVE_COMPLETE">
+                <omgdc:Bounds x="1162" y="222" width="36" height="36"/>
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="1158" y="265" width="44" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_NOT_ACCEPTED" bpmnElement="NOT_ACCEPTED">
+                <omgdc:Bounds x="1162" y="112" width="36" height="36"/>
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="1158" y="155" width="44" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_APPROVE_REJECT" bpmnElement="APPROVE_REJECT">
+                <omgdc:Bounds x="1162" y="332" width="36" height="36"/>
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="1158" y="375" width="44" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_Start_To_APPLY_SUBMIT" bpmnElement="Flow_Start_To_APPLY_SUBMIT">
+                <omgdi:waypoint x="76" y="240"/>
+                <omgdi:waypoint x="110" y="240"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_APPLY_SUBMIT_To_HALL_RECEIVE"
+                             bpmnElement="Flow_APPLY_SUBMIT_To_HALL_RECEIVE">
+                <omgdi:waypoint x="210" y="240"/>
+                <omgdi:waypoint x="270" y="240"/>
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="229" y="222" width="22" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_HALL_RECEIVE_To_HALL_ACCEPT"
+                             bpmnElement="Flow_HALL_RECEIVE_To_HALL_ACCEPT">
+                <omgdi:waypoint x="370" y="240"/>
+                <omgdi:waypoint x="430" y="240"/>
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="378" y="222" width="44" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_HALL_ACCEPT_To_GW" bpmnElement="Flow_HALL_ACCEPT_To_GW">
+                <omgdi:waypoint x="530" y="240"/>
+                <omgdi:waypoint x="595" y="240"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_GW_HALL_ACCEPT_To_BUREAU_APPROVAL"
+                             bpmnElement="Flow_GW_HALL_ACCEPT_To_BUREAU_APPROVAL">
+                <omgdi:waypoint x="645" y="240"/>
+                <omgdi:waypoint x="710" y="240"/>
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="656" y="222" width="44" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_GW_HALL_ACCEPT_To_NOT_ACCEPTED"
+                             bpmnElement="Flow_GW_HALL_ACCEPT_To_NOT_ACCEPTED">
+                <omgdi:waypoint x="620" y="215"/>
+                <omgdi:waypoint x="620" y="130"/>
+                <omgdi:waypoint x="1162" y="130"/>
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="614" y="112" width="44" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_BUREAU_APPROVAL_To_GW" bpmnElement="Flow_BUREAU_APPROVAL_To_GW">
+                <omgdi:waypoint x="810" y="240"/>
+                <omgdi:waypoint x="875" y="240"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_GW_BUREAU_APPROVAL_To_HALL_CLOSE_APPROVED"
+                             bpmnElement="Flow_GW_BUREAU_APPROVAL_To_HALL_CLOSE_APPROVED">
+                <omgdi:waypoint x="925" y="240"/>
+                <omgdi:waypoint x="990" y="240"/>
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="946" y="222" width="22" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_GW_BUREAU_APPROVAL_To_HALL_CLOSE_NOT_APPROVED"
+                             bpmnElement="Flow_GW_BUREAU_APPROVAL_To_HALL_CLOSE_NOT_APPROVED">
+                <omgdi:waypoint x="900" y="265"/>
+                <omgdi:waypoint x="900" y="350"/>
+                <omgdi:waypoint x="990" y="350"/>
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="901" y="332" width="44" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_HALL_CLOSE_APPROVED_To_APPROVE_COMPLETE"
+                             bpmnElement="Flow_HALL_CLOSE_APPROVED_To_APPROVE_COMPLETE">
+                <omgdi:waypoint x="1090" y="240"/>
+                <omgdi:waypoint x="1162" y="240"/>
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="1115" y="222" width="22" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="BPMNEdge_Flow_HALL_CLOSE_NOT_APPROVED_To_APPROVE_REJECT"
+                             bpmnElement="Flow_HALL_CLOSE_NOT_APPROVED_To_APPROVE_REJECT">
+                <omgdi:waypoint x="1090" y="350"/>
+                <omgdi:waypoint x="1162" y="350"/>
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="1115" y="332" width="22" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</definitions>

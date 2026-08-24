@@ -1,6 +1,6 @@
 package com.xht.workflow.model.domain.form;
 
-import com.xht.framework.common.domain.form.BasicForm;
+import com.xht.workflow.common.domain.form.WorkFlowForm;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.Data;
  **/
 @Data
 @Schema(description = "模型设计业务对象")
-public class FlowModelDesignForm extends BasicForm {
+public class FlowModelDesignForm extends WorkFlowForm {
 
     /**
      * 模型ID

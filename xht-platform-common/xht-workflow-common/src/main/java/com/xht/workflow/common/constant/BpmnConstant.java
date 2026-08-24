@@ -10,6 +10,6 @@ public interface BpmnConstant {
     /**
      * bpmn文件后缀
      */
-    String BPMN_FILE_SUFFIX = ".bpmn";
+    String BPMN_FILE_SUFFIX = ".bpmn20.xml";
 
 }
