@@ -18,10 +18,11 @@ public interface IFlowDefinitionDao extends MapperRepository<FlowDefinitionEntit
     /**
      * 更新
      *
+     * @param id            ID
      * @param form          表单参数
      * @param categoryLevel 定义级别
      */
-    void updateRequest(FlowDefinitionForm form, Integer categoryLevel);
+    void updateRequest(Long id, FlowDefinitionForm form, Integer categoryLevel);
 
     /**
      * 校验定义编号

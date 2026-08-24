@@ -59,9 +59,9 @@ public class FlowDefinitionController {
      * @param form 流程定义信息
      */
     @Operation(summary = "修改流程定义")
-    @PostMapping("/update")
-    public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody FlowDefinitionForm form) {
-        flowCategoryService.updateById(form);
+    @PostMapping("/update/{id}")
+    public R<Void> updateById(@PathVariable Long id, @Validated(value = {Groups.Update.class}) @RequestBody FlowDefinitionForm form) {
+        flowCategoryService.updateById(id, form);
         return R.ok().build();
     }
 

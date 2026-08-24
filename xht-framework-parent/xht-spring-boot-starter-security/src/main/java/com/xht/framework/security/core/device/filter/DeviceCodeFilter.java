@@ -54,7 +54,7 @@ public class DeviceCodeFilter extends GenericFilterBean {
                     // 验证设备验证码
                     boolean verifyDeviceCode = deviceCodeProvider.verifyDeviceCode(request, cookie.getValue());
                     if (!verifyDeviceCode) {
-                        throw new ServletException("设备验证码不合法");
+                        log.info("设备验证码验证失败{}", cookie.getValue());
                     }
                 }
             }

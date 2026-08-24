@@ -23,19 +23,9 @@ public class FlowDefinitionForm extends BasicForm {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 流程定义id
-     */
-    @Null(message = "流程定义`id`唯一标识必须为空", groups = {Groups.Create.class})
-    @NotNull(message = "流程定义`id`唯一标识参数不合法", groups = {Groups.Update.class})
-    @Positive(message = "流程定义`id`唯一标识参数不合法", groups = {Groups.Update.class})
-    @Schema(description = "流程定义id")
-    private Long id;
-
-    /**
      * 流程定义父级ID
      */
     @NotNull(message = "流程定义父级ID参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Positive(message = "流程定义父级ID参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "流程定义父级ID")
     private Long parentId;
 

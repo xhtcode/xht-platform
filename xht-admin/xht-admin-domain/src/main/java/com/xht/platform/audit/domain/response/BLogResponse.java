@@ -59,7 +59,7 @@ public class BLogResponse extends MetaResponse {
     private String requestParams;
 
     /**
-     * 服务器地址（如192.168.100.1）
+     * 服务器地址（如127.0.0.1）
      */
     @Schema(description = "服务器地址")
     private String serverAddr;

@@ -36,16 +36,16 @@ public class FlowDefinitionDaoImpl extends MapperRepositoryImpl<FlowDefinitionMa
         return FlowDefinitionEntity::getId;
     }
 
-
     /**
      * 更新
      *
+     * @param id            ID
      * @param form          表单参数
      * @param categoryLevel 定义级别
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateRequest(FlowDefinitionForm form, Integer categoryLevel) {
+    public void updateRequest(Long id, FlowDefinitionForm form, Integer categoryLevel) {
         LambdaUpdateWrapper<FlowDefinitionEntity> updateWrapper = new LambdaUpdateWrapper<>();
         //@formatter:off
         updateWrapper
@@ -57,10 +57,11 @@ public class FlowDefinitionDaoImpl extends MapperRepositoryImpl<FlowDefinitionMa
                 .set(condition(form.getDefinitionDesc()), FlowDefinitionEntity::getDefinitionDesc, form.getDefinitionDesc())
                 .set(condition(form.getDefinitionStatus()), FlowDefinitionEntity::getDefinitionStatus, form.getDefinitionStatus())
                 .set(condition(form.getDefinitionSort()), FlowDefinitionEntity::getDefinitionSort, form.getDefinitionSort())
-                .eq(FlowDefinitionEntity::getId, form.getId());
+                .eq(FlowDefinitionEntity::getId, id);
         //@formatter:on
         update(updateWrapper);
     }
+
 
     /**
      * 校验定义编号

@@ -30,9 +30,10 @@ public interface IFlowDefinitionService {
     /**
      * 修改流程定义
      *
+     * @param id 流程定义ID
      * @param form 流程定义信息
      */
-    void updateById(FlowDefinitionForm form);
+    void updateById(Long id, FlowDefinitionForm form);
 
     /**
      * 获取流程定义详情

@@ -1,6 +1,5 @@
 package com.xht.auth.configuration.properties;
 
-import com.xht.framework.utils.IdUtils;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -99,7 +98,7 @@ public class XhtOauth2Properties {
         /**
          * 设备码哈希盐值，从nacos读取
          */
-        private String salt = IdUtils.simpleUUID();
+        private String salt;
 
     }
 

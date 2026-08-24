@@ -9,12 +9,14 @@ import com.xht.framework.exception.code.GlobalErrorStatusCode;
 import com.xht.framework.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -75,8 +77,10 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     /**
      * controller 接口拦截  {@link NoHandlerFoundException} 以及 {@link NoResourceFoundException}
      */
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = {NoHandlerFoundException.class, NoResourceFoundException.class})
-    public ErrorR<Void> handle() {
+    public ErrorR<Void> handle(HttpServletRequest request) {
+        log.error("接口未找到: {}", request.getRequestURI());
         return new ErrorR<>(R.error().info(GlobalErrorStatusCode.NOT_FOUND).build());
     }
 

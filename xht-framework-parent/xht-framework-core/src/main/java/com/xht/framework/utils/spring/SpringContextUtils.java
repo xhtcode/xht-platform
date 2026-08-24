@@ -61,7 +61,6 @@ public final class SpringContextUtils implements ApplicationContextAware, BeanFa
      *
      * @return {@link ConfigurableListableBeanFactory}
      * @throws UtilException 当上下文非ConfigurableListableBeanFactory抛出异常
-     * @since 5.7.7
      */
     public static ConfigurableListableBeanFactory getConfigurableBeanFactory() throws UtilException {
         final ConfigurableListableBeanFactory factory;
