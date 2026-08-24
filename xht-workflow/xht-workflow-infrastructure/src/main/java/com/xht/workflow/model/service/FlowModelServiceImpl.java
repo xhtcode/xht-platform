@@ -146,6 +146,27 @@ public class FlowModelServiceImpl implements IFlowModelService {
         return flowModelConverter.toResponse(page);
     }
 
+    /**
+     * 分页查询流程模型历史版本
+     *
+     * @param modelId 流程模型ID
+     * @param query   流程模型查询参数
+     */
+    @Override
+    public PageResponse<FlowModelResponse> findHistoryModelByPage(String modelId, FlowModelPageQuery query) {
+        ModelPageQueryBO modelPageQueryBO = ModelPageQueryBuilder.builder()
+                .category(query.getCategory())
+                .modelName(query.getModelName())
+                .modelKey(query.getModelKey())
+                .current(query.getCurrent())
+                .size(query.getSize())
+                .asc(SortTool.getAscSort(query))
+                .desc(SortTool.getDescSort(query))
+                .build();
+        PageResponse<ModelDTO> page = modelManager.historyPage(modelId, modelPageQueryBO);
+        return flowModelConverter.toResponse(page);
+    }
+
 
     /**
      * 根据模型id查询 BPMN xml

@@ -51,7 +51,6 @@ public class FlowModelController {
     public R<Void> removeModelById(@RequestParam("modelId") String modelId) {
         flowModelService.removeModelById(modelId);
         return R.ok().build();
-
     }
 
     /**
@@ -64,7 +63,6 @@ public class FlowModelController {
     public R<Void> updateModel(@Validated @RequestBody FlowModelUpdateForm modelUpdateForm) {
         flowModelService.updateModel(modelUpdateForm);
         return R.ok().build();
-
     }
 
     /**
@@ -77,7 +75,18 @@ public class FlowModelController {
     public R<Void> modelDesign(@Validated @RequestBody FlowModelDesignForm modelDesignForm) {
         flowModelService.modelDesign(modelDesignForm);
         return R.ok().build();
+    }
 
+    /**
+     * 部署流程模型
+     *
+     * @param modelId 流程模型ID
+     */
+    @Operation(summary = "部署流程模型")
+    @PostMapping("/deploy")
+    public R<Void> deployModel(@RequestParam("modelId") String modelId) {
+        flowModelService.deployModel(modelId);
+        return R.ok().build();
     }
 
     /**
@@ -102,6 +111,30 @@ public class FlowModelController {
     @GetMapping("/page")
     public R<PageResponse<FlowModelResponse>> findModelByPage(FlowModelPageQuery pageQuery) {
         return R.ok().build(flowModelService.findModelByPage(pageQuery));
+    }
+
+    /**
+     * 分页查询流程模型
+     *
+     * @param pageQuery 流程模型查询参数
+     * @return 分页结果
+     */
+    @Operation(summary = "分页查询流程模型")
+    @GetMapping("/page")
+    public R<PageResponse<FlowModelResponse>> findHistoryModelByPage(@RequestParam("modelId") String modelId, FlowModelPageQuery pageQuery) {
+        return R.ok().build(flowModelService.findHistoryModelByPage(modelId, pageQuery));
+    }
+
+    /**
+     * 根据模型id查询 bpmn xml
+     *
+     * @param modelId 模型id
+     * @return bpmn xml
+     */
+    @Operation(summary = "根据模型id查询 bpmn xml")
+    @GetMapping("/bpmn")
+    public R<String> queryBpmnXmlById(@RequestParam("modelId") String modelId) {
+        return R.ok().build(flowModelService.queryBpmnXmlById(modelId));
     }
 
 }

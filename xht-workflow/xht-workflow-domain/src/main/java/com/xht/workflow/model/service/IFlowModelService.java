@@ -65,6 +65,14 @@ public interface IFlowModelService {
     PageResponse<FlowModelResponse> findModelByPage(FlowModelPageQuery query);
 
     /**
+     * 分页查询流程模型历史版本
+     *
+     * @param modelId 流程模型ID
+     * @param query   流程模型查询参数
+     */
+    PageResponse<FlowModelResponse> findHistoryModelByPage(String modelId, FlowModelPageQuery query);
+
+    /**
      * 根据模型id查询 BPMN xml
      *
      * @param modelId 模型id
