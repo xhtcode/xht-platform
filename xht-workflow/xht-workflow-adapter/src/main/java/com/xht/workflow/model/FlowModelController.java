@@ -120,8 +120,8 @@ public class FlowModelController {
      * @return 分页结果
      */
     @Operation(summary = "分页查询流程模型")
-    @GetMapping("/page")
-    public R<PageResponse<FlowModelResponse>> findHistoryModelByPage(@RequestParam("modelId") String modelId, FlowModelPageQuery pageQuery) {
+    @GetMapping("/{modelId}/page")
+    public R<PageResponse<FlowModelResponse>> findHistoryModelByPage(@PathVariable("modelId") String modelId, FlowModelPageQuery pageQuery) {
         return R.ok().build(flowModelService.findHistoryModelByPage(modelId, pageQuery));
     }
 

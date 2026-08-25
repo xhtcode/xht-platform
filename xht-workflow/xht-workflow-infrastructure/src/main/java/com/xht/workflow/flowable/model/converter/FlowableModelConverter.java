@@ -1,9 +1,11 @@
-package com.xht.workflow.flowable.common.converter;
+package com.xht.workflow.flowable.model.converter;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
+import com.xht.workflow.flowable.common.converter.ModelConverter;
 import com.xht.workflow.flowable.model.common.ModelDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.repository.Model;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
@@ -13,6 +15,7 @@ import java.util.Objects;
  * @author xht
  **/
 @Slf4j
+@Component
 public class FlowableModelConverter implements ModelConverter<Model> {
 
     /**

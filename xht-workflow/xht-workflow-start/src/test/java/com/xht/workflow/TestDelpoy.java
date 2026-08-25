@@ -4,6 +4,7 @@ import cn.hutool.core.io.IoUtil;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.ProcessDefinition;
+import org.flowable.engine.repository.ProcessDefinitionQuery;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,10 +53,22 @@ public class TestDelpoy {
     }
 
     @Test
-    public void test() {
+    public void deleteDeployment() {
         List<Deployment> list = repositoryService.createDeploymentQuery().list();
         for (Deployment deployment : list) {
             repositoryService.deleteDeployment(deployment.getId(), true);
         }
     }
+
+    @Test
+    public void createProcessDefinitionQuery() {
+        ProcessDefinitionQuery processDefinitionQuery = repositoryService
+                .createProcessDefinitionQuery()
+                .latestVersion();
+        List<ProcessDefinition> list = processDefinitionQuery.list();
+        for (ProcessDefinition processDefinition : list) {
+            System.out.println(processDefinition.getName());
+        }
+    }
+
 }

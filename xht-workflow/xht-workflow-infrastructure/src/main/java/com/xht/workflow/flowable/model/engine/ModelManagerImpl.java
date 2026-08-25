@@ -1,17 +1,15 @@
 package com.xht.workflow.flowable.model.engine;
 
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.exception.BusinessException;
 import com.xht.framework.utils.Base64Utils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.common.constant.BpmnConstant;
 import com.xht.workflow.common.exception.WorkFlowException;
 import com.xht.workflow.flowable.common.bo.BpmnOrder;
-import com.xht.workflow.flowable.common.converter.FlowableModelConverter;
-import com.xht.workflow.flowable.common.converter.ModelConverter;
 import com.xht.workflow.flowable.model.ModelManager;
 import com.xht.workflow.flowable.model.common.*;
+import com.xht.workflow.flowable.model.converter.FlowableModelConverter;
 import com.xht.workflow.flowable.utils.BpmnUtils;
 import com.xht.workflow.flowable.utils.FlowableQueryUtils;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +45,7 @@ public class ModelManagerImpl implements ModelManager {
      */
     private final RepositoryService repositoryService;
 
-    private static final ModelConverter<Model> modelConverter = new FlowableModelConverter();
+    private final FlowableModelConverter modelConverter;
 
     /**
      * 初始化模型
@@ -95,7 +93,7 @@ public class ModelManagerImpl implements ModelManager {
     public void updateModel(ModelUpdateBO modelUpdateBO) {
         Model model = repositoryService.getModel(modelUpdateBO.getModelId());
         if (null == model) {
-            throw new BusinessException("流程模型不存在！");
+            throw new WorkFlowException("流程模型不存在！");
         } else {
             model.setCategory(modelUpdateBO.getCategory());
             model.setMetaInfo(modelUpdateBO.getMetaInfo());
@@ -115,18 +113,25 @@ public class ModelManagerImpl implements ModelManager {
         ThrowUtils.notNull(model, "流程模型不存在！");
         BpmnModel bpmnModel = BpmnUtils.getBpmnModel(modelDesignBO.getBpmnXml());
         ThrowUtils.notNull(model, "获取模型设计失败！");
+        String processId = bpmnModel.getMainProcess().getId();
         String processName = bpmnModel.getMainProcess().getName();
+        if (!StringUtils.equals(model.getKey(), processId)) {
+            throw new WorkFlowException("BPMN.xml错误， 流程模型标识与主流程id不一致！");
+        }
+        if (!StringUtils.equals(model.getName(), processName)) {
+            throw new WorkFlowException("BPMN.xml错误， 流程模型名称与主流程名称不一致！");
+        }
         Model newModel;
-        if (Boolean.TRUE.equals(modelDesignBO.getNewVersion())) {
+        if (modelDesignBO.getNewVersion()) {
             Integer latestVersion = repositoryService
                     .createModelQuery()
-                    .modelKey(model.getKey())
+                    .modelKey(processId)
                     .latestVersion()
                     .singleResult()
                     .getVersion();
             newModel = repositoryService.newModel();
+            newModel.setKey(processId);
             newModel.setName(processName);
-            newModel.setKey(model.getKey());
             newModel.setCategory(model.getCategory());
             newModel.setMetaInfo(model.getMetaInfo());
             newModel.setVersion(latestVersion + 1);

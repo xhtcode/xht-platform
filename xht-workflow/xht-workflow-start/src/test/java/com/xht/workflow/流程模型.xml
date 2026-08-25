@@ -2,7 +2,7 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
              xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
-             targetNamespace="http://www.taiji.com.cn/gov-workflow">
+           >
     <process id="ITEM_20003003" name="holiday" isExecutable="true">
         <startEvent id="Start_APPLY" name="开始"/>
         <userTask xmlns:flowable="http://flowable.org/bpmn" id="APPLY_SUBMIT" name="事项申请" flowable:dataType="ROLES"
