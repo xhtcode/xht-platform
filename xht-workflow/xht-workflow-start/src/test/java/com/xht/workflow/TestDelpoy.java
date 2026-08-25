@@ -3,6 +3,7 @@ package com.xht.workflow;
 import cn.hutool.core.io.IoUtil;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.repository.Deployment;
+import org.flowable.engine.repository.DeploymentQuery;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.repository.ProcessDefinitionQuery;
 import org.junit.jupiter.api.Test;
@@ -56,7 +57,7 @@ public class TestDelpoy {
     public void deleteDeployment() {
         List<Deployment> list = repositoryService.createDeploymentQuery().list();
         for (Deployment deployment : list) {
-            repositoryService.deleteDeployment(deployment.getId(), true);
+            repositoryService.deleteDeployment(deployment.getId());
         }
     }
 
@@ -69,6 +70,10 @@ public class TestDelpoy {
         for (ProcessDefinition processDefinition : list) {
             System.out.println(processDefinition.getName());
         }
+        DeploymentQuery deploymentQuery = repositoryService.createDeploymentQuery()
+                .deploymentEngineVersion("")
+                .processDefinitionKey("");
+
     }
 
 }

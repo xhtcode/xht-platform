@@ -28,8 +28,9 @@ public class ModelPageQueryBuilder extends BpmnPageQueryBuilder<ModelPageQueryBO
     protected String category;
 
     /**
-     * 构建流程模型更新参数
-     * @return 流程模型更新参数
+     * 构建模型查询参数
+     *
+     * @return 模型查询参数
      */
     public static ModelPageQueryBuilder builder() {
         return new ModelPageQueryBuilder();
@@ -71,7 +72,7 @@ public class ModelPageQueryBuilder extends BpmnPageQueryBuilder<ModelPageQueryBO
      * 填充查询参数
      */
     @Override
-    public ModelPageQueryBO createQueryData() {
+    protected ModelPageQueryBO createQueryData() {
         ModelPageQueryBO modelQuery = new ModelPageQueryBO();
         modelQuery.setModelName(modelName);
         modelQuery.setModelKey(modelKey);

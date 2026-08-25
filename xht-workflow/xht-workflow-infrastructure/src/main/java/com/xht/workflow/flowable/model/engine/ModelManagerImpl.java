@@ -6,7 +6,8 @@ import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.common.constant.BpmnConstant;
 import com.xht.workflow.common.exception.WorkFlowException;
-import com.xht.workflow.flowable.common.bo.BpmnOrder;
+import com.xht.workflow.flowable.common.BpmnSupplier;
+import com.xht.workflow.flowable.common.bo.BpmnPageQueryBO;
 import com.xht.workflow.flowable.model.ModelManager;
 import com.xht.workflow.flowable.model.common.*;
 import com.xht.workflow.flowable.model.converter.FlowableModelConverter;
@@ -15,6 +16,7 @@ import com.xht.workflow.flowable.utils.FlowableQueryUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.bpmn.model.BpmnModel;
+import org.flowable.common.engine.api.query.QueryProperty;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.impl.ModelQueryProperty;
 import org.flowable.engine.repository.Deployment;
@@ -24,10 +26,6 @@ import org.flowable.engine.repository.ProcessDefinition;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
-
-import java.util.List;
-import java.util.Objects;
 
 /**
  * 描述： 流程模型管理
@@ -197,7 +195,22 @@ public class ModelManagerImpl implements ModelManager {
     @Override
     public PageResponse<ModelDTO> findPage(ModelPageQueryBO query) {
         ModelQuery modelQuery = repositoryService.createModelQuery().latestVersion();
-        return basicQuery(modelQuery, query);
+        if (StringUtils.hasText(query.getModelName())) {
+            modelQuery.modelNameLike(FlowableQueryUtils.appendLikePrefix(query.getModelName()));
+        }
+        if (StringUtils.hasText(query.getModelKey())) {
+            modelQuery.modelKey(query.getModelKey());
+        }
+        if (StringUtils.hasText(query.getCategory())) {
+            modelQuery.modelCategoryLike(FlowableQueryUtils.appendLikePrefix(query.getCategory()));
+        }
+        FlowableQueryUtils.fillOrder(modelQuery, query, (BpmnSupplier<QueryProperty, String>) name -> switch (name) {
+            case "modelName" -> ModelQueryProperty.MODEL_NAME;
+            case "modelKey" -> ModelQueryProperty.MODEL_KEY;
+            case "lastUpdateTime" -> ModelQueryProperty.MODEL_LAST_UPDATE_TIME;
+            default -> ModelQueryProperty.MODEL_CREATE_TIME;
+        });
+        return FlowableQueryUtils.findPage(modelQuery, query, modelConverter::convert);
     }
 
     /**
@@ -208,51 +221,9 @@ public class ModelManagerImpl implements ModelManager {
      * @return 流程模型列表
      */
     @Override
-    public PageResponse<ModelDTO> historyPage(String modelId, ModelPageQueryBO query) {
+    public PageResponse<ModelDTO> historyPage(String modelId, BpmnPageQueryBO query) {
         Assert.hasText(modelId, "模型id不能为空");
-        ModelQuery modelQuery = repositoryService.createModelQuery().modelId(modelId);
-        return basicQuery(modelQuery, query);
-    }
-
-    /**
-     * 基本查询
-     *
-     * @param modelQuery 模型查询对象
-     * @param query      查询条件
-     * @return 流程模型列表
-     */
-    public PageResponse<ModelDTO> basicQuery(ModelQuery modelQuery, ModelPageQueryBO query) {
-        if (StringUtils.hasText(query.getModelName())) {
-            modelQuery.modelNameLike(FlowableQueryUtils.appendLikePrefix(query.getModelName()));
-        }
-        if (StringUtils.hasText(query.getModelKey())) {
-            modelQuery.modelKey(query.getModelKey());
-        }
-        if (StringUtils.hasText(query.getCategory())) {
-            modelQuery.modelCategoryLike(FlowableQueryUtils.appendLikePrefix(query.getCategory()));
-        }
-        List<BpmnOrder> orders = query.getOrders();
-        if (!CollectionUtils.isEmpty(orders)) {
-            for (BpmnOrder order : orders) {
-                ThrowUtils.notNull(order, "排序参数[orders]不能为空");
-                String name = order.getName();
-                BpmnOrder.BpmnOrderType orderType = Objects.isNull(order.getOrderType()) ? BpmnOrder.BpmnOrderType.ASC : order.getOrderType();
-                ThrowUtils.hasText(name, "排序字段不能为空");
-                ModelQueryProperty sortProperty = switch (name) {
-                    case "modelName" -> ModelQueryProperty.MODEL_NAME;
-                    case "modelKey" -> ModelQueryProperty.MODEL_KEY;
-                    case "lastUpdateTime" -> ModelQueryProperty.MODEL_LAST_UPDATE_TIME;
-                    default -> ModelQueryProperty.MODEL_CREATE_TIME;
-                };
-                // 映射前端字段 -> Flowable内置属性
-                modelQuery.orderBy(sortProperty);
-                if (orderType.equals(BpmnOrder.BpmnOrderType.DESC)) {
-                    modelQuery.desc();
-                } else {
-                    modelQuery.asc();
-                }
-            }
-        }
+        ModelQuery modelQuery = repositoryService.createModelQuery().modelId(modelId).orderByModelVersion().desc();
         return FlowableQueryUtils.findPage(modelQuery, query, modelConverter::convert);
     }
 

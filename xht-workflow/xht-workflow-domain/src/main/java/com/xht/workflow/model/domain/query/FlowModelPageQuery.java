@@ -1,6 +1,6 @@
 package com.xht.workflow.model.domain.query;
 
-import com.xht.framework.common.domain.query.PageBasicQuery;
+import com.xht.workflow.common.domain.query.WorkFlowPageQuery;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -11,7 +11,7 @@ import lombok.Data;
  **/
 @Data
 @Schema(description = "流程模型分页查询")
-public class FlowModelPageQuery extends PageBasicQuery {
+public class FlowModelPageQuery extends WorkFlowPageQuery {
 
     /**
      * 模型名称

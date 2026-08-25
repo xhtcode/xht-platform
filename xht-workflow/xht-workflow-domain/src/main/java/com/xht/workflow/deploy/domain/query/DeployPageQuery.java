@@ -1,21 +1,18 @@
-package com.xht.workflow.flowable.deploy.common;
+package com.xht.workflow.deploy.domain.query;
 
-import com.xht.workflow.flowable.common.bo.BpmnPageQueryBO;
 import com.xht.workflow.common.domain.enums.SuspendedStatus;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.xht.workflow.common.domain.query.WorkFlowPageQuery;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 /**
- * 描述： 部署业务对象
+ * 描述： 流程部署分页查询
  *
  * @author xht
  **/
-@Getter
-@Setter(AccessLevel.PUBLIC)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DeployPageQueryBO extends BpmnPageQueryBO {
+@Data
+@Schema(description = "流程部署分页查询")
+public class DeployPageQuery extends WorkFlowPageQuery {
 
     /**
      * 流程定义key

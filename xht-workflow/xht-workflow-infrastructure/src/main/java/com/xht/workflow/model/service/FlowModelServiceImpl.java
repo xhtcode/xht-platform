@@ -4,6 +4,7 @@ import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.SortTool;
 import com.xht.framework.utils.ThrowUtils;
+import com.xht.workflow.common.domain.query.WorkFlowPageQuery;
 import com.xht.workflow.definition.dao.IFlowDefinitionDao;
 import com.xht.workflow.definition.entity.FlowDefinitionEntity;
 import com.xht.workflow.flowable.common.bo.MetaInfoBO;
@@ -133,6 +134,7 @@ public class FlowModelServiceImpl implements IFlowModelService {
      */
     @Override
     public PageResponse<FlowModelResponse> findModelByPage(FlowModelPageQuery query) {
+        // @formatter:off
         ModelPageQueryBO modelPageQueryBO = ModelPageQueryBuilder.builder()
                 .category(query.getCategory())
                 .modelName(query.getModelName())
@@ -142,6 +144,7 @@ public class FlowModelServiceImpl implements IFlowModelService {
                 .asc(SortTool.getAscSort(query))
                 .desc(SortTool.getDescSort(query))
                 .build();
+        // @formatter:on
         PageResponse<ModelDTO> page = modelManager.findPage(modelPageQueryBO);
         return flowModelConverter.toResponse(page);
     }
@@ -153,16 +156,14 @@ public class FlowModelServiceImpl implements IFlowModelService {
      * @param query   流程模型查询参数
      */
     @Override
-    public PageResponse<FlowModelResponse> findHistoryModelByPage(String modelId, FlowModelPageQuery query) {
+    public PageResponse<FlowModelResponse> findHistoryModelByPage(String modelId, WorkFlowPageQuery query) {
+        // @formatter:off
         ModelPageQueryBO modelPageQueryBO = ModelPageQueryBuilder.builder()
-                .category(query.getCategory())
-                .modelName(query.getModelName())
-                .modelKey(query.getModelKey())
-                .current(query.getCurrent())
                 .size(query.getSize())
                 .asc(SortTool.getAscSort(query))
                 .desc(SortTool.getDescSort(query))
                 .build();
+        // @formatter:on
         PageResponse<ModelDTO> page = modelManager.historyPage(modelId, modelPageQueryBO);
         return flowModelConverter.toResponse(page);
     }

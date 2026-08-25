@@ -2,6 +2,7 @@ package com.xht.workflow.flowable.model;
 
 
 import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.workflow.flowable.common.bo.BpmnPageQueryBO;
 import com.xht.workflow.flowable.model.common.*;
 
 /**
@@ -71,7 +72,7 @@ public interface ModelManager {
      * @param query   查询条件
      * @return 流程模型列表
      */
-    PageResponse<ModelDTO> historyPage(String modelId, ModelPageQueryBO query);
+    PageResponse<ModelDTO> historyPage(String modelId, BpmnPageQueryBO query);
 
     /**
      * 根据模型id查询 BPMN xml

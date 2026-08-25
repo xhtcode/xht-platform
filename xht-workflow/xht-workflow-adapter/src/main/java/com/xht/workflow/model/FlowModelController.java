@@ -2,6 +2,7 @@ package com.xht.workflow.model;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.workflow.common.domain.query.WorkFlowPageQuery;
 import com.xht.workflow.model.domain.form.FlowModelDesignForm;
 import com.xht.workflow.model.domain.form.FlowModelInitForm;
 import com.xht.workflow.model.domain.form.FlowModelUpdateForm;
@@ -121,7 +122,7 @@ public class FlowModelController {
      */
     @Operation(summary = "分页查询流程模型")
     @GetMapping("/{modelId}/page")
-    public R<PageResponse<FlowModelResponse>> findHistoryModelByPage(@PathVariable("modelId") String modelId, FlowModelPageQuery pageQuery) {
+    public R<PageResponse<FlowModelResponse>> findHistoryModelByPage(@PathVariable("modelId") String modelId, WorkFlowPageQuery pageQuery) {
         return R.ok().build(flowModelService.findHistoryModelByPage(modelId, pageQuery));
     }
 

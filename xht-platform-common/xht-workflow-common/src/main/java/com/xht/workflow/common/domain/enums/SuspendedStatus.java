@@ -1,4 +1,4 @@
-package com.xht.workflow.flowable.common.enums;
+package com.xht.workflow.common.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.xht.framework.common.enums.XhtEnum;
