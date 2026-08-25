@@ -1,9 +1,9 @@
-package com.xht.workflow.deploy.converter;
+package com.xht.workflow.definition.converter;
 
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.mybatis.utils.PageTool;
-import com.xht.workflow.deploy.domain.response.ProcessDefinitionResponse;
-import com.xht.workflow.flowable.deploy.common.ProcessDefinitionDTO;
+import com.xht.workflow.definition.domain.response.ProcessDefinitionResponse;
+import com.xht.workflow.flowable.definition.common.ProcessDefinitionDTO;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @author xht
  **/
 @Component
-public class FlowDeployConverter {
+public class FlowProcessDefinitionConverter {
 
     /**
      * 将流程定义DTO转换为流程定义响应对象

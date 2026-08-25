@@ -25,11 +25,11 @@ public abstract class FlowableQueryUtils {
      * 填充排序参数
      *
      * @param query        查询对象
-     * @param queryBO      分页查询参数
+     * @param bpmnPageQueryBO      分页查询参数
      * @param bpmnSupplier 查询结果转换函数
      */
-    public static <T extends Query<?, ?>, U, E extends QueryProperty> void fillOrder(Query<T, U> query, BpmnPageQueryBO queryBO, BpmnSupplier<E, String> bpmnSupplier) {
-        List<BpmnOrder> orders = queryBO.getOrders();
+    public static <T extends Query<?, ?>, U, E extends QueryProperty> void fillOrder(Query<T, U> query, BpmnPageQueryBO bpmnPageQueryBO, BpmnSupplier<E, String> bpmnSupplier) {
+        List<BpmnOrder> orders = bpmnPageQueryBO.getOrders();
         if (!CollectionUtils.isEmpty(orders)) {
             for (BpmnOrder order : orders) {
                 ThrowUtils.notNull(order, "排序参数[orders]不能为空");
@@ -53,10 +53,10 @@ public abstract class FlowableQueryUtils {
      *
      * @param query         查询对象
      * @param bpmnPageQueryBO 分页查询参数
-     * @param function      查询结果转换函数
+     * @param bpmnSupplier      查询结果转换函数
      * @return 分页查询结果
      */
-    public static <T extends Query<?, ?>, U, E> PageResponse<E> findPage(Query<T, U> query, BpmnPageQueryBO bpmnPageQueryBO, BpmnSupplier<List<E>, List<U>> function) {
+    public static <T extends Query<?, ?>, U, E> PageResponse<E> findPage(Query<T, U> query, BpmnPageQueryBO bpmnPageQueryBO, BpmnSupplier<List<E>, List<U>> bpmnSupplier) {
         int current = bpmnPageQueryBO.getCurrent();
         int size = bpmnPageQueryBO.getSize();
         long totalPage = query.count();
@@ -70,7 +70,7 @@ public abstract class FlowableQueryUtils {
         pageResponse.setSize(size);
         pageResponse.setPages(maxPageSize);
         pageResponse.setTotal(totalPage);
-        pageResponse.setRecords(function.get(models));
+        pageResponse.setRecords(bpmnSupplier.get(models));
         return pageResponse;
     }
 

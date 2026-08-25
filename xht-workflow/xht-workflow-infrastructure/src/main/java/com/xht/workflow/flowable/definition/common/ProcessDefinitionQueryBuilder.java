@@ -1,4 +1,4 @@
-package com.xht.workflow.flowable.deploy.common;
+package com.xht.workflow.flowable.definition.common;
 
 import com.xht.workflow.common.domain.enums.SuspendedStatus;
 import com.xht.workflow.flowable.common.bulder.BpmnPageQueryBuilder;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
  * @author xht
  **/
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DeployPageQueryBuilder extends BpmnPageQueryBuilder<DeployPageQueryBO> {
+public class ProcessDefinitionQueryBuilder extends BpmnPageQueryBuilder<ProcessDefinitionPageQueryBO> {
 
     /**
      * 流程定义key
@@ -38,8 +38,8 @@ public class DeployPageQueryBuilder extends BpmnPageQueryBuilder<DeployPageQuery
      *
      * @return 部署分页查询参数
      */
-    public static DeployPageQueryBuilder builder() {
-        return new DeployPageQueryBuilder();
+    public static ProcessDefinitionQueryBuilder builder() {
+        return new ProcessDefinitionQueryBuilder();
     }
 
     /**
@@ -48,7 +48,7 @@ public class DeployPageQueryBuilder extends BpmnPageQueryBuilder<DeployPageQuery
      * @param processDefinitionKey 流程定义key
      * @return 构建者本身
      */
-    public DeployPageQueryBuilder processDefinitionKey(String processDefinitionKey) {
+    public ProcessDefinitionQueryBuilder processDefinitionKey(String processDefinitionKey) {
         this.processDefinitionKey = processDefinitionKey;
         return this;
     }
@@ -59,7 +59,7 @@ public class DeployPageQueryBuilder extends BpmnPageQueryBuilder<DeployPageQuery
      * @param processDefinitionName 流程定义名称
      * @return 构建者本身
      */
-    public DeployPageQueryBuilder processDefinitionName(String processDefinitionName) {
+    public ProcessDefinitionQueryBuilder processDefinitionName(String processDefinitionName) {
         this.processDefinitionName = processDefinitionName;
         return this;
     }
@@ -70,7 +70,7 @@ public class DeployPageQueryBuilder extends BpmnPageQueryBuilder<DeployPageQuery
      * @param processDefinitionCategory 流程定义分类
      * @return 构建者本身
      */
-    public DeployPageQueryBuilder processDefinitionCategory(String processDefinitionCategory) {
+    public ProcessDefinitionQueryBuilder processDefinitionCategory(String processDefinitionCategory) {
         this.processDefinitionCategory = processDefinitionCategory;
         return this;
     }
@@ -81,7 +81,7 @@ public class DeployPageQueryBuilder extends BpmnPageQueryBuilder<DeployPageQuery
      * @param suspended 流程状态
      * @return 构建者本身
      */
-    public DeployPageQueryBuilder suspended(SuspendedStatus suspended) {
+    public ProcessDefinitionQueryBuilder suspended(SuspendedStatus suspended) {
         this.suspended = suspended;
         return this;
     }
@@ -91,8 +91,8 @@ public class DeployPageQueryBuilder extends BpmnPageQueryBuilder<DeployPageQuery
      * 填充查询参数
      */
     @Override
-    protected DeployPageQueryBO createQueryData() {
-        DeployPageQueryBO queryBO = new DeployPageQueryBO();
+    protected ProcessDefinitionPageQueryBO createQueryData() {
+        ProcessDefinitionPageQueryBO queryBO = new ProcessDefinitionPageQueryBO();
         queryBO.setProcessDefinitionKey(processDefinitionKey);
         queryBO.setProcessDefinitionName(processDefinitionName);
         queryBO.setProcessDefinitionCategory(processDefinitionCategory);

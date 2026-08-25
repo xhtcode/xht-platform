@@ -1,7 +1,7 @@
-package com.xht.workflow.flowable.deploy.converter;
+package com.xht.workflow.flowable.definition.converter;
 
 import com.xht.workflow.common.domain.enums.SuspendedStatus;
-import com.xht.workflow.flowable.deploy.common.ProcessDefinitionDTO;
+import com.xht.workflow.flowable.definition.common.ProcessDefinitionDTO;
 import com.xht.workflow.flowable.utils.FlowableDateUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class FlowableDeployConverter implements DeployConverter<ProcessDefinition> {
+public class FlowableProcessDefinitionConverter implements ProcessDefinitionConverter<ProcessDefinition> {
 
     private final RepositoryService repositoryService;
 

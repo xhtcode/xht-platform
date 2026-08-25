@@ -1,12 +1,12 @@
-package com.xht.workflow.flowable.deploy.engine;
+package com.xht.workflow.flowable.definition.engine;
 
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.workflow.common.domain.enums.SuspendedStatus;
 import com.xht.workflow.flowable.common.BpmnSupplier;
-import com.xht.workflow.flowable.deploy.DeployManager;
-import com.xht.workflow.flowable.deploy.common.DeployPageQueryBO;
-import com.xht.workflow.flowable.deploy.common.ProcessDefinitionDTO;
-import com.xht.workflow.flowable.deploy.converter.FlowableDeployConverter;
+import com.xht.workflow.flowable.definition.ProcessDefinitionManager;
+import com.xht.workflow.flowable.definition.common.ProcessDefinitionPageQueryBO;
+import com.xht.workflow.flowable.definition.common.ProcessDefinitionDTO;
+import com.xht.workflow.flowable.definition.converter.FlowableProcessDefinitionConverter;
 import com.xht.workflow.flowable.utils.FlowableQueryUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,64 +29,64 @@ import java.util.Objects;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DeployManagerImpl implements DeployManager {
+public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
     private final RepositoryService repositoryService;
 
-    private final FlowableDeployConverter flowableDeployConverter;
+    private final FlowableProcessDefinitionConverter flowableDeployConverter;
 
 
     /**
      * 分页查询流程定义
      *
-     * @param query 查询条件
+     * @param processDefinitionPageQueryBO 查询条件
      * @return 分页流程定义列表
      */
-    public PageResponse<ProcessDefinitionDTO> findPage(DeployPageQueryBO query) {
+    public PageResponse<ProcessDefinitionDTO> findPage(ProcessDefinitionPageQueryBO processDefinitionPageQueryBO) {
         ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery().latestVersion();
-        String processDefinitionKey = query.getProcessDefinitionKey();
+        String processDefinitionKey = processDefinitionPageQueryBO.getProcessDefinitionKey();
         if (StringUtils.hasText(processDefinitionKey)) {
             processDefinitionQuery.processDefinitionKeyLike(FlowableQueryUtils.appendLikePrefix(processDefinitionKey));
         }
-        String processDefinitionName = query.getProcessDefinitionName();
+        String processDefinitionName = processDefinitionPageQueryBO.getProcessDefinitionName();
         if (StringUtils.hasText(processDefinitionName)) {
             processDefinitionQuery.processDefinitionNameLike(FlowableQueryUtils.appendLikePrefix(processDefinitionName));
         }
-        String processDefinitionCategory = query.getProcessDefinitionCategory();
+        String processDefinitionCategory = processDefinitionPageQueryBO.getProcessDefinitionCategory();
         if (StringUtils.hasText(processDefinitionCategory)) {
             processDefinitionQuery.processDefinitionCategory(processDefinitionCategory);
         }
-        SuspendedStatus suspended = query.getSuspended();
+        SuspendedStatus suspended = processDefinitionPageQueryBO.getSuspended();
         if (Objects.equals(suspended, SuspendedStatus.ACTIVE)) {
             processDefinitionQuery.active();
         }
         if (Objects.equals(suspended, SuspendedStatus.SUSPENDED)) {
             processDefinitionQuery.suspended();
         }
-        FlowableQueryUtils.fillOrder(processDefinitionQuery, query, (BpmnSupplier<QueryProperty, String>) name -> switch (name) {
+        FlowableQueryUtils.fillOrder(processDefinitionQuery, processDefinitionPageQueryBO, (BpmnSupplier<QueryProperty, String>) name -> switch (name) {
             case "processDefinitionName" -> ProcessDefinitionQueryProperty.PROCESS_DEFINITION_NAME;
             case "processDefinitionKey" -> ProcessDefinitionQueryProperty.PROCESS_DEFINITION_KEY;
             case "processDefinitionCategory" -> ProcessDefinitionQueryProperty.PROCESS_DEFINITION_CATEGORY;
             case "processDefinitionVersion" -> ProcessDefinitionQueryProperty.PROCESS_DEFINITION_VERSION;
             default -> ProcessDefinitionQueryProperty.DEPLOYMENT_ID;
         });
-        return FlowableQueryUtils.findPage(processDefinitionQuery, query, flowableDeployConverter::convert);
+        return FlowableQueryUtils.findPage(processDefinitionQuery, processDefinitionPageQueryBO, flowableDeployConverter::convert);
     }
 
     /**
      * 分页查询历史流程定义
      *
      * @param processDefKey 流程定义key
-     * @param query         查询条件
+     * @param processDefinitionPageQueryBO         查询条件
      * @return 分页流程定义列表
      */
     @Override
-    public PageResponse<ProcessDefinitionDTO> historyPage(String processDefKey, DeployPageQueryBO query) {
+    public PageResponse<ProcessDefinitionDTO> historyPage(String processDefKey, ProcessDefinitionPageQueryBO processDefinitionPageQueryBO) {
         ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery()
                 .processDefinitionKey(processDefKey)
                 .orderByProcessDefinitionVersion()
                 .desc();
-        return FlowableQueryUtils.findPage(processDefinitionQuery, query, flowableDeployConverter::convert);
+        return FlowableQueryUtils.findPage(processDefinitionQuery, processDefinitionPageQueryBO, flowableDeployConverter::convert);
     }
 
     /**

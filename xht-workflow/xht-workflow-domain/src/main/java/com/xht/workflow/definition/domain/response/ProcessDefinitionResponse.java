@@ -1,4 +1,4 @@
-package com.xht.workflow.deploy.domain.response;
+package com.xht.workflow.definition.domain.response;
 
 import com.xht.workflow.common.domain.enums.SuspendedStatus;
 import com.xht.workflow.common.domain.response.WorkFlowResponse;

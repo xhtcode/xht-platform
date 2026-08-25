@@ -1,4 +1,4 @@
-package com.xht.workflow.flowable.deploy.common;
+package com.xht.workflow.flowable.definition.common;
 
 import com.xht.workflow.flowable.common.dto.BpmnDTO;
 import com.xht.workflow.common.domain.enums.SuspendedStatus;
