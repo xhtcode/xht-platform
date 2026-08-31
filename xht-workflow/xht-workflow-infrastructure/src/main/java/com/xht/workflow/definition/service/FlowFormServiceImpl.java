@@ -7,7 +7,7 @@ import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.definition.converter.FlowFormConverter;
-import com.xht.workflow.definition.dao.IFlowFormDao;
+import com.xht.workflow.definition.dao.FlowFormDao;
 import com.xht.workflow.definition.domain.form.FlowFormForm;
 import com.xht.workflow.definition.domain.query.FlowFormPageQuery;
 import com.xht.workflow.definition.domain.response.FlowFormResponse;
@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class FlowFormServiceImpl implements IFlowFormService {
 
-    private final IFlowFormDao flowFormDao;
+    private final FlowFormDao flowFormDao;
 
     private final FlowFormConverter flowFormConverter;
 

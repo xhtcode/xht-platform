@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.workflow.definition.dao.IFlowItemDefDao;
+import com.xht.workflow.definition.dao.FlowItemDefDao;
 import com.xht.workflow.definition.dao.mapper.FlowItemDefMapper;
 import com.xht.workflow.definition.domain.form.FlowItemDefForm;
 import com.xht.workflow.definition.domain.query.FlowItemDefPageQuery;
@@ -29,7 +29,7 @@ import static com.xht.workflow.common.constant.CategoryConstant.DEFAULT_CATEGORY
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class FlowItemDefDaoImpl extends MapperRepositoryImpl<FlowItemDefMapper, FlowItemDefEntity> implements IFlowItemDefDao {
+public class FlowItemDefDaoImpl extends MapperRepositoryImpl<FlowItemDefMapper, FlowItemDefEntity> implements FlowItemDefDao {
 
     @Override
     protected SFunction<FlowItemDefEntity, ?> getFieldId() {

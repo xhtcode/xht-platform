@@ -11,7 +11,7 @@ import com.xht.workflow.definition.entity.FlowItemProcessEntity;
  *
  * @author xht
  */
-public interface IFlowItemProcessDao extends MapperRepository<FlowItemProcessEntity> {
+public interface FlowItemProcessDao extends MapperRepository<FlowItemProcessEntity> {
 
     /**
      * 更新流程定义信息

@@ -11,7 +11,7 @@ import com.xht.workflow.sequence.entity.FlowSequenceEntity;
  *
  * @author xht
  **/
-public interface IFlowSequenceDao extends MapperRepository<FlowSequenceEntity> {
+public interface FlowSequenceDao extends MapperRepository<FlowSequenceEntity> {
 
     /**
      * 根据序列id修改 序列

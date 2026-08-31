@@ -1,7 +1,7 @@
 package com.xht.workflow.definition.service;
 
 import com.xht.workflow.definition.converter.FlowDefinitionConverter;
-import com.xht.workflow.definition.dao.IFlowItemDefDao;
+import com.xht.workflow.definition.dao.FlowItemDefDao;
 import com.xht.workflow.definition.domain.response.FlowItemDefResponse;
 import com.xht.workflow.definition.enums.FlowDefinitionStatusEnum;
 import com.xht.workflow.common.constant.CategoryConstant;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FlowApplyServiceImpl implements IFlowApplyService {
 
-    private final IFlowItemDefDao flowCategoryDao;
+    private final FlowItemDefDao flowCategoryDao;
 
     private final FlowDefinitionConverter flowDefinitionConverter;
 

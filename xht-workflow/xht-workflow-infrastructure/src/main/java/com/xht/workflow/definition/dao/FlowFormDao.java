@@ -11,7 +11,7 @@ import com.xht.workflow.definition.entity.FlowFormEntity;
  *
  * @author xht
  */
-public interface IFlowFormDao extends MapperRepository<FlowFormEntity> {
+public interface FlowFormDao extends MapperRepository<FlowFormEntity> {
 
     /**
      * 更新表单信息

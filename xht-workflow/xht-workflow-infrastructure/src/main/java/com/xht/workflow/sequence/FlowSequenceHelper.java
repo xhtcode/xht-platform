@@ -1,7 +1,7 @@
 package com.xht.workflow.sequence;
 
 import com.xht.workflow.common.exception.WorkFlowException;
-import com.xht.workflow.sequence.dao.IFlowSequenceDao;
+import com.xht.workflow.sequence.dao.FlowSequenceDao;
 import com.xht.workflow.sequence.entity.FlowSequenceEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class FlowSequenceHelper {
 
-    private final IFlowSequenceDao flowSequenceDao;
+    private final FlowSequenceDao flowSequenceDao;
 
     // ==================== 正则字符串常量（split分割用） ====================
     /**

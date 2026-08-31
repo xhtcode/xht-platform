@@ -7,7 +7,8 @@ import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.definition.converter.FlowItemProcessConverter;
-import com.xht.workflow.definition.dao.IFlowItemProcessDao;
+import com.xht.workflow.definition.dao.FlowItemDefDao;
+import com.xht.workflow.definition.dao.FlowItemProcessDao;
 import com.xht.workflow.definition.domain.form.FlowItemProcessForm;
 import com.xht.workflow.definition.domain.query.FlowItemProcessPageQuery;
 import com.xht.workflow.definition.domain.response.FlowItemProcessResponse;
@@ -27,7 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class FlowItemProcessServiceImpl implements IFlowItemProcessService {
 
-    private final IFlowItemProcessDao flowItemProcessDao;
+    private final FlowItemDefDao flowItemDefDao;
+
+    private final FlowItemProcessDao flowItemProcessDao;
 
     private final FlowItemProcessConverter flowItemProcessConverter;
 

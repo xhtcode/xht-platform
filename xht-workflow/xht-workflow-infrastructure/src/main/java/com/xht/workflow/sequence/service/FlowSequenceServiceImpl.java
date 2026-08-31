@@ -7,7 +7,7 @@ import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.workflow.sequence.converter.FlowSequenceConverter;
-import com.xht.workflow.sequence.dao.IFlowSequenceDao;
+import com.xht.workflow.sequence.dao.FlowSequenceDao;
 import com.xht.workflow.sequence.domain.form.FlowSequenceForm;
 import com.xht.workflow.sequence.domain.query.FlowSequencePageQuery;
 import com.xht.workflow.sequence.domain.response.FlowSequenceResponse;
@@ -28,7 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FlowSequenceServiceImpl implements IFlowSequenceService {
 
-    private final IFlowSequenceDao flowSequenceDao;
+    private final FlowSequenceDao flowSequenceDao;
 
     private final FlowSequenceConverter flowSequenceConverter;
 

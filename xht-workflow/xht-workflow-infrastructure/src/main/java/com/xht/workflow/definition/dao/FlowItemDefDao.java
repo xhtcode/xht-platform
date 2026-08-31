@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author xht
  */
-public interface IFlowItemDefDao extends MapperRepository<FlowItemDefEntity> {
+public interface FlowItemDefDao extends MapperRepository<FlowItemDefEntity> {
 
     /**
      * 更新

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.workflow.definition.dao.IFlowFormDao;
+import com.xht.workflow.definition.dao.FlowFormDao;
 import com.xht.workflow.definition.dao.mapper.FlowFormMapper;
 import com.xht.workflow.definition.domain.form.FlowFormForm;
 import com.xht.workflow.definition.domain.query.FlowFormPageQuery;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 @Repository
-public class FlowFormDaoImpl extends MapperRepositoryImpl<FlowFormMapper, FlowFormEntity> implements IFlowFormDao {
+public class FlowFormDaoImpl extends MapperRepositoryImpl<FlowFormMapper, FlowFormEntity> implements FlowFormDao {
 
     @Override
     protected SFunction<FlowFormEntity, ?> getFieldId() {

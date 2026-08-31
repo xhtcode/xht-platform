@@ -5,7 +5,7 @@ import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.SortTool;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.common.domain.query.WorkFlowPageQuery;
-import com.xht.workflow.definition.dao.IFlowItemDefDao;
+import com.xht.workflow.definition.dao.FlowItemDefDao;
 import com.xht.workflow.definition.entity.FlowItemDefEntity;
 import com.xht.workflow.flowable.common.bo.MetaInfoBO;
 import com.xht.workflow.flowable.model.ModelManager;
@@ -35,7 +35,7 @@ public class FlowModelServiceImpl implements IFlowModelService {
 
     private final ModelManager modelManager;
 
-    private final IFlowItemDefDao flowCategoryDao;
+    private final FlowItemDefDao flowCategoryDao;
 
     private final FlowModelConverter flowModelConverter;
 

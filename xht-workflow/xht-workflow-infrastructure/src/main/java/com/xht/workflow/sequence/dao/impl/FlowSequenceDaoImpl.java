@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.workflow.sequence.dao.IFlowSequenceDao;
+import com.xht.workflow.sequence.dao.FlowSequenceDao;
 import com.xht.workflow.sequence.dao.mapper.FlowSequenceMapper;
 import com.xht.workflow.sequence.domain.form.FlowSequenceForm;
 import com.xht.workflow.sequence.domain.query.FlowSequencePageQuery;
@@ -25,7 +25,7 @@ import java.util.Objects;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class FlowSequenceDaoImpl extends MapperRepositoryImpl<FlowSequenceMapper, FlowSequenceEntity> implements IFlowSequenceDao {
+public class FlowSequenceDaoImpl extends MapperRepositoryImpl<FlowSequenceMapper, FlowSequenceEntity> implements FlowSequenceDao {
 
     /**
      * 获取主键字段名
