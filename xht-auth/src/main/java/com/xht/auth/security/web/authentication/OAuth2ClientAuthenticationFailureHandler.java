@@ -1,7 +1,7 @@
 package com.xht.auth.security.web.authentication;
 
 import com.xht.auth.security.web.OAuth2ErrorHelper;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.oauth2.token.response.Oauth2ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,7 +40,7 @@ public class OAuth2ClientAuthenticationFailureHandler implements AuthenticationF
         oauth2ErrorResponse.setError(error.getErrorCode());
         oauth2ErrorResponse.setErrorDescription(oAuth2ErrorHelper.getMessage());
         oauth2ErrorResponse.setErrorUri(error.getUri());
-        ServletUtil.writeJson(response, unauthorized, oauth2ErrorResponse);
+        ServletUtils.writeJson(response, unauthorized, oauth2ErrorResponse);
     }
 
 }

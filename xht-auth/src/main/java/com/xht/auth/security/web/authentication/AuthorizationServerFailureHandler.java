@@ -4,7 +4,7 @@ import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.auth.security.LoginLogUtils;
 import com.xht.auth.security.web.authentication.qr.exception.QyLoginException;
 import com.xht.framework.common.domain.R;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.security.exception.BasicAuthenticationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,7 +38,7 @@ public class AuthorizationServerFailureHandler implements AuthenticationFailureH
             errorMessage = exception.getMessage();
         }
         LoginLogUtils.saveErrorLog(request, authenticationRequest, errorMessage);
-        ServletUtil.writeJson(response, R.error().msg(errorMessage).build());
+        ServletUtils.writeJson(response, R.error().msg(errorMessage).build());
     }
 
 }

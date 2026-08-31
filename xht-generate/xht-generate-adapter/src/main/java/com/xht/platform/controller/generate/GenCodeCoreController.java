@@ -2,11 +2,11 @@ package com.xht.platform.controller.generate;
 
 import cn.hutool.core.io.IoUtil;
 import com.xht.framework.common.constant.HttpConstants;
+import com.xht.framework.common.constant.StringConstant;
 import com.xht.framework.common.domain.R;
-import com.xht.framework.common.enums.CharacterEnum;
 import com.xht.platform.generate.domain.form.GenCodeCoreForm;
-import com.xht.platform.generate.service.IGenCodeCoreService;
 import com.xht.platform.generate.domain.vo.GenCodeCoreVO;
+import com.xht.platform.generate.service.IGenCodeCoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
@@ -47,7 +47,7 @@ public class GenCodeCoreController {
     public void generateCode(@Validated @RequestBody GenCodeCoreForm genCodeCoreForm, HttpServletResponse response) throws IOException {
         byte[] bytes = genCodeCoreService.generateCode(genCodeCoreForm);
         response.reset();
-        String fileName = String.format("%s.zip", URLEncoder.encode("代码下载", CharacterEnum.UTF_8.getValue()));
+        String fileName = String.format("%s.zip", URLEncoder.encode("代码下载", StringConstant.UTF_8));
         response.setHeader(HttpConstants.Header.DOWNLOAD_FILE.getValue(), fileName);
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=%s", fileName));
         response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(bytes.length));

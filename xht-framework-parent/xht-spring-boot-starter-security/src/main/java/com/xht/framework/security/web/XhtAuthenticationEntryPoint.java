@@ -2,7 +2,7 @@ package com.xht.framework.security.web;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.exception.code.GlobalErrorStatusCode;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class XhtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             error = unauthorized.getMsg();
         }
         log.debug("身份验证失败处理器: url={} ex_class={} message={}", request.getRequestURI(), authException.getClass().getName(), error, authException);
-        ServletUtil.writeJson(response, HttpStatus.UNAUTHORIZED, R
+        ServletUtils.writeJson(response, HttpStatus.UNAUTHORIZED, R
                 .ok()
                 .info(unauthorized)
                 .msg(error)

@@ -2,7 +2,7 @@ package com.xht.framework.security.aspect;
 
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.core.properties.SecurityHeaderProperties;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.framework.security.exception.IgnoreAuthException;
@@ -47,7 +47,7 @@ public class IgnoreAuthAspect implements Ordered {
             ignoreAuth = AnnotationUtils.findAnnotation(clazz, IgnoreAuth.class);
         }
         if (Objects.nonNull(ignoreAuth)) {
-            HttpServletRequest request = ServletUtil.getHttpServletRequest();
+            HttpServletRequest request = ServletUtils.getHttpServletRequest();
             ThrowUtils.notNull(request, "request cannot be null");
             String authValue = request.getHeader(securityHeaderProperties.getAuthKey());
             // 内部请求验证

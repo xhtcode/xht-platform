@@ -5,7 +5,7 @@ import com.xht.auth.consent.dao.ISysOauth2AuthorizationConsentDao;
 import com.xht.auth.consent.entity.SysOauth2AuthorizationConsentEntity;
 import com.xht.auth.security.oauth2.server.authorization.client.Oauth2RegisteredClientRepository;
 import com.xht.framework.security.core.device.provider.DeviceCodeProvider;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -54,7 +54,7 @@ public class MyBatisOAuth2AuthorizationConsentService implements OAuth2Authoriza
     @Transactional(rollbackFor = Exception.class)
     public void save(OAuth2AuthorizationConsent authorizationConsent) {
         Assert.notNull(authorizationConsent, "授权确认信息 不能是空的");
-        HttpServletRequest servletRequest = ServletUtil.getHttpServletRequest();
+        HttpServletRequest servletRequest = ServletUtils.getHttpServletRequest();
         String deviceCode = deviceCodeProvider.generateDeviceCode(servletRequest);
         SysOauth2AuthorizationConsentEntity entity = new SysOauth2AuthorizationConsentEntity();
         String registeredClientId = authorizationConsent.getRegisteredClientId();
@@ -101,7 +101,7 @@ public class MyBatisOAuth2AuthorizationConsentService implements OAuth2Authoriza
     public OAuth2AuthorizationConsent findById(String registeredClientId, String principalName) {
         Assert.hasText(registeredClientId, "客户端的id 不能是空的");
         Assert.hasText(principalName, "主体名称 不能是空的");
-        HttpServletRequest servletRequest = ServletUtil.getHttpServletRequest();
+        HttpServletRequest servletRequest = ServletUtils.getHttpServletRequest();
         String deviceCode = deviceCodeProvider.generateDeviceCode(servletRequest);
         List<SysOauth2AuthorizationConsentEntity> entityList = iSysOauth2AuthorizationConsentDao
                 .findByRegisteredClientIdAndPrincipalName(registeredClientId, principalName, deviceCode);

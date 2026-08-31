@@ -4,7 +4,7 @@ import com.xht.auth.security.web.authentication.qr.domain.QrCodeInfo;
 import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnum;
 import com.xht.auth.security.web.authentication.qr.exception.QyLoginException;
 import com.xht.framework.common.domain.R;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import jakarta.servlet.FilterChain;
@@ -61,10 +61,10 @@ public class QrCodeConsentAuthenticationFilter extends QrCodeAbstractAuthenticat
             // 存储用户信息 更新二维码信息
             qrDataManager.saveUserData(qrCodeInfo, user);
             qrDataManager.updateQrCodeInfo(qrCodeInfo);
-            ServletUtil.writeJson(response, R.ok().msg("用户授权成功").build());
+            ServletUtils.writeJson(response, R.ok().msg("用户授权成功").build());
         } catch (Exception e) {
             log.error("二维码登录授权异常 {}", e.getMessage(), e);
-            ServletUtil.writeJson(response, R.error().msg(e.getMessage()).build());
+            ServletUtils.writeJson(response, R.error().msg(e.getMessage()).build());
         }
     }
 

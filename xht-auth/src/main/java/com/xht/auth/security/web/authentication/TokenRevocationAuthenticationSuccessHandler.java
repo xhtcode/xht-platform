@@ -1,7 +1,7 @@
 package com.xht.auth.security.web.authentication;
 
 import com.xht.framework.common.domain.R;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +27,6 @@ public class TokenRevocationAuthenticationSuccessHandler implements Authenticati
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         log.debug("token 注销成功处理器");
-        ServletUtil.writeJson(response, R.ok().msg("token 注销成功").build());
+        ServletUtils.writeJson(response, R.ok().msg("token 注销成功").build());
     }
 }

@@ -1,7 +1,7 @@
 package com.xht.auth.security.web.authentication;
 
 import com.xht.framework.common.domain.R;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +20,6 @@ public class TokenRevocationAuthenticationFailureHandler implements Authenticati
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
         String message = String.format("token注销失败:%s", exception.getMessage());
         log.error("token 注销失败处理器:{}", message, exception);
-        ServletUtil.writeJson(response, R.error().msg(message).build());
+        ServletUtils.writeJson(response, R.error().msg(message).build());
     }
 }

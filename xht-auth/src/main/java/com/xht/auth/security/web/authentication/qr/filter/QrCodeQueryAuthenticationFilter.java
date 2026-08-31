@@ -5,7 +5,7 @@ import com.xht.auth.security.web.authentication.qr.domain.response.QrCodeLoginFe
 import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnum;
 import com.xht.auth.security.web.authentication.qr.exception.QyLoginException;
 import com.xht.framework.common.domain.R;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -51,7 +51,7 @@ public class QrCodeQueryAuthenticationFilter extends QrCodeAbstractAuthenticatio
             QrCodeInfo qrCodeInfo = qrDataManager.getQrCodeInfo(qrCodeId).orElse(null);
             // 无效二维码或二维码已过期
             if (Objects.isNull(qrCodeInfo)) {
-                ServletUtil.writeJson(response, R.error().msg("无效二维码").build(createQrCodeResponse(null, null)));
+                ServletUtils.writeJson(response, R.error().msg("无效二维码").build(createQrCodeResponse(null, null)));
                 return;
             }
             boolean qrCodeExpire = qrCodeInfo.getExpiresTime().isBefore(LocalDateTime.now());
@@ -59,15 +59,15 @@ public class QrCodeQueryAuthenticationFilter extends QrCodeAbstractAuthenticatio
                 qrCodeInfo.setQrCodeStatus(QrCodeStatusEnum.EXPIRED);
                 qrDataManager.removeQrInfo(qrCodeInfo);
                 // 二维码已过期
-                ServletUtil.writeJson(response, R.error().msg("二维码已到期").build(createQrCodeResponse(qrCodeInfo, null)));
+                ServletUtils.writeJson(response, R.error().msg("二维码已到期").build(createQrCodeResponse(qrCodeInfo, null)));
                 return;
             }
             if (Objects.equals(qrCodeInfo.getQrCodeStatus(), QrCodeStatusEnum.WAITING)) {
-                ServletUtil.writeJson(response, R.ok().build(createQrCodeResponse(qrCodeInfo, null)));
+                ServletUtils.writeJson(response, R.ok().build(createQrCodeResponse(qrCodeInfo, null)));
                 return;
             }
             if (Objects.equals(qrCodeInfo.getQrCodeStatus(), QrCodeStatusEnum.SCANNED)) {
-                ServletUtil.writeJson(response, R.ok().build(createQrCodeResponse(qrCodeInfo, null)));
+                ServletUtils.writeJson(response, R.ok().build(createQrCodeResponse(qrCodeInfo, null)));
                 return;
             }
             BasicUserDetails userData = qrDataManager.getUserData(qrCodeInfo);

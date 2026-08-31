@@ -1,7 +1,6 @@
 package com.xht.auth.security.oauth2.client;
 
-import com.xht.auth.security.oauth2.client.userinfo.XhtDefaultOAuth2UserService;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,7 +28,7 @@ public class CustomOAuth2LoginConfigurer implements Customizer<OAuth2LoginConfig
             @Override
             public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
                 exception.printStackTrace();
-                ServletUtil.writeJson(response, exception.getMessage());
+                ServletUtils.writeJson(response, exception.getMessage());
             }
         });
     }

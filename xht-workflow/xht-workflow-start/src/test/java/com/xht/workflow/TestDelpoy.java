@@ -1,6 +1,9 @@
 package com.xht.workflow;
 
 import cn.hutool.core.io.IoUtil;
+import com.xht.workflow.flowable.utils.BpmnUtils;
+import org.flowable.bpmn.model.BpmnModel;
+import org.flowable.bpmn.model.Process;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.DeploymentQuery;
@@ -38,12 +41,14 @@ public class TestDelpoy {
     @Test
     public void testDeployment() {
         String xml = IoUtil.readUtf8(FILE_INPUT_STREAM);
+        BpmnModel bpmnModel = BpmnUtils.getBpmnModel(xml);
+        Process mainProcess = bpmnModel.getMainProcess();
         for (int i = 0; i < 10; i++) {
             Deployment holiday = repositoryService.createDeployment()
-                    .name("测试部署")
+                    .name(mainProcess.getName())
                     .category("category")
-                    .key("key")
-                    .addString("holiday.bpmn20.xml", xml).deploy();
+                    .key(mainProcess.getId())
+                    .addString("测试流程.bpmn20.xml", xml).deploy();
             System.out.println(i + "部署成功" + holiday.getId() + "name:\t" + holiday.getKey());
             // 查询刚部署出来的流程定义，验证是否生成
             ProcessDefinition pd = repositoryService.createProcessDefinitionQuery()
@@ -70,10 +75,6 @@ public class TestDelpoy {
         for (ProcessDefinition processDefinition : list) {
             System.out.println(processDefinition.getName());
         }
-        DeploymentQuery deploymentQuery = repositoryService.createDeploymentQuery()
-                .deploymentEngineVersion("")
-                .processDefinitionKey("");
-
     }
 
 }

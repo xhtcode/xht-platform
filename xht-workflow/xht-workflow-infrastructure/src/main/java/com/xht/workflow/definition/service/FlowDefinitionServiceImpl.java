@@ -10,7 +10,7 @@ import com.xht.workflow.definition.domain.form.FlowDefinitionForm;
 import com.xht.workflow.definition.domain.query.FlowDefinitionPageQuery;
 import com.xht.workflow.definition.domain.response.FlowDefinitionResponse;
 import com.xht.workflow.definition.entity.FlowDefinitionEntity;
-import com.xht.workflow.definition.enums.DefinitionTypeEnum;
+import com.xht.workflow.definition.enums.FlowDefinitionTypeEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,11 +47,11 @@ public class FlowDefinitionServiceImpl implements IFlowDefinitionService {
         } else {
             FlowDefinitionEntity parentEntity = flowCategoryDao.findById(parentId);
             ThrowUtils.throwIf(Objects.isNull(parentEntity), BusinessErrorCode.DATA_NOT_EXIST, "父级定义不存在");
-            ThrowUtils.throwIf(Objects.equals(parentEntity.getDefinitionType(), DefinitionTypeEnum.ORDER), BusinessErrorCode.PARAM_ERROR, "父级定义是事项，禁止添加添加子项");
-            entity.setDefinitionLevel(parentEntity.getDefinitionLevel() + 1);
+            ThrowUtils.throwIf(Objects.equals(parentEntity.getItemType(), FlowDefinitionTypeEnum.ORDER), BusinessErrorCode.PARAM_ERROR, "父级定义是事项，禁止添加添加子项");
+            entity.setItemLevel(parentEntity.getItemLevel() + 1);
         }
         // 检查流程定义是否存在
-        Boolean checkDictCode = flowCategoryDao.checkCategoryCode(null, form.getDefinitionCode());
+        Boolean checkDictCode = flowCategoryDao.checkCategoryCode(null, form.getItemCode());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "流程定义已存在，禁止添加");
         flowCategoryDao.saveTransactional(entity);
     }
@@ -87,19 +87,19 @@ public class FlowDefinitionServiceImpl implements IFlowDefinitionService {
         } else {
             FlowDefinitionEntity parentEntity = flowCategoryDao.findById(parentId);
             ThrowUtils.throwIf(Objects.isNull(parentEntity), BusinessErrorCode.DATA_NOT_EXIST, "父级定义不存在");
-            ThrowUtils.throwIf(Objects.equals(parentEntity.getDefinitionType(), DefinitionTypeEnum.ORDER), BusinessErrorCode.PARAM_ERROR, "父级定义是事项，数据错误请联系管理员!");
-            categoryLevel = parentEntity.getDefinitionLevel() + 1;
+            ThrowUtils.throwIf(Objects.equals(parentEntity.getItemType(), FlowDefinitionTypeEnum.ORDER), BusinessErrorCode.PARAM_ERROR, "父级定义是事项，数据错误请联系管理员!");
+            categoryLevel = parentEntity.getItemLevel() + 1;
         }
-        if (!Objects.equals(form.getDefinitionStatus(), flowDefinitionEntity.getDefinitionStatus())) {
+        if (!Objects.equals(form.getItemStatus(), flowDefinitionEntity.getItemStatus())) {
             Boolean exists = flowCategoryDao.exists(FlowDefinitionEntity::getParentId, form.getParentId());
             ThrowUtils.throwIf(exists, BusinessErrorCode.PARAM_ERROR, "存在子项禁止修改状态");
         }
-        if (!Objects.equals(form.getDefinitionType(), flowDefinitionEntity.getDefinitionType())) {
+        if (!Objects.equals(form.getItemType(), flowDefinitionEntity.getItemType())) {
             Boolean exists = flowCategoryDao.exists(FlowDefinitionEntity::getParentId, id);
             ThrowUtils.throwIf(exists, BusinessErrorCode.PARAM_ERROR, "存在子项禁止修改类别");
         }
         // 检查流程定义是否存在
-        Boolean checkDictCode = flowCategoryDao.checkCategoryCode(id, form.getDefinitionCode());
+        Boolean checkDictCode = flowCategoryDao.checkCategoryCode(id, form.getItemCode());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "定义编码已存在，禁止修改");
         flowCategoryDao.updateRequest(id, form, categoryLevel);
     }

@@ -3,7 +3,7 @@ package com.xht.workflow.definition.service;
 import com.xht.workflow.definition.converter.FlowDefinitionConverter;
 import com.xht.workflow.definition.dao.IFlowDefinitionDao;
 import com.xht.workflow.definition.domain.response.FlowDefinitionResponse;
-import com.xht.workflow.definition.enums.DefinitionStatusEnum;
+import com.xht.workflow.definition.enums.FlowDefinitionStatusEnum;
 import com.xht.workflow.common.constant.CategoryConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +36,7 @@ public class FlowApplyServiceImpl implements IFlowApplyService {
         if (parentId == null || parentId < 0) {
             parentId = CategoryConstant.DEFAULT_CATEGORY_ID;
         }
-        return flowDefinitionConverter.toResponse(flowCategoryDao.findByParentId(parentId, DefinitionStatusEnum.NORMAL));
+        return flowDefinitionConverter.toResponse(flowCategoryDao.findByParentId(parentId, FlowDefinitionStatusEnum.NORMAL));
     }
 
 }

@@ -2,7 +2,7 @@ package com.xht.framework.oauth2.handler;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.xht.framework.common.enums.UserTypeEnum;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
@@ -74,8 +74,8 @@ public class PermissionCheckHandler {
      * @return 是否匹配
      */
     public boolean hasIpAddress(String ipAddress) {
-        HttpServletRequest httpServletRequest = ServletUtil.getHttpServletRequest();
-        if (ServletUtil.getHttpServletRequest() == null) {
+        HttpServletRequest httpServletRequest = ServletUtils.getHttpServletRequest();
+        if (ServletUtils.getHttpServletRequest() == null) {
             // 非Web环境/无请求上下文时，默认返回false（可根据业务调整）
             return false;
         }

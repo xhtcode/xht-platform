@@ -2,7 +2,7 @@ package com.xht.auth.security.web.authentication;
 
 import com.xht.auth.security.LoginLogUtils;
 import com.xht.framework.common.domain.R;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -51,7 +51,7 @@ public class AuthorizationServerSuccessHandler extends SimpleUrlAuthenticationSu
         Map<String, Object> targetUrlMap = new HashMap<>();
         targetUrlMap.put("targetUrl", getRedirectUrl(redirectUrl));
         LoginLogUtils.saveSuccessLog(request, authentication);
-        ServletUtil.writeJson(response, R.ok().msg("登录成功").build(targetUrlMap));
+        ServletUtils.writeJson(response, R.ok().msg("登录成功").build(targetUrlMap));
     }
 
     /**

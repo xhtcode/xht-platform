@@ -3,7 +3,7 @@ package com.xht.framework.openfeign.interceptor;
 
 import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.utils.IpUtils;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.mdc.TraceIdUtils;
 import feign.RequestInterceptor;
@@ -39,7 +39,7 @@ public class FeignTraceLogInterceptor implements RequestInterceptor {
 
 
     public void apply(RequestTemplate template) {
-        HttpServletRequest request = ServletUtil.getHttpServletRequest();
+        HttpServletRequest request = ServletUtils.getHttpServletRequest();
         if (Objects.isNull(request)) return;
         String traceId = request.getHeader(REQUEST_TRACE_ID);
         if (StringUtils.isEmpty(traceId)) {

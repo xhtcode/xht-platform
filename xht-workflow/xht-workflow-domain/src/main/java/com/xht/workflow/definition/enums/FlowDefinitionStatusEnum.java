@@ -6,27 +6,33 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 描述：cate分类 order申请单据
+ * 描述： 类别状态枚举
  *
  * @author xht
  **/
 @Getter
 @AllArgsConstructor
-public enum DefinitionTypeEnum implements XhtEnum<String> {
+public enum FlowDefinitionStatusEnum implements XhtEnum<Integer> {
 
     /**
-     * 申请单据
+     * 正常
      */
-    ORDER("order", "申请单据"),
+    NORMAL(1, "正常"),
 
     /**
-     * 分类
+     * 禁用
      */
-    CATEGORY("category", "分类");;
+    DISABLE(0, "禁用");
 
+    /**
+     * 状态
+     */
     @JsonValue
-    private final String value;
+    private final Integer value;
 
+    /**
+     * 描述
+     */
     private final String desc;
 
 }

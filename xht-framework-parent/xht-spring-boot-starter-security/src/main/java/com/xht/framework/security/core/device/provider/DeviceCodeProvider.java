@@ -1,7 +1,7 @@
 package com.xht.framework.security.core.device.provider;
 
 import com.xht.framework.utils.IpUtils;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,11 +53,11 @@ public record DeviceCodeProvider(String salt) {
      */
     private String getDeviceFeature(HttpServletRequest request) {
         StringJoiner joiner = new StringJoiner("|");
-        joiner.add(ServletUtil.getHeader(request, "OAID"));
-        joiner.add(ServletUtil.getHeader(request, "IDFA"));
-        joiner.add(ServletUtil.getHeader(request, "User-Agent"));
+        joiner.add(ServletUtils.getHeader(request, "OAID"));
+        joiner.add(ServletUtils.getHeader(request, "IDFA"));
+        joiner.add(ServletUtils.getHeader(request, "User-Agent"));
         joiner.add(IpUtils.getClientIP(request));
-        joiner.add(ServletUtil.getHeader(request, "X-Device-Screen"));
+        joiner.add(ServletUtils.getHeader(request, "X-Device-Screen"));
         return joiner.toString();
     }
 

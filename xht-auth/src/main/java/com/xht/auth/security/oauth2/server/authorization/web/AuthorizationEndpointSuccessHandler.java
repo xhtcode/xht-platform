@@ -6,7 +6,7 @@ import com.xht.auth.security.oauth2.server.authorization.authentication.OAuth2Au
 import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.BasicResponse;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
@@ -50,7 +50,7 @@ public class AuthorizationEndpointSuccessHandler implements AuthenticationSucces
             redirectUri = authenticationToken.getRedirectUri();
             if (!StringUtils.hasText(redirectUri)) {
                 log.error("Invalid or missing redirect_uri");
-                ServletUtil.writeJson(response, R.error().msg("Invalid or missing redirect_uri").build());
+                ServletUtils.writeJson(response, R.error().msg("Invalid or missing redirect_uri").build());
                 return;
             }
             tokenValue = Optional.ofNullable(authenticationToken.getAuthorizationCode()).map(AbstractOAuth2Token::getTokenValue).orElse(null);
@@ -70,7 +70,7 @@ public class AuthorizationEndpointSuccessHandler implements AuthenticationSucces
             endpointResponse.setCode(tokenValue);
             endpointResponse.setState(state);
             endpointResponse.setRedirectUri(redirectUri);
-            ServletUtil.writeJson(response, R.ok().build(endpointResponse));
+            ServletUtils.writeJson(response, R.ok().build(endpointResponse));
         }
     }
 

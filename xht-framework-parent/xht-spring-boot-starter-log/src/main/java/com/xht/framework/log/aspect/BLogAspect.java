@@ -9,7 +9,7 @@ import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.log.dto.BLogDTO;
 import com.xht.framework.log.repository.BLogRepository;
 import com.xht.framework.utils.IpUtils;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.mdc.TraceIdUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -71,10 +71,10 @@ public class BLogAspect {
             bLogDTO.setTraceId(TraceIdUtils.getTraceId());
             bLogDTO.setServiceName(applicationName);
             bLogDTO.setServerAddr(NetUtil.getLocalhostStr());
-            Optional<HttpServletRequest> optHttpServletRequest = ServletUtil.getOptHttpServletRequest();
+            Optional<HttpServletRequest> optHttpServletRequest = ServletUtils.getOptHttpServletRequest();
             optHttpServletRequest.ifPresent(request -> {
                 bLogDTO.setRequestIp(IpUtils.getClientIP(request));
-                bLogDTO.setRequestHeaders(JsonUtils.toJsonString(ServletUtil.getHeaderMap(request)));
+                bLogDTO.setRequestHeaders(JsonUtils.toJsonString(ServletUtils.getHeaderMap(request)));
                 bLogDTO.setRequestAccount(request.getHeader(HttpConstants.Header.USER_ACCOUNT.getValue()));
                 bLogDTO.setRequestType(request.getMethod());
             });

@@ -2,7 +2,7 @@ package com.xht.framework.security.core.device.filter;
 
 import com.xht.framework.security.core.device.provider.DeviceCodeProvider;
 import com.xht.framework.common.domain.R;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.spring.SpringContextUtils;
 import jakarta.servlet.FilterChain;
@@ -39,7 +39,7 @@ public class DeviceCodeFilter extends GenericFilterBean {
             chain.doFilter(request, response);
         } catch (Exception e) {
             log.error("设备验证码过滤器异常 {}", e.getMessage(), e);
-            ServletUtil.writeJson((HttpServletResponse) response, HttpStatus.INTERNAL_SERVER_ERROR, R.error().msg("设备安全验证未通过，请更换设备重试").build());
+            ServletUtils.writeJson((HttpServletResponse) response, HttpStatus.INTERNAL_SERVER_ERROR, R.error().msg("设备安全验证未通过，请更换设备重试").build());
         }
     }
 

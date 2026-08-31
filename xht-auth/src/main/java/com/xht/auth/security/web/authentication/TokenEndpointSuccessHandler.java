@@ -1,7 +1,7 @@
 package com.xht.auth.security.web.authentication;
 
 import com.xht.framework.common.constant.StringConstant;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.oauth2.token.response.Oauth2TokenResponse;
 import com.xht.framework.security.constant.TokenCustomizerIdConstant;
@@ -40,7 +40,7 @@ public class TokenEndpointSuccessHandler implements AuthenticationSuccessHandler
         Map<String, Object> additionalParameters = accessTokenAuthentication.getAdditionalParameters();
         Oauth2TokenResponse tokenResponse = convertToTokenResponse(accessToken, refreshToken, additionalParameters);
         tokenResponse.setGrantType(grantType);
-        ServletUtil.writeJson(response, tokenResponse);
+        ServletUtils.writeJson(response, tokenResponse);
     }
 
     /**

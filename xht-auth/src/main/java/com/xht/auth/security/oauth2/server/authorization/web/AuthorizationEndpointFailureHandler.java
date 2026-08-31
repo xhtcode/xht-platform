@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.BasicResponse;
 import com.xht.framework.exception.code.GlobalErrorStatusCode;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,7 +35,7 @@ public class AuthorizationEndpointFailureHandler implements AuthenticationFailur
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (Objects.isNull(authentication)) {
             // 登录已失效
-            ServletUtil.writeJson(response, R.error().info(GlobalErrorStatusCode.TOKEN_EXPIRED).build());
+            ServletUtils.writeJson(response, R.error().info(GlobalErrorStatusCode.TOKEN_EXPIRED).build());
             return;
         }
         SecurityContextHolder.clearContext();
@@ -47,7 +47,7 @@ public class AuthorizationEndpointFailureHandler implements AuthenticationFailur
             String errorMsg = StringUtils.emptyToDefault(error.getDescription(), "Invalid or missing redirect_uri");
             log.error("  oauth2 授权失败 {} ", errorMsg, authenticationException);
             //  // 第二次点击“拒绝”会因为之前取消时删除授权申请记录而找不到对应的数据，导致抛出 [invalid_request] OAuth 2.0 Parameter: state
-            ServletUtil.writeJson(response, R.error().msg("授权失败，暂时无法登录，请稍后重试！").build());
+            ServletUtils.writeJson(response, R.error().msg("授权失败，暂时无法登录，请稍后重试！").build());
             return;
         }
         AuthorizationEndpointFailureResponse failureResponse = new AuthorizationEndpointFailureResponse();
@@ -62,7 +62,7 @@ public class AuthorizationEndpointFailureHandler implements AuthenticationFailur
         failureResponse.setErrorUri(error.getUri());
         failureResponse.setState(authenticationToken.getState());
         failureResponse.setRedirectUri(redirectUri);
-        ServletUtil.writeJson(response, R.error().msg(resultMsg).build(failureResponse));
+        ServletUtils.writeJson(response, R.error().msg(resultMsg).build(failureResponse));
     }
 
 

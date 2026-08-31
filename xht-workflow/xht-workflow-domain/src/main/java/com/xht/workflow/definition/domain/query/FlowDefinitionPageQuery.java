@@ -1,53 +1,53 @@
 package com.xht.workflow.definition.domain.query;
 
 import com.xht.framework.common.domain.query.BasicQuery;
-import com.xht.workflow.definition.enums.DefinitionStatusEnum;
-import com.xht.workflow.definition.enums.DefinitionTypeEnum;
+import com.xht.workflow.definition.enums.FlowDefinitionStatusEnum;
+import com.xht.workflow.definition.enums.FlowDefinitionTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serial;
 
 /**
- * 流程扩展-流程定义
+ * 流程扩展-流程事项定义
  *
  * @author xht
  */
 @Data
-@Schema(description = "流程扩展-流程定义查询")
+@Schema(description = "流程扩展-流程事项定义查询")
 public class FlowDefinitionPageQuery extends BasicQuery {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * 流程定义父级ID
+     * 事项父级ID
      */
-    @Schema(description = "流程定义父级ID")
+    @Schema(description = "事项父级ID")
     private Long parentId;
 
     /**
-     * 流程定义编码
+     * 事项编码
      */
-    @Schema(description = "流程定义编码")
-    private String definitionCode;
+    @Schema(description = "事项编码")
+    private String itemCode;
 
     /**
-     * 流程定义名称
+     * 事项名称
      */
-    @Schema(description = "流程定义名称")
-    private String definitionName;
+    @Schema(description = "事项名称")
+    private String itemName;
 
     /**
-     * 流程定义类型：cate分类  order申请单据
+     * 事项类型：cate分类  order申请单据
      */
-    @Schema(description = "流程定义类型")
-    private DefinitionTypeEnum definitionType;
+    @Schema(description = "事项类型")
+    private FlowDefinitionTypeEnum itemType;
 
     /**
-     * 流程定义状态
+     * 事项状态
      */
-    @Schema(description = "流程定义状态")
-    private DefinitionStatusEnum definitionStatus;
+    @Schema(description = "事项状态")
+    private FlowDefinitionStatusEnum itemStatus;
 
 }

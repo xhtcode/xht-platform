@@ -23,7 +23,7 @@ import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
 import com.xht.framework.security.web.XhtAuthenticationEntryPoint;
 import com.xht.framework.security.web.access.XhtAccessDeniedHandler;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -114,7 +114,7 @@ public class SecurityAutoConfiguration {
                 configurer.maximumSessions(new XhtSessionLimit());
                 configurer.expiredSessionStrategy(event -> {
                     HttpServletResponse response = event.getResponse();
-                    ServletUtil.writeJson(response, R.error().msg("你的账号在异地登录，请重新登录！").build());
+                    ServletUtils.writeJson(response, R.error().msg("你的账号在异地登录，请重新登录！").build());
                 });
             });
         });

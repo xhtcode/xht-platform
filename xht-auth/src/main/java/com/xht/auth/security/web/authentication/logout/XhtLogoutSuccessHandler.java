@@ -3,7 +3,7 @@ package com.xht.auth.security.web.authentication.logout;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.BasicResponse;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,9 +38,9 @@ public class XhtLogoutSuccessHandler implements LogoutSuccessHandler {
             log.debug("删除 session:{} ", session.getId());
         }
         // 获取请求参数中是否包含 回调地址
-        String redirectUrl = ServletUtil.getParams(request, REDIRECT_URL);
+        String redirectUrl = ServletUtils.getParams(request, REDIRECT_URL);
         if (StringUtils.isEmpty(redirectUrl)) {
-            redirectUrl = ServletUtil.getHeader(request, HttpHeaders.REFERER);
+            redirectUrl = ServletUtils.getHeader(request, HttpHeaders.REFERER);
         }
         if (StringUtils.hasText(redirectUrl)) {
             logoutResponse = new LogoutResponse();
@@ -48,7 +48,7 @@ public class XhtLogoutSuccessHandler implements LogoutSuccessHandler {
             log.info("退出成功 redirectUrl={}", redirectUrl);
 
         }
-        ServletUtil.writeJson(response, R.ok().msg("退出成功").build(logoutResponse));
+        ServletUtils.writeJson(response, R.ok().msg("退出成功").build(logoutResponse));
     }
 
 

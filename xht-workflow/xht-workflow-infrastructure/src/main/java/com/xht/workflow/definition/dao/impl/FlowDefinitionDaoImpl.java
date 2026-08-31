@@ -10,7 +10,7 @@ import com.xht.workflow.definition.dao.mapper.FlowDefinitionMapper;
 import com.xht.workflow.definition.domain.form.FlowDefinitionForm;
 import com.xht.workflow.definition.domain.query.FlowDefinitionPageQuery;
 import com.xht.workflow.definition.entity.FlowDefinitionEntity;
-import com.xht.workflow.definition.enums.DefinitionStatusEnum;
+import com.xht.workflow.definition.enums.FlowDefinitionStatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -50,13 +50,13 @@ public class FlowDefinitionDaoImpl extends MapperRepositoryImpl<FlowDefinitionMa
         //@formatter:off
         updateWrapper
                 .set(condition(form.getParentId()), FlowDefinitionEntity::getParentId, form.getParentId())
-                .set(FlowDefinitionEntity::getDefinitionLevel, categoryLevel)
-                .set(condition(form.getDefinitionCode()), FlowDefinitionEntity::getDefinitionCode, form.getDefinitionCode())
-                .set(condition(form.getDefinitionName()), FlowDefinitionEntity::getDefinitionName, form.getDefinitionName())
-                .set(condition(form.getDefinitionType()), FlowDefinitionEntity::getDefinitionType, form.getDefinitionType())
-                .set(condition(form.getDefinitionDesc()), FlowDefinitionEntity::getDefinitionDesc, form.getDefinitionDesc())
-                .set(condition(form.getDefinitionStatus()), FlowDefinitionEntity::getDefinitionStatus, form.getDefinitionStatus())
-                .set(condition(form.getDefinitionSort()), FlowDefinitionEntity::getDefinitionSort, form.getDefinitionSort())
+                .set(FlowDefinitionEntity::getItemLevel, categoryLevel)
+                .set(condition(form.getItemCode()), FlowDefinitionEntity::getItemCode, form.getItemCode())
+                .set(condition(form.getItemName()), FlowDefinitionEntity::getItemName, form.getItemName())
+                .set(condition(form.getItemType()), FlowDefinitionEntity::getItemType, form.getItemType())
+                .set(condition(form.getItemDesc()), FlowDefinitionEntity::getItemDesc, form.getItemDesc())
+                .set(condition(form.getItemStatus()), FlowDefinitionEntity::getItemStatus, form.getItemStatus())
+                .set(condition(form.getItemSort()), FlowDefinitionEntity::getItemSort, form.getItemSort())
                 .eq(FlowDefinitionEntity::getId, id);
         //@formatter:on
         update(updateWrapper);
@@ -75,7 +75,7 @@ public class FlowDefinitionDaoImpl extends MapperRepositoryImpl<FlowDefinitionMa
         //@formatter:off
         LambdaQueryWrapper<FlowDefinitionEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper
-                .eq(FlowDefinitionEntity::getDefinitionCode, categoryCode)
+                .eq(FlowDefinitionEntity::getItemCode, categoryCode)
                 .ne(Objects.nonNull(id), FlowDefinitionEntity::getId, id);
         //@formatter:on
         return SqlHelper.retBool(count(lambdaQueryWrapper));
@@ -90,11 +90,11 @@ public class FlowDefinitionDaoImpl extends MapperRepositoryImpl<FlowDefinitionMa
     @Override
     public List<FlowDefinitionEntity> findList(FlowDefinitionPageQuery query) {
         LambdaQueryWrapper<FlowDefinitionEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.like(condition(query.getDefinitionCode()), FlowDefinitionEntity::getDefinitionCode, query.getDefinitionCode());
-        queryWrapper.like(condition(query.getDefinitionName()), FlowDefinitionEntity::getDefinitionName, query.getDefinitionName());
+        queryWrapper.like(condition(query.getItemCode()), FlowDefinitionEntity::getItemCode, query.getItemCode());
+        queryWrapper.like(condition(query.getItemName()), FlowDefinitionEntity::getItemName, query.getItemName());
         queryWrapper.eq(FlowDefinitionEntity::getParentId, Objects.requireNonNullElse(query.getParentId(), DEFAULT_CATEGORY_ID));
-        queryWrapper.eq(condition(query.getDefinitionStatus()), FlowDefinitionEntity::getDefinitionStatus, query.getDefinitionStatus());
-        queryWrapper.eq(condition(query.getDefinitionType()), FlowDefinitionEntity::getDefinitionType, query.getDefinitionType());
+        queryWrapper.eq(condition(query.getItemStatus()), FlowDefinitionEntity::getItemStatus, query.getItemStatus());
+        queryWrapper.eq(condition(query.getItemType()), FlowDefinitionEntity::getItemType, query.getItemType());
         return list(queryWrapper);
     }
 
@@ -102,14 +102,14 @@ public class FlowDefinitionDaoImpl extends MapperRepositoryImpl<FlowDefinitionMa
      * 根据父级ID查询流程类别
      *
      * @param parentId           父级ID
-     * @param definitionStatusEnum 定义状态
+     * @param flowDefinitionStatusEnum 定义状态
      * @return 流程类别列表
      */
     @Override
-    public List<FlowDefinitionEntity> findByParentId(Long parentId, DefinitionStatusEnum definitionStatusEnum) {
+    public List<FlowDefinitionEntity> findByParentId(Long parentId, FlowDefinitionStatusEnum flowDefinitionStatusEnum) {
         LambdaQueryWrapper<FlowDefinitionEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(FlowDefinitionEntity::getParentId, parentId);
-        queryWrapper.eq(FlowDefinitionEntity::getDefinitionStatus, definitionStatusEnum);
+        queryWrapper.eq(FlowDefinitionEntity::getItemStatus, flowDefinitionStatusEnum);
         return list(queryWrapper);
     }
 

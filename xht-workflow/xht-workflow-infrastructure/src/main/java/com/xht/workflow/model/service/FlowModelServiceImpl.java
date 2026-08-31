@@ -50,7 +50,7 @@ public class FlowModelServiceImpl implements IFlowModelService {
         FlowDefinitionEntity category = flowCategoryDao.findById(modelInitForm.getCategoryId());
         ThrowUtils.throwIf(Objects.isNull(category), BusinessErrorCode.DATA_NOT_EXIST, "流程定义不存在");
         ModelInitBO build = ModelInitBuilder.builder()
-                .category(category.getDefinitionName())
+                .category(category.getItemName())
                 .modelName(modelInitForm.getModelName())
                 .modelKey(modelInitForm.getModelKey())
                 .modelMetaInfo(MetaInfoBO.builder().put("categoryId", category.getId()).putAll(modelInitForm.getMetaInfo()))
@@ -80,7 +80,7 @@ public class FlowModelServiceImpl implements IFlowModelService {
         FlowDefinitionEntity category = flowCategoryDao.findById(modelUpdateForm.getCategoryId());
         ThrowUtils.throwIf(Objects.isNull(category), BusinessErrorCode.DATA_NOT_EXIST, "流程定义不存在");
         ModelUpdateBO modelUpdateBO = ModelUpdateBuilder.builder()
-                .category(category.getDefinitionName())
+                .category(category.getItemName())
                 .modelId(modelUpdateForm.getModelId())
                 .modelMetaInfo(MetaInfoBO.builder().put("categoryId", category.getId()).putAll(modelUpdateForm.getMetaInfo()))
                 .build();

@@ -8,7 +8,7 @@ import com.xht.framework.core.properties.XhtConfigProperties;
 import com.xht.framework.log.event.LoginRequestInfo;
 import com.xht.framework.oauth2.token.response.AbstractOauth2Response;
 import com.xht.framework.utils.IpUtils;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.mdc.TraceIdUtils;
 import com.xht.framework.utils.spring.SpringContextUtils;
 import  com.xht.platform.login.dao.SysLoginLogDao;
@@ -98,8 +98,8 @@ public class LoginManager {
      */
     private LoginRequestInfo buildLoginRequestInfo(HttpServletRequest request, BasicForm basicForm) {
         LoginRequestInfo info = new LoginRequestInfo(
-                ServletUtil.getParamMap(request),
-                ServletUtil.getHeaderMap(request)
+                ServletUtils.getParamMap(request),
+                ServletUtils.getHeaderMap(request)
         );
         info.addExtend("body", basicForm);
         return info;
@@ -114,7 +114,7 @@ public class LoginManager {
         entity.setAppName(xhtConfigProperties.getGlobal().getAppName());
         entity.setLoginTime(LocalDateTime.now());
         entity.setLoginIp(IpUtils.getClientIP(request));
-        entity.setUserAgent(ServletUtil.getHeader(request, HttpConstants.Header.USER_AGENT.getValue()));
+        entity.setUserAgent(ServletUtils.getHeader(request, HttpConstants.Header.USER_AGENT.getValue()));
     }
 
     /**

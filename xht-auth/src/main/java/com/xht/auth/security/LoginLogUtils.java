@@ -8,7 +8,7 @@ import com.xht.framework.core.properties.XhtConfigProperties;
 import com.xht.framework.log.event.LoginLogApplicationEvent;
 import com.xht.framework.log.event.LoginRequestInfo;
 import com.xht.framework.utils.IpUtils;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.mdc.TraceIdUtils;
 import com.xht.framework.utils.spring.SpringContextUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -77,9 +77,9 @@ public final class LoginLogUtils {
         event.setAppName(SpringContextUtils.getConfigProperties().map(XhtConfigProperties::getGlobal).map(XhtConfigProperties.GlobalConfigProperties::getAppName).orElse(null));
         event.setLoginTime(LocalDateTime.now());
         event.setLoginIp(IpUtils.getClientIP(request));
-        event.setLoginRequestInfo(new LoginRequestInfo(ServletUtil.getParamMap(request), ServletUtil.getHeaderMap(request)));
+        event.setLoginRequestInfo(new LoginRequestInfo(ServletUtils.getParamMap(request), ServletUtils.getHeaderMap(request)));
         event.setLoginFailReason(errorMessage);
-        event.setUserAgent(ServletUtil.getHeader(request, HttpConstants.Header.USER_AGENT.getValue()));
+        event.setUserAgent(ServletUtils.getHeader(request, HttpConstants.Header.USER_AGENT.getValue()));
     }
 
 }

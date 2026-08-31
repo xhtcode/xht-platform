@@ -4,7 +4,7 @@ import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.workflow.definition.domain.form.FlowDefinitionForm;
 import com.xht.workflow.definition.domain.query.FlowDefinitionPageQuery;
 import com.xht.workflow.definition.entity.FlowDefinitionEntity;
-import com.xht.workflow.definition.enums.DefinitionStatusEnum;
+import com.xht.workflow.definition.enums.FlowDefinitionStatusEnum;
 
 import java.util.List;
 
@@ -45,9 +45,9 @@ public interface IFlowDefinitionDao extends MapperRepository<FlowDefinitionEntit
      * 根据父级ID查询流程类别
      *
      * @param parentId           父级ID
-     * @param definitionStatusEnum 定义状态
+     * @param flowDefinitionStatusEnum 定义状态
      * @return 流程类别列表
      */
-    List<FlowDefinitionEntity> findByParentId(Long parentId, DefinitionStatusEnum definitionStatusEnum);
+    List<FlowDefinitionEntity> findByParentId(Long parentId, FlowDefinitionStatusEnum flowDefinitionStatusEnum);
 
 }

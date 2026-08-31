@@ -3,7 +3,7 @@ package com.xht.framework.security.web.access;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.exception.code.GlobalErrorStatusCode;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,7 +27,7 @@ public class XhtAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         log.debug("请求未授权的接口处理器 {}: {}", request.getRequestURI(), accessDeniedException.getMessage());
         R<Void> build = R.error().info(GlobalErrorStatusCode.FORBIDDEN).build();
-        ServletUtil.writeJson(response, HttpStatus.FORBIDDEN, build);
+        ServletUtils.writeJson(response, HttpStatus.FORBIDDEN, build);
     }
 
 }

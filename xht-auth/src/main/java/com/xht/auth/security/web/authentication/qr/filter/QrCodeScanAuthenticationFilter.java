@@ -5,7 +5,7 @@ import com.xht.auth.security.web.authentication.qr.domain.response.QrCodeLoginSc
 import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnum;
 import com.xht.auth.security.web.authentication.qr.exception.QyLoginException;
 import com.xht.framework.common.domain.R;
-import com.xht.framework.utils.ServletUtil;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import jakarta.servlet.FilterChain;
@@ -57,10 +57,10 @@ public class QrCodeScanAuthenticationFilter extends QrCodeAbstractAuthentication
             // 封装响应
             loginScanResponse.setQrCodeTicket(qrCodeTicket);
             loginScanResponse.setScopes(info.getScopes());
-            ServletUtil.writeJson(response, R.ok().build(loginScanResponse));
+            ServletUtils.writeJson(response, R.ok().build(loginScanResponse));
         } catch (Exception e) {
             log.error("用户[{}]扫码登录异常:{}", basicUser.getUsername(), e.getMessage());
-            ServletUtil.writeJson(response, R.error().msg(e.getMessage()).build());
+            ServletUtils.writeJson(response, R.error().msg(e.getMessage()).build());
         }
     }
 
