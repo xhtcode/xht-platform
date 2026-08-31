@@ -1,7 +1,6 @@
 package com.xht.workflow.definition;
 
 import com.xht.framework.common.domain.R;
-import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.validation.Groups;
 import com.xht.workflow.definition.domain.form.FlowItemProcessForm;
 import com.xht.workflow.definition.domain.query.FlowItemProcessPageQuery;
@@ -13,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 描述： 流程扩展-流程定义控制器
@@ -78,15 +79,15 @@ public class FlowItemProcessController {
     }
 
     /**
-     * 分页查询流程定义
+     * 获取流程定义列表
      *
      * @param query 流程定义查询参数
-     * @return 流程定义分页信息
+     * @return 流程定义列表
      */
-    @Operation(summary = "分页查询流程定义")
-    @GetMapping("/page")
-    public R<PageResponse<FlowItemProcessResponse>> findPageList(FlowItemProcessPageQuery query) {
-        return R.ok().build(flowItemProcessService.findPageList(query));
+    @Operation(summary = "获取流程定义列表")
+    @GetMapping("/list")
+    public R<List<FlowItemProcessResponse>> findList(FlowItemProcessPageQuery query) {
+        return R.ok().build(flowItemProcessService.findList(query));
     }
 
 }

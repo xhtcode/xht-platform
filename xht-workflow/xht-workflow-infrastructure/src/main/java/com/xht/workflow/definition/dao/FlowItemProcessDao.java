@@ -1,10 +1,11 @@
 package com.xht.workflow.definition.dao;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.workflow.definition.domain.form.FlowItemProcessForm;
 import com.xht.workflow.definition.domain.query.FlowItemProcessPageQuery;
 import com.xht.workflow.definition.entity.FlowItemProcessEntity;
+
+import java.util.List;
 
 /**
  * 流程扩展-流程定义
@@ -22,12 +23,11 @@ public interface FlowItemProcessDao extends MapperRepository<FlowItemProcessEnti
     void updateFormRequest(Long id, FlowItemProcessForm form);
 
     /**
-     * 分页查询流程定义
+     * 查询流程定义列表
      *
-     * @param page  分页信息
      * @param query 查询参数
-     * @return 分页数据
+     * @return 流程定义列表
      */
-    Page<FlowItemProcessEntity> findPageList(Page<FlowItemProcessEntity> page, FlowItemProcessPageQuery query);
+    List<FlowItemProcessEntity> findList(FlowItemProcessPageQuery query);
 
 }

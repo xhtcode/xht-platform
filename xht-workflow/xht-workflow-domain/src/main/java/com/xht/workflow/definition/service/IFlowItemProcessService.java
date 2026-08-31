@@ -1,9 +1,10 @@
 package com.xht.workflow.definition.service;
 
-import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.workflow.definition.domain.form.FlowItemProcessForm;
 import com.xht.workflow.definition.domain.query.FlowItemProcessPageQuery;
 import com.xht.workflow.definition.domain.response.FlowItemProcessResponse;
+
+import java.util.List;
 
 /**
  * 描述： 流程定义服务类
@@ -43,11 +44,11 @@ public interface IFlowItemProcessService {
     FlowItemProcessResponse findById(Long id);
 
     /**
-     * 分页查询流程定义
+     * 获取流程定义列表
      *
      * @param query 流程定义查询参数
-     * @return 流程定义分页信息
+     * @return 流程定义列表
      */
-    PageResponse<FlowItemProcessResponse> findPageList(FlowItemProcessPageQuery query);
+    List<FlowItemProcessResponse> findList(FlowItemProcessPageQuery query);
 
 }

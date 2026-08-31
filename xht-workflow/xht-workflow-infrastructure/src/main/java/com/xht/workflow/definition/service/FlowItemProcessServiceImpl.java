@@ -1,10 +1,7 @@
 package com.xht.workflow.definition.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.definition.converter.FlowItemProcessConverter;
 import com.xht.workflow.definition.dao.FlowItemDefDao;
@@ -12,11 +9,16 @@ import com.xht.workflow.definition.dao.FlowItemProcessDao;
 import com.xht.workflow.definition.domain.form.FlowItemProcessForm;
 import com.xht.workflow.definition.domain.query.FlowItemProcessPageQuery;
 import com.xht.workflow.definition.domain.response.FlowItemProcessResponse;
+import com.xht.workflow.definition.entity.FlowItemDefEntity;
 import com.xht.workflow.definition.entity.FlowItemProcessEntity;
+import com.xht.workflow.definition.enums.FlowDefinitionTypeEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 描述： 流程定义服务实现类
@@ -41,6 +43,7 @@ public class FlowItemProcessServiceImpl implements IFlowItemProcessService {
      */
     @Override
     public void create(FlowItemProcessForm form) {
+        checkItemDef(form.getItemDefId());
         FlowItemProcessEntity entity = flowItemProcessConverter.toEntity(form);
         flowItemProcessDao.saveTransactional(entity);
     }
@@ -65,7 +68,20 @@ public class FlowItemProcessServiceImpl implements IFlowItemProcessService {
     @Override
     public void updateById(Long id, FlowItemProcessForm form) {
         ThrowUtils.notNull(id);
+        checkItemDef(form.getItemDefId());
         flowItemProcessDao.updateFormRequest(id, form);
+    }
+
+    /**
+     * 校验事项定义是否存在且为事项类型
+     *
+     * @param itemDefId 事项定义ID
+     */
+    private void checkItemDef(Long itemDefId) {
+        FlowItemDefEntity itemDef = flowItemDefDao.findOptionalById(itemDefId)
+                .orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST, "事项定义不存在"));
+        ThrowUtils.throwIf(Objects.equals(itemDef.getItemType(), FlowDefinitionTypeEnum.CATEGORY),
+                BusinessErrorCode.PARAM_ERROR, "事项定义是分类，禁止关联流程");
     }
 
     /**
@@ -81,14 +97,13 @@ public class FlowItemProcessServiceImpl implements IFlowItemProcessService {
     }
 
     /**
-     * 分页查询流程定义
+     * 获取流程定义列表
      *
      * @param query 流程定义查询参数
-     * @return 流程定义分页信息
+     * @return 流程定义列表
      */
     @Override
-    public PageResponse<FlowItemProcessResponse> findPageList(FlowItemProcessPageQuery query) {
-        Page<FlowItemProcessEntity> page = flowItemProcessDao.findPageList(PageTool.getPage(query), query);
-        return flowItemProcessConverter.toResponse(page);
+    public List<FlowItemProcessResponse> findList(FlowItemProcessPageQuery query) {
+        return flowItemProcessConverter.toResponse(flowItemProcessDao.findList(query));
     }
 }

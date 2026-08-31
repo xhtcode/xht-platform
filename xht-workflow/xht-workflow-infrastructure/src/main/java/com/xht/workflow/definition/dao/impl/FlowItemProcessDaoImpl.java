@@ -3,7 +3,6 @@ package com.xht.workflow.definition.dao.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.workflow.definition.dao.FlowItemProcessDao;
 import com.xht.workflow.definition.dao.mapper.FlowItemProcessMapper;
@@ -13,6 +12,8 @@ import com.xht.workflow.definition.entity.FlowItemProcessEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 流程扩展-流程定义
@@ -59,14 +60,13 @@ public class FlowItemProcessDaoImpl extends MapperRepositoryImpl<FlowItemProcess
     }
 
     /**
-     * 分页查询流程定义
+     * 查询流程定义列表
      *
-     * @param page  分页信息
      * @param query 查询参数
-     * @return 分页数据
+     * @return 流程定义列表
      */
     @Override
-    public Page<FlowItemProcessEntity> findPageList(Page<FlowItemProcessEntity> page, FlowItemProcessPageQuery query) {
+    public List<FlowItemProcessEntity> findList(FlowItemProcessPageQuery query) {
         LambdaQueryWrapper<FlowItemProcessEntity> queryWrapper = new LambdaQueryWrapper<>();
         if (query.isQuick()) {
             //@formatter:off
@@ -88,7 +88,7 @@ public class FlowItemProcessDaoImpl extends MapperRepositoryImpl<FlowItemProcess
             queryWrapper.like(condition(query.getProcDefName()), FlowItemProcessEntity::getProcDefName, query.getProcDefName());
             queryWrapper.eq(condition(query.getEnableStatus()), FlowItemProcessEntity::getEnableStatus, query.getEnableStatus());
         }
-        return page(page, queryWrapper);
+        return list(queryWrapper);
     }
 
 }
