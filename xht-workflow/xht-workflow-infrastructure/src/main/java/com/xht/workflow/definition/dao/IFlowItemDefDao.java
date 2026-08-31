@@ -1,9 +1,9 @@
 package com.xht.workflow.definition.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.workflow.definition.domain.form.FlowDefinitionForm;
-import com.xht.workflow.definition.domain.query.FlowDefinitionPageQuery;
-import com.xht.workflow.definition.entity.FlowDefinitionEntity;
+import com.xht.workflow.definition.domain.form.FlowItemDefForm;
+import com.xht.workflow.definition.domain.query.FlowItemDefPageQuery;
+import com.xht.workflow.definition.entity.FlowItemDefEntity;
 import com.xht.workflow.definition.enums.FlowDefinitionStatusEnum;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author xht
  */
-public interface IFlowDefinitionDao extends MapperRepository<FlowDefinitionEntity> {
+public interface IFlowItemDefDao extends MapperRepository<FlowItemDefEntity> {
 
     /**
      * 更新
@@ -22,7 +22,7 @@ public interface IFlowDefinitionDao extends MapperRepository<FlowDefinitionEntit
      * @param form          表单参数
      * @param categoryLevel 定义级别
      */
-    void updateRequest(Long id, FlowDefinitionForm form, Integer categoryLevel);
+    void updateRequest(Long id, FlowItemDefForm form, Integer categoryLevel);
 
     /**
      * 校验定义编号
@@ -36,10 +36,10 @@ public interface IFlowDefinitionDao extends MapperRepository<FlowDefinitionEntit
     /**
      * 获取流程定义列表
      *
-     * @param flowDefinitionPageQuery 流程定义查询参数
+     * @param flowItemDefPageQuery 流程定义查询参数
      * @return 流程定义列表
      */
-    List<FlowDefinitionEntity> findList(FlowDefinitionPageQuery flowDefinitionPageQuery);
+    List<FlowItemDefEntity> findList(FlowItemDefPageQuery flowItemDefPageQuery);
 
     /**
      * 根据父级ID查询流程类别
@@ -48,6 +48,6 @@ public interface IFlowDefinitionDao extends MapperRepository<FlowDefinitionEntit
      * @param flowDefinitionStatusEnum 定义状态
      * @return 流程类别列表
      */
-    List<FlowDefinitionEntity> findByParentId(Long parentId, FlowDefinitionStatusEnum flowDefinitionStatusEnum);
+    List<FlowItemDefEntity> findByParentId(Long parentId, FlowDefinitionStatusEnum flowDefinitionStatusEnum);
 
 }

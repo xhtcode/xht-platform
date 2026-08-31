@@ -18,7 +18,7 @@ import java.io.Serial;
  */
 @Data
 @TableName(value = "xht_flow_item_def")
-public class FlowDefinitionEntity extends BasicEntity {
+public class FlowItemDefEntity extends BasicEntity {
 
     @Serial
     private static final long serialVersionUID = 1L;

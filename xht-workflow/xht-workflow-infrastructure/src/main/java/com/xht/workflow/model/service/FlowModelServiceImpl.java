@@ -5,8 +5,8 @@ import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.SortTool;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.common.domain.query.WorkFlowPageQuery;
-import com.xht.workflow.definition.dao.IFlowDefinitionDao;
-import com.xht.workflow.definition.entity.FlowDefinitionEntity;
+import com.xht.workflow.definition.dao.IFlowItemDefDao;
+import com.xht.workflow.definition.entity.FlowItemDefEntity;
 import com.xht.workflow.flowable.common.bo.MetaInfoBO;
 import com.xht.workflow.flowable.model.ModelManager;
 import com.xht.workflow.flowable.model.common.*;
@@ -35,7 +35,7 @@ public class FlowModelServiceImpl implements IFlowModelService {
 
     private final ModelManager modelManager;
 
-    private final IFlowDefinitionDao flowCategoryDao;
+    private final IFlowItemDefDao flowCategoryDao;
 
     private final FlowModelConverter flowModelConverter;
 
@@ -47,7 +47,7 @@ public class FlowModelServiceImpl implements IFlowModelService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void modelInit(FlowModelInitForm modelInitForm) {
-        FlowDefinitionEntity category = flowCategoryDao.findById(modelInitForm.getCategoryId());
+        FlowItemDefEntity category = flowCategoryDao.findById(modelInitForm.getCategoryId());
         ThrowUtils.throwIf(Objects.isNull(category), BusinessErrorCode.DATA_NOT_EXIST, "流程定义不存在");
         ModelInitBO build = ModelInitBuilder.builder()
                 .category(category.getItemName())
@@ -77,7 +77,7 @@ public class FlowModelServiceImpl implements IFlowModelService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateModel(FlowModelUpdateForm modelUpdateForm) {
-        FlowDefinitionEntity category = flowCategoryDao.findById(modelUpdateForm.getCategoryId());
+        FlowItemDefEntity category = flowCategoryDao.findById(modelUpdateForm.getCategoryId());
         ThrowUtils.throwIf(Objects.isNull(category), BusinessErrorCode.DATA_NOT_EXIST, "流程定义不存在");
         ModelUpdateBO modelUpdateBO = ModelUpdateBuilder.builder()
                 .category(category.getItemName())

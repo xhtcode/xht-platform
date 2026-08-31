@@ -19,7 +19,7 @@ import java.io.Serial;
  */
 @Data
 @Schema(description = "流程扩展-流程事项定义表单")
-public class FlowDefinitionForm extends WorkFlowForm {
+public class FlowItemDefForm extends WorkFlowForm {
 
     @Serial
     private static final long serialVersionUID = 1L;

@@ -1,8 +1,8 @@
 package com.xht.workflow.definition.service;
 
-import com.xht.workflow.definition.domain.form.FlowDefinitionForm;
-import com.xht.workflow.definition.domain.query.FlowDefinitionPageQuery;
-import com.xht.workflow.definition.domain.response.FlowDefinitionResponse;
+import com.xht.workflow.definition.domain.form.FlowItemDefForm;
+import com.xht.workflow.definition.domain.query.FlowItemDefPageQuery;
+import com.xht.workflow.definition.domain.response.FlowItemDefResponse;
 
 import java.util.List;
 
@@ -11,14 +11,14 @@ import java.util.List;
  *
  * @author xht
  **/
-public interface IFlowDefinitionService {
+public interface IFlowItemDefService {
 
     /**
      * 创建流程定义
      *
      * @param form 流程定义信息
      */
-    void create(FlowDefinitionForm form);
+    void create(FlowItemDefForm form);
 
     /**
      * 删除流程定义
@@ -33,7 +33,7 @@ public interface IFlowDefinitionService {
      * @param id 流程定义ID
      * @param form 流程定义信息
      */
-    void updateById(Long id, FlowDefinitionForm form);
+    void updateById(Long id, FlowItemDefForm form);
 
     /**
      * 获取流程定义详情
@@ -41,14 +41,14 @@ public interface IFlowDefinitionService {
      * @param id 流程定义ID
      * @return 流程定义详情
      */
-    FlowDefinitionResponse findById(Long id);
+    FlowItemDefResponse findById(Long id);
 
     /**
      * 获取流程定义列表
      *
-     * @param flowDefinitionPageQuery 流程定义查询参数
+     * @param flowItemDefPageQuery 流程定义查询参数
      * @return 流程定义列表
      */
-    List<FlowDefinitionResponse> findList(FlowDefinitionPageQuery flowDefinitionPageQuery);
+    List<FlowItemDefResponse> findList(FlowItemDefPageQuery flowItemDefPageQuery);
 
 }

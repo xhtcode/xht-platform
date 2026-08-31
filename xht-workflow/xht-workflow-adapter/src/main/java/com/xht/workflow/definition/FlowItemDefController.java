@@ -2,10 +2,10 @@ package com.xht.workflow.definition;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.validation.Groups;
-import com.xht.workflow.definition.domain.form.FlowDefinitionForm;
-import com.xht.workflow.definition.domain.query.FlowDefinitionPageQuery;
-import com.xht.workflow.definition.domain.response.FlowDefinitionResponse;
-import com.xht.workflow.definition.service.IFlowDefinitionService;
+import com.xht.workflow.definition.domain.form.FlowItemDefForm;
+import com.xht.workflow.definition.domain.query.FlowItemDefPageQuery;
+import com.xht.workflow.definition.domain.response.FlowItemDefResponse;
+import com.xht.workflow.definition.service.IFlowItemDefService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +25,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/workflow/definition")
 @RequiredArgsConstructor
-public class FlowDefinitionController {
+public class FlowItemDefController {
 
-    private final IFlowDefinitionService flowCategoryService;
+    private final IFlowItemDefService flowCategoryService;
 
     /**
      * 创建流程定义
@@ -36,7 +36,7 @@ public class FlowDefinitionController {
      */
     @Operation(summary = "创建流程定义")
     @PostMapping("/create")
-    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody FlowDefinitionForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody FlowItemDefForm form) {
         flowCategoryService.create(form);
         return R.ok().build();
     }
@@ -60,7 +60,7 @@ public class FlowDefinitionController {
      */
     @Operation(summary = "修改流程定义")
     @PostMapping("/update/{id}")
-    public R<Void> updateById(@PathVariable Long id, @Validated(value = {Groups.Update.class}) @RequestBody FlowDefinitionForm form) {
+    public R<Void> updateById(@PathVariable Long id, @Validated(value = {Groups.Update.class}) @RequestBody FlowItemDefForm form) {
         flowCategoryService.updateById(id, form);
         return R.ok().build();
     }
@@ -73,20 +73,20 @@ public class FlowDefinitionController {
      */
     @Operation(summary = "获取流程定义详情")
     @GetMapping("/get/{id}")
-    public R<FlowDefinitionResponse> findById(@PathVariable Long id) {
+    public R<FlowItemDefResponse> findById(@PathVariable Long id) {
         return R.ok().build(flowCategoryService.findById(id));
     }
 
     /**
      * 获取流程定义列表
      *
-     * @param flowDefinitionPageQuery 流程定义查询参数
+     * @param flowItemDefPageQuery 流程定义查询参数
      * @return 流程定义列表
      */
     @Operation(summary = "获取流程定义列表")
     @GetMapping("/list")
-    public R<List<FlowDefinitionResponse>> findList(FlowDefinitionPageQuery flowDefinitionPageQuery) {
-        return R.ok().build(flowCategoryService.findList(flowDefinitionPageQuery));
+    public R<List<FlowItemDefResponse>> findList(FlowItemDefPageQuery flowItemDefPageQuery) {
+        return R.ok().build(flowCategoryService.findList(flowItemDefPageQuery));
     }
 
 }

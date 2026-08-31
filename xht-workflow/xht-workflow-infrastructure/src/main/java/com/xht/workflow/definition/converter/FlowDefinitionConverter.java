@@ -1,9 +1,9 @@
 package com.xht.workflow.definition.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.workflow.definition.domain.form.FlowDefinitionForm;
-import com.xht.workflow.definition.domain.response.FlowDefinitionResponse;
-import com.xht.workflow.definition.entity.FlowDefinitionEntity;
+import com.xht.workflow.definition.domain.form.FlowItemDefForm;
+import com.xht.workflow.definition.domain.response.FlowItemDefResponse;
+import com.xht.workflow.definition.entity.FlowItemDefEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -14,6 +14,6 @@ import org.mapstruct.ReportingPolicy;
  * @author xht
  **/
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FlowDefinitionConverter extends BasicConverter<FlowDefinitionEntity, FlowDefinitionForm, FlowDefinitionResponse> {
+public interface FlowDefinitionConverter extends BasicConverter<FlowItemDefEntity, FlowItemDefForm, FlowItemDefResponse> {
 
 }

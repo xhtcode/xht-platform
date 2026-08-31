@@ -1,6 +1,6 @@
-package com.xht.workflow.definition.domain.response;
+package com.xht.workflow.definition.domain.query;
 
-import com.xht.framework.common.domain.response.MetaResponse;
+import com.xht.framework.common.domain.query.BasicQuery;
 import com.xht.workflow.definition.enums.FlowDefinitionStatusEnum;
 import com.xht.workflow.definition.enums.FlowDefinitionTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,17 +14,11 @@ import java.io.Serial;
  * @author xht
  */
 @Data
-@Schema(description = "流程扩展-流程事项定义响应")
-public class FlowDefinitionResponse extends MetaResponse {
+@Schema(description = "流程扩展-流程事项定义查询")
+public class FlowItemDefPageQuery extends BasicQuery {
 
     @Serial
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 事项主键id
-     */
-    @Schema(description = "事项主键id")
-    private Long id;
 
     /**
      * 事项父级ID
@@ -51,21 +45,9 @@ public class FlowDefinitionResponse extends MetaResponse {
     private FlowDefinitionTypeEnum itemType;
 
     /**
-     * 事项描述
-     */
-    @Schema(description = "事项描述")
-    private String itemDesc;
-
-    /**
      * 事项状态
      */
     @Schema(description = "事项状态")
     private FlowDefinitionStatusEnum itemStatus;
-
-    /**
-     * 事项排序号，数值越大越靠前
-     */
-    @Schema(description = "事项排序")
-    private Integer itemSort;
 
 }

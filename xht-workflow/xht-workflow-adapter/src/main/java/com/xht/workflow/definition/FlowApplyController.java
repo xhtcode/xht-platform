@@ -1,7 +1,7 @@
 package com.xht.workflow.definition;
 
 import com.xht.framework.common.domain.R;
-import com.xht.workflow.definition.domain.response.FlowDefinitionResponse;
+import com.xht.workflow.definition.domain.response.FlowItemDefResponse;
 import com.xht.workflow.definition.service.IFlowApplyService;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,7 +36,7 @@ public class FlowApplyController {
      */
     @Schema(description = "查询流程类别")
     @GetMapping("/category/items/{parentId}")
-    public R<List<FlowDefinitionResponse>> getFlowCategoryItems(@PathVariable Long parentId) {
+    public R<List<FlowItemDefResponse>> getFlowCategoryItems(@PathVariable Long parentId) {
         return R.ok().build(flowApplyService.getFlowCategoryItems(parentId));
     }
 

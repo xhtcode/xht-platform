@@ -1,6 +1,6 @@
 package com.xht.workflow.definition.service;
 
-import com.xht.workflow.definition.domain.response.FlowDefinitionResponse;
+import com.xht.workflow.definition.domain.response.FlowItemDefResponse;
 
 import java.util.List;
 
@@ -17,6 +17,6 @@ public interface IFlowApplyService {
      * @param parentId 父级ID
      * @return 流程类别列表
      */
-    List<FlowDefinitionResponse> getFlowCategoryItems(Long parentId);
+    List<FlowItemDefResponse> getFlowCategoryItems(Long parentId);
 
 }
