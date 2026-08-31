@@ -1,4 +1,4 @@
-package com.xht.workflow.definition.domain.query;
+package com.xht.workflow.process.domain.query;
 
 import com.xht.workflow.common.domain.enums.SuspendedStatus;
 import com.xht.workflow.common.domain.query.WorkFlowPageQuery;

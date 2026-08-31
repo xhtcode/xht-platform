@@ -1,8 +1,8 @@
-package com.xht.workflow.definition.converter;
+package com.xht.workflow.process.converter;
 
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.mybatis.utils.PageTool;
-import com.xht.workflow.definition.domain.response.ProcessDefinitionResponse;
+import com.xht.workflow.process.domain.response.ProcessDefinitionResponse;
 import com.xht.workflow.flowable.definition.common.ProcessDefinitionDTO;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;

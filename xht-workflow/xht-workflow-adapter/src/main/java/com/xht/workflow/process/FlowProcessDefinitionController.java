@@ -1,11 +1,11 @@
-package com.xht.workflow.definition;
+package com.xht.workflow.process;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.workflow.common.domain.query.WorkFlowPageQuery;
-import com.xht.workflow.definition.domain.query.ProcessDefinitionPageQuery;
-import com.xht.workflow.definition.domain.response.ProcessDefinitionResponse;
-import com.xht.workflow.definition.service.IFlowProcessDefinitionService;
+import com.xht.workflow.process.domain.query.ProcessDefinitionPageQuery;
+import com.xht.workflow.process.domain.response.ProcessDefinitionResponse;
+import com.xht.workflow.process.service.IFlowProcessDefinitionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
