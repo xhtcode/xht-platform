@@ -1,14 +1,14 @@
 package com.xht.workflow;
 
-import com.xht.framework.utils.spring.SpELUtils;
-import org.flowable.engine.RuntimeService;
+import com.xht.framework.jackson.JsonUtils;
+import com.xht.framework.utils.IdUtils;
+import com.xht.workflow.flowable.process.ProcessManager;
+import com.xht.workflow.flowable.process.common.ProcessInstanceDTO;
+import com.xht.workflow.flowable.process.common.ProcessStartBO;
+import com.xht.workflow.flowable.process.common.ProcessStartBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 描述：
@@ -20,24 +20,21 @@ public class ProcessManagerTest {
 
 
     @Autowired
-    private RuntimeService runtimeService;
+    private ProcessManager processManager;
 
 
     @Test
     public void testStartProcessInstance() {
-        Map<String, Object> variables = new HashMap<>();
-        variables.put("user", "admin");
-        System.out.println("Starting process instance...");
-        runtimeService.startProcessInstanceById("leaveProcess", "123", Collections.emptyMap());
-        runtimeService.startProcessInstanceByKey("Process_02me0gh", "123", variables);
+        ProcessStartBO processStartBO = ProcessStartBuilder.builder()
+                .processDefinitionKey("Process_02me0gh")
+                .businessKey(IdUtils.simpleUUID())
+                .comment("启动意见")
+                .variable("user","admin")
+                .variable("initiator","admin2")
+                .build();
+        ProcessInstanceDTO processInstanceDTO = processManager.startProcessInstance(processStartBO);
+        System.out.println(JsonUtils.toJsonString(processInstanceDTO));
     }
 
-    public static void main(String[] args) {
-        Map<String, Object> variables = new HashMap<>();
-        variables.put("name", "admin");
-        variables.put("a", 1);
-        System.out.println(SpELUtils.parseExpression("#{1+1}", variables, String.class));
-        System.out.println(SpELUtils.parseExpression("#{a==1 and name=='admin'", variables, boolean.class,false));
-        System.out.println(SpELUtils.parseExpression("#{a==1 or name=='lisi'}", variables, boolean.class));
-    }
+
 }

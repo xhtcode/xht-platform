@@ -4,7 +4,7 @@ import com.xht.framework.validation.Groups;
 import com.xht.workflow.common.domain.form.WorkFlowForm;
 import com.xht.framework.common.enums.DefaultStatusEnum;
 import com.xht.framework.common.enums.EnableStatusEnum;
-import com.xht.workflow.definition.enums.ProcStartTypeEnum;
+import com.xht.workflow.common.domain.enums.ProcStartTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

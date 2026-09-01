@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.NoneDeleteEntity;
 import com.xht.framework.common.enums.DefaultStatusEnum;
 import com.xht.framework.common.enums.EnableStatusEnum;
-import com.xht.workflow.definition.enums.ProcStartTypeEnum;
+import com.xht.workflow.common.domain.enums.ProcStartTypeEnum;
 import lombok.Data;
 
 import java.io.Serial;

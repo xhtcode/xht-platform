@@ -12,7 +12,7 @@ import com.xht.workflow.definition.domain.response.FlowItemProcessResponse;
 import com.xht.workflow.definition.entity.FlowItemDefEntity;
 import com.xht.workflow.definition.entity.FlowItemProcessEntity;
 import com.xht.workflow.definition.enums.FlowDefinitionTypeEnum;
-import com.xht.workflow.definition.enums.ProcStartTypeEnum;
+import com.xht.workflow.common.domain.enums.ProcStartTypeEnum;
 import com.xht.workflow.flowable.definition.ProcessDefinitionManager;
 import com.xht.workflow.flowable.definition.common.ProcessDefinitionDTO;
 import lombok.RequiredArgsConstructor;

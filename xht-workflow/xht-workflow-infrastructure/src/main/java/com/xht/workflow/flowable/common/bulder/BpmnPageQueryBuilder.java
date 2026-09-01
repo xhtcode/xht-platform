@@ -33,7 +33,7 @@ public abstract class BpmnPageQueryBuilder<T extends BpmnPageQueryBO> implements
     /**
      * 默认排序参数
      */
-    private List<BpmnOrder> defaultOrders;
+    private final List<BpmnOrder> defaultOrders;
 
 
     public BpmnPageQueryBuilder() {
