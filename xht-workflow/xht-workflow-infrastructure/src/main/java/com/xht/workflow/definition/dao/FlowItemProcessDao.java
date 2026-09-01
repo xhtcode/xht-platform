@@ -1,7 +1,6 @@
 package com.xht.workflow.definition.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.workflow.definition.domain.form.FlowItemProcessForm;
 import com.xht.workflow.definition.domain.query.FlowItemProcessPageQuery;
 import com.xht.workflow.definition.entity.FlowItemProcessEntity;
 
@@ -17,10 +16,10 @@ public interface FlowItemProcessDao extends MapperRepository<FlowItemProcessEnti
     /**
      * 更新流程定义信息
      *
-     * @param id   ID
-     * @param form 表单参数
+     * @param id     ID
+     * @param entity 实体对象
      */
-    void updateFormRequest(Long id, FlowItemProcessForm form);
+    void updateFormRequest(Long id, FlowItemProcessEntity entity);
 
     /**
      * 查询流程定义列表

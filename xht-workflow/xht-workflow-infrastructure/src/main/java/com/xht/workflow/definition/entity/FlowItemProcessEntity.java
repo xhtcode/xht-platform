@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.NoneDeleteEntity;
 import com.xht.framework.common.enums.DefaultStatusEnum;
 import com.xht.framework.common.enums.EnableStatusEnum;
+import com.xht.workflow.definition.enums.ProcStartTypeEnum;
 import lombok.Data;
 
 import java.io.Serial;
@@ -51,7 +52,7 @@ public class FlowItemProcessEntity extends NoneDeleteEntity {
      * 流程启动方式id或者key
      */
     @TableField(value = "proc_start_type")
-    private String procStartType;
+    private ProcStartTypeEnum procStartType;
 
     /**
      * 流程定义id

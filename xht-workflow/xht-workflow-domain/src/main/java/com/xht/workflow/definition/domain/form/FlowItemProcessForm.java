@@ -4,6 +4,7 @@ import com.xht.framework.validation.Groups;
 import com.xht.workflow.common.domain.form.WorkFlowForm;
 import com.xht.framework.common.enums.DefaultStatusEnum;
 import com.xht.framework.common.enums.EnableStatusEnum;
+import com.xht.workflow.definition.enums.ProcStartTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -47,32 +48,21 @@ public class FlowItemProcessForm extends WorkFlowForm {
     /**
      * 流程启动方式id或者key
      */
+    @NotNull(message = "流程启动方式id或者key参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "流程启动方式id或者key")
-    private String procStartType;
+    private ProcStartTypeEnum procStartType;
 
     /**
      * 流程定义id
      */
-    @Schema(description = "流程定义id")
+    @Schema(description = "流程定义id，根据启动方式自动填充")
     private String procDefId;
 
     /**
      * 流程定义key
      */
-    @Schema(description = "流程定义key")
+    @Schema(description = "流程定义key，根据启动方式自动填充")
     private String procDefKey;
-
-    /**
-     * 流程定义名称
-     */
-    @Schema(description = "流程定义名称")
-    private String procDefName;
-
-    /**
-     * 流程定义版本
-     */
-    @Schema(description = "流程定义版本")
-    private Integer procDefVersion;
 
     /**
      * 匹配优先级
@@ -81,26 +71,23 @@ public class FlowItemProcessForm extends WorkFlowForm {
     private Integer procDefPriority;
 
     /**
-     * 流程部署id
-     */
-    @Schema(description = "流程部署id")
-    private String deploymentId;
-
-    /**
      * 默认状态
      */
+    @NotNull(message = "默认状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "默认状态")
     private DefaultStatusEnum defaultStatus;
 
     /**
      * 启用状态
      */
+    @NotNull(message = "启用状态参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "启用状态")
     private EnableStatusEnum enableStatus;
 
     /**
      * 备注
      */
+    @NotEmpty(message = "备注参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "备注")
     private String remark;
 

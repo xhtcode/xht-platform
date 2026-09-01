@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.workflow.definition.dao.FlowItemProcessDao;
 import com.xht.workflow.definition.dao.mapper.FlowItemProcessMapper;
-import com.xht.workflow.definition.domain.form.FlowItemProcessForm;
 import com.xht.workflow.definition.domain.query.FlowItemProcessPageQuery;
 import com.xht.workflow.definition.entity.FlowItemProcessEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -32,28 +31,28 @@ public class FlowItemProcessDaoImpl extends MapperRepositoryImpl<FlowItemProcess
     /**
      * 更新流程定义信息
      *
-     * @param id   ID
-     * @param form 表单参数
+     * @param id     ID
+     * @param entity 实体对象
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFormRequest(Long id, FlowItemProcessForm form) {
+    public void updateFormRequest(Long id, FlowItemProcessEntity entity) {
         LambdaUpdateWrapper<FlowItemProcessEntity> updateWrapper = new LambdaUpdateWrapper<>();
         //@formatter:off
         updateWrapper
-                .set(condition(form.getItemDefId()), FlowItemProcessEntity::getItemDefId, form.getItemDefId())
-                .set(condition(form.getRouterKey()), FlowItemProcessEntity::getRouterKey, form.getRouterKey())
-                .set(condition(form.getRouterName()), FlowItemProcessEntity::getRouterName, form.getRouterName())
-                .set(condition(form.getProcStartType()), FlowItemProcessEntity::getProcStartType, form.getProcStartType())
-                .set(condition(form.getProcDefId()), FlowItemProcessEntity::getProcDefId, form.getProcDefId())
-                .set(condition(form.getProcDefKey()), FlowItemProcessEntity::getProcDefKey, form.getProcDefKey())
-                .set(condition(form.getProcDefName()), FlowItemProcessEntity::getProcDefName, form.getProcDefName())
-                .set(condition(form.getProcDefVersion()), FlowItemProcessEntity::getProcDefVersion, form.getProcDefVersion())
-                .set(condition(form.getProcDefPriority()), FlowItemProcessEntity::getProcDefPriority, form.getProcDefPriority())
-                .set(condition(form.getDeploymentId()), FlowItemProcessEntity::getDeploymentId, form.getDeploymentId())
-                .set(condition(form.getDefaultStatus()), FlowItemProcessEntity::getDefaultStatus, form.getDefaultStatus())
-                .set(condition(form.getEnableStatus()), FlowItemProcessEntity::getEnableStatus, form.getEnableStatus())
-                .set(condition(form.getRemark()), FlowItemProcessEntity::getRemark, form.getRemark())
+                .set(condition(entity.getItemDefId()), FlowItemProcessEntity::getItemDefId, entity.getItemDefId())
+                .set(condition(entity.getRouterKey()), FlowItemProcessEntity::getRouterKey, entity.getRouterKey())
+                .set(condition(entity.getRouterName()), FlowItemProcessEntity::getRouterName, entity.getRouterName())
+                .set(condition(entity.getProcStartType()), FlowItemProcessEntity::getProcStartType, entity.getProcStartType())
+                .set(condition(entity.getProcDefId()), FlowItemProcessEntity::getProcDefId, entity.getProcDefId())
+                .set(condition(entity.getProcDefKey()), FlowItemProcessEntity::getProcDefKey, entity.getProcDefKey())
+                .set(condition(entity.getProcDefName()), FlowItemProcessEntity::getProcDefName, entity.getProcDefName())
+                .set(condition(entity.getProcDefVersion()), FlowItemProcessEntity::getProcDefVersion, entity.getProcDefVersion())
+                .set(condition(entity.getProcDefPriority()), FlowItemProcessEntity::getProcDefPriority, entity.getProcDefPriority())
+                .set(condition(entity.getDeploymentId()), FlowItemProcessEntity::getDeploymentId, entity.getDeploymentId())
+                .set(condition(entity.getDefaultStatus()), FlowItemProcessEntity::getDefaultStatus, entity.getDefaultStatus())
+                .set(condition(entity.getEnableStatus()), FlowItemProcessEntity::getEnableStatus, entity.getEnableStatus())
+                .set(condition(entity.getRemark()), FlowItemProcessEntity::getRemark, entity.getRemark())
                 .eq(FlowItemProcessEntity::getId, id);
         //@formatter:on
         update(updateWrapper);

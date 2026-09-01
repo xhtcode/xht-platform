@@ -12,6 +12,9 @@ import com.xht.workflow.definition.domain.response.FlowItemProcessResponse;
 import com.xht.workflow.definition.entity.FlowItemDefEntity;
 import com.xht.workflow.definition.entity.FlowItemProcessEntity;
 import com.xht.workflow.definition.enums.FlowDefinitionTypeEnum;
+import com.xht.workflow.definition.enums.ProcStartTypeEnum;
+import com.xht.workflow.flowable.definition.ProcessDefinitionManager;
+import com.xht.workflow.flowable.definition.common.ProcessDefinitionDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,8 @@ public class FlowItemProcessServiceImpl implements IFlowItemProcessService {
 
     private final FlowItemProcessConverter flowItemProcessConverter;
 
+    private final ProcessDefinitionManager processDefinitionManager;
+
     /**
      * 创建流程定义
      *
@@ -44,7 +49,7 @@ public class FlowItemProcessServiceImpl implements IFlowItemProcessService {
     @Override
     public void create(FlowItemProcessForm form) {
         checkItemDef(form.getItemDefId());
-        FlowItemProcessEntity entity = flowItemProcessConverter.toEntity(form);
+        FlowItemProcessEntity entity = fillProcessDefinition(form);
         flowItemProcessDao.saveTransactional(entity);
     }
 
@@ -69,7 +74,33 @@ public class FlowItemProcessServiceImpl implements IFlowItemProcessService {
     public void updateById(Long id, FlowItemProcessForm form) {
         ThrowUtils.notNull(id);
         checkItemDef(form.getItemDefId());
-        flowItemProcessDao.updateFormRequest(id, form);
+        FlowItemProcessEntity entity = fillProcessDefinition(form);
+        flowItemProcessDao.updateFormRequest(id, entity);
+    }
+
+    /**
+     * 表单转实体并根据流程启动方式查询填充流程定义数据
+     *
+     * @param form 表单对象
+     * @return 填充后的实体对象
+     */
+    private FlowItemProcessEntity fillProcessDefinition(FlowItemProcessForm form) {
+        FlowItemProcessEntity entity = flowItemProcessConverter.toEntity(form);
+        ProcessDefinitionDTO processDefinition;
+        if (Objects.equals(entity.getProcStartType(), ProcStartTypeEnum.ID)) {
+            processDefinition = processDefinitionManager.findByProcessDefId(entity.getProcDefId());
+        } else if (Objects.equals(entity.getProcStartType(), ProcStartTypeEnum.KEY)) {
+            processDefinition = processDefinitionManager.findByProcessDefKey(entity.getProcDefKey());
+        } else {
+            throw new BusinessException(BusinessErrorCode.PARAM_ERROR, "流程启动方式不合法");
+        }
+        ThrowUtils.throwIf(Objects.isNull(processDefinition), BusinessErrorCode.DATA_NOT_EXIST, "流程定义不存在");
+        entity.setProcDefId(processDefinition.getProcessDefId());
+        entity.setProcDefKey(processDefinition.getProcessDefKey());
+        entity.setProcDefName(processDefinition.getProcessDefName());
+        entity.setProcDefVersion(processDefinition.getProcessDefVersion());
+        entity.setDeploymentId(processDefinition.getDeploymentId());
+        return entity;
     }
 
     /**

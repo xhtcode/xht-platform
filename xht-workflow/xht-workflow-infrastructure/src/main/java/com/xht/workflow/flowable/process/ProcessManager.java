@@ -1,7 +1,8 @@
 package com.xht.workflow.flowable.process;
 
+import com.xht.workflow.flowable.definition.ProcessDefinitionManager;
+import com.xht.workflow.flowable.definition.common.ProcessDefinitionDTO;
 import lombok.RequiredArgsConstructor;
-import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +18,6 @@ import java.util.Map;
 public class ProcessManager {
 
     private final RuntimeService runtimeService;
-
-    private final RepositoryService repositoryService;
 
     /**
      * 启动流程实例

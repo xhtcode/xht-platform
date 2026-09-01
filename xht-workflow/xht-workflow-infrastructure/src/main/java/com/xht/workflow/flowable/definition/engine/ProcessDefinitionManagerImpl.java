@@ -51,6 +51,18 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
     }
 
     /**
+     * 根据流程定义key查询最新流程定义
+     *
+     * @param processDefKey 流程定义key
+     * @return 流程定义
+     */
+    @Override
+    public ProcessDefinitionDTO findByProcessDefKey(String processDefKey) {
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionKey(processDefKey).latestVersion().singleResult();
+        return flowableDeployConverter.convert(processDefinition);
+    }
+
+    /**
      * 分页查询流程定义
      *
      * @param processDefinitionPageQueryBO 查询条件

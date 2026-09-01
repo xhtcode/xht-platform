@@ -3,6 +3,7 @@ package com.xht.workflow.definition.domain.response;
 import com.xht.framework.common.domain.response.MetaResponse;
 import com.xht.framework.common.enums.DefaultStatusEnum;
 import com.xht.framework.common.enums.EnableStatusEnum;
+import com.xht.workflow.definition.enums.ProcStartTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -48,7 +49,7 @@ public class FlowItemProcessResponse extends MetaResponse {
      * 流程启动方式id或者key
      */
     @Schema(description = "流程启动方式id或者key")
-    private String procStartType;
+    private ProcStartTypeEnum procStartType;
 
     /**
      * 流程定义id

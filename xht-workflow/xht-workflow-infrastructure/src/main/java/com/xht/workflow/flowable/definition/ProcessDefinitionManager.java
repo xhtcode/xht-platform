@@ -20,6 +20,14 @@ public interface ProcessDefinitionManager {
     ProcessDefinitionDTO findByProcessDefId(String processDefId);
 
     /**
+     * 根据流程定义key查询最新流程定义
+     *
+     * @param processDefKey 流程定义key
+     * @return 流程定义
+     */
+    ProcessDefinitionDTO findByProcessDefKey(String processDefKey);
+
+    /**
      * 分页查询流程定义
      *
      * @param query 查询条件
