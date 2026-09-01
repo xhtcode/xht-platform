@@ -7,6 +7,7 @@ import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.common.domain.query.WorkFlowPageQuery;
 import com.xht.workflow.definition.dao.FlowItemDefDao;
 import com.xht.workflow.definition.entity.FlowItemDefEntity;
+import com.xht.workflow.flowable.common.bo.BpmnOrder;
 import com.xht.workflow.flowable.common.bo.MetaInfoBO;
 import com.xht.workflow.flowable.model.ModelManager;
 import com.xht.workflow.flowable.model.common.*;
@@ -143,6 +144,7 @@ public class FlowModelServiceImpl implements IFlowModelService {
                 .size(query.getSize())
                 .asc(SortTool.getAscSort(query))
                 .desc(SortTool.getDescSort(query))
+                .defaultOrder("lastUpdateTime", BpmnOrder.BpmnOrderType.DESC)
                 .build();
         // @formatter:on
         PageResponse<ModelDTO> page = modelManager.findPage(modelPageQueryBO);

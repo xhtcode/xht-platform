@@ -26,7 +26,7 @@ public final class BpmnOrder extends BpmnBO {
      * 排序类型
      * @author xht
      */
-    public static enum BpmnOrderType {
+    public  enum BpmnOrderType {
         ASC,
         DESC;
     }

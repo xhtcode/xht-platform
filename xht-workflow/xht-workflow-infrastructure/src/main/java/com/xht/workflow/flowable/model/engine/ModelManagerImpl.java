@@ -208,7 +208,7 @@ public class ModelManagerImpl implements ModelManager {
             case "modelName" -> ModelQueryProperty.MODEL_NAME;
             case "modelKey" -> ModelQueryProperty.MODEL_KEY;
             case "lastUpdateTime" -> ModelQueryProperty.MODEL_LAST_UPDATE_TIME;
-            default -> ModelQueryProperty.MODEL_CREATE_TIME;
+            default -> null;
         });
         return FlowableQueryUtils.findPage(modelQuery, query, modelConverter::convert);
     }

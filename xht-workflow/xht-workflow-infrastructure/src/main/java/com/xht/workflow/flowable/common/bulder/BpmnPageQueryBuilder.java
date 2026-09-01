@@ -30,10 +30,15 @@ public abstract class BpmnPageQueryBuilder<T extends BpmnPageQueryBO> implements
      * 排序参数
      */
     private List<BpmnOrder> orders;
+    /**
+     * 默认排序参数
+     */
+    private List<BpmnOrder> defaultOrders;
 
 
     public BpmnPageQueryBuilder() {
         this.orders = new ArrayList<>();
+        this.defaultOrders = new ArrayList<>();
     }
 
     /**
@@ -111,6 +116,13 @@ public abstract class BpmnPageQueryBuilder<T extends BpmnPageQueryBO> implements
         return this;
     }
 
+    public BpmnPageQueryBuilder<T> defaultOrder(String order, BpmnOrder.BpmnOrderType bpmnOrder) {
+        ThrowUtils.hasText(order, "排序字段不能为空");
+        ThrowUtils.notNull(bpmnOrder, "排序类型不能为空");
+        this.defaultOrders.add(new BpmnOrder(order, bpmnOrder));
+        return this;
+    }
+
     /**
      * 构建流程模型初始化参数
      */
@@ -125,7 +137,11 @@ public abstract class BpmnPageQueryBuilder<T extends BpmnPageQueryBO> implements
         }
         t.setCurrent(current);
         t.setSize(size);
-        t.setOrders(orders);
+        if (!CollectionUtils.isEmpty(orders)) {
+            t.setOrders(orders);
+        }else {
+            t.setOrders(defaultOrders);
+        }
         return t;
     }
 

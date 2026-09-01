@@ -7,6 +7,7 @@ import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.flowable.common.BpmnSupplier;
 import com.xht.workflow.flowable.common.bo.BpmnOrder;
 import com.xht.workflow.flowable.common.bo.BpmnPageQueryBO;
+import lombok.extern.slf4j.Slf4j;
 import org.flowable.common.engine.api.query.Query;
 import org.flowable.common.engine.api.query.QueryProperty;
 import org.springframework.util.CollectionUtils;
@@ -19,6 +20,7 @@ import java.util.Objects;
  *
  * @author xht
  **/
+@Slf4j
 public abstract class FlowableQueryUtils {
 
     /**
@@ -28,7 +30,9 @@ public abstract class FlowableQueryUtils {
      * @param bpmnPageQueryBO      分页查询参数
      * @param bpmnSupplier 查询结果转换函数
      */
-    public static <T extends Query<?, ?>, U, E extends QueryProperty> void fillOrder(Query<T, U> query, BpmnPageQueryBO bpmnPageQueryBO, BpmnSupplier<E, String> bpmnSupplier) {
+    public static <T extends Query<?, ?>, U, E extends QueryProperty> void fillOrder(Query<T, U> query,
+                                                                                     BpmnPageQueryBO bpmnPageQueryBO,
+                                                                                     BpmnSupplier<E, String> bpmnSupplier) {
         List<BpmnOrder> orders = bpmnPageQueryBO.getOrders();
         if (!CollectionUtils.isEmpty(orders)) {
             for (BpmnOrder order : orders) {
@@ -37,12 +41,16 @@ public abstract class FlowableQueryUtils {
                 BpmnOrder.BpmnOrderType orderType = Objects.isNull(order.getOrderType()) ? BpmnOrder.BpmnOrderType.ASC : order.getOrderType();
                 ThrowUtils.hasText(name, "排序字段不能为空");
                 E sortProperty = bpmnSupplier.get(name);
-                // 映射前端字段 -> Flowable内置属性
-                query.orderBy(sortProperty);
-                if (orderType.equals(BpmnOrder.BpmnOrderType.DESC)) {
-                    query.desc();
+                if (Objects.nonNull(sortProperty)) {
+                    // 映射前端字段 -> Flowable内置属性
+                    query.orderBy(sortProperty);
+                    if (Objects.equals(orderType, BpmnOrder.BpmnOrderType.DESC)) {
+                        query.desc();
+                    } else {
+                        query.asc();
+                    }
                 } else {
-                    query.asc();
+                    log.warn("排序字段[`{}`]不存在", name);
                 }
             }
         }

@@ -3,12 +3,13 @@ package com.xht.workflow.process.service;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.mybatis.utils.SortTool;
 import com.xht.workflow.common.domain.query.WorkFlowPageQuery;
-import com.xht.workflow.process.converter.FlowProcessDefinitionConverter;
-import com.xht.workflow.process.domain.query.ProcessDefinitionPageQuery;
-import com.xht.workflow.process.domain.response.ProcessDefinitionResponse;
+import com.xht.workflow.flowable.common.bo.BpmnOrder;
 import com.xht.workflow.flowable.definition.ProcessDefinitionManager;
 import com.xht.workflow.flowable.definition.common.ProcessDefinitionPageQueryBO;
 import com.xht.workflow.flowable.definition.common.ProcessDefinitionQueryBuilder;
+import com.xht.workflow.process.converter.FlowProcessDefinitionConverter;
+import com.xht.workflow.process.domain.query.ProcessDefinitionPageQuery;
+import com.xht.workflow.process.domain.response.ProcessDefinitionResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,7 @@ public class FlowProcessDefinitionServiceImpl implements IFlowProcessDefinitionS
                 .size(processDefinitionPageQuery.getSize())
                 .asc(SortTool.getAscSort(processDefinitionPageQuery))
                 .desc(SortTool.getDescSort(processDefinitionPageQuery))
+                .defaultOrder("processDefinitionVersion", BpmnOrder.BpmnOrderType.DESC)
                 .build();
         // @formatter:on
         return flowProcessDefinitionConverter.toResponse(processDefinitionManager.findPage(pageQueryBO));
@@ -67,6 +69,7 @@ public class FlowProcessDefinitionServiceImpl implements IFlowProcessDefinitionS
                 .size(workFlowPageQuery.getSize())
                 .asc(SortTool.getAscSort(workFlowPageQuery))
                 .desc(SortTool.getDescSort(workFlowPageQuery))
+                .defaultOrder("processDefinitionVersion", BpmnOrder.BpmnOrderType.DESC)
                 .build();
         // @formatter:on
         return flowProcessDefinitionConverter.toResponse(processDefinitionManager.historyPage(processDefKey, pageQueryBO));
