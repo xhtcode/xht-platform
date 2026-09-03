@@ -1,9 +1,6 @@
 package com.xht.workflow.flowable.process;
 
-import com.xht.workflow.flowable.process.common.CommentDTO;
-import com.xht.workflow.flowable.process.common.CommentSaveBO;
-import com.xht.workflow.flowable.process.common.ProcessInstanceDTO;
-import com.xht.workflow.flowable.process.common.ProcessStartBO;
+import com.xht.workflow.flowable.process.common.*;
 
 import java.util.List;
 import java.util.Map;
@@ -23,6 +20,14 @@ public interface ProcessManager {
      * @return 流程实例DTO
      */
     ProcessInstanceDTO startProcessInstance(ProcessStartBO processStartBO);
+
+    /**
+     * 完成任务
+     * 按需认领任务并记录完成意见，携带流程变量完成任务，流程流转至下一节点
+     *
+     * @param taskCompleteBO 任务完成参数
+     */
+    void taskComplete(TaskCompleteBO taskCompleteBO);
 
     /**
      * 保存流程实例意见
@@ -56,19 +61,20 @@ public interface ProcessManager {
 
     /**
      * 根据流程实例id查询意见集合
-     *
-     * @param processInstanceId 流程实例id
-     * @return 意见集合
-     */
-    List<CommentDTO> findCommentByProcessInstanceId(String processInstanceId);
-
-    /**
-     * 根据流程实例id查询意见集合
      * 按任务id分组，key为任务id，value为该任务下的意见集合
      *
      * @param processInstanceId 流程实例id
      * @return 按任务id分组的意见集合
      */
-    Map<String, List<CommentDTO>> findCommentGroupByTaskId(String processInstanceId);
+    Map<String, List<CommentDTO>> findCommentProcessInstanceId(String processInstanceId);
+
+    /**
+     * 根据流程实例id查询历史任务集合
+     * 按任务开始时间升序排列
+     *
+     * @param processInstanceId 流程实例id
+     * @return 历史任务集合
+     */
+    List<HistoricTaskDTO> findHistoricTaskByProcessInstanceId(String processInstanceId);
 
 }

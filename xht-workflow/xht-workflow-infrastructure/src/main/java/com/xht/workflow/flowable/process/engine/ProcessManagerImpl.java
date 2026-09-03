@@ -4,21 +4,22 @@ import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.common.domain.enums.ProcStartTypeEnum;
 import com.xht.workflow.common.exception.WorkFlowException;
 import com.xht.workflow.flowable.process.ProcessManager;
-import com.xht.workflow.flowable.process.common.CommentDTO;
-import com.xht.workflow.flowable.process.common.CommentSaveBO;
-import com.xht.workflow.flowable.process.common.ProcessInstanceDTO;
-import com.xht.workflow.flowable.process.common.ProcessStartBO;
+import com.xht.workflow.flowable.process.common.*;
 import com.xht.workflow.flowable.process.converter.FlowableCommentConverter;
+import com.xht.workflow.flowable.process.converter.FlowableHistoricTaskConverter;
 import com.xht.workflow.flowable.process.converter.FlowableProcessInstanceConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.flowable.engine.HistoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.engine.task.Comment;
 import org.flowable.task.api.Task;
+import org.flowable.task.api.history.HistoricTaskInstance;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -40,9 +41,13 @@ public class ProcessManagerImpl implements ProcessManager {
 
     private final TaskService taskService;
 
+    private final HistoryService historyService;
+
     private final FlowableProcessInstanceConverter flowableProcessInstanceConverter;
 
     private final FlowableCommentConverter flowableCommentConverter;
+
+    private final FlowableHistoricTaskConverter flowableHistoricTaskConverter;
 
     /**
      * 启动流程实例
@@ -74,6 +79,38 @@ public class ProcessManagerImpl implements ProcessManager {
         return flowableProcessInstanceConverter.convert(processInstance);
     }
 
+    /**
+     * 完成任务
+     * 按需认领任务并记录完成意见，携带流程变量完成任务，流程流转至下一节点
+     *
+     * @param taskCompleteBO 任务完成参数
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void taskComplete(TaskCompleteBO taskCompleteBO) {
+        ThrowUtils.notNull(taskCompleteBO, "任务完成参数不能为空");
+        String taskId = taskCompleteBO.getTaskId();
+        String userId = taskCompleteBO.getUserId();
+        Map<String, Object> variables = taskCompleteBO.getVariables();
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        ThrowUtils.notNull(task, () -> new WorkFlowException("任务不存在"));
+        if (taskCompleteBO.hasComment()) {
+            taskService.addComment(task.getId(), task.getProcessInstanceId(), taskCompleteBO.getType(), taskCompleteBO.getComment());
+        }
+        if (StringUtils.hasText(userId)) {
+            if (CollectionUtils.isEmpty(variables)) {
+                taskService.complete(taskId, userId);
+            } else {
+                taskService.complete(taskId, userId, variables);
+            }
+        } else {
+            if (CollectionUtils.isEmpty(variables)) {
+                taskService.complete(taskId);
+            } else {
+                taskService.complete(taskId, variables);
+            }
+        }
+    }
 
     /**
      * 保存流程实例意见
@@ -126,31 +163,31 @@ public class ProcessManagerImpl implements ProcessManager {
 
     /**
      * 根据流程实例id查询意见集合
-     *
-     * @param processInstanceId 流程实例id
-     * @return 意见集合
-     */
-    @Override
-    public List<CommentDTO> findCommentByProcessInstanceId(String processInstanceId) {
-        ThrowUtils.hasText(processInstanceId, "流程实例id不能为空");
-        List<Comment> processInstanceComments = taskService.getProcessInstanceComments(processInstanceId);
-        return flowableCommentConverter.convert(processInstanceComments);
-    }
-
-    /**
-     * 根据流程实例id查询意见集合
      * 按任务id分组，key为任务id，value为该任务下的意见集合
      *
      * @param processInstanceId 流程实例id
      * @return 按任务id分组的意见集合
      */
     @Override
-    public Map<String, List<CommentDTO>> findCommentGroupByTaskId(String processInstanceId) {
+    public Map<String, List<CommentDTO>> findCommentProcessInstanceId(String processInstanceId) {
         ThrowUtils.hasText(processInstanceId, "流程实例id不能为空");
         List<Comment> processInstanceComments = taskService.getProcessInstanceComments(processInstanceId);
         List<CommentDTO> commentDTOList = flowableCommentConverter.convert(processInstanceComments);
         return commentDTOList.stream().collect(Collectors.groupingBy(CommentDTO::getTaskId));
     }
 
+    /**
+     * 根据流程实例id查询历史任务集合
+     * 按任务开始时间升序排列
+     *
+     * @param processInstanceId 流程实例id
+     * @return 历史任务集合
+     */
+    @Override
+    public List<HistoricTaskDTO> findHistoricTaskByProcessInstanceId(String processInstanceId) {
+        ThrowUtils.hasText(processInstanceId, "流程实例id不能为空");
+        List<HistoricTaskInstance> historicTaskInstances = historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstanceId).orderByHistoricTaskInstanceStartTime().desc().list();
+        return flowableHistoricTaskConverter.convert(historicTaskInstances);
+    }
 
 }

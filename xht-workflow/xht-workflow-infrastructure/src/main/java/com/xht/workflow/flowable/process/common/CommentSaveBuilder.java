@@ -85,10 +85,7 @@ public class CommentSaveBuilder implements BpmnBuilder<CommentSaveBO> {
      */
     public CommentSaveBuilder comment(FlowableCommentTypeEnum type, String comment) {
         ThrowUtils.notNull(type, "意见类型不能为空");
-        ThrowUtils.hasText(comment, "意见内容不能为空");
-        this.comment = comment;
-        this.type = type.getValue();
-        return this;
+        return comment(type.getValue(), comment);
     }
 
     /**
