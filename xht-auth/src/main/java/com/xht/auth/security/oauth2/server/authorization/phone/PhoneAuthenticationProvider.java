@@ -8,6 +8,7 @@ import com.xht.framework.common.enums.LoginTypeEnum;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.domain.RequestUserBO;
+import com.xht.framework.security.domain.RequestUserBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -47,7 +48,7 @@ public class PhoneAuthenticationProvider extends AbstractAuthenticationProvider 
      */
     @Override
     protected RequestUserBO createRequestUserBO(Map<String, Object> additionalParameters) {
-        return RequestUserBO.builderPhone(additionalParameters);
+        return RequestUserBuilder.builder().phoneGrant(additionalParameters).build();
     }
 
     /**
@@ -60,6 +61,7 @@ public class PhoneAuthenticationProvider extends AbstractAuthenticationProvider 
     @Override
     protected BasicUserDetails getAuthenticatedPrincipal(RequestUserBO requestUserBO, Authentication authentication) {
         requestUserBO.checkUserName();
+        iCaptchaService.checkCustomGrantType(requestUserBO.getCustomGrantType());
         iCaptchaService.checkPhoneCode(requestUserBO.getPhone(), requestUserBO.getPhoneCode(), CaptchaBusinessTypeEnum.OAUTH2);
         BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnum.PHONE);
         basicUserDetailsService.validate(requestUserBO, basicUserDetails, false);

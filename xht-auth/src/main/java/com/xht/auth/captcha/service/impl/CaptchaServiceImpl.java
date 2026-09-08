@@ -6,15 +6,16 @@ import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnum;
 import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.auth.captcha.handler.captcha.ArithmeticCaptcha;
 import com.xht.auth.captcha.service.ICaptchaService;
+import com.xht.framework.security.properties.Oauth2GrantTypeProperties;
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.exception.BusinessException;
-import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.sms.exception.SmsException;
 import com.xht.framework.sms.utils.SmsUtils;
 import com.xht.framework.utils.IdUtils;
 import com.xht.framework.utils.StringUtils;
+import com.xht.framework.utils.ThrowUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,18 @@ public class CaptchaServiceImpl implements ICaptchaService {
     private final RedisRepository redisRepository;
 
     private final IAuthenticationDao authenticationDao;
+
+    private final Oauth2GrantTypeProperties oauth2GrantTypeProperties;
+
+    /**
+     * 校验自定义授权类型
+     *
+     * @param value 授权类型值
+     */
+    @Override
+    public boolean checkCustomGrantType(String value) {
+        return StringUtils.equals(value, oauth2GrantTypeProperties.getValue());
+    }
 
     /**
      * 生成验证码
@@ -79,9 +92,6 @@ public class CaptchaServiceImpl implements ICaptchaService {
     public void checkCaptcha(String requestKey, String requestCaptcha, CaptchaBusinessTypeEnum captchaBusinessType) {
         String cacheKey = null;
         try {
-            if (true){
-                return;
-            }
             ThrowUtils.hasText(requestCaptcha, () -> new CaptchaException("验证码错误，请输入正确的验证码"));
             ThrowUtils.hasText(requestKey, () -> new CaptchaException("验证码错误，请输入正确的验证码"));
             cacheKey = Keys.createKey(REDIS_CAPTCHA_CODE_KEY_PREFIX, captchaBusinessType.getValue(), requestKey);

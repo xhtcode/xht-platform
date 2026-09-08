@@ -14,7 +14,7 @@ import java.util.List;
  **/
 @Data
 @Component
-@ConfigurationProperties("xht.oauth2.login")
+@ConfigurationProperties("xht.security.oauth2.login")
 public class LoginProperties implements Serializable {
 
     /**

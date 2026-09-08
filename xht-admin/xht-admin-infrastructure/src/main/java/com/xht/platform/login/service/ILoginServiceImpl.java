@@ -6,6 +6,8 @@ import com.xht.framework.common.enums.LoginTypeEnum;
 import com.xht.framework.jackson.JsonUtils;
 import com.xht.framework.oauth2.token.response.Oauth2ErrorResponse;
 import com.xht.framework.oauth2.token.response.Oauth2TokenResponse;
+import com.xht.framework.security.constant.SecurityConstant;
+import com.xht.framework.security.properties.Oauth2GrantTypeProperties;
 import com.xht.framework.security.utils.Oauth2Utils;
 import  com.xht.platform.login.LoginProperties;
 import  com.xht.platform.login.converter.LoginConverter;
@@ -20,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
+import org.springframework.lang.NonNull;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -45,6 +49,8 @@ public class ILoginServiceImpl implements ILoginService {
 
     private final LoginProperties loginProperties;
 
+    private final Oauth2GrantTypeProperties oauth2GrantTypeProperties;
+
     private final LoginManager loginManager;
 
     private final static LoginExchangeFunction LOGIN_EXCHANGE_FUNCTION = new LoginExchangeFunction();
@@ -58,12 +64,7 @@ public class ILoginServiceImpl implements ILoginService {
      */
     @Override
     public LoginResponse formLogin(HttpServletRequest servletRequest, PasswordLoginForm passwordLoginForm) {
-        MultiValueMap<String, String> formParams = new LinkedMultiValueMap<>();
-        formParams.add("username", passwordLoginForm.getUsername());
-        formParams.add("password", passwordLoginForm.getPassword());
-        formParams.add("captcha_key", passwordLoginForm.getCaptchaKey());
-        formParams.add("captcha_code", passwordLoginForm.getCaptchaCode());
-        formParams.add("grant_type", LoginTypeEnum.PASSWORD.getValue());
+        MultiValueMap<String, String> formParams = getStringStringMultiValueMap(passwordLoginForm);
         try {
             Oauth2TokenResponse oauth2TokenResponse = createOauth2Request(formParams);
             loginManager.saveLoginLog(servletRequest, passwordLoginForm.getUsername(), oauth2TokenResponse.getAccessToken(), passwordLoginForm, oauth2TokenResponse);
@@ -79,6 +80,17 @@ public class ILoginServiceImpl implements ILoginService {
         }
     }
 
+    @NonNull
+    private static MultiValueMap<String, String> getStringStringMultiValueMap(PasswordLoginForm passwordLoginForm) {
+        MultiValueMap<String, String> formParams = new LinkedMultiValueMap<>();
+        formParams.add(SecurityConstant.REQUEST_USERNAME, passwordLoginForm.getUsername());
+        formParams.add(SecurityConstant.REQUEST_PASSWORD, passwordLoginForm.getPassword());
+        formParams.add(SecurityConstant.REQUEST_CAPTCHA_CODE_KEY, passwordLoginForm.getCaptchaKey());
+        formParams.add(SecurityConstant.REQUEST_CAPTCHA_CODE, passwordLoginForm.getCaptchaCode());
+        formParams.add(SecurityConstant.REQUEST_OAUTH2_GRANT_TYPE, LoginTypeEnum.PASSWORD.getValue());
+        return formParams;
+    }
+
     /**
      * 手机号登录
      *
@@ -89,9 +101,9 @@ public class ILoginServiceImpl implements ILoginService {
     @Override
     public LoginResponse phoneLogin(HttpServletRequest servletRequest, PhoneLoginForm phoneLoginForm) {
         MultiValueMap<String, String> formParams = new LinkedMultiValueMap<>();
-        formParams.add("phone", phoneLoginForm.getPhone());
-        formParams.add("phone_code", phoneLoginForm.getPhoneCode());
-        formParams.add("grant_type", LoginTypeEnum.PHONE.getValue());
+        formParams.add(SecurityConstant.REQUEST_PHONE, phoneLoginForm.getPhone());
+        formParams.add(SecurityConstant.REQUEST_PHONE_CODE, phoneLoginForm.getPhoneCode());
+        formParams.add(SecurityConstant.REQUEST_CUSTOM_GRANT_TYPE, LoginTypeEnum.PHONE.getValue());
         try {
             Oauth2TokenResponse oauth2TokenResponse = createOauth2Request(formParams);
             return LoginConverter.converter(oauth2TokenResponse);
@@ -113,7 +125,8 @@ public class ILoginServiceImpl implements ILoginService {
      * @return OAuth2响应对象
      */
     private Oauth2TokenResponse createOauth2Request(MultiValueMap<String, String> formParams) {
-        formParams.addAll("scope", loginProperties.getScope());
+        formParams.addAll(OAuth2ParameterNames.SCOPE, loginProperties.getScope());
+        formParams.add(SecurityConstant.REQUEST_CUSTOM_GRANT_TYPE, oauth2GrantTypeProperties.getValue());
         String basicAuthorization = Oauth2Utils.assembleBasicAuthorization(loginProperties.getClientId(), loginProperties.getClientSecret());
         Oauth2TokenResponse exchange = restClient.post().uri(loginProperties.getLoginUrl())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED) // 表单类型

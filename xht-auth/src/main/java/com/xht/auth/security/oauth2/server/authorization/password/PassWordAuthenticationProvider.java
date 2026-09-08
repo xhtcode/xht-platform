@@ -8,6 +8,7 @@ import com.xht.framework.common.enums.LoginTypeEnum;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.domain.RequestUserBO;
+import com.xht.framework.security.domain.RequestUserBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -47,7 +48,7 @@ public class PassWordAuthenticationProvider extends AbstractAuthenticationProvid
      */
     @Override
     protected RequestUserBO createRequestUserBO(Map<String, Object> additionalParameters) {
-        return RequestUserBO.builderPassword(additionalParameters);
+        return RequestUserBuilder.builder().passwordGrant(additionalParameters).build();
     }
 
     /**
@@ -61,6 +62,7 @@ public class PassWordAuthenticationProvider extends AbstractAuthenticationProvid
     protected BasicUserDetails getAuthenticatedPrincipal(RequestUserBO requestUserBO, Authentication authentication) {
         requestUserBO.checkUserName();
         requestUserBO.checkPassWord();
+        iCaptchaService.checkCustomGrantType(requestUserBO.getCustomGrantType());
         iCaptchaService.checkCaptcha(requestUserBO.generateCaptchaKey(), requestUserBO.getCaptcha(), CaptchaBusinessTypeEnum.OAUTH2);
         BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnum.PASSWORD);
         basicUserDetailsService.validate(requestUserBO, basicUserDetails, true);

@@ -18,6 +18,11 @@ public interface SecurityConstant {
     String REQUEST_OAUTH2_GRANT_TYPE = "grant_type";
 
     /**
+     * 自定义授权类型类型
+     */
+    String REQUEST_CUSTOM_GRANT_TYPE = "grant_type";
+
+    /**
      * 请求的`账号`name值
      */
     String REQUEST_USERNAME = "username";

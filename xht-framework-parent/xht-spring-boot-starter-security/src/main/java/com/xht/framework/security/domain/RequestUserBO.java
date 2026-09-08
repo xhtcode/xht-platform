@@ -1,12 +1,11 @@
 package com.xht.framework.security.domain;
 
-import cn.hutool.core.map.MapUtil;
-import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.security.constant.SecurityConstant;
+import com.xht.framework.utils.ThrowUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.AuthenticationException;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -17,96 +16,59 @@ import java.util.Map;
  *
  * @author xht
  **/
-@Slf4j
 @Getter
+@Setter(AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RequestUserBO implements Serializable {
-
 
     @Serial
     private static final long serialVersionUID = 1L;
+
     /**
      * 用户名
      */
-    private final String userName;
+    private String userName;
 
     /**
      * 密码
      */
-    private final String passWord;
+    private String passWord;
 
     /**
      * oauth2 授权类型
      */
-    private final String grantType;
+    private String grantType;
 
     /**
      * 验证码
      */
-    private final String captcha;
+    private String captcha;
 
     /**
      * 验证码key
      */
     @Getter(AccessLevel.PRIVATE)
-    private final String captchaKey;
+    private String captchaKey;
 
     /**
      * 手机号
      */
-    private final String phone;
+    private String phone;
 
     /**
      * 手机号验证码
      */
-    private final String phoneCode;
-
-    private RequestUserBO(String userName, String passWord, String captcha, String captchaKey, String grantType) {
-        this.userName = userName;
-        this.passWord = passWord;
-        this.captcha = captcha;
-        this.captchaKey = captchaKey;
-        this.phone = null;
-        this.phoneCode = null;
-        this.grantType = grantType;
-    }
-
-    private RequestUserBO(String phone, String phoneCode, String grantType) {
-        this.userName = null;
-        this.passWord = null;
-        this.captcha = null;
-        this.captchaKey = null;
-        this.phone = phone;
-        this.phoneCode = phoneCode;
-        this.grantType = grantType;
-    }
+    private String phoneCode;
 
     /**
-     * 根据请求信息构建 用户
-     *
-     * @param additionalParameters 扩展信息 数据来源{@code  com.xht.cloud.framework.security.authorization.granttype.AbstractAuthenticationConverter}
-     * @return {@link RequestUserBO}
+     * 自定义授权类型
      */
-    public static RequestUserBO builderPassword(Map<String, ?> additionalParameters) throws AuthenticationException {
-        String username = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_USERNAME);
-        String password = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_PASSWORD);
-        String captchaCode = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CAPTCHA_CODE);
-        String captchaKey = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CAPTCHA_CODE_KEY);
-        String grantType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_OAUTH2_GRANT_TYPE);
-        return new RequestUserBO(username, password, captchaCode, captchaKey, grantType);
-    }
+    private String customGrantType;
 
     /**
-     * 根据请求信息构建 手机号
-     *
-     * @param additionalParameters 扩展信息 数据来源{@code  com.xht.cloud.framework.security.authorization.granttype.AbstractAuthenticationConverter}
-     * @return {@link RequestUserBO}
+     * 原数据
      */
-    public static RequestUserBO builderPhone(Map<String, ?> additionalParameters) throws AuthenticationException {
-        String phone = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_PHONE);
-        String phoneCode = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_PHONE_CODE);
-        String grantType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_OAUTH2_GRANT_TYPE);
-        return new RequestUserBO(phone, phoneCode, grantType);
-    }
+    private Map<String, Object> additionalParameters;
 
     /**
      * 检查用户名是否为空
