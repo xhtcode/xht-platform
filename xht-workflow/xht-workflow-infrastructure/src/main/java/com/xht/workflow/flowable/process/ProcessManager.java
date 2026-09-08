@@ -12,6 +12,7 @@ import java.util.Map;
  **/
 public interface ProcessManager {
 
+
     /**
      * 启动流程实例
      * 根据流程启动类型选择按流程定义id或流程定义key启动
@@ -20,6 +21,14 @@ public interface ProcessManager {
      * @return 流程实例DTO
      */
     ProcessInstanceDTO startProcessInstance(ProcessStartBO processStartBO);
+
+    /**
+     * 根据流程实例id查询高亮节点
+     *
+     * @param processInstanceId 流程实例id
+     * @return 高亮节点
+     */
+    HighlightNodeDTO findHighLightedNodeByProcessInstanceId(String processInstanceId);
 
     /**
      * 完成任务

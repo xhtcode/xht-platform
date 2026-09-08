@@ -2,8 +2,12 @@ package com.xht.workflow;
 
 import com.xht.framework.jackson.JsonUtils;
 import com.xht.framework.utils.IdUtils;
+import com.xht.workflow.flowable.model.ModelManager;
 import com.xht.workflow.flowable.process.ProcessManager;
 import com.xht.workflow.flowable.process.common.*;
+import org.flowable.engine.HistoryService;
+import org.flowable.engine.RepositoryService;
+import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +27,22 @@ public class ProcessManagerTest {
 
     @Autowired
     private ProcessManager processManager;
+
+    @Autowired
+    private ModelManager modelManager;
+
+    @Autowired
+    private RuntimeService runtimeService;
+
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private HistoryService historyService;
+
+    @Autowired
+    private RepositoryService repositoryService;
+
     private static final String processInstanceId = "f28ac643-a5e9-11f1-8ed9-d6085339c355";
 
     @Test
@@ -53,13 +71,8 @@ public class ProcessManagerTest {
 
     @Test
     public void generateDiagram() throws Exception {
-        TaskCompleteBO taskCompleteBO = TaskCompleteBuilder.builder()
-                .taskId("f28d103a-a5e9-11f1-8ed9-d6085339c355")
-                .userId("admin")
-                .comment("同意")
-                .variable("approve", true)
-                .build();
-        processManager.taskComplete(taskCompleteBO);
+        HighlightNodeDTO highlightNodeDTO = processManager.findHighLightedNodeByProcessInstanceId(processInstanceId);
+        System.out.println("已完成节点:finishedNodes:\t" + JsonUtils.toJsonString(highlightNodeDTO));
     }
 
 }

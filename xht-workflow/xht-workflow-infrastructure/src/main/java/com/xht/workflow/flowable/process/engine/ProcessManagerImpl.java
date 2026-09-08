@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
+import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.engine.task.Comment;
 import org.flowable.task.api.Task;
@@ -22,9 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -110,6 +109,38 @@ public class ProcessManagerImpl implements ProcessManager {
                 taskService.complete(taskId, variables);
             }
         }
+    }
+
+    /**
+     * 根据流程实例id查询高亮节点
+     *
+     * @param processInstanceId 流程实例id
+     * @return 高亮节点
+     */
+    @Override
+    public HighlightNodeDTO findHighLightedNodeByProcessInstanceId(String processInstanceId) {
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+        List<String> activeActivityIds = runtimeService.getActiveActivityIds(processInstance.getId());
+        List<HistoricActivityInstance> allHistoricActivities = historyService
+                .createHistoricActivityInstanceQuery()
+                .processInstanceId(processInstanceId)
+                .orderByHistoricActivityInstanceStartTime().asc()
+                .list();
+        // 已完成节点
+        Set<String> finishedNodes = new LinkedHashSet<>();
+        // 已完成连线
+        Set<String> finishedLines = new LinkedHashSet<>();
+        for (HistoricActivityInstance allHistoricActivity : allHistoricActivities) {
+            String activityType = allHistoricActivity.getActivityType();
+            if ("sequenceFlow".equals(activityType)) {
+                finishedLines.add(allHistoricActivity.getActivityId());
+            } else {
+                if (Objects.nonNull(allHistoricActivity.getEndTime())) {
+                    finishedNodes.add(allHistoricActivity.getActivityId());
+                }
+            }
+        }
+        return new HighlightNodeDTO(finishedLines, finishedNodes, activeActivityIds, null);
     }
 
     /**
