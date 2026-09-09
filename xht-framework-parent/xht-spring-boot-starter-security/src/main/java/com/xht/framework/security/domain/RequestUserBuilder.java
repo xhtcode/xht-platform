@@ -1,6 +1,7 @@
 package com.xht.framework.security.domain;
 
 import cn.hutool.core.map.MapUtil;
+import com.xht.framework.common.enums.LoginTypeEnum;
 import com.xht.framework.security.constant.SecurityConstant;
 import com.xht.framework.utils.ThrowUtils;
 import lombok.AccessLevel;
@@ -79,11 +80,11 @@ public final class RequestUserBuilder {
      */
     public RequestUserBuilder passwordGrant(Map<String, ?> additionalParameters) {
         ThrowUtils.notEmpty(additionalParameters, "请求附加参数不能为空");
+        this.grantType = LoginTypeEnum.PASSWORD.getValue();
         this.userName = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_USERNAME);
         this.passWord = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_PASSWORD);
         this.captcha = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CAPTCHA_CODE);
         this.captchaKey = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CAPTCHA_CODE_KEY);
-        this.grantType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_OAUTH2_GRANT_TYPE);
         this.customGrantType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CUSTOM_GRANT_TYPE);
         this.additionalParameters.putAll(additionalParameters);
         return this;
@@ -97,9 +98,9 @@ public final class RequestUserBuilder {
      */
     public RequestUserBuilder phoneGrant(Map<String, ?> additionalParameters) {
         ThrowUtils.notEmpty(additionalParameters, "请求附加参数不能为空");
+        this.grantType = LoginTypeEnum.PHONE.getValue();
         this.phone = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_PHONE);
         this.phoneCode = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_PHONE_CODE);
-        this.grantType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_OAUTH2_GRANT_TYPE);
         this.customGrantType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CUSTOM_GRANT_TYPE);
         this.additionalParameters.putAll(additionalParameters);
         return this;
@@ -111,7 +112,6 @@ public final class RequestUserBuilder {
      * @return 请求的用户信息
      */
     public RequestUserBO build() {
-        ThrowUtils.hasText(grantType, "授权类型不能为空");
         RequestUserBO requestUserBO = new RequestUserBO();
         requestUserBO.setUserName(userName);
         requestUserBO.setPassWord(passWord);

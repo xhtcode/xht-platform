@@ -1,5 +1,6 @@
 package com.xht.platform;
 
+import com.xht.framework.oauth2.autoconfigure.EnableResourceServer;
 import com.xht.framework.swagger.autoconfigure.EnableCustomSwagger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +14,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  **/
 @Slf4j
 @EnableCustomSwagger
+@EnableResourceServer
 @EnableDiscoveryClient
 @SpringBootApplication
 public class GenerateApplication {

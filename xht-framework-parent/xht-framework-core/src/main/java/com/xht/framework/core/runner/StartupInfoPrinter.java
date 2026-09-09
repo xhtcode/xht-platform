@@ -25,7 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class StartupInfoPrinter implements ApplicationRunner {
 
-    @Value("${xht.security.ignore.whites.add-swagger-ignore-urls:true}")
+    @Value("${spring.security.whitelist.add-swagger-ignore-urls:true}")
     private boolean addSwaggerIgnoreUrls;
 
     /**
@@ -76,12 +76,11 @@ public class StartupInfoPrinter implements ApplicationRunner {
     @Override
     @SuppressWarnings("all")
     public void run(ApplicationArguments args) {
-        XhtConfigProperties.GlobalConfigProperties global = xhtConfigProperties.getGlobal();
-        String appName = Optional.ofNullable(global).map(XhtConfigProperties.GlobalConfigProperties::getAppName).orElse(applicationName);
-        String hostName = Optional.ofNullable(global).map(XhtConfigProperties.GlobalConfigProperties::getHostName).orElse("localhost");
+        String appName = Optional.ofNullable(xhtConfigProperties).map(XhtConfigProperties::getAppName).orElse(applicationName);
+        String hostName = Optional.ofNullable(xhtConfigProperties).map(XhtConfigProperties::getHostName).orElse("localhost");
         // @formatter:off
-        Boolean banner = Optional.ofNullable(global)
-                .map(XhtConfigProperties.GlobalConfigProperties::getBanner)
+        Boolean banner = Optional.ofNullable(xhtConfigProperties)
+                .map(XhtConfigProperties::getBanner)
                 .map(EnableProperties::isEnable)
                 .orElse(true);
         // @formatter:on

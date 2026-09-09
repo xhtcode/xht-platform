@@ -12,6 +12,15 @@ spring:
     url: jdbc:mysql://localhost:3306/xht_platform?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
     username: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+  security:
+    oauth2:
+      resource server:
+        opaque token:
+          introspection-uri: http://www.xht.sso.com:9000/oauth2/introspect
+          client-id: oidc-client
+          client-secret: secret
+        jwt:
+          issuer-uri: ${xht.security.oauth2.issuer}
   cloud:
     nacos:
       discovery:
@@ -36,8 +45,29 @@ xht:
     banner:
       enable: true
     app-name: 代码生成器
-    host-name: www.xht.sso.com
-
+    host-name: www.xht.com
+    dict:
+      key-prefix: 'xht:'
+      time-out: 3600
+      unit: seconds
+  security:
+    whitelist:
+      add-default-ignore-urls: true
+      add-swagger-ignore-urls: true
+      endpoints:
+    xss:
+      enable: true
+    header:
+      auth-key: X-Auth-Token
+      auth-value: 123456
+    token:
+      lightning-cache:
+        expired: 300
+  oauth2:
+    grant-type:
+      value: 123456
+  blog:
+    repository-type: feign
 springdoc:
   api-docs:
     enabled: true

@@ -13,7 +13,7 @@ import java.util.List;
  **/
 @Data
 @Component
-@ConfigurationProperties(prefix = "xht.security.oauth2")
+@ConfigurationProperties(prefix = "xht.oauth2")
 public class XhtOauth2Properties {
 
     /**

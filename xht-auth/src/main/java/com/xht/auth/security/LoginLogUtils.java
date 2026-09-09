@@ -74,7 +74,7 @@ public final class LoginLogUtils {
     private static void formatLog(LoginLogApplicationEvent event, HttpServletRequest request, String errorMessage) {
         event.setApplicationName(SpringContextUtils.getApplicationName());
         event.setTraceId(TraceIdUtils.getTraceId());
-        event.setAppName(SpringContextUtils.getConfigProperties().map(XhtConfigProperties::getGlobal).map(XhtConfigProperties.GlobalConfigProperties::getAppName).orElse(null));
+        event.setAppName(SpringContextUtils.getConfigProperties().map(XhtConfigProperties::getAppName).orElse(null));
         event.setLoginTime(LocalDateTime.now());
         event.setLoginIp(IpUtils.getClientIP(request));
         event.setLoginRequestInfo(new LoginRequestInfo(ServletUtils.getParamMap(request), ServletUtils.getHeaderMap(request)));

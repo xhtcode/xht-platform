@@ -18,7 +18,7 @@ public record CustomAuthorizeHttpRequestsConfigurer(
     public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorize) {
         authorize
                 // 白名单路径全部放行
-                .requestMatchers(ArrayUtil.toArray(permitAllUrlProperties.getUrls(), String.class)).permitAll()
+                .requestMatchers(ArrayUtil.toArray(permitAllUrlProperties.getEndpoints(), String.class)).permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated();
     }

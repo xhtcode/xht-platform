@@ -47,7 +47,7 @@ public class WebServletAutoConfiguration implements WebMvcConfigurer {
      */
     @Bean
     @ConditionalOnBean(PathMatcher.class)
-    @ConditionalOnProperty(value = "xht.safety.xss.enable", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(value = "xht.security.xss.enable", havingValue = "true", matchIfMissing = true)
     public FilterRegistrationBean<XSSFilter> xssFilter(XSSProperties properties, PathMatcher pathMatcher) {
         FilterRegistrationBean<XSSFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(new XSSFilter(properties, pathMatcher));

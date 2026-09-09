@@ -20,7 +20,7 @@ public interface SecurityConstant {
     /**
      * 自定义授权类型类型
      */
-    String REQUEST_CUSTOM_GRANT_TYPE = "grant_type";
+    String REQUEST_CUSTOM_GRANT_TYPE = "xht_grant_type";
 
     /**
      * 请求的`账号`name值

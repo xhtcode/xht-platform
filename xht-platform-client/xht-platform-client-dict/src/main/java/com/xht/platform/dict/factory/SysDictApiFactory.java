@@ -43,8 +43,7 @@ public class SysDictApiFactory implements ISysDictFactory {
     public List<DictVO> getDictList(String dictCode) {
         CacheProperties dictCache = Optional
                 .ofNullable(xhtConfigProperties)
-                .map(XhtConfigProperties::getGlobal)
-                .map(XhtConfigProperties.GlobalConfigProperties::getDict)
+                .map(XhtConfigProperties::getDict)
                 .orElseThrow(() -> new BusinessException("字典配置查询不到"));
         return redisRepository.getSet(dictCache.getDictCacheKey(dictCode), dictCache.getTimeOut(), dictCache.getUnit(), () -> {
             R<List<DictVO>> byDictCode = sysDictClient.getByDictCode(dictCode);

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  **/
 @Data
 @Component
-@ConfigurationProperties(prefix = "xht.security.oauth2.grant-type")
+@ConfigurationProperties(prefix = "xht.oauth2.grant-type")
 public class Oauth2GrantTypeProperties {
 
     /**

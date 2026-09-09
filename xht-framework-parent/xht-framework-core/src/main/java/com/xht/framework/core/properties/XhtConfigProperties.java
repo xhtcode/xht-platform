@@ -12,45 +12,29 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  * @author xht
  **/
 @Data
-@ConfigurationProperties(prefix = "xht")
+@ConfigurationProperties(prefix = "xht.global")
 public class XhtConfigProperties {
 
     /**
-     * 全局配置
+     * 应用名称
      */
-    @NestedConfigurationProperty
-    private GlobalConfigProperties global;
+    private String appName;
 
     /**
-     * 小糊涂项目启动公共属性
-     *
-     * @author xht
-     **/
-    @Data
-    public static class GlobalConfigProperties {
+     * 主机地址
+     */
+    private String hostName = "localhost";
 
-        /**
-         * 应用名称
-         */
-        private String appName;
+    /**
+     * 启动Banner属性
+     */
+    @NestedConfigurationProperty
+    private EnableProperties banner = new EnableProperties(true);
 
-        /**
-         * 主机地址
-         */
-        private String hostName = "localhost";
-
-        /**
-         * 启动Banner属性
-         */
-        @NestedConfigurationProperty
-        private EnableProperties banner = new EnableProperties(true);
-
-        /**
-         * 字典缓存配置属性
-         */
-        @NestedConfigurationProperty
-        private CacheProperties dict = new CacheProperties();
-
-    }
+    /**
+     * 字典缓存配置属性
+     */
+    @NestedConfigurationProperty
+    private CacheProperties dict = new CacheProperties();
 
 }

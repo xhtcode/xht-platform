@@ -47,7 +47,6 @@ public class RequestUserBO implements Serializable {
     /**
      * 验证码key
      */
-    @Getter(AccessLevel.PRIVATE)
     private String captchaKey;
 
     /**
@@ -84,16 +83,6 @@ public class RequestUserBO implements Serializable {
      */
     public void checkPassWord() {
         ThrowUtils.hasText(this.passWord, "密码不能为空");
-    }
-
-    /**
-     * 生成验证码在Redis中的键值
-     * 将验证码前缀与验证码key拼接生成完整的Redis键
-     *
-     * @return 验证码在Redis中的完整键值
-     */
-    public String generateCaptchaKey() {
-        return String.format("%s%s", SecurityConstant.REDIS_CAPTCHA_CODE_KEY_PREFIX, captchaKey);
     }
 
 }

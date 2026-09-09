@@ -13,7 +13,7 @@ import java.util.List;
  * @author xht
  **/
 @Data
-@ConfigurationProperties(prefix = "xht.safety.xss")
+@ConfigurationProperties(prefix = "xht.security.xss")
 public class XSSProperties extends EnableProperties {
 
     /**

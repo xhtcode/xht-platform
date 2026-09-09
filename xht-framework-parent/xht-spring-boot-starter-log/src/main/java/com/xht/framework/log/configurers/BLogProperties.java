@@ -18,12 +18,6 @@ public class BLogProperties {
     private RepositoryType repositoryType = RepositoryType.DEFAULT;
 
     /**
-     * 日志存储接口url
-     */
-    private String url;
-
-
-    /**
      * 日志存储方式枚举
      */
     public enum RepositoryType {

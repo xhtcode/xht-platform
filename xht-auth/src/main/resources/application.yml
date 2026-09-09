@@ -69,37 +69,47 @@ xht:
       enable: true
     app-name: 授权服务
     host-name: www.xht.sso.com
+    dict:
+      key-prefix: 'xht:'
+      time-out: 3600
+      unit: seconds
   security:
     remember-me:
       cache-key: xht:rememberMe
       cookie-name: xht-token
       parameter: rememberMe
       token-validity-seconds: 1209600
-    oauth2:
-      issuer: http://www.xht.sso.com:9000
-      authorization-server:
-        logout-url: /sso/logout
-        form-login-url: /sso/unLogin
-        phone-login-url: /sso/phoneLogin
-        login-page: http://www.xht.sso.com:5000/sso/login
-        consent-page: http://www.xht.sso.com:5000/sso/confirm_access
-      allowed-origins:
-        - www.xht.sso.com
-      grant-type:
-        value: 123456
-    ignore:
-      whites:
-        add-swagger-ignore-urls: true
-        add-default-ignore-urls: true
-        urls:
-          - /sso/phoneLogin
-          - /sso/unLogin
-          - /qrcode/query
-  safety:
+    whitelist:
+      add-default-ignore-urls: true
+      add-swagger-ignore-urls: true
+      endpoints:
+        - /sso/phoneLogin
+        - /sso/unLogin
+        - /qrcode/query
     xss:
       enable: true
     header:
       auth-key: X-Auth-Token
+      auth-value: 123456
+    token:
+      lightning-cache:
+        expired: 300
+  oauth2:
+    grant-type:
+      value: 123456
+    issuer: http://www.xht.sso.com:9000
+    authorization-server:
+      logout-url: /sso/logout
+      form-login-url: /sso/unLogin
+      phone-login-url: /sso/phoneLogin
+      login-page: http://www.xht.sso.com:5000/sso/login
+      consent-page: http://www.xht.sso.com:5000/sso/confirm_access
+    allowed-origins:
+      - www.xht.sso.com
+    client:
+      timeout: 180
+  blog:
+    repository-type: feign
 mybatis-plus:
   configuration:
     default-executor-type: batch

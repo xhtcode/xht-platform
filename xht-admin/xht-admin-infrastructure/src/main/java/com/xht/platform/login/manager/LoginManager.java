@@ -111,7 +111,7 @@ public class LoginManager {
     private void fillCommonInfo(HttpServletRequest request, SysLoginLogEntity entity) {
         entity.setApplicationName(SpringContextUtils.getApplicationName());
         entity.setTraceId(TraceIdUtils.getTraceId());
-        entity.setAppName(xhtConfigProperties.getGlobal().getAppName());
+        entity.setAppName(xhtConfigProperties.getAppName());
         entity.setLoginTime(LocalDateTime.now());
         entity.setLoginIp(IpUtils.getClientIP(request));
         entity.setUserAgent(ServletUtils.getHeader(request, HttpConstants.Header.USER_AGENT.getValue()));

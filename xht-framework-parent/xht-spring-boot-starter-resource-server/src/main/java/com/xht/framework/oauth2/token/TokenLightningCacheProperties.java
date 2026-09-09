@@ -17,5 +17,4 @@ public class TokenLightningCacheProperties {
      */
     private long expired = 60 * 5;
 
-
 }

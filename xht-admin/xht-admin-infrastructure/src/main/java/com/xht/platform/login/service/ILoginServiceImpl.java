@@ -21,8 +21,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.lang.NonNull;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -64,7 +64,12 @@ public class ILoginServiceImpl implements ILoginService {
      */
     @Override
     public LoginResponse formLogin(HttpServletRequest servletRequest, PasswordLoginForm passwordLoginForm) {
-        MultiValueMap<String, String> formParams = getStringStringMultiValueMap(passwordLoginForm);
+        MultiValueMap<String, String> formParams = new LinkedMultiValueMap<>();
+        formParams.add(SecurityConstant.REQUEST_USERNAME, passwordLoginForm.getUsername());
+        formParams.add(SecurityConstant.REQUEST_PASSWORD, passwordLoginForm.getPassword());
+        formParams.add(SecurityConstant.REQUEST_CAPTCHA_CODE_KEY, passwordLoginForm.getCaptchaKey());
+        formParams.add(SecurityConstant.REQUEST_CAPTCHA_CODE, passwordLoginForm.getCaptchaCode());
+        formParams.add(SecurityConstant.REQUEST_OAUTH2_GRANT_TYPE, LoginTypeEnum.PASSWORD.getValue());
         try {
             Oauth2TokenResponse oauth2TokenResponse = createOauth2Request(formParams);
             loginManager.saveLoginLog(servletRequest, passwordLoginForm.getUsername(), oauth2TokenResponse.getAccessToken(), passwordLoginForm, oauth2TokenResponse);
@@ -80,17 +85,6 @@ public class ILoginServiceImpl implements ILoginService {
         }
     }
 
-    @NonNull
-    private static MultiValueMap<String, String> getStringStringMultiValueMap(PasswordLoginForm passwordLoginForm) {
-        MultiValueMap<String, String> formParams = new LinkedMultiValueMap<>();
-        formParams.add(SecurityConstant.REQUEST_USERNAME, passwordLoginForm.getUsername());
-        formParams.add(SecurityConstant.REQUEST_PASSWORD, passwordLoginForm.getPassword());
-        formParams.add(SecurityConstant.REQUEST_CAPTCHA_CODE_KEY, passwordLoginForm.getCaptchaKey());
-        formParams.add(SecurityConstant.REQUEST_CAPTCHA_CODE, passwordLoginForm.getCaptchaCode());
-        formParams.add(SecurityConstant.REQUEST_OAUTH2_GRANT_TYPE, LoginTypeEnum.PASSWORD.getValue());
-        return formParams;
-    }
-
     /**
      * 手机号登录
      *
@@ -103,7 +97,7 @@ public class ILoginServiceImpl implements ILoginService {
         MultiValueMap<String, String> formParams = new LinkedMultiValueMap<>();
         formParams.add(SecurityConstant.REQUEST_PHONE, phoneLoginForm.getPhone());
         formParams.add(SecurityConstant.REQUEST_PHONE_CODE, phoneLoginForm.getPhoneCode());
-        formParams.add(SecurityConstant.REQUEST_CUSTOM_GRANT_TYPE, LoginTypeEnum.PHONE.getValue());
+        formParams.add(SecurityConstant.REQUEST_OAUTH2_GRANT_TYPE, LoginTypeEnum.PHONE.getValue());
         try {
             Oauth2TokenResponse oauth2TokenResponse = createOauth2Request(formParams);
             return LoginConverter.converter(oauth2TokenResponse);
@@ -148,11 +142,12 @@ public class ILoginServiceImpl implements ILoginService {
         public Oauth2TokenResponse exchange(@Nonnull HttpRequest clientRequest, @Nonnull RestClient.RequestHeadersSpec.ConvertibleClientHttpResponse clientResponse) throws IOException {
             InputStream body = clientResponse.getBody();
             String result = StreamUtils.copyToString(body, StandardCharsets.UTF_8);
+            log.debug("登录响应结果：{}", result);
             Oauth2TokenResponse tokenResponse = JsonUtils.toObject(result, Oauth2TokenResponse.class);
             if (Objects.isNull(tokenResponse)) {
                 throw new LoginException("登录失败，未知响应");
             }
-            if (Objects.equals(RConstants.SUCCESS, tokenResponse.getCode())) {
+            if (Objects.equals(RConstants.SUCCESS, tokenResponse.getCode()) && Objects.equals(HttpStatus.OK, clientResponse.getStatusCode())) {
                 return tokenResponse;
             }
             Oauth2ErrorResponse object = JsonUtils.toObject(result, Oauth2ErrorResponse.class);

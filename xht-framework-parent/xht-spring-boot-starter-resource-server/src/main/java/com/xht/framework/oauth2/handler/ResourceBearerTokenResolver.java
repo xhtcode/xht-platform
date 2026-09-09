@@ -63,7 +63,7 @@ public class ResourceBearerTokenResolver implements BearerTokenResolver {
     @Override
     public String resolve(HttpServletRequest request) {
         // 检查请求的URI是否匹配permitAllUrlProperties中配置的任何URL模式
-        boolean match = permitAllUrlProperties.getUrls().stream()
+        boolean match = permitAllUrlProperties.getEndpoints().stream()
                 .anyMatch(url -> pathMatcher.match(url, request.getRequestURI()));
 
         // 如果匹配成功，返回null，表示不需要解析令牌

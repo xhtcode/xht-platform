@@ -54,9 +54,9 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
     @Override
     public final Authentication authenticate(Authentication authentication) throws AuthenticationException {
         AbstractAuthenticationToken authenticationToken = (AbstractAuthenticationToken) authentication;
-        RequestUserBO requestUserBO = createRequestUserBO(authenticationToken.getAdditionalParameters());
         UsernamePasswordAuthenticationToken principal;
         try {
+            RequestUserBO requestUserBO = createRequestUserBO(authenticationToken.getAdditionalParameters());
             BasicUserDetails userDetails = getAuthenticatedPrincipal(requestUserBO, authentication);
             principal = UsernamePasswordAuthenticationToken.authenticated(userDetails, userDetails.getUsername(), userDetails.getAuthorities());
             principal.setDetails(authentication.getDetails());

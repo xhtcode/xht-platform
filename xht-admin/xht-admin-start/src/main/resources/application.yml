@@ -11,13 +11,13 @@ spring:
     active: @profiles.active@
   security:
     oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://www.xht.sso.com:9000
-        opaquetoken:
+      resource server:
+        opaque token:
           introspection-uri: http://www.xht.sso.com:9000/oauth2/introspect
           client-id: oidc-client
           client-secret: secret
+        jwt:
+          issuer-uri: ${xht.security.oauth2.issuer}
   data:
     redis:
       password: 123456
@@ -65,22 +65,34 @@ xht:
     banner:
       enable: true
     app-name: 后台管理
-    host-name: www.xht.sso.com
+    host-name: www.xht.com
+    dict:
+      key-prefix: 'xht:'
+      time-out: 3600
+      unit: seconds
   security:
-    ignore:
-      whites:
-        add-default-ignore-urls: true
-        add-swagger-ignore-urls: true
-    oauth2:
-      grant-type:
-        value: 123456
-      login:
-        login-url: http://127.0.0.1:9000/oauth2/token
-        client-id: oidc-client
-        client-secret: secret
-        scope:
-          - openid
-          - user_info
+    whitelist:
+      add-default-ignore-urls: true
+      add-swagger-ignore-urls: true
+      endpoints:
+    xss:
+      enable: true
+    header:
+      auth-key: X-Auth-Token
+      auth-value: 123456
+    token:
+      lightning-cache:
+        expired: 300
+  oauth2:
+    grant-type:
+      value: 123456
+    login:
+      login-url: http://127.0.0.1:9000/oauth2/token
+      client-id: oidc-client
+      client-secret: secret
+      scope:
+        - openid
+        - user_info
   blog:
     repository-type: default
 

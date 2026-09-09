@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  **/
 @Slf4j
 @Data
-@ConfigurationProperties(prefix = "xht.security.ignore.whites")
+@ConfigurationProperties(prefix = "xht.security.whitelist")
 public class PermitAllUrlProperties implements InitializingBean {
 
     private static final String ANSI_GREEN = "\033[32m";
@@ -51,7 +51,7 @@ public class PermitAllUrlProperties implements InitializingBean {
     /**
      * 常规全部
      */
-    private List<String> urls = new ArrayList<>();
+    private List<String> endpoints = new ArrayList<>();
 
     /**
      * 是否添加默认忽略URL
@@ -66,10 +66,10 @@ public class PermitAllUrlProperties implements InitializingBean {
     @Override
     public void afterPropertiesSet() {
         if (addDefaultIgnoreUrls) {
-            urls.addAll(Arrays.asList(DEFAULT_IGNORE_URLS));
+            endpoints.addAll(Arrays.asList(DEFAULT_IGNORE_URLS));
         }
         if (addSwaggerIgnoreUrls) {
-            urls.addAll(Arrays.asList(DEFAULT_SWAGGER_IGNORE_URLS));
+            endpoints.addAll(Arrays.asList(DEFAULT_SWAGGER_IGNORE_URLS));
         }
         RequestMappingHandlerMapping mapping = SpringContextUtils.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> mappingHandlerMethods = mapping.getHandlerMethods();
@@ -80,7 +80,7 @@ public class PermitAllUrlProperties implements InitializingBean {
             Optional.ofNullable(method)
                     .ifPresent(ignore -> Objects.requireNonNull(info.getPathPatternsCondition())
                             .getPatternValues()
-                            .forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
+                            .forEach(url -> endpoints.add(ReUtil.replaceAll(url, PATTERN, "*"))));
 
             // 获取类上边的注解, 替代path variable 为 *
             IgnoreAuth controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), IgnoreAuth.class);
@@ -91,11 +91,11 @@ public class PermitAllUrlProperties implements InitializingBean {
                         }
                         Objects.requireNonNull(info.getPathPatternsCondition())
                                 .getPatternValues()
-                                .forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*")));
+                                .forEach(url -> endpoints.add(ReUtil.replaceAll(url, PATTERN, "*")));
 
                     });
         });
-        log.debug("\n白名单URL:>>>>>>>>>>>>>>>>>>>>>>>>>>> \n{}{}{}", ANSI_GREEN, JsonUtils.toJsonString(urls), ANSI_RESET);
+        log.debug("\n白名单URL:>>>>>>>>>>>>>>>>>>>>>>>>>>> \n{}{}{}", ANSI_GREEN, JsonUtils.toJsonString(endpoints), ANSI_RESET);
     }
 
 }
