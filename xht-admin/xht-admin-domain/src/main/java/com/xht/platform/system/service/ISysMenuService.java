@@ -15,7 +15,6 @@ import java.util.List;
  **/
 public interface ISysMenuService {
 
-
     /**
      * 创建菜单
      *

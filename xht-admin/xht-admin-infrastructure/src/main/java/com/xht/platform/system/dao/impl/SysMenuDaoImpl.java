@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import  com.xht.platform.system.dao.SysMenuDao;
-import  com.xht.platform.system.dao.mapper.SysMenuMapper;
-import  com.xht.platform.system.domain.form.SysMenuForm;
-import  com.xht.platform.system.domain.query.SysMenuQuery;
-import  com.xht.platform.system.entity.SysMenuEntity;
-import  com.xht.platform.system.enums.MenuStatusEnum;
-import  com.xht.platform.system.enums.MenuTypeEnum;
+import com.xht.platform.system.dao.SysMenuDao;
+import com.xht.platform.system.dao.mapper.SysMenuMapper;
+import com.xht.platform.system.domain.form.SysMenuForm;
+import com.xht.platform.system.domain.query.SysMenuQuery;
+import com.xht.platform.system.entity.SysMenuEntity;
+import com.xht.platform.system.enums.MenuStatusEnum;
+import com.xht.platform.system.enums.MenuTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -156,7 +156,10 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
                 SysMenuEntity::getParentId,
                 SysMenuEntity::getMenuType,
                 SysMenuEntity::getMenuName,
+                SysMenuEntity::getViewPath,
+                SysMenuEntity::getViewName,
                 SysMenuEntity::getMenuIcon,
+                SysMenuEntity::getMenuPath,
                 SysMenuEntity::getFrameFlag,
                 SysMenuEntity::getMenuSort
         );
@@ -165,6 +168,14 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
                 .eq(SysMenuEntity::getMenuStatus, MenuStatusEnum.NORMAL);
         // @formatter:on
         lambdaQueryWrapper.orderByAsc(SysMenuEntity::getMenuSort);
+        return list(lambdaQueryWrapper);
+    }
+
+    @Override
+    public List<SysMenuEntity> selectAdminMenu() {
+        LambdaQueryWrapper<SysMenuEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.ne(SysMenuEntity::getMenuType, MenuTypeEnum.B);
+        lambdaQueryWrapper.eq(SysMenuEntity::getMenuStatus, MenuStatusEnum.NORMAL);
         return list(lambdaQueryWrapper);
     }
 

@@ -43,7 +43,7 @@ springdoc:
   override-with-generic-response: false # 解决springdoc和knife4版本冲突问题
   default-flat-param-object: true # 解决参数列表显示问题
 xht:
-  safety:
+  security:
     xss:
       enable: true
   global:

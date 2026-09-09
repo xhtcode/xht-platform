@@ -1,11 +1,11 @@
 package com.xht.platform.system.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import  com.xht.platform.system.domain.form.SysMenuForm;
-import  com.xht.platform.system.domain.query.SysMenuQuery;
-import  com.xht.platform.system.entity.SysMenuEntity;
-import  com.xht.platform.system.enums.MenuStatusEnum;
-import  com.xht.platform.system.enums.MenuTypeEnum;
+import com.xht.platform.system.domain.form.SysMenuForm;
+import com.xht.platform.system.domain.query.SysMenuQuery;
+import com.xht.platform.system.entity.SysMenuEntity;
+import com.xht.platform.system.enums.MenuStatusEnum;
+import com.xht.platform.system.enums.MenuTypeEnum;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface SysMenuDao extends MapperRepository<SysMenuEntity> {
     /**
      * 更新菜单信息
      *
-      * @param menuId 菜单ID
+     * @param menuId 菜单ID
      * @param form   菜单信息
      */
     void updateFormRequest(Long menuId, SysMenuForm form);
@@ -62,5 +62,12 @@ public interface SysMenuDao extends MapperRepository<SysMenuEntity> {
      * @return 菜单树结构
      */
     List<SysMenuEntity> getMenuTreeSystemTool(boolean button);
+
+    /**
+     * 查询管理员菜单
+     *
+     * @return 菜单列表
+     */
+    List<SysMenuEntity> selectAdminMenu();
 
 }

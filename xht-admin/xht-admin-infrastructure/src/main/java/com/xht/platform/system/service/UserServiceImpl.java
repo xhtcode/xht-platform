@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.common.enums.UserStatusEnum;
+import com.xht.framework.common.enums.UserTypeEnum;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.exception.code.UserErrorCode;
@@ -17,22 +18,21 @@ import com.xht.framework.utils.tree.INode;
 import com.xht.framework.utils.tree.TreeNode;
 import com.xht.framework.utils.tree.TreeUtils;
 import com.xht.platform.common.router.dto.RouterDTO;
-import  com.xht.platform.system.converter.SysUserConverter;
-import  com.xht.platform.system.dao.*;
-import  com.xht.platform.system.domain.form.SysUserDetailForm;
-import  com.xht.platform.system.domain.form.SysUserForm;
-import  com.xht.platform.system.domain.form.UpdatePwdFrom;
-import  com.xht.platform.system.domain.query.SysUserQuery;
-import  com.xht.platform.system.domain.response.SysMenuResponse;
-import  com.xht.platform.system.domain.response.SysPostResponse;
-import  com.xht.platform.system.domain.response.SysUserDetailResponse;
-import  com.xht.platform.system.domain.response.SysUserResponse;
-import  com.xht.platform.system.domain.vo.SysUserVO;
-import  com.xht.platform.system.entity.SysRoleEntity;
-import  com.xht.platform.system.entity.SysUserDetailEntity;
-import  com.xht.platform.system.entity.SysUserEntity;
-import  com.xht.platform.system.enums.RoleTypeEnums;
-import  com.xht.platform.system.helper.SysUserHelper;
+import com.xht.platform.system.converter.SysMenuConverter;
+import com.xht.platform.system.converter.SysUserConverter;
+import com.xht.platform.system.dao.*;
+import com.xht.platform.system.domain.form.SysUserDetailForm;
+import com.xht.platform.system.domain.form.SysUserForm;
+import com.xht.platform.system.domain.form.UpdatePwdFrom;
+import com.xht.platform.system.domain.query.SysUserQuery;
+import com.xht.platform.system.domain.response.SysMenuResponse;
+import com.xht.platform.system.domain.response.SysPostResponse;
+import com.xht.platform.system.domain.response.SysUserDetailResponse;
+import com.xht.platform.system.domain.response.SysUserResponse;
+import com.xht.platform.system.domain.vo.SysUserVO;
+import com.xht.platform.system.entity.*;
+import com.xht.platform.system.enums.RoleTypeEnums;
+import com.xht.platform.system.helper.SysUserHelper;
 import com.xht.platform.system.utils.RouterUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,6 +62,10 @@ public class UserServiceImpl implements IUserService {
     private final SysUserPostDao sysUserPostDao;
 
     private final SysRoleMenuDao sysRoleMenuDao;
+
+    private final SysMenuDao sysMenuDao;
+
+    private final SysMenuConverter sysMenuConverter;
 
     private final SysUserConverter sysUserConverter;
 
@@ -111,7 +115,7 @@ public class UserServiceImpl implements IUserService {
     /**
      * 更新用户信息
      *
-     * @param userId       用户 ID
+     * @param userId   用户 ID
      * @param userForm 用户更新请求对象
      */
     @Override
@@ -250,11 +254,17 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<INode<Long>> getRouters() {
         BasicUserDetails user = SecurityUtils.getUser();
-        List<SysMenuResponse> menus = sysRoleMenuDao.findRouterByUserId(user.getUserId());
+        List<SysMenuResponse> menus;
+        if (UserTypeEnum.isAdmin(user.getUserType())) {
+            List<SysMenuEntity> menuTreeSystemTool = sysMenuDao.selectAdminMenu();
+            menus = sysMenuConverter.toResponse(menuTreeSystemTool);
+        } else {
+            menus = sysRoleMenuDao.findRouterByUserId(user.getUserId());
+        }
+        List<INode<Long>> result = new ArrayList<>();
         if (CollectionUtils.isEmpty(menus)) {
             return Collections.emptyList();
         }
-        List<INode<Long>> result = new ArrayList<>(menus.size());
         for (SysMenuResponse menu : menus) {
             RouterDTO routerDTO = new RouterDTO();
             routerDTO.setPath(menu.getMenuPath());

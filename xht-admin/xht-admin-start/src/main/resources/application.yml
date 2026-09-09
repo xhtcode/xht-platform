@@ -16,8 +16,6 @@ spring:
           introspection-uri: http://www.xht.sso.com:9000/oauth2/introspect
           client-id: oidc-client
           client-secret: secret
-        jwt:
-          issuer-uri: ${xht.security.oauth2.issuer}
   data:
     redis:
       password: 123456

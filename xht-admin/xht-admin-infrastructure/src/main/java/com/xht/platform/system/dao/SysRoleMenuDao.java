@@ -5,7 +5,6 @@ import  com.xht.platform.system.domain.response.SysMenuResponse;
 import  com.xht.platform.system.entity.SysRoleMenuEntity;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 角色菜单关系Dao
@@ -28,14 +27,6 @@ public interface SysRoleMenuDao extends MapperRepository<SysRoleMenuEntity> {
      * @return 菜单ID集合
      */
     List<Long> findMenuIdByRoleId(String roleId);
-
-    /**
-     * 用户id获取菜单集合
-     *
-     * @param userId 用户id
-     * @return 菜单集合
-     */
-    Set<String> findPermissionCodeByUserId(Long userId);
 
     /**
      * 根据用户ID获取路由菜单集合

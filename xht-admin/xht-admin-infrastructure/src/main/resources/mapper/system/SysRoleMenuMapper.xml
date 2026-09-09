@@ -51,31 +51,31 @@
     </select>
 
     <select id="findRouterByUserId" resultMap="BaseResultMap">
-        SELECT sys_menu.id,
-        sys_menu.parent_id,
-        sys_menu.menu_type,
-        sys_menu.menu_name,
-        sys_menu.menu_icon,
-        sys_menu.menu_path,
-        sys_menu.menu_hidden,
-        sys_menu.menu_cache,
-        sys_menu.menu_status,
-        sys_menu.menu_authority,
-        sys_menu.menu_sort,
-        sys_menu.view_name,
-        sys_menu.view_path,
-        sys_menu.active_menu_path,
-        sys_menu.affix_status,
-        sys_menu.frame_flag,
-        sys_menu.create_by,
-        sys_menu.create_time,
-        sys_menu.update_by,
-        sys_menu.update_time
+        SELECT t1.id,
+        t1.parent_id,
+        t1.menu_type,
+        t1.menu_name,
+        t1.menu_icon,
+        t1.menu_path,
+        t1.menu_hidden,
+        t1.menu_cache,
+        t1.menu_status,
+        t1.menu_authority,
+        t1.menu_sort,
+        t1.view_name,
+        t1.view_path,
+        t1.active_menu_path,
+        t1.affix_status,
+        t1.frame_flag,
+        t1.create_by,
+        t1.create_time,
+        t1.update_by,
+        t1.update_time
         FROM sys_menu
-        WHERE sys_menu.del_flag = ${delFlag}
-        and sys_menu.menu_type != 'B'
-        and sys_menu.menu_status = 0
-        order by sys_menu.menu_sort
+        WHERE t1.del_flag = ${delFlag}
+        and t1.menu_type != 'B'
+        and t1.menu_status = 0
+        order by t1.menu_sort
     </select>
 
 

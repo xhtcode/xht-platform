@@ -1,8 +1,7 @@
 package com.xht.framework.log.configurers;
 
-import com.xht.framework.utils.ThrowUtils;
-import com.xht.framework.utils.StringUtils;
 import com.xht.framework.log.annotations.ConditionalOnBLog;
+import com.xht.framework.utils.StringUtils;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.env.Environment;
@@ -20,8 +19,6 @@ public class BLogCondition implements Condition {
 
     private final static String REPOSITORY_TYPE = "xht.blog.repository-type";
 
-    private final static String URL = "xht.blog.url";
-
     private final static String DEFAULT_NAME = BLogProperties.RepositoryType.DEFAULT.name();
 
 
@@ -32,10 +29,6 @@ public class BLogCondition implements Condition {
         Map<String, Object> attributes = metadata.getAnnotationAttributes(ConditionalOnBLog.class.getName());
         if (CollectionUtils.isEmpty(attributes)) {
             return false;
-        }
-        if (StringUtils.equalsIgnoreCase(property, BLogProperties.RepositoryType.FEIGN.name())) {
-            String url = environment.getProperty(URL);
-            ThrowUtils.hasText(url, String.format("配置项【%s】校验失败！", URL));
         }
         String propertyValue = StringUtils.str(attributes.getOrDefault("value", DEFAULT_NAME), null);
         return StringUtils.equalsIgnoreCase(property, propertyValue);
