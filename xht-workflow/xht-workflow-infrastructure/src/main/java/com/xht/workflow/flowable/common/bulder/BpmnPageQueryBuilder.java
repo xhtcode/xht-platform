@@ -1,10 +1,10 @@
 package com.xht.workflow.flowable.common.bulder;
 
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.flowable.common.BpmnBuilder;
 import com.xht.workflow.flowable.common.bo.BpmnOrder;
 import com.xht.workflow.flowable.common.bo.BpmnPageQueryBO;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +43,7 @@ public abstract class BpmnPageQueryBuilder<T extends BpmnPageQueryBO> implements
 
     /**
      * 设置当前页
+     *
      * @param current 当前页
      * @return 构建者本身
      */
@@ -53,6 +54,7 @@ public abstract class BpmnPageQueryBuilder<T extends BpmnPageQueryBO> implements
 
     /**
      * 设置每页显示条数
+     *
      * @param size 每页显示条数
      * @return 构建者本身
      */
@@ -63,6 +65,7 @@ public abstract class BpmnPageQueryBuilder<T extends BpmnPageQueryBO> implements
 
     /**
      * 设置排序参数
+     *
      * @param orders 排序参数
      * @return 构建者本身
      */
@@ -75,7 +78,8 @@ public abstract class BpmnPageQueryBuilder<T extends BpmnPageQueryBO> implements
 
     /**
      * 添加排序参数
-     * @param order 排序字段
+     *
+     * @param order     排序字段
      * @param orderType 排序类型
      * @return 构建者本身
      */
@@ -88,6 +92,7 @@ public abstract class BpmnPageQueryBuilder<T extends BpmnPageQueryBO> implements
 
     /**
      * 添加排序参数
+     *
      * @param ascList 排序字段
      * @return 构建者本身
      */
@@ -103,6 +108,7 @@ public abstract class BpmnPageQueryBuilder<T extends BpmnPageQueryBO> implements
 
     /**
      * 添加排序参数
+     *
      * @param descList 排序字段
      * @return 构建者本身
      */
@@ -139,7 +145,7 @@ public abstract class BpmnPageQueryBuilder<T extends BpmnPageQueryBO> implements
         t.setSize(size);
         if (!CollectionUtils.isEmpty(orders)) {
             t.setOrders(orders);
-        }else {
+        } else {
             t.setOrders(defaultOrders);
         }
         return t;

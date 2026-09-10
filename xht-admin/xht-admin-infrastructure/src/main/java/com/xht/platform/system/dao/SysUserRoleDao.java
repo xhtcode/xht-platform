@@ -26,14 +26,6 @@ public interface SysUserRoleDao extends MapperRepository<SysUserRoleEntity> {
      * @param userId 用户ID
      * @return 角色ID列表
      */
-    List<Long> getRoleId(String userId);
-
-    /**
-     * 根据角色ID判断用户是否存在
-     *
-     * @param roleIds 角色ID列表
-     * @return 用户列表
-     */
-    Boolean existsUserInRoleId(List<Long> roleIds);
+    List<Long> findBindRoleIds(Long userId);
 
 }

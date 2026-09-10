@@ -50,33 +50,4 @@
         and sys_user_role.user_id = #{userId}
     </select>
 
-    <select id="findRouterByUserId" resultMap="BaseResultMap">
-        SELECT t1.id,
-        t1.parent_id,
-        t1.menu_type,
-        t1.menu_name,
-        t1.menu_icon,
-        t1.menu_path,
-        t1.menu_hidden,
-        t1.menu_cache,
-        t1.menu_status,
-        t1.menu_authority,
-        t1.menu_sort,
-        t1.view_name,
-        t1.view_path,
-        t1.active_menu_path,
-        t1.affix_status,
-        t1.frame_flag,
-        t1.create_by,
-        t1.create_time,
-        t1.update_by,
-        t1.update_time
-        FROM sys_menu
-        WHERE t1.del_flag = ${delFlag}
-        and t1.menu_type != 'B'
-        and t1.menu_status = 0
-        order by t1.menu_sort
-    </select>
-
-
 </mapper>

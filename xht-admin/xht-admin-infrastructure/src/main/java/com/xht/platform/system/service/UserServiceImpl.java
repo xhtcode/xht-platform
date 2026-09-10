@@ -12,6 +12,7 @@ import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.utils.PassWordUtils;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.utils.tree.INode;
@@ -30,7 +31,10 @@ import com.xht.platform.system.domain.response.SysPostResponse;
 import com.xht.platform.system.domain.response.SysUserDetailResponse;
 import com.xht.platform.system.domain.response.SysUserResponse;
 import com.xht.platform.system.domain.vo.SysUserVO;
-import com.xht.platform.system.entity.*;
+import com.xht.platform.system.entity.SysMenuEntity;
+import com.xht.platform.system.entity.SysRoleEntity;
+import com.xht.platform.system.entity.SysUserDetailEntity;
+import com.xht.platform.system.entity.SysUserEntity;
 import com.xht.platform.system.enums.RoleTypeEnums;
 import com.xht.platform.system.helper.SysUserHelper;
 import com.xht.platform.system.utils.RouterUtils;
@@ -38,12 +42,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 用户Service实现类
@@ -56,6 +56,8 @@ import java.util.Objects;
 public class UserServiceImpl implements IUserService {
 
     private final SysUserDao sysUserDao;
+
+    private final SysUserRoleDao sysUserRoleDao;
 
     private final SysRoleDao sysRoleDao;
 
@@ -107,7 +109,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void removeByUserId(Long userId) {
         Boolean exists = sysUserDao.exists(SysUserEntity::getId, userId);
-        ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_NOT_EXIST, "用户不存在");
+        ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "用户不存在");
         sysUserDao.removeById(userId);
         sysUserDetailDao.removeByUserId(userId);
     }
@@ -256,10 +258,12 @@ public class UserServiceImpl implements IUserService {
         BasicUserDetails user = SecurityUtils.getUser();
         List<SysMenuResponse> menus;
         if (UserTypeEnum.isAdmin(user.getUserType())) {
-            List<SysMenuEntity> menuTreeSystemTool = sysMenuDao.selectAdminMenu();
-            menus = sysMenuConverter.toResponse(menuTreeSystemTool);
+            List<SysMenuEntity> menuList = sysMenuDao.selectAdminMenu();
+            menus = sysMenuConverter.toResponse(menuList);
         } else {
-            menus = sysRoleMenuDao.findRouterByUserId(user.getUserId());
+            List<Long> roleIds = sysUserRoleDao.findBindRoleIds(user.getUserId());
+            Set<Long> menuIds = sysRoleMenuDao.findMenuIdByRoleIds(roleIds);
+            menus = sysMenuConverter.toResponse(sysMenuDao.findRouterMenus(menuIds));
         }
         List<INode<Long>> result = new ArrayList<>();
         if (CollectionUtils.isEmpty(menus)) {

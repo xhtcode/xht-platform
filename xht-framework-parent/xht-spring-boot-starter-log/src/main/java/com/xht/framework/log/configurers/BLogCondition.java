@@ -1,12 +1,12 @@
 package com.xht.framework.log.configurers;
 
 import com.xht.framework.log.annotations.ConditionalOnBLog;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.StringUtils;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Map;
 

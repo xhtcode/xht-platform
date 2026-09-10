@@ -2,6 +2,7 @@ package com.xht.workflow.flowable.utils;
 
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.mybatis.utils.PageTool;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.flowable.common.BpmnSupplier;
@@ -10,7 +11,6 @@ import com.xht.workflow.flowable.common.bo.BpmnPageQueryBO;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.common.engine.api.query.Query;
 import org.flowable.common.engine.api.query.QueryProperty;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Objects;

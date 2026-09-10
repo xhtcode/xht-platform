@@ -1,13 +1,13 @@
 package com.xht.framework.openfeign.interceptor;
 
 import com.xht.framework.core.properties.SecurityHeaderProperties;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.StringUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.Objects;

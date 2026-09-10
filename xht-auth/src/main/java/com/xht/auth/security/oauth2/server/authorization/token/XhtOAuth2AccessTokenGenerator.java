@@ -1,5 +1,6 @@
 package com.xht.auth.security.oauth2.server.authorization.token;
 
+import com.xht.framework.utils.CollectionUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.security.oauth2.core.ClaimAccessor;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
@@ -10,7 +11,6 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
 import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.Instant;

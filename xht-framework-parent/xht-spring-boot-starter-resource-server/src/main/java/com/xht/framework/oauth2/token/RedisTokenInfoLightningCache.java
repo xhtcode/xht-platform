@@ -1,10 +1,10 @@
 package com.xht.framework.oauth2.token;
 
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.util.CollectionUtils;
 
 import java.time.Duration;
 import java.time.Instant;

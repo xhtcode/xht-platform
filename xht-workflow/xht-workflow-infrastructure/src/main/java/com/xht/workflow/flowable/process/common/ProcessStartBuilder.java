@@ -1,11 +1,11 @@
 package com.xht.workflow.flowable.process.common;
 
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.common.domain.enums.ProcStartTypeEnum;
 import com.xht.workflow.flowable.common.BpmnBuilder;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
 import java.util.Map;

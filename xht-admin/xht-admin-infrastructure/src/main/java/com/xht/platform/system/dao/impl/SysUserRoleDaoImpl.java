@@ -3,14 +3,14 @@ package com.xht.platform.system.dao.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import  com.xht.platform.system.dao.SysUserRoleDao;
-import  com.xht.platform.system.dao.mapper.SysUserRoleMapper;
-import  com.xht.platform.system.entity.SysUserRoleEntity;
-import  com.xht.platform.system.enums.RoleStatusEnum;
+import com.xht.framework.utils.CollectionUtils;
+import com.xht.platform.system.dao.SysUserRoleDao;
+import com.xht.platform.system.dao.mapper.SysUserRoleMapper;
+import com.xht.platform.system.entity.SysUserRoleEntity;
+import com.xht.platform.system.enums.RoleStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -48,21 +48,8 @@ public class SysUserRoleDaoImpl extends MapperRepositoryImpl<SysUserRoleMapper, 
      * @return 角色ID列表
      */
     @Override
-    public List<Long> getRoleId(String userId) {
+    public List<Long> findBindRoleIds(Long userId) {
         return baseMapper.selectRoleIdByUserId(RoleStatusEnum.NORMAL, userId);
-    }
-
-    /**
-     * 根据角色ID判断用户是否存在
-     *
-     * @param roleIds 角色ID列表
-     * @return 用户列表
-     */
-    @Override
-    public Boolean existsUserInRoleId(List<Long> roleIds) {
-        LambdaQueryWrapper<SysUserRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.in(SysUserRoleEntity::getRoleId, roleIds);
-        return exists(queryWrapper);
     }
 
     /**

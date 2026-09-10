@@ -5,15 +5,15 @@ import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.ThrowUtils;
-import  com.xht.platform.system.converter.SysRoleConverter;
-import  com.xht.platform.system.dao.SysRoleDao;
-import  com.xht.platform.system.dao.SysUserRoleDao;
-import  com.xht.platform.system.domain.form.SysRoleForm;
-import  com.xht.platform.system.domain.query.SysRoleQuery;
-import  com.xht.platform.system.domain.response.SysRoleResponse;
-import  com.xht.platform.system.entity.SysRoleEntity;
+import com.xht.platform.system.converter.SysRoleConverter;
+import com.xht.platform.system.dao.SysRoleDao;
+import com.xht.platform.system.dao.SysUserRoleDao;
+import com.xht.platform.system.domain.form.SysRoleForm;
+import com.xht.platform.system.domain.query.SysRoleQuery;
+import com.xht.platform.system.domain.response.SysRoleResponse;
+import com.xht.platform.system.entity.SysRoleEntity;
 import com.xht.platform.system.entity.SysUserRoleEntity;
-import  com.xht.platform.system.enums.RoleStatusEnum;
+import com.xht.platform.system.enums.RoleStatusEnum;
 import com.xht.platform.system.enums.RoleTypeEnums;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -120,11 +120,12 @@ public class SysRoleServiceImpl implements ISysRoleService {
 
     /**
      * 查询所有角色
+     *
      * @return 角色列表
      */
     @Override
     public List<SysRoleResponse> list() {
-        return sysRoleConverter.toResponse(sysRoleDao.queryRolesByStatus());
+        return sysRoleConverter.toResponse(sysRoleDao.findListByStatus(RoleStatusEnum.NORMAL));
     }
 
 }

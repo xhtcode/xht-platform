@@ -2,6 +2,7 @@ package com.xht.auth.security.oauth2.server.authorization;
 
 import com.xht.auth.security.oauth2.OAuth2EndpointUtils;
 import com.xht.framework.common.constant.HttpConstants;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
@@ -10,7 +11,6 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.AuthenticationConverter;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 

@@ -3,6 +3,7 @@ package com.xht.framework.mybatis.datapermission;
 import com.xht.framework.ibatis.mapping.XhtSqlSource;
 import com.xht.framework.mybatis.datapermission.annoataion.DataPermissions;
 import com.xht.framework.mybatis.datapermission.strategy.AbstractDataPermissionStrategy;
+import com.xht.framework.utils.CollectionUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Expression;
@@ -16,7 +17,6 @@ import net.sf.jsqlparser.statement.update.Update;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
-import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Method;
 import java.util.*;

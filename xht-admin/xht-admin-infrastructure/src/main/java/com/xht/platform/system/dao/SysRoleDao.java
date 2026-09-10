@@ -2,11 +2,10 @@ package com.xht.platform.system.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import  com.xht.platform.system.domain.form.SysRoleForm;
-import  com.xht.platform.system.domain.query.SysRoleQuery;
-import  com.xht.platform.system.entity.SysRoleEntity;
-import  com.xht.platform.system.enums.RoleStatusEnum;
-import com.xht.platform.system.enums.RoleTypeEnums;
+import com.xht.platform.system.domain.form.SysRoleForm;
+import com.xht.platform.system.domain.query.SysRoleQuery;
+import com.xht.platform.system.entity.SysRoleEntity;
+import com.xht.platform.system.enums.RoleStatusEnum;
 
 import java.util.List;
 
@@ -54,9 +53,10 @@ public interface SysRoleDao extends MapperRepository<SysRoleEntity> {
     /**
      * 根据角色状态查询角色列表
      *
+     * @param roleStatus 角色状态
      * @return 角色列表信息
      */
-    List<SysRoleEntity> queryRolesByStatus();
+    List<SysRoleEntity> findListByStatus(RoleStatusEnum roleStatus);
 
     /**
      * 根据角色ID查询角色信息
@@ -65,15 +65,5 @@ public interface SysRoleDao extends MapperRepository<SysRoleEntity> {
      * @return true：存在，false：不存在
      */
     boolean existsByRoleId(List<Long> roleIds);
-
-
-    /**
-     * 根据角色 ID 列表和导入类型统计数量
-     *
-     * @param roleIds                角色 ID 列表
-     * @param roleTypeEnums 导入角色类型枚举
-     * @return 符合条件的记录数量
-     */
-    long countByRoleId(List<Long> roleIds, RoleTypeEnums roleTypeEnums);
 
 }

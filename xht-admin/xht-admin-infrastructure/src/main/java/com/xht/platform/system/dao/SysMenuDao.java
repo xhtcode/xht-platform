@@ -7,6 +7,7 @@ import com.xht.platform.system.entity.SysMenuEntity;
 import com.xht.platform.system.enums.MenuStatusEnum;
 import com.xht.platform.system.enums.MenuTypeEnum;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -69,5 +70,13 @@ public interface SysMenuDao extends MapperRepository<SysMenuEntity> {
      * @return 菜单列表
      */
     List<SysMenuEntity> selectAdminMenu();
+
+    /**
+     * 根据菜单ID集合查询路由菜单（排除按钮，仅返回启用中的菜单）
+     *
+     * @param menuIds 菜单ID集合
+     * @return 路由菜单列表
+     */
+    List<SysMenuEntity> findRouterMenus(Collection<Long> menuIds);
 
 }

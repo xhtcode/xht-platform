@@ -5,12 +5,12 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.repository.CrudRepository;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.xht.framework.utils.StringUtils;
 import com.xht.framework.mybatis.mapper.BaseMapperX;
 import com.xht.framework.mybatis.repository.MapperRepository;
+import com.xht.framework.utils.CollectionUtils;
+import com.xht.framework.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.util.*;
@@ -24,7 +24,15 @@ import java.util.*;
 @SuppressWarnings("unused")
 public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends CrudRepository<M, T> implements MapperRepository<T> {
 
-    protected static final int DEFAULT_BATCH_SIZE = 100;
+    /**
+     * 默认批量操作 batchSize
+     */
+    protected static final int DEFAULT_SAVE_BATCH_SIZE = 100;
+
+    /**
+     * 单次 IN 查询的最大参数个数，超过后分批查询合并结果
+     */
+    protected static final int IN_QUERY_BATCH_SIZE = 1000;
 
     /**
      * 保存单个实体
@@ -57,7 +65,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      */
     @Override
     public boolean saveAll(Collection<T> entityList) {
-        return super.saveBatch(entityList, DEFAULT_BATCH_SIZE);
+        return super.saveBatch(entityList, DEFAULT_SAVE_BATCH_SIZE);
     }
 
 
@@ -69,7 +77,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean saveOrUpdateBatch(Collection<T> entityList) {
-        return saveOrUpdateBatch(entityList, DEFAULT_BATCH_SIZE);
+        return saveOrUpdateBatch(entityList, DEFAULT_SAVE_BATCH_SIZE);
     }
 
     /**
@@ -79,7 +87,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      */
     @Transactional(rollbackFor = Exception.class)
     public boolean updateBatchById(Collection<T> entityList) {
-        return updateBatchById(entityList, DEFAULT_BATCH_SIZE);
+        return updateBatchById(entityList, DEFAULT_SAVE_BATCH_SIZE);
     }
 
 

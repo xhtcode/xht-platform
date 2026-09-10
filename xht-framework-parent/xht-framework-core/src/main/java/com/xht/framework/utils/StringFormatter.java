@@ -1,7 +1,6 @@
 package com.xht.framework.utils;
 
 import com.xht.framework.common.constant.StringConstant;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Map;
 import java.util.Objects;

@@ -1,6 +1,7 @@
 package com.xht.framework.common.converter;
 
-import org.springframework.util.CollectionUtils;
+
+import com.xht.framework.utils.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;

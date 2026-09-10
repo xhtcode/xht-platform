@@ -1,8 +1,8 @@
 package com.xht.framework.utils.tree;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.ThrowUtils;
-import org.springframework.util.CollectionUtils;
 
 import java.io.Serial;
 import java.util.ArrayList;

@@ -1,5 +1,6 @@
 package com.xht.workflow.flowable.process.engine;
 
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.workflow.common.domain.enums.ProcStartTypeEnum;
 import com.xht.workflow.common.exception.WorkFlowException;
@@ -20,7 +21,6 @@ import org.flowable.task.api.Task;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.*;

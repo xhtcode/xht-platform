@@ -1,10 +1,11 @@
 package com.xht.platform.system.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import  com.xht.platform.system.domain.response.SysMenuResponse;
-import  com.xht.platform.system.entity.SysRoleMenuEntity;
+import com.xht.platform.system.entity.SysRoleMenuEntity;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 角色菜单关系Dao
@@ -15,7 +16,8 @@ public interface SysRoleMenuDao extends MapperRepository<SysRoleMenuEntity> {
 
     /**
      * 角色菜单绑定
-     * @param roleId 角色ID
+     *
+     * @param roleId           角色ID
      * @param roleMenuEntities 角色菜单关系集合
      */
     void roleMenuBind(Long roleId, List<SysRoleMenuEntity> roleMenuEntities);
@@ -29,11 +31,11 @@ public interface SysRoleMenuDao extends MapperRepository<SysRoleMenuEntity> {
     List<Long> findMenuIdByRoleId(String roleId);
 
     /**
-     * 根据用户ID获取路由菜单集合
+     * 根据角色ID集合获取菜单ID集合
      *
-     * @param userId 用户ID
-     * @return 路由菜单集合
+     * @param roleIds 角色ID集合
+     * @return 菜单ID集合
      */
-    List<SysMenuResponse> findRouterByUserId(Long userId);
+    Set<Long> findMenuIdByRoleIds(Collection<Long> roleIds);
 
 }

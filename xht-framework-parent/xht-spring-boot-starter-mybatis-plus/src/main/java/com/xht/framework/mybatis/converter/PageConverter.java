@@ -5,7 +5,7 @@ import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.common.domain.response.XhtResponse;
 import com.xht.framework.mybatis.domain.entity.Entity;
 import com.xht.framework.mybatis.utils.PageTool;
-import org.springframework.util.CollectionUtils;
+import com.xht.framework.utils.CollectionUtils;
 
 import java.util.List;
 import java.util.Objects;

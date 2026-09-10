@@ -2,8 +2,8 @@ package com.xht.workflow.flowable.common.bo;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.xht.framework.jackson.JsonUtils;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.StringUtils;
-import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
 import java.util.Map;

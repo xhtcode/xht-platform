@@ -1,7 +1,7 @@
 package com.xht.framework.utils.tree;
 
 import com.xht.framework.exception.UtilException;
-import org.springframework.util.CollectionUtils;
+import com.xht.framework.utils.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +51,7 @@ public final class TreeUtils {
      */
     public static <T> List<INode<T>> dismantle(List<INode<T>> nodes) {
         if (CollectionUtils.isEmpty(nodes)) {
-            throw new IllegalArgumentException("树节点列表不能为null或空");
+            throw new UtilException("树节点列表不能为null或空");
         }
 
         List<INode<T>> result = new ArrayList<>();
@@ -63,7 +63,7 @@ public final class TreeUtils {
 
     public static <T> List<INode<T>> buildList(List<INode<T>> result) {
         if (CollectionUtils.isEmpty(result)) {
-            throw new IllegalArgumentException("构建树的节点列表不能为null或空");
+            throw new UtilException("构建树的节点列表不能为null或空");
         }
         TreeBuilder<T> of = TreeBuilder.of();
         return of.appendList(result).buildList(Boolean.TRUE);

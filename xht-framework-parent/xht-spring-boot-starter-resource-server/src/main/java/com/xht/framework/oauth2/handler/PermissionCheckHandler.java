@@ -2,13 +2,13 @@ package com.xht.framework.oauth2.handler;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.xht.framework.common.enums.UserTypeEnum;
-import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
+import com.xht.framework.utils.CollectionUtils;
+import com.xht.framework.utils.ServletUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.web.util.matcher.IpAddressMatcher;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.PatternMatchUtils;
 
 import java.util.Set;

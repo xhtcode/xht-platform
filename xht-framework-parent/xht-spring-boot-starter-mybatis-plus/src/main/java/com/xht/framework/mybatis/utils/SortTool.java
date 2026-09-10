@@ -3,8 +3,8 @@ package com.xht.framework.mybatis.utils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xht.framework.common.constant.StringConstant;
 import com.xht.framework.common.domain.query.BasicQuery;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.StringUtils;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 
 /**
  * 描述 ：排序工具类
+ *
  * @author xht
  **/
 public final class SortTool {
@@ -24,8 +25,9 @@ public final class SortTool {
 
     /**
      * 根据查询条件对 QueryWrapper 进行排序设置
+     *
      * @param queryWrapper 查询包装器，用于构建查询条件
-     * @param query 查询对象，包含排序字段信息
+     * @param query        查询对象，包含排序字段信息
      */
     public static void sort(QueryWrapper<?> queryWrapper, BasicQuery query) {
         List<String> descSort = getDescSort(query);
@@ -40,10 +42,11 @@ public final class SortTool {
 
     /**
      * 根据查询条件对 QueryWrapper 进行排序设置
-     * @param queryWrapper 查询包装器，用于构建查询条件
-     * @param query 查询对象，包含排序字段信息
+     *
+     * @param queryWrapper    查询包装器，用于构建查询条件
+     * @param query           查询对象，包含排序字段信息
      * @param defaultAscSort  默认升序排序字段
-     * @param defaultDescSort  默认降序排序字段
+     * @param defaultDescSort 默认降序排序字段
      */
     public static <T> void sort(QueryWrapper<T> queryWrapper, BasicQuery query,
                                 Supplier<String> defaultAscSort,
@@ -61,6 +64,7 @@ public final class SortTool {
 
     /**
      * 从查询对象中提取升序排序字段，并转换为下划线命名格式的列表
+     *
      * @param query 查询对象，包含排序字段信息
      * @return 升序排序字段列表，若无则返回空列表
      */
@@ -70,8 +74,9 @@ public final class SortTool {
 
     /**
      * 从查询对象中提取升序排序字段，并转换为下划线命名格式的列表
-     * @param query 查询对象，包含排序字段信息
-     * @param defaultAscSort  默认升序排序字段
+     *
+     * @param query          查询对象，包含排序字段信息
+     * @param defaultAscSort 默认升序排序字段
      * @return 升序排序字段列表，若无则返回空列表
      */
     public static List<String> getAscSort(BasicQuery query, String defaultAscSort) {
@@ -85,6 +90,7 @@ public final class SortTool {
 
     /**
      * 从查询对象中提取降序排序字段，并转换为下划线命名格式的列表
+     *
      * @param query 查询对象，包含排序字段信息
      * @return 降序排序字段列表，若无则返回空列表
      */
@@ -94,8 +100,9 @@ public final class SortTool {
 
     /**
      * 从查询对象中提取降序排序字段，并转换为下划线命名格式的列表
-     * @param query 查询对象，包含排序字段信息
-     * @param descDescSort  默认降序排序字段
+     *
+     * @param query        查询对象，包含排序字段信息
+     * @param descDescSort 默认降序排序字段
      * @return 降序排序字段列表，若无则返回空列表
      */
     public static List<String> getDescSort(BasicQuery query, String descDescSort) {
@@ -108,6 +115,7 @@ public final class SortTool {
 
     /**
      * 将字符串数组转换为列表，并将驼峰命名转换为下划线命名
+     *
      * @param arr 字符串数组
      * @return 转换后的列表，若数组为空或null则返回空列表
      */

@@ -3,16 +3,15 @@ package com.xht.platform.controller.system;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
-import  com.xht.platform.system.domain.form.UserBindRoleForm;
-import  com.xht.platform.system.service.IUserRoleService;
+import com.xht.platform.system.domain.form.UserBindRoleForm;
+import com.xht.platform.system.domain.vo.SysUserRoleBindVo;
+import com.xht.platform.system.service.IUserRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 用户角色管理
@@ -47,12 +46,12 @@ public class SysUserRoleController {
      * 获取当前用户拥有的角色ID列表
      *
      * @param userId 用户ID
-     * @return 角色ID列表
+     * @return 用户角色绑定信息VO
      */
     @Operation(summary = "获取当前用户拥有的角色ID列表", description = "获取当前用户拥有的角色ID列表")
     @GetMapping("/{userId}")
-    public R<List<Long>> selectRoleIdByUserId(@PathVariable String userId) {
-        return R.ok().build(userRoleService.selectRoleIdByUserId(userId));
+    public R<SysUserRoleBindVo> findBindRoleIds(@PathVariable Long userId) {
+        return R.ok().build(userRoleService.findBindRoleIds(userId));
     }
 
 }

@@ -2,16 +2,19 @@ package com.xht.platform.system.service;
 
 import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.exception.code.UserErrorCode;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.ThrowUtils;
-import  com.xht.platform.system.dao.SysRoleDao;
-import  com.xht.platform.system.dao.SysUserDao;
-import  com.xht.platform.system.dao.SysUserRoleDao;
-import  com.xht.platform.system.entity.SysUserEntity;
-import  com.xht.platform.system.entity.SysUserRoleEntity;
+import com.xht.platform.system.converter.SysRoleConverter;
+import com.xht.platform.system.dao.SysRoleDao;
+import com.xht.platform.system.dao.SysUserDao;
+import com.xht.platform.system.dao.SysUserRoleDao;
+import com.xht.platform.system.domain.vo.SysUserRoleBindVo;
+import com.xht.platform.system.entity.SysUserEntity;
+import com.xht.platform.system.entity.SysUserRoleEntity;
+import com.xht.platform.system.enums.RoleStatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,8 @@ public class SysUserRoleServiceImpl implements IUserRoleService {
     private final SysUserDao sysUserDao;
 
     private final SysRoleDao sysRoleDao;
+
+    private final SysRoleConverter sysRoleConverter;
 
     private final SysUserRoleDao sysUserRoleDao;
 
@@ -58,14 +63,24 @@ public class SysUserRoleServiceImpl implements IUserRoleService {
     }
 
     /**
-     * 根据用户ID查询角色ID列表
+     * 获取当前用户拥有的角色ID列表
      *
      * @param userId 用户ID
-     * @return 角色ID列表
+     * @return 用户角色绑定信息VO
      */
     @Override
-    public List<Long> selectRoleIdByUserId(String userId) {
-        ThrowUtils.hasText(userId, "用户ID不能为空");
-        return sysUserRoleDao.getRoleId(userId);
+    public SysUserRoleBindVo findBindRoleIds(Long userId) {
+        ThrowUtils.notNull(userId, "用户ID不能为空");
+        SysUserEntity sysUser = sysUserDao.findById(userId);
+        ThrowUtils.notNull(sysUser, "用户不存在");
+        SysUserRoleBindVo result = new SysUserRoleBindVo();
+        result.setUserId(sysUser.getId());
+        result.setUserType(sysUser.getUserType());
+        result.setUserName(sysUser.getUserName());
+        result.setNickName(sysUser.getNickName());
+        result.setUserStatus(sysUser.getUserStatus());
+        result.setBindRoleIds(sysUserRoleDao.findBindRoleIds(userId));
+        result.setRoles(sysRoleConverter.toResponse(sysRoleDao.findListByStatus(RoleStatusEnum.NORMAL)));
+        return result;
     }
 }

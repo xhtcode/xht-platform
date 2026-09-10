@@ -1,5 +1,7 @@
 package com.xht.platform.system.service;
 
+import com.xht.platform.system.domain.vo.SysUserRoleBindVo;
+
 import java.util.List;
 
 /**
@@ -18,11 +20,11 @@ public interface IUserRoleService {
     void userBindRole(Long userId, List<Long> roleIds);
 
     /**
-     * 根据用户ID查询角色ID列表
+     * 获取当前用户拥有的角色ID列表
      *
      * @param userId 用户ID
-     * @return 角色ID列表
+     * @return 用户角色绑定信息VO
      */
-    List<Long> selectRoleIdByUserId(String userId);
+    SysUserRoleBindVo findBindRoleIds(Long userId);
 
 }

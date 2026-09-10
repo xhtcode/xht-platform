@@ -1,15 +1,15 @@
 package com.xht.platform.notice.converter;
 
 import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.mybatis.converter.BasicConverter;
-import  com.xht.platform.notice.domain.form.SysNoticeAttachmentForm;
-import  com.xht.platform.notice.domain.response.SysNoticeAttachmentResponse;
-import  com.xht.platform.notice.entity.SysNoticeAttachmentEntity;
+import com.xht.framework.utils.CollectionUtils;
+import com.xht.framework.utils.ThrowUtils;
+import com.xht.platform.notice.domain.form.SysNoticeAttachmentForm;
+import com.xht.platform.notice.domain.response.SysNoticeAttachmentResponse;
+import com.xht.platform.notice.entity.SysNoticeAttachmentEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -47,9 +47,7 @@ public interface SysNoticeAttachmentConverter extends BasicConverter<SysNoticeAt
         if (CollectionUtils.isEmpty(sysNoticeAttachmentForms)) {
             return List.of(); // 使用Java 9+的不可变空列表
         }
-        return sysNoticeAttachmentForms.stream()
-                .map(item -> toEntity(item, noticeId))
-                .collect(Collectors.toList());
+        return sysNoticeAttachmentForms.stream().map(item -> toEntity(item, noticeId)).collect(Collectors.toList());
     }
 
 }

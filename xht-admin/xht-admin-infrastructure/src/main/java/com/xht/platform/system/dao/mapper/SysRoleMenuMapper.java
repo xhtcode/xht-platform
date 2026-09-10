@@ -26,14 +26,6 @@ public interface SysRoleMenuMapper extends BaseMapperX<SysRoleMenuEntity> {
      */
     List<Long> selectMenuIdByRoleId(MenuStatusEnum menuStatus, String roleId);
 
-    /**
-     * 根据用户ID获取路由菜单集合
-     *
-     * @param userId 用户ID
-     * @return 路由菜单集合
-     */
-    List<SysMenuResponse> findRouterByUserId(@Param("userId") Long userId);
-
 }
 
 

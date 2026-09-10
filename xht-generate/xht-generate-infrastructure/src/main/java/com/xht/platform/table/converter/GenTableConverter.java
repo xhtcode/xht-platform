@@ -1,15 +1,15 @@
 package com.xht.platform.table.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.platform.table.domain.form.GenTableInfoForm;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.platform.generate.bo.TableBo;
-import com.xht.platform.table.entity.GenTableEntity;
+import com.xht.platform.table.domain.form.GenTableInfoForm;
 import com.xht.platform.table.domain.response.GenTableResponse;
+import com.xht.platform.table.entity.GenTableEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;

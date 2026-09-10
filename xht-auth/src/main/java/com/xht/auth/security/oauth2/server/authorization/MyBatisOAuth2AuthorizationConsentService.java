@@ -5,6 +5,7 @@ import com.xht.auth.consent.dao.ISysOauth2AuthorizationConsentDao;
 import com.xht.auth.consent.entity.SysOauth2AuthorizationConsentEntity;
 import com.xht.auth.security.oauth2.server.authorization.client.Oauth2RegisteredClientRepository;
 import com.xht.framework.security.core.device.provider.DeviceCodeProvider;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.ServletUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,6 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 import java.security.Principal;
 import java.util.HashSet;

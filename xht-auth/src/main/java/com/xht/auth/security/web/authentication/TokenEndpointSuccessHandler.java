@@ -1,10 +1,11 @@
 package com.xht.auth.security.web.authentication;
 
 import com.xht.framework.common.constant.StringConstant;
-import com.xht.framework.utils.ServletUtils;
-import com.xht.framework.utils.StringUtils;
 import com.xht.framework.oauth2.token.response.Oauth2TokenResponse;
 import com.xht.framework.security.constant.TokenCustomizerIdConstant;
+import com.xht.framework.utils.CollectionUtils;
+import com.xht.framework.utils.ServletUtils;
+import com.xht.framework.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.util.CollectionUtils;
 
 import java.time.temporal.ChronoUnit;
 import java.util.Map;

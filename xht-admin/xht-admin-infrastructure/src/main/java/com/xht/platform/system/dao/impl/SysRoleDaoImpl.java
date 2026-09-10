@@ -12,7 +12,6 @@ import  com.xht.platform.system.domain.form.SysRoleForm;
 import  com.xht.platform.system.domain.query.SysRoleQuery;
 import  com.xht.platform.system.entity.SysRoleEntity;
 import  com.xht.platform.system.enums.RoleStatusEnum;
-import com.xht.platform.system.enums.RoleTypeEnums;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -107,15 +106,16 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
     /**
      * 根据角色状态查询角色列表
      *
+     * @param roleStatus 角色状态
      * @return 角色列表信息
      */
     @Override
-    public List<SysRoleEntity> queryRolesByStatus() {
+    public List<SysRoleEntity> findListByStatus(RoleStatusEnum roleStatus) {
         // @formatter:off
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper
                 .select(SysRoleEntity::getId, SysRoleEntity::getRoleCode, SysRoleEntity::getRoleName)
-                .eq(SysRoleEntity::getRoleStatus, RoleStatusEnum.NORMAL)
+                .eq(SysRoleEntity::getRoleStatus, roleStatus)
                 .orderByDesc(SysRoleEntity::getRoleSort);
         // @formatter:on
         return list(queryWrapper);
@@ -132,21 +132,6 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(SysRoleEntity::getId, roleIds);
         return count(queryWrapper) == roleIds.size();
-    }
-
-    /**
-     * 根据角色 ID 列表和导入类型统计数量
-     *
-     * @param roleIds                 角色 ID 列表
-     * @param roleTypeEnums 导入角色类型枚举
-     * @return 符合条件的记录数量
-     */
-    @Override
-    public long countByRoleId(List<Long> roleIds, RoleTypeEnums roleTypeEnums) {
-        LambdaQueryWrapper<SysRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.in(SysRoleEntity::getId, roleIds);
-        queryWrapper.eq(SysRoleEntity::getImportRoleType, roleTypeEnums);
-        return count(queryWrapper);
     }
 
     /**

@@ -5,15 +5,15 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.UtilException;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.platform.common.constant.GenConstant;
-import com.xht.platform.generate.domain.form.GenCodeCoreForm;
 import com.xht.platform.generate.bo.GenCodeCoreBo;
 import com.xht.platform.generate.bo.TableInfoBo;
+import com.xht.platform.generate.domain.form.GenCodeCoreForm;
 import com.xht.platform.template.entity.GenTemplateEntity;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.springframework.util.CollectionUtils;
 
 import java.io.StringWriter;
 import java.util.ArrayList;

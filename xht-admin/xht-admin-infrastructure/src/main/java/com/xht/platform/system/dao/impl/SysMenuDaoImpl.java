@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.platform.system.dao.SysMenuDao;
 import com.xht.platform.system.dao.mapper.SysMenuMapper;
 import com.xht.platform.system.domain.form.SysMenuForm;
@@ -15,8 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 系统菜单管理
@@ -171,12 +171,45 @@ public class SysMenuDaoImpl extends MapperRepositoryImpl<SysMenuMapper, SysMenuE
         return list(lambdaQueryWrapper);
     }
 
+    /**
+     * 获取管理员菜单
+     *
+     * @return 菜单列表
+     */
     @Override
     public List<SysMenuEntity> selectAdminMenu() {
         LambdaQueryWrapper<SysMenuEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.ne(SysMenuEntity::getMenuType, MenuTypeEnum.B);
         lambdaQueryWrapper.eq(SysMenuEntity::getMenuStatus, MenuStatusEnum.NORMAL);
         return list(lambdaQueryWrapper);
+    }
+
+    /**
+     * 根据菜单ID集合查询路由菜单（排除按钮，仅返回启用中的菜单）
+     *
+     * @param menuIds 菜单ID集合
+     * @return 路由菜单列表
+     */
+    @Override
+    public List<SysMenuEntity> findRouterMenus(Collection<Long> menuIds) {
+        if (CollectionUtils.isEmpty(menuIds)) {
+            return Collections.emptyList();
+        }
+        // 分批查询，避免 IN 参数过多导致 SQL 过长、优化器放弃索引
+        List<SysMenuEntity> menuList = new ArrayList<>();
+        for (List<Long> batch : CollectionUtils.split(menuIds, IN_QUERY_BATCH_SIZE)) {
+            // @formatter:off
+            LambdaQueryWrapper<SysMenuEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.in(SysMenuEntity::getId, batch)
+                    .ne(SysMenuEntity::getMenuType, MenuTypeEnum.B)
+                    .eq(SysMenuEntity::getMenuStatus, MenuStatusEnum.NORMAL)
+                    .orderByDesc(SysMenuEntity::getMenuSort);
+            // @formatter:on
+            menuList.addAll(list(lambdaQueryWrapper));
+        }
+        // 分批结果合并后统一排序，保证与单次查询 order by menu_sort desc 的顺序一致（空值排最后）
+        menuList.sort(Comparator.comparing(SysMenuEntity::getMenuSort, Comparator.nullsLast(Comparator.reverseOrder())));
+        return menuList;
     }
 
     /**
