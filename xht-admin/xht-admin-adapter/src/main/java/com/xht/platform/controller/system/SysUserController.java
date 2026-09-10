@@ -13,7 +13,7 @@ import com.xht.platform.system.domain.form.UpdatePwdFrom;
 import com.xht.platform.system.domain.query.SysUserQuery;
 import com.xht.platform.system.domain.response.SysUserResponse;
 import com.xht.platform.system.domain.vo.SysUserVO;
-import com.xht.platform.system.service.IUserService;
+import com.xht.platform.system.service.ISysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -34,7 +34,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SysUserController {
 
-    private final IUserService userService;
+    private final ISysUserService userService;
 
     /**
      * 用户添加

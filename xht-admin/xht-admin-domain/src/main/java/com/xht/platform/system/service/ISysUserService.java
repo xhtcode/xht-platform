@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author xht
  **/
-public interface IUserService {
+public interface ISysUserService {
 
     /**
      * 用户注册

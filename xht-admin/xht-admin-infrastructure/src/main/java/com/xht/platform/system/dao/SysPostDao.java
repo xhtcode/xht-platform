@@ -6,6 +6,8 @@ import com.xht.platform.system.domain.form.SysPostForm;
 import com.xht.platform.system.domain.query.SysPostQuery;
 import com.xht.platform.system.entity.SysPostEntity;
 
+import java.util.List;
+
 /**
  * 部门岗位管理
  *
@@ -38,5 +40,13 @@ public interface SysPostDao extends MapperRepository<SysPostEntity> {
      * @return 分页数据
      */
     Page<SysPostEntity> findPageList(Page<SysPostEntity> page, SysPostQuery query);
+
+    /**
+     * 根据部门ID查询岗位列表
+     *
+     * @param deptId 部门ID
+     * @return 岗位列表
+     */
+    List<SysPostEntity> findListByDeptId(Long deptId);
 
 }

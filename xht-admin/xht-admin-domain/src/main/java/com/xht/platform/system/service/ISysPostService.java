@@ -5,6 +5,8 @@ import com.xht.platform.system.domain.form.SysPostForm;
 import com.xht.platform.system.domain.query.SysPostQuery;
 import com.xht.platform.system.domain.response.SysPostResponse;
 
+import java.util.List;
+
 /**
  * 部门岗位岗位Service接口
  *
@@ -49,5 +51,13 @@ public interface ISysPostService {
      * @return 部门岗位分页信息
      */
     PageResponse<SysPostResponse> findPageList(SysPostQuery query);
+
+    /**
+     * 根据部门ID查询岗位列表
+     *
+     * @param deptId 部门ID
+     * @return 岗位列表信息
+     */
+    List<SysPostResponse> findListByDeptId(Long deptId);
 
 }

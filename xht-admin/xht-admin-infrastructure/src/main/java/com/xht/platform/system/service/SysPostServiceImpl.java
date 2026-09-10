@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * 部门岗位Service实现
  *
@@ -90,6 +92,18 @@ public class SysPostServiceImpl implements ISysPostService {
     public PageResponse<SysPostResponse> findPageList(SysPostQuery query) {
         Page<SysPostEntity> page = sysPostDao.findPageList(PageTool.getPage(query), query);
         return sysPostConverter.toResponse(page);
+    }
+
+    /**
+     * 根据部门ID查询岗位列表
+     *
+     * @param deptId 部门ID
+     * @return 岗位列表信息
+     */
+    @Override
+    public List<SysPostResponse> findListByDeptId(Long deptId) {
+        List<SysPostEntity> postEntityList = sysPostDao.findListByDeptId(deptId);
+        return sysPostConverter.toResponse(postEntityList);
     }
 
 }

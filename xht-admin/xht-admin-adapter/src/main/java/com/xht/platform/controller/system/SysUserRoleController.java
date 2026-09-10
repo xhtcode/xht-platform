@@ -5,7 +5,7 @@ import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.platform.system.domain.form.UserBindRoleForm;
 import com.xht.platform.system.domain.vo.SysUserRoleBindVo;
-import com.xht.platform.system.service.IUserRoleService;
+import com.xht.platform.system.service.ISysUserRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class SysUserRoleController {
 
-    private final IUserRoleService userRoleService;
+    private final ISysUserRoleService userRoleService;
 
     /**
      * 绑定角色

@@ -11,10 +11,12 @@ import com.xht.platform.system.dao.mapper.SysPostMapper;
 import com.xht.platform.system.domain.form.SysPostForm;
 import com.xht.platform.system.domain.query.SysPostQuery;
 import com.xht.platform.system.entity.SysPostEntity;
+import com.xht.platform.system.enums.DeptPostStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -91,6 +93,21 @@ public class SysPostDaoImpl extends MapperRepositoryImpl<SysPostMapper, SysPostE
             queryWrapper.isNull(SysPostEntity::getDeptId);
         }
         return page(page, queryWrapper);
+    }
+
+    /**
+     * 根据部门ID查询岗位列表
+     *
+     * @param deptId 部门ID
+     * @return 岗位列表
+     */
+    @Override
+    public List<SysPostEntity> findListByDeptId(Long deptId) {
+        LambdaQueryWrapper<SysPostEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysPostEntity::getDeptId, deptId);
+        queryWrapper.eq(SysPostEntity::getPostStatus, DeptPostStatusEnum.NORMAL);
+        queryWrapper.orderByDesc(SysPostEntity::getPostSort);
+        return list(queryWrapper);
     }
 
 

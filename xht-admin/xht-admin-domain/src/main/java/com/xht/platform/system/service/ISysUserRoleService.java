@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author xht
  **/
-public interface IUserRoleService {
+public interface ISysUserRoleService {
 
     /**
      * 根据用户ID查询角色ID列表

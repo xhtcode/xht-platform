@@ -53,7 +53,7 @@ import java.util.*;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements IUserService {
+public class SysUserServiceImpl implements ISysUserService {
 
     private final SysUserDao sysUserDao;
 

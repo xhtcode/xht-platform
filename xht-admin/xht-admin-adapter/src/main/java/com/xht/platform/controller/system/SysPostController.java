@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 部门岗位管理
  *
@@ -64,7 +66,7 @@ public class SysPostController {
      * 根据ID更新部门岗位
      *
      * @param postId 部门岗位ID
-     * @param form 部门岗位更新请求参数
+     * @param form   部门岗位更新请求参数
      * @return 统一响应结果
      */
     @BLog(value = "部门岗位管理", description = "")
@@ -98,6 +100,18 @@ public class SysPostController {
     @GetMapping("/page")
     public R<PageResponse<SysPostResponse>> findPageList(@Valid SysPostQuery query) {
         return R.ok().build(sysDeptPostService.findPageList(query));
+    }
+
+    /**
+     * 根据部门ID查询岗位列表
+     *
+     * @param deptId 部门ID
+     * @return 岗位列表信息
+     */
+    @Operation(summary = "根据部门ID查询岗位列表", description = "根据提供的部门ID查询该部门下的所有岗位信息")
+    @GetMapping("/list/{deptId}")
+    public R<List<SysPostResponse>> findListByDeptId(@PathVariable @Parameter(description = "部门ID", required = true) Long deptId) {
+        return R.ok().build(sysDeptPostService.findListByDeptId(deptId));
     }
 
 }
