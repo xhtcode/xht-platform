@@ -1,7 +1,6 @@
 package com.xht.platform.system.domain.vo;
 
 import com.xht.framework.common.domain.vo.XhtVO;
-import com.xht.platform.system.domain.response.SysPostResponse;
 import com.xht.platform.system.domain.response.SysUserDetailResponse;
 import com.xht.platform.system.domain.response.SysUserResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,7 +8,6 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -38,12 +36,6 @@ public class SysUserVO extends SysUserResponse implements XhtVO {
      */
     @Schema(description = "用户详细信息")
     private SysUserDetailResponse profile;
-
-    /**
-     * 用户所在的岗位信息
-     */
-    @Schema(description = "用户所在的岗位信息")
-    private List<SysPostResponse> postInfos;
 
     /**
      * 角色列表

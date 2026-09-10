@@ -27,7 +27,6 @@ import com.xht.platform.system.domain.form.SysUserForm;
 import com.xht.platform.system.domain.form.UpdatePwdFrom;
 import com.xht.platform.system.domain.query.SysUserQuery;
 import com.xht.platform.system.domain.response.SysMenuResponse;
-import com.xht.platform.system.domain.response.SysPostResponse;
 import com.xht.platform.system.domain.response.SysUserDetailResponse;
 import com.xht.platform.system.domain.response.SysUserResponse;
 import com.xht.platform.system.domain.vo.SysUserVO;
@@ -60,8 +59,6 @@ public class SysUserServiceImpl implements ISysUserService {
     private final SysUserRoleDao sysUserRoleDao;
 
     private final SysRoleDao sysRoleDao;
-
-    private final SysUserPostDao sysUserPostDao;
 
     private final SysRoleMenuDao sysRoleMenuDao;
 
@@ -231,8 +228,6 @@ public class SysUserServiceImpl implements ISysUserService {
             sysUserDetailResponse.setUserId(sysUserVO.getId());
             sysUserVO.setProfile(sysUserDetailResponse);
         }
-        List<SysPostResponse> deptPostVo = sysUserPostDao.getPostByUserId(userId);
-        sysUserVO.setPostInfos(deptPostVo);
         return sysUserVO;
     }
 
