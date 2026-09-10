@@ -1,10 +1,10 @@
 package com.xht.platform.system.service;
 
 import com.xht.framework.utils.tree.INode;
-import  com.xht.platform.system.domain.form.SysMenuForm;
-import  com.xht.platform.system.domain.query.SysMenuQuery;
-import  com.xht.platform.system.domain.response.SysMenuResponse;
-import  com.xht.platform.system.enums.MenuStatusEnum;
+import com.xht.platform.system.domain.form.SysMenuForm;
+import com.xht.platform.system.domain.query.SysMenuQuery;
+import com.xht.platform.system.domain.response.SysMenuResponse;
+import com.xht.platform.system.enums.MenuStatusEnum;
 
 import java.util.List;
 
@@ -32,15 +32,15 @@ public interface ISysMenuService {
     /**
      * 根据ID更新菜单
      *
-     * @param menuId   菜单ID
-     * @param form 菜单更新请求参数
+     * @param menuId 菜单ID
+     * @param form   菜单更新请求参数
      */
     void updateById(Long menuId, SysMenuForm form);
 
     /**
      * 更新菜单状态
      *
-     * @param menuId     菜单ID
+     * @param menuId 菜单ID
      * @param status 菜单状态
      */
     void updateStatus(Long menuId, MenuStatusEnum status);

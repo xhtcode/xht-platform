@@ -2,9 +2,9 @@ package com.xht.platform.audit.converter;
 
 import com.xht.framework.log.dto.BLogDTO;
 import com.xht.framework.mybatis.converter.BasicConverter;
-import  com.xht.platform.audit.domain.form.BLogForm;
-import  com.xht.platform.audit.domain.response.BLogResponse;
-import  com.xht.platform.audit.entity.BLogEntity;
+import com.xht.platform.audit.domain.form.BLogForm;
+import com.xht.platform.audit.domain.response.BLogResponse;
+import com.xht.platform.audit.entity.BLogEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;

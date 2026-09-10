@@ -1,9 +1,9 @@
 package com.xht.platform.notice.service;
 
 import com.xht.framework.common.domain.LabelValue;
-import  com.xht.platform.notice.domain.form.SysNoticeTypeForm;
-import  com.xht.platform.notice.domain.query.SysNoticeTypeQuery;
-import  com.xht.platform.notice.domain.response.SysNoticeTypeResponse;
+import com.xht.platform.notice.domain.form.SysNoticeTypeForm;
+import com.xht.platform.notice.domain.query.SysNoticeTypeQuery;
+import com.xht.platform.notice.domain.response.SysNoticeTypeResponse;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public interface ISysNoticeTypeService {
      * 根据ID更新通知类型
      *
      * @param noticeTypeId 通知类型ID
-     * @param form 通知类型更新请求参数
+     * @param form         通知类型更新请求参数
      */
     void updateById(Long noticeTypeId, SysNoticeTypeForm form);
 
@@ -46,6 +46,7 @@ public interface ISysNoticeTypeService {
 
     /**
      * 查询所有通知类型
+     *
      * @param query 通知类型查询请求参数
      * @return 通知类型列表
      */
@@ -53,6 +54,7 @@ public interface ISysNoticeTypeService {
 
     /**
      * 获取所有通知类型
+     *
      * @return 获取所有通知类型
      */
     List<LabelValue<Long, String>> findEnableList();

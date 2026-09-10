@@ -1,9 +1,9 @@
 package com.xht.platform.system.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
-import  com.xht.platform.system.domain.response.SysMenuResponse;
-import  com.xht.platform.system.entity.SysRoleMenuEntity;
-import  com.xht.platform.system.enums.MenuStatusEnum;
+import com.xht.platform.system.domain.response.SysMenuResponse;
+import com.xht.platform.system.entity.SysRoleMenuEntity;
+import com.xht.platform.system.enums.MenuStatusEnum;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

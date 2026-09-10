@@ -3,9 +3,9 @@ package com.xht.platform.system.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.enums.UserStatusEnum;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import  com.xht.platform.system.domain.query.SysUserQuery;
-import  com.xht.platform.system.domain.vo.SysUserVO;
-import  com.xht.platform.system.entity.SysUserEntity;
+import com.xht.platform.system.domain.query.SysUserQuery;
+import com.xht.platform.system.domain.vo.SysUserVO;
+import com.xht.platform.system.entity.SysUserEntity;
 
 
 /**

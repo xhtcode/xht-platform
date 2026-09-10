@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import  com.xht.platform.area.dao.SysAreaDao;
-import  com.xht.platform.area.dao.mapper.SysAreaMapper;
-import  com.xht.platform.area.domain.form.SysAreaForm;
-import  com.xht.platform.area.entity.SysAreaEntity;
-import  com.xht.platform.area.enums.AreaHasChildEnum;
+import com.xht.platform.area.dao.SysAreaDao;
+import com.xht.platform.area.dao.mapper.SysAreaMapper;
+import com.xht.platform.area.domain.form.SysAreaForm;
+import com.xht.platform.area.entity.SysAreaEntity;
+import com.xht.platform.area.enums.AreaHasChildEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -27,27 +27,27 @@ public class SysAreaDaoImpl extends MapperRepositoryImpl<SysAreaMapper, SysAreaE
     /**
      * 修改节点 hasChild属性
      *
-     * @param id       主键
+     * @param areaCode 区划编码
      * @param hasChild 是否有子节点
      */
     @Override
-    public void updateHasChild(Long id, AreaHasChildEnum hasChild) {
+    public void updateHasChild(String areaCode, AreaHasChildEnum hasChild) {
         LambdaUpdateWrapper<SysAreaEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(SysAreaEntity::getHasChild, Objects.requireNonNullElse(hasChild, AreaHasChildEnum.NO_CHILD));
-        updateWrapper.eq(SysAreaEntity::getId, id);
+        updateWrapper.eq(SysAreaEntity::getAreaCode, areaCode);
         update(updateWrapper);
     }
 
     /**
-     * 根据主键`areaCode`更新系统管理-行政区划
+     * 根据主键`id`更新系统管理-行政区划
      *
-     * @param areaId 行政区划主键
+     * @param areaId 系统管理-行政区划主键
      * @param form   系统管理-行政区划表单请求参数
      */
     @Override
     public void updateFormRequest(Long areaId, SysAreaForm form) {
         LambdaUpdateWrapper<SysAreaEntity> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.set(condition(form.getParentId()), SysAreaEntity::getParentId, form.getParentId());
+        updateWrapper.set(condition(form.getParentAreaCode()), SysAreaEntity::getParentAreaCode, form.getParentAreaCode());
         updateWrapper.set(condition(form.getAreaCode()), SysAreaEntity::getAreaCode, form.getAreaCode());
         updateWrapper.set(condition(form.getAreaName()), SysAreaEntity::getAreaName, form.getAreaName());
         updateWrapper.set(condition(form.getAreaPostCode()), SysAreaEntity::getAreaPostCode, form.getAreaPostCode());
@@ -61,22 +61,22 @@ public class SysAreaDaoImpl extends MapperRepositoryImpl<SysAreaMapper, SysAreaE
     /**
      * 校验区划下是否有子区划
      *
-     * @param parentId 上级区划编码
+     * @param parentAreaCode 上级区划编码
      * @return true:有子区划
      */
     @Override
-    public boolean existsChild(Long parentId) {
-        LambdaQueryWrapper<SysAreaEntity> updateWrapper = new LambdaQueryWrapper<>();
-        updateWrapper.eq(SysAreaEntity::getParentId, parentId);
-        return exists(updateWrapper);
+    public boolean existsChild(String parentAreaCode) {
+        LambdaQueryWrapper<SysAreaEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysAreaEntity::getParentAreaCode, parentAreaCode);
+        return exists(queryWrapper);
     }
 
     /**
-     * 校验区划下是否有子区划
+     * 校验区划编码是否已存在
      *
      * @param areaCode 区划编码
-     * @param id       区划ID
-     * @return true:有子区划
+     * @param id       区划ID(排除自身,创建时传null)
+     * @return true:已存在
      */
     @Override
     public boolean existsAreaCode(String areaCode, Long id) {
@@ -89,15 +89,15 @@ public class SysAreaDaoImpl extends MapperRepositoryImpl<SysAreaMapper, SysAreaE
     /**
      * 根据上级区划编码查询子区划
      *
-     * @param parentId 上级区划编码
+     * @param parentAreaCode 上级区划编码
      * @return 子区划列表
      */
     @Override
-    public List<SysAreaEntity> listByParentId(Long parentId) {
-        LambdaUpdateWrapper<SysAreaEntity> wrapper = new LambdaUpdateWrapper<>();
-        wrapper.eq(SysAreaEntity::getParentId, parentId);
-        wrapper.orderByAsc(SysAreaEntity::getAreaCode);
-        return baseMapper.selectList(wrapper);
+    public List<SysAreaEntity> listByParentId(String parentAreaCode) {
+        LambdaQueryWrapper<SysAreaEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysAreaEntity::getParentAreaCode, parentAreaCode);
+        queryWrapper.orderByAsc(SysAreaEntity::getAreaCode);
+        return list(queryWrapper);
     }
 
 

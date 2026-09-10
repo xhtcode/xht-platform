@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import  com.xht.platform.notice.dao.SysNoticeAttachmentDao;
-import  com.xht.platform.notice.dao.mapper.SysNoticeAttachmentMapper;
-import  com.xht.platform.notice.entity.SysNoticeAttachmentEntity;
+import com.xht.platform.notice.dao.SysNoticeAttachmentDao;
+import com.xht.platform.notice.dao.mapper.SysNoticeAttachmentMapper;
+import com.xht.platform.notice.entity.SysNoticeAttachmentEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

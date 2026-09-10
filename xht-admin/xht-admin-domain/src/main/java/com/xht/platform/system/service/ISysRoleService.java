@@ -1,10 +1,10 @@
 package com.xht.platform.system.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
-import  com.xht.platform.system.domain.form.SysRoleForm;
-import  com.xht.platform.system.domain.query.SysRoleQuery;
-import  com.xht.platform.system.domain.response.SysRoleResponse;
-import  com.xht.platform.system.enums.RoleStatusEnum;
+import com.xht.platform.system.domain.form.SysRoleForm;
+import com.xht.platform.system.domain.query.SysRoleQuery;
+import com.xht.platform.system.domain.response.SysRoleResponse;
+import com.xht.platform.system.enums.RoleStatusEnum;
 
 import java.util.List;
 

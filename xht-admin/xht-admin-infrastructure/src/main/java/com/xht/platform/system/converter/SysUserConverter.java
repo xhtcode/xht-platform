@@ -1,13 +1,13 @@
 package com.xht.platform.system.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import  com.xht.platform.system.domain.form.SysUserDetailForm;
-import  com.xht.platform.system.domain.form.SysUserForm;
-import  com.xht.platform.system.domain.response.SysUserDetailResponse;
-import  com.xht.platform.system.domain.response.SysUserResponse;
-import  com.xht.platform.system.domain.vo.SysUserVO;
-import  com.xht.platform.system.entity.SysUserDetailEntity;
-import  com.xht.platform.system.entity.SysUserEntity;
+import com.xht.platform.system.domain.form.SysUserDetailForm;
+import com.xht.platform.system.domain.form.SysUserForm;
+import com.xht.platform.system.domain.response.SysUserDetailResponse;
+import com.xht.platform.system.domain.response.SysUserResponse;
+import com.xht.platform.system.domain.vo.SysUserVO;
+import com.xht.platform.system.entity.SysUserDetailEntity;
+import com.xht.platform.system.entity.SysUserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;

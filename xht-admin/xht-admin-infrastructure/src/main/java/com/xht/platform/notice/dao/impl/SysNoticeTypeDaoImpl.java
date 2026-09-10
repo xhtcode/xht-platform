@@ -6,12 +6,12 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.framework.mybatis.utils.SortTool;
-import  com.xht.platform.notice.dao.SysNoticeTypeDao;
-import  com.xht.platform.notice.dao.mapper.SysNoticeTypeMapper;
-import  com.xht.platform.notice.domain.form.SysNoticeTypeForm;
-import  com.xht.platform.notice.domain.query.SysNoticeTypeQuery;
-import  com.xht.platform.notice.entity.SysNoticeTypeEntity;
-import  com.xht.platform.notice.enums.NoticeTypeStatusEnum;
+import com.xht.platform.notice.dao.SysNoticeTypeDao;
+import com.xht.platform.notice.dao.mapper.SysNoticeTypeMapper;
+import com.xht.platform.notice.domain.form.SysNoticeTypeForm;
+import com.xht.platform.notice.domain.query.SysNoticeTypeQuery;
+import com.xht.platform.notice.entity.SysNoticeTypeEntity;
+import com.xht.platform.notice.enums.NoticeTypeStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

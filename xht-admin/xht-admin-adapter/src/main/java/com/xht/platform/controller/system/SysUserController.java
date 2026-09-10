@@ -8,12 +8,12 @@ import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.oauth2.annotation.IsAdmin;
 import com.xht.framework.utils.tree.INode;
 import com.xht.framework.validation.Groups;
-import  com.xht.platform.system.domain.form.SysUserForm;
-import  com.xht.platform.system.domain.form.UpdatePwdFrom;
-import  com.xht.platform.system.domain.query.SysUserQuery;
-import  com.xht.platform.system.domain.response.SysUserResponse;
-import  com.xht.platform.system.domain.vo.SysUserVO;
-import  com.xht.platform.system.service.IUserService;
+import com.xht.platform.system.domain.form.SysUserForm;
+import com.xht.platform.system.domain.form.UpdatePwdFrom;
+import com.xht.platform.system.domain.query.SysUserQuery;
+import com.xht.platform.system.domain.response.SysUserResponse;
+import com.xht.platform.system.domain.vo.SysUserVO;
+import com.xht.platform.system.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -114,7 +114,7 @@ public class SysUserController {
     /**
      * 用户状态修改
      *
-     * @param userId 用户ID
+     * @param userId     用户ID
      * @param userStatus 新的状态
      * @return 返回一个R对象，其中包含一个布尔值，表示状态是否修改成功
      */

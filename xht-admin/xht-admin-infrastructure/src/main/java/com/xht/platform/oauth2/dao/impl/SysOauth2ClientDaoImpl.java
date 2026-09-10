@@ -7,11 +7,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnum;
-import  com.xht.platform.oauth2.dao.SysOauth2ClientDao;
-import  com.xht.platform.oauth2.dao.mapper.SysOauth2ClientMapper;
-import  com.xht.platform.oauth2.domain.form.SysOauth2ClientForm;
-import  com.xht.platform.oauth2.domain.query.SysOauth2ClientQuery;
-import  com.xht.platform.oauth2.entity.SysOauth2ClientEntity;
+import com.xht.platform.oauth2.dao.SysOauth2ClientDao;
+import com.xht.platform.oauth2.dao.mapper.SysOauth2ClientMapper;
+import com.xht.platform.oauth2.domain.form.SysOauth2ClientForm;
+import com.xht.platform.oauth2.domain.query.SysOauth2ClientQuery;
+import com.xht.platform.oauth2.entity.SysOauth2ClientEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

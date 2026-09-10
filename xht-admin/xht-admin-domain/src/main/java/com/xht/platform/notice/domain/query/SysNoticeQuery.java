@@ -1,7 +1,7 @@
 package com.xht.platform.notice.domain.query;
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import  com.xht.platform.notice.enums.NoticeStatusEnum;
+import com.xht.platform.notice.enums.NoticeStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

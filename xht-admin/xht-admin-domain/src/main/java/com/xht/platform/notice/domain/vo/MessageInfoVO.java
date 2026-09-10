@@ -3,7 +3,7 @@ package com.xht.platform.notice.domain.vo;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xht.framework.common.domain.vo.XhtVO;
-import  com.xht.platform.notice.domain.response.SysMessageInfoResponse;
+import com.xht.platform.notice.domain.response.SysMessageInfoResponse;
 import com.xht.platform.common.message.core.MessageExtendInfo;
 import com.xht.platform.common.message.enums.MessageTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;

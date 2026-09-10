@@ -2,9 +2,9 @@ package com.xht.platform.system.domain.form;
 
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
-import  com.xht.platform.system.enums.MenuCommonStatusEnum;
-import  com.xht.platform.system.enums.MenuStatusEnum;
-import  com.xht.platform.system.enums.MenuTypeEnum;
+import com.xht.platform.system.enums.MenuCommonStatusEnum;
+import com.xht.platform.system.enums.MenuStatusEnum;
+import com.xht.platform.system.enums.MenuTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 @Schema(description = "系统菜单表单请求参数")
 public class SysMenuForm extends BasicForm {
-    
+
     /**
      * 父菜单`id`
      */

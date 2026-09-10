@@ -1,9 +1,9 @@
 package com.xht.platform.notice.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import  com.xht.platform.notice.domain.form.SysNoticeTypeForm;
-import  com.xht.platform.notice.domain.response.SysNoticeTypeResponse;
-import  com.xht.platform.notice.entity.SysNoticeTypeEntity;
+import com.xht.platform.notice.domain.form.SysNoticeTypeForm;
+import com.xht.platform.notice.domain.response.SysNoticeTypeResponse;
+import com.xht.platform.notice.entity.SysNoticeTypeEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;

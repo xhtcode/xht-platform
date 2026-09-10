@@ -45,7 +45,7 @@ public class SysAreaController {
     /**
      * 根据主键`id`删除系统管理-行政区划
      *
-     * @param areaId 系统管理-字典表主键
+     * @param areaId 系统管理-行政区划主键
      * @return 统一响应结果
      */
     @BLog(value = "行政区划", description = "根据主键`id`删除系统管理-行政区划")
@@ -60,8 +60,8 @@ public class SysAreaController {
     /**
      * 修改系统管理-行政区划
      *
-     * @param areaId   系统管理-行政区划主键
-     * @param form 系统管理-行政区划
+     * @param areaId 系统管理-行政区划主键
+     * @param form   系统管理-行政区划
      */
     @BLog(value = "行政区划", description = "修改系统管理-行政区划")
     @Operation(summary = " 修改系统管理-行政区划")
@@ -86,14 +86,14 @@ public class SysAreaController {
     /**
      * 查询系统管理-行政区划列表
      *
-     * @param parentId 上级系统管理-行政区划ID
+     * @param parentAreaCode 上级区划编码
      * @return 系统管理-行政区划列表
      */
     @IgnoreAuth(aop = false)
-    @Operation(summary = "根据上级区划id查询系统管理-行政区划列表")
-    @GetMapping("/list/{parentId}")
-    public R<List<SysAreaResponse>> listByParentId(@PathVariable Long parentId) {
-        return R.ok().build(sysAreaService.listByParentId(parentId));
+    @Operation(summary = "根据上级区划编码查询系统管理-行政区划列表")
+    @GetMapping("/list/{parentAreaCode}")
+    public R<List<SysAreaResponse>> listByParentId(@PathVariable String parentAreaCode) {
+        return R.ok().build(sysAreaService.listByParentId(parentAreaCode));
     }
 
 }

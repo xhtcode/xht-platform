@@ -1,7 +1,7 @@
 package com.xht.platform.system.domain.query;
 
 import com.xht.framework.common.domain.query.BasicQuery;
-import  com.xht.platform.system.enums.DeptStatusEnum;
+import com.xht.platform.system.enums.DeptStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

@@ -2,9 +2,9 @@ package com.xht.platform.system.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import  com.xht.platform.system.domain.form.SysPostForm;
-import  com.xht.platform.system.domain.query.SysPostQuery;
-import  com.xht.platform.system.entity.SysPostEntity;
+import com.xht.platform.system.domain.form.SysPostForm;
+import com.xht.platform.system.domain.query.SysPostQuery;
+import com.xht.platform.system.entity.SysPostEntity;
 
 /**
  * 部门岗位管理

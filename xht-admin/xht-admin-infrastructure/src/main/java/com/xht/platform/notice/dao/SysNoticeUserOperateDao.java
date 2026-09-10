@@ -1,8 +1,8 @@
 package com.xht.platform.notice.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import  com.xht.platform.notice.entity.SysNoticeUserOperateEntity;
-import  com.xht.platform.notice.enums.NoticeOperateTypeEnum;
+import com.xht.platform.notice.entity.SysNoticeUserOperateEntity;
+import com.xht.platform.notice.enums.NoticeOperateTypeEnum;
 
 /**
  * 描述 ： 系统管理-用户操作记录(防重复统计) Dao

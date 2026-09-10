@@ -1,11 +1,11 @@
 package com.xht.platform.notice.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
-import  com.xht.platform.notice.domain.form.SysNoticeForm;
-import  com.xht.platform.notice.domain.query.SysNoticeQuery;
-import  com.xht.platform.notice.domain.response.SysNoticeResponse;
-import  com.xht.platform.notice.domain.vo.NoticeVO;
-import  com.xht.platform.notice.enums.NoticeTopEnum;
+import com.xht.platform.notice.domain.form.SysNoticeForm;
+import com.xht.platform.notice.domain.query.SysNoticeQuery;
+import com.xht.platform.notice.domain.response.SysNoticeResponse;
+import com.xht.platform.notice.domain.vo.NoticeVO;
+import com.xht.platform.notice.enums.NoticeTopEnum;
 
 import java.util.List;
 
@@ -33,8 +33,8 @@ public interface ISysNoticeService {
     /**
      * 根据ID更新通知详情
      *
-     * @param noticeId   通知详情ID
-     * @param form 通知详情更新请求参数
+     * @param noticeId 通知详情ID
+     * @param form     通知详情更新请求参数
      */
     void updateById(Long noticeId, SysNoticeForm form);
 

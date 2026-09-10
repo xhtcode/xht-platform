@@ -1,9 +1,9 @@
 package com.xht.platform.notice.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import  com.xht.platform.notice.domain.form.SysNoticeTypeForm;
-import  com.xht.platform.notice.domain.query.SysNoticeTypeQuery;
-import  com.xht.platform.notice.entity.SysNoticeTypeEntity;
+import com.xht.platform.notice.domain.form.SysNoticeTypeForm;
+import com.xht.platform.notice.domain.query.SysNoticeTypeQuery;
+import com.xht.platform.notice.entity.SysNoticeTypeEntity;
 
 import java.util.List;
 

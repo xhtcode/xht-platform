@@ -2,10 +2,10 @@ package com.xht.platform.notice.converter;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.converter.PageConverter;
-import  com.xht.platform.notice.domain.response.SysMessageInfoResponse;
-import  com.xht.platform.notice.domain.vo.MessagePageVO;
-import  com.xht.platform.notice.entity.SysMessageEntity;
-import  com.xht.platform.notice.entity.SysMessageInfoEntity;
+import com.xht.platform.notice.domain.response.SysMessageInfoResponse;
+import com.xht.platform.notice.domain.vo.MessagePageVO;
+import com.xht.platform.notice.entity.SysMessageEntity;
+import com.xht.platform.notice.entity.SysMessageInfoEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;

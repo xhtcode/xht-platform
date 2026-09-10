@@ -1,8 +1,8 @@
 package com.xht.platform.system.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
-import  com.xht.platform.system.domain.response.SysPostResponse;
-import  com.xht.platform.system.entity.SysUserPostEntity;
+import com.xht.platform.system.domain.response.SysPostResponse;
+import com.xht.platform.system.entity.SysUserPostEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

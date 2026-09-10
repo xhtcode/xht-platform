@@ -1,8 +1,8 @@
 package com.xht.platform.notice.converter;
 
 import com.xht.framework.mybatis.converter.PageConverter;
-import  com.xht.platform.notice.domain.response.SysMessageResponse;
-import  com.xht.platform.notice.entity.SysMessageEntity;
+import com.xht.platform.notice.domain.response.SysMessageResponse;
+import com.xht.platform.notice.entity.SysMessageEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;

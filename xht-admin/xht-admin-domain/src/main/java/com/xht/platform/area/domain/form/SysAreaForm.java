@@ -18,11 +18,11 @@ import lombok.Data;
 public class SysAreaForm extends BasicForm {
 
     /**
-     * 上级
+     * 上级区划编码
      */
-    @NotNull(message = "上级参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "上级")
-    private Long parentId;
+    @NotEmpty(message = "上级区划编码参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "上级区划编码")
+    private String parentAreaCode;
 
     /**
      * 区划编码

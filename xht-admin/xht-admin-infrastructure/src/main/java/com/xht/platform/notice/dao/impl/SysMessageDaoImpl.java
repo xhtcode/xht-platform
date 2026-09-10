@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import  com.xht.platform.notice.dao.SysMessageDao;
-import  com.xht.platform.notice.dao.mapper.SysMessageMapper;
-import  com.xht.platform.notice.domain.query.SysMessageQuery;
-import  com.xht.platform.notice.entity.SysMessageEntity;
+import com.xht.platform.notice.dao.SysMessageDao;
+import com.xht.platform.notice.dao.mapper.SysMessageMapper;
+import com.xht.platform.notice.domain.query.SysMessageQuery;
+import com.xht.platform.notice.entity.SysMessageEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

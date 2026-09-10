@@ -2,9 +2,9 @@ package com.xht.platform.dict.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import  com.xht.platform.dict.domain.form.SysDictForm;
-import  com.xht.platform.dict.domain.query.SysDictQuery;
-import  com.xht.platform.dict.entity.SysDictEntity;
+import com.xht.platform.dict.domain.form.SysDictForm;
+import com.xht.platform.dict.domain.query.SysDictQuery;
+import com.xht.platform.dict.entity.SysDictEntity;
 
 import java.util.List;
 

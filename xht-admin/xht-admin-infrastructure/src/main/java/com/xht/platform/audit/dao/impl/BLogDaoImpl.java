@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import  com.xht.platform.audit.dao.BLogDao;
-import  com.xht.platform.audit.dao.mapper.BLogMapper;
-import  com.xht.platform.audit.domain.query.BLogQuery;
-import  com.xht.platform.audit.entity.BLogEntity;
+import com.xht.platform.audit.dao.BLogDao;
+import com.xht.platform.audit.dao.mapper.BLogMapper;
+import com.xht.platform.audit.domain.query.BLogQuery;
+import com.xht.platform.audit.entity.BLogEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

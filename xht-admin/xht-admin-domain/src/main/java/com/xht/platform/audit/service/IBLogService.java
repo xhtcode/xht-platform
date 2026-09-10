@@ -2,8 +2,8 @@ package com.xht.platform.audit.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.log.dto.BLogDTO;
-import  com.xht.platform.audit.domain.query.BLogQuery;
-import  com.xht.platform.audit.domain.response.BLogResponse;
+import com.xht.platform.audit.domain.query.BLogQuery;
+import com.xht.platform.audit.domain.response.BLogResponse;
 
 /**
  * 系统日志

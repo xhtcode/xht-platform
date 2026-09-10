@@ -1,7 +1,7 @@
 package com.xht.platform.area.service;
 
-import  com.xht.platform.area.domain.form.SysAreaForm;
-import  com.xht.platform.area.domain.response.SysAreaResponse;
+import com.xht.platform.area.domain.form.SysAreaForm;
+import com.xht.platform.area.domain.response.SysAreaResponse;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface ISysAreaService {
     void create(SysAreaForm form);
 
     /**
-     * 根据主键`areaId`批量删除系统管理-行政区划
+     * 根据主键`areaId`删除系统管理-行政区划
      *
      * @param areaId 系统管理-行政区划主键
      */
@@ -45,9 +45,9 @@ public interface ISysAreaService {
     /**
      * 查询系统管理-行政区划列表
      *
-     * @param parentId 上级系统管理-行政区划ID
+     * @param parentAreaCode 上级区划编码
      * @return 系统管理-行政区划列表
      */
-    List<SysAreaResponse> listByParentId(Long parentId);
+    List<SysAreaResponse> listByParentId(String parentAreaCode);
 
 }

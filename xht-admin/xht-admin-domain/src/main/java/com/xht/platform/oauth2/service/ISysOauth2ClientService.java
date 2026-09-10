@@ -1,10 +1,10 @@
 package com.xht.platform.oauth2.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
-import  com.xht.platform.oauth2.domain.form.SysOauth2ClientForm;
-import  com.xht.platform.oauth2.domain.form.SysOauth2ClientPwdForm;
-import  com.xht.platform.oauth2.domain.query.SysOauth2ClientQuery;
-import  com.xht.platform.oauth2.domain.response.SysOauth2ClientResponse;
+import com.xht.platform.oauth2.domain.form.SysOauth2ClientForm;
+import com.xht.platform.oauth2.domain.form.SysOauth2ClientPwdForm;
+import com.xht.platform.oauth2.domain.query.SysOauth2ClientQuery;
+import com.xht.platform.oauth2.domain.response.SysOauth2ClientResponse;
 
 /**
  * OAuth2客户端管理
@@ -31,7 +31,7 @@ public interface ISysOauth2ClientService {
      * 修改OAuth2客户端
      *
      * @param oauth2Id OAuth2客户端标识
-     * @param form OAuth2客户端信息
+     * @param form     OAuth2客户端信息
      */
     void updateById(Long oauth2Id, SysOauth2ClientForm form);
 

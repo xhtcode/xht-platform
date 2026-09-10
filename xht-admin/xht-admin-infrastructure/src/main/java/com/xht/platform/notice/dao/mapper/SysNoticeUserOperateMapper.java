@@ -1,7 +1,7 @@
 package com.xht.platform.notice.dao.mapper;
 
 import com.xht.framework.mybatis.mapper.BaseMapperX;
-import  com.xht.platform.notice.entity.SysNoticeUserOperateEntity;
+import com.xht.platform.notice.entity.SysNoticeUserOperateEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

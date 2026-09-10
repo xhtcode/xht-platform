@@ -2,7 +2,7 @@ package com.xht.platform.system.domain.form;
 
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
-import  com.xht.platform.system.enums.DeptPostStatusEnum;
+import com.xht.platform.system.enums.DeptPostStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

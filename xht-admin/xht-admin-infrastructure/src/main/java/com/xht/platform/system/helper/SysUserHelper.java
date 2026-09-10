@@ -1,11 +1,11 @@
 package com.xht.platform.system.helper;
 
 import com.xht.framework.utils.IdCardUtils;
-import  com.xht.platform.system.converter.SysUserDetailConverter;
-import  com.xht.platform.system.domain.form.SysUserDetailForm;
-import  com.xht.platform.system.domain.form.SysUserForm;
-import  com.xht.platform.system.entity.SysUserDetailEntity;
-import  com.xht.platform.system.entity.SysUserEntity;
+import com.xht.platform.system.converter.SysUserDetailConverter;
+import com.xht.platform.system.domain.form.SysUserDetailForm;
+import com.xht.platform.system.domain.form.SysUserForm;
+import com.xht.platform.system.entity.SysUserDetailEntity;
+import com.xht.platform.system.entity.SysUserEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

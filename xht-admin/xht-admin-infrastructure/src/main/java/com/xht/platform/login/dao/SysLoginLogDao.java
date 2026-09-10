@@ -1,7 +1,7 @@
 package com.xht.platform.login.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import  com.xht.platform.login.entity.SysLoginLogEntity;
+import com.xht.platform.login.entity.SysLoginLogEntity;
 
 /**
  * 登录日志 Dao

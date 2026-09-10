@@ -1,8 +1,8 @@
 package com.xht.platform.notice.domain.vo;
 
 import com.xht.framework.common.domain.vo.XhtVO;
-import  com.xht.platform.notice.domain.response.SysNoticeAttachmentResponse;
-import  com.xht.platform.notice.domain.response.SysNoticeResponse;
+import com.xht.platform.notice.domain.response.SysNoticeAttachmentResponse;
+import com.xht.platform.notice.domain.response.SysNoticeResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

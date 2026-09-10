@@ -3,10 +3,10 @@ package com.xht.platform.notice.dao.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import  com.xht.platform.notice.dao.SysNoticeUserOperateDao;
-import  com.xht.platform.notice.dao.mapper.SysNoticeUserOperateMapper;
-import  com.xht.platform.notice.entity.SysNoticeUserOperateEntity;
-import  com.xht.platform.notice.enums.NoticeOperateTypeEnum;
+import com.xht.platform.notice.dao.SysNoticeUserOperateDao;
+import com.xht.platform.notice.dao.mapper.SysNoticeUserOperateMapper;
+import com.xht.platform.notice.entity.SysNoticeUserOperateEntity;
+import com.xht.platform.notice.enums.NoticeOperateTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

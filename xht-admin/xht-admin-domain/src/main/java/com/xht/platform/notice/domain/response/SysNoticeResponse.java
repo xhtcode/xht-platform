@@ -1,7 +1,7 @@
 package com.xht.platform.notice.domain.response;
 
 import com.xht.framework.common.domain.response.MetaResponse;
-import  com.xht.platform.notice.enums.*;
+import com.xht.platform.notice.enums.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

@@ -3,11 +3,11 @@ package com.xht.platform.system.service;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.common.enums.UserStatusEnum;
 import com.xht.framework.utils.tree.INode;
-import  com.xht.platform.system.domain.form.SysUserForm;
-import  com.xht.platform.system.domain.form.UpdatePwdFrom;
-import  com.xht.platform.system.domain.query.SysUserQuery;
-import  com.xht.platform.system.domain.response.SysUserResponse;
-import  com.xht.platform.system.domain.vo.SysUserVO;
+import com.xht.platform.system.domain.form.SysUserForm;
+import com.xht.platform.system.domain.form.UpdatePwdFrom;
+import com.xht.platform.system.domain.query.SysUserQuery;
+import com.xht.platform.system.domain.response.SysUserResponse;
+import com.xht.platform.system.domain.vo.SysUserVO;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public interface IUserService {
     /**
      * 更新用户信息
      *
-     * @param userId 用户 ID
+     * @param userId   用户 ID
      * @param userForm 用户更新请求对象
      */
     void updateById(Long userId, SysUserForm userForm);

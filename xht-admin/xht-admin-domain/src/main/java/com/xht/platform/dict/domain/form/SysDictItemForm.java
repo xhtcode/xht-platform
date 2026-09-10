@@ -2,7 +2,7 @@ package com.xht.platform.dict.domain.form;
 
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
-import  com.xht.platform.dict.enums.DictStatusEnum;
+import com.xht.platform.dict.enums.DictStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Data;

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.DeleteEntity;
-import  com.xht.platform.area.enums.AreaHasChildEnum;
+import com.xht.platform.area.enums.AreaHasChildEnum;
 import lombok.Data;
 
 /**
@@ -24,16 +24,16 @@ public class SysAreaEntity extends DeleteEntity {
     private Long id;
 
     /**
-     * 上级
-     */
-    @TableField(value = "parent_id")
-    private Long parentId;
-
-    /**
      * 区划编码
      */
     @TableField(value = "area_code")
     private String areaCode;
+
+    /**
+     * 上级区划编码
+     */
+    @TableField(value = "parent_area_code")
+    private String parentAreaCode;
 
     /**
      * 区划名称

@@ -17,20 +17,20 @@ public class SysAreaResponse extends BasicResponse {
     /**
      * 主键
      */
-    @Schema(name = "主键")
+    @Schema(description = "主键")
     private Long id;
-
-    /**
-     * 上级
-     */
-    @Schema(description = "上级")
-    private Long parentId;
 
     /**
      * 区划编码
      */
     @Schema(description = "区划编码")
-    private Long areaCode;
+    private String areaCode;
+
+    /**
+     * 上级区划编码
+     */
+    @Schema(description = "上级区划编码")
+    private String parentAreaCode;
 
     /**
      * 区划名称

@@ -1,6 +1,6 @@
 package com.xht.platform.notice;
 
-import  com.xht.platform.notice.service.ISysMessageService;
+import com.xht.platform.notice.service.ISysMessageService;
 import com.xht.platform.common.message.IMessagePublisher;
 import com.xht.platform.common.message.core.MessagePayload;
 import lombok.RequiredArgsConstructor;

@@ -1,9 +1,9 @@
 package com.xht.platform.system.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
-import  com.xht.platform.system.domain.form.SysPostForm;
-import  com.xht.platform.system.domain.query.SysPostQuery;
-import  com.xht.platform.system.domain.response.SysPostResponse;
+import com.xht.platform.system.domain.form.SysPostForm;
+import com.xht.platform.system.domain.query.SysPostQuery;
+import com.xht.platform.system.domain.response.SysPostResponse;
 
 /**
  * 部门岗位岗位Service接口
@@ -25,12 +25,12 @@ public interface ISysPostService {
      * @param postId 部门岗位ID
      */
     void removeById(Long postId);
-    
+
     /**
      * 根据ID更新部门岗位
      *
      * @param postId 部门岗位ID
-     * @param form 部门岗位更新请求参数
+     * @param form   部门岗位更新请求参数
      */
     void updateById(Long postId, SysPostForm form);
 

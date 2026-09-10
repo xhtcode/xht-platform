@@ -4,10 +4,10 @@ import com.xht.framework.exception.ValidationException;
 import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.framework.utils.StringUtils;
-import  com.xht.platform.system.domain.form.SysMenuForm;
-import  com.xht.platform.system.enums.MenuCommonStatusEnum;
-import  com.xht.platform.system.enums.MenuStatusEnum;
-import  com.xht.platform.system.enums.MenuTypeEnum;
+import com.xht.platform.system.domain.form.SysMenuForm;
+import com.xht.platform.system.enums.MenuCommonStatusEnum;
+import com.xht.platform.system.enums.MenuStatusEnum;
+import com.xht.platform.system.enums.MenuTypeEnum;
 
 import java.util.Objects;
 

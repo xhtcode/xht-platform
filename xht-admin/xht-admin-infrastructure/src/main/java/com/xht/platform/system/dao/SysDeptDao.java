@@ -1,9 +1,9 @@
 package com.xht.platform.system.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import  com.xht.platform.system.domain.query.SysDeptTreeQuery;
-import  com.xht.platform.system.entity.SysDeptEntity;
-import  com.xht.platform.system.enums.DeptStatusEnum;
+import com.xht.platform.system.domain.query.SysDeptTreeQuery;
+import com.xht.platform.system.entity.SysDeptEntity;
+import com.xht.platform.system.enums.DeptStatusEnum;
 
 import java.util.List;
 

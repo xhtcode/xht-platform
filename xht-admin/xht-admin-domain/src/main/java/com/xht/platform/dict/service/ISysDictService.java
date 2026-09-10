@@ -1,9 +1,9 @@
 package com.xht.platform.dict.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
-import  com.xht.platform.dict.domain.form.SysDictForm;
-import  com.xht.platform.dict.domain.query.SysDictQuery;
-import  com.xht.platform.dict.domain.response.SysDictResponse;
+import com.xht.platform.dict.domain.form.SysDictForm;
+import com.xht.platform.dict.domain.query.SysDictQuery;
+import com.xht.platform.dict.domain.response.SysDictResponse;
 
 /**
  * 字典管理
@@ -30,7 +30,7 @@ public interface ISysDictService {
      * 修改字典类型
      *
      * @param dictId 字典ID
-     * @param form 更新请求
+     * @param form   更新请求
      */
     void updateById(Long dictId, SysDictForm form);
 

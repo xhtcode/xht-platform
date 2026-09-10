@@ -1,12 +1,12 @@
 package com.xht.platform.notice.service;
 
 import com.xht.framework.common.domain.LabelValue;
-import  com.xht.platform.notice.converter.SysNoticeTypeConverter;
-import  com.xht.platform.notice.dao.SysNoticeTypeDao;
-import  com.xht.platform.notice.domain.form.SysNoticeTypeForm;
-import  com.xht.platform.notice.domain.query.SysNoticeTypeQuery;
-import  com.xht.platform.notice.domain.response.SysNoticeTypeResponse;
-import  com.xht.platform.notice.entity.SysNoticeTypeEntity;
+import com.xht.platform.notice.converter.SysNoticeTypeConverter;
+import com.xht.platform.notice.dao.SysNoticeTypeDao;
+import com.xht.platform.notice.domain.form.SysNoticeTypeForm;
+import com.xht.platform.notice.domain.query.SysNoticeTypeQuery;
+import com.xht.platform.notice.domain.response.SysNoticeTypeResponse;
+import com.xht.platform.notice.entity.SysNoticeTypeEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

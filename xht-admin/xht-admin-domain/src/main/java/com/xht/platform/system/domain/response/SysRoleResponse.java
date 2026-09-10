@@ -2,8 +2,8 @@ package com.xht.platform.system.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.xht.framework.common.domain.response.MetaResponse;
-import  com.xht.platform.system.enums.RoleTypeEnums;
-import  com.xht.platform.system.enums.RoleStatusEnum;
+import com.xht.platform.system.enums.RoleTypeEnums;
+import com.xht.platform.system.enums.RoleStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

@@ -2,9 +2,9 @@ package com.xht.platform.dict.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.platform.common.dict.domain.DictVO;
-import  com.xht.platform.dict.domain.form.SysDictItemForm;
-import  com.xht.platform.dict.domain.query.SysDictItemQuery;
-import  com.xht.platform.dict.domain.response.SysDictItemResponse;
+import com.xht.platform.dict.domain.form.SysDictItemForm;
+import com.xht.platform.dict.domain.query.SysDictItemQuery;
+import com.xht.platform.dict.domain.response.SysDictItemResponse;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public interface ISysDictItemService {
      * 根据ID更新系统字典项
      *
      * @param dictItemId 系统字典项ID
-     * @param form 系统字典项更新请求参数
+     * @param form       系统字典项更新请求参数
      */
     void updateById(Long dictItemId, SysDictItemForm form);
 

@@ -5,10 +5,10 @@ import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.validation.Groups;
-import  com.xht.platform.dict.domain.form.SysDictForm;
-import  com.xht.platform.dict.domain.query.SysDictQuery;
-import  com.xht.platform.dict.domain.response.SysDictResponse;
-import  com.xht.platform.dict.service.ISysDictService;
+import com.xht.platform.dict.domain.form.SysDictForm;
+import com.xht.platform.dict.domain.query.SysDictQuery;
+import com.xht.platform.dict.domain.response.SysDictResponse;
+import com.xht.platform.dict.service.ISysDictService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +62,7 @@ public class SysDictController {
      * 修改字典类型
      *
      * @param dictId 字典类型ID
-     * @param form 字典类型信息
+     * @param form   字典类型信息
      * @return true成功、false失败
      */
     @BLog(value = "字典管理", description = "修改字典类型")

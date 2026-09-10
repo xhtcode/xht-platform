@@ -8,13 +8,8 @@ package com.xht.platform.area;
 public interface AreaConstant {
 
     /**
-     * 默认主键
+     * 默认上级区划编码（根节点）
      */
-    Long DEFAULT_ID = 0L;
-
-    /**
-     * 默认上级
-     */
-    Long DEFAULT_PARENT_CODE = 1L;
+    String DEFAULT_PARENT_CODE = "0";
 
 }

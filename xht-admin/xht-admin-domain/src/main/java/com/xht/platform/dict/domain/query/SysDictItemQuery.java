@@ -1,7 +1,7 @@
 package com.xht.platform.dict.domain.query;
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import  com.xht.platform.dict.enums.DictStatusEnum;
+import com.xht.platform.dict.enums.DictStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

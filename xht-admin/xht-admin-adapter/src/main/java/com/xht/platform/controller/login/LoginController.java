@@ -2,10 +2,10 @@ package com.xht.platform.controller.login;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.security.annotation.IgnoreAuth;
-import  com.xht.platform.login.domain.form.PasswordLoginForm;
-import  com.xht.platform.login.domain.form.PhoneLoginForm;
-import  com.xht.platform.login.domain.response.LoginResponse;
-import  com.xht.platform.login.service.ILoginService;
+import com.xht.platform.login.domain.form.PasswordLoginForm;
+import com.xht.platform.login.domain.form.PhoneLoginForm;
+import com.xht.platform.login.domain.response.LoginResponse;
+import com.xht.platform.login.service.ILoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,14 +32,14 @@ public class LoginController {
      * 账号密码登录
      *
      * @param servletRequest HTTP请求对象
-     * @param loginForm 账号密码登录请求参数，包含用户名、密码、验证码等信息
+     * @param loginForm      账号密码登录请求参数，包含用户名、密码、验证码等信息
      * @return OAuth2响应对象，包含访问令牌等信息
      */
     @IgnoreAuth(aop = false)
     @Operation(summary = "账号密码登录")
     @PostMapping("/form")
     public R<LoginResponse> formLogin(HttpServletRequest servletRequest, @RequestBody PasswordLoginForm loginForm) {
-        return R.ok().build(loginService.formLogin(servletRequest,loginForm));
+        return R.ok().build(loginService.formLogin(servletRequest, loginForm));
     }
 
     /**
@@ -53,7 +53,7 @@ public class LoginController {
     @Operation(summary = "手机号登录")
     @PostMapping("/phone")
     public R<LoginResponse> phoneLogin(HttpServletRequest servletRequest, @RequestBody PhoneLoginForm phoneLoginForm) {
-        return R.ok().build(loginService.phoneLogin(servletRequest,phoneLoginForm));
+        return R.ok().build(loginService.phoneLogin(servletRequest, phoneLoginForm));
     }
 
 }

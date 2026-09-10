@@ -3,14 +3,14 @@ package com.xht.platform.controller.notice;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.log.annotations.BLog;
-import  com.xht.platform.notice.domain.query.SysMessageInfoQuery;
-import  com.xht.platform.notice.domain.query.SysMessageQuery;
-import  com.xht.platform.notice.domain.response.SysMessageResponse;
-import  com.xht.platform.notice.domain.vo.MessageInfoVO;
-import  com.xht.platform.notice.domain.vo.MessagePageVO;
-import  com.xht.platform.notice.enums.MessageStarEnum;
-import  com.xht.platform.notice.enums.MessageTopEnum;
-import  com.xht.platform.notice.service.ISysMessageService;
+import com.xht.platform.notice.domain.query.SysMessageInfoQuery;
+import com.xht.platform.notice.domain.query.SysMessageQuery;
+import com.xht.platform.notice.domain.response.SysMessageResponse;
+import com.xht.platform.notice.domain.vo.MessageInfoVO;
+import com.xht.platform.notice.domain.vo.MessagePageVO;
+import com.xht.platform.notice.enums.MessageStarEnum;
+import com.xht.platform.notice.enums.MessageTopEnum;
+import com.xht.platform.notice.service.ISysMessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -55,8 +55,9 @@ public class SysMessageController {
 
     /**
      * 收藏站内信(收件人侧)
-     * @param messageId 站内信ID
-     * @param messageStarEnum  站内信收藏枚举
+     *
+     * @param messageId       站内信ID
+     * @param messageStarEnum 站内信收藏枚举
      */
     @BLog(value = "站内信", description = "收藏站内信 (收件人侧)")
     @Operation(summary = "收藏站内信(收件人侧)")
@@ -68,8 +69,9 @@ public class SysMessageController {
 
     /**
      * 置顶站内信(收件人侧)
-     * @param messageId 站内信ID
-     * @param messageTopEnum  站内信置顶枚举
+     *
+     * @param messageId      站内信ID
+     * @param messageTopEnum 站内信置顶枚举
      */
     @BLog(value = "站内信", description = "置顶站内信 (收件人侧)")
     @Operation(summary = "置顶站内信(收件人侧)")
@@ -107,6 +109,7 @@ public class SysMessageController {
 
     /**
      * 撤回站内信 (对用户单一撤回)
+     *
      * @param messageInfoId 站内信详情ID
      */
     @BLog(value = "站内信", description = "撤回站内信 (对用户单一撤回)")
@@ -154,7 +157,7 @@ public class SysMessageController {
      * 分页查询我接收的站内信
      *
      * @param query 查询参数
-     * @return  站内信分页列表
+     * @return 站内信分页列表
      */
     @Operation(summary = "分页查询我接收的站内信")
     @GetMapping("/my/page")

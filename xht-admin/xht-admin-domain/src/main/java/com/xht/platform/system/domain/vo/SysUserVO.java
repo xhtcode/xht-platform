@@ -1,9 +1,9 @@
 package com.xht.platform.system.domain.vo;
 
 import com.xht.framework.common.domain.vo.XhtVO;
-import  com.xht.platform.system.domain.response.SysPostResponse;
-import  com.xht.platform.system.domain.response.SysUserDetailResponse;
-import  com.xht.platform.system.domain.response.SysUserResponse;
+import com.xht.platform.system.domain.response.SysPostResponse;
+import com.xht.platform.system.domain.response.SysUserDetailResponse;
+import com.xht.platform.system.domain.response.SysUserResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

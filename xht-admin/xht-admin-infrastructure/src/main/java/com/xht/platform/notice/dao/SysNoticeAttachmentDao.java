@@ -1,7 +1,7 @@
 package com.xht.platform.notice.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import  com.xht.platform.notice.entity.SysNoticeAttachmentEntity;
+import com.xht.platform.notice.entity.SysNoticeAttachmentEntity;
 
 import java.util.List;
 

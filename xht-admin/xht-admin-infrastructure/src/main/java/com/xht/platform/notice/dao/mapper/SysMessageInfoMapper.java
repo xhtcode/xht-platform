@@ -2,9 +2,9 @@ package com.xht.platform.notice.dao.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.mapper.BaseMapperX;
-import  com.xht.platform.notice.domain.query.SysMessageInfoQuery;
-import  com.xht.platform.notice.domain.vo.MessageInfoVO;
-import  com.xht.platform.notice.entity.SysMessageInfoEntity;
+import com.xht.platform.notice.domain.query.SysMessageInfoQuery;
+import com.xht.platform.notice.domain.vo.MessageInfoVO;
+import com.xht.platform.notice.entity.SysMessageInfoEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

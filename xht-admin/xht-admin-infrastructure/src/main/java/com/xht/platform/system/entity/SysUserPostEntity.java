@@ -2,7 +2,7 @@ package com.xht.platform.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.xht.framework.mybatis.domain.entity.Entity;
-import  com.xht.platform.system.enums.PositionNatureEnum;
+import com.xht.platform.system.enums.PositionNatureEnum;
 import lombok.Data;
 
 import java.io.Serializable;

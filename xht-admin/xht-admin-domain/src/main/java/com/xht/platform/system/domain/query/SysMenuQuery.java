@@ -1,8 +1,8 @@
 package com.xht.platform.system.domain.query;
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import  com.xht.platform.system.enums.MenuStatusEnum;
-import  com.xht.platform.system.enums.MenuTypeEnum;
+import com.xht.platform.system.enums.MenuStatusEnum;
+import com.xht.platform.system.enums.MenuTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

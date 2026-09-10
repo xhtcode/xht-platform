@@ -1,9 +1,9 @@
 package com.xht.platform.area.converter;
 
 import com.xht.framework.mybatis.converter.PageConverter;
-import  com.xht.platform.area.domain.form.SysAreaForm;
-import  com.xht.platform.area.domain.response.SysAreaResponse;
-import  com.xht.platform.area.entity.SysAreaEntity;
+import com.xht.platform.area.domain.form.SysAreaForm;
+import com.xht.platform.area.domain.response.SysAreaResponse;
+import com.xht.platform.area.entity.SysAreaEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;

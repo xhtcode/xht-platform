@@ -2,7 +2,7 @@ package com.xht.platform.login.converter;
 
 import com.xht.framework.exception.UtilException;
 import com.xht.framework.oauth2.token.response.Oauth2TokenResponse;
-import  com.xht.platform.login.domain.response.LoginResponse;
+import com.xht.platform.login.domain.response.LoginResponse;
 
 /**
  * 登录转换器

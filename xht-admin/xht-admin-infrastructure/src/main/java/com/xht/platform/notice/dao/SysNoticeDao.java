@@ -2,12 +2,12 @@ package com.xht.platform.notice.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import  com.xht.platform.notice.domain.form.SysNoticeForm;
-import  com.xht.platform.notice.domain.query.SysNoticeQuery;
-import  com.xht.platform.notice.domain.response.SysNoticeResponse;
-import  com.xht.platform.notice.entity.SysNoticeEntity;
-import  com.xht.platform.notice.enums.NoticeStatusEnum;
-import  com.xht.platform.notice.enums.NoticeTopEnum;
+import com.xht.platform.notice.domain.form.SysNoticeForm;
+import com.xht.platform.notice.domain.query.SysNoticeQuery;
+import com.xht.platform.notice.domain.response.SysNoticeResponse;
+import com.xht.platform.notice.entity.SysNoticeEntity;
+import com.xht.platform.notice.enums.NoticeStatusEnum;
+import com.xht.platform.notice.enums.NoticeTopEnum;
 
 import java.util.List;
 

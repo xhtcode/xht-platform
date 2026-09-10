@@ -5,11 +5,11 @@ import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.validation.Groups;
-import  com.xht.platform.oauth2.domain.form.SysOauth2ClientForm;
-import  com.xht.platform.oauth2.domain.form.SysOauth2ClientPwdForm;
-import  com.xht.platform.oauth2.domain.query.SysOauth2ClientQuery;
-import  com.xht.platform.oauth2.domain.response.SysOauth2ClientResponse;
-import  com.xht.platform.oauth2.service.ISysOauth2ClientService;
+import com.xht.platform.oauth2.domain.form.SysOauth2ClientForm;
+import com.xht.platform.oauth2.domain.form.SysOauth2ClientPwdForm;
+import com.xht.platform.oauth2.domain.query.SysOauth2ClientQuery;
+import com.xht.platform.oauth2.domain.response.SysOauth2ClientResponse;
+import com.xht.platform.oauth2.service.ISysOauth2ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -62,8 +62,8 @@ public class SysOauth2ClientController {
     /**
      * 修改OAuth2客户端
      *
-     * @param oauth2Id   OAuth2客户端标识
-     * @param form OAuth2客户端信息
+     * @param oauth2Id OAuth2客户端标识
+     * @param form     OAuth2客户端信息
      * @return true成功、false失败
      */
     @BLog(value = "OAuth2客户端管理", description = "修改OAuth2客户端")

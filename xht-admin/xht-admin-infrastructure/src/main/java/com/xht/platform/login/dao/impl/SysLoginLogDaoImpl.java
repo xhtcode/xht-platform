@@ -2,9 +2,9 @@ package com.xht.platform.login.dao.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import  com.xht.platform.login.dao.SysLoginLogDao;
-import  com.xht.platform.login.dao.mapper.SysLoginLogMapper;
-import  com.xht.platform.login.entity.SysLoginLogEntity;
+import com.xht.platform.login.dao.SysLoginLogDao;
+import com.xht.platform.login.dao.mapper.SysLoginLogMapper;
+import com.xht.platform.login.entity.SysLoginLogEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

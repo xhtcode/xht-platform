@@ -7,16 +7,16 @@ import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.ThrowUtils;
 import com.xht.platform.common.dict.domain.DictVO;
-import  com.xht.platform.dict.converter.SysDictItemConverter;
-import  com.xht.platform.dict.dao.SysDictDao;
-import  com.xht.platform.dict.dao.SysDictItemDao;
-import  com.xht.platform.dict.domain.form.SysDictItemForm;
-import  com.xht.platform.dict.domain.query.SysDictItemQuery;
-import  com.xht.platform.dict.domain.response.SysDictItemResponse;
-import  com.xht.platform.dict.entity.SysDictEntity;
-import  com.xht.platform.dict.entity.SysDictItemEntity;
-import  com.xht.platform.dict.enums.DictShowDisabledEnum;
-import  com.xht.platform.dict.enums.DictStatusEnum;
+import com.xht.platform.dict.converter.SysDictItemConverter;
+import com.xht.platform.dict.dao.SysDictDao;
+import com.xht.platform.dict.dao.SysDictItemDao;
+import com.xht.platform.dict.domain.form.SysDictItemForm;
+import com.xht.platform.dict.domain.query.SysDictItemQuery;
+import com.xht.platform.dict.domain.response.SysDictItemResponse;
+import com.xht.platform.dict.entity.SysDictEntity;
+import com.xht.platform.dict.entity.SysDictItemEntity;
+import com.xht.platform.dict.enums.DictShowDisabledEnum;
+import com.xht.platform.dict.enums.DictStatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -72,7 +72,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      * 根据ID更新系统字典项
      *
      * @param dictItemId 系统字典项ID
-     * @param form   系统字典项更新请求参数
+     * @param form       系统字典项更新请求参数
      */
     @Override
     public void updateById(Long dictItemId, SysDictItemForm form) {

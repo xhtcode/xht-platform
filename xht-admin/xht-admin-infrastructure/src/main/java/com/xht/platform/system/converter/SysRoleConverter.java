@@ -1,9 +1,9 @@
 package com.xht.platform.system.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import  com.xht.platform.system.domain.form.SysRoleForm;
-import  com.xht.platform.system.domain.response.SysRoleResponse;
-import  com.xht.platform.system.entity.SysRoleEntity;
+import com.xht.platform.system.domain.form.SysRoleForm;
+import com.xht.platform.system.domain.response.SysRoleResponse;
+import com.xht.platform.system.entity.SysRoleEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;

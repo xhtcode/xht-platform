@@ -2,9 +2,9 @@ package com.xht.platform.controller.audit;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
-import  com.xht.platform.audit.domain.query.BLogQuery;
-import  com.xht.platform.audit.domain.response.BLogResponse;
-import  com.xht.platform.audit.service.IBLogService;
+import com.xht.platform.audit.domain.query.BLogQuery;
+import com.xht.platform.audit.domain.response.BLogResponse;
+import com.xht.platform.audit.service.IBLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

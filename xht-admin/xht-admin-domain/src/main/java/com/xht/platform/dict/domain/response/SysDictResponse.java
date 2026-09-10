@@ -1,8 +1,8 @@
 package com.xht.platform.dict.domain.response;
 
 import com.xht.framework.common.domain.response.MetaResponse;
-import  com.xht.platform.dict.enums.DictShowDisabledEnum;
-import  com.xht.platform.dict.enums.DictStatusEnum;
+import com.xht.platform.dict.enums.DictShowDisabledEnum;
+import com.xht.platform.dict.enums.DictStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

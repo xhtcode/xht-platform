@@ -2,8 +2,8 @@ package com.xht.platform.audit.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
-import  com.xht.platform.audit.domain.query.BLogQuery;
-import  com.xht.platform.audit.entity.BLogEntity;
+import com.xht.platform.audit.domain.query.BLogQuery;
+import com.xht.platform.audit.entity.BLogEntity;
 
 /**
  * 系统日志

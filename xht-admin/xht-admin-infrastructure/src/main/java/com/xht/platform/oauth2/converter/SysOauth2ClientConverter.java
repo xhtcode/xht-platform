@@ -2,9 +2,9 @@ package com.xht.platform.oauth2.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.framework.oauth2.enums.Oauth2ClientAutoApproveEnum;
-import  com.xht.platform.oauth2.domain.form.SysOauth2ClientForm;
-import  com.xht.platform.oauth2.domain.response.SysOauth2ClientResponse;
-import  com.xht.platform.oauth2.entity.SysOauth2ClientEntity;
+import com.xht.platform.oauth2.domain.form.SysOauth2ClientForm;
+import com.xht.platform.oauth2.domain.response.SysOauth2ClientResponse;
+import com.xht.platform.oauth2.entity.SysOauth2ClientEntity;
 import org.mapstruct.*;
 
 /**

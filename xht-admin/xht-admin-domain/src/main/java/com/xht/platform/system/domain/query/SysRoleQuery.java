@@ -1,7 +1,7 @@
 package com.xht.platform.system.domain.query;
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import  com.xht.platform.system.enums.RoleStatusEnum;
+import com.xht.platform.system.enums.RoleStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

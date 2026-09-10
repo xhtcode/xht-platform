@@ -1,13 +1,13 @@
 package com.xht.platform.notice.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
-import  com.xht.platform.notice.domain.query.SysMessageInfoQuery;
-import  com.xht.platform.notice.domain.query.SysMessageQuery;
-import  com.xht.platform.notice.domain.response.SysMessageResponse;
-import  com.xht.platform.notice.domain.vo.MessageInfoVO;
-import  com.xht.platform.notice.domain.vo.MessagePageVO;
-import  com.xht.platform.notice.enums.MessageStarEnum;
-import  com.xht.platform.notice.enums.MessageTopEnum;
+import com.xht.platform.notice.domain.query.SysMessageInfoQuery;
+import com.xht.platform.notice.domain.query.SysMessageQuery;
+import com.xht.platform.notice.domain.response.SysMessageResponse;
+import com.xht.platform.notice.domain.vo.MessageInfoVO;
+import com.xht.platform.notice.domain.vo.MessagePageVO;
+import com.xht.platform.notice.enums.MessageStarEnum;
+import com.xht.platform.notice.enums.MessageTopEnum;
 import com.xht.platform.common.message.core.MessagePayload;
 
 /**
@@ -38,15 +38,17 @@ public interface ISysMessageService {
 
     /**
      * 收藏站内信（收件人侧）
-     * @param messageId 站内信ID
-     * @param messageStarEnum  站内信收藏枚举
+     *
+     * @param messageId       站内信ID
+     * @param messageStarEnum 站内信收藏枚举
      */
     void updateStartById(Long messageId, MessageStarEnum messageStarEnum);
 
     /**
      * 置顶站内信（收件人侧）
-     * @param messageId 站内信ID
-     * @param messageTopEnum  站内信置顶枚举
+     *
+     * @param messageId      站内信ID
+     * @param messageTopEnum 站内信置顶枚举
      */
     void updateTopById(Long messageId, MessageTopEnum messageTopEnum);
 
@@ -66,6 +68,7 @@ public interface ISysMessageService {
 
     /**
      * 撤回站内信 （对用户单一撤回）
+     *
      * @param messageInfoId 站内信详情ID
      */
     void updateCancelSingleByInfoId(Long messageInfoId);
@@ -80,8 +83,8 @@ public interface ISysMessageService {
     /**
      * 管理员分页查询站内信
      *
-     * @param query      站内信查询参数
-     * @return            站内信分页列表
+     * @param query 站内信查询参数
+     * @return 站内信分页列表
      */
     PageResponse<SysMessageResponse> findAdminPage(SysMessageQuery query);
 
@@ -97,7 +100,7 @@ public interface ISysMessageService {
      * 分页查询我接收的站内信
      *
      * @param query 查询参数
-     * @return  站内信分页列表
+     * @return 站内信分页列表
      */
     PageResponse<MessageInfoVO> findMyPage(SysMessageInfoQuery query);
 
