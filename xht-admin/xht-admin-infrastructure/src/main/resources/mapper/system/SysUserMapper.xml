@@ -32,7 +32,7 @@
 
     <sql id="BaseQuerySQL">
         SELECT
-        t1.id,t1.user_type,t1.user_name,t1.nick_name,t1.pass_word,t1.pass_word_salt,
+        t1.id,t1.user_type,t1.user_name,t1.nick_name,t1.pass_word,
         CASE t1.pass_word_plain_text WHEN null THEN 1 ELSE 0 END as initial_password_flag,
         t1.user_status,t1.user_phone,t1.user_avatar,t1.dept_id,t1.dept_name,
         t1.create_by,t1.create_time,t1.update_by,t1.update_time,

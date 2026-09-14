@@ -70,7 +70,7 @@ public abstract class BasicUserDetailsService implements UserDetailsService {
                 throw new AccountExpiredException("用户账户已过期");
             }
             if (passWordEncoderStatus) {
-                if (!PassWordUtils.matchPassword(requestUserBO.getPassWord(), basicUserDetails.getPassWordSalt(), basicUserDetails.getPassword())) {
+                if (!PassWordUtils.matchPassword(requestUserBO.getPassWord(), basicUserDetails.getPassword())) {
                     log.debug("由于密码与存储的值不匹配，因此无法进行身份验证。");
                     throw new BadCredentialsException("用户名或密码错误");
                 }

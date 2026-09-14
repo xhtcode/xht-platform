@@ -76,7 +76,6 @@ public class Oauth2UserDetailsService extends BasicUserDetailsService {
                 authorities
         );
         basicUserDetails.setUserStatus(loginVo.getUserStatus());
-        basicUserDetails.setPassWordSalt(loginVo.getPassWordSalt());
         basicUserDetails.setUserPhone(loginVo.getUserPhone());
         basicUserDetails.setDeptId(loginVo.getDeptId());
         basicUserDetails.setDeptName(loginVo.getDeptName());

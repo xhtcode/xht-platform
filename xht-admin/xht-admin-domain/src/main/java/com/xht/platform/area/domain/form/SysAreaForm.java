@@ -65,5 +65,4 @@ public class SysAreaForm extends BasicForm {
     @Schema(description = "排序")
     private Integer areaSort;
 
-
 }

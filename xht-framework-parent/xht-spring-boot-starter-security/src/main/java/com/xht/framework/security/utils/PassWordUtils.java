@@ -1,8 +1,6 @@
 package com.xht.framework.security.utils;
 
 import com.xht.framework.utils.ThrowUtils;
-import com.xht.framework.utils.StringUtils;
-import com.xht.framework.security.exception.BasicAuthenticationException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -11,7 +9,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.SecureRandom;
-import java.util.Base64;
 
 /**
  * 密码工具类
@@ -24,11 +21,6 @@ public final class PassWordUtils implements ApplicationContextAware {
 
     @Getter
     private static PasswordEncoder passwordEncoder;
-
-    /**
-     * 盐值默认长度（字节），推荐16位（128位），兼顾安全性和性能
-     */
-    private static final int DEFAULT_SALT_LENGTH = 16;
 
     /**
      * 随机初始密码默认长度
@@ -85,33 +77,6 @@ public final class PassWordUtils implements ApplicationContextAware {
         return randomPassword;
     }
 
-
-    /**
-     * 生成随机盐值（Base64编码，便于存储）
-     * @return 安全的随机盐值（Base64字符串）
-     */
-    public static String generatePasswordSalt() {
-        byte[] saltBytes = new byte[DEFAULT_SALT_LENGTH];
-        SECURE_RANDOM.nextBytes(saltBytes);
-        String salt = Base64.getEncoder().encodeToString(saltBytes);
-        log.debug("Generated random salt (Base64): {}", salt);
-        return salt;
-    }
-
-    /**
-     * 构建密码+盐值后的密码
-     *
-     * @param rawPassword 原始明文密码
-     * @return 密码+盐值拼接（格式：密码{盐值}，便于后续解析验证）
-     */
-    public static String buildSalt(String rawPassword, String salt) {
-        ThrowUtils.hasText(rawPassword, () -> new BasicAuthenticationException("密码不能为空"));
-        if (StringUtils.isEmpty(salt)) {
-            return rawPassword;
-        }
-        return rawPassword + "{" + salt + "}";
-    }
-
     /**
      * 生成加密密码（原始密码 + 盐值）
      * 核心逻辑：原始密码拼接盐值后加密，保证相同密码不同盐值加密结果不同
@@ -120,21 +85,7 @@ public final class PassWordUtils implements ApplicationContextAware {
      * @return 加密后的密码（不可逆）
      */
     public static String encodePassword(String rawPassword) {
-        return encodePassword(rawPassword, null);
-    }
-
-    /**
-     * 生成加密密码（原始密码 + 盐值）
-     * 核心逻辑：原始密码拼接盐值后加密，保证相同密码不同盐值加密结果不同
-     *
-     * @param rawPassword 原始明文密码
-     * @param salt        盐值（建议使用generatePasswordSalt()生成）
-     * @return 加密后的密码（不可逆）
-     */
-    public static String encodePassword(String rawPassword, String salt) {
-        String encodedPassword = passwordEncoder.encode(buildSalt(rawPassword, salt));
-        log.debug("Encoded password for raw password (masked) with salt: {}", salt);
-        return encodedPassword;
+        return passwordEncoder.encode(rawPassword);
     }
 
     /**
@@ -145,23 +96,9 @@ public final class PassWordUtils implements ApplicationContextAware {
      * @return true-匹配，false-不匹配
      */
     public static boolean matchPassword(String rawPassword, String encodedPassword) {
-        return matchPassword(rawPassword, null, encodedPassword);
-    }
-
-    /**
-     * 验证密码是否匹配
-     *
-     * @param rawPassword     原始明文密码
-     * @param salt            加密时使用的盐值
-     * @param encodedPassword 已加密的密码（存储在数据库中）
-     * @return true-匹配，false-不匹配
-     */
-    public static boolean matchPassword(String rawPassword, String salt, String encodedPassword) {
         ThrowUtils.hasText(rawPassword, "Raw password must not be empty");
         ThrowUtils.hasText(encodedPassword, "Encoded password must not be empty");
-        boolean isMatch = passwordEncoder.matches(buildSalt(rawPassword, salt), encodedPassword);
-        log.debug("Password match result: {}", isMatch);
-        return isMatch;
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
     @Override

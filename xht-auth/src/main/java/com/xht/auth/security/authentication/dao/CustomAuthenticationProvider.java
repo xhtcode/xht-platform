@@ -1,6 +1,5 @@
 package com.xht.auth.security.authentication.dao;
 
-import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.utils.PassWordUtils;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,11 +22,7 @@ public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
                     .getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
         }
         String rawPassword = authentication.getCredentials().toString();
-        String passWordSalt = null;
-        if (userDetails instanceof BasicUserDetails basicUserDetails) {
-            passWordSalt = basicUserDetails.getPassWordSalt();
-        }
-        if (!PassWordUtils.matchPassword(rawPassword, passWordSalt, userDetails.getPassword())) {
+        if (!PassWordUtils.matchPassword(rawPassword, userDetails.getPassword())) {
             this.logger.debug("Failed to authenticate since password does not match stored value");
             throw new BadCredentialsException(this.messages
                     .getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));

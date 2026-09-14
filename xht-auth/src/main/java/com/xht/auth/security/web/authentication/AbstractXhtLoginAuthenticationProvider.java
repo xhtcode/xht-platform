@@ -1,7 +1,6 @@
 package com.xht.auth.security.web.authentication;
 
 import com.xht.framework.common.enums.LoginTypeEnum;
-import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.utils.PassWordUtils;
 import lombok.Setter;
@@ -65,7 +64,7 @@ public abstract class AbstractXhtLoginAuthenticationProvider<T extends AbstractX
      * 如果前置检查通过，则继续执行附加认证检查（如密码验证）。
      * </p>
      *
-     * @param user 用户详情对象
+     * @param user           用户详情对象
      * @param authentication 认证请求对象，包含认证所需的凭据信息
      */
     private void performPreCheck(UserDetails user, T authentication) {
@@ -89,7 +88,7 @@ public abstract class AbstractXhtLoginAuthenticationProvider<T extends AbstractX
      * 手机登录类型跳过密码校验。如果凭据为空或密码不匹配，将抛出BadCredentialsException。
      * </p>
      *
-     * @param userDetails 用户详情对象，包含存储的用户凭证信息
+     * @param userDetails    用户详情对象，包含存储的用户凭证信息
      * @param authentication 认证请求对象，包含用户输入的凭据
      * @throws AuthenticationException 当凭据为空或密码不匹配时抛出异常
      */
@@ -103,11 +102,7 @@ public abstract class AbstractXhtLoginAuthenticationProvider<T extends AbstractX
             throw new BadCredentialsException("AbstractUserDetailsAuthenticationProvider.badCredentials Bad credentials");
         }
         String rawPassword = authentication.getCredentials().toString();
-        String passWordSalt = null;
-        if (userDetails instanceof BasicUserDetails basicUserDetails) {
-            passWordSalt = basicUserDetails.getPassWordSalt();
-        }
-        if (!PassWordUtils.matchPassword(rawPassword, passWordSalt, userDetails.getPassword())) {
+        if (!PassWordUtils.matchPassword(rawPassword, userDetails.getPassword())) {
             log.debug("Failed to authenticate since password does not match stored value");
             throw new BadCredentialsException("AbstractUserDetailsAuthenticationProvider.badCredentials Bad credentials");
         }
@@ -134,7 +129,7 @@ public abstract class AbstractXhtLoginAuthenticationProvider<T extends AbstractX
      * </p>
      *
      * @param authentication 原始认证请求对象
-     * @param user 已验证的用户详情对象
+     * @param user           已验证的用户详情对象
      * @return T 认证成功后的认证对象，包含完整的认证信息
      */
     protected abstract T createSuccessAuthentication(Authentication authentication, UserDetails user);

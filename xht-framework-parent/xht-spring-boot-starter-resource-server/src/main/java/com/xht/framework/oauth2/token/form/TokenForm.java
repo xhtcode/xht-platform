@@ -23,10 +23,4 @@ public class TokenForm extends BasicForm {
     @NotEmpty(message = "访问令牌不能为空")
     private String accessToken;
 
-    /**
-     * 访问令牌列表
-     */
-    @Schema(description = "访问令牌列表")
-    private List<String> accessTokenList;
-
 }

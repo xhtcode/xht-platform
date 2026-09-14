@@ -42,7 +42,7 @@ public class Oauth2ThirdAccountDaoMapper extends MapperRepositoryImpl<Oauth2Thir
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void registerUser(Oauth2ThirdAccountEntity dbAccountEntity) {
-        dbAccountEntity.setPassWordPlainText(PassWordUtils.generatePasswordSalt());
+        dbAccountEntity.setPassWordPlainText(PassWordUtils.generatePassword(8));
         dbAccountEntity.setUserStatus(UserStatusEnum.UNACTIVATED);
         save(dbAccountEntity);
         baseMapper.insertUser(dbAccountEntity);

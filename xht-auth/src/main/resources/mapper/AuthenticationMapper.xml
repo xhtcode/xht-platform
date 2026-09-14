@@ -10,7 +10,6 @@
         <result property="userName" column="user_name"/>
         <result property="nickName" column="nick_name"/>
         <result property="passWord" column="pass_word"/>
-        <result property="passWordSalt" column="pass_word_salt"/>
         <result property="userStatus" column="user_status"/>
         <result property="userPhone" column="user_phone"/>
         <result property="userAvatar" column="user_avatar"/>
@@ -47,7 +46,7 @@
     <!-- 根据用户名和登录类型查询用户信息 -->
     <select id="findByUsernameAndLoginType" resultMap="DtoResultMap">
         SELECT
-        t1.id,t1.user_type,t1.user_name,t1.nick_name,t1.pass_word,t1.pass_word_salt,
+        t1.id,t1.user_type,t1.user_name,t1.nick_name,t1.pass_word,
         t1.user_status,t1.user_phone,t1.user_avatar,t1.dept_id,t1.dept_name,
         t1.create_time
         FROM sys_user t1 where t1.del_flag = ${delFlag}
@@ -55,7 +54,7 @@
             AND t1.user_name = #{userName}
         </if>
         <if test="loginType == 'phone'">
-            AND t1.user_name = #{userName}
+            AND t1.user_phone = #{userName}
         </if>
     </select>
 

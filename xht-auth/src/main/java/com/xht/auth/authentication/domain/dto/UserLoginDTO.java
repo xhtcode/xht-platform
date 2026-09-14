@@ -31,12 +31,6 @@ public class UserLoginDTO implements XhtDTO {
     private String passWord;
 
     /**
-     * 密码盐值
-     */
-    @Schema(description = "密码盐值")
-    private String passWordSalt;
-
-    /**
      * 用户类型
      */
     @Schema(description = "用户类型")

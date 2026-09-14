@@ -88,10 +88,8 @@ public class SysUserServiceImpl implements ISysUserService {
         // 格式化数据类型
         SysUserEntity sysUser = SysUserHelper.formatUser(userForm);
         String password = PassWordUtils.generatePassword();
-        String passwordSalt = PassWordUtils.generatePasswordSalt();
         sysUser.setId(IdUtil.getSnowflakeNextId());
-        sysUser.setPassWord(PassWordUtils.encodePassword(password, passwordSalt));
-        sysUser.setPassWordSalt(passwordSalt);
+        sysUser.setPassWord(PassWordUtils.encodePassword(password));
         sysUser.setPassWordPlainText(password);
         SysUserDetailEntity detailEntity = SysUserHelper.formatUser(detail, sysUser.getId());
         List<SysRoleEntity> roleEntityList = sysRoleDao.findList(SysRoleEntity::getImportRoleType, RoleTypeEnums.NONE);
@@ -148,8 +146,7 @@ public class SysUserServiceImpl implements ISysUserService {
     public void resetPassword(Long userId) {
         SysUserEntity sysUserEntity = sysUserDao.findOptionalById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST));
         String password = PassWordUtils.generatePassword();
-        String passwordSalt = PassWordUtils.generatePasswordSalt();
-        sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(password, passwordSalt), passwordSalt, password);
+        sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(password), password);
         String userPhone = sysUserEntity.getUserPhone();
         log.info("用户{}密码已重置为`{}`,开始向{}发送短信", userId, password, userPhone);
     }
@@ -169,20 +166,19 @@ public class SysUserServiceImpl implements ISysUserService {
         String oldPassword = form.getOldPassword();
         String newPassword = form.getNewPassword();
         String confirmPassword = form.getConfirmPassword();
-        if (!PassWordUtils.matchPassword(oldPassword, sysUserEntity.getPassWordSalt(), sysUserEntity.getPassWord())) {
+        if (!PassWordUtils.matchPassword(oldPassword, sysUserEntity.getPassWord())) {
             throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "旧密码错误");
         }
         if (!StringUtils.equals(newPassword, confirmPassword)) {
             throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "两次密码输入不一致");
         }
-        if (PassWordUtils.matchPassword(newPassword, sysUserEntity.getPassWordSalt(), sysUserEntity.getPassWord())) {
+        if (PassWordUtils.matchPassword(newPassword, sysUserEntity.getPassWord())) {
             throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "修改密码与原密码相同");
         }
-        if (PassWordUtils.matchPassword(confirmPassword, sysUserEntity.getPassWordSalt(), sysUserEntity.getPassWord())) {
+        if (PassWordUtils.matchPassword(confirmPassword, sysUserEntity.getPassWord())) {
             throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "修改密码与原密码相同");
         }
-        String passwordSalt = PassWordUtils.generatePasswordSalt();
-        sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(newPassword, passwordSalt), passwordSalt, null);
+        sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(newPassword), null);
     }
 
     /**

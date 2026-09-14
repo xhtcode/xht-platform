@@ -4,14 +4,11 @@ import com.xht.auth.authentication.domain.response.TokenUserInfoResponse;
 import com.xht.auth.authentication.service.ITokenService;
 import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.common.domain.R;
-import com.xht.framework.oauth2.token.form.TokenForm;
 import com.xht.framework.oauth2.utils.SecurityUtils;
-import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.framework.security.utils.Oauth2Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +47,6 @@ public class TokenController {
      * @param request 请求对象
      * @return R<Void> 操作结果，成功返回 OK，失败返回错误信息
      */
-    @IgnoreAuth(aop = false)
     @PostMapping("/logout")
     @ResponseBody
     @Operation(summary = "注销并删除令牌", description = "注销并删除令牌")
@@ -69,21 +65,6 @@ public class TokenController {
     @Operation(summary = "检查令牌有效性", description = "检查令牌有效性")
     public R<Void> checkToken(HttpServletRequest request) {
         tokenService.checkToken(Oauth2Utils.getBearerAuthorization(request.getHeader(HttpConstants.Header.AUTHORIZATION.getValue())));
-        return R.ok().build();
-    }
-
-
-    /**
-     * 删除令牌
-     * 该方法会清除令牌缓存、删除授权信息并发布注销成功事件
-     *
-     * @param token 待删除的令牌
-     * @return R<Void> 操作结果，成功返回 OK
-     */
-    @PostMapping("/remove")
-    @Operation(summary = "删除令牌", description = "删除令牌")
-    public R<Void> removeToken(@RequestBody @Valid TokenForm token) {
-        tokenService.removeToken(token.getAccessToken());
         return R.ok().build();
     }
 

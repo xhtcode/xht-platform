@@ -29,17 +29,15 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
     /**
      * 更新密码
      *
-     * @param userId       用户ID
-     * @param newPassword  新密码
-     * @param passWordSalt 密码盐
+     * @param userId            用户ID
+     * @param newPassword       新密码
      * @param passWordPlainText 密码明文
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updatePassword(Long userId, String newPassword, String passWordSalt, String passWordPlainText) {
+    public void updatePassword(Long userId, String newPassword, String passWordPlainText) {
         LambdaUpdateWrapper<SysUserEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.set(SysUserEntity::getPassWord, newPassword);
-        lambdaUpdateWrapper.set(SysUserEntity::getPassWordSalt, passWordSalt);
         lambdaUpdateWrapper.set(SysUserEntity::getPassWordPlainText, passWordPlainText);
         lambdaUpdateWrapper.eq(SysUserEntity::getId, userId);
         update(lambdaUpdateWrapper);
@@ -93,9 +91,9 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
             queryWrapper.eq(condition(userStatus), SysUserEntity::getUserStatus, userStatus);
             queryWrapper.like(condition(userPhone), SysUserEntity::getUserPhone, userPhone);
         }
-        if (condition(query.getDeptId())){
+        if (condition(query.getDeptId())) {
             queryWrapper.eq(SysUserEntity::getDeptId, query.getDeptId());
-        }else {
+        } else {
             queryWrapper.isNull(SysUserEntity::getDeptId);
         }
         return page(page, queryWrapper);

@@ -43,7 +43,6 @@ public final class SysUserHelper implements ApplicationContextAware {
         entity.setUserStatus(form.getUserStatus());
         entity.setNickName(form.getNickName());
         entity.setPassWord(null);
-        entity.setPassWordSalt(null);
         entity.setUserPhone(form.getUserPhone());
         entity.setUserAvatar(form.getUserAvatar());
         entity.setDeptId(form.getDeptId());

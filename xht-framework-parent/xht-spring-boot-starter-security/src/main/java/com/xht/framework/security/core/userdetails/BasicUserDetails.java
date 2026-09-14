@@ -83,13 +83,6 @@ public class BasicUserDetails implements UserDetails, OAuth2User, Serializable {
     private UserStatusEnum userStatus;
 
     /**
-     * 密码盐
-     */
-    @Setter
-    @JsonIgnore
-    private String passWordSalt;
-
-    /**
      * 手机号
      */
     @Setter
