@@ -9,6 +9,7 @@ import com.xht.framework.exception.code.ErrorCode;
 import com.xht.framework.utils.mdc.TraceIdUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -29,8 +30,9 @@ public sealed class R<T> implements Serializable permits ErrorR {
     @Schema(description = "返回信息")
     private final String msg;
 
+    @Setter
     @Schema(description = "返回数据")
-    private final T data;
+    private T data;
 
     @Schema(description = "数据类型")
     private final DataTypeEnum dataType;

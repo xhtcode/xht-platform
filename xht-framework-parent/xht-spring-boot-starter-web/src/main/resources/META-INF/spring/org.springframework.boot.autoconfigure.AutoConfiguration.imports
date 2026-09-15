@@ -1,2 +1,3 @@
 com.xht.framework.web.autoconfigure.CorsAutoConfig
 com.xht.framework.web.autoconfigure.WebServletAutoConfiguration
+com.xht.framework.web.safety.autoconfigure.ApiEncryptAutoConfigure
