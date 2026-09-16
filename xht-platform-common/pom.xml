@@ -17,7 +17,6 @@
     <modules>
         <module>xht-admin-common</module>
         <module>xht-generate-common</module>
-        <module>xht-workflow-common</module>
     </modules>
 
 </project>

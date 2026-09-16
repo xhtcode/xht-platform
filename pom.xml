@@ -22,7 +22,6 @@
         <module>xht-generate</module>
         <module>xht-platform-common</module>
         <module>xht-platform-client</module>
-        <module>xht-workflow</module>
     </modules>
 
     <properties>
@@ -50,11 +49,6 @@
             <dependency>
                 <groupId>com.xht.platform</groupId>
                 <artifactId>xht-generate-common</artifactId>
-                <version>1.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.xht.platform</groupId>
-                <artifactId>xht-workflow-common</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>

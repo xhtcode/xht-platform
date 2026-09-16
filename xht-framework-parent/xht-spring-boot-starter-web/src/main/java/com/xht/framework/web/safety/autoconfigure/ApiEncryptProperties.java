@@ -23,6 +23,6 @@ public class ApiEncryptProperties extends EnableProperties {
     /**
      * 加密类型
      */
-    private String encryptType;
+    private String encryptType = "BASE64";
 
 }
