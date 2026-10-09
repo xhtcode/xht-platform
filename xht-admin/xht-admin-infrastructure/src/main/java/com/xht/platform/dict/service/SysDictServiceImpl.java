@@ -57,6 +57,7 @@ public class SysDictServiceImpl implements ISysDictService {
     @Override
     public void removeById(Long dictId) {
         ThrowUtils.notNull(dictId, "参数错误");
+        validateDictId(dictId);
         long dictItemCount = sysDictItemDao.count(SysDictItemEntity::getDictId, dictId);
         ThrowUtils.throwIf(dictItemCount > 0, BusinessErrorCode.DATA_NOT_EXIST, "所选字典类型下有关联字典项，不能删除");
         sysDictDao.removeById(dictId);
@@ -70,18 +71,27 @@ public class SysDictServiceImpl implements ISysDictService {
      */
     @Override
     public void updateById(Long dictId, SysDictForm form) {
-        // 检查系统字典管理器中是否存在指定ID的字典项
-        // @formatter:off
-        SysDictEntity exists = sysDictDao
-                .findOptionalById(dictId)
-                .orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
-        // @formatter:on
+        ThrowUtils.notNull(dictId, "参数错误");
+        SysDictEntity exists = validateDictId(dictId);
         // 检查字典项编码是否存在
         Boolean checkDictCode = sysDictDao.checkDictCode(dictId, form.getDictCode());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
         // 检查是否需要更新字典项状态和code
         boolean updateItemStatus = Objects.equals(exists.getStatus(), form.getStatus()) && Objects.equals(exists.getDictCode(), form.getDictCode());
         sysDictDao.updateRequest(dictId, form, !updateItemStatus);
+    }
+
+    /**
+     * 验证字典项是否存在 并判断是否是系统内置字典
+     *
+     * @param dictId  字典ID
+     * @return 字典项
+     */
+    public SysDictEntity validateDictId(Long dictId) {
+        // 检查系统字典管理器中是否存在指定ID的字典项
+        return sysDictDao
+                .findOptionalById(dictId)
+                .orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST, "字典不存在"));
     }
 
     /**

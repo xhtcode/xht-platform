@@ -22,7 +22,7 @@ public enum DictStatusEnum implements XhtEnum<Integer> {
     /**
      * 禁用
      */
-    DISABLE(2),
+    DISABLE(0),
     ;
 
     /**

@@ -17,16 +17,16 @@ import java.util.List;
 public class RoleSelectedMenuResponse extends BasicResponse {
 
     /**
-     * 是否全选
-     */
-    @Schema(description = "是否全选")
-    private Boolean checkAll;
-
-    /**
      * 已选的菜单id
      */
     @Schema(description = "已选的菜单id")
-    private List<Long> checkedKeys;
+    private List<Long> checkedMenuIds;
+
+    /**
+     * 菜单总数
+     */
+    @Schema(description = "菜单总数")
+    private Integer menuTotal;
 
     /**
      * 菜单列表

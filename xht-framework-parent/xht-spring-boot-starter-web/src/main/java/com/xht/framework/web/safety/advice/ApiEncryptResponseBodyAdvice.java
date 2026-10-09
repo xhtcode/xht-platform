@@ -64,7 +64,7 @@ public class ApiEncryptResponseBodyAdvice implements ResponseBodyAdvice<R<Object
      */
     @Override
     public R<Object> beforeBodyWrite(R<Object> body, @NonNull MethodParameter returnType, @NonNull MediaType selectedContentType, @NonNull Class<? extends HttpMessageConverter<?>> selectedConverterType, @NonNull ServerHttpRequest request, @NonNull ServerHttpResponse response) {
-        if (Objects.nonNull(body) && Objects.nonNull(body.getData()) && !Objects.equals(body.getDataType(), DataTypeEnum.ENCRYPT)) {
+        if (Objects.nonNull(body) && Objects.nonNull(body.getData()) && Objects.equals(body.getDataType(), DataTypeEnum.ENCRYPT)) {
             body.setData(apiSafetyService.encrypt(body.getData()));
             return body;
         }

@@ -1,6 +1,7 @@
 package com.xht.platform.dict.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.framework.common.enums.SystemFlagEnum;
 import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.platform.dict.domain.form.SysDictItemForm;
 import com.xht.platform.dict.domain.query.SysDictItemQuery;
@@ -20,7 +21,7 @@ public interface SysDictItemDao extends MapperRepository<SysDictItemEntity> {
     /**
      * 根据更新请求更新指定ID的字典项实体
      *
-      * @param dictId     字典ID
+     * @param dictId     字典ID
      * @param form       更新请求
      * @param dictEntity 字典实体
      * @return 更新结果
@@ -28,11 +29,11 @@ public interface SysDictItemDao extends MapperRepository<SysDictItemEntity> {
     boolean updateFormRequest(Long dictId, SysDictItemForm form, SysDictEntity dictEntity);
 
     /**
-     * 检查字典项值是否存在
+     * 检查字典项编码是否存在
      *
      * @param id        字典项ID
      * @param dictId    字典ID
-     * @param itemValue 字典项值
+     * @param itemValue 字典项编码
      * @return 存在相同的字典项编码返回true，否则返回false
      */
     Boolean checkDictValue(Long id, Long dictId, String itemValue);

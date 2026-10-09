@@ -1,6 +1,7 @@
 package com.xht.framework.mybatis.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.xht.framework.common.enums.SystemFlagEnum;
 import com.xht.framework.mybatis.enums.DelFlagEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
@@ -24,6 +25,8 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
         this.strictInsertFill(metaObject, "updateTime", () -> now, LocalDateTime.class);
         // 删除标记自动填充
         this.strictInsertFill(metaObject, "delFlag", () -> DelFlagEnum.NORMAL, DelFlagEnum.class);
+        // 系统标记自动填充
+        this.strictInsertFill(metaObject, "systemFlag", () -> SystemFlagEnum.NORMAL, SystemFlagEnum.class);
     }
 
     @Override

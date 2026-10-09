@@ -15,12 +15,12 @@ import lombok.Getter;
 public enum DictShowDisabledEnum implements XhtEnum<Integer> {
 
     /**
-     * 禁用
+     * 不显示
      */
     DISABLED(0),
 
     /**
-     * 启用
+     * 显示
      */
     SHOW(1),
     ;

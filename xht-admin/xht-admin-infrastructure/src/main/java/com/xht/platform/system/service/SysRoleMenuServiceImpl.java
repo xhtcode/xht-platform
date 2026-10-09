@@ -74,12 +74,8 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
         RoleSelectedMenuResponse response = new RoleSelectedMenuResponse();
         List<Long> menuIdByRoleId = sysRoleMenuDao.findMenuIdByRoleId(roleId);
         List<SysMenuEntity> menuEntityList = sysMenuDao.getMenuTreeSystemTool(true);
-        if (!CollectionUtils.isEmpty(menuIdByRoleId) && !CollectionUtils.isEmpty(menuEntityList)) {
-            response.setCheckAll(menuIdByRoleId.size() == menuEntityList.size());
-        } else {
-            response.setCheckAll(false);
-        }
-        response.setCheckedKeys(menuIdByRoleId);
+        response.setCheckedMenuIds(menuIdByRoleId);
+        response.setMenuTotal(menuEntityList.size());
         response.setMenuList(sysMenuConverter.toTree(menuEntityList));
         return response;
     }

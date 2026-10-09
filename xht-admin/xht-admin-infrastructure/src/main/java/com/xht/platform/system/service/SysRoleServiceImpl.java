@@ -48,7 +48,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         Boolean exists = sysRoleDao.existsRoleCode(null, form.getRoleCode());
         ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
         SysRoleEntity entity = sysRoleConverter.toEntity(form);
-        entity.setImportRoleType(RoleTypeEnums.NONE);
+        entity.setRoleType(RoleTypeEnums.NONE);
         sysRoleDao.saveTransactional(entity);
     }
 

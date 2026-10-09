@@ -26,7 +26,7 @@ public class DictValidator implements ConstraintValidator<Dict, String> {
     /**
      * 校验字典项
      *
-     * @param var1 字典项值
+     * @param var1 字典项编码
      * @param var2 验证上下文
      * @return 校验结果
      */

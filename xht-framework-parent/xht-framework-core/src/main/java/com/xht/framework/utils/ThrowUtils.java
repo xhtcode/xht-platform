@@ -1,5 +1,6 @@
 package com.xht.framework.utils;
 
+import com.xht.framework.common.enums.SystemFlagEnum;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.exception.code.ErrorCode;
@@ -227,7 +228,7 @@ public final class ThrowUtils {
     /**
      * 集合为空抛出异常
      *
-     * @param collection    集合
+     * @param collection      集合
      * @param errorStatusCode {@link ErrorCode} 异常状态
      */
     public static <X extends Throwable> void notEmpty(Collection<?> collection, ErrorCode errorStatusCode) {
@@ -281,4 +282,24 @@ public final class ThrowUtils {
     }
 
     // -----------------------------------------------数组 end-----------------------------------------------
+    // -----------------------------------------------校验系统内置 start-----------------------------------------------
+
+    /**
+     * 校验系统内置
+     *
+     * @param systemFlagEnum 系统内置枚举
+     */
+    public static void systemFlag(SystemFlagEnum systemFlagEnum) {
+        throwIf(Objects.equals(systemFlagEnum, SystemFlagEnum.SYSTEM), () -> new BusinessException(BusinessErrorCode.SYSTEM_FORBIDDEN));
+    }
+
+    /**
+     * 校验系统内置
+     *
+     * @param systemFlagEnum 系统内置枚举
+     * @param message        异常信息
+     */
+    public static void systemFlag(SystemFlagEnum systemFlagEnum, String message) {
+        throwIf(Objects.equals(systemFlagEnum, SystemFlagEnum.SYSTEM), () -> new BusinessException(BusinessErrorCode.SYSTEM_FORBIDDEN, message));
+    }
 }

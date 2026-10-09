@@ -14,16 +14,40 @@ import lombok.Getter;
 public enum SystemFlagEnum implements XhtEnum<Integer> {
 
     /**
-     * 是
+     * 0‑普通记录，非系统内置
      */
-    YES(0),
+    NORMAL(0, "普通"),
 
     /**
-     * 否
+     * 1‑系统内置记录，不可删除
      */
-    NO(1);
+    SYSTEM(1, "系统内置");
 
     @JsonValue
     private final Integer value;
+
+    private final String desc;
+
+    /**
+     * 根据value获取枚举
+     */
+    public static SystemFlagEnum getByValue(Integer value) {
+        if (value == null) {
+            return null;
+        }
+        for (SystemFlagEnum item : SystemFlagEnum.values()) {
+            if (item.getValue().equals(value)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 判断是否为系统内置
+     */
+    public boolean isSystem() {
+        return SYSTEM.equals(this);
+    }
 
 }

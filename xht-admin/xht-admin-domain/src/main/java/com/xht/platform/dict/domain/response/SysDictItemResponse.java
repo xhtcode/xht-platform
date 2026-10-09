@@ -31,21 +31,21 @@ public class SysDictItemResponse extends MetaResponse {
     private String dictCode;
 
     /**
-     * 字典项标签
+     * 字典项名称
      */
-    @Schema(description = "字典项标签")
+    @Schema(description = "字典项名称")
     private String itemLabel;
 
     /**
-     * 字典项值
+     * 字典项编码
      */
-    @Schema(description = "字典项值")
+    @Schema(description = "字典项编码")
     private String itemValue;
 
     /**
-     * 显示颜色
+     * 颜色显示
      */
-    @Schema(description = "显示颜色")
+    @Schema(description = "颜色显示")
     private String itemColor;
 
     /**

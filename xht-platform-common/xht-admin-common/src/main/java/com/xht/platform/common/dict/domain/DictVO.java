@@ -12,21 +12,21 @@ import lombok.Data;
 public class DictVO implements XhtVO {
 
     /**
-     * 字典项标签
+     * 字典项名称
      */
-    @Schema(description = "字典项标签")
+    @Schema(description = "字典项名称")
     private String label;
 
     /**
-     * 字典项值
+     * 字典项编码
      */
-    @Schema(description = "字典项值")
+    @Schema(description = "字典项编码")
     private String value;
 
     /**
-     * 显示颜色
+     * 颜色显示
      */
-    @Schema(description = "显示颜色")
+    @Schema(description = "颜色显示")
     private String color;
 
 

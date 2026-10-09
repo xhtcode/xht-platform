@@ -52,7 +52,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         ThrowUtils.throwIf(Objects.isNull(dictEntity), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
         ThrowUtils.throwIf(!Objects.equals(DictStatusEnum.ENABLE, dictEntity.getStatus()), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
         Boolean checkDictCode = sysDictItemDao.checkDictValue(null, dictId, form.getItemLabel());
-        ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项值已存在");
+        ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
         SysDictItemEntity entity = sysDictItemConverter.toEntity(form);
         entity.setDictCode(dictEntity.getDictCode());
         sysDictItemDao.saveTransactional(entity);
@@ -65,6 +65,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      */
     @Override
     public void removeById(Long dictItemId) {
+        validateDictItemId(dictItemId);
         sysDictItemDao.removeById(dictItemId);
     }
 
@@ -78,15 +79,27 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
     public void updateById(Long dictItemId, SysDictItemForm form) {
         // 校验数据是否存在
         Long dictId = form.getDictId();
-        boolean exists = sysDictItemDao.exists(SysDictItemEntity::getId, dictItemId);
-        ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "字典项不存在");
         SysDictEntity dictEntity = sysDictDao.findById(dictId);
         ThrowUtils.throwIf(Objects.isNull(dictEntity), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
         ThrowUtils.throwIf(!Objects.equals(DictStatusEnum.ENABLE, dictEntity.getStatus()), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
-        // 校验字典项值 是否存在
+        // 校验字典项编码 是否存在
         Boolean checkDictCode = sysDictItemDao.checkDictValue(dictItemId, dictId, form.getItemLabel());
         ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
-        sysDictItemDao.updateFormRequest(dictId, form, dictEntity);
+        SysDictItemEntity dbDictItemEntity = validateDictItemId(dictItemId);
+        ThrowUtils.throwIf(!Objects.equals(dbDictItemEntity.getDictId(), dictId), BusinessErrorCode.ILLEGAL_OPERATION);
+        sysDictItemDao.updateFormRequest(dictItemId, form, dictEntity);
+    }
+
+    /**
+     * 验证字典项是否存在 并判断是否是系统内置字典
+     *
+     * @param dictItemId 系统字典项ID
+     */
+    public SysDictItemEntity validateDictItemId(Long dictItemId) {
+        // 检查系统字典管理器中是否存在指定ID的字典项
+        return sysDictItemDao
+                .findOptionalById(dictItemId)
+                .orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST, "字典项不存在"));
     }
 
     /**

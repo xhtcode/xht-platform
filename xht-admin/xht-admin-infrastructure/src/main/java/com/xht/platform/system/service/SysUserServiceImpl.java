@@ -92,7 +92,7 @@ public class SysUserServiceImpl implements ISysUserService {
         sysUser.setPassWord(PassWordUtils.encodePassword(password));
         sysUser.setPassWordPlainText(password);
         SysUserDetailEntity detailEntity = SysUserHelper.formatUser(detail, sysUser.getId());
-        List<SysRoleEntity> roleEntityList = sysRoleDao.findList(SysRoleEntity::getImportRoleType, RoleTypeEnums.NONE);
+        List<SysRoleEntity> roleEntityList = sysRoleDao.findList(SysRoleEntity::getRoleType, RoleTypeEnums.NONE);
         sysUserDetailDao.saveUserInfo(sysUser, detailEntity, roleEntityList);
     }
 

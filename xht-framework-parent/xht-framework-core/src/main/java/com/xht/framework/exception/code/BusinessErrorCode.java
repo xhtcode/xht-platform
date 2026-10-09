@@ -34,6 +34,15 @@ public enum BusinessErrorCode implements ErrorCode {
      * 数据类型错误
      */
     DATA_TYPE_ERROR(10005, "数据类型错误"),
+    /**
+     * 系统内置禁止操作
+     */
+    SYSTEM_FORBIDDEN(10006, "系统内置禁止操作"),
+    /***
+     * 非法操作
+     */
+    ILLEGAL_OPERATION(10007, "非法操作"),
+
 
     ;
 

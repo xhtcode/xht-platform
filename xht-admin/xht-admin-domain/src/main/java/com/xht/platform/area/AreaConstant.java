@@ -10,6 +10,6 @@ public interface AreaConstant {
     /**
      * 默认上级区划编码（根节点）
      */
-    String DEFAULT_PARENT_CODE = "0";
+    String DEFAULT_PARENT_CODE = "-1";
 
 }

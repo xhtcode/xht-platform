@@ -32,35 +32,33 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
     /**
      * 根据更新请求更新指定ID的字典项实体
      *
-     * @param dictId     字典ID
+     * @param dictItemId     字典ID
      * @param form       更新请求
      * @param dictEntity 字典实体
      * @return 更新结果
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean updateFormRequest(Long dictId, SysDictItemForm form, SysDictEntity dictEntity) {
+    public boolean updateFormRequest(Long dictItemId, SysDictItemForm form, SysDictEntity dictEntity) {
         // @formatter:off
         LambdaUpdateWrapper<SysDictItemEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper
-                .set(SysDictItemEntity::getDictId, dictEntity.getId())
-                .set(SysDictItemEntity::getDictId, dictEntity.getDictCode())
                 .set(condition(form.getItemLabel()), SysDictItemEntity::getItemLabel, form.getItemLabel())
                 .set(condition(form.getItemValue()), SysDictItemEntity::getItemValue, form.getItemValue())
                 .set(condition(form.getItemColor()), SysDictItemEntity::getItemColor, form.getItemColor())
                 .set(condition(form.getSortOrder()), SysDictItemEntity::getSortOrder, form.getSortOrder())
                 .set(condition(form.getRemark()), SysDictItemEntity::getRemark, form.getRemark())
                 .set(condition(form.getStatus()), SysDictItemEntity::getStatus, form.getStatus());
-        lambdaUpdateWrapper.eq(SysDictItemEntity::getId, dictId);
+        lambdaUpdateWrapper.eq(SysDictItemEntity::getId, dictItemId);
         // @formatter:on
         return update(lambdaUpdateWrapper);
     }
 
     /**
-     * 检查字典项值是否存在
+     * 检查字典项编码是否存在
      *
      * @param dictId    字典ID
-     * @param itemValue 字典项值
+     * @param itemValue 字典项编码
      * @return 存在相同的字典项编码返回true，否则返回false
      */
     @Override

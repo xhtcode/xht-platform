@@ -22,7 +22,7 @@ public class SysDictItemEntity extends BasicEntity implements Serializable {
     /**
      * 字典项ID
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
@@ -38,19 +38,19 @@ public class SysDictItemEntity extends BasicEntity implements Serializable {
     private String dictCode;
 
     /**
-     * 字典项标签
+     * 字典项名称
      */
     @TableField(value = "item_label")
     private String itemLabel;
 
     /**
-     * 字典项值
+     * 字典项编码
      */
     @TableField(value = "item_value")
     private String itemValue;
 
     /**
-     * 显示颜色
+     * 颜色显示
      */
     @TableField(value = "item_color")
     private String itemColor;

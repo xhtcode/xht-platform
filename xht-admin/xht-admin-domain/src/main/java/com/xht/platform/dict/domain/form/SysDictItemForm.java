@@ -23,25 +23,25 @@ public class SysDictItemForm extends BasicForm {
     private Long dictId;
 
     /**
-     * 字典项标签
+     * 字典项名称
      */
-    @NotBlank(message = "字典项标签参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Size(max = 100, message = "字典项标签长度不能超过100", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "字典项标签")
+    @NotBlank(message = "字典项名称参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Size(max = 100, message = "字典项名称长度不能超过100", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "字典项名称")
     private String itemLabel;
 
     /**
-     * 字典项值
+     * 字典项编码
      */
-    @NotBlank(message = "字典项值参数不合法", groups = {Groups.Create.class, Groups.Update.class})
-    @Size(max = 255, message = "字典项值长度不能超过255", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "字典项值")
+    @NotBlank(message = "字典项编码参数不合法", groups = {Groups.Create.class, Groups.Update.class})
+    @Size(max = 255, message = "字典项编码长度不能超过255", groups = {Groups.Create.class, Groups.Update.class})
+    @Schema(description = "字典项编码")
     private String itemValue;
 
     /**
-     * 显示颜色
+     * 颜色显示
      */
-    @Schema(description = "显示颜色")
+    @Schema(description = "颜色显示")
     private String itemColor;
 
     /**

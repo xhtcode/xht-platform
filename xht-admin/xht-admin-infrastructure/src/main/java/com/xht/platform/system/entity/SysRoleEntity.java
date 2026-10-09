@@ -48,7 +48,7 @@ public class SysRoleEntity extends BasicEntity implements Serializable {
      *创建用户时默认导入的角色
      */
     @TableField(value = "role_type")
-    private RoleTypeEnums importRoleType;
+    private RoleTypeEnums roleType;
 
     /**
      * 显示顺序
