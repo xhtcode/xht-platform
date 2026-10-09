@@ -83,7 +83,7 @@ xht:
         expired: 300
   oauth2:
     grant-type:
-      value: 123456
+      pass-word: 123456
     login:
       login-url: http://127.0.0.1:9000/oauth2/token
       client-id: oidc-client

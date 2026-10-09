@@ -120,7 +120,7 @@ public class ILoginServiceImpl implements ILoginService {
      */
     private Oauth2TokenResponse createOauth2Request(MultiValueMap<String, String> formParams) {
         formParams.addAll(OAuth2ParameterNames.SCOPE, loginProperties.getScope());
-        formParams.add(SecurityConstant.REQUEST_CUSTOM_GRANT_TYPE, oauth2GrantTypeProperties.getValue());
+        formParams.add(SecurityConstant.REQUEST_CUSTOM_GRANT_TYPE_PASSWORD, oauth2GrantTypeProperties.getPassWord());
         String basicAuthorization = Oauth2Utils.assembleBasicAuthorization(loginProperties.getClientId(), loginProperties.getClientSecret());
         Oauth2TokenResponse exchange = restClient.post().uri(loginProperties.getLoginUrl())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED) // 表单类型

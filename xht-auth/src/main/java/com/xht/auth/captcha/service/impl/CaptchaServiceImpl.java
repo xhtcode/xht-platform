@@ -6,11 +6,11 @@ import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnum;
 import com.xht.auth.captcha.exception.CaptchaException;
 import com.xht.auth.captcha.handler.captcha.ArithmeticCaptcha;
 import com.xht.auth.captcha.service.ICaptchaService;
-import com.xht.framework.security.properties.Oauth2GrantTypeProperties;
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.security.constant.SecurityConstant;
+import com.xht.framework.security.properties.Oauth2GrantTypeProperties;
 import com.xht.framework.sms.exception.SmsException;
 import com.xht.framework.sms.utils.SmsUtils;
 import com.xht.framework.utils.IdUtils;
@@ -18,6 +18,9 @@ import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.ThrowUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -44,11 +47,13 @@ public class CaptchaServiceImpl implements ICaptchaService {
     /**
      * 校验自定义授权类型
      *
-     * @param value 授权类型值
+     * @param customGrantTypePassword 授权类型值
      */
     @Override
-    public boolean checkCustomGrantType(String value) {
-        return StringUtils.equals(value, oauth2GrantTypeProperties.getValue());
+    public void checkCustomGrantType(String customGrantTypePassword) {
+        if (!StringUtils.equals(customGrantTypePassword, oauth2GrantTypeProperties.getPassWord())) {
+            throw new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.UNSUPPORTED_GRANT_TYPE, "OAuth 2.0 Parameter: grant_type", "unsupported_grant_type"));
+        }
     }
 
     /**
@@ -58,7 +63,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
      * 生成的验证码会存储在服务端用于后续校验。
      * </p>
      *
-     * @param captchaKey 验证码的唯一标识key，可为null，为null时系统会自动生成
+     * @param captchaKey          验证码的唯一标识key，可为null，为null时系统会自动生成
      * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景（如SSO、OAuth2等）
      * @return CaptchaResponse 验证码响应对象，包含验证码图片的Base64编码和验证码key
      */
@@ -84,8 +89,8 @@ public class CaptchaServiceImpl implements ICaptchaService {
      * 校验失败时会抛出相应的异常。
      * </p>
      *
-     * @param requestKey 请求中的验证码key，用于定位要校验的验证码
-     * @param requestCaptcha 用户输入的验证码内容
+     * @param requestKey          请求中的验证码key，用于定位要校验的验证码
+     * @param requestCaptcha      用户输入的验证码内容
      * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景
      */
     @Override
@@ -120,7 +125,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
      * 通常会有发送频率限制以防止滥用。
      * </p>
      *
-     * @param phone 需要接收验证码的手机号码
+     * @param phone               需要接收验证码的手机号码
      * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景
      */
     @Override
@@ -150,8 +155,8 @@ public class CaptchaServiceImpl implements ICaptchaService {
      * 校验失败时会抛出相应的异常。
      * </p>
      *
-     * @param phone 手机号码
-     * @param captcha 用户输入的短信验证码内容
+     * @param phone               手机号码
+     * @param captcha             用户输入的短信验证码内容
      * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景
      */
     @Override
@@ -209,8 +214,8 @@ public class CaptchaServiceImpl implements ICaptchaService {
      */
     private void removeCaptcha(String requestKey) {
         try {
-            log.info("删除验证码: {}", requestKey);
             if (StringUtils.hasText(requestKey)) {
+                log.info("删除验证码: {}", requestKey);
                 redisRepository.delete(requestKey);
             }
         } catch (Exception e) {

@@ -1,4 +1,4 @@
-package com.xht.auth.filter;
+package com.xht.framework.oauth2.filter;
 
 import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.utils.StringUtils;

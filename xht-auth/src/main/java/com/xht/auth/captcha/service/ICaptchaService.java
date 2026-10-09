@@ -13,9 +13,9 @@ public interface ICaptchaService {
     /**
      * 校验自定义授权类型
      *
-     * @param value 授权类型值
+     * @param customGrantTypePassword 授权类型值
      */
-    boolean checkCustomGrantType(String value);
+    void checkCustomGrantType(String customGrantTypePassword);
 
     /**
      * 生成验证码
@@ -77,6 +77,7 @@ public interface ICaptchaService {
      * @param phone               手机号码
      * @param captchaBusinessType 验证码业务类型枚举，用于区分不同业务场景
      */
+    @SuppressWarnings("unused")
     void removePhoneCode(String phone, CaptchaBusinessTypeEnum captchaBusinessType);
 
 }

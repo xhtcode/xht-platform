@@ -63,7 +63,7 @@ xht:
         expired: 300
   oauth2:
     grant-type:
-      value: 123456
+      pass-word: 123456
   blog:
     repository-type: feign
 springdoc:

@@ -3,7 +3,7 @@ package com.xht.auth.configuration;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.configuration.properties.RememberMeProperties;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
-import com.xht.auth.filter.TraceIdRequestFilter;
+import com.xht.framework.oauth2.filter.TraceIdRequestFilter;
 import com.xht.auth.security.authentication.dao.CustomAuthenticationProvider;
 import com.xht.auth.security.oauth2.client.CustomOAuth2LoginConfigurer;
 import com.xht.auth.security.web.authentication.AuthorizationServerFailureHandler;

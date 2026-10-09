@@ -17,6 +17,6 @@ public class Oauth2GrantTypeProperties {
     /**
      * 授权类型
      */
-    private String value;
+    private String passWord;
 
 }

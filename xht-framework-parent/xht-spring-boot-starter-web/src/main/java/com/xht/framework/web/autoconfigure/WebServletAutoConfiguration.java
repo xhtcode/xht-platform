@@ -14,6 +14,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.lang.NonNull;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -57,8 +58,23 @@ public class WebServletAutoConfiguration implements WebMvcConfigurer {
 
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new TraceIdInterceptor()).addPathPatterns("/**");
+    public void addInterceptors(@NonNull InterceptorRegistry registry) {
+        if (!hasSpringSecurityOnClasspath()) {
+            log.debug("【xht-spring-boot-starter-web】 非 Spring Security 环境，添加拦截器 TraceIdInterceptor");
+            registry.addInterceptor(new TraceIdInterceptor()).addPathPatterns("/**");
+        }
+    }
+
+    /**
+     * 判断 Spring Security 是否在类路径上
+     */
+    public boolean hasSpringSecurityOnClasspath() {
+        try {
+            Class.forName("org.springframework.security.web.SecurityFilterChain");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 
 }

@@ -1,10 +1,8 @@
 package com.xht.framework.utils.mdc;
 
-import com.xht.framework.common.constant.StringConstant;
+import com.xht.framework.utils.IdUtils;
 import com.xht.framework.utils.StringUtils;
 import org.slf4j.MDC;
-
-import java.util.UUID;
 
 /**
  * 描述 ：日志 trace 工具类
@@ -53,7 +51,7 @@ public final class TraceIdUtils {
         if (StringUtils.hasText(traceId)) {
             return traceId;
         }
-        return UUID.randomUUID().toString().replaceAll(StringConstant.HORIZONTAL, StringConstant.EMPTY);
+        return IdUtils.simpleUUID();
     }
 
 }

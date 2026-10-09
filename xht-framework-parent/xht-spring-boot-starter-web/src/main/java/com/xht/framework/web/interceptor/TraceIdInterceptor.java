@@ -1,6 +1,7 @@
 package com.xht.framework.web.interceptor;
 
 import com.xht.framework.common.constant.HttpConstants;
+import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.mdc.TraceIdUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,13 +32,13 @@ public class TraceIdInterceptor implements HandlerInterceptor {
      * 否则，DispatcherServlet 认为这个拦截器已经自行处理了响应。
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) {
-        String traceId = request.getHeader(HttpConstants.Header.TRACE_ID.getValue());
+    public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) {
+        String traceId = TraceIdUtils.getTraceId();
         if (StringUtils.isEmpty(traceId)) {
-            traceId = TraceIdUtils.generateTraceId();
+            traceId = ServletUtils.getHeader(request, HttpConstants.Header.TRACE_ID.getValue(), TraceIdUtils.generateTraceId());
             response.setHeader(HttpConstants.Header.TRACE_ID.getValue(), traceId);
+            TraceIdUtils.putTraceId(traceId);
         }
-        TraceIdUtils.putTraceId(traceId);
         return true;
     }
 

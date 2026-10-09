@@ -85,7 +85,7 @@ public final class RequestUserBuilder {
         this.passWord = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_PASSWORD);
         this.captcha = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CAPTCHA_CODE);
         this.captchaKey = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CAPTCHA_CODE_KEY);
-        this.customGrantType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CUSTOM_GRANT_TYPE);
+        this.customGrantType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CUSTOM_GRANT_TYPE_PASSWORD);
         this.additionalParameters.putAll(additionalParameters);
         return this;
     }
@@ -101,7 +101,7 @@ public final class RequestUserBuilder {
         this.grantType = LoginTypeEnum.PHONE.getValue();
         this.phone = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_PHONE);
         this.phoneCode = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_PHONE_CODE);
-        this.customGrantType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CUSTOM_GRANT_TYPE);
+        this.customGrantType = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_CUSTOM_GRANT_TYPE_PASSWORD);
         this.additionalParameters.putAll(additionalParameters);
         return this;
     }

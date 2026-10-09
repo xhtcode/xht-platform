@@ -1,5 +1,6 @@
 package com.xht.framework.oauth2.autoconfigure;
 
+import com.xht.framework.oauth2.filter.TraceIdRequestFilter;
 import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
 import com.xht.framework.security.configurers.CustomAuthorizeHttpRequestsConfigurer;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.session.DisableEncodeUrlFilter;
 
 /**
  * 资源服务器配置
@@ -72,6 +74,7 @@ public class ResourceServerAutoConfiguration {
                 })
         ;
         // @formatter:on
+        http.addFilterBefore(new TraceIdRequestFilter(), DisableEncodeUrlFilter.class);
         return http.build();
     }
 

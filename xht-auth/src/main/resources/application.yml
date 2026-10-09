@@ -94,7 +94,7 @@ xht:
         expired: 300
   oauth2:
     grant-type:
-      value: 123456
+      pass-word: 123456
     issuer: http://www.xht.sso.com:9000
     authorization-server:
       logout-url: /sso/logout
