@@ -16,7 +16,16 @@ import java.util.function.Supplier;
  * 异常处理工具类
  */
 @SuppressWarnings("unused")
-public final class ThrowUtils {
+public abstract class ThrowUtils {
+
+    /**
+     * 立则抛异常
+     *
+     * @param message 错误信息
+     */
+    public static void throwDirect(String message) {
+        throw new BusinessException(message);
+    }
 
     /**
      * 立则抛异常
@@ -34,7 +43,7 @@ public final class ThrowUtils {
      * @param message   错误信息
      */
     public static void throwDirect(ErrorCode errorCode, String message) {
-        throw new BusinessException(errorCode, message);
+        throw new BusinessException(errorCode.getCode(), message, null);
     }
 
 
@@ -91,7 +100,7 @@ public final class ThrowUtils {
      * @param message   错误信息
      */
     public static void throwIf(boolean condition, ErrorCode errorCode, String message) {
-        throwIf(condition, new BusinessException(errorCode, message));
+        throwIf(condition, new BusinessException(errorCode.getCode(), message, null));
     }
 
 
@@ -125,7 +134,7 @@ public final class ThrowUtils {
      * @param message   错误信息
      */
     public static void throwIf(Supplier<Boolean> condition, ErrorCode errorCode, String message) {
-        throwIf(condition, new BusinessException(errorCode, message));
+        throwIf(condition, new BusinessException(errorCode.getCode(), message, null));
     }
 
     // -----------------------------------------------字符串相关 start-----------------------------------------------
@@ -137,7 +146,8 @@ public final class ThrowUtils {
      * @param errMessage 异常描述
      */
     public static void hasText(String str, String errMessage) {
-        if (!StringUtils.hasLength(str)) throw new BusinessException(GlobalErrorStatusCode.PARAM_INVALID, errMessage);
+        if (!StringUtils.hasLength(str))
+            throw new BusinessException(GlobalErrorStatusCode.PARAM_INVALID.getCode(), errMessage, null);
     }
 
     /**
@@ -300,6 +310,6 @@ public final class ThrowUtils {
      * @param message        异常信息
      */
     public static void systemFlag(SystemFlagEnum systemFlagEnum, String message) {
-        throwIf(Objects.equals(systemFlagEnum, SystemFlagEnum.SYSTEM), () -> new BusinessException(BusinessErrorCode.SYSTEM_FORBIDDEN, message));
+        throwIf(Objects.equals(systemFlagEnum, SystemFlagEnum.SYSTEM), () -> new BusinessException(BusinessErrorCode.SYSTEM_FORBIDDEN.getCode(), message, null));
     }
 }

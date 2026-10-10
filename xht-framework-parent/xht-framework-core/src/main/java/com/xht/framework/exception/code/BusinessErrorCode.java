@@ -1,5 +1,6 @@
 package com.xht.framework.exception.code;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Getter;
  * @author xht
  */
 @Getter
+@AllArgsConstructor
 public enum BusinessErrorCode implements ErrorCode {
 
     /**
@@ -42,7 +44,18 @@ public enum BusinessErrorCode implements ErrorCode {
      * 非法操作
      */
     ILLEGAL_OPERATION(10007, "非法操作"),
-
+    /**
+     * 字典项不存在
+     */
+    DICT_ITEM_NOT_EXIST(10008, "字典项不存在"),
+    /**
+     * 字典不存在
+     */
+    DICT_NOT_EXIST(10009, "字典不存在"),
+    /**
+     * 按钮类型下不能添加子菜单、目录、按钮
+     */
+    BUTTON_TYPE_ERROR(10010, "按钮类型下不能添加子菜单、目录、按钮"),
 
     ;
 
@@ -50,11 +63,6 @@ public enum BusinessErrorCode implements ErrorCode {
 
     private final String msg;
 
-
-    BusinessErrorCode(int code, String msg) {
-        this.code = code;
-        this.msg = msg;
-    }
 
 }
 

@@ -167,16 +167,16 @@ public class SysUserServiceImpl implements ISysUserService {
         String newPassword = form.getNewPassword();
         String confirmPassword = form.getConfirmPassword();
         if (!PassWordUtils.matchPassword(oldPassword, sysUserEntity.getPassWord())) {
-            throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "旧密码错误");
+            throw new BusinessException("旧密码错误");
         }
         if (!StringUtils.equals(newPassword, confirmPassword)) {
-            throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "两次密码输入不一致");
+            throw new BusinessException("两次密码输入不一致");
         }
         if (PassWordUtils.matchPassword(newPassword, sysUserEntity.getPassWord())) {
-            throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "修改密码与原密码相同");
+            throw new BusinessException("修改密码与原密码相同");
         }
         if (PassWordUtils.matchPassword(confirmPassword, sysUserEntity.getPassWord())) {
-            throw new BusinessException(UserErrorCode.PASSWORD_ERROR, "修改密码与原密码相同");
+            throw new BusinessException("修改密码与原密码相同");
         }
         sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(newPassword), null);
     }

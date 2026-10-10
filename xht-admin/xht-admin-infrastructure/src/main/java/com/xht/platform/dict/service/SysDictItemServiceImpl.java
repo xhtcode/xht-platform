@@ -97,9 +97,9 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      */
     public SysDictItemEntity validateDictItemId(Long dictItemId) {
         // 检查系统字典管理器中是否存在指定ID的字典项
-        return sysDictItemDao
-                .findOptionalById(dictItemId)
-                .orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST, "字典项不存在"));
+        SysDictItemEntity dictItemEntity = sysDictItemDao.findById(dictItemId);
+        ThrowUtils.throwIf(Objects.isNull(dictItemEntity), BusinessErrorCode.DATA_NOT_EXIST, "字典项不存在");
+        return dictItemEntity;
     }
 
     /**

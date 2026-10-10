@@ -2,7 +2,6 @@ package com.xht.platform.dict.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.code.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.ThrowUtils;
@@ -89,9 +88,9 @@ public class SysDictServiceImpl implements ISysDictService {
      */
     public SysDictEntity validateDictId(Long dictId) {
         // 检查系统字典管理器中是否存在指定ID的字典项
-        return sysDictDao
-                .findOptionalById(dictId)
-                .orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST, "字典不存在"));
+        SysDictEntity dictEntity = sysDictDao.findById(dictId);
+        ThrowUtils.notNull(dictEntity, "字典不存在");
+        return dictEntity;
     }
 
     /**
