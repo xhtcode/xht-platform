@@ -46,10 +46,15 @@ public interface SysDictItemConverter extends BasicConverter<SysDictItemEntity, 
         return dictItemEntities.stream().map(this::toVo).collect(Collectors.toList());
     }
 
+    /**
+     * 状态转换
+     *
+     * @param status 状态
+     * @return 是否禁用
+     */
     @Named("statusToDisabled")
     default Boolean statusToDisabled(DictStatusEnum status) {
         return Objects.equals(status, DictStatusEnum.DISABLE);
     }
-
 
 }

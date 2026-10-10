@@ -1,9 +1,8 @@
 package com.xht.platform.system.service;
 
 import com.xht.framework.exception.core.BusinessErrorCode;
-import com.xht.framework.exception.core.UserErrorCode;
-import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.AssertUtils;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.platform.system.converter.SysRoleConverter;
 import com.xht.platform.system.dao.SysRoleDao;
 import com.xht.platform.system.dao.SysUserDao;
@@ -47,7 +46,7 @@ public class SysSysUserRoleServiceImpl implements ISysUserRoleService {
     @Override
     public void userBindRole(Long userId, List<Long> roleIds) {
         Boolean userExists = sysUserDao.exists(SysUserEntity::getId, userId);
-        AssertUtils.isTrue(userExists, UserErrorCode.DATA_NOT_EXIST);
+        AssertUtils.isTrue(userExists, BusinessErrorCode.DATA_NOT_EXIST, "账号未注册或已注销");
         List<SysUserRoleEntity> sysUserRoleEntities = new ArrayList<>();
         if (!CollectionUtils.isEmpty(roleIds)) {
             boolean roleExists = sysRoleDao.existsByRoleId(roleIds);

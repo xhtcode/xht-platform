@@ -49,10 +49,10 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
     public void create(SysDictItemForm form) {
         Long dictId = form.getDictId();
         SysDictEntity dictEntity = sysDictDao.findById(dictId);
-        AssertUtils.isTrue(Objects.nonNull(dictEntity), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
-        AssertUtils.isTrue(Objects.equals(DictStatusEnum.ENABLE, dictEntity.getStatus()), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
+        AssertUtils.isTrue(Objects.nonNull(dictEntity), BusinessErrorCode.DICT_NOT_EXIST);
+        AssertUtils.isTrue(Objects.equals(DictStatusEnum.ENABLE, dictEntity.getStatus()), BusinessErrorCode.DICT_STATUS_ERROR);
         Boolean checkDictCode = sysDictItemDao.checkDictValue(null, dictId, form.getItemLabel());
-        AssertUtils.isTrue(!checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
+        AssertUtils.isTrue(!checkDictCode, BusinessErrorCode.DICT_ITEM_CODE_EXIST);
         SysDictItemEntity entity = sysDictItemConverter.toEntity(form);
         entity.setDictCode(dictEntity.getDictCode());
         sysDictItemDao.saveTransactional(entity);
@@ -80,13 +80,13 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         // 校验数据是否存在
         Long dictId = form.getDictId();
         SysDictEntity dictEntity = sysDictDao.findById(dictId);
-        AssertUtils.isTrue(Objects.nonNull(dictEntity), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
-        AssertUtils.isTrue(Objects.equals(DictStatusEnum.ENABLE, dictEntity.getStatus()), BusinessErrorCode.DATA_NOT_EXIST, "字典不存在");
+        AssertUtils.isTrue(Objects.nonNull(dictEntity), BusinessErrorCode.DICT_NOT_EXIST);
+        AssertUtils.isTrue(Objects.equals(DictStatusEnum.ENABLE, dictEntity.getStatus()), BusinessErrorCode.DICT_STATUS_ERROR);
         // 校验字典项编码 是否存在
         Boolean checkDictCode = sysDictItemDao.checkDictValue(dictItemId, dictId, form.getItemLabel());
-        AssertUtils.isTrue(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
+        AssertUtils.isTrue(checkDictCode, BusinessErrorCode.DICT_ITEM_CODE_EXIST);
         SysDictItemEntity dbDictItemEntity = validateDictItemId(dictItemId);
-        AssertUtils.isTrue(Objects.equals(dbDictItemEntity.getDictId(), dictId), BusinessErrorCode.ILLEGAL_OPERATION);
+        AssertUtils.isTrue(Objects.equals(dbDictItemEntity.getDictId(), dictId), BusinessErrorCode.DICT_ITEM_NOT_EXIST);
         sysDictItemDao.updateFormRequest(dictItemId, form, dictEntity);
     }
 
@@ -98,7 +98,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
     public SysDictItemEntity validateDictItemId(Long dictItemId) {
         // 检查系统字典管理器中是否存在指定ID的字典项
         SysDictItemEntity dictItemEntity = sysDictItemDao.findById(dictItemId);
-        AssertUtils.isTrue(Objects.nonNull(dictItemEntity), BusinessErrorCode.DATA_NOT_EXIST, "字典项不存在");
+        AssertUtils.isTrue(Objects.nonNull(dictItemEntity), BusinessErrorCode.DICT_ITEM_NOT_EXIST);
         return dictItemEntity;
     }
 
@@ -134,7 +134,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
     @Override
     public List<DictVO> getByDictCode(String dictCode) {
         SysDictEntity sysDictEntity = sysDictDao.findOneOptional(SysDictEntity::getDictCode, dictCode)
-                .orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
+                .orElseThrow(() -> new BusinessException(BusinessErrorCode.DICT_NOT_EXIST));
         DictShowDisabledEnum showDisabled = sysDictEntity.getShowDisabled();
         DictStatusEnum dictStatusEnum = Objects.equals(DictShowDisabledEnum.SHOW, showDisabled) ? null : DictStatusEnum.ENABLE;
         List<SysDictItemEntity> dictItemEntities = sysDictItemDao.findByDictCode(dictCode, dictStatusEnum);

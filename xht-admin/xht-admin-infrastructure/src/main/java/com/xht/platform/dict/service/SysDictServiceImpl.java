@@ -43,7 +43,7 @@ public class SysDictServiceImpl implements ISysDictService {
     @Override
     public void create(SysDictForm form) {
         Boolean checkDictCode = sysDictDao.checkDictCode(null, form.getDictCode());
-        AssertUtils.isTrue(!checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
+        AssertUtils.isTrue(!checkDictCode, BusinessErrorCode.DICT_CODE_EXIST);
         SysDictEntity entity = sysDictConverter.toEntity(form);
         sysDictDao.saveTransactional(entity);
     }
@@ -55,10 +55,10 @@ public class SysDictServiceImpl implements ISysDictService {
      */
     @Override
     public void removeById(Long dictId) {
-        AssertUtils.notNull(dictId, "参数错误");
+        AssertUtils.notNull(dictId, BusinessErrorCode.PARAM_ERROR);
         validateDictId(dictId);
         long dictItemCount = sysDictItemDao.count(SysDictItemEntity::getDictId, dictId);
-        AssertUtils.isTrue(dictItemCount < 0, BusinessErrorCode.DATA_EXIST, "所选字典类型下有关联字典项，不能删除");
+        AssertUtils.isTrue(dictItemCount < 0, BusinessErrorCode.DICT_EXIST_DICT_ITEM);
         sysDictDao.removeById(dictId);
     }
 
@@ -70,11 +70,11 @@ public class SysDictServiceImpl implements ISysDictService {
      */
     @Override
     public void updateById(Long dictId, SysDictForm form) {
-        AssertUtils.notNull(dictId, "参数错误");
+        AssertUtils.notNull(dictId, BusinessErrorCode.PARAM_ERROR);
         SysDictEntity exists = validateDictId(dictId);
         // 检查字典项编码是否存在
         Boolean checkDictCode = sysDictDao.checkDictCode(dictId, form.getDictCode());
-        AssertUtils.isTrue(!checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
+        AssertUtils.isTrue(!checkDictCode, BusinessErrorCode.DICT_CODE_EXIST);
         // 检查是否需要更新字典项状态和code
         boolean updateItemStatus = Objects.equals(exists.getStatus(), form.getStatus()) && Objects.equals(exists.getDictCode(), form.getDictCode());
         sysDictDao.updateRequest(dictId, form, !updateItemStatus);
@@ -83,13 +83,13 @@ public class SysDictServiceImpl implements ISysDictService {
     /**
      * 验证字典项是否存在 并判断是否是系统内置字典
      *
-     * @param dictId  字典ID
+     * @param dictId 字典ID
      * @return 字典项
      */
     public SysDictEntity validateDictId(Long dictId) {
         // 检查系统字典管理器中是否存在指定ID的字典项
         SysDictEntity dictEntity = sysDictDao.findById(dictId);
-        AssertUtils.notNull(dictEntity, "字典不存在");
+        AssertUtils.notNull(dictEntity, BusinessErrorCode.DICT_NOT_EXIST);
         return dictEntity;
     }
 

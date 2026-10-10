@@ -7,14 +7,13 @@ import com.xht.framework.common.enums.UserStatusEnum;
 import com.xht.framework.common.enums.UserTypeEnum;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
-import com.xht.framework.exception.core.UserErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.utils.PassWordUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.StringUtils;
-import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.tree.INode;
 import com.xht.framework.utils.tree.TreeNode;
 import com.xht.framework.utils.tree.TreeUtils;
@@ -144,7 +143,7 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void resetPassword(Long userId) {
-        SysUserEntity sysUserEntity = sysUserDao.findOptionalById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST));
+        SysUserEntity sysUserEntity = sysUserDao.findOptionalById(userId).orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST, "用户不存在"));
         String password = PassWordUtils.generatePassword();
         sysUserDao.updatePassword(userId, PassWordUtils.encodePassword(password), password);
         String userPhone = sysUserEntity.getUserPhone();
@@ -159,7 +158,7 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public void updatePassword(UpdatePwdFrom form) {
         Long userId = SecurityUtils.getUserId();
-        SysUserEntity sysUserEntity = sysUserDao.findOptionalById(userId).orElseThrow(() -> new BusinessException(UserErrorCode.DATA_NOT_EXIST));
+        SysUserEntity sysUserEntity = sysUserDao.findById(userId);
         if (!Objects.equals(sysUserEntity.getUserStatus(), UserStatusEnum.NORMAL)) {
             throw new BusinessException("用户状态不正确！");
         }
@@ -190,7 +189,7 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public void updateStatus(Long userId, UserStatusEnum status) {
         Boolean exists = sysUserDao.exists(SysUserEntity::getId, userId);
-        AssertUtils.isTrue(!exists, UserErrorCode.DATA_NOT_EXIST, "用户不存在");
+        AssertUtils.isTrue(!exists, BusinessErrorCode.DATA_NOT_EXIST, "用户不存在");
         sysUserDao.updateStatus(userId, status);
     }
 
