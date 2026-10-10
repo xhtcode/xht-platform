@@ -1,7 +1,7 @@
 package com.xht.auth.captcha.handler;
 
 import cn.hutool.core.util.RandomUtil;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.file.ResourceUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -89,8 +89,8 @@ public abstract class AbstractCaptcha {
             throw new CatalogException("字体创建失败");
         }
         this.background = Color.WHITE;
-        ThrowUtils.throwIf(width <= 0, "验证码宽度不能小于等于0");
-        ThrowUtils.throwIf(height <= 0, "验证码高度不能小于等于0");
+        AssertUtils.isTrue(width > 0, "验证码宽度不能小于等于0");
+        AssertUtils.isTrue(height > 0, "验证码高度不能小于等于0");
     }
 
     /**
@@ -157,7 +157,7 @@ public abstract class AbstractCaptcha {
      * @param font 字体
      */
     public void setFont(Font font) {
-        ThrowUtils.notNull(font, "验证码字体不能为空");
+        AssertUtils.notNull(font, "验证码字体不能为空");
         this.font = font;
     }
 
@@ -167,7 +167,7 @@ public abstract class AbstractCaptcha {
      * @param background 背景色
      */
     public void setBackground(Color background) {
-        ThrowUtils.notNull(background, "验证码背景色不能为空");
+        AssertUtils.notNull(background, "验证码背景色不能为空");
         this.background = background;
     }
 

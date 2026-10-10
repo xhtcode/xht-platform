@@ -1,6 +1,6 @@
 package com.xht.platform.type;
 
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.common.enums.DataBaseTypeEnum;
 import com.xht.platform.type.dao.GenTypeMappingDao;
 import com.xht.platform.type.entity.GenTypeMappingEntity;
@@ -80,7 +80,7 @@ public class TypeMappingCache {
     public GenTypeMappingEntity getTargetType(DataBaseTypeEnum dbType, String dbDataType) {
         Map<String, GenTypeMappingEntity> cacheTempOrDefault = DB_TYPE_MAPPING_CACHE_TEMP.getOrDefault(dbType, Collections.emptyMap());
         GenTypeMappingEntity mappingEntity = cacheTempOrDefault.get(dbDataType);
-        ThrowUtils.notNull(mappingEntity, "未找到类型映射关系");
+        AssertUtils.notNull(mappingEntity, "未找到类型映射关系");
         return mappingEntity;
     }
 

@@ -5,7 +5,7 @@ import com.xht.framework.common.domain.ErrorR;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.ValidationException;
-import com.xht.framework.exception.code.GlobalErrorStatusCode;
+import com.xht.framework.exception.core.GlobalErrorStatusCode;
 import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,7 +45,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     /**
      * 默认参数校验失败信息
      */
-    private static final String MESSAGE = GlobalErrorStatusCode.PARAM_INVALID.getMsg();
+    private static final String MESSAGE = GlobalErrorStatusCode.PARAM_INVALID.getMessage();
 
     /**
      * 参数校验失败信息key
@@ -70,7 +70,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     @ExceptionHandler(value = {BusinessException.class})
     public ErrorR<Void> handle(BusinessException e) {
         log.error("自定义异常: code={} MESSAGE={}", e.getCode(), e.getMessage(), e);
-        return new ErrorR<>(R.error(e.getCode()).msg(e.getMsg()).build());
+        return new ErrorR<>(R.error(e.getCode()).msg(e.getMessage()).build());
     }
 
 

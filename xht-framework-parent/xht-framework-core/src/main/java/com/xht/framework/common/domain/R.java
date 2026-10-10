@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xht.framework.common.constant.RConstants;
 import com.xht.framework.common.enums.DataTypeEnum;
 import com.xht.framework.exception.UtilException;
-import com.xht.framework.exception.code.ErrorCode;
+import com.xht.framework.exception.core.ErrorCode;
 import com.xht.framework.utils.mdc.TraceIdUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -158,7 +158,7 @@ public sealed class R<T> implements Serializable permits ErrorR {
          */
         public RBuilder info(ErrorCode errorCode) {
             this.code = errorCode.getCode();
-            this.msg = errorCode.getMsg();
+            this.msg = errorCode.getMessage();
             return this;
         }
 

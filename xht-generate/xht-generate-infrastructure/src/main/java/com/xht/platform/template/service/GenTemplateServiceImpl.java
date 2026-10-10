@@ -2,8 +2,8 @@ package com.xht.platform.template.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.exception.BusinessException;
-import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.common.constant.GenConstant;
 import com.xht.platform.template.domain.form.GenTemplateForm;
 import com.xht.platform.template.converter.GenTemplateConverter;
@@ -80,9 +80,9 @@ public class GenTemplateServiceImpl implements IGenTemplateService {
     public void updateById(GenTemplateForm form) {
         formatTemplate(form);
         Boolean exists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, form.getGroupId());
-        ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "模板组不存在");
+        AssertUtils.isTrue(exists, BusinessErrorCode.DATA_NOT_EXIST, "模板组不存在");
         Boolean menuExists = genTemplateDao.exists(GenTemplateEntity::getId, form.getId());
-        ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "模板不存在");
+        AssertUtils.isTrue(menuExists, BusinessErrorCode.DATA_NOT_EXIST, "模板不存在");
         genTemplateDao.updateFormRequest(form);
     }
 

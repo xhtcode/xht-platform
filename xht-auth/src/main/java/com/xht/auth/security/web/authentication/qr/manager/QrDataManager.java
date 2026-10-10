@@ -3,7 +3,7 @@ package com.xht.auth.security.web.authentication.qr.manager;
 import com.xht.auth.security.web.authentication.qr.domain.QrCodeInfo;
 import com.xht.auth.security.web.authentication.qr.enums.QrCodeStatusEnum;
 import com.xht.framework.cache.repository.RedisRepository;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.IdUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
@@ -109,8 +109,8 @@ public class QrDataManager extends AbstractQrManager {
      */
     @Override
     public void updateQrCodeInfo(QrCodeInfo qrCodeInfo) {
-        ThrowUtils.notNull(qrCodeInfo, "二维码信息不能为空.");
-        ThrowUtils.hasText(qrCodeInfo.getQrCodeId(), "二维码ID不能为空.");
+        AssertUtils.notNull(qrCodeInfo, "二维码信息不能为空.");
+        AssertUtils.hasText(qrCodeInfo.getQrCodeId(), "二维码ID不能为空.");
         redisRepository.set(buildQrDataKey(qrCodeInfo.getQrCodeId()), qrCodeInfo, qrCodeProperties.getTimeout(), TimeUnit.SECONDS);
     }
 
@@ -128,10 +128,10 @@ public class QrDataManager extends AbstractQrManager {
      */
     @Override
     public void saveUserData(QrCodeInfo qrCodeInfo, BasicUserDetails basicUserDetails) {
-        ThrowUtils.notNull(qrCodeInfo, "二维码信息不能为空.");
-        ThrowUtils.hasText(qrCodeInfo.getQrCodeId(), "二维码ID不能为空.");
-        ThrowUtils.notNull(basicUserDetails, "用户信息不能为空.");
-        ThrowUtils.throwIf(!Objects.equals(qrCodeInfo.getQrCodeStatus(), QrCodeStatusEnum.CONFIRMED), "用户未授权信息.");
+        AssertUtils.notNull(qrCodeInfo, "二维码信息不能为空.");
+        AssertUtils.hasText(qrCodeInfo.getQrCodeId(), "二维码ID不能为空.");
+        AssertUtils.notNull(basicUserDetails, "用户信息不能为空.");
+        AssertUtils.isTrue(Objects.equals(qrCodeInfo.getQrCodeStatus(), QrCodeStatusEnum.CONFIRMED), "用户未授权信息.");
         redisRepository.set(buildQrUserinfoKey(qrCodeInfo.getQrCodeId()), basicUserDetails, 1, TimeUnit.MINUTES);
     }
 
@@ -146,9 +146,9 @@ public class QrDataManager extends AbstractQrManager {
      */
     @Override
     public void removeQrInfo(QrCodeInfo qrCodeInfo) {
-        ThrowUtils.notNull(qrCodeInfo, "二维码信息不能为空.");
-        ThrowUtils.hasText(qrCodeInfo.getQrCodeId(), "二维码ID不能为空.");
-        ThrowUtils.hasText(qrCodeInfo.getQrCodeTicket(), "二维码票据不能为空.");
+        AssertUtils.notNull(qrCodeInfo, "二维码信息不能为空.");
+        AssertUtils.hasText(qrCodeInfo.getQrCodeId(), "二维码ID不能为空.");
+        AssertUtils.hasText(qrCodeInfo.getQrCodeTicket(), "二维码票据不能为空.");
         redisRepository.delete(buildQrTicketKey(qrCodeInfo.getQrCodeId(), qrCodeInfo.getQrCodeTicket()));
         redisRepository.delete(buildQrUserinfoKey(qrCodeInfo.getQrCodeId()));
     }
@@ -166,8 +166,8 @@ public class QrDataManager extends AbstractQrManager {
      */
     @Override
     public BasicUserDetails getUserData(QrCodeInfo qrCodeInfo) {
-        ThrowUtils.notNull(qrCodeInfo, "二维码信息不能为空.");
-        ThrowUtils.hasText(qrCodeInfo.getQrCodeId(), "二维码ID不能为空.");
+        AssertUtils.notNull(qrCodeInfo, "二维码信息不能为空.");
+        AssertUtils.hasText(qrCodeInfo.getQrCodeId(), "二维码ID不能为空.");
         return redisRepository.get(buildQrUserinfoKey(qrCodeInfo.getQrCodeId()));
     }
 

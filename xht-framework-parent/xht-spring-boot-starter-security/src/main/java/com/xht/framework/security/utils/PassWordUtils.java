@@ -1,6 +1,6 @@
 package com.xht.framework.security.utils;
 
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -60,7 +60,7 @@ public final class PassWordUtils implements ApplicationContextAware {
      */
     public static String generatePassword(int length) {
         // 校验密码长度，避免过短的弱密码
-        ThrowUtils.throwIf(length <= MIN_PASSWORD_LENGTH, "Password length must be at least " + MIN_PASSWORD_LENGTH + " characters");
+        AssertUtils.isTrue(length > MIN_PASSWORD_LENGTH, "Password length must be at least " + MIN_PASSWORD_LENGTH + " characters");
 
         StringBuilder password = new StringBuilder(length);
         int charPoolLength = PASSWORD_CHAR_POOL.length();
@@ -96,8 +96,8 @@ public final class PassWordUtils implements ApplicationContextAware {
      * @return true-匹配，false-不匹配
      */
     public static boolean matchPassword(String rawPassword, String encodedPassword) {
-        ThrowUtils.hasText(rawPassword, "Raw password must not be empty");
-        ThrowUtils.hasText(encodedPassword, "Encoded password must not be empty");
+        AssertUtils.hasText(rawPassword, "Raw password must not be empty");
+        AssertUtils.hasText(encodedPassword, "Encoded password must not be empty");
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 

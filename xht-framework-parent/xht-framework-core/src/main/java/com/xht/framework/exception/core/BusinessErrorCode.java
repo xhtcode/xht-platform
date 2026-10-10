@@ -1,4 +1,4 @@
-package com.xht.framework.exception.code;
+package com.xht.framework.exception.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -59,9 +59,16 @@ public enum BusinessErrorCode implements ErrorCode {
 
     ;
 
+    /**
+     * 业务错误码
+     * 注意：这是业务编码，不是HTTP响应状态码
+     */
     private final int code;
 
-    private final String msg;
+    /**
+     * 错误描述信息
+     */
+    private final String message;
 
 
 }

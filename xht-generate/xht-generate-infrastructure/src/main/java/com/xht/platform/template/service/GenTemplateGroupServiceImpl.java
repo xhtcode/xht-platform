@@ -2,9 +2,9 @@ package com.xht.platform.template.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.template.domain.form.GenTemplateGroupForm;
 import com.xht.platform.template.converter.GenTemplateGroupConverter;
 import com.xht.platform.template.dao.GenTemplateDao;
@@ -57,7 +57,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
     @Override
     public void removeById(Long id) {
         Boolean exists = genTemplateDao.exists(GenTemplateEntity::getGroupId, id);
-        ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "项目下存在模板，不能删除");
+        AssertUtils.isTrue(!exists, BusinessErrorCode.DATA_EXIST, "项目下存在模板，不能删除");
         genTemplateGroupDao.removeByIdTransactional(id);
     }
 
@@ -69,7 +69,7 @@ public class GenTemplateGroupServiceImpl implements IGenTemplateGroupService {
     @Override
     public void updateById(GenTemplateGroupForm form) {
         Boolean menuExists = genTemplateGroupDao.exists(GenTemplateGroupEntity::getId, form.getId());
-        ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "项目不存在");
+        AssertUtils.isTrue(menuExists, BusinessErrorCode.DATA_NOT_EXIST, "项目不存在");
         genTemplateGroupDao.updateFormRequest(form);
     }
 

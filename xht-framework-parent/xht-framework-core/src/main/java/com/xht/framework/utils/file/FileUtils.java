@@ -4,7 +4,7 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -42,8 +42,8 @@ public final class FileUtils {
      * @return 组合后的文件名，格式为"prefix.suffix"
      */
     public static String generateFileName(String prefix, String suffix) {
-        ThrowUtils.hasText(prefix, "文件前缀不能为空");
-        ThrowUtils.hasText(suffix, "文件后缀不能为空");
+        AssertUtils.hasText(prefix, "文件前缀不能为空");
+        AssertUtils.hasText(suffix, "文件后缀不能为空");
         // 移除后缀可能带的".", 避免生成"prefix..suffix"
         return String.format("%s.%s", StrUtil.replaceLast(prefix, POINT, EMPTY), StrUtil.replaceFirst(suffix, POINT, EMPTY));
     }
@@ -56,7 +56,7 @@ public final class FileUtils {
      * @return 文件的Base64编码字符串
      */
     public static String getBase64(File file) {
-        ThrowUtils.notNull(file, "文件对象不能为空");
+        AssertUtils.notNull(file, "文件对象不能为空");
         return Base64.encode(file);
     }
 
@@ -67,7 +67,7 @@ public final class FileUtils {
      * @return 字节数组的Base64编码字符串
      */
     public static String getBase64(byte[] bytes) {
-        ThrowUtils.notNull(bytes, "字节数组不能为空");
+        AssertUtils.notNull(bytes, "字节数组不能为空");
         return Base64.encode(bytes);
     }
 
@@ -78,7 +78,7 @@ public final class FileUtils {
      * @return 输入流内容的Base64编码字符串
      */
     public static String getBase64(InputStream inputStream) {
-        ThrowUtils.notNull(inputStream, "输入流不能为空");
+        AssertUtils.notNull(inputStream, "输入流不能为空");
         return Base64.encode(inputStream);
     }
 
@@ -89,7 +89,7 @@ public final class FileUtils {
      * @return 文件内容的字节数组
      */
     public static byte[] getByte(File file) {
-        ThrowUtils.notNull(file, "文件对象不能为空");
+        AssertUtils.notNull(file, "文件对象不能为空");
         return FileUtil.readBytes(file);
     }
 
@@ -100,7 +100,7 @@ public final class FileUtils {
      * @return 解码后的字节数组
      */
     public static byte[] getByte(String base64) {
-        ThrowUtils.hasText(base64, "Base64字符串不能为空");
+        AssertUtils.hasText(base64, "Base64字符串不能为空");
         return Base64.decode(base64);
     }
 
@@ -111,7 +111,7 @@ public final class FileUtils {
      * @return 输入流内容的字节数组
      */
     public static byte[] getByte(InputStream inputStream) {
-        ThrowUtils.notNull(inputStream, "输入流不能为空");
+        AssertUtils.notNull(inputStream, "输入流不能为空");
         return IoUtil.readBytes(inputStream);
     }
 
@@ -122,7 +122,7 @@ public final class FileUtils {
      * @return 文件对应的输入流
      */
     public static InputStream getInputStream(File file) {
-        ThrowUtils.notNull(file, "文件对象不能为空");
+        AssertUtils.notNull(file, "文件对象不能为空");
         return IoUtil.toStream(file);
     }
 
@@ -133,7 +133,7 @@ public final class FileUtils {
      * @return 解码后的内容对应的输入流
      */
     public static InputStream getInputStream(String base64) {
-        ThrowUtils.hasText(base64, "Base64字符串不能为空");
+        AssertUtils.hasText(base64, "Base64字符串不能为空");
         byte[] decode = Base64.decode(base64);
         return IoUtil.toStream(decode);
     }
@@ -145,7 +145,7 @@ public final class FileUtils {
      * @return 字节数组对应的输入流
      */
     public static InputStream getInputStream(byte[] bytes) {
-        ThrowUtils.notNull(bytes, "字节数组不能为空");
+        AssertUtils.notNull(bytes, "字节数组不能为空");
         return IoUtil.toStream(bytes);
     }
 
@@ -159,8 +159,8 @@ public final class FileUtils {
      */
     public static File getFile(MultipartFile multipartFile, String filePath) throws IOException {
         // 校验输入参数
-        ThrowUtils.notNull(multipartFile, "上传文件不能为空");
-        ThrowUtils.hasText(filePath, "文件路径不能为空");
+        AssertUtils.notNull(multipartFile, "上传文件不能为空");
+        AssertUtils.hasText(filePath, "文件路径不能为空");
         if (multipartFile.isEmpty()) {
             throw new IOException("上传文件内容为空");
         }

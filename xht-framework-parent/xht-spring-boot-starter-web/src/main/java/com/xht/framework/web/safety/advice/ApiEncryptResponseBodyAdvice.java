@@ -2,7 +2,7 @@ package com.xht.framework.web.safety.advice;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.enums.DataTypeEnum;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.web.safety.autoconfigure.ApiEncryptProperties;
 import com.xht.framework.web.safety.service.ApiSafetyService;
 import org.springframework.core.MethodParameter;
@@ -33,7 +33,7 @@ public class ApiEncryptResponseBodyAdvice implements ResponseBodyAdvice<R<Object
     public ApiEncryptResponseBodyAdvice(ApiEncryptProperties apiEncryptProperties, ApiSafetyService apiSafetyService) {
         this.apiEncryptProperties = apiEncryptProperties;
         this.apiSafetyService = apiSafetyService;
-        ThrowUtils.notNull(apiSafetyService, "apiSafetyService must not be null");
+        AssertUtils.notNull(apiSafetyService, "apiSafetyService must not be null");
     }
 
     /**

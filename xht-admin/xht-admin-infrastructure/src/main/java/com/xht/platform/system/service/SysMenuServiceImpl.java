@@ -1,7 +1,7 @@
 package com.xht.platform.system.service;
 
-import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.tree.INode;
 import com.xht.platform.system.converter.SysMenuConverter;
 import com.xht.platform.system.dao.SysMenuDao;
@@ -60,7 +60,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
             MenuValidationFormat.checkParentType(MenuTypeEnum.M, form.getMenuType());
         } else {
             MenuTypeEnum parentMenuType = sysMenuDao.getMenuType(form.getParentId());
-            ThrowUtils.throwIf(Objects.isNull(parentMenuType), BusinessErrorCode.DATA_NOT_EXIST, "上级菜单不存在");
+            AssertUtils.isTrue(Objects.nonNull(parentMenuType), BusinessErrorCode.DATA_NOT_EXIST, "上级菜单不存在");
             MenuValidationFormat.checkParentType(parentMenuType, form.getMenuType());
         }
     }
@@ -74,7 +74,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Transactional(rollbackFor = Exception.class)
     public void removeById(Long menuId) {
         Boolean exists = sysMenuDao.exists(SysMenuEntity::getParentId, menuId);
-        ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "菜单下存在子菜单，不能删除");
+        AssertUtils.isTrue(!exists, BusinessErrorCode.DATA_EXIST, "菜单下存在子菜单，不能删除");
         sysMenuDao.removeByIdTransactional(menuId);
     }
 
@@ -90,7 +90,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
         MenuValidationFormat.validationFormat(form);
         checkExitsParentMenu(form);
         Boolean menuExists = sysMenuDao.exists(SysMenuEntity::getId, menuId);
-        ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "菜单不存在");
+        AssertUtils.isTrue(menuExists, BusinessErrorCode.DATA_NOT_EXIST, "菜单不存在");
         sysMenuDao.updateFormRequest(menuId, form);
     }
 
@@ -103,7 +103,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public void updateStatus(Long menuId, MenuStatusEnum status) {
         Boolean exists = sysMenuDao.exists(SysMenuEntity::getId, menuId);
-        ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "菜单不存在");
+        AssertUtils.isTrue(exists, BusinessErrorCode.DATA_NOT_EXIST, "菜单不存在");
         sysMenuDao.updateStatus(menuId, status);
     }
 

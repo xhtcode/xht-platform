@@ -1,7 +1,7 @@
 package com.xht.platform.datasource.service;
 
-import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.datasource.domain.form.GenDataSourceForm;
 import com.xht.platform.datasource.converter.GenDataSourceConverter;
 import com.xht.platform.datasource.dao.GenDataSourceDao;
@@ -64,7 +64,7 @@ public class GenDataSourceServiceImpl implements IGenDataSourceService {
     @Override
     public void updateById(GenDataSourceForm form) {
         Boolean menuExists = genDataSourceDao.exists(GenDataSourceEntity::getId, form.getId());
-        ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "数据源不存在");
+        AssertUtils.isTrue(menuExists, BusinessErrorCode.DATA_NOT_EXIST, "数据源不存在");
         genDataSourceDao.updateFormRequest(form);
     }
 

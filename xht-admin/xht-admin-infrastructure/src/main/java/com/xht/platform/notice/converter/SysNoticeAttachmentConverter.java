@@ -1,9 +1,9 @@
 package com.xht.platform.notice.converter;
 
-import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.framework.utils.CollectionUtils;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.notice.domain.form.SysNoticeAttachmentForm;
 import com.xht.platform.notice.domain.response.SysNoticeAttachmentResponse;
 import com.xht.platform.notice.entity.SysNoticeAttachmentEntity;
@@ -31,7 +31,7 @@ public interface SysNoticeAttachmentConverter extends BasicConverter<SysNoticeAt
      * @return 转换后的实体对象，非null
      */
     default SysNoticeAttachmentEntity toEntity(SysNoticeAttachmentForm form, Long noticeId) {
-        ThrowUtils.throwIf(Objects.isNull(form), BusinessErrorCode.PARAM_ERROR, "参数错误");
+        AssertUtils.isTrue(Objects.nonNull(form), BusinessErrorCode.PARAM_ERROR, "参数错误");
         SysNoticeAttachmentEntity entity = toEntity(form);
         entity.setId(noticeId);
         return entity;

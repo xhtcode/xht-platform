@@ -2,7 +2,7 @@ package com.xht.framework.utils.tree;
 
 import cn.hutool.core.map.MapUtil;
 import com.xht.framework.exception.UtilException;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -116,7 +116,7 @@ public class TreeBuilder<E> implements Serializable {
      * 检查是否已经构建
      */
     private void checkBuilt() {
-        ThrowUtils.throwIf(isBuild, () -> new UtilException("目前的树已经建成。"));
+        AssertUtils.isTrue(!isBuild, () -> new UtilException("目前的树已经建成。"));
     }
 
 

@@ -3,7 +3,7 @@ package com.xht.auth.security.web.authentication.form.filter;
 import com.xht.auth.captcha.enums.CaptchaBusinessTypeEnum;
 import com.xht.auth.security.web.authentication.AbstractXhtAuthenticationFilter;
 import com.xht.auth.security.web.authentication.form.token.XhtFormLoginToken;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.security.exception.BasicAuthenticationException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -83,10 +83,10 @@ public class XhtFormLoginFilter extends AbstractXhtAuthenticationFilter<XhtFormL
         String password = StringUtils.str(authenticationToken.getCredentials());
         String captchaKey = authenticationToken.getCaptchaKey();
         String captchaCode = authenticationToken.getCaptchaCode();
-        ThrowUtils.hasText(username, () -> new BasicAuthenticationException("参数错误：用户名不能为空"));
-        ThrowUtils.hasText(password, () -> new BasicAuthenticationException("参数错误：密码不能为空"));
-        ThrowUtils.hasText(captchaKey, () -> new BasicAuthenticationException("参数错误：验证码key不能为空"));
-        ThrowUtils.hasText(captchaCode, () -> new BasicAuthenticationException("参数错误：验证码不能为空"));
+        AssertUtils.hasText(username, () -> new BasicAuthenticationException("参数错误：用户名不能为空"));
+        AssertUtils.hasText(password, () -> new BasicAuthenticationException("参数错误：密码不能为空"));
+        AssertUtils.hasText(captchaKey, () -> new BasicAuthenticationException("参数错误：验证码key不能为空"));
+        AssertUtils.hasText(captchaCode, () -> new BasicAuthenticationException("参数错误：验证码不能为空"));
         iCaptchaService.checkCaptcha(captchaKey, captchaCode, CaptchaBusinessTypeEnum.SSO);
     }
 

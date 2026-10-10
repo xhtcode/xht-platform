@@ -1,6 +1,6 @@
 package com.xht.framework.exception;
 
-import com.xht.framework.exception.code.ErrorCode;
+import com.xht.framework.exception.core.ErrorCode;
 
 /**
  * 描述： 文件异常类

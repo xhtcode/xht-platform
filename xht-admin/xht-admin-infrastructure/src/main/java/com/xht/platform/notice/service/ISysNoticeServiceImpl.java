@@ -8,7 +8,7 @@ import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.utils.CollectionUtils;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.notice.converter.SysNoticeAttachmentConverter;
 import com.xht.platform.notice.converter.SysNoticeConverter;
 import com.xht.platform.notice.dao.SysNoticeAttachmentDao;
@@ -65,10 +65,10 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
     @Transactional(rollbackFor = Exception.class)
     public void create(SysNoticeForm form) {
         // 1、校验上传表单数据
-        ThrowUtils.notNull(form, "通知详情表单参数不能为空");
+        AssertUtils.notNull(form, "通知详情表单参数不能为空");
         // 校验通知类型是否存在
         Boolean exists = sysNoticeTypeDao.exists(SysNoticeTypeEntity::getId, form.getNoticeTypeId());
-        ThrowUtils.throwIf(!exists, "通知类型不存在!");
+        AssertUtils.isTrue(exists, "通知类型不存在!");
         // 生成通知ID
         long noticeId = IdUtil.getSnowflakeNextId();
         // 封装通知实体
@@ -82,7 +82,7 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
         }
         // 处理定时发布时间
         if (Objects.equals(NoticeTimedPublishEnum.PUBLISH, noticeEntity.getNoticeTimedPublish())) {
-            ThrowUtils.notNull(form.getNoticePublishTime(), "定时发布时间不能为空");
+            AssertUtils.notNull(form.getNoticePublishTime(), "定时发布时间不能为空");
             noticeEntity.setNoticePublishTime(form.getNoticePublishTime());
         } else {
             noticeEntity.setNoticeStatus(NoticeStatusEnum.PUBLISH);
@@ -102,7 +102,7 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
         if (Objects.equals(NoticeJumpTypeEnum.NO_JUMP, noticeEntity.getNoticeJumpType())) {
             noticeEntity.setNoticeJumpUrl(null);
         } else {
-            ThrowUtils.hasText(noticeEntity.getNoticeJumpUrl(), "跳转地址不能为空");
+            AssertUtils.hasText(noticeEntity.getNoticeJumpUrl(), "跳转地址不能为空");
         }
     }
 
@@ -129,11 +129,11 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
     public void updateById(Long noticeId, SysNoticeForm form) {
         // 检查通知是否存在
         Boolean existingNotice = sysNoticeDao.exists(SysNoticeEntity::getId, noticeId);
-        ThrowUtils.throwIf(!existingNotice, "通知不存在!");
+        AssertUtils.isTrue(existingNotice, "通知不存在!");
         // 校验通知类型是否存在
         if (form.getNoticeTypeId() != null) {
             Boolean exists = sysNoticeTypeDao.exists(SysNoticeTypeEntity::getId, form.getNoticeTypeId());
-            ThrowUtils.throwIf(!exists, "通知类型不存在!");
+            AssertUtils.isTrue(exists, "通知类型不存在!");
         }
         // 处理通知附件
         List<SysNoticeAttachmentEntity> attachmentEntityList = new ArrayList<>();
@@ -142,13 +142,13 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
         }
         // 处理定时发布时间
         if (Objects.equals(NoticeTimedPublishEnum.PUBLISH, form.getNoticeTimedPublish())) {
-            ThrowUtils.notNull(form.getNoticePublishTime(), "定时发布时间不能为空");
+            AssertUtils.notNull(form.getNoticePublishTime(), "定时发布时间不能为空");
         }
         // 处理跳转URL
         if (Objects.equals(NoticeJumpTypeEnum.NO_JUMP, form.getNoticeJumpType())) {
             form.setNoticeJumpUrl(null);
         } else {
-            ThrowUtils.hasText(form.getNoticeJumpUrl(), "跳转地址不能为空");
+            AssertUtils.hasText(form.getNoticeJumpUrl(), "跳转地址不能为空");
         }
         // 3、更新通知详情
         sysNoticeDao.updateFormRequest(noticeId, form);
@@ -168,7 +168,7 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
     @Transactional(rollbackFor = Exception.class)
     public void publishNoticeId(Long noticeId) {
         SysNoticeEntity noticeEntity = sysNoticeDao.findById(noticeId);
-        ThrowUtils.notNull(noticeEntity, "通知不存在!");
+        AssertUtils.notNull(noticeEntity, "通知不存在!");
         if (!(Objects.equals(noticeEntity.getNoticeStatus(), NoticeStatusEnum.NOT_PUBLISH) || Objects.equals(noticeEntity.getNoticeStatus(), NoticeStatusEnum.UNDER_SHELVE))) {
             throw new BusinessException("通知状态不匹配!");
         }
@@ -194,7 +194,7 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
     @Transactional(rollbackFor = Exception.class)
     public void underShelveNoticeId(Long noticeId) {
         SysNoticeEntity noticeEntity = sysNoticeDao.findById(noticeId);
-        ThrowUtils.notNull(noticeEntity, "通知不存在!");
+        AssertUtils.notNull(noticeEntity, "通知不存在!");
         if (!Objects.equals(noticeEntity.getNoticeStatus(), NoticeStatusEnum.PUBLISH)) {
             throw new BusinessException("通知状态不匹配!");
         }
@@ -211,7 +211,7 @@ public class ISysNoticeServiceImpl implements ISysNoticeService {
     @Transactional(rollbackFor = Exception.class)
     public void updateIsTopById(Long noticeId, NoticeTopEnum isTop) {
         SysNoticeEntity noticeEntity = sysNoticeDao.findById(noticeId);
-        ThrowUtils.notNull(noticeEntity, "通知不存在!");
+        AssertUtils.notNull(noticeEntity, "通知不存在!");
         sysNoticeDao.updateIsTopById(noticeId, isTop);
     }
 

@@ -1,7 +1,7 @@
 package com.xht.platform.system.service;
 
-import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.tree.INode;
 import com.xht.framework.utils.tree.TreeNode;
 import com.xht.framework.utils.tree.TreeUtils;
@@ -43,9 +43,9 @@ public class SysDeptServiceImpl implements ISysDeptService {
     public void create(SysDeptForm form) {
         String deptCode = form.getDeptCode();
         SysDeptEntity parentDept = sysDeptDao.getDefaultParentDeptByParentId(form.getParentId());
-        ThrowUtils.throwIf(Objects.isNull(parentDept), BusinessErrorCode.DATA_NOT_EXIST, "父部门不存在");
+        AssertUtils.isTrue(Objects.nonNull(parentDept), BusinessErrorCode.DATA_NOT_EXIST, "父部门不存在");
         Boolean deptCodeUnique = sysDeptDao.checkDeptCodeUnique(null, deptCode);
-        ThrowUtils.throwIf(deptCodeUnique, BusinessErrorCode.DATA_EXIST, "部门编码已存在");
+        AssertUtils.isTrue(!deptCodeUnique, BusinessErrorCode.DATA_EXIST, "部门编码已存在");
         SysDeptEntity entity = sysDeptConverter.toEntity(form);
         entity.setDeptLevel(parentDept.getDeptLevel() + 1);
         entity.setAncestors(parentDept.getAncestors() + "," + parentDept.getId());
@@ -60,7 +60,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public void removeById(Long deptId) {
         Boolean existsDeptPost = sysDeptDao.exists(SysDeptEntity::getId, deptId);
-        ThrowUtils.throwIf(!existsDeptPost, BusinessErrorCode.DATA_NOT_EXIST, "该部门下已有部门，不能删除");
+        AssertUtils.isTrue(existsDeptPost, BusinessErrorCode.DATA_NOT_EXIST, "该部门下已有部门，不能删除");
         sysDeptDao.removeById(deptId);
     }
 
@@ -74,13 +74,13 @@ public class SysDeptServiceImpl implements ISysDeptService {
     public void updateById(Long deptId, SysDeptForm form) {
         // 1.校验部门是否存在
         SysDeptEntity dbDept = sysDeptDao.findById(deptId);
-        ThrowUtils.throwIf(Objects.isNull(dbDept), BusinessErrorCode.DATA_NOT_EXIST, "修改的部门不存在");
+        AssertUtils.isTrue(Objects.nonNull(dbDept), BusinessErrorCode.DATA_NOT_EXIST, "修改的部门不存在");
         // 2.校验部门编码是否唯一
         String deptCode = form.getDeptCode();
-        ThrowUtils.throwIf(sysDeptDao.checkDeptCodeUnique(deptId, deptCode), BusinessErrorCode.DATA_EXIST, "部门编码已存在");
+        AssertUtils.isTrue(!sysDeptDao.checkDeptCodeUnique(deptId, deptCode), BusinessErrorCode.DATA_EXIST, "部门编码已存在");
         // 3.校验上级部门是否存在
         SysDeptEntity parentDept = sysDeptDao.getDefaultParentDeptByParentId(form.getParentId());
-        ThrowUtils.throwIf(Objects.isNull(parentDept), BusinessErrorCode.DATA_NOT_EXIST, "父部门不存在");
+        AssertUtils.isTrue(Objects.nonNull(parentDept), BusinessErrorCode.DATA_NOT_EXIST, "父部门不存在");
         // 转换部门实体
         SysDeptEntity entity = sysDeptConverter.toEntity(form);
         entity.setId(deptId);
@@ -98,7 +98,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public void updateStatus(Long deptId, DeptStatusEnum status) {
         Boolean exists = sysDeptDao.exists(SysDeptEntity::getId, deptId);
-        ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "部门不存在");
+        AssertUtils.isTrue(exists, BusinessErrorCode.DATA_NOT_EXIST, "部门不存在");
         sysDeptDao.updateStatus(deptId, status);
     }
 

@@ -4,7 +4,7 @@ import com.xht.auth.authentication.entity.Oauth2ThirdAccountEntity;
 import com.xht.auth.constant.Oauth2PlatformEnums;
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.common.enums.UserTypeEnum;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -43,15 +43,15 @@ public class Oauth2UserConverterContext {
      * @return 转换后的用户信息
      */
     public BasicUserDetails execute(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
-        ThrowUtils.notNull(userRequest, "userRequest cannot be null");
-        ThrowUtils.notNull(oAuth2User, "oAuth2User cannot be null");
+        AssertUtils.notNull(userRequest, "userRequest cannot be null");
+        AssertUtils.notNull(oAuth2User, "oAuth2User cannot be null");
         Oauth2ThirdAccountEntity accountEntity = null;
         for (Oauth2UserConverterStrategy oauth2UserConverterStrategy : oauth2UserConverterStrategies) {
             if (Objects.nonNull(accountEntity)) {
                 continue;
             }
             Oauth2PlatformEnums oauth2PlatformEnums = Oauth2PlatformEnums.of(userRequest);
-            ThrowUtils.notNull(oauth2PlatformEnums, "oauth2PlatformEnums cannot be null");
+            AssertUtils.notNull(oauth2PlatformEnums, "oauth2PlatformEnums cannot be null");
             if (oauth2UserConverterStrategy.supports(oauth2PlatformEnums)) {
                 accountEntity = oauth2UserConverterStrategy.convert(userRequest, oAuth2User);
             }

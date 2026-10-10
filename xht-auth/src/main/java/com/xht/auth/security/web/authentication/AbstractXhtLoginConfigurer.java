@@ -1,7 +1,7 @@
 package com.xht.auth.security.web.authentication;
 
 import com.xht.auth.captcha.service.ICaptchaService;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import lombok.Setter;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,10 +42,10 @@ public abstract class AbstractXhtLoginConfigurer<T extends AbstractXhtLoginConfi
      */
     @Override
     public void init(HttpSecurity http) throws Exception {
-        ThrowUtils.notNull(loginSuccessHandler, "loginSuccessHandler cannot be null");
-        ThrowUtils.notNull(loginFailureHandler, "loginFailureHandler cannot be null");
-        ThrowUtils.notNull(userDetailsService, "userDetailsService cannot be null");
-        ThrowUtils.notNull(iCaptchaService, "iCaptchaService cannot be null");
+        AssertUtils.notNull(loginSuccessHandler, "loginSuccessHandler cannot be null");
+        AssertUtils.notNull(loginFailureHandler, "loginFailureHandler cannot be null");
+        AssertUtils.notNull(userDetailsService, "userDetailsService cannot be null");
+        AssertUtils.notNull(iCaptchaService, "iCaptchaService cannot be null");
     }
 
     /**

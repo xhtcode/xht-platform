@@ -2,9 +2,9 @@ package com.xht.platform.system.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.system.converter.SysRoleConverter;
 import com.xht.platform.system.dao.SysRoleDao;
 import com.xht.platform.system.dao.SysUserRoleDao;
@@ -46,7 +46,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     public void create(SysRoleForm form) {
         Boolean exists = sysRoleDao.existsRoleCode(null, form.getRoleCode());
-        ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
+        AssertUtils.isTrue(!exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
         SysRoleEntity entity = sysRoleConverter.toEntity(form);
         entity.setRoleType(RoleTypeEnums.NONE);
         sysRoleDao.saveTransactional(entity);
@@ -61,7 +61,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Transactional(rollbackFor = Exception.class)
     public void removeByIds(Long roleId) {
         Boolean existsInId = sysUserRoleDao.exists(SysUserRoleEntity::getRoleId, roleId);
-        ThrowUtils.throwIf(existsInId, BusinessErrorCode.DATA_EXIST, "角色已分配用户，禁止删除");
+        AssertUtils.isTrue(!existsInId, BusinessErrorCode.DATA_EXIST, "角色已分配用户，禁止删除");
         sysRoleDao.removeById(roleId);
     }
 
@@ -75,9 +75,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Transactional(rollbackFor = Exception.class)
     public void updateById(Long roleId, SysRoleForm form) {
         Boolean exists = sysRoleDao.existsRoleCode(roleId, form.getRoleCode());
-        ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
+        AssertUtils.isTrue(!exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
         Boolean roleExists = sysRoleDao.exists(SysRoleEntity::getId, roleId);
-        ThrowUtils.throwIf(!roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
+        AssertUtils.isTrue(roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
         sysRoleDao.updateFormRequest(roleId, form);
     }
 
@@ -90,7 +90,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     public void updateStatus(Long id, RoleStatusEnum status) {
         Boolean exists = sysRoleDao.exists(SysRoleEntity::getId, id);
-        ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
+        AssertUtils.isTrue(exists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
         sysRoleDao.updateStatus(id, status);
     }
 

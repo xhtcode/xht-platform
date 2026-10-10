@@ -20,7 +20,8 @@ public class LoginException extends BusinessException {
     }
 
     public LoginException(Oauth2ErrorResponse errorResponse) {
-        super(errorResponse.getCode(), errorResponse.getErrorDescription(), null);
+        super(errorResponse.getErrorDescription());
+        setCode(errorResponse.getCode());
         this.errorResponse = errorResponse;
     }
 }

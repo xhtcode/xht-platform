@@ -6,7 +6,7 @@ import com.xht.auth.security.core.userdetails.XhtPreAuthenticationChecks;
 import com.xht.auth.security.web.authentication.AbstractXhtLoginConfigurer;
 import com.xht.auth.security.web.authentication.phone.filter.XhtPhoneLoginFilter;
 import com.xht.auth.security.web.authentication.phone.provider.XhtPhoneLoginAuthenticationProvider;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -44,7 +44,7 @@ public class XhtPhoneLoginConfigurer extends AbstractXhtLoginConfigurer<XhtPhone
      * @throws IllegalArgumentException 如果loginProcessingUrl为空时抛出异常
      */
     public XhtPhoneLoginConfigurer(String loginProcessingUrl) {
-        ThrowUtils.hasText(loginProcessingUrl, "loginProcessingUrl can not be null");
+        AssertUtils.hasText(loginProcessingUrl, "loginProcessingUrl can not be null");
         this.loginProcessingUrl = loginProcessingUrl;
     }
 
@@ -61,9 +61,9 @@ public class XhtPhoneLoginConfigurer extends AbstractXhtLoginConfigurer<XhtPhone
     @Override
     public void init(HttpSecurity http) throws Exception {
         super.init(http);
-        ThrowUtils.hasText(this.loginProcessingUrl, "loginProcessingUrl can not be null");
-        ThrowUtils.hasText(this.phoneParameter, "phoneParameter can not be null");
-        ThrowUtils.hasText(this.phoneCodeParameter, "phoneCodeParameter can not be null");
+        AssertUtils.hasText(this.loginProcessingUrl, "loginProcessingUrl can not be null");
+        AssertUtils.hasText(this.phoneParameter, "phoneParameter can not be null");
+        AssertUtils.hasText(this.phoneCodeParameter, "phoneCodeParameter can not be null");
         XhtPhoneLoginAuthenticationProvider xhtPhoneLoginAuthenticationProvider = new XhtPhoneLoginAuthenticationProvider();
         xhtPhoneLoginAuthenticationProvider.setUserDetailsService(userDetailsService);
         xhtPhoneLoginAuthenticationProvider.setPreAuthenticationChecks(new XhtPreAuthenticationChecks());

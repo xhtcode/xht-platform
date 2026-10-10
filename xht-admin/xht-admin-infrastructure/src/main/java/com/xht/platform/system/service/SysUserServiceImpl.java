@@ -6,15 +6,15 @@ import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.common.enums.UserStatusEnum;
 import com.xht.framework.common.enums.UserTypeEnum;
 import com.xht.framework.exception.BusinessException;
-import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.exception.code.UserErrorCode;
+import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.exception.core.UserErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.utils.PassWordUtils;
 import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.StringUtils;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.tree.INode;
 import com.xht.framework.utils.tree.TreeNode;
 import com.xht.framework.utils.tree.TreeUtils;
@@ -82,9 +82,9 @@ public class SysUserServiceImpl implements ISysUserService {
         String userPhone = userForm.getUserPhone();
         // 校验当前用户信息是否已经注册过
         boolean userPhoneExists = sysUserDao.checkUserPhoneExists(userPhone, null);
-        ThrowUtils.throwIf(userPhoneExists, BusinessErrorCode.DATA_EXIST, "该手机号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
+        AssertUtils.isTrue(!userPhoneExists, BusinessErrorCode.DATA_EXIST, "该手机号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
         boolean userIdCardExists = sysUserDetailDao.checkUserIdCardExists(idCard, null);
-        ThrowUtils.throwIf(userIdCardExists, BusinessErrorCode.DATA_EXIST, "该身份证号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
+        AssertUtils.isTrue(!userIdCardExists, BusinessErrorCode.DATA_EXIST, "该身份证号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
         // 格式化数据类型
         SysUserEntity sysUser = SysUserHelper.formatUser(userForm);
         String password = PassWordUtils.generatePassword();
@@ -104,7 +104,7 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public void removeByUserId(Long userId) {
         Boolean exists = sysUserDao.exists(SysUserEntity::getId, userId);
-        ThrowUtils.throwIf(!exists, BusinessErrorCode.DATA_NOT_EXIST, "用户不存在");
+        AssertUtils.isTrue(exists, BusinessErrorCode.DATA_NOT_EXIST, "用户不存在");
         sysUserDao.removeById(userId);
         sysUserDetailDao.removeByUserId(userId);
     }
@@ -121,14 +121,14 @@ public class SysUserServiceImpl implements ISysUserService {
         String idCard = detail.getIdCard();
         String userPhone = userForm.getUserPhone();
         Boolean userExists = sysUserDao.exists(SysUserEntity::getId, userId);
-        ThrowUtils.throwIf(!userExists, BusinessErrorCode.DATA_NOT_EXIST);
+        AssertUtils.isTrue(userExists, BusinessErrorCode.DATA_NOT_EXIST);
         Boolean userInfoExists = sysUserDetailDao.exists(SysUserDetailEntity::getUserId, userId);
-        ThrowUtils.throwIf(!userInfoExists, BusinessErrorCode.DATA_NOT_EXIST);
+        AssertUtils.isTrue(userInfoExists, BusinessErrorCode.DATA_NOT_EXIST);
         // 校验当前用户信息是否已经注册过
         boolean userPhoneExists = sysUserDao.checkUserPhoneExists(userPhone, userId);
-        ThrowUtils.throwIf(userPhoneExists, BusinessErrorCode.DATA_EXIST, "该手机号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
+        AssertUtils.isTrue(!userPhoneExists, BusinessErrorCode.DATA_EXIST, "该手机号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
         boolean userIdCardExists = sysUserDetailDao.checkUserIdCardExists(idCard, userId);
-        ThrowUtils.throwIf(userIdCardExists, BusinessErrorCode.DATA_EXIST, "该身份证号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
+        AssertUtils.isTrue(!userIdCardExists, BusinessErrorCode.DATA_EXIST, "该身份证号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
         // 格式化数据类型
         SysUserEntity sysUser = SysUserHelper.formatUser(userForm);
         sysUser.setId(userId);
@@ -190,7 +190,7 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public void updateStatus(Long userId, UserStatusEnum status) {
         Boolean exists = sysUserDao.exists(SysUserEntity::getId, userId);
-        ThrowUtils.throwIf(exists, UserErrorCode.DATA_NOT_EXIST, "用户不存在");
+        AssertUtils.isTrue(!exists, UserErrorCode.DATA_NOT_EXIST, "用户不存在");
         sysUserDao.updateStatus(userId, status);
     }
 
@@ -216,9 +216,9 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public SysUserVO findByUserId(Long userId) {
-        ThrowUtils.notNull(userId, "用户ID不能为空");
+        AssertUtils.notNull(userId, "用户ID不能为空");
         SysUserVO sysUserVO = sysUserDao.findInfoByUserId(userId);
-        ThrowUtils.notNull(sysUserVO, "查询不到用户信息!");
+        AssertUtils.notNull(sysUserVO, "查询不到用户信息!");
         if (Objects.isNull(sysUserVO.getProfile())) {
             SysUserDetailResponse sysUserDetailResponse = new SysUserDetailResponse();
             sysUserDetailResponse.setUserId(sysUserVO.getId());

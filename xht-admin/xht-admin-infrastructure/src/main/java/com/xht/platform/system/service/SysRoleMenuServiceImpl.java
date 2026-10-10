@@ -1,7 +1,7 @@
 package com.xht.platform.system.service;
 
-import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.system.converter.SysMenuConverter;
 import com.xht.platform.system.dao.SysMenuDao;
 import com.xht.platform.system.dao.SysRoleDao;
@@ -46,12 +46,12 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
     public void roleMenuBind(SysRoleMenuBindForm bindRequest) {
         Long roleId = bindRequest.getRoleId();
         Boolean roleExists = sysRoleDao.exists(SysRoleEntity::getId, roleId);
-        ThrowUtils.throwIf(!roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
+        AssertUtils.isTrue(roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
         List<Long> menuIds = bindRequest.getMenuIds();
         List<SysRoleMenuEntity> roleMenuEntities = new ArrayList<>();
         if (!CollectionUtils.isEmpty(menuIds)) {
             Boolean menuExists = sysMenuDao.existsMenuIds(menuIds);
-            ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "菜单不存在");
+            AssertUtils.isTrue(menuExists, BusinessErrorCode.DATA_NOT_EXIST, "菜单不存在");
             for (Long item : menuIds) {
                 SysRoleMenuEntity sysRoleMenuEntity = new SysRoleMenuEntity();
                 sysRoleMenuEntity.setRoleId(roleId);
@@ -70,7 +70,7 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService {
      */
     @Override
     public RoleSelectedMenuResponse selectMenuIdByRoleId(String roleId) {
-        ThrowUtils.hasText(roleId, "角色ID不能为空");
+        AssertUtils.hasText(roleId, "角色ID不能为空");
         RoleSelectedMenuResponse response = new RoleSelectedMenuResponse();
         List<Long> menuIdByRoleId = sysRoleMenuDao.findMenuIdByRoleId(roleId);
         List<SysMenuEntity> menuEntityList = sysMenuDao.getMenuTreeSystemTool(true);

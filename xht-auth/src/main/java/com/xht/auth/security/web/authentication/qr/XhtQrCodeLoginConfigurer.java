@@ -4,7 +4,7 @@ import com.xht.auth.security.web.authentication.qr.filter.QrCodeConsentAuthentic
 import com.xht.auth.security.web.authentication.qr.filter.QrCodeQueryAuthenticationFilter;
 import com.xht.auth.security.web.authentication.qr.filter.QrCodeScanAuthenticationFilter;
 import com.xht.auth.security.web.authentication.qr.manager.AbstractQrManager;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -33,9 +33,9 @@ public class XhtQrCodeLoginConfigurer extends AbstractHttpConfigurer<XhtQrCodeLo
 
     @Override
     public void init(HttpSecurity http) {
-        ThrowUtils.notNull(this.qrDataManager, "qrDataManager cannot be null");
-        ThrowUtils.notNull(this.successHandler, "successHandler cannot be null");
-        ThrowUtils.notNull(this.failureHandler, "failureHandler cannot be null");
+        AssertUtils.notNull(this.qrDataManager, "qrDataManager cannot be null");
+        AssertUtils.notNull(this.successHandler, "successHandler cannot be null");
+        AssertUtils.notNull(this.failureHandler, "failureHandler cannot be null");
         QrCodeScanAuthenticationFilter scanAuthenticationFilter = new QrCodeScanAuthenticationFilter("/qrcode/scan");
         scanAuthenticationFilter.setQrDataManager(this.qrDataManager);
         http.addFilterAfter(scanAuthenticationFilter, BearerTokenAuthenticationFilter.class);

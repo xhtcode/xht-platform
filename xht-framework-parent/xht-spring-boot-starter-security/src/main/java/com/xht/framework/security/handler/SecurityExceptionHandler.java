@@ -2,7 +2,7 @@ package com.xht.framework.security.handler;
 
 import com.xht.framework.common.domain.ErrorR;
 import com.xht.framework.common.domain.R;
-import com.xht.framework.exception.code.GlobalErrorStatusCode;
+import com.xht.framework.exception.core.GlobalErrorStatusCode;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;

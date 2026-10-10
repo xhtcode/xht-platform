@@ -2,7 +2,7 @@ package com.xht.framework.security.web.access;
 
 
 import com.xht.framework.common.domain.R;
-import com.xht.framework.exception.code.GlobalErrorStatusCode;
+import com.xht.framework.exception.core.GlobalErrorStatusCode;
 import com.xht.framework.utils.ServletUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

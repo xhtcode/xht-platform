@@ -2,9 +2,9 @@ package com.xht.platform.type.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.type.TypeMappingCache;
 import com.xht.platform.type.domain.form.GenTypeMappingForm;
 import com.xht.platform.type.converter.GenTypeMappingConverter;
@@ -65,7 +65,7 @@ public class GenTypeMappingServiceImpl implements IGenTypeMappingService {
     @Override
     public void updateById(GenTypeMappingForm form) {
         Boolean menuExists = genTypeMappingDao.exists(GenTypeMappingEntity::getId, form.getId());
-        ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "字段映射不存在");
+        AssertUtils.isTrue(menuExists, BusinessErrorCode.DATA_NOT_EXIST, "字段映射不存在");
         genTypeMappingDao.updateFormRequest(form);
     }
 

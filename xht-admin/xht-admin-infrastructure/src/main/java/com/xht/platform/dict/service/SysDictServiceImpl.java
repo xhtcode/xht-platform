@@ -2,9 +2,9 @@ package com.xht.platform.dict.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.dict.converter.SysDictConverter;
 import com.xht.platform.dict.dao.SysDictDao;
 import com.xht.platform.dict.dao.SysDictItemDao;
@@ -43,7 +43,7 @@ public class SysDictServiceImpl implements ISysDictService {
     @Override
     public void create(SysDictForm form) {
         Boolean checkDictCode = sysDictDao.checkDictCode(null, form.getDictCode());
-        ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
+        AssertUtils.isTrue(!checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
         SysDictEntity entity = sysDictConverter.toEntity(form);
         sysDictDao.saveTransactional(entity);
     }
@@ -55,10 +55,10 @@ public class SysDictServiceImpl implements ISysDictService {
      */
     @Override
     public void removeById(Long dictId) {
-        ThrowUtils.notNull(dictId, "参数错误");
+        AssertUtils.notNull(dictId, "参数错误");
         validateDictId(dictId);
         long dictItemCount = sysDictItemDao.count(SysDictItemEntity::getDictId, dictId);
-        ThrowUtils.throwIf(dictItemCount > 0, BusinessErrorCode.DATA_NOT_EXIST, "所选字典类型下有关联字典项，不能删除");
+        AssertUtils.isTrue(dictItemCount < 0, BusinessErrorCode.DATA_EXIST, "所选字典类型下有关联字典项，不能删除");
         sysDictDao.removeById(dictId);
     }
 
@@ -70,11 +70,11 @@ public class SysDictServiceImpl implements ISysDictService {
      */
     @Override
     public void updateById(Long dictId, SysDictForm form) {
-        ThrowUtils.notNull(dictId, "参数错误");
+        AssertUtils.notNull(dictId, "参数错误");
         SysDictEntity exists = validateDictId(dictId);
         // 检查字典项编码是否存在
         Boolean checkDictCode = sysDictDao.checkDictCode(dictId, form.getDictCode());
-        ThrowUtils.throwIf(checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
+        AssertUtils.isTrue(!checkDictCode, BusinessErrorCode.DATA_EXIST, "字典项编码已存在");
         // 检查是否需要更新字典项状态和code
         boolean updateItemStatus = Objects.equals(exists.getStatus(), form.getStatus()) && Objects.equals(exists.getDictCode(), form.getDictCode());
         sysDictDao.updateRequest(dictId, form, !updateItemStatus);
@@ -89,7 +89,7 @@ public class SysDictServiceImpl implements ISysDictService {
     public SysDictEntity validateDictId(Long dictId) {
         // 检查系统字典管理器中是否存在指定ID的字典项
         SysDictEntity dictEntity = sysDictDao.findById(dictId);
-        ThrowUtils.notNull(dictEntity, "字典不存在");
+        AssertUtils.notNull(dictEntity, "字典不存在");
         return dictEntity;
     }
 

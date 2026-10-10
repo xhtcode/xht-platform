@@ -3,7 +3,7 @@ package com.xht.framework.utils.spring;
 import com.xht.framework.core.spel.MapPropertyAccessor;
 import com.xht.framework.exception.UtilException;
 import com.xht.framework.utils.StringUtils;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
@@ -110,7 +110,7 @@ public abstract class SpELUtils {
      * 剥离 #{ } 获取真实spel表达式
      */
     private static String unwrapSpELMarker(String spELMarker) {
-        ThrowUtils.throwIf(!isSpElWithMarker(spELMarker), () -> new UtilException("非法的spEL表达式:" + spELMarker));
+        AssertUtils.isTrue(isSpElWithMarker(spELMarker), () -> new UtilException("非法的spEL表达式:" + spELMarker));
         return spELMarker.substring(2, spELMarker.length() - 1);
     }
 

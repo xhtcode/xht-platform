@@ -1,9 +1,9 @@
 package com.xht.platform.system.service;
 
-import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.exception.code.UserErrorCode;
+import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.exception.core.UserErrorCode;
 import com.xht.framework.utils.CollectionUtils;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.system.converter.SysRoleConverter;
 import com.xht.platform.system.dao.SysRoleDao;
 import com.xht.platform.system.dao.SysUserDao;
@@ -47,11 +47,11 @@ public class SysSysUserRoleServiceImpl implements ISysUserRoleService {
     @Override
     public void userBindRole(Long userId, List<Long> roleIds) {
         Boolean userExists = sysUserDao.exists(SysUserEntity::getId, userId);
-        ThrowUtils.throwIf(!userExists, UserErrorCode.DATA_NOT_EXIST);
+        AssertUtils.isTrue(userExists, UserErrorCode.DATA_NOT_EXIST);
         List<SysUserRoleEntity> sysUserRoleEntities = new ArrayList<>();
         if (!CollectionUtils.isEmpty(roleIds)) {
             boolean roleExists = sysRoleDao.existsByRoleId(roleIds);
-            ThrowUtils.throwIf(!roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
+            AssertUtils.isTrue(roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
             roleIds.forEach(item -> {
                 SysUserRoleEntity sysUserRoleEntity = new SysUserRoleEntity();
                 sysUserRoleEntity.setRoleId(item);
@@ -70,9 +70,9 @@ public class SysSysUserRoleServiceImpl implements ISysUserRoleService {
      */
     @Override
     public SysUserRoleBindVo findBindRoleIds(Long userId) {
-        ThrowUtils.notNull(userId, "用户ID不能为空");
+        AssertUtils.notNull(userId, "用户ID不能为空");
         SysUserEntity sysUser = sysUserDao.findById(userId);
-        ThrowUtils.notNull(sysUser, "用户不存在");
+        AssertUtils.notNull(sysUser, "用户不存在");
         SysUserRoleBindVo result = new SysUserRoleBindVo();
         result.setUserId(sysUser.getId());
         result.setUserType(sysUser.getUserType());

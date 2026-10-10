@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.notice.dao.SysNoticeDao;
 import com.xht.platform.notice.dao.mapper.SysNoticeMapper;
 import com.xht.platform.notice.domain.form.SysNoticeForm;
@@ -65,7 +65,7 @@ public class SysNoticeDaoImpl extends MapperRepositoryImpl<SysNoticeMapper, SysN
      */
     @Override
     public void updateStatusById(Long noticeId, NoticeStatusEnum noticeStatus) {
-        ThrowUtils.throwIf(Objects.equals(noticeStatus, NoticeStatusEnum.NOT_PUBLISH), "请选择正确的状态！");
+        AssertUtils.isTrue(!Objects.equals(noticeStatus, NoticeStatusEnum.NOT_PUBLISH), "请选择正确的状态！");
         LambdaUpdateWrapper<SysNoticeEntity> queryWrapper = new LambdaUpdateWrapper<>();
         queryWrapper.set(SysNoticeEntity::getNoticeStatus, noticeStatus);
         queryWrapper.set(Objects.equals(noticeStatus, NoticeStatusEnum.PUBLISH), SysNoticeEntity::getNoticePublishTime, LocalDateTime.now());

@@ -1,4 +1,4 @@
-package com.xht.framework.exception.code;
+package com.xht.framework.exception.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -72,15 +72,15 @@ public enum GlobalErrorStatusCode implements ErrorCode {
      */
     GATEWAY_TIMEOUT(504, " 请求传递过程中超时了，就像寄快递路上堵车了~");
 
-
     /**
-     * 状态码数字标识
+     * 业务错误码
+     * 注意：这是业务编码，不是HTTP响应状态码
      */
     private final int code;
 
     /**
-     * 状态描述信息
+     * 错误描述信息
      */
-    private final String msg;
+    private final String message;
 
 }

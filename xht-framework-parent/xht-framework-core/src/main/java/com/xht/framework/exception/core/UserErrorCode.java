@@ -1,5 +1,6 @@
-package com.xht.framework.exception.code;
+package com.xht.framework.exception.core;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Getter;
  * @author xht
  */
 @Getter
+@AllArgsConstructor
 public enum UserErrorCode implements ErrorCode {
 
     /**
@@ -25,13 +27,15 @@ public enum UserErrorCode implements ErrorCode {
      */
     DATA_NOT_EXIST(30003, "账号未注册或已注销");
 
+    /**
+     * 业务错误码
+     * 注意：这是业务编码，不是HTTP响应状态码
+     */
     private final int code;
 
-    private final String msg;
+    /**
+     * 错误描述信息
+     */
+    private final String message;
 
-
-    UserErrorCode(int code, String msg) {
-        this.code = code;
-        this.msg = msg;
-    }
 }

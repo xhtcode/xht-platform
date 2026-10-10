@@ -2,7 +2,7 @@ package com.xht.platform.generate.bo;
 
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.utils.StringUtils;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.common.enums.GenStatusEnum;
 import com.xht.platform.common.enums.IdPrimaryKeyEnum;
 import com.xht.platform.table.entity.GenTableColumnEntity;
@@ -81,9 +81,9 @@ public final class TableInfoBo {
      * @param queryColumns 查询列实体列表，不能为空
      */
     public TableInfoBo(GenTableEntity table, List<GenTableColumnEntity> columns, List<GenTableColumnQueryEntity> queryColumns) {
-        ThrowUtils.notNull(table, "table must not be null");
-        ThrowUtils.notNull(columns, "columns must not be null");
-        ThrowUtils.notNull(queryColumns, "queryColumns must not be null");
+        AssertUtils.notNull(table, "table must not be null");
+        AssertUtils.notNull(columns, "columns must not be null");
+        AssertUtils.notNull(queryColumns, "queryColumns must not be null");
         Map<Long, GenTableColumnEntity> allColumnsById = new HashMap<>();
         for (GenTableColumnEntity column : columns) {
             allColumnsById.put(column.getId(), column);

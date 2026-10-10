@@ -1,7 +1,7 @@
 package com.xht.framework.security.web;
 
 import com.xht.framework.common.domain.R;
-import com.xht.framework.exception.code.GlobalErrorStatusCode;
+import com.xht.framework.exception.core.GlobalErrorStatusCode;
 import com.xht.framework.utils.ServletUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,7 +27,7 @@ public class XhtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         GlobalErrorStatusCode unauthorized = GlobalErrorStatusCode.UNAUTHORIZED;
         if (authException instanceof InsufficientAuthenticationException || authException instanceof OAuth2AuthenticationException) {
             unauthorized = GlobalErrorStatusCode.TOKEN_EXPIRED;
-            error = unauthorized.getMsg();
+            error = unauthorized.getMessage();
         }
         log.debug("身份验证失败处理器: url={} ex_class={} message={}", request.getRequestURI(), authException.getClass().getName(), error, authException);
         ServletUtils.writeJson(response, HttpStatus.UNAUTHORIZED, R

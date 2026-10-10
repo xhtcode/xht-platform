@@ -2,7 +2,7 @@ package com.xht.framework.utils.tree;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xht.framework.utils.CollectionUtils;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 
 import java.io.Serial;
 import java.util.ArrayList;
@@ -147,7 +147,7 @@ public class TreeNode<T> extends LinkedHashMap<String, Object> implements INode<
     }
 
     public TreeNode<T> setExtra(Map<String, Object> beanToMap) {
-        ThrowUtils.notNull(beanToMap, "beanToMap is null");
+        AssertUtils.notNull(beanToMap, "beanToMap is null");
         this.putAll(beanToMap);
         return this;
     }

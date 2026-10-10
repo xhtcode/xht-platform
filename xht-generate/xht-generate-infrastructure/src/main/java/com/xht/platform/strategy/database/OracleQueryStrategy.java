@@ -1,6 +1,6 @@
 package com.xht.platform.strategy.database;
 
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.common.enums.DataBaseTypeEnum;
 import com.xht.platform.generate.bo.ColumnBo;
 import com.xht.platform.generate.bo.TableBo;
@@ -118,7 +118,7 @@ public class OracleQueryStrategy extends IDataBaseQuery {
      */
     @Override
     public List<ColumnBo> selectTableColumnsByTableName(JdbcTemplate jdbcTemplate, String tableName) {
-        ThrowUtils.hasText(tableName, "表名不能为空");
+        AssertUtils.hasText(tableName, "表名不能为空");
         return jdbcTemplate.query(QUERY_COLUMN_SQL, new ColumnInfoRowMapper(), tableName);
     }
 

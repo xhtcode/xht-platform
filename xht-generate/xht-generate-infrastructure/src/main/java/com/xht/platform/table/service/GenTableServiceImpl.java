@@ -4,10 +4,10 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.BusinessException;
-import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.CollectionUtils;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.spring.SpringContextUtils;
 import com.xht.platform.common.enums.DataBaseTypeEnum;
 import com.xht.platform.datasource.dao.GenDataSourceDao;
@@ -83,14 +83,14 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
         List<String> tableNames = form.getTableNames();
         Long dataSourceId = form.getDataSourceId();
         GenDataSourceEntity dataSourceEntity = genDataSourceDao.findById(dataSourceId);
-        ThrowUtils.notNull(dataSourceEntity, "数据源不存在");
+        AssertUtils.notNull(dataSourceEntity, "数据源不存在");
         JDBCUtils jdbcUtils = null;
         try {
             JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity.getUrl(), dataSourceEntity.getUsername(), dataSourceEntity.getPassword(), dataSourceEntity.getDbType().getDriverClassName()).build();
             jdbcUtils = JDBCUtils.create(jdbcConfig);
             DataBaseTypeEnum dbType = dataSourceEntity.getDbType();
             IDataBaseQuery dataBaseQuery = queryMap.get(dbType);
-            ThrowUtils.notNull(dataBaseQuery, String.format("暂不支持该数据类型：%s", dbType));
+            AssertUtils.notNull(dataBaseQuery, String.format("暂不支持该数据类型：%s", dbType));
             JdbcTemplate jdbcTemplate = jdbcUtils.getJdbcTemplate();
             List<GenTableEntity> saveTableEntity = new ArrayList<>();
             List<GenTableColumnEntity> saveColumnEntity = new ArrayList<>();
@@ -139,20 +139,20 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
     @Transactional(rollbackFor = Exception.class)
     public void syncTable(Long tableId) {
         GenTableEntity dbTableInfoEntity = genTableDao.findById(tableId);
-        ThrowUtils.notNull(dbTableInfoEntity, "数据不存在");
+        AssertUtils.notNull(dbTableInfoEntity, "数据不存在");
         String tableName = dbTableInfoEntity.getTableName();
         GenDataSourceEntity dataSourceEntity = genDataSourceDao.findById(dbTableInfoEntity.getDataSourceId());
-        ThrowUtils.notNull(dataSourceEntity, "数据源不存在");
+        AssertUtils.notNull(dataSourceEntity, "数据源不存在");
         JDBCUtils jdbcUtils = null;
         try {
             JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity).build();
             jdbcUtils = JDBCUtils.create(jdbcConfig);
             DataBaseTypeEnum dbType = dataSourceEntity.getDbType();
             IDataBaseQuery dataBaseQuery = queryMap.get(dbType);
-            ThrowUtils.notNull(dataBaseQuery, String.format("暂不支持该数据类型：%s", dbType));
+            AssertUtils.notNull(dataBaseQuery, String.format("暂不支持该数据类型：%s", dbType));
             JdbcTemplate jdbcTemplate = jdbcUtils.getJdbcTemplate();
             TableBo tableBo = dataBaseQuery.selectTableByTableName(jdbcTemplate, tableName);
-            ThrowUtils.notNull(tableBo, String.format("表`%s`不存在", tableName));
+            AssertUtils.notNull(tableBo, String.format("表`%s`不存在", tableName));
             GenTableEntity tableEntity = GenInfoHelper.parseTableInfo(dataSourceEntity, tableBo);
             tableEntity.setId(tableId);
             tableBo.setTableId(tableId);
@@ -200,9 +200,9 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
         GenTableInfoForm tableInfo = form.getTableInfo();
         List<GenColumnInfoForm> columns = form.getColumnInfos();
         List<GenTableColumnQueryForm> queryColumns = form.getQueryColumns();
-        ThrowUtils.notEmpty(columns, "字段信息不能为空");
+        AssertUtils.notEmpty(columns, "字段信息不能为空");
         Boolean menuExists = genTableDao.exists(GenTableEntity::getId, tableInfo.getId());
-        ThrowUtils.throwIf(!menuExists, BusinessErrorCode.DATA_NOT_EXIST, "表信息不存在");
+        AssertUtils.isTrue(menuExists, BusinessErrorCode.DATA_NOT_EXIST, "表信息不存在");
         for (GenColumnInfoForm column : columns) {
             genTableColumnDao.updateFormRequest(column);
         }
@@ -258,14 +258,14 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
         String tableName = query.getTableName();
         Long dataSourceId = query.getDataSourceId();
         GenDataSourceEntity dataSourceEntity = genDataSourceDao.findById(dataSourceId);
-        ThrowUtils.notNull(dataSourceEntity, "数据源不存在");
+        AssertUtils.notNull(dataSourceEntity, "数据源不存在");
         JDBCUtils jdbcUtils = null;
         try {
             JDBCConfig jdbcConfig = JDBCConfig.Builder.of(dataSourceEntity).build();
             jdbcUtils = JDBCUtils.create(jdbcConfig);
             DataBaseTypeEnum dbType = dataSourceEntity.getDbType();
             IDataBaseQuery dataBaseQuery = queryMap.get(dbType);
-            ThrowUtils.notNull(dataBaseQuery, String.format("暂不支持该数据类型：%s", dbType));
+            AssertUtils.notNull(dataBaseQuery, String.format("暂不支持该数据类型：%s", dbType));
             List<TableBo> tableBoList = dataBaseQuery.selectListTableByLike(jdbcUtils.getJdbcTemplate(), tableName);
             if (CollectionUtils.isEmpty(tableBoList)) {
                 return Collections.emptyList();

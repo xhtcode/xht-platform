@@ -1,7 +1,6 @@
 package com.xht.framework.security.domain;
 
-import com.xht.framework.security.constant.SecurityConstant;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -74,7 +73,7 @@ public class RequestUserBO implements Serializable {
      * 如果用户名为空，则抛出异常
      */
     public void checkUserName() {
-        ThrowUtils.hasText(this.userName, "用户名不能为空");
+        AssertUtils.hasText(this.userName, "用户名不能为空");
     }
 
     /**
@@ -82,7 +81,7 @@ public class RequestUserBO implements Serializable {
      * 如果密码为空，则抛出异常
      */
     public void checkPassWord() {
-        ThrowUtils.hasText(this.passWord, "密码不能为空");
+        AssertUtils.hasText(this.passWord, "密码不能为空");
     }
 
 }

@@ -2,9 +2,9 @@ package com.xht.platform.oauth2.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.BusinessException;
-import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.oauth2.converter.SysOauth2ClientConverter;
 import com.xht.platform.oauth2.dao.SysOauth2ClientDao;
 import com.xht.platform.oauth2.domain.form.SysOauth2ClientForm;
@@ -48,7 +48,7 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
     public void create(SysOauth2ClientForm form) {
         validation(form);
         Boolean exists = sysOauth2ClientDao.existsByClientId(form.getClientId(), null);
-        ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "客户端标识已存在.");
+        AssertUtils.isTrue(!exists, BusinessErrorCode.DATA_EXIST, "客户端标识已存在.");
         SysOauth2ClientEntity entity = sysOauth2ClientConverter.toEntity(form);
         entity.setClientIdIssuedAt(LocalDateTime.now());
         entity.setClientSecret(passwordEncoder.encode(form.getClientSecret()));
@@ -77,9 +77,9 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
     public void updateById(Long oauth2Id, SysOauth2ClientForm form) {
         validation(form);
         Boolean deptExists = sysOauth2ClientDao.exists(SysOauth2ClientEntity::getId, oauth2Id);
-        ThrowUtils.throwIf(!deptExists, BusinessErrorCode.DATA_NOT_EXIST, "客户端不存在");
+        AssertUtils.isTrue(deptExists, BusinessErrorCode.DATA_NOT_EXIST, "客户端不存在");
         Boolean exists = sysOauth2ClientDao.existsByClientId(form.getClientId(), oauth2Id);
-        ThrowUtils.throwIf(exists, BusinessErrorCode.DATA_EXIST, "客户端标识已存在.");
+        AssertUtils.isTrue(!exists, BusinessErrorCode.DATA_EXIST, "客户端标识已存在.");
         sysOauth2ClientDao.updateFormRequest(oauth2Id, form);
     }
 
@@ -91,12 +91,12 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateClientSecret(SysOauth2ClientPwdForm pwdForm) {
-        ThrowUtils.notNull(pwdForm.getClientId(), "客户端标识不能为空");
-        ThrowUtils.notNull(pwdForm.getClientSecret(), "客户端密钥不能为空");
+        AssertUtils.notNull(pwdForm.getClientId(), "客户端标识不能为空");
+        AssertUtils.notNull(pwdForm.getClientSecret(), "客户端密钥不能为空");
         SysOauth2ClientEntity entity = sysOauth2ClientDao.findOneOptional(SysOauth2ClientEntity::getClientId, pwdForm.getClientId())
                 .orElseThrow(() -> new BusinessException(BusinessErrorCode.DATA_NOT_EXIST));
         String encode = passwordEncoder.encode(pwdForm.getClientSecret());
-        ThrowUtils.throwIf(Objects.equals(encode, entity.getClientSecret()), "客户端密钥和原密钥相似");
+        AssertUtils.isTrue(!Objects.equals(encode, entity.getClientSecret()), "客户端密钥和原密钥相似");
         sysOauth2ClientDao.updateClientSecret(entity.getId(), encode);
     }
 
@@ -108,8 +108,8 @@ public class SysOauth2ClientServiceImpl implements ISysOauth2ClientService {
     private void validation(SysOauth2ClientForm form) {
         Set<String> authorizationGrantTypes = form.getAuthorizationGrantTypes();
         if (authorizationGrantTypes.contains(AuthorizationGrantType.AUTHORIZATION_CODE.getValue())) {
-            ThrowUtils.notEmpty(form.getRedirectUris(), "回调地址不能为空");
-            ThrowUtils.notNull(form.getAutoApprove(), "自动放行状态不能为空");
+            AssertUtils.notEmpty(form.getRedirectUris(), "回调地址不能为空");
+            AssertUtils.notNull(form.getAutoApprove(), "自动放行状态不能为空");
         }
     }
 

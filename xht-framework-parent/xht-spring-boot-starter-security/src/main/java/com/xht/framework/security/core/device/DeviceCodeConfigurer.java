@@ -2,7 +2,7 @@ package com.xht.framework.security.core.device;
 
 import com.xht.framework.security.core.device.filter.DeviceCodeFilter;
 import com.xht.framework.security.core.device.provider.DeviceCodeProvider;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -35,8 +35,8 @@ public class DeviceCodeConfigurer extends SecurityConfigurerAdapter<DefaultSecur
      */
     @Override
     public void init(HttpSecurity http) {
-        ThrowUtils.notNull(deviceCodeProvider, "deviceCodeProvider cannot be null");
-        ThrowUtils.hasText(deviceCodeName, "deviceCodeName can not be null");
+        AssertUtils.notNull(deviceCodeProvider, "deviceCodeProvider cannot be null");
+        AssertUtils.hasText(deviceCodeName, "deviceCodeName can not be null");
     }
 
     /**

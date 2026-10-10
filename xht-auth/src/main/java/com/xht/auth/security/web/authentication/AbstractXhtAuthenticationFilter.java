@@ -2,7 +2,7 @@ package com.xht.auth.security.web.authentication;
 
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.framework.common.constant.HttpConstants;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Setter;
@@ -61,7 +61,7 @@ public abstract class AbstractXhtAuthenticationFilter<T extends AbstractXhtAuthe
         try {
             authenticationToken = createAuthenticationToken(request);
             boolean authenticated = authenticationToken.isAuthenticated();
-            ThrowUtils.throwIf(authenticated, () -> new AuthenticationServiceException("Prohibit the creation of already-verified AbstractXhtAuthenticationToken"));
+            AssertUtils.isTrue(!authenticated, () -> new AuthenticationServiceException("Prohibit the creation of already-verified AbstractXhtAuthenticationToken"));
             checkAuthentication(authenticationToken);
             setDetails(request, authenticationToken);
             return getAuthenticationManager().authenticate(authenticationToken);

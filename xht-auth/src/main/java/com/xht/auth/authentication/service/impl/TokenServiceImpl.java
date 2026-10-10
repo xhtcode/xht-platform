@@ -7,7 +7,7 @@ import com.xht.auth.constant.AuthorizationConstant;
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.exception.BusinessException;
-import com.xht.framework.exception.code.GlobalErrorStatusCode;
+import com.xht.framework.exception.core.GlobalErrorStatusCode;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.spring.SpringContextUtils;
 import com.xht.framework.oauth2.token.TokenInfoLightningCache;

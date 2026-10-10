@@ -3,7 +3,7 @@ package com.xht.auth.security.oauth2.server.authorization.web;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.BasicResponse;
-import com.xht.framework.exception.code.GlobalErrorStatusCode;
+import com.xht.framework.exception.core.GlobalErrorStatusCode;
 import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;

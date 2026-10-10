@@ -3,7 +3,7 @@ package com.xht.framework.security.domain;
 import cn.hutool.core.map.MapUtil;
 import com.xht.framework.common.enums.LoginTypeEnum;
 import com.xht.framework.security.constant.SecurityConstant;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -79,7 +79,7 @@ public final class RequestUserBuilder {
      * @return 请求的用户信息构建器
      */
     public RequestUserBuilder passwordGrant(Map<String, ?> additionalParameters) {
-        ThrowUtils.notEmpty(additionalParameters, "请求附加参数不能为空");
+        AssertUtils.notEmpty(additionalParameters, "请求附加参数不能为空");
         this.grantType = LoginTypeEnum.PASSWORD.getValue();
         this.userName = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_USERNAME);
         this.passWord = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_PASSWORD);
@@ -97,7 +97,7 @@ public final class RequestUserBuilder {
      * @return 请求的用户信息构建器
      */
     public RequestUserBuilder phoneGrant(Map<String, ?> additionalParameters) {
-        ThrowUtils.notEmpty(additionalParameters, "请求附加参数不能为空");
+        AssertUtils.notEmpty(additionalParameters, "请求附加参数不能为空");
         this.grantType = LoginTypeEnum.PHONE.getValue();
         this.phone = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_PHONE);
         this.phoneCode = MapUtil.getStr(additionalParameters, SecurityConstant.REQUEST_PHONE_CODE);

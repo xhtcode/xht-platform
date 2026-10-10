@@ -2,7 +2,7 @@ package com.xht.platform.generate.service;
 
 import cn.hutool.core.io.IoUtil;
 import com.xht.framework.exception.BusinessException;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.generate.bo.GenCodeCoreBo;
 import com.xht.platform.generate.bo.TableInfoBo;
 import com.xht.platform.generate.converter.GenCodeCoreConverter;
@@ -95,7 +95,7 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
         // 校验并获取基础数据
         List<Long> tableIds = genCodeCoreForm.getTableIds();
         List<GenTableEntity> tableEntities = tableInfoDao.findList(GenTableEntity::getId, tableIds);
-        ThrowUtils.notEmpty(tableEntities, "请选择要生成的表");
+        AssertUtils.notEmpty(tableEntities, "请选择要生成的表");
         // 查询查询字段
         List<GenTableColumnQueryEntity> columnQueryEntities = columnQueryDao.findByTableId(tableIds);
         // 按表ID进行分组

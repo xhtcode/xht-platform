@@ -1,8 +1,8 @@
 package com.xht.platform.system.utils;
 
 import com.xht.framework.exception.ValidationException;
-import com.xht.framework.exception.code.BusinessErrorCode;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.platform.system.domain.form.SysMenuForm;
 import com.xht.platform.system.enums.MenuCommonStatusEnum;
@@ -31,15 +31,14 @@ public final class MenuValidationFormat {
     public static void checkParentType(MenuTypeEnum parentType, MenuTypeEnum menuType) {
         switch (parentType) {
             case M:
-                ThrowUtils.throwIf(Objects.equals(menuType, MenuTypeEnum.B), () -> ex("menuType", "目录类型下不能添加按钮"));
+                AssertUtils.isTrue(!Objects.equals(menuType, MenuTypeEnum.B), () -> ex("menuType", "目录类型下不能添加按钮"));
                 break;
             case C:
-                ThrowUtils.throwIf(Objects.equals(menuType, MenuTypeEnum.M), () -> ex("menuType", "菜单类型下不能添加目录"));
-                ThrowUtils.throwIf(Objects.equals(menuType, MenuTypeEnum.C), () -> ex("menuType", "菜单类型下不能添加菜单"));
+                AssertUtils.isTrue(!Objects.equals(menuType, MenuTypeEnum.M), () -> ex("menuType", "菜单类型下不能添加目录"));
+                AssertUtils.isTrue(!Objects.equals(menuType, MenuTypeEnum.C), () -> ex("menuType", "菜单类型下不能添加菜单"));
                 break;
             case B:
-                ThrowUtils.throwDirect(BusinessErrorCode.PARAM_ERROR, "按钮类型下不能添加子菜单、目录、按钮");
-                break;
+                AssertUtils.fail(BusinessErrorCode.PARAM_ERROR, "按钮类型下不能添加子菜单、目录、按钮");
         }
     }
 
@@ -50,7 +49,7 @@ public final class MenuValidationFormat {
      * @throws ValidationException 校验异常
      */
     public static void validationFormat(SysMenuForm form) {
-        ThrowUtils.notNull(form, "请求参数不能为空");
+        AssertUtils.notNull(form, "请求参数不能为空");
         Long parentId = form.getParentId();
         MenuTypeEnum menuType = form.getMenuType();
         String menuName = form.getMenuName();
@@ -64,15 +63,15 @@ public final class MenuValidationFormat {
         String activeMenuPath = form.getActiveMenuPath();
         MenuCommonStatusEnum frameFlag = form.getFrameFlag();
         // 公共字段的校验
-        ThrowUtils.throwIf(Objects.isNull(parentId), () -> ex("parentId", "父菜单ID不能为空"));
-        ThrowUtils.throwIf(Objects.isNull(menuType), () -> ex("menuType", "菜单类型不能为空"));
-        ThrowUtils.throwIf(StringUtils.isEmpty(menuName), () -> ex("menuName", "菜单名称不能为空"));
-        ThrowUtils.throwIf(Objects.isNull(menuStatus), () -> ex("menuStatus", "菜单状态不能为空"));
-        ThrowUtils.throwIf(Objects.isNull(menuSort), () -> ex("menuSort", "菜单排序不能为空"));
+        AssertUtils.isTrue(!Objects.isNull(parentId), () -> ex("parentId", "父菜单ID不能为空"));
+        AssertUtils.isTrue(!Objects.isNull(menuType), () -> ex("menuType", "菜单类型不能为空"));
+        AssertUtils.isTrue(!StringUtils.isEmpty(menuName), () -> ex("menuName", "菜单名称不能为空"));
+        AssertUtils.isTrue(!Objects.isNull(menuStatus), () -> ex("menuStatus", "菜单状态不能为空"));
+        AssertUtils.isTrue(!Objects.isNull(menuSort), () -> ex("menuSort", "菜单排序不能为空"));
         switch (menuType) {
             case M:
-                ThrowUtils.throwIf(StringUtils.isEmpty(menuIcon), () -> ex("menuIcon", "目录图标不能为空"));
-                ThrowUtils.throwIf(StringUtils.isEmpty(menuPath), () -> ex("menuPath", "路由地址不能为空"));
+                AssertUtils.isTrue(!StringUtils.isEmpty(menuIcon), () -> ex("menuIcon", "目录图标不能为空"));
+                AssertUtils.isTrue(!StringUtils.isEmpty(menuPath), () -> ex("menuPath", "路由地址不能为空"));
                 form.setViewName(null);
                 form.setViewPath(null);
                 form.setFrameFlag(null);
@@ -82,10 +81,10 @@ public final class MenuValidationFormat {
                 form.setAffixStatus(null);
                 break;
             case C:
-                ThrowUtils.throwIf(StringUtils.isEmpty(menuIcon), () -> ex("menuIcon", "菜单图标不能为空"));
-                ThrowUtils.throwIf(StringUtils.isEmpty(menuPath), () -> ex("menuPath", "路由地址不能为空"));
-                ThrowUtils.throwIf(Objects.isNull(frameFlag), () -> ex("frameFlag", "是否为外链不能为空"));
-                ThrowUtils.throwIf(Objects.isNull(menuHidden), () -> ex("menuHidden", "显示状态不能为空"));
+                AssertUtils.isTrue(!StringUtils.isEmpty(menuIcon), () -> ex("menuIcon", "菜单图标不能为空"));
+                AssertUtils.isTrue(!StringUtils.isEmpty(menuPath), () -> ex("menuPath", "路由地址不能为空"));
+                AssertUtils.isTrue(!Objects.isNull(frameFlag), () -> ex("frameFlag", "是否为外链不能为空"));
+                AssertUtils.isTrue(!Objects.isNull(menuHidden), () -> ex("menuHidden", "显示状态不能为空"));
                 if (MenuCommonStatusEnum.YES.equals(frameFlag)) {
                     form.setViewName(null);
                     form.setViewPath(null);
@@ -94,10 +93,10 @@ public final class MenuValidationFormat {
                     form.setActiveMenuPath(null);
                     form.setAffixStatus(null);
                 } else {
-                    ThrowUtils.throwIf(StringUtils.isEmpty(viewName), () -> ex("viewName", "组件视图名称不能为空"));
-                    ThrowUtils.throwIf(StringUtils.isEmpty(viewPath), () -> ex("viewPath", "组件视图路径不能为空"));
+                    AssertUtils.isTrue(!StringUtils.isEmpty(viewName), () -> ex("viewName", "组件视图名称不能为空"));
+                    AssertUtils.isTrue(!StringUtils.isEmpty(viewPath), () -> ex("viewPath", "组件视图路径不能为空"));
                     if (MenuCommonStatusEnum.NO.equals(menuHidden)) {
-                        ThrowUtils.throwIf(StringUtils.isEmpty(activeMenuPath), () -> ex("activeMenuPath", "菜单显示不能为空"));
+                        AssertUtils.isTrue(!StringUtils.isEmpty(activeMenuPath), () -> ex("activeMenuPath", "菜单显示不能为空"));
                         form.setMenuCache(MenuCommonStatusEnum.NO);
                         form.setAffixStatus(MenuCommonStatusEnum.NO);
                     } else {

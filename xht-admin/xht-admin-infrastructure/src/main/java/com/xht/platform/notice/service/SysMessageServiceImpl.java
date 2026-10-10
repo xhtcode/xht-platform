@@ -4,11 +4,11 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.BusinessException;
-import com.xht.framework.exception.code.BusinessErrorCode;
+import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.utils.CollectionUtils;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.common.message.core.MessageExtendInfo;
 import com.xht.platform.common.message.core.MessagePayload;
 import com.xht.platform.common.message.core.MessageUser;
@@ -229,7 +229,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
      */
     @Override
     public MessagePageVO findAdminPageSend(SysMessageInfoQuery query) {
-        ThrowUtils.notNull(query.getMessageId(), "查询不到信息id");
+        AssertUtils.notNull(query.getMessageId(), "查询不到信息id");
         SysMessageEntity messageEntity = sysMessageDao.findById(query.getMessageId());
         Page<SysMessageInfoEntity> page = sysMessageInfoDao.findAdminPageSend(PageTool.getPage(query), query);
         return sysMessageInfoConverter.toMessageVo(messageEntity, page);

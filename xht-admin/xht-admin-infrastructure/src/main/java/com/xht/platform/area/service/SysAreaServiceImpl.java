@@ -1,7 +1,7 @@
 package com.xht.platform.area.service;
 
 import com.xht.framework.utils.StringUtils;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.area.AreaConstant;
 import com.xht.platform.area.converter.SysAreaConverter;
 import com.xht.platform.area.dao.SysAreaDao;
@@ -56,9 +56,9 @@ public class SysAreaServiceImpl implements ISysAreaService {
     @Transactional(rollbackFor = Exception.class)
     public void remove(Long areaId) {
         SysAreaEntity areaEntity = sysAreaDao.findById(areaId);
-        ThrowUtils.notNull(areaEntity, "区划不存在");
+        AssertUtils.notNull(areaEntity, "区划不存在");
         boolean childStatus = sysAreaDao.existsChild(areaEntity.getAreaCode());
-        ThrowUtils.throwIf(childStatus, "该区划下有子区划，请先删除子区划");
+        AssertUtils.isTrue(!childStatus, "该区划下有子区划，请先删除子区划");
         sysAreaDao.removeById(areaId);
     }
 
@@ -114,14 +114,14 @@ public class SysAreaServiceImpl implements ISysAreaService {
      * @param form   表单
      */
     private void checkForm(Long areaId, SysAreaForm form) {
-        ThrowUtils.notNull(form, "表单参数不能为空");
+        AssertUtils.notNull(form, "表单参数不能为空");
         String parentAreaCode = form.getParentAreaCode();
         if (!Objects.equals(parentAreaCode, AreaConstant.DEFAULT_PARENT_CODE)) {
             Boolean parentArea = sysAreaDao.exists(SysAreaEntity::getAreaCode, parentAreaCode);
-            ThrowUtils.throwIf(!parentArea, "上级区划编码不存在");
+            AssertUtils.isTrue(!parentArea, "上级区划编码不存在");
         }
         boolean existsAreaCode = sysAreaDao.existsAreaCode(form.getAreaCode(), areaId);
-        ThrowUtils.throwIf(existsAreaCode, "区划编码已存在");
+        AssertUtils.isTrue(!existsAreaCode, "区划编码已存在");
     }
 
 }

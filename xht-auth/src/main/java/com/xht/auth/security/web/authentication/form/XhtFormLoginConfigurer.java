@@ -6,7 +6,7 @@ import com.xht.auth.security.core.userdetails.XhtPreAuthenticationChecks;
 import com.xht.auth.security.web.authentication.AbstractXhtLoginConfigurer;
 import com.xht.auth.security.web.authentication.form.filter.XhtFormLoginFilter;
 import com.xht.auth.security.web.authentication.form.provider.XhtFormLoginAuthenticationProvider;
-import com.xht.framework.utils.ThrowUtils;
+import com.xht.framework.utils.AssertUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -54,7 +54,7 @@ public class XhtFormLoginConfigurer extends AbstractXhtLoginConfigurer<XhtFormLo
      * @throws IllegalArgumentException 如果loginProcessingUrl为空时抛出异常
      */
     public XhtFormLoginConfigurer(String loginProcessingUrl) {
-        ThrowUtils.hasText(loginProcessingUrl, "loginProcessingUrl can not be null");
+        AssertUtils.hasText(loginProcessingUrl, "loginProcessingUrl can not be null");
         this.loginProcessingUrl = loginProcessingUrl;
     }
 
@@ -73,11 +73,11 @@ public class XhtFormLoginConfigurer extends AbstractXhtLoginConfigurer<XhtFormLo
     public void init(HttpSecurity http) throws Exception {
         log.debug("XhtLoginConfigurer init");
         super.init(http);
-        ThrowUtils.hasText(this.loginProcessingUrl, "loginProcessingUrl can not be null");
-        ThrowUtils.hasText(this.usernameParameter, "usernameParameter can not be null");
-        ThrowUtils.hasText(this.passwordParameter, "passwordParameter can not be null");
-        ThrowUtils.hasText(this.captchaKeyParameter, "captchaKeyParameter can not be null");
-        ThrowUtils.hasText(this.captchaCodeParameter, "captchaCodeParameter can not be null");
+        AssertUtils.hasText(this.loginProcessingUrl, "loginProcessingUrl can not be null");
+        AssertUtils.hasText(this.usernameParameter, "usernameParameter can not be null");
+        AssertUtils.hasText(this.passwordParameter, "passwordParameter can not be null");
+        AssertUtils.hasText(this.captchaKeyParameter, "captchaKeyParameter can not be null");
+        AssertUtils.hasText(this.captchaCodeParameter, "captchaCodeParameter can not be null");
         XhtFormLoginAuthenticationProvider xhtFormLoginAuthenticationProvider = new XhtFormLoginAuthenticationProvider();
         xhtFormLoginAuthenticationProvider.setUserDetailsService(userDetailsService);
         xhtFormLoginAuthenticationProvider.setPreAuthenticationChecks(new XhtPreAuthenticationChecks());
