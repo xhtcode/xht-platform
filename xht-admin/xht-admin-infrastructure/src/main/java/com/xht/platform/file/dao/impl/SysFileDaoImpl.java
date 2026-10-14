@@ -65,6 +65,20 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
     }
 
     /**
+     * 根据ID查找实体
+     *
+     * @param id 实体ID
+     * @return 实体
+     */
+    @Override
+    public SysFileEntity findById(Serializable id) {
+        LambdaQueryWrapper<SysFileEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysFileEntity::getId, id);
+        wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.DELETED);
+        return super.getOne(wrapper);
+    }
+
+    /**
      * 检查是否存在指定ID的实体
      *
      * @param id 实体ID
