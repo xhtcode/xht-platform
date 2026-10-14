@@ -10,6 +10,11 @@ import java.nio.charset.StandardCharsets;
 public interface StringConstant {
 
     /**
+     * 字符常量：xht {@code "xht"}
+     */
+    String XHT = "xht";
+
+    /**
      * ISO‑8859‑1 西欧拉丁编码
      */
     String ISO_8859_1 = StandardCharsets.ISO_8859_1.name();

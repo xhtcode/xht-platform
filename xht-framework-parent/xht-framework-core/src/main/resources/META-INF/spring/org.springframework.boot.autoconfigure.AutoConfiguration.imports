@@ -3,5 +3,4 @@ com.xht.framework.core.properties.SecurityHeaderProperties
 com.xht.framework.core.properties.XhtConfigProperties
 com.xht.framework.core.runner.StartupInfoPrinter
 com.xht.framework.jackson.autoconfigure.JacksonConfiguration
-com.xht.framework.file.properties.StorageProperties
-com.xht.framework.file.core.LocalFileStorageRepository
+com.xht.framework.file.autoconfigure.FileStorageAutoConfiguration

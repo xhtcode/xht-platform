@@ -103,9 +103,9 @@ public enum BusinessErrorCode implements ErrorCode {
      */
     FILE_TYPE_NOT_SUPPORT(50203, "当前附件类型不支持上传"),
     /**
-     * 存储路径非法，禁止跨目录访问
+     * 非法的文件存储路径
      */
-    FILE_PATH_ILLEGAL(50204, "存储路径非法，禁止跨目录访问"),
+    FILE_PATH_ILLEGAL(50204, "非法的文件存储路径"),
     /**
      * 文件已存在
      */

@@ -1,5 +1,6 @@
 package com.xht.platform.file.service;
 
+import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,12 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
  * @author xht
  **/
 public interface FileStorageService {
+
     /**
      * 文件上传
      *
-     * @param multipartFile 文件
-     * @param fileUsed      文件用途
+     * @param uploadBo 文件上传参数
      * @return 文件信息
      */
-    SysFileResponse uploadFile(MultipartFile multipartFile, String fileUsed);
+    SysFileResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo);
+
 }

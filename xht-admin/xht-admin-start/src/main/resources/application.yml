@@ -94,7 +94,11 @@ xht:
         - user_info
   blog:
     repository-type: default
-
+  file:
+    storage:
+      type: local
+      local:
+        base-path:
 mybatis-plus:
   configuration:
     default-executor-type: batch

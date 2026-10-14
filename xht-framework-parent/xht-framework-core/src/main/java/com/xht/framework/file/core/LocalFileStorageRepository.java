@@ -4,7 +4,7 @@ import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.file.enums.StorageType;
 import com.xht.framework.file.exception.FileStorageException;
-import com.xht.framework.file.properties.StorageProperties;
+import com.xht.framework.file.configurers.StorageProperties;
 import com.xht.framework.utils.AssertUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -68,7 +68,7 @@ public class LocalFileStorageRepository implements FileStorageRepository {
         // 防路径穿越校验
         AssertUtils.isTrue(targetPath.startsWith(basePath),
                 BusinessErrorCode.ILLEGAL_OPERATION,
-                "存储路径不合法，禁止跨目录访问");
+                "存储路径不合法:" + filePath);
         try {
             Path parentPath = targetPath.getParent();
             if (parentPath != null) {

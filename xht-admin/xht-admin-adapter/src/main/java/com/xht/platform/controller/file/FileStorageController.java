@@ -1,6 +1,7 @@
 package com.xht.platform.controller.file;
 
 import com.xht.framework.common.domain.R;
+import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,6 +40,6 @@ public class FileStorageController {
     public R<SysFileResponse> uploadFile(@RequestPart(name = "file") MultipartFile file,
                                          @RequestParam(value = "fileUsed", required = false) String fileUsed
     ) {
-        return R.ok().build(fileStorageService.uploadFile(file, fileUsed));
+        return R.ok().build(fileStorageService.uploadMultipartFile(UploadBO.builder(file).fileUsed(fileUsed).build()));
     }
 }

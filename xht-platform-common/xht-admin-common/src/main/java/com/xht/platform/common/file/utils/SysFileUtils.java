@@ -3,6 +3,9 @@ package com.xht.platform.common.file.utils;
 import cn.hutool.core.io.FileUtil;
 import com.xht.framework.common.constant.StringConstant;
 
+import java.io.File;
+import java.time.LocalDateTime;
+
 /**
  * 描述： 系统文件工具类
  *
@@ -14,6 +17,9 @@ public abstract class SysFileUtils {
      */
     private static final String FILE_NAME_TRUNCATED_FLAG = "...";
 
+    /**
+     * 文件名最大长度
+     */
     private static final int MAX_FILE_NAME_LENGTH = 200;
 
     /**
@@ -39,6 +45,16 @@ public abstract class SysFileUtils {
             return fileName.substring(0, MAX_FILE_NAME_LENGTH);
         }
         return fileName.substring(0, keepLength) + FILE_NAME_TRUNCATED_FLAG + StringConstant.POINT + suffix;
+    }
+
+    /**
+     * 获取默认文件路径
+     *
+     * @return 默认文件路径
+     */
+    public static String generateDefaultFilePath() {
+        LocalDateTime now = LocalDateTime.now();
+        return StringConstant.XHT + File.separator + now.getYear() + File.separator + now.getMonthValue() + File.separator + now.getDayOfMonth();
     }
 
 }
