@@ -91,26 +91,41 @@ public enum BusinessErrorCode implements ErrorCode {
 
     // ====================== 附件/文件模块 502xx ======================
     /**
-     * 附件为空
+     * 文件内容为空
      */
-    FILE_EMPTY(50201, "上传附件不能为空"),
+    FILE_CONTENT_EMPTY(50201, "文件内容为空"),
     /**
-     * 附件大小超限
+     * 附件大小超出限制
      */
-    FILE_SIZE_EXCEED(50202, "附件大小超出限制"),
+    FILE_SIZE_EXCEED(50202, "附件大小超出允许范围"),
     /**
-     * 附件类型不支持
+     * 不支持该附件类型
      */
-    FILE_TYPE_NOT_SUPPORT(50203, "不支持该附件类型"),
+    FILE_TYPE_NOT_SUPPORT(50203, "当前附件类型不支持上传"),
+    /**
+     * 存储路径非法，禁止跨目录访问
+     */
+    FILE_PATH_ILLEGAL(50204, "存储路径非法，禁止跨目录访问"),
+    /**
+     * 文件已存在
+     */
+    FILE_EXIST(50205, "同名文件已存在"),
+    /**
+     * 文件不存在
+     */
+    FILE_NOT_EXIST(50206, "目标文件不存在"),
+    /**
+     * 上传附件不能为空
+     */
+    FILE_UPLOAD_EMPTY(50207, "上传附件不能为空"),
     /**
      * 附件上传失败
      */
-    FILE_UPLOAD_FAIL(50204, "附件上传失败"),
+    FILE_UPLOAD_FAIL(50208, "附件上传失败，请稍后重试"),
     /**
      * 附件下载失败
      */
-    FILE_DOWNLOAD_FAIL(50205, "附件下载失败"),
-    ;
+    FILE_DOWNLOAD_FAIL(50209, "附件下载失败，请稍后重试");;
 
     /**
      * 业务错误码

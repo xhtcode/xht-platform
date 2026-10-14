@@ -196,6 +196,49 @@ public final class StringUtils extends org.springframework.util.StringUtils {
     }
 
     /**
+     * 给定字符串是否与提供的中任一字符串相同（忽略大小写）
+     *
+     * @param str1     给定需要检查的字符串
+     * @param strArray 需要参与比对的字符串列表
+     * @return 是否相同 相同则返回{@code true}，没有相同的返回{@code false} 如果参与比对的字符串列表为空，返回{@code false}
+     */
+    public static boolean equalsAnyIgnoreCase(CharSequence str1, CharSequence... strArray) {
+        return equalsAny(str1, true, strArray);
+    }
+
+
+    /**
+     * 给定字符串是否与提供的中任一字符串相同
+     *
+     * @param str      给定需要检查的字符串
+     * @param strArray 需要参与比对的字符串列表
+     * @return 是否相同 相同则返回{@code true}，没有相同的返回{@code false} 如果参与比对的字符串列表为空，返回{@code false}
+     */
+    public static boolean equalsAny(CharSequence str, CharSequence... strArray) {
+        return equalsAny(str, false, strArray);
+    }
+
+    /**
+     * 给定字符串是否与提供的中任一字符串相同
+     *
+     * @param str        给定需要检查的字符串
+     * @param ignoreCase 是否忽略大小写
+     * @param strArray   需要参与比对的字符串列表
+     * @return 是否相同 相同则返回{@code true}，没有相同的返回{@code false} 如果参与比对的字符串列表为空，返回{@code false}
+     */
+    public static boolean equalsAny(CharSequence str, boolean ignoreCase, CharSequence... strArray) {
+        if (strArray == null) {
+            return false;
+        }
+        for (CharSequence item : strArray) {
+            if (equals(str, item, ignoreCase)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 改进JDK subString<br>
      * index从0开始计算，最后一个字符为-1<br>
      * 如果from和to位置一样，返回 "" <br>

@@ -15,6 +15,19 @@ import java.util.Base64;
 public final class Base64Utils {
 
     /**
+     * 解析 Base64 字符串内容：存在 base64, 标识时（如 data:image/png;base64,xxxx）截取标识之后的内容；
+     * 逗号不属于 Base64 字符集，合法 Base64 内容中不会出现该标识，可安全截取
+     *
+     * @param base64 原始 Base64 字符串（可能带 data URI 前缀）
+     * @return 可直接解码的 Base64 内容
+     */
+    public static String resolveBase64Content(String base64) {
+        AssertUtils.hasText(base64, "Base64字符串不能为空");
+        int index = base64.indexOf("base64,");
+        return index >= 0 ? base64.substring(index + "base64,".length()) : base64;
+    }
+
+    /**
      * 将字节数组进行Base64编码，返回编码后的字符串
      *
      * @param bytes 待编码字节数组
@@ -32,7 +45,7 @@ public final class Base64Utils {
      */
     public static String encodeStr(String str) {
         if (str == null) return null;
-        return encodeToString(str.getBytes(StandardCharsets.UTF_8));
+        return encodeToString(resolveBase64Content(str).getBytes(StandardCharsets.UTF_8));
     }
 
     /**
