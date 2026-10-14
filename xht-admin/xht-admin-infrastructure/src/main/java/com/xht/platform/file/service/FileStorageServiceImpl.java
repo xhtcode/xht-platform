@@ -9,7 +9,9 @@ import com.xht.framework.file.core.FileStorageRepository;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.IdUtils;
 import com.xht.framework.utils.crypto.MD5Utils;
-import com.xht.platform.file.FileMetadata;
+import com.xht.platform.common.file.FileMetadataBuilder;
+import com.xht.platform.common.file.core.FileMetadata;
+import com.xht.platform.common.file.utils.SysFileUtils;
 import com.xht.platform.file.converter.SysFileConverter;
 import com.xht.platform.file.dao.SysFileDao;
 import com.xht.platform.file.domain.response.SysFileResponse;
@@ -56,7 +58,7 @@ public class FileStorageServiceImpl implements FileStorageService {
         String originalFilename = multipartFile.getOriginalFilename();
         long fileSize = multipartFile.getSize();
         String fileSuffix = FileUtil.getSuffix(originalFilename);
-        sysFileEntity.setFileOriginalName(originalFilename);
+        sysFileEntity.setFileOriginalName(SysFileUtils.truncateFileName(originalFilename));
         sysFileEntity.setFileSize(fileSize);
         sysFileEntity.setFileSizeInfo(FileUtil.readableFileSize(fileSize));
         sysFileEntity.setFileType(multipartFile.getContentType());
@@ -77,7 +79,11 @@ public class FileStorageServiceImpl implements FileStorageService {
             throw new BusinessException(BusinessErrorCode.FILE_UPLOAD_FAIL, e);
         }
         sysFileEntity.setFilePreviewUrl(null);
-        sysFileEntity.setFileMetadata(FileMetadata.empty());
+        FileMetadata fileMetadata = FileMetadataBuilder
+                .builder()
+                .fullOriginalFilename(originalFilename)
+                .build();
+        sysFileEntity.setFileMetadata(fileMetadata);
         sysFileEntity.setFileUploadTime(LocalDateTime.now());
         sysFileEntity.setFileAssociateTime(null);
         sysFileEntity.setFileUploadUser("admin");

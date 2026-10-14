@@ -2,7 +2,7 @@ package com.xht.platform.file.domain.form;
 
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
-import com.xht.platform.file.FileMetadata;
+import com.xht.platform.common.file.core.FileMetadata;
 import com.xht.platform.file.enums.FileStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
