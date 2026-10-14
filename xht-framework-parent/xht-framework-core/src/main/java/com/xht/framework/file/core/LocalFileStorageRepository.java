@@ -59,16 +59,8 @@ public class LocalFileStorageRepository implements FileStorageRepository {
     public String upload(InputStream inputStream, String filePath) {
         AssertUtils.notNull(inputStream, BusinessErrorCode.FILE_UPLOAD_EMPTY);
         AssertUtils.hasText(filePath, BusinessErrorCode.PARAM_ERROR);
-        // 存储根目录
-        Path basePath = Paths.get(storageProperties.getLocal().getBasePath())
-                .toAbsolutePath()
-                .normalize();
         // 目标文件路径
-        Path targetPath = basePath.resolve(filePath).normalize();
-        // 防路径穿越校验
-        AssertUtils.isTrue(targetPath.startsWith(basePath),
-                BusinessErrorCode.ILLEGAL_OPERATION,
-                "存储路径不合法:" + filePath);
+        Path targetPath = resolveStoragePath(filePath);
         try {
             Path parentPath = targetPath.getParent();
             if (parentPath != null) {
@@ -82,6 +74,60 @@ public class LocalFileStorageRepository implements FileStorageRepository {
             throw new FileStorageException(BusinessErrorCode.FILE_UPLOAD_FAIL, e);
         }
         return targetPath.toString();
+    }
+
+    /**
+     * 下载本地磁盘文件
+     * <p>
+     * 行为说明：
+     * <ul>
+     *     <li>文件路径为空白时，抛出携带 PARAM_ERROR 错误码的 {@link BusinessException}</li>
+     *     <li>以配置的本地存储根路径为基准解析目标路径，目标路径越出根路径（如 ../ 路径穿越）时，抛出携带 ILLEGAL_OPERATION 错误码的 {@link BusinessException}</li>
+     *     <li>目标文件不存在时，抛出携带 FILE_NOT_EXIST 错误码的 {@link BusinessException}</li>
+     *     <li>打开文件流发生 IO 异常时，包装为携带 FILE_DOWNLOAD_FAIL 错误码的 {@link FileStorageException} 抛出，保留原始堆栈</li>
+     *     <li>返回的文件输入流由调用方负责关闭</li>
+     * </ul>
+     *
+     * @param filePath 文件相对路径（相对于本地存储根路径），不能为空白
+     * @return 文件输入流，由调用方负责关闭
+     */
+    @Override
+    public InputStream download(String filePath) {
+        AssertUtils.hasText(filePath, BusinessErrorCode.PARAM_ERROR);
+        // 目标文件路径
+        Path targetPath = resolveStoragePath(filePath);
+        // 目标文件必须存在
+        AssertUtils.isTrue(Files.isRegularFile(targetPath),
+                BusinessErrorCode.FILE_NOT_EXIST,
+                "文件不存在:" + filePath);
+        try {
+            InputStream inputStream = Files.newInputStream(targetPath);
+            log.debug("本地文件存储下载成功，文件路径：{}", targetPath);
+            return inputStream;
+        } catch (Exception e) {
+            log.error("本地文件存储下载失败，文件路径：{}", targetPath, e);
+            throw new FileStorageException(BusinessErrorCode.FILE_DOWNLOAD_FAIL, e);
+        }
+    }
+
+    /**
+     * 以配置的本地存储根路径为基准解析目标文件路径，并做防路径穿越校验
+     *
+     * @param filePath 文件相对路径（相对于本地存储根路径）
+     * @return 目标文件绝对路径
+     */
+    private Path resolveStoragePath(String filePath) {
+        // 存储根目录
+        Path basePath = Paths.get(storageProperties.getLocal().getBasePath())
+                .toAbsolutePath()
+                .normalize();
+        // 目标文件路径
+        Path targetPath = basePath.resolve(filePath).normalize();
+        // 防路径穿越校验
+        AssertUtils.isTrue(targetPath.startsWith(basePath),
+                BusinessErrorCode.ILLEGAL_OPERATION,
+                "存储路径不合法:" + filePath);
+        return targetPath;
     }
 
     /**

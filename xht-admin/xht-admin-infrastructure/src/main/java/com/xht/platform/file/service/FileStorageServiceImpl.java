@@ -7,8 +7,10 @@ import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.file.core.FileStorageRepository;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.IdUtils;
+import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.crypto.MD5Utils;
 import com.xht.platform.common.file.FileMetadataBuilder;
+import com.xht.platform.common.file.bo.DownloadBO;
 import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.common.file.core.FileMetadata;
 import com.xht.platform.common.file.utils.SysFileUtils;
@@ -25,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * 文件存储服务实现类
@@ -35,7 +38,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FileStorageServiceImpl implements FileStorageService {
+public class FileStorageServiceImpl implements IFileStorageService {
 
     /**
      * 文件存储仓库，对接底层存储实现（本地/对象存储等）
@@ -102,5 +105,47 @@ public class FileStorageServiceImpl implements FileStorageService {
         sysFileEntity.setFileUploadUser("admin");
         sysFileDao.save(sysFileEntity);
         return sysFileConverter.toResponse(sysFileEntity);
+    }
+
+    /**
+     * 文件下载
+     *
+     * @param fileStorageKey 文件存储key
+     * @return 文件下载信息（文件流、原始文件名、内容类型、文件大小）
+     */
+    @Override
+    public DownloadBO downloadFile(String fileStorageKey) {
+        // 参数校验：文件存储key非空
+        AssertUtils.hasText(fileStorageKey, BusinessErrorCode.PARAM_ERROR);
+        // 文件记录必须存在
+        SysFileEntity sysFileEntity = sysFileDao.findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey)
+                .orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
+        // 已删除的文件不允许下载
+        AssertUtils.isTrue(!FileStatusEnum.DELETED.equals(sysFileEntity.getFileStatus()),
+                BusinessErrorCode.FILE_NOT_EXIST,
+                "文件已删除，无法下载");
+        // 从底层存储仓库读取文件流，流由调用方（控制层）负责关闭
+        InputStream inputStream = fileStorageRepository.download(sysFileEntity.getFileStoragePath());
+        return DownloadBO.of(inputStream,
+                resolveDownloadFilename(sysFileEntity),
+                sysFileEntity.getFileType(),
+                sysFileEntity.getFileSize());
+    }
+
+    /**
+     * 解析下载文件名：优先取元数据中的完整原始文件名（长文件名截断场景的兜底），其次取文件原始名称，最后兜底取文件存储名称
+     *
+     * @param sysFileEntity 系统文件实体
+     * @return 下载文件名
+     */
+    private String resolveDownloadFilename(SysFileEntity sysFileEntity) {
+        FileMetadata fileMetadata = sysFileEntity.getFileMetadata();
+        if (Objects.nonNull(fileMetadata)) {
+            String fullOriginalFilename = fileMetadata.getFullOriginalFilename();
+            if (StringUtils.hasText(fullOriginalFilename)) {
+                return fullOriginalFilename;
+            }
+        }
+        return StringUtils.emptyToDefault(sysFileEntity.getFileOriginalName(), sysFileEntity.getFileStorageName());
     }
 }

@@ -17,10 +17,12 @@ public enum FileStatusEnum implements XhtEnum<Integer> {
      * 已上传
      */
     UPLOADED(1, "已上传"),
+
     /**
      * 已关联业务
      */
     ASSOCIATED(2, "已关联业务"),
+
     /**
      * 已删除
      */
