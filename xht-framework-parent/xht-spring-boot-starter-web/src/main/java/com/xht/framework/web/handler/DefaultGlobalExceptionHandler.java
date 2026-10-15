@@ -1,6 +1,7 @@
 package com.xht.framework.web.handler;
 
 
+import com.fasterxml.jackson.core.JacksonException;
 import com.xht.framework.common.domain.ErrorR;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.exception.BusinessException;
@@ -134,4 +135,12 @@ public class DefaultGlobalExceptionHandler implements Serializable {
         return new ErrorR<>(R.error().info(GlobalErrorStatusCode.PARAM_INVALID).build(), Map.of(PARAMS_ERROR_KEY, resultMap));
     }
 
+    /**
+     * 捕获 {@link JacksonException} 异常
+     */
+    @ExceptionHandler(JacksonException.class)
+    public ErrorR<Void> handleException(JacksonException e) {
+        log.error("Jackson 转换 json 异常: {}", e.getMessage(), e);
+        return new ErrorR<>(R.error().info(GlobalErrorStatusCode.PARAM_INVALID).build());
+    }
 }

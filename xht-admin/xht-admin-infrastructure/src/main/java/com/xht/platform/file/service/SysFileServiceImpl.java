@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 /**
  * 描述： 系统文件服务实现
  * <p>
@@ -43,7 +45,9 @@ public class SysFileServiceImpl implements ISysFileService {
     @Override
     public void removeById(Long fileId) {
         AssertUtils.notNull(fileId, BusinessErrorCode.PARAM_ERROR);
-        AssertUtils.notNull(sysFileDao.existsById(fileId), BusinessErrorCode.FILE_NOT_EXIST);
+        SysFileEntity sysFileEntity = sysFileDao.findById(fileId);
+        AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
+        AssertUtils.isTrue(Objects.equals(FileStatusEnum.ASSOCIATED, sysFileEntity.getFileStatus()), BusinessErrorCode.ILLEGAL_OPERATION, "文件已关联业务，无法删除");
         sysFileDao.updateFileStatusById(fileId, FileStatusEnum.DELETED);
     }
 

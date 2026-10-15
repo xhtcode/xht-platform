@@ -125,7 +125,8 @@ public enum BusinessErrorCode implements ErrorCode {
     /**
      * 附件下载失败
      */
-    FILE_DOWNLOAD_FAIL(50209, "附件下载失败，请稍后重试");;
+    FILE_DOWNLOAD_FAIL(50209, "附件下载失败，请稍后重试"),
+    ;
 
     /**
      * 业务错误码
