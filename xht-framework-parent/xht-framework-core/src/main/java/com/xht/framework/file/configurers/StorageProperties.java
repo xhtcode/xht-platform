@@ -27,14 +27,14 @@ public class StorageProperties {
     /**
      * 本地存储配置
      */
-    private final Local local = new Local();
+    private final LocalProperties local = new LocalProperties();
 
 
     /**
      * 本地存储配置
      */
     @Setter
-    public static class Local {
+    public static class LocalProperties {
 
         /**
          * 本地存储基础路径
