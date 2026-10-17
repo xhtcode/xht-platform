@@ -21,15 +21,15 @@
     <modules>
         <module>xht-framework-core</module>
         <module>xht-framework-dependencies</module>
-        <module>xht-spring-boot-starter-cache</module>
-        <module>xht-spring-boot-starter-log</module>
-        <module>xht-spring-boot-starter-mybatis-plus</module>
-        <module>xht-spring-boot-starter-openfeign</module>
-        <module>xht-spring-boot-starter-resource-server</module>
-        <module>xht-spring-boot-starter-security</module>
-        <module>xht-spring-boot-starter-sms</module>
-        <module>xht-spring-boot-starter-swagger</module>
-        <module>xht-spring-boot-starter-web</module>
+        <module>xht-cache-spring-boot-starter</module>
+        <module>xht-log-spring-boot-starter</module>
+        <module>xht-mybatis-plus-spring-boot-starter</module>
+        <module>xht-openfeign-spring-boot-starter</module>
+        <module>xht-resource-server-spring-boot-starter</module>
+        <module>xht-security-spring-boot-starter</module>
+        <module>xht-sms-spring-boot-starter</module>
+        <module>xht-swagger-spring-boot-starter</module>
+        <module>xht-web-spring-boot-starter</module>
         <module>xht-spring-cloud-starter</module>
     </modules>
     <dependencies>

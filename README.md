@@ -37,45 +37,31 @@ xht-platform
 ├── .gitignore
 ├── LICENSE
 ├── README.md
-├── doc                  # 文档目录
-│   ├── sql              # SQL脚本
-│   │   ├── datatabase.sql
-│   │   ├── xht-generate.sql
-│   │   ├── xht-platform.sql
-│   │   └── xht_nacos.sql
-│   ├── 开发规范和编码指南.md
-│   └── 开发需求.md
 ├── lombok.config
 ├── pom.xml
-├── xht-api              # API 定义
-│   ├── xht-api-system       # 系统API
+├── doc                          # 文档目录
+│   ├── sql                      # SQL脚本
+│   ├── 安装部署
+│   ├── 开发规范和编码指南.md
+│   └── 开发需求.md
+├── xht-framework-parent         # 框架顶层父工程
+│   ├── xht-framework-core                   # 核心模块（非 starter）
+│   ├── xht-framework-dependencies           # 依赖版本 BOM
+│   ├── xht-cache-spring-boot-starter        # Redis 缓存
+│   ├── xht-log-spring-boot-starter          # 日志
+│   ├── xht-mybatis-plus-spring-boot-starter # MyBatis-Plus 扩展
+│   ├── xht-openfeign-spring-boot-starter    # OpenFeign 扩展
+│   ├── xht-resource-server-spring-boot-starter # 资源服务器
+│   ├── xht-security-spring-boot-starter     # 安全
+│   ├── xht-sms-spring-boot-starter          # 短信
+│   ├── xht-swagger-spring-boot-starter      # Swagger/OpenAPI 文档
+│   ├── xht-web-spring-boot-starter          # Web 通信扩展
+│   ├── xht-spring-cloud-starter             # Spring Cloud 启动器（Nacos 注册/配置、负载均衡）
 │   └── pom.xml
-├── xht-auth             # 认证中心
-│   ├── src
-│   └── pom.xml
-├── xht-demo             # 示例模块
-│   ├── src
-│   └── pom.xml
-├── xht-framework        # 框架核心
-│   ├── xht-framework-bom               # BOM管理
-│   ├── xht-framework-core              # 核心模块
-│   ├── xht-spring-boot-starter-log               # 日志模块
-│   ├── xht-spring-boot-starter-mybatis-plus           # MyBatis扩展
-│   ├── xht-spring-boot-starter-openfeign         # OpenFeign扩展
-│   ├── xht-spring-boot-starter-cache             # Redis缓存模块
-│   ├── xht-framework-resource-server   # 资源服务器
-│   ├── xht-framework-security          # 安全模块
-│   ├── xht-spring-boot-starter-sms               # 短信模块
-│   ├── xht-spring-boot-starter-swagger           # Swagger扩展
-│   ├── xht-spring-boot-starter-web               # Web扩展
-│   ├── xht-spring-boot-starter         # Spring Boot启动器
-│   ├── xht-spring-cloud-starter        # Spring Cloud启动器
-│   └── pom.xml
-├── xht-gateway          # 网关服务
-│   ├── src
-│   └── pom.xml
-└── xht-modules          # 业务模块
-    ├── xht-module-generate        # 代码生成模块
-    ├── xht-module-system          # 系统管理模块
-    └── pom.xml
+├── xht-auth                     # 认证中心
+├── xht-gateway                  # 网关服务
+├── xht-admin                    # 后台管理服务（adapter/domain/infrastructure/start）
+├── xht-generate                 # 代码生成服务（adapter/domain/infrastructure/start）
+├── xht-platform-client          # 服务间调用客户端（blog/dict/message）
+└── xht-platform-common          # 公共模块（admin-common/generate-common）
 ```
