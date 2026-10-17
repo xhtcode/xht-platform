@@ -263,6 +263,8 @@ xht-platform
     └── xht-platform-client-message              # 站内信发送
 ```
 
+> `xht-platform-common` 只放被共享的代码（契约、DTO、枚举、工具），`xht-platform-client` 只放让契约跑起来的自动装配。业务模块要用其它服务的能力时，加对应 `xht-platform-client-*` 依赖并注入门面（`ISysDictFactory`、`IMessagePublisher`），不需要写 `@EnableFeignClients`。详见 `doc/开发规范和编码指南.md` 第 2.7、2.8、9.2 节。
+
 ## 文档索引
 
 | 文档 | 说明 |

@@ -2,13 +2,13 @@ package com.xht.platform.file.utils;
 
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.file.entity.SysFileEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * 描述： 文件访问权限校验器
@@ -30,16 +30,16 @@ public class FileAccessChecker {
     public void check(SysFileEntity entity) {
         AssertUtils.notNull(entity, BusinessErrorCode.FILE_NOT_EXIST);
         // 超级管理员放行
-        if (CurrentUserHelper.isAdmin()) {
+        if (SecurityUtils.isAdmin()) {
             return;
         }
-        Optional<String> username = CurrentUserHelper.getCurrentUsername();
+        String username = SecurityUtils.getUserName();
         // 上传人本人放行
-        if (username.isPresent() && Objects.equals(username.get(), entity.getFileUploadUser())) {
+        if (Objects.equals(username, entity.getFileUploadUser())) {
             return;
         }
         log.warn("文件访问越权拦截，fileStorageKey：{}，currentUser：{}，uploadUser：{}",
-                entity.getFileStorageKey(), username.orElse(null), entity.getFileUploadUser());
+                entity.getFileStorageKey(), username, entity.getFileUploadUser());
         AssertUtils.fail(BusinessErrorCode.FILE_ACCESS_DENIED);
     }
 

@@ -73,13 +73,14 @@ public enum FileUsedEnum implements XhtEnum<String> {
      * 归一化用途标识：null/空白 → temp；非法值 → null（由调用方抛参数错误）
      *
      * @param value 用途标识
-     * @return 归一化后的用途标识，非法值返回 null
+     * @return 归一化后的用途标识（忽略大小写），非法值返回 null
      */
     public static String normalize(String value) {
         if (value == null || value.isBlank()) {
             return TEMP.value;
         }
-        return find(value.strip()) == null ? null : value.strip();
+        FileUsedEnum found = find(value.strip());
+        return found == null ? null : found.value;
     }
 
     /**

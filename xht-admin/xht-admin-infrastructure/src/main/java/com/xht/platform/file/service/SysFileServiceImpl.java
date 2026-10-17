@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -65,7 +66,12 @@ public class SysFileServiceImpl implements ISysFileService {
         fileAccessChecker.check(sysFileEntity);
         sysFileDao.updateFileStatusById(fileId, FileStatusEnum.DELETED);
         // 同步清理物理文件与缩略图，失败仅记录日志不阻断主流程
-        deletePhysicalFiles(sysFileEntity);
+        if (StringUtils.hasText(sysFileEntity.getFileStoragePath())) {
+            fileStorageRepository.remove(sysFileEntity.getFileStoragePath());
+        }
+        if (StringUtils.hasText(sysFileEntity.getFileThumbPath())) {
+            fileStorageRepository.remove(sysFileEntity.getFileThumbPath());
+        }
     }
 
     /**
@@ -95,17 +101,38 @@ public class SysFileServiceImpl implements ISysFileService {
     }
 
     /**
-     * 删除文件对应的物理文件与缩略图（幂等，失败仅记录日志）
+     * 关联文件业务（单文件）：标记为已关联（ASSOCIATED）并记录关联时间
+     * <p>
+     * 禁止使用批处理：每次仅处理一个文件
      *
-     * @param sysFileEntity 文件实体
+     * @param fileId 文件ID
      */
-    private void deletePhysicalFiles(SysFileEntity sysFileEntity) {
-        if (StringUtils.hasText(sysFileEntity.getFileStoragePath())) {
-            fileStorageRepository.remove(sysFileEntity.getFileStoragePath());
-        }
-        if (StringUtils.hasText(sysFileEntity.getFileThumbPath())) {
-            fileStorageRepository.remove(sysFileEntity.getFileThumbPath());
-        }
+    @Override
+    public void associateFile(Long fileId) {
+        AssertUtils.notNull(fileId, BusinessErrorCode.PARAM_ERROR);
+        SysFileEntity entity = sysFileDao.findById(fileId);
+        AssertUtils.notNull(entity, BusinessErrorCode.FILE_NOT_EXIST);
+        // 访问权限校验：仅超级管理员或上传人本人可关联
+        fileAccessChecker.check(entity);
+        sysFileDao.updateStatusAndAssociateTimeById(fileId, FileStatusEnum.ASSOCIATED, LocalDateTime.now());
+    }
+
+    /**
+     * 解绑文件业务（单文件）：仅已关联文件还原为未关联（UPLOADED）并清除关联时间
+     * <p>
+     * 禁止使用批处理：每次仅处理一个文件
+     *
+     * @param fileId 文件ID
+     */
+    @Override
+    public void unbindFile(Long fileId) {
+        AssertUtils.notNull(fileId, BusinessErrorCode.PARAM_ERROR);
+        SysFileEntity entity = sysFileDao.findById(fileId);
+        AssertUtils.notNull(entity, BusinessErrorCode.FILE_NOT_EXIST);
+        // 仅已关联文件可解绑
+        AssertUtils.isTrue(FileStatusEnum.ASSOCIATED.equals(entity.getFileStatus()),
+                BusinessErrorCode.FILE_NOT_EXIST, "文件未关联业务，无法解绑");
+        sysFileDao.updateStatusAndAssociateTimeById(fileId, FileStatusEnum.UPLOADED, null);
     }
 
 }

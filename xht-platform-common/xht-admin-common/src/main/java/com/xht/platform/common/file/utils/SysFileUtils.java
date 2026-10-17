@@ -40,9 +40,9 @@ public abstract class SysFileUtils {
     private static final Pattern ILLEGAL_FILENAME_CHARS = Pattern.compile("[\\\\/:*?\"<>|\\x00-\\x1f]");
 
     /**
-     * 多级路径分隔符（用于取文件名最后一段）
+     * 路径前缀（贪婪匹配到最后一个路径分隔符，用于取文件名最后一段）
      */
-    private static final Pattern PATH_SEGMENT = Pattern.compile("[/\\\\]");
+    private static final Pattern PATH_PREFIX = Pattern.compile("^.*[/\\\\]");
 
     /**
      * 截断超长的文件名（保留扩展名），截断后形如：前缀...扩展名
@@ -92,9 +92,8 @@ public abstract class SysFileUtils {
         if (originalFilename == null || originalFilename.isBlank()) {
             return SysFileConstant.DEFAULT_FILE_NAME;
         }
-        // 取路径最后一段，防止 "../../a.png" 之类的穿越
-        String[] segments = PATH_SEGMENT.split(originalFilename);
-        String fileName = segments[segments.length - 1];
+        // 取路径最后一段，防止 "../../a.png" 之类的穿越（无分隔符时保持原串）
+        String fileName = PATH_PREFIX.matcher(originalFilename).replaceAll("");
         // 替换非法字符（含控制字符）
         fileName = ILLEGAL_FILENAME_CHARS.matcher(fileName).replaceAll("_");
         // 去首尾空白与小数点（避免生成隐藏文件或纯后缀名）

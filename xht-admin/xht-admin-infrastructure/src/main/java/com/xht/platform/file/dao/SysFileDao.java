@@ -6,6 +6,9 @@ import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 /**
  * 描述： 系统文件数据访问层
  *
@@ -32,4 +35,31 @@ public interface SysFileDao extends MapperRepository<SysFileEntity> {
      * @param fileStatusEnum 文件状态枚举
      */
     void updateFileStatusById(Long fileId, FileStatusEnum fileStatusEnum);
+
+    /**
+     * 根据文件ID回写缩略图存储信息（异步生成完成后调用）
+     *
+     * @param fileId        文件ID
+     * @param fileThumbKey  缩略图存储key
+     * @param fileThumbPath 缩略图存储路径
+     */
+    void updateThumbnailById(Long fileId, String fileThumbKey, String fileThumbPath);
+
+    /**
+     * 分页查询过期的未关联文件（孤儿文件候选：UPLOADED 且上传时间早于指定时间）
+     *
+     * @param page             分页对象
+     * @param expireBeforeTime 过期时间界限
+     * @return 过期的未关联文件列表
+     */
+    List<SysFileEntity> findExpiredUploadedFiles(Page<SysFileEntity> page, LocalDateTime expireBeforeTime);
+
+    /**
+     * 根据ID更新文件状态与关联时间（单文件，禁止使用批处理）
+     *
+     * @param fileId            文件ID
+     * @param fileStatusEnum    目标状态
+     * @param fileAssociateTime 关联时间（解绑时传 null）
+     */
+    void updateStatusAndAssociateTimeById(Long fileId, FileStatusEnum fileStatusEnum, LocalDateTime fileAssociateTime);
 }

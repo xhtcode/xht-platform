@@ -108,6 +108,20 @@ xht:
     upload:
       max-size: 50MB
       allowed-suffixes: jpg,jpeg,png,gif,bmp,webp,pdf,doc,docx,xls,xlsx,ppt,pptx,txt,csv,md,zip,rar,7z,mp3,wav,mp4,mov,avi
+    # 缩略图生成（图片类文件；小图同步生成，大图异步生成）
+    thumbnail:
+      enabled: true
+      width: 300
+      height: 300
+      quality: 0.75
+      sync-threshold: 2MB
+      max-source-dimension: 4096
+    # 孤儿文件定时清理（上传后长期未关联业务的临时文件）
+    clean:
+      enabled: true
+      expire-days: 3
+      batch-size: 500
+      cron: "0 0 3 * * ?"
 mybatis-plus:
   configuration:
     default-executor-type: batch

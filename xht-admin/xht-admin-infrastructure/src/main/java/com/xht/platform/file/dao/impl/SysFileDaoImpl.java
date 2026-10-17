@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -116,6 +116,55 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
     public void updateFileStatusById(Long fileId, FileStatusEnum fileStatusEnum) {
         LambdaUpdateWrapper<SysFileEntity> wrapper = new LambdaUpdateWrapper<>();
         wrapper.set(SysFileEntity::getFileStatus, fileStatusEnum);
+        wrapper.eq(SysFileEntity::getId, fileId);
+        wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.DELETED);
+        update(wrapper);
+    }
+
+    /**
+     * 根据文件ID回写缩略图存储信息
+     *
+     * @param fileId        文件ID
+     * @param fileThumbKey  缩略图存储key
+     * @param fileThumbPath 缩略图存储路径
+     */
+    @Override
+    public void updateThumbnailById(Long fileId, String fileThumbKey, String fileThumbPath) {
+        LambdaUpdateWrapper<SysFileEntity> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.set(SysFileEntity::getFileThumbKey, fileThumbKey);
+        wrapper.set(SysFileEntity::getFileThumbPath, fileThumbPath);
+        wrapper.eq(SysFileEntity::getId, fileId);
+        wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.DELETED);
+        update(wrapper);
+    }
+
+    /**
+     * 分页查询过期的未关联文件（UPLOADED 且上传时间早于指定时间）
+     *
+     * @param page             分页对象
+     * @param expireBeforeTime 过期时间界限
+     * @return 过期的未关联文件列表
+     */
+    @Override
+    public List<SysFileEntity> findExpiredUploadedFiles(Page<SysFileEntity> page, LocalDateTime expireBeforeTime) {
+        LambdaQueryWrapper<SysFileEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysFileEntity::getFileStatus, FileStatusEnum.UPLOADED);
+        wrapper.lt(SysFileEntity::getFileUploadTime, expireBeforeTime);
+        return page(page, wrapper).getRecords();
+    }
+
+    /**
+     * 根据ID更新文件状态与关联时间（单文件，禁止使用批处理）
+     *
+     * @param fileId            文件ID
+     * @param fileStatusEnum    目标状态
+     * @param fileAssociateTime 关联时间（解绑时传 null）
+     */
+    @Override
+    public void updateStatusAndAssociateTimeById(Long fileId, FileStatusEnum fileStatusEnum, LocalDateTime fileAssociateTime) {
+        LambdaUpdateWrapper<SysFileEntity> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.set(SysFileEntity::getFileStatus, fileStatusEnum);
+        wrapper.set(SysFileEntity::getFileAssociateTime, fileAssociateTime);
         wrapper.eq(SysFileEntity::getId, fileId);
         wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.DELETED);
         update(wrapper);

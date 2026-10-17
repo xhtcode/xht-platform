@@ -9,6 +9,7 @@ import com.xht.framework.file.core.FileStorageRepository;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.IdUtils;
 import com.xht.framework.utils.StringUtils;
+import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.platform.common.file.FileMetadataBuilder;
 import com.xht.platform.common.file.bo.DownloadBO;
 import com.xht.platform.common.file.bo.UploadBO;
@@ -23,7 +24,8 @@ import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
 import com.xht.platform.file.enums.FileUsedEnum;
 import com.xht.platform.file.properties.FileUploadProperties;
-import com.xht.platform.file.utils.CurrentUserHelper;
+import com.xht.platform.file.thumbnail.ThumbnailGenerator;
+import com.xht.platform.file.thumbnail.ThumbnailProperties;
 import com.xht.platform.file.utils.FileAccessChecker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,6 +86,16 @@ public class FileStorageServiceImpl implements IFileStorageService {
     private final FileAccessChecker fileAccessChecker;
 
     /**
+     * 缩略图生成器
+     */
+    private final ThumbnailGenerator thumbnailGenerator;
+
+    /**
+     * 缩略图配置
+     */
+    private final ThumbnailProperties thumbnailProperties;
+
+    /**
      * 文件上传
      *
      * @param uploadBo 文件上传参数
@@ -118,8 +130,7 @@ public class FileStorageServiceImpl implements IFileStorageService {
         sysFileEntity.setFileSuffix(fileSuffix);
         sysFileEntity.setFileStatus(FileStatusEnum.UPLOADED);
         sysFileEntity.setFileUsed(normalizedFileUsed);
-        sysFileEntity.setFileUploadUser(CurrentUserHelper.getCurrentUsername()
-                .orElse(SysFileConstant.DEFAULT_UPLOAD_USER));
+        sysFileEntity.setFileUploadUser(SecurityUtils.getUserName());
         sysFileEntity.setFileUploadTime(LocalDateTime.now());
 
         // 文件头探测 MIME，无歧义类型与后缀交叉校验（防改名绕过）
@@ -161,13 +172,35 @@ public class FileStorageServiceImpl implements IFileStorageService {
                 .fullOriginalFilename(originalFilename)
                 .build());
 
+        // 缩略图生成（仅图片类）：小图同步生成（失败不影响上传），大图入库后异步生成
+        boolean needThumbnail = thumbnailProperties.isEnabled() && thumbnailGenerator.supports(fileSuffix);
+        String thumbnailPath = needThumbnail ? SysFileUtils.resolveThumbnailPath(fileStoragePath) : null;
+        String thumbnailKey = needThumbnail ? fileStorageKey + SysFileConstant.THUMBNAIL_NAME_FLAG : null;
+        if (needThumbnail && fileSize <= thumbnailProperties.getSyncThreshold().toBytes()) {
+            try {
+                thumbnailGenerator.generate(fileStoragePath, thumbnailPath);
+                sysFileEntity.setFileThumbKey(thumbnailKey);
+                sysFileEntity.setFileThumbPath(thumbnailPath);
+            } catch (Exception e) {
+                log.error("缩略图同步生成失败，不影响上传主流程，fileStoragePath：{}", fileStoragePath, e);
+            }
+        }
+
         // 元数据入库：失败时补偿删除已落盘文件，避免产生孤儿文件
         try {
             sysFileDao.save(sysFileEntity);
         } catch (Exception e) {
             log.error("文件记录入库失败，已清理存储文件：{}", fileStoragePath, e);
             fileStorageRepository.remove(fileStoragePath);
+            if (needThumbnail) {
+                fileStorageRepository.remove(thumbnailPath);
+            }
             throw new BusinessException(BusinessErrorCode.FILE_UPLOAD_FAIL, e.getMessage(), e);
+        }
+
+        // 大图异步生成缩略图（需先入库拿到文件ID）
+        if (needThumbnail && fileSize > thumbnailProperties.getSyncThreshold().toBytes()) {
+            thumbnailGenerator.generateAsync(sysFileEntity.getId(), fileStoragePath, thumbnailPath);
         }
 
         return sysFileConverter.toResponse(sysFileEntity);
@@ -197,13 +230,36 @@ public class FileStorageServiceImpl implements IFileStorageService {
     }
 
     /**
+     * 缩略图下载（按原图存储key查询）
+     *
+     * @param fileStorageKey 原图文件存储key
+     * @return 缩略图下载信息（文件流、原始文件名、内容类型、文件大小、hash、上传时间）
+     */
+    @Override
+    public DownloadBO downloadThumbnail(String fileStorageKey) {
+        // 参数校验：文件存储key非空
+        AssertUtils.hasText(fileStorageKey, BusinessErrorCode.PARAM_ERROR);
+        // 文件记录必须存在且未被删除，并通过访问权限校验
+        SysFileEntity sysFileEntity = findActiveByStorageKey(fileStorageKey);
+        fileAccessChecker.check(sysFileEntity);
+        // 缩略图必须已生成（大图异步生成中/非图片文件时为空白）
+        AssertUtils.hasText(sysFileEntity.getFileThumbPath(), BusinessErrorCode.FILE_NOT_EXIST, "文件不存在缩略图");
+        InputStream inputStream = fileStorageRepository.download(sysFileEntity.getFileThumbPath());
+        return DownloadBO.of(inputStream,
+                resolveDownloadFilename(sysFileEntity) + SysFileConstant.THUMBNAIL_NAME_FLAG,
+                "image/jpeg",
+                null,
+                sysFileEntity.getFileHash(),
+                sysFileEntity.getFileUploadTime());
+    }
+
+    /**
      * 根据存储key查找未删除的文件记录
      *
      * @param fileStorageKey 文件存储key
      * @return 文件实体
      */
-    private SysFileEntity findActiveByStorageKey(String fileStorageKey) {
-        SysFileEntity sysFileEntity = sysFileDao.findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey)
+    private SysFileEntity findActiveByStorageKey(String fileStorageKey) {        SysFileEntity sysFileEntity = sysFileDao.findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey)
                 .orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
         // 已删除的文件不允许下载
         AssertUtils.isTrue(!FileStatusEnum.DELETED.equals(sysFileEntity.getFileStatus()),

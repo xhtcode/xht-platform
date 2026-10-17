@@ -28,4 +28,12 @@ public interface IFileStorageService {
      */
     DownloadBO downloadFile(String fileStorageKey);
 
+    /**
+     * 缩略图下载（按原图存储key查询，返回该文件的缩略图流）
+     *
+     * @param fileStorageKey 原图文件存储key
+     * @return 缩略图下载信息（文件流、原始文件名、内容类型、文件大小）
+     */
+    DownloadBO downloadThumbnail(String fileStorageKey);
+
 }

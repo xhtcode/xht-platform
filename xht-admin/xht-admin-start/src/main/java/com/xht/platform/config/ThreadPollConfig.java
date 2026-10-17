@@ -2,10 +2,8 @@ package com.xht.platform.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -21,7 +19,7 @@ import java.util.concurrent.Executor;
  **/
 @Slf4j
 @AutoConfiguration
-public class ThreadPollConfig {
+public class ThreadPollConfig implements AsyncConfigurer {
 
     /**
      * 线程池 配置bean名称
@@ -30,6 +28,9 @@ public class ThreadPollConfig {
 
     /**
      * 配置线程池
+     * <p>
+     * 该 bean 同时作为全局默认异步执行器（见 {@link #getAsyncExecutor()}）以及 {@code @Async("xht-async-executor")}
+     * 显式指定的线程池（缩略图异步生成等场景）。
      *
      * @return 线程池
      */
@@ -48,31 +49,23 @@ public class ThreadPollConfig {
     }
 
     /**
-     * spring 异步任务 异常配置
+     * 全局异步执行器：显式绑定 {@link #executor()} 产出的线程池，
+     * 避免未指定线程池的 {@code @Async} 退化为每次新建线程的 SimpleAsyncTaskExecutor。
      * <p>
-     * 显式绑定全局异步线程池，避免未指定线程池的 @Async 退化为每次新建线程的 SimpleAsyncTaskExecutor
+     * 本类为 {@code @AutoConfiguration}（默认 proxyBeanMethods=true），此处对 {@link #executor()} 的调用
+     * 会被 CGLIB 代理拦截，返回与 {@code @Bean} 同名的单例，保证 {@code @Async} 与默认执行器使用同一线程池。
      */
-    @Configuration
-    public static class AsyncExceptionConfig implements AsyncConfigurer {
+    @Override
+    public Executor getAsyncExecutor() {
+        return executor();
+    }
 
-        /**
-         * 全局异步线程池
-         */
-        private final AsyncTaskExecutor asyncExecutor;
-
-        public AsyncExceptionConfig(@Qualifier(ASYNC_EXECUTOR_THREAD_NAME) AsyncTaskExecutor asyncExecutor) {
-            this.asyncExecutor = asyncExecutor;
-        }
-
-        @Override
-        public Executor getAsyncExecutor() {
-            return asyncExecutor;
-        }
-
-        @Override
-        public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-            return new AsyncExceptionHandler();
-        }
+    /**
+     * 自定义异步任务异常处理：仅对「无返回值且未捕获异常」的 {@code @Async} 方法生效。
+     */
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+        return new AsyncExceptionHandler();
     }
 
     /**

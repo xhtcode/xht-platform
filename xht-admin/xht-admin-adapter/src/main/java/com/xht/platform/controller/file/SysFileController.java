@@ -41,7 +41,7 @@ public class SysFileController {
     @CheckMenu("sys:file:remove")
     @Operation(summary = "删除文件记录")
     @PostMapping("/remove/{fileId}")
-    public R<Void> remove(@PathVariable("fileId") Long fileId) {
+    public R<Void> remove(@PathVariable Long fileId) {
         sysFileService.removeById(fileId);
         return R.ok().build();
     }
@@ -55,7 +55,7 @@ public class SysFileController {
     @CheckMenu("sys:file:query")
     @Operation(summary = "查询文件详情")
     @GetMapping("/get/{fileId}")
-    public R<SysFileResponse> get(@PathVariable("fileId") Long fileId) {
+    public R<SysFileResponse> get(@PathVariable Long fileId) {
         return R.ok().build(sysFileService.findById(fileId));
     }
 
@@ -70,6 +70,40 @@ public class SysFileController {
     @GetMapping("/page")
     public R<PageResponse<SysFileResponse>> page(SysFileQuery query) {
         return R.ok().build(sysFileService.findPageList(query));
+    }
+
+    /**
+     * 关联文件业务（单文件）：标记为已关联（ASSOCIATED）并记录关联时间
+     * <p>
+     * 禁止使用批处理：每次仅处理一个文件
+     *
+     * @param fileId 文件ID
+     * @return 操作结果
+     */
+    @BLog(value = "文件管理", description = "关联文件业务")
+    @CheckMenu("sys:file:associate")
+    @Operation(summary = "关联文件业务（单文件）")
+    @PostMapping("/associate/{fileId}")
+    public R<Void> associate(@PathVariable Long fileId) {
+        sysFileService.associateFile(fileId);
+        return R.ok().build();
+    }
+
+    /**
+     * 解绑文件业务（单文件）：仅已关联文件还原为未关联（UPLOADED）并清除关联时间
+     * <p>
+     * 禁止使用批处理：每次仅处理一个文件
+     *
+     * @param fileId 文件ID
+     * @return 操作结果
+     */
+    @BLog(value = "文件管理", description = "解绑文件业务")
+    @CheckMenu("sys:file:associate")
+    @Operation(summary = "解绑文件业务（单文件）")
+    @PostMapping("/unbind/{fileId}")
+    public R<Void> unbind(@PathVariable Long fileId) {
+        sysFileService.unbindFile(fileId);
+        return R.ok().build();
     }
 
 }
