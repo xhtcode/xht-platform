@@ -1,6 +1,7 @@
 package com.xht.platform.file.service;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.HexUtil;
 import com.xht.framework.common.constant.StringConstant;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
@@ -8,30 +9,42 @@ import com.xht.framework.file.core.FileStorageRepository;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.IdUtils;
 import com.xht.framework.utils.StringUtils;
-import com.xht.framework.utils.crypto.MD5Utils;
 import com.xht.platform.common.file.FileMetadataBuilder;
 import com.xht.platform.common.file.bo.DownloadBO;
 import com.xht.platform.common.file.bo.UploadBO;
+import com.xht.platform.common.file.constant.SysFileConstant;
 import com.xht.platform.common.file.core.FileMetadata;
+import com.xht.platform.common.file.utils.FileTypeDetectUtils;
 import com.xht.platform.common.file.utils.SysFileUtils;
 import com.xht.platform.file.converter.SysFileConverter;
 import com.xht.platform.file.dao.SysFileDao;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
+import com.xht.platform.file.enums.FileUsedEnum;
+import com.xht.platform.file.properties.FileUploadProperties;
+import com.xht.platform.file.utils.CurrentUserHelper;
+import com.xht.platform.file.utils.FileAccessChecker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.nio.file.Paths;
+import java.io.SequenceInputStream;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Objects;
-
 /**
- * 文件存储服务实现类
+ * 描述： 文件存储服务实现类
  * 负责文件上传、存储、元数据入库等核心逻辑，对接底层文件存储仓库
+ * <p>
+ * 上传安全策略：服务端权威校验大小与后缀白名单、文件头魔术字节探测 MIME 并与后缀交叉校验、
+ * 文件名清洗（防路径穿越与非法字符）、单流双工（边落盘边计算 SHA-256，不全量读入内存）、
+ * 落盘/入库失败时补偿删除已写入文件
  *
  * @author xht
  */
@@ -39,6 +52,11 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class FileStorageServiceImpl implements IFileStorageService {
+
+    /**
+     * 默认内容类型（探测与推断均失败时兜底）
+     */
+    private static final String DEFAULT_CONTENT_TYPE = "application/octet-stream";
 
     /**
      * 文件存储仓库，对接底层存储实现（本地/对象存储等）
@@ -56,6 +74,16 @@ public class FileStorageServiceImpl implements IFileStorageService {
     private final SysFileConverter sysFileConverter;
 
     /**
+     * 文件上传配置（大小限制与后缀白名单）
+     */
+    private final FileUploadProperties fileUploadProperties;
+
+    /**
+     * 文件访问权限校验器
+     */
+    private final FileAccessChecker fileAccessChecker;
+
+    /**
      * 文件上传
      *
      * @param uploadBo 文件上传参数
@@ -66,44 +94,82 @@ public class FileStorageServiceImpl implements IFileStorageService {
         MultipartFile requestFile = uploadBo.getRequestFile();
         String fileUsed = uploadBo.getFileUsed();
         String filePathPrefix = uploadBo.getFilePathPrefix();
-        // 参数校验：文件对象非空、文件内容不为空、存储路径前缀非空
+        // 参数校验：文件对象非空、文件内容不为空
         AssertUtils.isTrue(!requestFile.isEmpty(), BusinessErrorCode.FILE_CONTENT_EMPTY);
-        SysFileEntity sysFileEntity = new SysFileEntity();
+        // 文件名清洗：防路径穿越与非法字符
         String originalFilename = requestFile.getOriginalFilename();
+        String safeFilename = SysFileUtils.sanitizeFileName(originalFilename);
         long fileSize = requestFile.getSize();
-        String fileSuffix = FileUtil.getSuffix(originalFilename);
-        sysFileEntity.setFileOriginalName(SysFileUtils.truncateFileName(originalFilename));
+        // 后缀白名单校验（服务端权威）
+        String fileSuffix = FileUtil.getSuffix(safeFilename).toLowerCase(Locale.ROOT);
+        AssertUtils.isTrue(fileUploadProperties.isAllowedSuffix(fileSuffix),
+                BusinessErrorCode.FILE_TYPE_NOT_SUPPORT, "不允许上传的文件类型：" + fileSuffix);
+        // 大小校验（服务端权威）
+        AssertUtils.isTrue(fileSize <= fileUploadProperties.getMaxSize().toBytes(),
+                BusinessErrorCode.FILE_SIZE_EXCEED, "文件大小超出限制：" + fileUploadProperties.getMaxSize());
+        // 文件用途校验：非法用途直接拒绝
+        String normalizedFileUsed = FileUsedEnum.normalize(fileUsed);
+        AssertUtils.notNull(normalizedFileUsed, BusinessErrorCode.PARAM_ERROR, "文件用途不合法：" + fileUsed);
+
+        SysFileEntity sysFileEntity = new SysFileEntity();
+        sysFileEntity.setFileOriginalName(safeFilename);
         sysFileEntity.setFileSize(fileSize);
         sysFileEntity.setFileSizeInfo(FileUtil.readableFileSize(fileSize));
-        sysFileEntity.setFileType(requestFile.getContentType());
         sysFileEntity.setFileSuffix(fileSuffix);
         sysFileEntity.setFileStatus(FileStatusEnum.UPLOADED);
-        sysFileEntity.setFileUsed(fileUsed);
-        try (InputStream inputStream = requestFile.getInputStream()) {
-            String fileStorageKey = IdUtils.simpleUUID();
-            String fileStorageName = fileStorageKey + StringConstant.POINT + fileSuffix;
-            String fileStoragePath = Paths.get(filePathPrefix, fileStorageName).normalize().toString();
-            sysFileEntity.setFileStorageType(fileStorageRepository.storageType().getValue());
-            sysFileEntity.setFileStorageName(fileStorageName);
-            sysFileEntity.setFileStorageKey(fileStorageKey);
-            sysFileEntity.setFileStoragePath(fileStoragePath);
-            String uploadPath = fileStorageRepository.upload(inputStream, fileStoragePath);
-            // 根据上传后的文件字节计算MD5签名，用于文件完整性校验
-            sysFileEntity.setFileHash(MD5Utils.generateSignature(FileUtil.readBytes(Paths.get(uploadPath))));
+        sysFileEntity.setFileUsed(normalizedFileUsed);
+        sysFileEntity.setFileUploadUser(CurrentUserHelper.getCurrentUsername()
+                .orElse(SysFileConstant.DEFAULT_UPLOAD_USER));
+        sysFileEntity.setFileUploadTime(LocalDateTime.now());
+
+        // 文件头探测 MIME，无歧义类型与后缀交叉校验（防改名绕过）
+        String fileType = resolveAndCheckContentType(requestFile, fileSuffix);
+        sysFileEntity.setFileType(fileType);
+
+        // 拼装存储信息：统一 / 分隔符，兼容跨平台
+        String fileStorageKey = IdUtils.simpleUUID();
+        String fileStorageName = fileStorageKey + StringConstant.POINT + fileSuffix;
+        String fileStoragePath = SysFileUtils.normalizeStoragePath(filePathPrefix)
+                + StringConstant.SEPARATOR_SLASH + fileStorageName;
+        sysFileEntity.setFileStorageType(fileStorageRepository.storageType().getValue());
+        sysFileEntity.setFileStorageName(fileStorageName);
+        sysFileEntity.setFileStorageKey(fileStorageKey);
+        sysFileEntity.setFileStoragePath(fileStoragePath);
+
+        // 单流双工：探测用的头部字节与原流拼接后包 DigestInputStream，边落盘边计算哈希，不再二次读盘
+        try {
+            byte[] headBytes = FileTypeDetectUtils.readHeadBytes(requestFile.getInputStream());
+            InputStream fullStream = new SequenceInputStream(new ByteArrayInputStream(headBytes), requestFile.getInputStream());
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            try (InputStream digestIn = new DigestInputStream(fullStream, messageDigest)) {
+                fileStorageRepository.upload(digestIn, fileStoragePath);
+            }
+            sysFileEntity.setFileHash(HexUtil.encodeHexStr(messageDigest.digest()));
+        } catch (BusinessException e) {
+            // 业务异常（如路径不合法）保留原始错误码，仅补偿已写入文件
+            fileStorageRepository.remove(fileStoragePath);
+            throw e;
         } catch (Exception e) {
-            log.error("文件上传异常", e);
+            log.error("文件上传异常，fileStoragePath：{}", fileStoragePath, e);
+            fileStorageRepository.remove(fileStoragePath);
             throw new BusinessException(BusinessErrorCode.FILE_UPLOAD_FAIL, e.getMessage(), e);
         }
-        sysFileEntity.setFilePreviewUrl(null);
-        FileMetadata fileMetadata = FileMetadataBuilder
+
+        // 长文件名兜底：原始文件名被截断时，完整名称记录到元数据
+        sysFileEntity.setFileMetadata(FileMetadataBuilder
                 .builder()
                 .fullOriginalFilename(originalFilename)
-                .build();
-        sysFileEntity.setFileMetadata(fileMetadata);
-        sysFileEntity.setFileUploadTime(LocalDateTime.now());
-        sysFileEntity.setFileAssociateTime(null);
-        sysFileEntity.setFileUploadUser("admin");
-        sysFileDao.save(sysFileEntity);
+                .build());
+
+        // 元数据入库：失败时补偿删除已落盘文件，避免产生孤儿文件
+        try {
+            sysFileDao.save(sysFileEntity);
+        } catch (Exception e) {
+            log.error("文件记录入库失败，已清理存储文件：{}", fileStoragePath, e);
+            fileStorageRepository.remove(fileStoragePath);
+            throw new BusinessException(BusinessErrorCode.FILE_UPLOAD_FAIL, e.getMessage(), e);
+        }
+
         return sysFileConverter.toResponse(sysFileEntity);
     }
 
@@ -111,25 +177,68 @@ public class FileStorageServiceImpl implements IFileStorageService {
      * 文件下载
      *
      * @param fileStorageKey 文件存储key
-     * @return 文件下载信息（文件流、原始文件名、内容类型、文件大小）
+     * @return 文件下载信息（文件流、原始文件名、内容类型、文件大小、hash、上传时间）
      */
     @Override
     public DownloadBO downloadFile(String fileStorageKey) {
         // 参数校验：文件存储key非空
         AssertUtils.hasText(fileStorageKey, BusinessErrorCode.PARAM_ERROR);
-        // 文件记录必须存在
+        // 文件记录必须存在且未被删除，并通过访问权限校验
+        SysFileEntity sysFileEntity = findActiveByStorageKey(fileStorageKey);
+        fileAccessChecker.check(sysFileEntity);
+        // 从底层存储仓库读取文件流，流由调用方（控制层）负责关闭
+        InputStream inputStream = fileStorageRepository.download(sysFileEntity.getFileStoragePath());
+        return DownloadBO.of(inputStream,
+                resolveDownloadFilename(sysFileEntity),
+                sysFileEntity.getFileType(),
+                sysFileEntity.getFileSize(),
+                sysFileEntity.getFileHash(),
+                sysFileEntity.getFileUploadTime());
+    }
+
+    /**
+     * 根据存储key查找未删除的文件记录
+     *
+     * @param fileStorageKey 文件存储key
+     * @return 文件实体
+     */
+    private SysFileEntity findActiveByStorageKey(String fileStorageKey) {
         SysFileEntity sysFileEntity = sysFileDao.findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey)
                 .orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
         // 已删除的文件不允许下载
         AssertUtils.isTrue(!FileStatusEnum.DELETED.equals(sysFileEntity.getFileStatus()),
                 BusinessErrorCode.FILE_NOT_EXIST,
                 "文件已删除，无法下载");
-        // 从底层存储仓库读取文件流，流由调用方（控制层）负责关闭
-        InputStream inputStream = fileStorageRepository.download(sysFileEntity.getFileStoragePath());
-        return DownloadBO.of(inputStream,
-                resolveDownloadFilename(sysFileEntity),
-                sysFileEntity.getFileType(),
-                sysFileEntity.getFileSize());
+        return sysFileEntity;
+    }
+
+    /**
+     * 解析并校验内容类型：优先文件头探测；探测成功且为无歧义类型时与后缀交叉校验，不符则拒绝；
+     * 探测失败回退按后缀推断；均失败兜底 application/octet-stream
+     *
+     * @param requestFile 上传文件
+     * @param fileSuffix  文件后缀（已小写）
+     * @return 入库的内容类型
+     */
+    private String resolveAndCheckContentType(MultipartFile requestFile, String fileSuffix) {
+        byte[] headBytes;
+        try {
+            headBytes = FileTypeDetectUtils.readHeadBytes(requestFile.getInputStream());
+        } catch (Exception e) {
+            log.error("读取上传文件头失败，无法探测内容类型", e);
+            throw new BusinessException(BusinessErrorCode.FILE_UPLOAD_FAIL, e.getMessage(), e);
+        }
+        String detectedMime = FileTypeDetectUtils.detectMimeType(headBytes);
+        if (StringUtils.hasText(detectedMime) && FileTypeDetectUtils.isUnambiguousMime(detectedMime)) {
+            String suffixMime = FileTypeDetectUtils.resolveMimeType(fileSuffix);
+            // 后缀可推断且与探测结果不一致，判定为改名绕过
+            AssertUtils.isTrue(!StringUtils.hasText(suffixMime) || Objects.equals(detectedMime, suffixMime),
+                    BusinessErrorCode.FILE_TYPE_NOT_SUPPORT,
+                    "文件内容与后缀不匹配， detected：" + detectedMime + "，suffix：" + fileSuffix);
+            return detectedMime;
+        }
+        String suffixMime = FileTypeDetectUtils.resolveMimeType(fileSuffix);
+        return StringUtils.hasText(suffixMime) ? suffixMime : DEFAULT_CONTENT_TYPE;
     }
 
     /**

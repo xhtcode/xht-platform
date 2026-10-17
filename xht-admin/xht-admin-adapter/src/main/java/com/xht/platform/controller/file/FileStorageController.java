@@ -3,6 +3,8 @@ package com.xht.platform.controller.file;
 import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.common.constant.StringConstant;
 import com.xht.framework.common.domain.R;
+import com.xht.framework.log.annotations.BLog;
+import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.utils.StringUtils;
 import com.xht.platform.common.file.bo.DownloadBO;
 import com.xht.platform.common.file.bo.UploadBO;
@@ -28,6 +30,8 @@ import java.util.Set;
 
 /**
  * 描述： 文件存储控制器
+ * <p>
+ * 提供文件内容的上传、下载、预览能力；文件记录元数据的管理接口见 {@link SysFileController}
  *
  * @author xht
  **/
@@ -66,7 +70,7 @@ public class FileStorageController {
             "text/javascript"
     );
 
-    private final IFileStorageService IFileStorageService;
+    private final IFileStorageService fileStorageService;
 
     /**
      * 文件上传
@@ -74,6 +78,8 @@ public class FileStorageController {
      * @param file 上传文件
      * @return 文件信息
      */
+    @BLog(value = "文件管理", description = "上传文件")
+    @CheckMenu("sys:file:upload")
     @Operation(summary = "文件上传", parameters = {
             @Parameter(name = "file", description = "上传文件", required = true, schema = @Schema(type = "string", format = "binary"))
     })
@@ -81,7 +87,7 @@ public class FileStorageController {
     public R<SysFileResponse> uploadFile(@RequestPart(name = "file") MultipartFile file,
                                          @RequestParam(value = "fileUsed", required = false) String fileUsed
     ) {
-        return R.ok().build(IFileStorageService.uploadMultipartFile(UploadBO.builder(file).fileUsed(fileUsed).build()));
+        return R.ok().build(fileStorageService.uploadMultipartFile(UploadBO.builder(file).fileUsed(fileUsed).build()));
     }
 
     /**
@@ -90,12 +96,13 @@ public class FileStorageController {
      * @param fileStorageKey 文件存储key
      * @param response       Http响应
      */
+    @BLog(value = "文件管理", description = "下载文件")
     @Operation(summary = "文件下载", parameters = {
             @Parameter(name = "fileStorageKey", description = "文件存储key", required = true)
     })
     @GetMapping("/download/{fileStorageKey}")
     public void downloadFile(@PathVariable String fileStorageKey, HttpServletResponse response) throws IOException {
-        DownloadBO downloadBo = IFileStorageService.downloadFile(fileStorageKey);
+        DownloadBO downloadBo = fileStorageService.downloadFile(fileStorageKey);
         writeFileResponse(downloadBo, response, DISPOSITION_ATTACHMENT);
     }
 
@@ -108,12 +115,13 @@ public class FileStorageController {
      * @param fileStorageKey 文件存储key
      * @param response       Http响应
      */
+    @BLog(value = "文件管理", description = "预览文件")
     @Operation(summary = "文件预览", parameters = {
             @Parameter(name = "fileStorageKey", description = "文件存储key", required = true)
     })
     @GetMapping("/preview/{fileStorageKey}")
     public void previewFile(@PathVariable String fileStorageKey, HttpServletResponse response) throws IOException {
-        DownloadBO downloadBo = IFileStorageService.downloadFile(fileStorageKey);
+        DownloadBO downloadBo = fileStorageService.downloadFile(fileStorageKey);
         String disposition = isUnsafeInlineContentType(downloadBo.getContentType())
                 ? DISPOSITION_ATTACHMENT : DISPOSITION_INLINE;
         writeFileResponse(downloadBo, response, disposition);
@@ -127,7 +135,7 @@ public class FileStorageController {
      * @param disposition 内容处置类型（inline：内联预览，attachment：附件下载）
      */
     private void writeFileResponse(DownloadBO downloadBo, HttpServletResponse response, String disposition) throws IOException {
-        response.reset();
+        response.resetBuffer();
         // 文件名 URL 编码，兼容中文等非 ASCII 字符；再将 + 替换为 %20，避免文件名中的空格被解析为 +
         String downloadFilename = URLEncoder.encode(downloadBo.getOriginalFilename(), StringConstant.UTF_8)
                 .replace("+", "%20");

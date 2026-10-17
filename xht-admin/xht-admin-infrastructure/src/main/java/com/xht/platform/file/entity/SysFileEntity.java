@@ -89,6 +89,18 @@ public class SysFileEntity extends BasicEntity implements Serializable {
     private String fileStorageKey;
 
     /**
+     * 缩略图存储key（图片类文件存在）
+     */
+    @TableField(value = "file_thumb_key")
+    private String fileThumbKey;
+
+    /**
+     * 缩略图存储路径（图片类文件存在）
+     */
+    @TableField(value = "file_thumb_path")
+    private String fileThumbPath;
+
+    /**
      * 文件存储名称
      */
     @TableField(value = "file_storage_name")

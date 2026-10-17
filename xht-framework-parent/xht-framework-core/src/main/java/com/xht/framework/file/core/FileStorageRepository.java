@@ -32,6 +32,13 @@ public interface FileStorageRepository {
     InputStream download(String filePath);
 
     /**
+     * 删除文件
+     *
+     * @param filePath 文件路径
+     */
+    void remove(String filePath);
+
+    /**
      * 获取文件存储类型
      *
      * @return 文件存储类型

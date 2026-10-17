@@ -111,6 +111,34 @@ public class LocalFileStorageRepository implements FileStorageRepository {
     }
 
     /**
+     * 删除本地磁盘文件
+     * <p>
+     * 行为说明：
+     * <ul>
+     *     <li>文件路径为空白时，抛出携带 PARAM_ERROR 错误码的 {@link BusinessException}</li>
+     *     <li>以配置的本地存储根路径为基准解析目标路径，目标路径越出根路径（如 ../ 路径穿越）时，抛出携带 ILLEGAL_OPERATION 错误码的 {@link BusinessException}</li>
+     *     <li>目标文件不存在时静默返回（幂等删除）</li>
+     *     <li>删除过程发生 IO 异常时仅记录错误日志，不向上抛出（清理类调用方不应因单个文件失败而中断）</li>
+     * </ul>
+     *
+     * @param filePath 相对路径（相对于本地存储根路径），不能为空白
+     */
+    @Override
+    public void remove(String filePath) {
+        AssertUtils.hasText(filePath, BusinessErrorCode.PARAM_ERROR);
+        // 目标文件路径（复用防路径穿越校验）
+        Path targetPath = resolveStoragePath(filePath);
+        try {
+            boolean deleted = Files.deleteIfExists(targetPath);
+            if (deleted) {
+                log.debug("本地文件存储删除成功，文件路径：{}", targetPath);
+            }
+        } catch (Exception e) {
+            log.error("本地文件存储删除失败，文件路径：{}", targetPath, e);
+        }
+    }
+
+    /**
      * 以配置的本地存储根路径为基准解析目标文件路径，并做防路径穿越校验
      *
      * @param filePath 文件相对路径（相对于本地存储根路径）

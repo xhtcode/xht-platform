@@ -170,7 +170,7 @@ public enum MimeTypeEnums {
      */
     public static MimeTypeEnums getByFileSuffix(String fileSuffix) {
         // 如果文件后缀为空，则返回默认值
-        if (StringUtils.hasText(fileSuffix)) {
+        if (!StringUtils.hasText(fileSuffix)) {
             return DEFAULT_;
         }
         // 遍历所有枚举值，查找匹配的文件后缀

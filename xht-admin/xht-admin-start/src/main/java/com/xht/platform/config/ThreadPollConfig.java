@@ -2,6 +2,7 @@ package com.xht.platform.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.concurrent.Executor;
 
 /**
  * 线程池配置
@@ -47,9 +49,26 @@ public class ThreadPollConfig {
 
     /**
      * spring 异步任务 异常配置
+     * <p>
+     * 显式绑定全局异步线程池，避免未指定线程池的 @Async 退化为每次新建线程的 SimpleAsyncTaskExecutor
      */
     @Configuration
     public static class AsyncExceptionConfig implements AsyncConfigurer {
+
+        /**
+         * 全局异步线程池
+         */
+        private final AsyncTaskExecutor asyncExecutor;
+
+        public AsyncExceptionConfig(@Qualifier(ASYNC_EXECUTOR_THREAD_NAME) AsyncTaskExecutor asyncExecutor) {
+            this.asyncExecutor = asyncExecutor;
+        }
+
+        @Override
+        public Executor getAsyncExecutor() {
+            return asyncExecutor;
+        }
+
         @Override
         public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
             return new AsyncExceptionHandler();

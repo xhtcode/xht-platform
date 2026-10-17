@@ -3,14 +3,17 @@ package com.xht.platform.file.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.file.core.FileStorageRepository;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.AssertUtils;
+import com.xht.framework.utils.StringUtils;
 import com.xht.platform.file.converter.SysFileConverter;
 import com.xht.platform.file.dao.SysFileDao;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
+import com.xht.platform.file.utils.FileAccessChecker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,9 +25,7 @@ import java.util.Objects;
  * <p>
  * 提供系统文件记录（sys_file）的元数据 CRUD；围绕文件内容的操作类业务
  * （上传、下载、预览、访问权限等）见 {@link FileStorageServiceImpl}；
- * 修改与删除操作前先校验文件记录是否存在（不存在时抛出 {@link BusinessErrorCode#DATA_NOT_EXIST}）；
- * 新增时对未传字段补充默认值（文件状态默认启用、文件上传时间默认当前时间）；
- * 修改采用 MyBatis-Plus 非空字段更新策略，表单未传字段保持原值不变
+ * 删除前校验文件存在、未被关联业务、当前用户有权访问；删除时同步清理物理文件与缩略图
  *
  * @author xht
  **/
@@ -38,7 +39,17 @@ public class SysFileServiceImpl implements ISysFileService {
     private final SysFileConverter sysFileConverter;
 
     /**
-     * 根据文件ID删除文件记录（逻辑删除）
+     * 文件存储仓库（删除时清理物理文件）
+     */
+    private final FileStorageRepository fileStorageRepository;
+
+    /**
+     * 文件访问权限校验器
+     */
+    private final FileAccessChecker fileAccessChecker;
+
+    /**
+     * 根据文件ID删除文件记录（逻辑删除），并同步删除物理文件与缩略图
      *
      * @param fileId 文件ID
      */
@@ -47,8 +58,14 @@ public class SysFileServiceImpl implements ISysFileService {
         AssertUtils.notNull(fileId, BusinessErrorCode.PARAM_ERROR);
         SysFileEntity sysFileEntity = sysFileDao.findById(fileId);
         AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
-        AssertUtils.isTrue(Objects.equals(FileStatusEnum.ASSOCIATED, sysFileEntity.getFileStatus()), BusinessErrorCode.ILLEGAL_OPERATION, "文件已关联业务，无法删除");
+        // 已关联业务的文件不允许删除
+        AssertUtils.isTrue(!Objects.equals(FileStatusEnum.ASSOCIATED, sysFileEntity.getFileStatus()),
+                BusinessErrorCode.FILE_ASSOCIATED, "文件已关联业务，无法删除");
+        // 访问权限校验：仅超级管理员或上传人本人可删除
+        fileAccessChecker.check(sysFileEntity);
         sysFileDao.updateFileStatusById(fileId, FileStatusEnum.DELETED);
+        // 同步清理物理文件与缩略图，失败仅记录日志不阻断主流程
+        deletePhysicalFiles(sysFileEntity);
     }
 
     /**
@@ -60,7 +77,9 @@ public class SysFileServiceImpl implements ISysFileService {
     @Override
     public SysFileResponse findById(Long fileId) {
         AssertUtils.notNull(fileId, BusinessErrorCode.PARAM_ERROR);
-        return sysFileConverter.toResponse(sysFileDao.findById(fileId));
+        SysFileEntity sysFileEntity = sysFileDao.findById(fileId);
+        AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
+        return sysFileConverter.toResponse(sysFileEntity);
     }
 
     /**
@@ -73,6 +92,20 @@ public class SysFileServiceImpl implements ISysFileService {
     public PageResponse<SysFileResponse> findPageList(SysFileQuery query) {
         Page<SysFileEntity> page = sysFileDao.findPageList(PageTool.getPage(query), query);
         return sysFileConverter.toResponse(page);
+    }
+
+    /**
+     * 删除文件对应的物理文件与缩略图（幂等，失败仅记录日志）
+     *
+     * @param sysFileEntity 文件实体
+     */
+    private void deletePhysicalFiles(SysFileEntity sysFileEntity) {
+        if (StringUtils.hasText(sysFileEntity.getFileStoragePath())) {
+            fileStorageRepository.remove(sysFileEntity.getFileStoragePath());
+        }
+        if (StringUtils.hasText(sysFileEntity.getFileThumbPath())) {
+            fileStorageRepository.remove(sysFileEntity.getFileThumbPath());
+        }
     }
 
 }

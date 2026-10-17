@@ -98,10 +98,28 @@ public class SysFileResponse extends MetaResponse {
     private String fileStorageKey;
 
     /**
-     * 文件存储路径
+     * 缩略图存储key（图片类文件存在）
      */
-    @Schema(description = "文件存储路径")
-    private String fileStoragePath;
+    @Schema(description = "缩略图存储key（图片类文件存在）")
+    private String fileThumbKey;
+
+    /**
+     * 文件下载地址（服务端拼接，前端可直接使用）
+     */
+    @Schema(description = "文件下载地址（服务端拼接，前端可直接使用）")
+    private String downloadUrl;
+
+    /**
+     * 文件预览地址（服务端拼接，前端可直接使用）
+     */
+    @Schema(description = "文件预览地址（服务端拼接，前端可直接使用）")
+    private String previewUrl;
+
+    /**
+     * 缩略图预览地址（图片类文件存在，服务端拼接，前端可直接使用）
+     */
+    @Schema(description = "缩略图预览地址（图片类文件存在，服务端拼接，前端可直接使用）")
+    private String thumbnailUrl;
 
     /**
      * 文件预览地址

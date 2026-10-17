@@ -35,7 +35,7 @@ public class SysFileForm extends BasicForm {
      * 文件原始名称
      */
     @NotBlank(groups = Groups.Create.class, message = "文件原始名称不能为空")
-    @Size(groups = {Groups.Create.class, Groups.Update.class}, max = 512, message = "文件原始名称长度不能超过512")
+    @Size(groups = {Groups.Create.class, Groups.Update.class}, max = 200, message = "文件原始名称长度不能超过200")
     @Schema(name = "fileOriginalName", description = "文件原始名称")
     private String fileOriginalName;
 
@@ -102,6 +102,20 @@ public class SysFileForm extends BasicForm {
     private String fileStorageKey;
 
     /**
+     * 缩略图存储key
+     */
+    @Size(groups = {Groups.Create.class, Groups.Update.class}, max = 64, message = "缩略图存储key长度不能超过64")
+    @Schema(name = "fileThumbKey", description = "缩略图存储key")
+    private String fileThumbKey;
+
+    /**
+     * 缩略图存储路径
+     */
+    @Size(groups = {Groups.Create.class, Groups.Update.class}, max = 500, message = "缩略图存储路径长度不能超过500")
+    @Schema(name = "fileThumbPath", description = "缩略图存储路径")
+    private String fileThumbPath;
+
+    /**
      * 文件存储名称
      */
     @Size(groups = {Groups.Create.class, Groups.Update.class}, max = 512, message = "文件存储名称长度不能超过512")
@@ -143,7 +157,7 @@ public class SysFileForm extends BasicForm {
     /**
      * 文件上传用户
      */
-    @Size(groups = {Groups.Create.class, Groups.Update.class}, max = 50, message = "文件上传用户长度不能超过50")
+    @Size(groups = {Groups.Create.class, Groups.Update.class}, max = 64, message = "文件上传用户长度不能超过64")
     @Schema(name = "fileUploadUser", description = "文件上传用户")
     private String fileUploadUser;
 

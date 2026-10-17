@@ -126,6 +126,14 @@ public enum BusinessErrorCode implements ErrorCode {
      * 附件下载失败
      */
     FILE_DOWNLOAD_FAIL(50209, "附件下载失败，请稍后重试"),
+    /**
+     * 无权访问该文件
+     */
+    FILE_ACCESS_DENIED(50210, "无权访问该文件"),
+    /**
+     * 文件已关联业务，无法删除
+     */
+    FILE_ASSOCIATED(50211, "文件已关联业务，无法删除"),
     ;
 
     /**

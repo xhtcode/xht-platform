@@ -462,5 +462,58 @@ CREATE TABLE `b_log`
     `execute_exception` text COMMENT '执行异常信息（失败时存储异常堆栈）',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB COMMENT = '系统日志表';
+-- ----------------------------
+-- Table structure for sys_file
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_file`;
+CREATE TABLE `sys_file`
+(
+    `id`                  bigint       NOT NULL COMMENT '文件ID',
+    `file_original_name`  varchar(200) NULL DEFAULT NULL COMMENT '文件原始名称（超长截断）',
+    `file_size`           bigint       NULL DEFAULT 0 COMMENT '文件大小（单位：字节）',
+    `file_size_info`      varchar(32)  NULL DEFAULT NULL COMMENT '文件大小信息（人类可读）',
+    `file_hash`           varchar(64)  NULL DEFAULT NULL COMMENT '文件hash（SHA-256）',
+    `file_type`           varchar(128) NULL DEFAULT NULL COMMENT '文件类型（探测MIME）',
+    `file_suffix`         varchar(32)  NULL DEFAULT NULL COMMENT '文件后缀',
+    `file_status`         tinyint      NULL DEFAULT 1 COMMENT '文件状态(1:已上传;2:已关联业务;99:已删除)',
+    `file_used`           varchar(50)  NULL DEFAULT NULL COMMENT '文件用途',
+    `file_storage_type`   varchar(32)  NULL DEFAULT NULL COMMENT '文件存储类型',
+    `file_storage_key`    varchar(64)  NOT NULL COMMENT '文件存储key',
+    `file_storage_name`   varchar(128) NULL DEFAULT NULL COMMENT '文件存储名称',
+    `file_storage_path`   varchar(500) NULL DEFAULT NULL COMMENT '文件存储路径',
+    `file_thumb_key`      varchar(64)  NULL DEFAULT NULL COMMENT '缩略图存储key',
+    `file_thumb_path`     varchar(500) NULL DEFAULT NULL COMMENT '缩略图存储路径',
+    `file_preview_url`    varchar(500) NULL DEFAULT NULL COMMENT '文件预览地址（预留）',
+    `file_metadata`       json         NULL COMMENT '文件元数据（JSON）',
+    `file_upload_time`    datetime     NULL DEFAULT NULL COMMENT '文件上传时间',
+    `file_associate_time` datetime     NULL DEFAULT NULL COMMENT '文件关联时间',
+    `file_upload_user`    varchar(64)  NULL DEFAULT NULL COMMENT '文件上传用户',
+    `del_flag`            tinyint      NULL DEFAULT 0 COMMENT '删除标识(0:未删除;1:已删除)',
+    `create_by`           varchar(32)  NULL DEFAULT NULL COMMENT '创建人',
+    `create_time`         datetime     NULL DEFAULT NULL COMMENT '创建时间',
+    `update_by`           varchar(32)  NULL DEFAULT NULL COMMENT '更新人',
+    `update_time`         datetime     NULL DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE INDEX `uk_file_storage_key`(`file_storage_key` ASC) USING BTREE,
+    INDEX                 `idx_file_hash`(`file_hash` ASC) USING BTREE,
+    INDEX                 `idx_file_used`(`file_used` ASC) USING BTREE,
+    INDEX                 `idx_create_time`(`create_time` ASC) USING BTREE
+) ENGINE = InnoDB COMMENT = '系统管理-文件信息表' ROW_FORMAT = Dynamic;
+-- ----------------------------
+-- Table structure for sys_file_group
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_file_group`;
+CREATE TABLE `sys_file_group`
+(
+    `id`              bigint       NOT NULL COMMENT '文件分组ID',
+    `file_group_name` varchar(100) NULL DEFAULT NULL COMMENT '文件分组名称',
+    `file_group_desc` varchar(500) NULL DEFAULT NULL COMMENT '文件分组描述',
+    `del_flag`        tinyint      NULL DEFAULT 0 COMMENT '删除标识(0:未删除;1:已删除)',
+    `create_by`       varchar(32)  NULL DEFAULT NULL COMMENT '创建人',
+    `create_time`     datetime     NULL DEFAULT NULL COMMENT '创建时间',
+    `update_by`       varchar(32)  NULL DEFAULT NULL COMMENT '更新人',
+    `update_time`     datetime     NULL DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB COMMENT = '系统管理-文件分组表' ROW_FORMAT = Dynamic;
 SET
 FOREIGN_KEY_CHECKS = 1;
