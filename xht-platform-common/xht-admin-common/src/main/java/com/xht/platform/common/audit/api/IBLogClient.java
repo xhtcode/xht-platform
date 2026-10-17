@@ -4,7 +4,7 @@ import com.xht.framework.common.domain.R;
 import com.xht.framework.log.dto.BLogDTO;
 import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
 import com.xht.platform.common.AdminConstants;
-import com.xht.platform.common.dict.api.factory.ISysDictClientFallbackFactory;
+import com.xht.platform.common.audit.api.factory.BLogClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
         name = AdminConstants.APPLICATION_NAME,
         contextId = "bLogClient",
         path = "/api/sys/log",
-        fallbackFactory = ISysDictClientFallbackFactory.class
+        fallbackFactory = BLogClientFallbackFactory.class
 )
 public interface IBLogClient {
 
