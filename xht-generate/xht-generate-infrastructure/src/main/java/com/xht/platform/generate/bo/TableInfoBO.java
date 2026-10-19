@@ -1,6 +1,7 @@
 package com.xht.platform.generate.bo;
 
 import cn.hutool.core.util.StrUtil;
+import com.xht.framework.common.domain.bo.XhtBO;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.common.enums.GenStatusEnum;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
  *
  * @author xht
  **/
-public final class TableInfoBo {
+public final class TableInfoBO implements XhtBO {
 
     /**
      * 表信息
@@ -35,7 +36,7 @@ public final class TableInfoBo {
     /**
      * 查询字段列表信息
      */
-    private final List<ColumnQueryBo> queryColumns = new ArrayList<>();
+    private final List<ColumnQueryBO> queryColumns = new ArrayList<>();
     /**
      * 查询字段列表 package 包信息
      */
@@ -80,7 +81,7 @@ public final class TableInfoBo {
      * @param columns      表列实体列表，不能为空
      * @param queryColumns 查询列实体列表，不能为空
      */
-    public TableInfoBo(GenTableEntity table, List<GenTableColumnEntity> columns, List<GenTableColumnQueryEntity> queryColumns) {
+    public TableInfoBO(GenTableEntity table, List<GenTableColumnEntity> columns, List<GenTableColumnQueryEntity> queryColumns) {
         AssertUtils.notNull(table, "table must not be null");
         AssertUtils.notNull(columns, "columns must not be null");
         AssertUtils.notNull(queryColumns, "queryColumns must not be null");
@@ -106,7 +107,7 @@ public final class TableInfoBo {
      * @param column       表列信息
      */
     private void initQueryColumns(GenTableColumnQueryEntity queryColumns, GenTableColumnEntity column) {
-        ColumnQueryBo columnQueryBo = new ColumnQueryBo();
+        ColumnQueryBO columnQueryBo = new ColumnQueryBO();
         columnQueryBo.setTableId(queryColumns.getTableId());
         columnQueryBo.setTableName(queryColumns.getTableName());
         columnQueryBo.setColumnId(queryColumns.getColumnId());
@@ -259,7 +260,7 @@ public final class TableInfoBo {
      *
      * @param queryColumns 查询列表
      */
-    private List<Map<String, Object>> convertQueryColumnToMap(List<ColumnQueryBo> queryColumns) {
+    private List<Map<String, Object>> convertQueryColumnToMap(List<ColumnQueryBO> queryColumns) {
         return queryColumns.stream().map(this::convertQueryColumnToMap).collect(Collectors.toList());
     }
 
@@ -269,7 +270,7 @@ public final class TableInfoBo {
      * @param queryColumn 查询列信息实体
      * @return 转换后的Map
      */
-    private Map<String, Object> convertQueryColumnToMap(ColumnQueryBo queryColumn) {
+    private Map<String, Object> convertQueryColumnToMap(ColumnQueryBO queryColumn) {
         Map<String, Object> queryColumnMap = new HashMap<>();
         queryColumnMap.put("", "");
         queryColumnMap.put("tableId", queryColumn.getTableId());

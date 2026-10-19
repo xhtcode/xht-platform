@@ -139,8 +139,8 @@ public class SysNoticeController {
      * @return 系统管理-通知详情分页信息
      */
     @Operation(summary = "分页查询系统管理-通知详情")
-    @GetMapping("/page")
-    public R<PageResponse<SysNoticeResponse>> findPageList(SysNoticeQuery query) {
+    @PostMapping("/page")
+    public R<PageResponse<SysNoticeResponse>> findPageList(@RequestBody SysNoticeQuery query) {
         return R.ok().build(sysNoticeService.findPageList(query));
     }
 

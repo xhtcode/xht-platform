@@ -77,7 +77,7 @@ xht-platform 是一个基于 Spring Cloud Alibaba 的微服务架构平台，专
 
 ```mermaid
 flowchart LR
-    FE["后台前端<br/>Vue 3 + Element Plus"] --> GW["xht-gateway :8082<br/>Spring Cloud Gateway"]
+    FE["后台前端<br/>Vue 3 + Element Plus"] --> GW["xht-gateway :8080<br/>Spring Cloud Gateway"]
     FE -.->|"登录 / 授权码"| AUTH["xht-auth :9000<br/>OAuth2 授权服务器"]
 
     GW -->|"/admin/**"| ADMIN["xht-admin :8081<br/>adapter / domain / infrastructure / start"]
@@ -165,15 +165,15 @@ git clone https://gitee.com/xhtrepo/xht-platform.git
 | 顺序 | 脚本 | 作用 |
 | --- | --- | --- |
 | 1 | `doc/sql/xht_nacos.sql` | Nacos 配置库 |
-| 2 | `doc/sql/xht-platform-init.sql` | 平台基础表与初始化数据 |
+| 2 | `doc/sql/xht-platform-init.sql` | 平台初始化数据；**建表 DDL 在 `xht-platform.sql` 中** |
 | 3 | `doc/sql/xht-generate-init.sql` | 代码生成模块表与模板数据 |
 
-> 其它脚本（`datatabase.sql`、`xht-platform.sql`、`xht-generate.sql`）为历史或全量版本，按需取用，避免与初始化脚本重复执行。
+> 全量建表脚本为 `xht-platform.sql`（含 `b_log` 等表结构），按需取用，避免与初始化脚本重复执行；已有数据库升级请执行 `xht-platform-upgrade.sql`。
 
 ### 4. 准备 Nacos
 
 - 启动 Nacos，创建命名空间 `xht-dev`（测试/生产对应 `xht-test` / `xht-prod`）；
-- 配置分组使用 `XHT_CLOUD_GROUP`，配置文件格式 `yml`，dataId 为各服务的 `spring.application.name`：`xht-auth.yml`、`xht-admin.yml`、`xht-gateway.yml`，代码生成服务当前配置为 `xht-module-generate.yml`（服务名待统一，见开发规范附录 C）；
+- 配置分组使用 `XHT_CLOUD_GROUP`，格式 `yml`，dataId 取各服务的 `spring.application.name`：`xht-auth.yml`、`xht-admin.yml`、`xht-gateway.yml`、`xht-generate.yml`；当前阶段以本地配置文件为准，Nacos 配置可按需接入；
 - Nacos 地址、账号、命名空间等通过 Maven profile 注入（见「配置说明」）。
 
 ### 5. 启动服务
@@ -202,7 +202,7 @@ mvn -pl xht-gateway spring-boot:run
 | xht-auth | `com.xht.auth.AuthApplication` | 9000 | 必须先启动 |
 | xht-admin | `com.xht.platform.AdminApplication` | 8081 | 后台管理接口 |
 | xht-generate | `com.xht.platform.GenerateApplication` | 9700 | 代码生成接口 |
-| xht-gateway | `com.xht.gateway.GatewayApplication` | 8082 | 统一入口 |
+| xht-gateway | `com.xht.gateway.GatewayApplication` | 8080 | 统一入口 |
 
 ### 6. 配置 hosts
 
@@ -216,7 +216,7 @@ mvn -pl xht-gateway spring-boot:run
 ### 7. 访问
 
 - 接口文档：各服务启动后访问 `/swagger-ui.html`（集成 Knife4j 时为 `/doc.html`）；
-- 网关入口：`http://localhost:8082/admin/**`、`http://localhost:8082/generate/**`；
+- 网关入口：`http://localhost:8080/admin/**`、`http://localhost:8080/generate/**`；
 - 认证中心：`http://www.xht.sso.com:9000`；
 - 前端：克隆前端仓库后 `pnpm install && pnpm run dev`。
 
@@ -298,7 +298,7 @@ xht-platform
 | `xht.oauth2.*` | 授权服务器端点、登录页、客户端、授权类型密钥 |
 | `xht.file.storage` / `xht.file.upload` | 文件存储方式、大小与后缀限制 |
 | `xht.file.thumbnail` / `xht.file.clean` | 缩略图生成、孤儿文件清理 |
-| `xht.blog.repository-type` | 操作日志落库方式：`default`（仅日志）、`feign`、`jdbc` |
+| `xht.blog.repository-type` | 操作日志落库方式：`default`（仅 debug 输出，**不落库**）、`feign`（上报 `xht-admin`）、`jdbc`（本地直写 `b_log`，目前仅 `xht-admin` 支持） |
 
 ## 常见问题
 

@@ -98,7 +98,7 @@ xht:
         - openid
         - user_info
   blog:
-    repository-type: default
+    repository-type: jdbc
   file:
     storage:
       type: local

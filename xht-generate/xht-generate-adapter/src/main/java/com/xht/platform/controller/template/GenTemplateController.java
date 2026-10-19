@@ -1,6 +1,7 @@
 package com.xht.platform.controller.template;
 
 import com.xht.framework.common.domain.R;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.validation.Groups;
 import com.xht.platform.template.domain.form.GenTemplateForm;
 import com.xht.platform.template.domain.response.GenTemplateResponse;
@@ -35,6 +36,7 @@ public class GenTemplateController {
      * @param form 模板表单请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "模板管理", description = "创建模板")
     @Operation(summary = "创建模板", description = "根据提供的请求参数创建一个新的模板")
     @PostMapping("/create")
     public R<Long> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTemplateForm form) {
@@ -47,6 +49,7 @@ public class GenTemplateController {
      * @param id 模板ID
      * @return 统一响应结果
      */
+    @BLog(value = "模板管理", description = "删除模板")
     @Operation(summary = "根据ID删除模板", description = "根据提供的模板ID删除模板")
     @PostMapping("/remove/{id}")
     public R<Void> removeById(@PathVariable @Parameter(description = "模板ID", required = true) Long id) {
@@ -60,6 +63,7 @@ public class GenTemplateController {
      * @param form 模板更新请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "模板管理", description = "修改模板")
     @Operation(summary = "根据ID更新模板", description = "根据提供的模板更新请求参数更新模板")
     @PostMapping("/update")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTemplateForm form) {

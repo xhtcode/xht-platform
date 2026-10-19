@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ISysNoticeTypeServiceImpl implements ISysNoticeTypeService {
+public class SysNoticeTypeServiceImpl implements ISysNoticeTypeService {
 
     private final SysNoticeTypeDao sysNoticeTypeDao;
 

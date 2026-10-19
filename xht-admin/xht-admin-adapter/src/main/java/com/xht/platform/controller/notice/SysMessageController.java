@@ -137,8 +137,8 @@ public class SysMessageController {
      * @param query 查询参数
      */
     @Operation(summary = "管理员分页查询站内信")
-    @GetMapping("/admin/page")
-    public R<PageResponse<SysMessageResponse>> findAdminPage(SysMessageQuery query) {
+    @PostMapping("/admin/page")
+    public R<PageResponse<SysMessageResponse>> findAdminPage(@RequestBody SysMessageQuery query) {
         return R.ok().build(sysMessageService.findAdminPage(query));
     }
 
@@ -148,8 +148,8 @@ public class SysMessageController {
      * @param query 查询参数
      */
     @Operation(summary = "管理员分页查看站内信发送详情")
-    @GetMapping("/admin/send/page")
-    public R<MessagePageVO> findAdminPageSend(SysMessageInfoQuery query) {
+    @PostMapping("/admin/send/page")
+    public R<MessagePageVO> findAdminPageSend(@RequestBody SysMessageInfoQuery query) {
         return R.ok().build(sysMessageService.findAdminPageSend(query));
     }
 
@@ -160,8 +160,8 @@ public class SysMessageController {
      * @return 站内信分页列表
      */
     @Operation(summary = "分页查询我接收的站内信")
-    @GetMapping("/my/page")
-    public R<PageResponse<MessageInfoVO>> findMyPage(SysMessageInfoQuery query) {
+    @PostMapping("/my/page")
+    public R<PageResponse<MessageInfoVO>> findMyPage(@RequestBody SysMessageInfoQuery query) {
         return R.ok().build(sysMessageService.findMyPage(query));
     }
 

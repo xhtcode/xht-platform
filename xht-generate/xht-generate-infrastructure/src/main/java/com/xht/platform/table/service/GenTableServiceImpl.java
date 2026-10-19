@@ -12,8 +12,8 @@ import com.xht.framework.utils.spring.SpringContextUtils;
 import com.xht.platform.common.enums.DataBaseTypeEnum;
 import com.xht.platform.datasource.dao.GenDataSourceDao;
 import com.xht.platform.datasource.entity.GenDataSourceEntity;
-import com.xht.platform.generate.bo.ColumnBo;
-import com.xht.platform.generate.bo.TableBo;
+import com.xht.platform.generate.bo.ColumnBO;
+import com.xht.platform.generate.bo.TableBO;
 import com.xht.platform.strategy.IDataBaseQuery;
 import com.xht.platform.table.converter.GenTableColumnConverter;
 import com.xht.platform.table.converter.GenTableColumnQueryConverter;
@@ -96,14 +96,14 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
             List<GenTableColumnEntity> saveColumnEntity = new ArrayList<>();
             List<GenTableColumnQueryEntity> queryColumnEntity = new ArrayList<>();
             for (String tableName : tableNames) {
-                TableBo tableBo = dataBaseQuery.selectTableByTableName(jdbcTemplate, tableName);
+                TableBO tableBo = dataBaseQuery.selectTableByTableName(jdbcTemplate, tableName);
                 if (Objects.nonNull(tableBo)) {
                     tableBo.setTableId(IdUtil.getSnowflakeNextId());
                     GenTableEntity tableEntity = GenInfoHelper.parseTableInfo(dataSourceEntity, tableBo);
                     tableEntity.setGroupId(form.getGroupId());
                     saveTableEntity.add(tableEntity);
-                    List<ColumnBo> columnBoList = dataBaseQuery.selectTableColumnsByTableName(jdbcTemplate, tableName);
-                    List<GenTableColumnEntity> genTableColumnEntities = GenInfoHelper.parseColumnInfos(dataSourceEntity, tableBo, columnBoList);
+                    List<ColumnBO> columnBOList = dataBaseQuery.selectTableColumnsByTableName(jdbcTemplate, tableName);
+                    List<GenTableColumnEntity> genTableColumnEntities = GenInfoHelper.parseColumnInfos(dataSourceEntity, tableBo, columnBOList);
                     saveColumnEntity.addAll(genTableColumnEntities);
                     List<GenTableColumnQueryEntity> queryEntities = GenInfoHelper.genTableColumnQueryEntities(genTableColumnEntities);
                     if (!CollectionUtils.isEmpty(queryEntities)) {
@@ -151,13 +151,13 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
             IDataBaseQuery dataBaseQuery = queryMap.get(dbType);
             AssertUtils.notNull(dataBaseQuery, String.format("暂不支持该数据类型：%s", dbType));
             JdbcTemplate jdbcTemplate = jdbcUtils.getJdbcTemplate();
-            TableBo tableBo = dataBaseQuery.selectTableByTableName(jdbcTemplate, tableName);
+            TableBO tableBo = dataBaseQuery.selectTableByTableName(jdbcTemplate, tableName);
             AssertUtils.notNull(tableBo, String.format("表`%s`不存在", tableName));
             GenTableEntity tableEntity = GenInfoHelper.parseTableInfo(dataSourceEntity, tableBo);
             tableEntity.setId(tableId);
             tableBo.setTableId(tableId);
-            List<ColumnBo> columnBoList = dataBaseQuery.selectTableColumnsByTableName(jdbcTemplate, tableName);
-            List<GenTableColumnEntity> saveColumnEntity = GenInfoHelper.parseColumnInfos(dataSourceEntity, tableBo, columnBoList);
+            List<ColumnBO> columnBOList = dataBaseQuery.selectTableColumnsByTableName(jdbcTemplate, tableName);
+            List<GenTableColumnEntity> saveColumnEntity = GenInfoHelper.parseColumnInfos(dataSourceEntity, tableBo, columnBOList);
             List<GenTableColumnQueryEntity> queryEntities = GenInfoHelper.genTableColumnQueryEntities(saveColumnEntity);
             genTableColumnDao.deleteByTableId(tableId);
             genTableColumnQueryDao.deleteByTableId(tableId);
@@ -266,15 +266,15 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
             DataBaseTypeEnum dbType = dataSourceEntity.getDbType();
             IDataBaseQuery dataBaseQuery = queryMap.get(dbType);
             AssertUtils.notNull(dataBaseQuery, String.format("暂不支持该数据类型：%s", dbType));
-            List<TableBo> tableBoList = dataBaseQuery.selectListTableByLike(jdbcUtils.getJdbcTemplate(), tableName);
-            if (CollectionUtils.isEmpty(tableBoList)) {
+            List<TableBO> tableBOList = dataBaseQuery.selectListTableByLike(jdbcUtils.getJdbcTemplate(), tableName);
+            if (CollectionUtils.isEmpty(tableBOList)) {
                 return Collections.emptyList();
             }
             List<String> tableNames = genTableDao.findTableNameByDbId(dataSourceId);
             if (CollectionUtils.isEmpty(tableNames)) {
-                return genTableConverter.toListResponse(tableBoList);
+                return genTableConverter.toListResponse(tableBOList);
             }
-            return genTableConverter.toListResponse(tableBoList.stream().filter(item -> !tableNames.contains(item.getTableName())).toList());
+            return genTableConverter.toListResponse(tableBOList.stream().filter(item -> !tableNames.contains(item.getTableName())).toList());
         } catch (Exception e) {
             log.error("数据库连接失败 {}", e.getMessage(), e);
             throw new BusinessException("数据库连接失败");

@@ -4,7 +4,7 @@ import com.xht.framework.common.domain.R;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.platform.system.domain.form.UserBindRoleForm;
-import com.xht.platform.system.domain.vo.SysUserRoleBindVo;
+import com.xht.platform.system.domain.vo.SysUserRoleBindVO;
 import com.xht.platform.system.service.ISysUserRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -50,7 +50,7 @@ public class SysUserRoleController {
      */
     @Operation(summary = "获取当前用户拥有的角色ID列表", description = "获取当前用户拥有的角色ID列表")
     @GetMapping("/{userId}")
-    public R<SysUserRoleBindVo> findBindRoleIds(@PathVariable Long userId) {
+    public R<SysUserRoleBindVO> findBindRoleIds(@PathVariable Long userId) {
         return R.ok().build(userRoleService.findBindRoleIds(userId));
     }
 

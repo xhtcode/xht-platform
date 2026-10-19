@@ -4,6 +4,7 @@ import com.xht.framework.common.domain.LabelValue;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.security.annotation.IgnoreAuth;
+import com.xht.framework.validation.Groups;
 import com.xht.platform.notice.domain.form.SysNoticeTypeForm;
 import com.xht.platform.notice.domain.query.SysNoticeTypeQuery;
 import com.xht.platform.notice.domain.response.SysNoticeTypeResponse;
@@ -11,6 +12,7 @@ import com.xht.platform.notice.service.ISysNoticeTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +38,7 @@ public class SysNoticeTypeController {
     @BLog(value = "通知类型", description = "创建通知类型")
     @Operation(summary = "创建通知类型")
     @PostMapping("/create")
-    public R<Void> create(@RequestBody SysNoticeTypeForm form) {
+    public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody SysNoticeTypeForm form) {
         sysNoticeTypeService.create(form);
         return R.ok().build();
     }
@@ -63,7 +65,7 @@ public class SysNoticeTypeController {
     @BLog(value = "通知类型", description = "根据ID更新通知类型")
     @Operation(summary = "根据ID更新通知类型")
     @PostMapping("/update/{noticeTypeId}")
-    public R<Void> updateById(@PathVariable Long noticeTypeId, @RequestBody SysNoticeTypeForm form) {
+    public R<Void> updateById(@PathVariable Long noticeTypeId, @Validated(value = {Groups.Update.class}) @RequestBody SysNoticeTypeForm form) {
         sysNoticeTypeService.updateById(noticeTypeId, form);
         return R.ok().build();
     }

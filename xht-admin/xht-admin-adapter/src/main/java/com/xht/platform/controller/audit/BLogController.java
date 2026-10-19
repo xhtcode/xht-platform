@@ -11,6 +11,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,8 +49,8 @@ public class BLogController {
      * @return 系统日志岗位分页信息
      */
     @Operation(summary = "分页查询系统日志岗位", description = "根据提供的查询请求参数分页查询系统日志岗位信息")
-    @GetMapping("/page")
-    public R<PageResponse<BLogResponse>> findPageList(@Valid BLogQuery query) {
+    @PostMapping("/page")
+    public R<PageResponse<BLogResponse>> findPageList(@Valid @RequestBody BLogQuery query) {
         return R.ok().build(bLogService.findPageList(query));
     }
 

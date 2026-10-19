@@ -3,6 +3,7 @@ package com.xht.platform.generate.bo;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.common.constant.StringConstant;
+import com.xht.framework.common.domain.bo.XhtBO;
 import com.xht.framework.utils.StringUtils;
 import com.xht.platform.common.enums.GenStatusEnum;
 import com.xht.platform.common.enums.IdPrimaryKeyEnum;
@@ -10,7 +11,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.Objects;
 
 import static com.xht.platform.common.constant.GenConstant.COLUMN_NOT_FORM;
@@ -22,7 +22,7 @@ import static com.xht.platform.common.constant.GenConstant.COLUMN_NOT_LIST;
  * @author xht
  **/
 @Getter
-public class ColumnBo implements Serializable {
+public class ColumnBO implements XhtBO {
 
     @Serial
     private static final long serialVersionUID = 1L;

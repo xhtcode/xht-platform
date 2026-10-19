@@ -26,7 +26,7 @@ public interface IGenCodeCoreService {
      * 根据请求参数预览将要生成的代码内容，返回代码预览信息列表
      *
      * @param genCodeCoreForm 代码生成核心请求参数，包含生成代码所需的配置信息
-     * @return List<GenCodeCoreBo> 代码预览信息列表，包含各个代码文件的内容
+     * @return List<GenCodeCoreBO> 代码预览信息列表，包含各个代码文件的内容
      */
     List<GenCodeCoreVO> viewCode(GenCodeCoreForm genCodeCoreForm);
 

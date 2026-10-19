@@ -12,4 +12,8 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 @AutoConfiguration
 public class SmsAutoConfiguration {
 
+    public SmsAutoConfiguration() {
+        log.debug("【xht-sms-spring-boot-starter】 SmsAutoConfiguration 启动成功！");
+    }
+
 }

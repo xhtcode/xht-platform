@@ -7,7 +7,7 @@ import com.xht.platform.system.converter.SysRoleConverter;
 import com.xht.platform.system.dao.SysRoleDao;
 import com.xht.platform.system.dao.SysUserDao;
 import com.xht.platform.system.dao.SysUserRoleDao;
-import com.xht.platform.system.domain.vo.SysUserRoleBindVo;
+import com.xht.platform.system.domain.vo.SysUserRoleBindVO;
 import com.xht.platform.system.entity.SysUserEntity;
 import com.xht.platform.system.entity.SysUserRoleEntity;
 import com.xht.platform.system.enums.RoleStatusEnum;
@@ -26,7 +26,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SysSysUserRoleServiceImpl implements ISysUserRoleService {
+public class SysUserRoleServiceImpl implements ISysUserRoleService {
 
     private final SysUserDao sysUserDao;
 
@@ -68,11 +68,11 @@ public class SysSysUserRoleServiceImpl implements ISysUserRoleService {
      * @return 用户角色绑定信息VO
      */
     @Override
-    public SysUserRoleBindVo findBindRoleIds(Long userId) {
+    public SysUserRoleBindVO findBindRoleIds(Long userId) {
         AssertUtils.notNull(userId, "用户ID不能为空");
         SysUserEntity sysUser = sysUserDao.findById(userId);
         AssertUtils.notNull(sysUser, "用户不存在");
-        SysUserRoleBindVo result = new SysUserRoleBindVo();
+        SysUserRoleBindVO result = new SysUserRoleBindVO();
         result.setUserId(sysUser.getId());
         result.setUserType(sysUser.getUserType());
         result.setUserName(sysUser.getUserName());

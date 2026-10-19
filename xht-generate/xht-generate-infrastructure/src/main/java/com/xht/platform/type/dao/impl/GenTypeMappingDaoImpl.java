@@ -1,4 +1,4 @@
-package com.xht.platform.template.dao.impl;
+package com.xht.platform.type.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;

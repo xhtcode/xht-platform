@@ -2,6 +2,7 @@ package com.xht.platform.controller.table;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.validation.Groups;
 import com.xht.platform.table.domain.form.ImportTableForm;
 import com.xht.platform.table.domain.form.TableColumnForm;
@@ -40,6 +41,7 @@ public class GenTableController {
      * @param form 表信息表单请求参数
      * @return 统一响应结果 true表示成功，false表示失败
      */
+    @BLog(value = "表信息管理", description = "导入表")
     @Operation(summary = "创建表信息")
     @PostMapping("/import")
     public R<Void> importTable(@Validated @RequestBody ImportTableForm form) {
@@ -53,6 +55,7 @@ public class GenTableController {
      * @param tableId 表id
      * @return 统一响应结果 true表示成功，false表示失败
      */
+    @BLog(value = "表信息管理", description = "同步表信息")
     @Operation(summary = "同步表信息")
     @PostMapping("/syncTable/{tableId}")
     public R<Void> syncTable(@PathVariable @Validated Long tableId) {
@@ -66,6 +69,7 @@ public class GenTableController {
      * @param tableId 表信息ID
      * @return 统一响应结果 true表示成功，false表示失败
      */
+    @BLog(value = "表信息管理", description = "删除表信息")
     @Operation(summary = "根据ID删除表信息")
     @PostMapping("/remove/{tableId}")
     public R<Void> removeById(@PathVariable @Parameter(description = "表信息ID", required = true) Long tableId) {
@@ -79,6 +83,7 @@ public class GenTableController {
      * @param form 表信息更新请求参数
      * @return 统一响应结果 true表示成功，false表示失败
      */
+    @BLog(value = "表信息管理", description = "修改表字段信息")
     @Operation(summary = "根据ID更新表信息")
     @PostMapping("/update")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody TableColumnForm form) {
@@ -105,8 +110,8 @@ public class GenTableController {
      * @return 分页结果封装对象，包含表信息列表和分页信息
      */
     @Operation(summary = "分页查询表信息")
-    @GetMapping("/exists/page")
-    public R<PageResponse<GenTableResponse>> selectExistsPage(GenTableInfoQuery query) {
+    @PostMapping("/exists/page")
+    public R<PageResponse<GenTableResponse>> selectExistsPage(@RequestBody GenTableInfoQuery query) {
         return R.ok().build(genTableInfoService.selectExistsPage(query));
     }
 

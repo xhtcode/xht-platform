@@ -8,8 +8,8 @@ import com.xht.framework.exception.UtilException;
 import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.platform.common.constant.GenConstant;
-import com.xht.platform.generate.bo.GenCodeCoreBo;
-import com.xht.platform.generate.bo.TableInfoBo;
+import com.xht.platform.generate.bo.GenCodeCoreBO;
+import com.xht.platform.generate.bo.TableInfoBO;
 import com.xht.platform.generate.domain.form.GenCodeCoreForm;
 import com.xht.platform.template.entity.GenTemplateEntity;
 import org.apache.velocity.VelocityContext;
@@ -46,11 +46,11 @@ public final class GenCodeHelper {
      * 生成代码文件
      *
      * @param request     代码生成核心请求参数
-     * @param tableInfoBo 表信息业务对象
+     * @param tableInfoBO 表信息业务对象
      * @param codeCore    解析后的代码核心业务对象列表
      */
-    public static List<GenCodeCoreBo> generateCode(GenCodeCoreForm request, TableInfoBo tableInfoBo, List<GenCodeCoreBo> codeCore) {
-        List<GenCodeCoreBo> result = new ArrayList<>();
+    public static List<GenCodeCoreBO> generateCode(GenCodeCoreForm request, TableInfoBO tableInfoBO, List<GenCodeCoreBO> codeCore) {
+        List<GenCodeCoreBO> result = new ArrayList<>();
         if (CollectionUtils.isEmpty(codeCore)) {
             return Collections.emptyList();
         }
@@ -58,9 +58,9 @@ public final class GenCodeHelper {
         context.put("packageName", request.getPackageName());
         context.put("nowDate", DateUtil.now());
         addIdGenerators(context);
-        for (GenCodeCoreBo item : codeCore) {
+        for (GenCodeCoreBO item : codeCore) {
             Set<String> ignoreField = item.getIgnoreField();
-            tableInfoBo.fillVelocityContext(context, ignoreField);
+            tableInfoBO.fillVelocityContext(context, ignoreField);
             // 渲染文件路径
             context.put("packageName", StrUtil.replace(request.getPackageName(), GenConstant.POINT, GenConstant.PATH_SEPARATOR));
             String resolvedPath = renderTemplate(context, "filePathTemplate", item.getFilePath());
@@ -69,13 +69,13 @@ public final class GenCodeHelper {
             context.put("packageName", request.getPackageName());
             // 渲染文件内容
             String resolvedCode = renderTemplate(context, "codeTemplate", item.getCode());
-            GenCodeCoreBo genCodeCoreBo = new GenCodeCoreBo(item.getIgnoreField());
-            genCodeCoreBo.setFilePath(String.format("%s.%s", resolvedPath, item.getFileType()));
-            genCodeCoreBo.setFileName(fileName);
-            genCodeCoreBo.setTableName(tableInfoBo.getTableName());
-            genCodeCoreBo.setCode(resolvedCode);
-            genCodeCoreBo.setFileType(item.getFileType());
-            result.add(genCodeCoreBo);
+            GenCodeCoreBO genCodeCoreBO = new GenCodeCoreBO(item.getIgnoreField());
+            genCodeCoreBO.setFilePath(String.format("%s.%s", resolvedPath, item.getFileType()));
+            genCodeCoreBO.setFileName(fileName);
+            genCodeCoreBO.setTableName(tableInfoBO.getTableName());
+            genCodeCoreBO.setCode(resolvedCode);
+            genCodeCoreBO.setFileType(item.getFileType());
+            result.add(genCodeCoreBO);
         }
         return result;
     }
@@ -98,18 +98,18 @@ public final class GenCodeHelper {
      * @param templateList 模板实体列表
      * @return 代码核心业务对象列表，包含文件路径和模板内容
      */
-    public static List<GenCodeCoreBo> parseTemplates(List<GenTemplateEntity> templateList) {
+    public static List<GenCodeCoreBO> parseTemplates(List<GenTemplateEntity> templateList) {
         if (CollectionUtils.isEmpty(templateList)) {
             throw new BusinessException("模板列表不能为空");
         }
         return templateList.stream()
                 .map((template) -> {
-                    GenCodeCoreBo genCodeCoreBo = new GenCodeCoreBo(template.getTemplateIgnoreField());
-                    genCodeCoreBo.setFilePath(String.format("%s%s", StringUtils.replace(template.getTemplateFilePath(), GenConstant.POINT, GenConstant.PATH_SEPARATOR), template.getTemplateFileName()));
-                    genCodeCoreBo.setFileName(String.format("%s.%s", template.getTemplateFileName(), template.getTemplateFileType()));
-                    genCodeCoreBo.setCode(template.getTemplateContent());
-                    genCodeCoreBo.setFileType(template.getTemplateFileType());
-                    return genCodeCoreBo;
+                    GenCodeCoreBO genCodeCoreBO = new GenCodeCoreBO(template.getTemplateIgnoreField());
+                    genCodeCoreBO.setFilePath(String.format("%s%s", StringUtils.replace(template.getTemplateFilePath(), GenConstant.POINT, GenConstant.PATH_SEPARATOR), template.getTemplateFileName()));
+                    genCodeCoreBO.setFileName(String.format("%s.%s", template.getTemplateFileName(), template.getTemplateFileType()));
+                    genCodeCoreBO.setCode(template.getTemplateContent());
+                    genCodeCoreBO.setFileType(template.getTemplateFileType());
+                    return genCodeCoreBO;
                 })
                 .collect(Collectors.toList());
     }

@@ -1,5 +1,6 @@
 package com.xht.platform.generate.bo;
 
+import com.xht.framework.common.domain.bo.XhtBO;
 import lombok.Data;
 
 /**
@@ -8,7 +9,7 @@ import lombok.Data;
  * @author xht
  **/
 @Data
-public class ColumnQueryBo {
+public class ColumnQueryBO implements XhtBO {
 
     /**
      * 表id

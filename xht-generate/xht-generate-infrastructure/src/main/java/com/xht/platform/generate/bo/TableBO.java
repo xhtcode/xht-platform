@@ -2,12 +2,12 @@ package com.xht.platform.generate.bo;
 
 import cn.hutool.core.util.StrUtil;
 import com.xht.framework.common.constant.StringConstant;
+import com.xht.framework.common.domain.bo.XhtBO;
 import com.xht.framework.utils.StringUtils;
 import com.xht.platform.common.constant.GenConstant;
 import lombok.Data;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import static com.xht.platform.common.constant.GenConstant.PATH_SEPARATOR;
@@ -18,7 +18,7 @@ import static com.xht.platform.common.constant.GenConstant.PATH_SEPARATOR;
  * @author xht
  **/
 @Data
-public class TableBo implements Serializable {
+public class TableBO implements XhtBO {
 
     @Serial
     private static final long serialVersionUID = 1L;

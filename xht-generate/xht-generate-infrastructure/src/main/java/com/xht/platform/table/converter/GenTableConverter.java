@@ -2,7 +2,7 @@ package com.xht.platform.table.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
 import com.xht.framework.utils.CollectionUtils;
-import com.xht.platform.generate.bo.TableBo;
+import com.xht.platform.generate.bo.TableBO;
 import com.xht.platform.table.domain.form.GenTableInfoForm;
 import com.xht.platform.table.domain.response.GenTableResponse;
 import com.xht.platform.table.entity.GenTableEntity;
@@ -31,20 +31,20 @@ public interface GenTableConverter extends BasicConverter<GenTableEntity, GenTab
      */
     @Mapping(target = "codeName", ignore = true)
     @Mapping(target = "codeComment", ignore = true)
-    GenTableResponse toResponse(TableBo tableBo);
+    GenTableResponse toResponse(TableBO tableBo);
 
     /**
      * 将表信息业务对象转换为表信息响应对象
      *
-     * @param tableBoList 表信息业务对象，包含从数据库获取的表基本信息，非null
+     * @param tableBOList 表信息业务对象，包含从数据库获取的表基本信息，非null
      * @return 转换后的表信息响应对象，用于返回给客户端，非null
      */
-    default List<GenTableResponse> toListResponse(List<TableBo> tableBoList) {
-        if (CollectionUtils.isEmpty(tableBoList)) {
+    default List<GenTableResponse> toListResponse(List<TableBO> tableBOList) {
+        if (CollectionUtils.isEmpty(tableBOList)) {
             return Collections.emptyList();
         }
         List<GenTableResponse> responseList = new ArrayList<>();
-        for (TableBo tableBo : tableBoList) {
+        for (TableBO tableBo : tableBOList) {
             responseList.add(toResponse(tableBo));
         }
         return responseList;

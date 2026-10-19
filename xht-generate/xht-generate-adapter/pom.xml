@@ -23,6 +23,11 @@
             <groupId>com.xht.framework</groupId>
             <artifactId>xht-web-spring-boot-starter</artifactId>
         </dependency>
+        <!-- @BLog 注解来源：仅在 adapter 编译期使用，版本由 xht-framework-dependencies 管理 -->
+        <dependency>
+            <groupId>com.xht.framework</groupId>
+            <artifactId>xht-log-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

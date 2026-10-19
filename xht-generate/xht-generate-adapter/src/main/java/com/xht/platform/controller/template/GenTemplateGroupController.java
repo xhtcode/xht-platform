@@ -2,6 +2,7 @@ package com.xht.platform.controller.template;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.validation.Groups;
 import com.xht.platform.template.domain.form.GenTemplateGroupForm;
 import com.xht.platform.template.domain.query.GenTemplateGroupQuery;
@@ -39,6 +40,7 @@ public class GenTemplateGroupController {
      * @param form 包含项目创建信息的表单数据，必须通过Create组验证
      * @return 统一响应结果
      */
+    @BLog(value = "模板分组管理", description = "创建模板分组")
     @Operation(summary = "创建项目", description = "根据提供的请求参数创建一个新的项目")
     @PostMapping("/create")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTemplateGroupForm form) {
@@ -54,6 +56,7 @@ public class GenTemplateGroupController {
      * @param id 项目ID
      * @return 统一响应结果
      */
+    @BLog(value = "模板分组管理", description = "删除模板分组")
     @Operation(summary = "根据ID删除项目", description = "根据提供的项目ID删除项目")
     @PostMapping("/remove/{id}")
     public R<Void> removeById(@PathVariable @Parameter(description = "项目ID", required = true) Long id) {
@@ -67,6 +70,7 @@ public class GenTemplateGroupController {
      * @param form 项目更新请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "模板分组管理", description = "修改模板分组")
     @Operation(summary = "根据ID更新项目", description = "根据提供的项目更新请求参数更新项目")
     @PostMapping("/update")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTemplateGroupForm form) {
@@ -94,8 +98,8 @@ public class GenTemplateGroupController {
      * @return 代码生成模板组列表响应结果
      */
     @Operation(summary = "分页查询", description = "根据提供的查询请求参数分页查询代码生成模板组信息")
-    @GetMapping("/page")
-    public R<PageResponse<GenTemplateGroupResponse>> findPageList(GenTemplateGroupQuery query) {
+    @PostMapping("/page")
+    public R<PageResponse<GenTemplateGroupResponse>> findPageList(@RequestBody GenTemplateGroupQuery query) {
         return R.ok().build(genTemplateGroupService.findPageList(query));
     }
 

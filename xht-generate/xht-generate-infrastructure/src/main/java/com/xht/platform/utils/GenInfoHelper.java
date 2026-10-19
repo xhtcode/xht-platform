@@ -9,8 +9,8 @@ import com.xht.framework.utils.spring.SpringContextUtils;
 import com.xht.platform.common.enums.DataBaseTypeEnum;
 import com.xht.platform.common.enums.PageStyleEnum;
 import com.xht.platform.datasource.entity.GenDataSourceEntity;
-import com.xht.platform.generate.bo.ColumnBo;
-import com.xht.platform.generate.bo.TableBo;
+import com.xht.platform.generate.bo.ColumnBO;
+import com.xht.platform.generate.bo.TableBO;
 import com.xht.platform.table.entity.GenTableColumnEntity;
 import com.xht.platform.table.entity.GenTableColumnQueryEntity;
 import com.xht.platform.table.entity.GenTableEntity;
@@ -46,7 +46,7 @@ public final class GenInfoHelper {
      * @param dataSourceEntity 数据源实体
      * @param tableBo          表信息实体
      */
-    public static GenTableEntity parseTableInfo(GenDataSourceEntity dataSourceEntity, TableBo tableBo) {
+    public static GenTableEntity parseTableInfo(GenDataSourceEntity dataSourceEntity, TableBO tableBo) {
         GenTableEntity tableEntity = new GenTableEntity();
         tableEntity.setId(tableBo.getTableId());
         tableEntity.setGroupId(null);
@@ -80,13 +80,13 @@ public final class GenInfoHelper {
      * @param tableBo        表信息业务对象
      * @param columnInfoList 列信息业务对象
      */
-    public static List<GenTableColumnEntity> parseColumnInfos(GenDataSourceEntity dataSourceEntity, TableBo tableBo, List<ColumnBo> columnInfoList) {
+    public static List<GenTableColumnEntity> parseColumnInfos(GenDataSourceEntity dataSourceEntity, TableBO tableBo, List<ColumnBO> columnInfoList) {
         if (columnInfoList == null || columnInfoList.isEmpty()) {
             log.warn("表[{}]的列信息列表为空，无需解析", tableBo.getTableName());
             return Collections.emptyList();
         }
         List<GenTableColumnEntity> columnEntityList = new ArrayList<>();
-        for (ColumnBo columnBo : columnInfoList) {
+        for (ColumnBO columnBo : columnInfoList) {
             columnEntityList.add(convertColumnBoToEntity(dataSourceEntity.getDbType(), tableBo, columnBo));
         }
         return columnEntityList;
@@ -100,7 +100,7 @@ public final class GenInfoHelper {
      * @param columnBo 列信息业务对象
      * @return 表列实体对象
      */
-    private static GenTableColumnEntity convertColumnBoToEntity(DataBaseTypeEnum dataBaseTypeEnum, TableBo tableBo, ColumnBo columnBo) {
+    private static GenTableColumnEntity convertColumnBoToEntity(DataBaseTypeEnum dataBaseTypeEnum, TableBO tableBo, ColumnBO columnBo) {
         GenTableColumnEntity result = new GenTableColumnEntity();
         result.setId(IdUtil.getSnowflakeNextId());
         result.setTableId(tableBo.getTableId());

@@ -93,8 +93,8 @@ public class SysDictItemController {
      * @return 分页字典项
      */
     @Operation(summary = "分页查询字典项")
-    @GetMapping("/page")
-    public R<PageResponse<SysDictItemResponse>> page(SysDictItemQuery query) {
+    @PostMapping("/page")
+    public R<PageResponse<SysDictItemResponse>> page(@RequestBody SysDictItemQuery query) {
         return R.ok().build(sysDictItemService.findPageList(query));
     }
 

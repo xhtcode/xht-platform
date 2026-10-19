@@ -1,8 +1,8 @@
 package com.xht.platform.strategy;
 
 import com.xht.platform.common.enums.DataBaseTypeEnum;
-import com.xht.platform.generate.bo.ColumnBo;
-import com.xht.platform.generate.bo.TableBo;
+import com.xht.platform.generate.bo.ColumnBO;
+import com.xht.platform.generate.bo.TableBO;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
@@ -19,18 +19,18 @@ public abstract class IDataBaseQuery {
      *
      * @param jdbcTemplate JDBC模板，用于执行SQL查询
      * @param tableName    表名
-     * @return {@link TableBo} 表信息对象
+     * @return {@link TableBO} 表信息对象
      */
-    public abstract TableBo selectTableByTableName(final JdbcTemplate jdbcTemplate, String tableName);
+    public abstract TableBO selectTableByTableName(final JdbcTemplate jdbcTemplate, String tableName);
 
     /**
      * 根据表名模糊查询多表信息
      *
      * @param jdbcTemplate JDBC模板，用于执行SQL查询
      * @param tableName    表名
-     * @return {@link TableBo} 表信息对象
+     * @return {@link TableBO} 表信息对象
      */
-    public abstract List<TableBo> selectListTableByLike(final JdbcTemplate jdbcTemplate, String tableName);
+    public abstract List<TableBO> selectListTableByLike(final JdbcTemplate jdbcTemplate, String tableName);
 
 
     /**
@@ -38,9 +38,9 @@ public abstract class IDataBaseQuery {
      *
      * @param jdbcTemplate JDBC模板，用于执行SQL查询
      * @param tableName    表名
-     * @return {@link ColumnBo}字段信息列表
+     * @return {@link ColumnBO}字段信息列表
      */
-    public abstract List<ColumnBo> selectTableColumnsByTableName(final JdbcTemplate jdbcTemplate, String tableName);
+    public abstract List<ColumnBO> selectTableColumnsByTableName(final JdbcTemplate jdbcTemplate, String tableName);
 
     /**
      * 支持的解析类型

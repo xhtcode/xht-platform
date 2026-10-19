@@ -43,7 +43,7 @@ import java.util.Objects;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ILoginServiceImpl implements ILoginService {
+public class LoginServiceImpl implements ILoginService {
 
     private final RestClient restClient;
 

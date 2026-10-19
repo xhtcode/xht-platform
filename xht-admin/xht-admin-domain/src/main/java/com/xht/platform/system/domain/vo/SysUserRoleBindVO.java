@@ -16,7 +16,7 @@ import java.util.List;
  **/
 @Data
 @Schema(description = "用户角色绑定信息VO")
-public class SysUserRoleBindVo implements XhtVO {
+public class SysUserRoleBindVO implements XhtVO {
 
     /**
      * 用户ID

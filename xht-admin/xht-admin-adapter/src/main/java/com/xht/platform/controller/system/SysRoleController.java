@@ -121,8 +121,8 @@ public class SysRoleController {
      * @return 角色分页信息
      */
     @Operation(summary = "分页查询", description = "根据提供的查询请求参数分页查询角色信息")
-    @GetMapping("/page")
-    public R<PageResponse<SysRoleResponse>> findPageList(SysRoleQuery query) {
+    @PostMapping("/page")
+    public R<PageResponse<SysRoleResponse>> findPageList(@RequestBody SysRoleQuery query) {
         return R.ok().build(sysRoleService.findPageList(query));
     }
 

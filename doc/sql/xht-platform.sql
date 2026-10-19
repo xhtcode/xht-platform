@@ -446,8 +446,10 @@ CREATE TABLE `sys_user_role`
 DROP TABLE IF EXISTS `b_log`;
 CREATE TABLE `b_log`
 (
-    `id`                bigint      NOT NULL COMMENT '主键ID',
-    `trace_id`          varchar(64)  DEFAULT NULL COMMENT '链路ID（全局唯一，如UUID）',
+    `id`                bigint       NOT NULL COMMENT '主键ID',
+    `title`             varchar(128)  DEFAULT NULL COMMENT '日志名称（@BLog.value）',
+    `log_desc`          varchar(255)  DEFAULT NULL COMMENT '日志描述（@BLog.description）',
+    `trace_id`          varchar(64)   DEFAULT NULL COMMENT '链路ID（全局唯一，如UUID）',
     `service_name`      varchar(64) NOT NULL COMMENT '服务名称（如demo-service）',
     `class_method`      varchar(128) DEFAULT NULL COMMENT '类名加方法名（如com.demo.controller.UserController.queryUser）',
     `request_params`    text COMMENT '调用参数（GET/POST参数，JSON格式）',
@@ -460,7 +462,10 @@ CREATE TABLE `b_log`
     `execute_cost`      bigint       DEFAULT '0' COMMENT '执行耗时（单位：毫秒）',
     `execute_status`    varchar(16) NOT NULL COMMENT '执行状态（success：成功，fail：失败）',
     `execute_exception` text COMMENT '执行异常信息（失败时存储异常堆栈）',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    KEY `idx_b_log_execute_time` (`execute_time`),
+    KEY `idx_b_log_trace_id` (`trace_id`),
+    KEY `idx_b_log_service_name` (`service_name`)
 ) ENGINE = InnoDB COMMENT = '系统日志表';
 -- ----------------------------
 -- Table structure for sys_file

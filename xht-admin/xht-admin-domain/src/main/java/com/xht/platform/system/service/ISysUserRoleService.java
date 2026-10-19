@@ -1,6 +1,6 @@
 package com.xht.platform.system.service;
 
-import com.xht.platform.system.domain.vo.SysUserRoleBindVo;
+import com.xht.platform.system.domain.vo.SysUserRoleBindVO;
 
 import java.util.List;
 
@@ -25,6 +25,6 @@ public interface ISysUserRoleService {
      * @param userId 用户ID
      * @return 用户角色绑定信息VO
      */
-    SysUserRoleBindVo findBindRoleIds(Long userId);
+    SysUserRoleBindVO findBindRoleIds(Long userId);
 
 }

@@ -36,6 +36,11 @@
             <groupId>com.xht.framework</groupId>
             <artifactId>xht-spring-cloud-starter</artifactId>
         </dependency>
+        <!-- 操作日志上报：提供 feign 模式的 BLogRepository，版本由根 pom dependencyManagement 管理 -->
+        <dependency>
+            <groupId>com.xht.platform</groupId>
+            <artifactId>xht-platform-client-blog</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

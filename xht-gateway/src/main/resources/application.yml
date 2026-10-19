@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8080
   servlet:
     session:
       cookie:
@@ -30,8 +30,8 @@ spring:
                 - Path=/admin/**
               filters:
                 - StripPrefix=1
-            - id: xht--generate
-              uri: lb://xht--generate #此处需要使用lb协议
+            - id: xht-generate
+              uri: lb://xht-generate # 服务注册名为 xht-generate（见 xht-generate-start/application.yml）
               predicates:
                 - Path=/generate/**
               filters:

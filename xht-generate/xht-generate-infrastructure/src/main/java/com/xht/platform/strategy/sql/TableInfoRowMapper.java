@@ -1,7 +1,7 @@
 package com.xht.platform.strategy.sql;
 
 import cn.hutool.core.convert.Convert;
-import com.xht.platform.generate.bo.TableBo;
+import com.xht.platform.generate.bo.TableBO;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -14,11 +14,11 @@ import java.sql.SQLException;
  * @author xht
  **/
 @AllArgsConstructor
-public class TableInfoRowMapper implements RowMapper<TableBo> {
+public class TableInfoRowMapper implements RowMapper<TableBO> {
 
     @Override
-    public TableBo mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-        TableBo tableBo = new TableBo();
+    public TableBO mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+        TableBO tableBo = new TableBO();
         tableBo.setTableName(resultSet.getString("table_name"));
         tableBo.setEngineName(resultSet.getString("engine_name"));
         tableBo.setTableComment(resultSet.getString("table_comment"));

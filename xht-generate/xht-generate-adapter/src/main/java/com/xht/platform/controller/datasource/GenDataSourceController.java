@@ -1,6 +1,7 @@
 package com.xht.platform.controller.datasource;
 
 import com.xht.framework.common.domain.R;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.validation.Groups;
 import com.xht.platform.datasource.domain.form.GenDataSourceForm;
 import com.xht.platform.datasource.domain.query.GenDataSourceQuery;
@@ -36,6 +37,7 @@ public class GenDataSourceController {
      * @param form 数据源表单请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "数据源管理", description = "创建数据源")
     @Operation(summary = "创建数据源", description = "根据提供的请求参数创建一个新的数据源")
     @PostMapping("/create")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenDataSourceForm form) {
@@ -49,6 +51,7 @@ public class GenDataSourceController {
      * @param id 数据源ID
      * @return 统一响应结果
      */
+    @BLog(value = "数据源管理", description = "删除数据源")
     @Operation(summary = "根据ID删除数据源", description = "根据提供的数据源ID删除数据源")
     @PostMapping("/remove/{id}")
     public R<Void> removeById(@PathVariable @Parameter(description = "数据源ID", required = true) Long id) {
@@ -62,6 +65,7 @@ public class GenDataSourceController {
      * @param form 数据源更新请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "数据源管理", description = "修改数据源")
     @Operation(summary = "根据ID更新数据源", description = "根据提供的数据源更新请求参数更新数据源")
     @PostMapping("/update")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenDataSourceForm form) {

@@ -42,7 +42,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ISysNoticeServiceImpl implements ISysNoticeService {
+public class SysNoticeServiceImpl implements ISysNoticeService {
 
     private final SysNoticeDao sysNoticeDao;
 

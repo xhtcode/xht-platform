@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: xht-module-generate
+    name: xht-generate
   profiles:
     active: @profiles.active@
   # 数据源配置
@@ -35,6 +35,13 @@ spring:
         group: @nacos.group@
         file-extension: yml
         prefix: ${spring.application.name} # 默认配置
+    openfeign:
+      client:
+        config:
+          # 操作日志上报（IBLogClient 的 contextId）：日志切面在 finally 内同步调用，超时必须短
+          bLogClient:
+            connect-timeout: 1000
+            read-timeout: 2000
   data:
     mongodb:
       uri: mongodb://127.0.0.1:27017/moa

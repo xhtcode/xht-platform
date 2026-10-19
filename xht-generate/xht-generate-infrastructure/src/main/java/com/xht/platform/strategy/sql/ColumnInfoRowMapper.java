@@ -1,6 +1,6 @@
 package com.xht.platform.strategy.sql;
 
-import com.xht.platform.generate.bo.ColumnBo;
+import com.xht.platform.generate.bo.ColumnBO;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -11,11 +11,11 @@ import java.sql.SQLException;
  *
  * @author xht
  **/
-public class ColumnInfoRowMapper implements RowMapper<ColumnBo> {
+public class ColumnInfoRowMapper implements RowMapper<ColumnBO> {
 
     @Override
-    public ColumnBo mapRow(ResultSet rs, int rowNum) throws SQLException {
-        ColumnBo columnBo = new ColumnBo();
+    public ColumnBO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        ColumnBO columnBo = new ColumnBO();
         columnBo.setDbName(rs.getString("column_name"));
         columnBo.setDbType(rs.getString("column_db_type"));
         columnBo.setDbComment(rs.getString("column_comment"));

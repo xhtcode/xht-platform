@@ -146,8 +146,8 @@ public class SysUserController {
      * @return 返回一个R对象，其中包含Page<SysUserVO>对象，表示分页用户列表信息
      */
     @Operation(summary = "分页查询", description = "分页获取用户列表")
-    @GetMapping("/page")
-    public R<PageResponse<SysUserResponse>> findPageList(SysUserQuery query) {
+    @PostMapping("/page")
+    public R<PageResponse<SysUserResponse>> findPageList(@RequestBody SysUserQuery query) {
         return R.ok().build(userService.findPageList(query));
     }
 

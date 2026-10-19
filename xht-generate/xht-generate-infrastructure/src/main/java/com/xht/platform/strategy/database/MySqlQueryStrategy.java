@@ -3,8 +3,8 @@ package com.xht.platform.strategy.database;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.common.enums.DataBaseTypeEnum;
-import com.xht.platform.generate.bo.ColumnBo;
-import com.xht.platform.generate.bo.TableBo;
+import com.xht.platform.generate.bo.ColumnBO;
+import com.xht.platform.generate.bo.TableBO;
 import com.xht.platform.strategy.sql.ColumnInfoRowMapper;
 import com.xht.platform.strategy.sql.TableInfoRowMapper;
 import com.xht.platform.strategy.IDataBaseQuery;
@@ -69,10 +69,10 @@ public class MySqlQueryStrategy extends IDataBaseQuery {
      *
      * @param jdbcTemplate JDBC模板，用于执行SQL查询
      * @param tableName    表名
-     * @return {@link TableBo} 表信息实体对象
+     * @return {@link TableBO} 表信息实体对象
      */
     @Override
-    public TableBo selectTableByTableName(JdbcTemplate jdbcTemplate, String tableName) {
+    public TableBO selectTableByTableName(JdbcTemplate jdbcTemplate, String tableName) {
         return jdbcTemplate.queryForObject(QUERY_TABLE_SQL + " AND table_name = ?", new TableInfoRowMapper(), tableName);
     }
 
@@ -81,10 +81,10 @@ public class MySqlQueryStrategy extends IDataBaseQuery {
      *
      * @param jdbcTemplate JDBC模板，用于执行SQL查询
      * @param tableName    表名
-     * @return {@link TableBo} 表信息对象
+     * @return {@link TableBO} 表信息对象
      */
     @Override
-    public List<TableBo> selectListTableByLike(JdbcTemplate jdbcTemplate, String tableName) {
+    public List<TableBO> selectListTableByLike(JdbcTemplate jdbcTemplate, String tableName) {
         StringBuilder sql = new StringBuilder(QUERY_TABLE_SQL);
         // 添加表名模糊查询条件
         if (StringUtils.hasText(tableName)) {
@@ -100,10 +100,10 @@ public class MySqlQueryStrategy extends IDataBaseQuery {
      *
      * @param jdbcTemplate JDBC模板，用于执行SQL查询
      * @param tableName    表名
-     * @return {@link ColumnBo}字段信息列表
+     * @return {@link ColumnBO}字段信息列表
      */
     @Override
-    public List<ColumnBo> selectTableColumnsByTableName(JdbcTemplate jdbcTemplate, String tableName) {
+    public List<ColumnBO> selectTableColumnsByTableName(JdbcTemplate jdbcTemplate, String tableName) {
         AssertUtils.hasText(tableName, "表名不能为空");
         return jdbcTemplate.query(QUERY_COLUMN_SQL, new ColumnInfoRowMapper(), tableName);
     }

@@ -3,8 +3,8 @@ package com.xht.platform.generate.service;
 import cn.hutool.core.io.IoUtil;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.utils.AssertUtils;
-import com.xht.platform.generate.bo.GenCodeCoreBo;
-import com.xht.platform.generate.bo.TableInfoBo;
+import com.xht.platform.generate.bo.GenCodeCoreBO;
+import com.xht.platform.generate.bo.TableInfoBO;
 import com.xht.platform.generate.converter.GenCodeCoreConverter;
 import com.xht.platform.generate.domain.form.GenCodeCoreForm;
 import com.xht.platform.generate.domain.vo.GenCodeCoreVO;
@@ -65,7 +65,7 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
      * 根据请求参数预览将要生成的代码内容，返回代码预览信息列表
      *
      * @param genCodeCoreForm 代码生成核心请求参数，包含生成代码所需的配置信息
-     * @return List<GenCodeCoreBo> 代码预览信息列表，包含各个代码文件的内容
+     * @return List<GenCodeCoreBO> 代码预览信息列表，包含各个代码文件的内容
      */
     @Override
     public List<GenCodeCoreVO> viewCode(GenCodeCoreForm genCodeCoreForm) {
@@ -73,8 +73,8 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
             return Collections.emptyList();
         }
         List<GenCodeCoreVO> result = new ArrayList<>();
-        List<GenCodeCoreBo> codeCoreBoList = generateCodeOriginal(genCodeCoreForm);
-        Map<String, List<GenCodeCoreBo>> collect = codeCoreBoList.stream().collect(Collectors.groupingBy(GenCodeCoreBo::getTableName));
+        List<GenCodeCoreBO> codeCoreBOList = generateCodeOriginal(genCodeCoreForm);
+        Map<String, List<GenCodeCoreBO>> collect = codeCoreBOList.stream().collect(Collectors.groupingBy(GenCodeCoreBO::getTableName));
         collect.forEach((k, v) -> {
             GenCodeCoreVO vo = new GenCodeCoreVO();
             vo.setTableName(k);
@@ -89,9 +89,9 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
      * 根据请求参数预览将要生成的代码内容，返回代码预览信息列表
      *
      * @param genCodeCoreForm 代码生成核心请求参数，包含生成代码所需的配置信息
-     * @return List<GenCodeCoreBo> 代码预览信息列表，包含各个代码文件的内容
+     * @return List<GenCodeCoreBO> 代码预览信息列表，包含各个代码文件的内容
      */
-    public List<GenCodeCoreBo> generateCodeOriginal(GenCodeCoreForm genCodeCoreForm) {
+    public List<GenCodeCoreBO> generateCodeOriginal(GenCodeCoreForm genCodeCoreForm) {
         // 校验并获取基础数据
         List<Long> tableIds = genCodeCoreForm.getTableIds();
         List<GenTableEntity> tableEntities = tableInfoDao.findList(GenTableEntity::getId, tableIds);
@@ -103,19 +103,19 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
         // 按分组整理数据
         Map<Long, List<GenTableEntity>> tablesByGroup = tableEntities.stream().collect(Collectors.groupingBy(GenTableEntity::getGroupId));
         // 解析模板并生成代码
-        List<GenCodeCoreBo> codeList = new ArrayList<>();
+        List<GenCodeCoreBO> codeList = new ArrayList<>();
         for (Long groupId : tablesByGroup.keySet()) {
             List<GenTableEntity> genTableEntities = tablesByGroup.get(groupId);
             List<GenTemplateEntity> groupTemplates = templateDao.findList(GenTemplateEntity::getGroupId, groupId);
             try {
                 // 解析模板定义
-                final List<GenCodeCoreBo> originalList = GenCodeHelper.parseTemplates(groupTemplates);
+                final List<GenCodeCoreBO> originalList = GenCodeHelper.parseTemplates(groupTemplates);
                 // 为每个表生成代码
                 for (GenTableEntity table : genTableEntities) {
                     List<GenTableColumnEntity> tableColumns = columnInfoDao.findList(GenTableColumnEntity::getTableId, table.getId());
-                    TableInfoBo tableInfoBo = new TableInfoBo(table, tableColumns, columnQueryMap.getOrDefault(table.getId(), Collections.emptyList()));
-                    List<GenCodeCoreBo> codeCoreBoList = GenCodeHelper.generateCode(genCodeCoreForm, tableInfoBo, originalList);
-                    codeList.addAll(codeCoreBoList);
+                    TableInfoBO tableInfoBO = new TableInfoBO(table, tableColumns, columnQueryMap.getOrDefault(table.getId(), Collections.emptyList()));
+                    List<GenCodeCoreBO> codeCoreBOList = GenCodeHelper.generateCode(genCodeCoreForm, tableInfoBO, originalList);
+                    codeList.addAll(codeCoreBOList);
                 }
             } catch (Exception e) {
                 log.error("代码生成失败: {}", e.getMessage(), e);
@@ -131,7 +131,7 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
      * @param codeList 代码生成业务对象列表
      * @return ZIP文件字节数组
      */
-    private byte[] generateZipPackage(List<GenCodeCoreBo> codeList) {
+    private byte[] generateZipPackage(List<GenCodeCoreBO> codeList) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ZipOutputStream zipOut = new ZipOutputStream(byteOut, StandardCharsets.UTF_8)) {
 
@@ -141,14 +141,14 @@ public class GenCodeCoreServiceImpl implements IGenCodeCoreService {
             addZipEntry(zipOut, "使用说明(不能完全依赖生成的代码!).txt", "");
 
             // 添加生成的代码文件
-            for (GenCodeCoreBo codeBo : codeList) {
-                String filePath = codeBo.getFilePath();
+            for (GenCodeCoreBO codeBO : codeList) {
+                String filePath = codeBO.getFilePath();
                 // 处理空白文件夹(确保文件夹路径以"/"结尾)
                 if (filePath.endsWith("/")) {
                     // 空文件夹需要创建一个不带内容的条目
                     addZipEntry(zipOut, filePath, "");
                 } else {
-                    addZipEntry(zipOut, filePath, codeBo.getCode());
+                    addZipEntry(zipOut, filePath, codeBO.getCode());
                 }
             }
             zipOut.finish();

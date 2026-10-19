@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**
  * 日志切面
@@ -40,6 +41,12 @@ import java.util.Optional;
 @Aspect
 @RequiredArgsConstructor
 public class BLogAspect {
+
+    /**
+     * 敏感字段匹配：密码、密钥、令牌等一律脱敏，避免明文写入 b_log.request_params
+     */
+    private static final Pattern SENSITIVE_FIELD_PATTERN = Pattern.compile(
+            "(?i)\"(password|oldPassword|newPassword|confirmPassword|secret|clientSecret|accessToken|refreshToken|token|authorization)\"\\s*:\\s*\"[^\"]*\"");
 
     private final BLogRepository bLogRepository;
 
@@ -127,12 +134,12 @@ public class BLogAspect {
             Object arg = args[i];
             if (filterArgs(arg)) {
                 LogInfo logInfo = new LogInfo();
-                logInfo.setType(logInfo.getClass().getName());
+                logInfo.setType(Objects.isNull(arg) ? "null" : arg.getClass().getName());
                 logInfo.setValue(arg);
                 paramMap.put(parameterName, logInfo);
             }
         }
-        return JsonUtils.toJsonString(paramMap);
+        return SENSITIVE_FIELD_PATTERN.matcher(JsonUtils.toJsonString(paramMap)).replaceAll("\"$1\":\"******\"");
     }
 
     /**

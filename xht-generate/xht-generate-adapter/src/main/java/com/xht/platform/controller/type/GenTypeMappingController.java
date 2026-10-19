@@ -2,6 +2,7 @@ package com.xht.platform.controller.type;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.validation.Groups;
 import com.xht.platform.type.domain.form.GenTypeMappingForm;
 import com.xht.platform.type.domain.query.GenTypeMappingQuery;
@@ -37,6 +38,7 @@ public class GenTypeMappingController {
      * @param form 字段映射表单请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "字段映射管理", description = "创建字段映射")
     @Operation(summary = "创建字段映射", description = "根据提供的请求参数创建一个新的字段映射")
     @PostMapping("/create")
     public R<Void> create(@Validated(value = {Groups.Create.class}) @RequestBody GenTypeMappingForm form) {
@@ -50,6 +52,7 @@ public class GenTypeMappingController {
      * @param id 字段映射ID
      * @return 统一响应结果
      */
+    @BLog(value = "字段映射管理", description = "删除字段映射")
     @Operation(summary = "根据ID删除字段映射", description = "根据提供的字段映射ID删除字段映射")
     @PostMapping("/remove/{id}")
     public R<Void> removeById(@PathVariable @Parameter(description = "字段映射ID", required = true) Long id) {
@@ -63,6 +66,7 @@ public class GenTypeMappingController {
      * @param form 字段映射更新请求参数
      * @return 统一响应结果
      */
+    @BLog(value = "字段映射管理", description = "修改字段映射")
     @Operation(summary = "根据ID更新字段映射", description = "根据提供的字段映射更新请求参数更新字段映射")
     @PostMapping("/update")
     public R<Void> updateById(@Validated(value = {Groups.Update.class}) @RequestBody GenTypeMappingForm form) {
@@ -89,8 +93,8 @@ public class GenTypeMappingController {
      * @return 字段映射分页信息
      */
     @Operation(summary = "分页查询字段映射", description = "根据提供的查询请求参数分页查询字段映射信息")
-    @GetMapping("/page")
-    public R<PageResponse<GenTypeMappingResponse>> findPageList(GenTypeMappingQuery query) {
+    @PostMapping("/page")
+    public R<PageResponse<GenTypeMappingResponse>> findPageList(@RequestBody GenTypeMappingQuery query) {
         return R.ok().build(genTypeMappingService.findPageList(query));
     }
 

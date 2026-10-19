@@ -1,6 +1,7 @@
 package com.xht.platform.generate.bo;
 
 import cn.hutool.core.util.StrUtil;
+import com.xht.framework.common.domain.bo.XhtBO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +15,7 @@ import java.util.Set;
  * @author xht
  **/
 @Getter
-public final class GenCodeCoreBo {
+public final class GenCodeCoreBO implements XhtBO {
 
     /**
      * 忽略的字段 逗号分割
@@ -46,7 +47,7 @@ public final class GenCodeCoreBo {
     @Setter
     private String fileType;
 
-    public GenCodeCoreBo(Collection<String> ignoreField) {
+    public GenCodeCoreBO(Collection<String> ignoreField) {
         this.ignoreField = new HashSet<>();
         for (String item : ignoreField) {
             String camelCase = StrUtil.toCamelCase(item);
