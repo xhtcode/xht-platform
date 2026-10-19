@@ -1,17 +1,16 @@
-package com.xht.platform.common.message.api.fallback;
+package com.xht.platform.message.client.fallback;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.openfeign.fallback.BasicFallback;
-import com.xht.platform.common.message.api.ISysMessageClient;
 import com.xht.platform.common.message.core.MessagePayload;
+import com.xht.platform.message.client.SysMessageFeignClient;
 
 /**
  * 系统管理-站内信 Fallback
  *
  * @author xht
  **/
-public class SysMessageClientFallback extends BasicFallback implements ISysMessageClient {
-
+public class SysMessageClientFallback extends BasicFallback implements SysMessageFeignClient {
 
     /**
      * 构造函数，创建BasicFallback实例并记录错误日志
@@ -23,7 +22,7 @@ public class SysMessageClientFallback extends BasicFallback implements ISysMessa
     }
 
     /**
-     * 发送 站内信
+     * 发送站内信
      *
      * @param payload 站内信参数
      * @return 发送结果
@@ -32,4 +31,5 @@ public class SysMessageClientFallback extends BasicFallback implements ISysMessa
     public R<Void> sendMessage(MessagePayload payload) {
         return error();
     }
+
 }

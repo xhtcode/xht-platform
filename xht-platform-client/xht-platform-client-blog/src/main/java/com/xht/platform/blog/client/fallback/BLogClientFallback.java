@@ -1,18 +1,18 @@
-package com.xht.platform.common.audit.api.fallback;
+package com.xht.platform.blog.client.fallback;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.log.dto.BLogDTO;
 import com.xht.framework.openfeign.fallback.BasicFallback;
-import com.xht.platform.common.audit.api.IBLogClient;
+import com.xht.platform.blog.client.BLogFeignClient;
 
 /**
  * 日志保存 Fallback
  *
  * @author xht
  **/
-public class IBLogClientFallback extends BasicFallback implements IBLogClient {
+public class BLogClientFallback extends BasicFallback implements BLogFeignClient {
 
-    public IBLogClientFallback(Throwable cause) {
+    public BLogClientFallback(Throwable cause) {
         super(cause);
     }
 

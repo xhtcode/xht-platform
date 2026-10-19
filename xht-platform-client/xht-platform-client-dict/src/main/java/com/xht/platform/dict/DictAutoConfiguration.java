@@ -1,12 +1,12 @@
 package com.xht.platform.dict;
 
-import com.xht.platform.common.dict.api.ISysDictClient;
 import com.xht.platform.common.dict.factory.ISysDictFactory;
+import com.xht.platform.dict.client.SysDictFeignClient;
+import com.xht.platform.dict.client.factory.SysDictClientFallbackFactory;
 import com.xht.platform.dict.factory.SysDictApiFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -16,12 +16,23 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Slf4j
 @Configuration(proxyBeanMethods = false)
-@ComponentScan(value = "com.xht.platform.common.dict.api.factory")
-@EnableFeignClients(clients = ISysDictClient.class)
+@EnableFeignClients(clients = SysDictFeignClient.class)
 public class DictAutoConfiguration {
 
     public DictAutoConfiguration() {
         log.debug("系统字典自动配置启动");
+    }
+
+    /**
+     * 字典项查询降级工厂
+     * <p>
+     * 显式注册而非 {@code @Component}，避免把降级的装配责任推给调用方的组件扫描。
+     *
+     * @return 降级工厂
+     */
+    @Bean
+    public SysDictClientFallbackFactory sysDictClientFallbackFactory() {
+        return new SysDictClientFallbackFactory();
     }
 
     /**

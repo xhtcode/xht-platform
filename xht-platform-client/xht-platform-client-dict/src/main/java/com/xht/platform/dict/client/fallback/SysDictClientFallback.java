@@ -1,9 +1,9 @@
-package com.xht.platform.common.dict.api.fallback;
+package com.xht.platform.dict.client.fallback;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.openfeign.fallback.BasicFallback;
-import com.xht.platform.common.dict.api.ISysDictClient;
 import com.xht.platform.common.dict.domain.DictVO;
+import com.xht.platform.dict.client.SysDictFeignClient;
 
 import java.util.List;
 
@@ -12,14 +12,14 @@ import java.util.List;
  *
  * @author xht
  **/
-public class ISysDictClientFallback extends BasicFallback implements ISysDictClient {
+public class SysDictClientFallback extends BasicFallback implements SysDictFeignClient {
 
     /**
      * 构造函数，创建BasicFallback实例并记录错误日志
      *
      * @param cause 异常原因
      */
-    public ISysDictClientFallback(Throwable cause) {
+    public SysDictClientFallback(Throwable cause) {
         super(cause);
     }
 

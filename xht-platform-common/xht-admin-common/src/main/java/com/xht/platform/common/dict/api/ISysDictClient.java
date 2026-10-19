@@ -1,27 +1,19 @@
 package com.xht.platform.common.dict.api;
 
 import com.xht.framework.common.domain.R;
-import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
-import com.xht.platform.common.AdminConstants;
 import com.xht.platform.common.dict.domain.DictVO;
-import com.xht.platform.common.dict.api.factory.ISysDictClientFallbackFactory;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
 /**
- * 描述：字典项查询服务
+ * 描述：字典项查询服务契约
+ * <p>
+ * 只声明方法签名与出入参，不携带 Feign / Web 注解；Feign 客户端为
+ * {@code com.xht.platform.dict.client.SysDictFeignClient}，服务端实现为
+ * {@code com.xht.platform.client.dict.SysDictClientImpl}。
  *
  * @author xht
  **/
-@FeignClient(
-        name = AdminConstants.APPLICATION_NAME,
-        contextId = "iSysDictClient",
-        path = "/api/sys/dict",
-        fallbackFactory = ISysDictClientFallbackFactory.class
-)
 public interface ISysDictClient {
 
     /**
@@ -30,8 +22,6 @@ public interface ISysDictClient {
      * @param dictCode 字典编码
      * @return 字典项列表
      */
-    @FeignIgnoreAuth
-    @GetMapping("/code/{dictCode}")
-    R<List<DictVO>> getByDictCode(@PathVariable String dictCode);
+    R<List<DictVO>> getByDictCode(String dictCode);
 
 }
