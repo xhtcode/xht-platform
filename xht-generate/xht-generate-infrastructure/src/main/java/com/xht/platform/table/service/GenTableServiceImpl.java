@@ -242,7 +242,7 @@ public class GenTableServiceImpl implements IGenTableService, InitializingBean {
      * @return 分页结果封装对象，包含表信息列表和分页信息
      */
     @Override
-    public PageResponse<GenTableResponse> selectExistsPage(GenTableInfoQuery query) {
+    public PageResponse<GenTableResponse> findExistsPageList(GenTableInfoQuery query) {
         Page<GenTableEntity> page = genTableDao.findPageList(PageTool.getPage(query), query);
         return genTableConverter.toResponse(page);
     }

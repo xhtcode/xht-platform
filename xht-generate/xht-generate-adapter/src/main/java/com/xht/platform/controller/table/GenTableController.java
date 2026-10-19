@@ -109,10 +109,10 @@ public class GenTableController {
      * @param query 查询条件封装对象，包含分页参数和查询条件
      * @return 分页结果封装对象，包含表信息列表和分页信息
      */
-    @Operation(summary = "分页查询表信息")
+    @Operation(summary = "分页查询已存在的表信息")
     @PostMapping("/exists/page")
-    public R<PageResponse<GenTableResponse>> selectExistsPage(@RequestBody GenTableInfoQuery query) {
-        return R.ok().build(genTableInfoService.selectExistsPage(query));
+    public R<PageResponse<GenTableResponse>> findExistsPageList(@RequestBody GenTableInfoQuery query) {
+        return R.ok().build(genTableInfoService.findExistsPageList(query));
     }
 
     /**
@@ -121,7 +121,7 @@ public class GenTableController {
      * @param query 数据库查询条件封装对象，包含分页参数和数据库连接信息
      * @return 分页结果封装对象，包含表信息列表和分页信息
      */
-    @Operation(summary = "分页查询表信息")
+    @Operation(summary = "查询不存在的表信息")
     @GetMapping("/no/exists/page")
     public R<List<GenTableResponse>> selectNoExistsList(@Validated DataBaseQuery query) {
         return R.ok().build(genTableInfoService.selectNoExistsList(query));

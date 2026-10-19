@@ -86,7 +86,7 @@ public interface ISysMessageService {
      * @param query 站内信查询参数
      * @return 站内信分页列表
      */
-    PageResponse<SysMessageResponse> findAdminPage(SysMessageQuery query);
+    PageResponse<SysMessageResponse> findAdminPageList(SysMessageQuery query);
 
     /**
      * 管理员分页查看站内信发送详情
@@ -94,7 +94,7 @@ public interface ISysMessageService {
      * @param query 查询参数
      * @return 站内信发送详情
      */
-    MessagePageVO findAdminPageSend(SysMessageInfoQuery query);
+    MessagePageVO findAdminSendPageList(SysMessageInfoQuery query);
 
     /**
      * 分页查询我接收的站内信
@@ -102,6 +102,6 @@ public interface ISysMessageService {
      * @param query 查询参数
      * @return 站内信分页列表
      */
-    PageResponse<MessageInfoVO> findMyPage(SysMessageInfoQuery query);
+    PageResponse<MessageInfoVO> findMyPageList(SysMessageInfoQuery query);
 
 }

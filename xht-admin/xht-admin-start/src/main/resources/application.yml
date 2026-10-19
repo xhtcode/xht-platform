@@ -83,7 +83,8 @@ xht:
       enable: true
     header:
       auth-key: X-Auth-Token
-      auth-value: 123456
+      # 内部调用共享密钥：禁止写入仓库，由环境变量 XHT_SECURITY_AUTH_VALUE 注入；为空时 aop = true 的内部接口一律拒绝（fail-closed）
+      auth-value: ${XHT_SECURITY_AUTH_VALUE:}
     token:
       lightning-cache:
         expired: 300

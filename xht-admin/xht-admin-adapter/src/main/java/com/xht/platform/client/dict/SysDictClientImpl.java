@@ -35,7 +35,7 @@ public class SysDictClientImpl implements ISysDictClient {
      * @return 字典项列表
      */
     @Override
-    @IgnoreAuth(aop = false)
+    @IgnoreAuth
     @GetMapping("/code/{dictCode}")
     @Operation(summary = "根据字典编码查询")
     public R<List<DictVO>> getByDictCode(@PathVariable String dictCode) {

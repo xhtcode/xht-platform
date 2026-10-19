@@ -60,7 +60,7 @@ public interface IGenTableService {
      * @param query 查询条件封装对象，包含分页参数和查询条件
      * @return 分页结果封装对象，包含表信息列表和分页信息
      */
-    PageResponse<GenTableResponse> selectExistsPage(GenTableInfoQuery query);
+    PageResponse<GenTableResponse> findExistsPageList(GenTableInfoQuery query);
 
     /**
      * 分页查询不存在的表信息

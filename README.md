@@ -216,7 +216,9 @@ mvn -pl xht-gateway spring-boot:run
 ### 7. 访问
 
 - 接口文档：各服务启动后访问 `/swagger-ui.html`（集成 Knife4j 时为 `/doc.html`）；
-- 网关入口：`http://localhost:8080/admin/**`、`http://localhost:8080/generate/**`；
+- 网关入口：`http://localhost:8080/admin/**`、`http://localhost:8080/generate/**`、`http://localhost:8080/auth/**`；
+- 网关已关闭 `discovery.locator`，按服务名直连的 `/xht-admin/**` 等路径不再可用；调试请走上面的显式前缀或直连服务端口（admin `8081`、auth `9000`、generate `9700`）；
+- `/api/**` 为服务间内部接口，网关按**入站路径**判定并返回 404（含 `%252e%252e` 等编码变体），只能由 Feign 直连；受保护根路径见 `xht.gateway.internal-api.roots`（默认 `/api`，修改后需重启网关）；
 - 认证中心：`http://www.xht.sso.com:9000`；
 - 前端：克隆前端仓库后 `pnpm install && pnpm run dev`。
 
@@ -299,6 +301,7 @@ xht-platform
 | `xht.file.storage` / `xht.file.upload` | 文件存储方式、大小与后缀限制 |
 | `xht.file.thumbnail` / `xht.file.clean` | 缩略图生成、孤儿文件清理 |
 | `xht.blog.repository-type` | 操作日志落库方式：`default`（仅 debug 输出，**不落库**）、`feign`（上报 `xht-admin`）、`jdbc`（本地直写 `b_log`，目前仅 `xht-admin` 支持） |
+| `xht.gateway.internal-api.roots` | 网关受保护的服务间内部接口根路径集合，默认 `["/api"]`，可配多个；按入站路径 + 命中路由的 `StripPrefix` 段数判定，需重启生效 |
 
 ## 常见问题
 

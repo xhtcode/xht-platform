@@ -68,7 +68,7 @@ public class SysFileController {
     @CheckMenu("sys:file:query")
     @Operation(summary = "分页查询文件列表")
     @PostMapping("/page")
-    public R<PageResponse<SysFileResponse>> page(@RequestBody SysFileQuery query) {
+    public R<PageResponse<SysFileResponse>> findPageList(@RequestBody SysFileQuery query) {
         return R.ok().build(sysFileService.findPageList(query));
     }
 

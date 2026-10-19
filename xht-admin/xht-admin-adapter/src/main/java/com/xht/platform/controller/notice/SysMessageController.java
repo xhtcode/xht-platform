@@ -138,8 +138,8 @@ public class SysMessageController {
      */
     @Operation(summary = "管理员分页查询站内信")
     @PostMapping("/admin/page")
-    public R<PageResponse<SysMessageResponse>> findAdminPage(@RequestBody SysMessageQuery query) {
-        return R.ok().build(sysMessageService.findAdminPage(query));
+    public R<PageResponse<SysMessageResponse>> findAdminPageList(@RequestBody SysMessageQuery query) {
+        return R.ok().build(sysMessageService.findAdminPageList(query));
     }
 
     /**
@@ -149,8 +149,8 @@ public class SysMessageController {
      */
     @Operation(summary = "管理员分页查看站内信发送详情")
     @PostMapping("/admin/send/page")
-    public R<MessagePageVO> findAdminPageSend(@RequestBody SysMessageInfoQuery query) {
-        return R.ok().build(sysMessageService.findAdminPageSend(query));
+    public R<MessagePageVO> findAdminSendPageList(@RequestBody SysMessageInfoQuery query) {
+        return R.ok().build(sysMessageService.findAdminSendPageList(query));
     }
 
     /**
@@ -161,8 +161,8 @@ public class SysMessageController {
      */
     @Operation(summary = "分页查询我接收的站内信")
     @PostMapping("/my/page")
-    public R<PageResponse<MessageInfoVO>> findMyPage(@RequestBody SysMessageInfoQuery query) {
-        return R.ok().build(sysMessageService.findMyPage(query));
+    public R<PageResponse<MessageInfoVO>> findMyPageList(@RequestBody SysMessageInfoQuery query) {
+        return R.ok().build(sysMessageService.findMyPageList(query));
     }
 
 }

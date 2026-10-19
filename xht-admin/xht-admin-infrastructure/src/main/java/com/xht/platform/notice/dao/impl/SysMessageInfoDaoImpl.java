@@ -129,7 +129,7 @@ public class SysMessageInfoDaoImpl extends MapperRepositoryImpl<SysMessageInfoMa
      * @return 站内信发送详情
      */
     @Override
-    public Page<SysMessageInfoEntity> findAdminPageSend(Page<SysMessageInfoEntity> page, SysMessageInfoQuery query) {
+    public Page<SysMessageInfoEntity> findAdminSendPageList(Page<SysMessageInfoEntity> page, SysMessageInfoQuery query) {
         LambdaQueryWrapper<SysMessageInfoEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysMessageInfoEntity::getMessageId, query.getMessageId());
         // @formatter:off

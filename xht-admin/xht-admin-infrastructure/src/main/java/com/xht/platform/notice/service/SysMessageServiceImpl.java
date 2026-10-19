@@ -216,7 +216,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
      * @return            站内信分页列表
      */
     @Override
-    public PageResponse<SysMessageResponse> findAdminPage(SysMessageQuery query) {
+    public PageResponse<SysMessageResponse> findAdminPageList(SysMessageQuery query) {
         Page<SysMessageEntity> page = sysMessageDao.findPageList(PageTool.getPage(query), query);
         return sysMessageConverter.toResponse(page);
     }
@@ -228,10 +228,10 @@ public class SysMessageServiceImpl implements ISysMessageService {
      * @return 站内信发送详情
      */
     @Override
-    public MessagePageVO findAdminPageSend(SysMessageInfoQuery query) {
+    public MessagePageVO findAdminSendPageList(SysMessageInfoQuery query) {
         AssertUtils.notNull(query.getMessageId(), "查询不到信息id");
         SysMessageEntity messageEntity = sysMessageDao.findById(query.getMessageId());
-        Page<SysMessageInfoEntity> page = sysMessageInfoDao.findAdminPageSend(PageTool.getPage(query), query);
+        Page<SysMessageInfoEntity> page = sysMessageInfoDao.findAdminSendPageList(PageTool.getPage(query), query);
         return sysMessageInfoConverter.toMessageVo(messageEntity, page);
     }
 
@@ -242,7 +242,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
      * @return  站内信分页列表
      */
     @Override
-    public PageResponse<MessageInfoVO> findMyPage(SysMessageInfoQuery query) {
+    public PageResponse<MessageInfoVO> findMyPageList(SysMessageInfoQuery query) {
         query.setRecipientId(SecurityUtils.getUserId());
         Page<MessageInfoVO> page = sysMessageInfoDao.findMyMessagePageList(PageTool.getPage(query), query);
         return PageTool.getPageVo(page);

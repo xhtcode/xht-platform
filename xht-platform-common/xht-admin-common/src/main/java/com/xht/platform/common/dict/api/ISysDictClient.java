@@ -1,6 +1,7 @@
 package com.xht.platform.common.dict.api;
 
 import com.xht.framework.common.domain.R;
+import com.xht.framework.openfeign.annotation.FeignIgnoreAuth;
 import com.xht.platform.common.AdminConstants;
 import com.xht.platform.common.dict.domain.DictVO;
 import com.xht.platform.common.dict.api.factory.ISysDictClientFallbackFactory;
@@ -29,6 +30,7 @@ public interface ISysDictClient {
      * @param dictCode 字典编码
      * @return 字典项列表
      */
+    @FeignIgnoreAuth
     @GetMapping("/code/{dictCode}")
     R<List<DictVO>> getByDictCode(@PathVariable String dictCode);
 
