@@ -1,22 +1,10 @@
 server:
   port: 8080
-  servlet:
-    session:
-      cookie:
-        name: GATEWAY-CLIENT
 spring:
-  session:
-    redis:
-      flush-mode: on_save
-      namespace: gateway:session
   cloud:
     gateway:
       server:
         webflux:
-          discovery:
-            locator:
-              lower-case-service-id: true
-              enabled: true
           routes:
             - id: xht-auth
               uri: lb://xht-auth #此处需要使用lb协议
@@ -37,20 +25,6 @@ spring:
               filters:
                 - StripPrefix=1
           default-filters:
-  data:
-    redis:
-      host: 127.0.0.1
-      port: 6379
-      timeout: 10000
-      jedis:
-        pool:
-          enabled: true
-          max-active: 8
-          max-wait: -1ms
-          max-idle: 8
-          min-idle: 0
-      password:
-      database: 0
 
 xht:
   global:
@@ -58,14 +32,6 @@ xht:
       enable: true
     app-name: 网关服务
     host-name: www.xht.com
-  security:
-    gateway:
-      authenticated-urls:
-        - /get/token
-        - /authorized
-      allowed-origins:
-        - www.xht.com
-      app-base-uri: http://www.xht.com:3000/oauth2
 knife4j:
   gateway:
     enabled: true     # ① 第一个配置，开启gateway聚合组件
