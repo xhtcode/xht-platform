@@ -28,7 +28,7 @@ public class SecurityHeaderProperties {
     }
 
     @Data
-    static class Header {
+    public static class Header {
 
         private String authKey = AUTH_KEY.getValue();
 

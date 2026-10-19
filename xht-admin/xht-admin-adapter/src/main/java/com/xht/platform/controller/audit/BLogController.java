@@ -50,7 +50,7 @@ public class BLogController {
      */
     @Operation(summary = "分页查询系统日志岗位", description = "根据提供的查询请求参数分页查询系统日志岗位信息")
     @PostMapping("/page")
-    public R<PageResponse<BLogResponse>> findPageList(@Valid @RequestBody BLogQuery query) {
+    public R<PageResponse<BLogResponse>> findPageList(@RequestBody BLogQuery query) {
         return R.ok().build(bLogService.findPageList(query));
     }
 

@@ -29,7 +29,7 @@ public class QrLoginController {
      *
      * @return 二维码生成响应对象，包含二维码ID和相关信息
      */
-    @IgnoreAuth
+    @IgnoreAuth(aop = false)
     @GetMapping("/login/generate")
     public R<QrCodeGenerateResponse> generateQrCode(HttpServletRequest request, HttpServletResponse response) {
         return R.ok().build(qrLoginService.generateQrCode(request, response));

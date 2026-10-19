@@ -1,7 +1,5 @@
 package com.xht.framework.security.autoconfigure;
 
-import com.xht.framework.core.properties.SecurityHeaderProperties;
-import com.xht.framework.security.aspect.IgnoreAuthAspect;
 import com.xht.framework.security.crypto.password.BasicPasswordEncoder;
 import com.xht.framework.security.handler.SecurityExceptionHandler;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
@@ -33,17 +31,6 @@ public class SecurityAutoConfiguration {
     @ConditionalOnMissingBean(PasswordEncoder.class)
     public PasswordEncoder passwordEncoder() {
         return new BasicPasswordEncoder();
-    }
-
-    /**
-     * 切面配置
-     *
-     * @param securityHeaderProperties {@link SecurityHeaderProperties}
-     * @return 配置切面
-     */
-    @Bean
-    public IgnoreAuthAspect ignoreAuthAspect(SecurityHeaderProperties securityHeaderProperties) {
-        return new IgnoreAuthAspect(securityHeaderProperties);
     }
 
     /**

@@ -86,8 +86,15 @@ public class PermitAllUrlProperties implements InitializingBean {
             IgnoreAuth controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), IgnoreAuth.class);
             Optional.ofNullable(controller)
                     .ifPresent(ignore -> {
-                        if (Objects.nonNull(method)) {
+                        // 只针对「直接声明」判冲突：方法注解可能继承自契约接口，此时与类级注解并不矛盾
+                        boolean methodDirect = handlerMethod.getMethod().isAnnotationPresent(IgnoreAuth.class);
+                        boolean typeDirect = handlerMethod.getBeanType().isAnnotationPresent(IgnoreAuth.class);
+                        if (methodDirect && typeDirect) {
                             throw new BusinessException(handlerMethod.getBeanType() + "方法上边和类上边不能同时添加@IgnoreAuth注解");
+                        }
+                        if (Objects.nonNull(method)) {
+                            log.warn("{} 同时存在类级与方法级 @IgnoreAuth（方法注解继承自接口），类级语义为「仅白名单」，请确认方法级 aop 取值符合预期",
+                                    handlerMethod.getBeanType());
                         }
                         Objects.requireNonNull(info.getPathPatternsCondition())
                                 .getPatternValues()

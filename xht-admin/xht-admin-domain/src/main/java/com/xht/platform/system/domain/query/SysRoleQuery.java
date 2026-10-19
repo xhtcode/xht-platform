@@ -30,7 +30,6 @@ public class SysRoleQuery extends PageBasicQuery {
     /**
      * 状态（0正常 1停用）
      */
-    @NotNull(message = "状态不能为空")
     @Schema(description = "状态（0正常 1停用）")
     private RoleStatusEnum roleStatus;
 

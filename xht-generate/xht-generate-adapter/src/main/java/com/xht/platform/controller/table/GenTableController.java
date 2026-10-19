@@ -123,7 +123,7 @@ public class GenTableController {
      */
     @Operation(summary = "分页查询表信息")
     @GetMapping("/no/exists/page")
-    public R<List<GenTableResponse>> selectNoExistsList(DataBaseQuery query) {
+    public R<List<GenTableResponse>> selectNoExistsList(@Validated DataBaseQuery query) {
         return R.ok().build(genTableInfoService.selectNoExistsList(query));
     }
 
