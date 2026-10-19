@@ -65,7 +65,7 @@ public sealed class R<T> implements Serializable permits ErrorR {
      * @return RBuilder 响应构建器实例
      */
     public static RBuilder ok() {
-        return new RBuilder().code(RConstants.SUCCESS).msg(RConstants.SUCCESS_MSG);
+        return new RBuilder(RConstants.SUCCESS, RConstants.SUCCESS_MSG);
     }
 
     /**
@@ -74,7 +74,7 @@ public sealed class R<T> implements Serializable permits ErrorR {
      * @return RBuilder 响应构建器实例
      */
     public static RBuilder error() {
-        return error(RConstants.FAIL).code(RConstants.FAIL).msg(RConstants.FAIL_MSG);
+        return new RBuilder(RConstants.FAIL, RConstants.FAIL_MSG);
     }
 
     /**
@@ -88,7 +88,7 @@ public sealed class R<T> implements Serializable permits ErrorR {
         if (Objects.equals(RConstants.SUCCESS, code)) {
             throw new UtilException("code cannot be SUCCESS");
         }
-        return new RBuilder().code(Objects.requireNonNullElse(code, RConstants.FAIL)).msg(RConstants.FAIL_MSG);
+        return new RBuilder(Objects.requireNonNullElse(code, RConstants.FAIL), RConstants.FAIL_MSG);
     }
 
     public static class RBuilder {
@@ -111,8 +111,12 @@ public sealed class R<T> implements Serializable permits ErrorR {
         /**
          * 构造响应构建器实例
          *
+         * @param code 返回码
+         * @param msg  返回信息
          */
-        RBuilder() {
+        RBuilder(Integer code, String msg) {
+            this.code = code;
+            this.msg = msg;
             this.dataType = DataTypeEnum.NORMAL;
         }
 
