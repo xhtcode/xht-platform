@@ -59,9 +59,6 @@ xht:
     app-name: 网关服务
     host-name: www.xht.com
   security:
-    ignore:
-      whites:
-        add-swagger-ignore-urls: true
     gateway:
       authenticated-urls:
         - /get/token

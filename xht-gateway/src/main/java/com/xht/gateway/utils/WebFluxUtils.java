@@ -2,6 +2,7 @@ package com.xht.gateway.utils;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.xht.framework.jackson.JsonUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
@@ -18,7 +19,14 @@ import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class WebFluxUtils {
+/**
+ * webflux工具类
+ *
+ * @author xht
+ */
+@Slf4j
+@SuppressWarnings("unused")
+public abstract class WebFluxUtils {
 
     /**
      * 读取request内的body

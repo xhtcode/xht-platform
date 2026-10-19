@@ -17,20 +17,8 @@ import java.util.List;
 public class SecurityGatewayProperties {
 
     /**
-     * 需要认证的URL
-     */
-    private String[] authenticatedUrls;
-
-
-    /**
      * 允许的跨域域名
      */
     private List<String> allowedOrigins;
-
-    /**
-     * 应用基础URI
-     */
-    private String appBaseUri;
-
 
 }
