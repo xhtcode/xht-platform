@@ -61,10 +61,8 @@ public class AuthorizationServerSuccessHandler extends SimpleUrlAuthenticationSu
      */
     private static String getRedirectUrl(String redirectUrl) throws IOException {
         boolean absoluteUrl = UrlUtils.isAbsoluteUrl(redirectUrl);
-        System.out.println("absoluteUrl:"+absoluteUrl);
         if (absoluteUrl) {
             URL uri = new URL(redirectUrl);
-            System.out.println("uri.getPath():"+uri.getPath());
             if (StringUtils.startsWithIgnoreCase(uri.getPath(), "/oauth/authorize")) {
                 return redirectUrl;
             }
