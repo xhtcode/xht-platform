@@ -46,7 +46,7 @@ public class PermitAllUrlProperties implements InitializingBean {
     /**
      * 默认忽略URL
      */
-    private static final String[] DEFAULT_SWAGGER_IGNORE_URLS = new String[]{"/v3/api-docs", "/v3/api-docs/*", "/swagger-ui.html", "/doc.html"};
+    private static final String[] DEFAULT_SWAGGER_IGNORE_URLS = new String[]{"/v3/api-docs", "/v3/api-docs/*", "/swagger-ui/*", "/doc.html"};
 
     /**
      * 常规全部

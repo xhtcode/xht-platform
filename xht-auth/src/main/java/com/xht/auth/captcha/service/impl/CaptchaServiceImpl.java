@@ -69,8 +69,10 @@ public class CaptchaServiceImpl implements ICaptchaService {
      */
     @Override
     public CaptchaResponse generateCaptcha(String captchaKey, CaptchaBusinessTypeEnum captchaBusinessType) {
-        String removeKey = Keys.createKey(REDIS_CAPTCHA_CODE_KEY_PREFIX, captchaBusinessType.getValue(), captchaKey);
-        removeCaptcha(removeKey);
+        if (StringUtils.hasText(captchaKey)){
+            String removeKey = Keys.createKey(REDIS_CAPTCHA_CODE_KEY_PREFIX, captchaBusinessType.getValue(), captchaKey);
+            removeCaptcha(removeKey);
+        }
         String id = IdUtils.simpleUUID();
         ArithmeticCaptcha arithmeticCaptcha = new ArithmeticCaptcha(150, 40);
         CaptchaResponse response = new CaptchaResponse();

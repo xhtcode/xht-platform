@@ -23,10 +23,9 @@ public interface ISysOauth2AuthorizationConsentDao extends MapperRepository<SysO
      * 根据注册客户端id和主体名称查询授权确认信息
      * @param registeredClientId 注册客户端id
      * @param principalName 主体名称
-     * @param deviceCode 设备码
      * @return 授权确认信息
      */
-    List<SysOauth2AuthorizationConsentEntity> findByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName, String deviceCode);
+    List<SysOauth2AuthorizationConsentEntity> findByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName);
 
     /**
      * 根据主体名称查询授权确认信息

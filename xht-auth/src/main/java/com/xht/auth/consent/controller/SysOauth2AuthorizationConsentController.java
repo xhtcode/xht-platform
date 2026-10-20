@@ -4,6 +4,7 @@ import com.xht.auth.consent.domain.response.SysOauth2AuthorizationConsentRespons
 import com.xht.auth.consent.service.ISysOauth2AuthorizationConsentService;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.oauth2.utils.SecurityUtils;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ public class SysOauth2AuthorizationConsentController {
      *
      * @return 授权确认信息
      */
+    @Operation(summary = "根据用户名查询授权确认信息")
     @GetMapping("/info")
     public R<List<SysOauth2AuthorizationConsentResponse>> findByUserName() {
         String userName = SecurityUtils.getUserName();
@@ -40,6 +42,7 @@ public class SysOauth2AuthorizationConsentController {
      * @param registeredClientId 注册客户端id
      * @return 删除结果
      */
+    @Operation(summary = "根据客户端id删除拥有的授权确认信息")
     @PostMapping("/remove/possess/{registeredClientId}")
     public R<Void> removeMyByRegisteredClientId(@PathVariable String registeredClientId) {
         String userName = SecurityUtils.getUserName();

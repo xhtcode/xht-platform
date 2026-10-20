@@ -4,6 +4,7 @@ import com.xht.auth.security.web.authentication.qr.domain.response.QrCodeGenerat
 import com.xht.auth.security.web.authentication.qr.service.IQrLoginService;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.security.annotation.IgnoreAuth;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class QrLoginController {
      *
      * @return 二维码生成响应对象，包含二维码ID和相关信息
      */
+    @Operation(summary = "生成二维码登录码")
     @IgnoreAuth(aop = false)
     @GetMapping("/login/generate")
     public R<QrCodeGenerateResponse> generateQrCode(HttpServletRequest request, HttpServletResponse response) {

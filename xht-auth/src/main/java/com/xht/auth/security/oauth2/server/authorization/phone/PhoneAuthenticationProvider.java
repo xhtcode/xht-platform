@@ -60,11 +60,11 @@ public class PhoneAuthenticationProvider extends AbstractAuthenticationProvider 
      */
     @Override
     protected BasicUserDetails getAuthenticatedPrincipal(RequestUserBO requestUserBO, Authentication authentication) {
-        requestUserBO.checkUserName();
         iCaptchaService.checkCustomGrantType(requestUserBO.getCustomGrantType());
         iCaptchaService.checkPhoneCode(requestUserBO.getPhone(), requestUserBO.getPhoneCode(), CaptchaBusinessTypeEnum.OAUTH2);
-        BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getUserName(), LoginTypeEnum.PHONE);
+        BasicUserDetails basicUserDetails = basicUserDetailsService.loadUserByUsername(requestUserBO.getPhone(), LoginTypeEnum.PHONE);
         basicUserDetailsService.validate(requestUserBO, basicUserDetails, false);
+        iCaptchaService.removePhoneCode(requestUserBO.getPhone(), CaptchaBusinessTypeEnum.OAUTH2);
         return basicUserDetails;
     }
 

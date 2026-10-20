@@ -1,13 +1,9 @@
 package com.xht.auth.security.oauth2.server.authorization;
 
-import com.xht.auth.configuration.properties.XhtOauth2Properties;
 import com.xht.auth.consent.dao.ISysOauth2AuthorizationConsentDao;
 import com.xht.auth.consent.entity.SysOauth2AuthorizationConsentEntity;
 import com.xht.auth.security.oauth2.server.authorization.client.Oauth2RegisteredClientRepository;
-import com.xht.framework.security.core.device.provider.DeviceCodeProvider;
 import com.xht.framework.utils.CollectionUtils;
-import com.xht.framework.utils.ServletUtils;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -37,12 +33,10 @@ public class MyBatisOAuth2AuthorizationConsentService implements OAuth2Authoriza
 
     private final Oauth2RegisteredClientRepository oauth2RegisteredClientRepository;
 
-    private final DeviceCodeProvider deviceCodeProvider;
 
-    public MyBatisOAuth2AuthorizationConsentService(ISysOauth2AuthorizationConsentDao iSysOauth2AuthorizationConsentDao, Oauth2RegisteredClientRepository oauth2RegisteredClientRepository, XhtOauth2Properties xhtOauth2Properties) {
+    public MyBatisOAuth2AuthorizationConsentService(ISysOauth2AuthorizationConsentDao iSysOauth2AuthorizationConsentDao, Oauth2RegisteredClientRepository oauth2RegisteredClientRepository) {
         this.iSysOauth2AuthorizationConsentDao = iSysOauth2AuthorizationConsentDao;
         this.oauth2RegisteredClientRepository = oauth2RegisteredClientRepository;
-        this.deviceCodeProvider = new DeviceCodeProvider(xhtOauth2Properties.getDeviceCode().getSalt());
     }
 
     /**
@@ -54,8 +48,6 @@ public class MyBatisOAuth2AuthorizationConsentService implements OAuth2Authoriza
     @Transactional(rollbackFor = Exception.class)
     public void save(OAuth2AuthorizationConsent authorizationConsent) {
         Assert.notNull(authorizationConsent, "授权确认信息 不能是空的");
-        HttpServletRequest servletRequest = ServletUtils.getHttpServletRequest();
-        String deviceCode = deviceCodeProvider.generateDeviceCode(servletRequest);
         SysOauth2AuthorizationConsentEntity entity = new SysOauth2AuthorizationConsentEntity();
         String registeredClientId = authorizationConsent.getRegisteredClientId();
         RegisteredClient registeredClient = oauth2RegisteredClientRepository.findByClientId(registeredClientId);
@@ -72,7 +64,6 @@ public class MyBatisOAuth2AuthorizationConsentService implements OAuth2Authoriza
             }
         }
         entity.setAuthorities(dbAuthorities);
-        entity.setDeviceCode(deviceCode);
         iSysOauth2AuthorizationConsentDao.save(entity);
     }
 
@@ -101,10 +92,8 @@ public class MyBatisOAuth2AuthorizationConsentService implements OAuth2Authoriza
     public OAuth2AuthorizationConsent findById(String registeredClientId, String principalName) {
         Assert.hasText(registeredClientId, "客户端的id 不能是空的");
         Assert.hasText(principalName, "主体名称 不能是空的");
-        HttpServletRequest servletRequest = ServletUtils.getHttpServletRequest();
-        String deviceCode = deviceCodeProvider.generateDeviceCode(servletRequest);
         List<SysOauth2AuthorizationConsentEntity> entityList = iSysOauth2AuthorizationConsentDao
-                .findByRegisteredClientIdAndPrincipalName(registeredClientId, principalName, deviceCode);
+                .findByRegisteredClientIdAndPrincipalName(registeredClientId, principalName);
         if (!CollectionUtils.isEmpty(entityList)) {
             SysOauth2AuthorizationConsentEntity entity = entityList.get(0);
             OAuth2AuthorizationConsent.Builder builder = OAuth2AuthorizationConsent.withId(entity.getRegisteredClientId(), entity.getPrincipalName());

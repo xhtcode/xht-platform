@@ -37,11 +37,6 @@ public class XhtOauth2Properties {
     private final AuthorizationServer authorizationServer = new AuthorizationServer();
 
     /**
-     * 设备码属性
-     */
-    private final DeviceCode deviceCode = new DeviceCode();
-
-    /**
      * 客户端属性
      */
     @Data
@@ -51,8 +46,6 @@ public class XhtOauth2Properties {
          */
         private Long timeout = 60L * 3;
     }
-
-
 
     @Data
     public static class AuthorizationServer {
@@ -81,24 +74,6 @@ public class XhtOauth2Properties {
          * 授权页面
          */
         private String consentPage;
-
-    }
-
-    /**
-     * 设备码属性
-     */
-    @Data
-    public static class DeviceCode {
-
-        /**
-         * 设备码名称
-         */
-        private String deviceCodeName = "xht-device";
-
-        /**
-         * 设备码哈希盐值，从nacos读取
-         */
-        private String salt;
 
     }
 
