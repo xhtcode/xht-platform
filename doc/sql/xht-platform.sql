@@ -486,8 +486,6 @@ CREATE TABLE `sys_file`
     `file_storage_key`    varchar(64)  NOT NULL COMMENT '文件存储key',
     `file_storage_name`   varchar(128) NULL DEFAULT NULL COMMENT '文件存储名称',
     `file_storage_path`   varchar(500) NULL DEFAULT NULL COMMENT '文件存储路径',
-    `file_thumb_key`      varchar(64)  NULL DEFAULT NULL COMMENT '缩略图存储key',
-    `file_thumb_path`     varchar(500) NULL DEFAULT NULL COMMENT '缩略图存储路径',
     `file_preview_url`    varchar(500) NULL DEFAULT NULL COMMENT '文件预览地址（预留）',
     `file_metadata`       json         NULL COMMENT '文件元数据（JSON）',
     `file_upload_time`    datetime     NULL DEFAULT NULL COMMENT '文件上传时间',

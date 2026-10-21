@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -29,17 +28,18 @@ import java.util.Objects;
 public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileEntity> implements SysFileDao {
 
     /**
-     * 允许排序的字段白名单（属性名 → 列 lambda），防止按不存在/恶意字段排序
+     * 根据文件存储名称查询文件
+     *
+     * @param fileStorageKey 文件存储名称
+     * @return 文件信息
      */
-    private static final Map<String, SFunction<SysFileEntity, ?>> SORT_FIELD_MAP = Map.of(
-            "id", SysFileEntity::getId,
-            "fileOriginalName", SysFileEntity::getFileOriginalName,
-            "fileSize", SysFileEntity::getFileSize,
-            "fileUsed", SysFileEntity::getFileUsed,
-            "fileSuffix", SysFileEntity::getFileSuffix,
-            "fileUploadTime", SysFileEntity::getFileUploadTime,
-            "createTime", SysFileEntity::getCreateTime
-    );
+    @Override
+    public SysFileEntity findActiveByStorageKey(String fileStorageKey) {
+        LambdaQueryWrapper<SysFileEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysFileEntity::getFileStorageKey, fileStorageKey);
+        wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.DELETED);
+        return getOne(wrapper);
+    }
 
     /**
      * 分页查询文件
@@ -68,8 +68,6 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
                 SysFileEntity::getFileStorageType,
                 SysFileEntity::getFileStorageKey,
                 SysFileEntity::getFileStorageName,
-                SysFileEntity::getFileThumbKey,
-                SysFileEntity::getFileThumbPath,
                 SysFileEntity::getFilePreviewUrl,
                 SysFileEntity::getFileMetadata,
                 SysFileEntity::getFileUploadTime,
@@ -93,15 +91,6 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
         wrapper.between(Objects.nonNull(query.getStartUploadTime()) || Objects.nonNull(query.getEndUploadTime()),
                 SysFileEntity::getFileUploadTime, query.getStartUploadTime(), query.getEndUploadTime());
         wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.DELETED);
-        // 排序白名单校验：仅白名单内的字段参与排序，非法字段忽略
-        String ascField = sanitizeSortField(query.getAscName());
-        String descField = sanitizeSortField(query.getDescName());
-        if (ascField != null) {
-            wrapper.orderByAsc(SORT_FIELD_MAP.get(ascField));
-        }
-        if (descField != null) {
-            wrapper.orderByDesc(SORT_FIELD_MAP.get(descField));
-        }
         // @formatter:on
         return page(page, wrapper);
     }
@@ -116,23 +105,6 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
     public void updateFileStatusById(Long fileId, FileStatusEnum fileStatusEnum) {
         LambdaUpdateWrapper<SysFileEntity> wrapper = new LambdaUpdateWrapper<>();
         wrapper.set(SysFileEntity::getFileStatus, fileStatusEnum);
-        wrapper.eq(SysFileEntity::getId, fileId);
-        wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.DELETED);
-        update(wrapper);
-    }
-
-    /**
-     * 根据文件ID回写缩略图存储信息
-     *
-     * @param fileId        文件ID
-     * @param fileThumbKey  缩略图存储key
-     * @param fileThumbPath 缩略图存储路径
-     */
-    @Override
-    public void updateThumbnailById(Long fileId, String fileThumbKey, String fileThumbPath) {
-        LambdaUpdateWrapper<SysFileEntity> wrapper = new LambdaUpdateWrapper<>();
-        wrapper.set(SysFileEntity::getFileThumbKey, fileThumbKey);
-        wrapper.set(SysFileEntity::getFileThumbPath, fileThumbPath);
         wrapper.eq(SysFileEntity::getId, fileId);
         wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.DELETED);
         update(wrapper);
@@ -154,19 +126,21 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
     }
 
     /**
-     * 根据ID更新文件状态与关联时间（单文件，禁止使用批处理）
+     * 关联文件
      *
-     * @param fileId            文件ID
-     * @param fileStatusEnum    目标状态
-     * @param fileAssociateTime 关联时间（解绑时传 null）
+     * @param fileStorageKey 文件存储名称
+     * @param fileUsed       文件用途
+     * @param fileDesc       文件描述
      */
     @Override
-    public void updateStatusAndAssociateTimeById(Long fileId, FileStatusEnum fileStatusEnum, LocalDateTime fileAssociateTime) {
+    public void associateFile(String fileStorageKey, String fileUsed, String fileDesc) {
         LambdaUpdateWrapper<SysFileEntity> wrapper = new LambdaUpdateWrapper<>();
-        wrapper.set(SysFileEntity::getFileStatus, fileStatusEnum);
-        wrapper.set(SysFileEntity::getFileAssociateTime, fileAssociateTime);
-        wrapper.eq(SysFileEntity::getId, fileId);
-        wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.DELETED);
+        wrapper.set(SysFileEntity::getFileUsed, fileUsed);
+        wrapper.set(SysFileEntity::getFileDesc, fileDesc);
+        wrapper.set(SysFileEntity::getFileStatus, FileStatusEnum.ASSOCIATED);
+        wrapper.set(SysFileEntity::getFileAssociateTime, LocalDateTime.now());
+        wrapper.eq(SysFileEntity::getFileStorageKey, fileStorageKey);
+        wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.UPLOADED);
         update(wrapper);
     }
 
@@ -206,20 +180,6 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
     @Override
     protected SFunction<SysFileEntity, ?> getFieldId() {
         return SysFileEntity::getId;
-    }
-
-    /**
-     * 校验排序字段是否在白名单内
-     *
-     * @param sortField 排序字段（属性名）
-     * @return 白名单内的字段名，非法字段返回 null
-     */
-    static String sanitizeSortField(String sortField) {
-        if (sortField == null || sortField.isBlank()) {
-            return null;
-        }
-        String normalized = sortField.strip();
-        return SORT_FIELD_MAP.containsKey(normalized) ? normalized : null;
     }
 
 }

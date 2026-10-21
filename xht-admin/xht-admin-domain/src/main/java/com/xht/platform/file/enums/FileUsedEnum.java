@@ -2,6 +2,7 @@ package com.xht.platform.file.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.xht.framework.common.enums.XhtEnum;
+import com.xht.framework.utils.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -76,7 +77,7 @@ public enum FileUsedEnum implements XhtEnum<String> {
      * @return 归一化后的用途标识（忽略大小写），非法值返回 null
      */
     public static String normalize(String value) {
-        if (value == null || value.isBlank()) {
+        if (!StringUtils.hasText(value)) {
             return TEMP.value;
         }
         FileUsedEnum found = find(value.strip());

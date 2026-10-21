@@ -3,22 +3,18 @@ package com.xht.platform.file.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.core.BusinessErrorCode;
-import com.xht.framework.file.core.FileStorageRepository;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.AssertUtils;
-import com.xht.framework.utils.StringUtils;
 import com.xht.platform.file.converter.SysFileConverter;
 import com.xht.platform.file.dao.SysFileDao;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
-import com.xht.platform.file.utils.FileAccessChecker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -40,16 +36,6 @@ public class SysFileServiceImpl implements ISysFileService {
     private final SysFileConverter sysFileConverter;
 
     /**
-     * 文件存储仓库（删除时清理物理文件）
-     */
-    private final FileStorageRepository fileStorageRepository;
-
-    /**
-     * 文件访问权限校验器
-     */
-    private final FileAccessChecker fileAccessChecker;
-
-    /**
      * 根据文件ID删除文件记录（逻辑删除），并同步删除物理文件与缩略图
      *
      * @param fileId 文件ID
@@ -62,16 +48,7 @@ public class SysFileServiceImpl implements ISysFileService {
         // 已关联业务的文件不允许删除
         AssertUtils.isTrue(!Objects.equals(FileStatusEnum.ASSOCIATED, sysFileEntity.getFileStatus()),
                 BusinessErrorCode.FILE_ASSOCIATED, "文件已关联业务，无法删除");
-        // 访问权限校验：仅超级管理员或上传人本人可删除
-        fileAccessChecker.check(sysFileEntity);
         sysFileDao.updateFileStatusById(fileId, FileStatusEnum.DELETED);
-        // 同步清理物理文件与缩略图，失败仅记录日志不阻断主流程
-        if (StringUtils.hasText(sysFileEntity.getFileStoragePath())) {
-            fileStorageRepository.remove(sysFileEntity.getFileStoragePath());
-        }
-        if (StringUtils.hasText(sysFileEntity.getFileThumbPath())) {
-            fileStorageRepository.remove(sysFileEntity.getFileThumbPath());
-        }
     }
 
     /**
@@ -98,41 +75,6 @@ public class SysFileServiceImpl implements ISysFileService {
     public PageResponse<SysFileResponse> findPageList(SysFileQuery query) {
         Page<SysFileEntity> page = sysFileDao.findPageList(PageTool.getPage(query), query);
         return sysFileConverter.toResponse(page);
-    }
-
-    /**
-     * 关联文件业务（单文件）：标记为已关联（ASSOCIATED）并记录关联时间
-     * <p>
-     * 禁止使用批处理：每次仅处理一个文件
-     *
-     * @param fileId 文件ID
-     */
-    @Override
-    public void associateFile(Long fileId) {
-        AssertUtils.notNull(fileId, BusinessErrorCode.PARAM_ERROR);
-        SysFileEntity entity = sysFileDao.findById(fileId);
-        AssertUtils.notNull(entity, BusinessErrorCode.FILE_NOT_EXIST);
-        // 访问权限校验：仅超级管理员或上传人本人可关联
-        fileAccessChecker.check(entity);
-        sysFileDao.updateStatusAndAssociateTimeById(fileId, FileStatusEnum.ASSOCIATED, LocalDateTime.now());
-    }
-
-    /**
-     * 解绑文件业务（单文件）：仅已关联文件还原为未关联（UPLOADED）并清除关联时间
-     * <p>
-     * 禁止使用批处理：每次仅处理一个文件
-     *
-     * @param fileId 文件ID
-     */
-    @Override
-    public void unbindFile(Long fileId) {
-        AssertUtils.notNull(fileId, BusinessErrorCode.PARAM_ERROR);
-        SysFileEntity entity = sysFileDao.findById(fileId);
-        AssertUtils.notNull(entity, BusinessErrorCode.FILE_NOT_EXIST);
-        // 仅已关联文件可解绑
-        AssertUtils.isTrue(FileStatusEnum.ASSOCIATED.equals(entity.getFileStatus()),
-                BusinessErrorCode.FILE_NOT_EXIST, "文件未关联业务，无法解绑");
-        sysFileDao.updateStatusAndAssociateTimeById(fileId, FileStatusEnum.UPLOADED, null);
     }
 
 }

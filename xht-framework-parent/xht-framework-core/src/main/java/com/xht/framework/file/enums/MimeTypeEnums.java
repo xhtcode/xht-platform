@@ -1,6 +1,5 @@
 package com.xht.framework.file.enums;
 
-import cn.hutool.core.util.IdUtil;
 import com.xht.framework.utils.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -181,22 +180,6 @@ public enum MimeTypeEnums {
         }
         // 未找到匹配项，返回默认值
         return DEFAULT_;
-    }
-
-    /**
-     * @return 生成的文件名称
-     */
-    public String generateName() {
-        return generateName(IdUtil.objectId());
-    }
-
-    /**
-     * @param fileNamePrefix 文件名称前缀
-     * @return 生成的文件名称
-     */
-    public String generateName(String fileNamePrefix) {
-        fileNamePrefix = StringUtils.emptyToDefault(fileNamePrefix, IdUtil.objectId());
-        return String.format("%s.%s", fileNamePrefix, this.getFileSuffix());
     }
 
 }

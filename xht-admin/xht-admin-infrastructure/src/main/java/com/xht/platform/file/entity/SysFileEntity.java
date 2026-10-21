@@ -131,15 +131,20 @@ public class SysFileEntity extends BasicEntity implements Serializable {
     private LocalDateTime fileUploadTime;
 
     /**
+     * 文件上传用户
+     */
+    @TableField(value = "file_upload_user")
+    private String fileUploadUser;
+
+    /**
      * 文件关联时间（文件关联业务时时间）
      */
     @TableField(value = "file_associate_time")
     private LocalDateTime fileAssociateTime;
 
     /**
-     * 文件上传用户
+     * 文件描述
      */
-    @TableField(value = "file_upload_user")
-    private String fileUploadUser;
-
+    @TableField(value = "file_des")
+    private String fileDesc;
 }

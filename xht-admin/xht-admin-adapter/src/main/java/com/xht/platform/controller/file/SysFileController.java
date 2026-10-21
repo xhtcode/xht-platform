@@ -3,7 +3,7 @@ package com.xht.platform.controller.file;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.log.annotations.BLog;
-import com.xht.framework.oauth2.annotation.CheckMenu;
+import com.xht.framework.oauth2.annotation.IsAdmin;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.service.ISysFileService;
@@ -38,7 +38,7 @@ public class SysFileController {
      * @return 操作结果
      */
     @BLog(value = "文件管理", description = "删除文件记录")
-    @CheckMenu("sys:file:remove")
+    @IsAdmin
     @Operation(summary = "删除文件记录")
     @PostMapping("/remove/{fileId}")
     public R<Void> remove(@PathVariable Long fileId) {
@@ -52,7 +52,7 @@ public class SysFileController {
      * @param fileId 文件ID
      * @return 文件详情
      */
-    @CheckMenu("sys:file:query")
+    @IsAdmin
     @Operation(summary = "查询文件详情")
     @GetMapping("/get/{fileId}")
     public R<SysFileResponse> get(@PathVariable Long fileId) {
@@ -65,45 +65,11 @@ public class SysFileController {
      * @param query 分页查询参数
      * @return 分页结果
      */
-    @CheckMenu("sys:file:query")
+    @IsAdmin
     @Operation(summary = "分页查询文件列表")
     @PostMapping("/page")
     public R<PageResponse<SysFileResponse>> findPageList(@RequestBody SysFileQuery query) {
         return R.ok().build(sysFileService.findPageList(query));
-    }
-
-    /**
-     * 关联文件业务（单文件）：标记为已关联（ASSOCIATED）并记录关联时间
-     * <p>
-     * 禁止使用批处理：每次仅处理一个文件
-     *
-     * @param fileId 文件ID
-     * @return 操作结果
-     */
-    @BLog(value = "文件管理", description = "关联文件业务")
-    @CheckMenu("sys:file:associate")
-    @Operation(summary = "关联文件业务（单文件）")
-    @PostMapping("/associate/{fileId}")
-    public R<Void> associate(@PathVariable Long fileId) {
-        sysFileService.associateFile(fileId);
-        return R.ok().build();
-    }
-
-    /**
-     * 解绑文件业务（单文件）：仅已关联文件还原为未关联（UPLOADED）并清除关联时间
-     * <p>
-     * 禁止使用批处理：每次仅处理一个文件
-     *
-     * @param fileId 文件ID
-     * @return 操作结果
-     */
-    @BLog(value = "文件管理", description = "解绑文件业务")
-    @CheckMenu("sys:file:associate")
-    @Operation(summary = "解绑文件业务（单文件）")
-    @PostMapping("/unbind/{fileId}")
-    public R<Void> unbind(@PathVariable Long fileId) {
-        sysFileService.unbindFile(fileId);
-        return R.ok().build();
     }
 
 }

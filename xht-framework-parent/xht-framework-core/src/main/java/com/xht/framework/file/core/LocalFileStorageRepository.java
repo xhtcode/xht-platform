@@ -167,4 +167,17 @@ public class LocalFileStorageRepository implements FileStorageRepository {
     public StorageType storageType() {
         return StorageType.LOCAL;
     }
+
+    /**
+     * 生成文件预览地址
+     *
+     * @param fileStoragePath 文件存储路径
+     * @return 文件预览地址
+     */
+    @Override
+    public String generatePreviewUrl(String fileStoragePath) {
+        AssertUtils.hasText(fileStoragePath, BusinessErrorCode.PARAM_ERROR);
+        String viewPrefix = storageProperties.getViewPrefix();
+        return viewPrefix + fileStoragePath;
+    }
 }

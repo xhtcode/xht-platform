@@ -37,22 +37,4 @@ public interface ISysFileService {
      */
     PageResponse<SysFileResponse> findPageList(SysFileQuery query);
 
-    /**
-     * 关联文件业务（单文件）：标记为已关联（ASSOCIATED）并记录关联时间
-     * <p>
-     * 禁止使用批处理：每次仅处理一个文件
-     *
-     * @param fileId 文件ID
-     */
-    void associateFile(Long fileId);
-
-    /**
-     * 解绑文件业务（单文件）：仅已关联文件还原为未关联（UPLOADED）并清除关联时间
-     * <p>
-     * 禁止使用批处理：每次仅处理一个文件
-     *
-     * @param fileId 文件ID
-     */
-    void unbindFile(Long fileId);
-
 }

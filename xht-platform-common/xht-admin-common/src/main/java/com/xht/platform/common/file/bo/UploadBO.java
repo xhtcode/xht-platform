@@ -1,15 +1,15 @@
 package com.xht.platform.common.file.bo;
 
-import com.xht.framework.common.constant.StringConstant;
 import com.xht.framework.common.domain.bo.XhtBO;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.StringUtils;
-import com.xht.platform.common.file.constant.SysFileConstant;
 import com.xht.platform.common.file.utils.SysFileUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.nio.file.Path;
 
 /**
  * 上传文件参数BO
@@ -100,7 +100,7 @@ public class UploadBO<T> implements XhtBO {
          */
         public UploadBoBuilder<T> filePathPrefix(final String filePathPrefix) {
             AssertUtils.hasText(filePathPrefix, BusinessErrorCode.FILE_PATH_ILLEGAL);
-            this.filePathPrefix = filePathPrefix.replaceFirst(SysFileConstant.DEFAULT_PREFIX_REGEX, StringConstant.EMPTY);
+            this.filePathPrefix = StringUtils.trimAllWhitespace(filePathPrefix);
             return this;
         }
 
@@ -114,7 +114,9 @@ public class UploadBO<T> implements XhtBO {
         public UploadBO<T> build() {
             // 兜底：前缀为空则生成默认文件存储路径
             this.filePathPrefix = StringUtils.emptyToDefault(filePathPrefix, SysFileUtils.generateDefaultFilePath());
-            return new UploadBO<>(this.requestFile, this.fileUsed, this.filePathPrefix);
+            String normalize = Path.of(this.filePathPrefix).normalize().toString();
+            AssertUtils.isTrue(!normalize.contains(".."), BusinessErrorCode.FILE_PATH_ILLEGAL);
+            return new UploadBO<>(this.requestFile, this.fileUsed,normalize);
         }
     }
 

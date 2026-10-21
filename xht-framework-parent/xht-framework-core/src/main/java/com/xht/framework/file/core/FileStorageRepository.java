@@ -45,4 +45,12 @@ public interface FileStorageRepository {
      */
     StorageType storageType();
 
+    /**
+     * 生成文件预览地址
+     *
+     * @param fileStoragePath 文件存储路径
+     * @return 文件预览地址
+     */
+    String generatePreviewUrl(String fileStoragePath);
+
 }

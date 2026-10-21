@@ -44,18 +44,4 @@ public class FileUploadProperties implements Serializable {
             "mp3", "wav", "mp4", "mov", "avi"
     );
 
-    /**
-     * 判断后缀是否在白名单内（忽略大小写）
-     *
-     * @param suffix 文件后缀（不含点）
-     * @return true：允许上传
-     */
-    public boolean isAllowedSuffix(String suffix) {
-        if (suffix == null || suffix.isBlank()) {
-            return false;
-        }
-        String normalized = suffix.strip().toLowerCase(Locale.ROOT);
-        return allowedSuffixes.stream().anyMatch(item -> item.equalsIgnoreCase(normalized));
-    }
-
 }

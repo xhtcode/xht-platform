@@ -2,7 +2,7 @@ package com.xht.platform.file.service;
 
 import com.xht.platform.common.file.bo.DownloadBO;
 import com.xht.platform.common.file.bo.UploadBO;
-import com.xht.platform.file.domain.response.SysFileResponse;
+import com.xht.platform.file.domain.response.UploadResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -16,9 +16,9 @@ public interface IFileStorageService {
      * 文件上传
      *
      * @param uploadBo 文件上传参数
-     * @return 文件信息
+     * @return 文件上传响应信息
      */
-    SysFileResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo);
+    UploadResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo);
 
     /**
      * 文件下载
@@ -29,11 +29,14 @@ public interface IFileStorageService {
     DownloadBO downloadFile(String fileStorageKey);
 
     /**
-     * 缩略图下载（按原图存储key查询，返回该文件的缩略图流）
+     * 关联文件业务（单文件）：标记为已关联（ASSOCIATED）并记录关联时间
+     * <p>
+     * 禁止使用批处理：每次仅处理一个文件
      *
-     * @param fileStorageKey 原图文件存储key
-     * @return 缩略图下载信息（文件流、原始文件名、内容类型、文件大小）
+     * @param fileStorageKey 文件存储key
+     * @param fileUsed       文件用途
+     * @param fileDesc       文件描述
      */
-    DownloadBO downloadThumbnail(String fileStorageKey);
+    void associateFile(String fileStorageKey, String fileUsed, String fileDesc);
 
 }

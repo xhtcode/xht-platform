@@ -17,6 +17,14 @@ import java.util.List;
 public interface SysFileDao extends MapperRepository<SysFileEntity> {
 
     /**
+     * 根据文件存储名称查询文件
+     *
+     * @param fileStorageKey 文件存储名称
+     * @return 文件信息
+     */
+    SysFileEntity findActiveByStorageKey(String fileStorageKey);
+
+    /**
      * 分页查询文件
      * <p>
      * 查询条件均为动态条件：关键字模糊匹配文件原始名称与文件存储名称，
@@ -37,15 +45,6 @@ public interface SysFileDao extends MapperRepository<SysFileEntity> {
     void updateFileStatusById(Long fileId, FileStatusEnum fileStatusEnum);
 
     /**
-     * 根据文件ID回写缩略图存储信息（异步生成完成后调用）
-     *
-     * @param fileId        文件ID
-     * @param fileThumbKey  缩略图存储key
-     * @param fileThumbPath 缩略图存储路径
-     */
-    void updateThumbnailById(Long fileId, String fileThumbKey, String fileThumbPath);
-
-    /**
      * 分页查询过期的未关联文件（孤儿文件候选：UPLOADED 且上传时间早于指定时间）
      *
      * @param page             分页对象
@@ -55,11 +54,11 @@ public interface SysFileDao extends MapperRepository<SysFileEntity> {
     List<SysFileEntity> findExpiredUploadedFiles(Page<SysFileEntity> page, LocalDateTime expireBeforeTime);
 
     /**
-     * 根据ID更新文件状态与关联时间（单文件，禁止使用批处理）
+     * 关联文件
      *
-     * @param fileId            文件ID
-     * @param fileStatusEnum    目标状态
-     * @param fileAssociateTime 关联时间（解绑时传 null）
+     * @param fileStorageKey 文件存储名称
+     * @param fileUsed       文件用途
+     * @param fileDesc       文件描述
      */
-    void updateStatusAndAssociateTimeById(Long fileId, FileStatusEnum fileStatusEnum, LocalDateTime fileAssociateTime);
+    void associateFile(String fileStorageKey, String fileUsed, String fileDesc);
 }
