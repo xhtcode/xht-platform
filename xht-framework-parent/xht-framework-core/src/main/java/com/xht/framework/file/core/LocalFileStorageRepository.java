@@ -168,13 +168,13 @@ public class LocalFileStorageRepository implements FileStorageRepository {
     /**
      * 生成文件预览地址
      *
-     * @param fileStoragePath 文件存储路径
+     * @param fileStorageKey 文件存储key
      * @return 文件预览地址
      */
     @Override
-    public String generatePreviewUrl(String fileStoragePath) {
-        AssertUtils.hasText(fileStoragePath, BusinessErrorCode.PARAM_ERROR);
+    public String generatePreviewUrl(String fileStorageKey) {
+        AssertUtils.hasText(fileStorageKey, BusinessErrorCode.PARAM_ERROR);
         String viewPrefix = storageProperties.getViewPrefix();
-        return viewPrefix + fileStoragePath;
+        return viewPrefix + fileStorageKey;
     }
 }

@@ -1,6 +1,7 @@
 package com.xht.platform.file.domain.response;
 
 import com.xht.framework.common.domain.response.MetaResponse;
+import com.xht.framework.file.enums.StorageType;
 import com.xht.platform.common.file.core.FileMetadata;
 import com.xht.platform.file.enums.FileStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -83,13 +84,7 @@ public class SysFileResponse extends MetaResponse {
      * 文件存储类型
      */
     @Schema(description = "文件存储类型")
-    private String fileStorageType;
-
-    /**
-     * 文件存储名称
-     */
-    @Schema(description = "文件存储名称")
-    private String fileStorageName;
+    private StorageType fileStorageType;
 
     /**
      * 文件存储key
@@ -98,34 +93,16 @@ public class SysFileResponse extends MetaResponse {
     private String fileStorageKey;
 
     /**
-     * 缩略图存储key（图片类文件存在）
+     * 文件存储名称
      */
-    @Schema(description = "缩略图存储key（图片类文件存在）")
-    private String fileThumbKey;
+    @Schema(description = "文件存储名称")
+    private String fileStorageName;
 
     /**
-     * 文件下载地址（服务端拼接，前端可直接使用）
+     * 文件存储路径
      */
-    @Schema(description = "文件下载地址（服务端拼接，前端可直接使用）")
-    private String downloadUrl;
-
-    /**
-     * 文件预览地址（服务端拼接，前端可直接使用）
-     */
-    @Schema(description = "文件预览地址（服务端拼接，前端可直接使用）")
-    private String previewUrl;
-
-    /**
-     * 缩略图预览地址（图片类文件存在，服务端拼接，前端可直接使用）
-     */
-    @Schema(description = "缩略图预览地址（图片类文件存在，服务端拼接，前端可直接使用）")
-    private String thumbnailUrl;
-
-    /**
-     * 文件预览地址
-     */
-    @Schema(description = "文件预览地址")
-    private String filePreviewUrl;
+    @Schema(description = "文件存储路径")
+    private String fileStoragePath;
 
     /**
      * 文件元数据（JSON 字符串）
@@ -144,5 +121,17 @@ public class SysFileResponse extends MetaResponse {
      */
     @Schema(description = "文件上传用户")
     private String fileUploadUser;
+
+    /**
+     * 文件关联时间（文件关联业务时时间）
+     */
+    @Schema(description = "文件关联时间（文件关联业务时时间）")
+    private LocalDateTime fileAssociateTime;
+
+    /**
+     * 文件描述
+     */
+    @Schema(description = "文件描述")
+    private String fileDesc;
 
 }

@@ -52,7 +52,11 @@ public class FileStorageController {
     public R<SysFileResponse> uploadFile(@RequestPart(name = "file") MultipartFile file,
                                          @RequestParam(value = "fileUsed", required = false) String fileUsed
     ) {
-        return R.ok().build(fileStorageService.uploadMultipartFile(UploadBO.builder(file).fileUsed(fileUsed).build()));
+        return R.ok().build(fileStorageService.uploadMultipartFile(UploadBO
+                .builder(file)
+                .fileUsed(fileUsed)
+                .build())
+        );
     }
 
     /**

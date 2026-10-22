@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import com.xht.framework.common.constant.StringConstant;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.StringUtils;
+import com.xht.platform.common.file.constant.SysFileConstant;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -34,17 +35,16 @@ public abstract class SysFileUtils {
      */
     public static String getFileName(String originalFilename, String fileSuffix) {
         AssertUtils.hasText(originalFilename, "文件名不能为空");
+        originalFilename = StringUtils.replace(originalFilename, fileSuffix, StringConstant.EMPTY);
         String name = FileUtil.getName(originalFilename);
         int lastIndex = -1;
         if (StringUtils.hasText(fileSuffix)) {
             lastIndex = name.length();
         }
         if (lastIndex > 200) {
-            lastIndex = 200;
+            lastIndex = 200 - SysFileConstant.FILE_NAME_PLACEHOLDER_LENGTH;
+            originalFilename = originalFilename.substring(0, lastIndex) + SysFileConstant.FILE_NAME_PLACEHOLDER;
         }
-        if (StringUtils.hasText(fileSuffix)) {
-            lastIndex = lastIndex - fileSuffix.length() - 1;
-        }
-        return StringUtils.substring(name, 0, lastIndex);
+        return originalFilename + fileSuffix;
     }
 }

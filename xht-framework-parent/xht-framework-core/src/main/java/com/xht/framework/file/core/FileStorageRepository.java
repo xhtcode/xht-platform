@@ -39,9 +39,9 @@ public interface FileStorageRepository {
     /**
      * 生成文件预览地址
      *
-     * @param fileStoragePath 文件存储路径
+     * @param fileStorageKey 文件存储key
      * @return 文件预览地址
      */
-    String generatePreviewUrl(String fileStoragePath);
+    String generatePreviewUrl(String fileStorageKey);
 
 }

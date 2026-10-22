@@ -92,6 +92,7 @@ public class FileStorageServiceImpl implements IFileStorageService {
         String fileStoragePath = filePathPrefix + File.separator + fileStorageName;
         sysFileEntity.setFileStorageName(fileStorageName);
         sysFileEntity.setFileStorageKey(fileStorageKey);
+        sysFileEntity.setFileDesc(uploadBo.getFileDesc());
         sysFileEntity.setFileMetadata(FileMetadataBuilder
                 .builder()
                 .fullOriginalFilename(requestFile.getOriginalFilename())

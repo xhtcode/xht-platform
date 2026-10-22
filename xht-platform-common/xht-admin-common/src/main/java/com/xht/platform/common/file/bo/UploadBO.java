@@ -4,6 +4,7 @@ import com.xht.framework.common.domain.bo.XhtBO;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.StringUtils;
+import com.xht.platform.common.file.constant.SysFileConstant;
 import com.xht.platform.common.file.utils.SysFileUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -37,10 +38,15 @@ public class UploadBO<T> implements XhtBO {
     private final String filePathPrefix;
 
     /**
+     * 文件描述
+     */
+    private final String fileDesc;
+
+    /**
      * 构建UploadBo，必须传入文件对象作为必填项
      *
      * @param requestFile 文件对象
-     * @param <T>  文件泛型
+     * @param <T>         文件泛型
      * @return 建造器
      */
     public static <T> UploadBoBuilder<T> builder(T requestFile) {
@@ -68,6 +74,11 @@ public class UploadBO<T> implements XhtBO {
          * 文件路径前缀
          */
         private String filePathPrefix;
+
+        /**
+         * 文件描述
+         */
+        private String fileDesc;
 
         /**
          * 私有构造，由builder方法入口实例化
@@ -105,6 +116,17 @@ public class UploadBO<T> implements XhtBO {
         }
 
         /**
+         * 设置文件描述
+         *
+         * @param fileDesc 文件描述
+         * @return 当前建造器
+         */
+        public UploadBoBuilder<T> fileDesc(final String fileDesc) {
+            this.fileDesc = fileDesc;
+            return this;
+        }
+
+        /**
          * 执行参数校验，生成最终UploadBo实例
          * <p>校验规则：文件不能为空、路径前缀不能为空；
          * 路径前缀为空时自动生成默认存储路径</p>
@@ -115,8 +137,8 @@ public class UploadBO<T> implements XhtBO {
             // 兜底：前缀为空则生成默认文件存储路径
             this.filePathPrefix = StringUtils.emptyToDefault(filePathPrefix, SysFileUtils.generateDefaultFilePath());
             String normalize = Path.of(this.filePathPrefix).normalize().toString();
-            AssertUtils.isTrue(!normalize.contains(".."), BusinessErrorCode.FILE_PATH_ILLEGAL);
-            return new UploadBO<>(this.requestFile, this.fileUsed,normalize);
+            AssertUtils.isTrue(!normalize.contains(SysFileConstant.PATH_POINT), BusinessErrorCode.FILE_PATH_ILLEGAL);
+            return new UploadBO<>(this.requestFile, this.fileUsed, normalize, this.fileDesc);
         }
     }
 
