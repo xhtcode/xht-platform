@@ -1,23 +1,24 @@
 package com.xht.platform.file.service;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.io.IoUtil;
 import com.xht.framework.common.constant.StringConstant;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.file.core.FileStorageRepository;
+import com.xht.framework.file.core.UploadResponse;
 import com.xht.framework.file.enums.MimeTypeEnums;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.IdUtils;
 import com.xht.framework.utils.StringUtils;
-import com.xht.framework.utils.crypto.MD5Utils;
 import com.xht.platform.common.file.FileMetadataBuilder;
 import com.xht.platform.common.file.bo.DownloadBO;
 import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.common.file.core.FileMetadata;
+import com.xht.platform.common.file.utils.SysFileUtils;
+import com.xht.platform.file.converter.SysFileConverter;
 import com.xht.platform.file.dao.SysFileDao;
-import com.xht.platform.file.domain.response.UploadResponse;
+import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
 import lombok.RequiredArgsConstructor;
@@ -57,25 +58,27 @@ public class FileStorageServiceImpl implements IFileStorageService {
     private final SysFileDao sysFileDao;
 
     /**
+     * 文件转换器，负责文件实体与响应对象的转换
+     */
+    private final SysFileConverter sysFileConverter;
+
+    /**
      * 文件上传
      *
      * @param uploadBo 文件上传参数
      * @return 文件信息
      */
     @Override
-    public UploadResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo) {
+    public SysFileResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo) {
         MultipartFile requestFile = uploadBo.getRequestFile();
         String fileUsed = uploadBo.getFileUsed();
         String filePathPrefix = uploadBo.getFilePathPrefix();
-        // 参数校验：文件对象非空、文件内容不为空
         AssertUtils.isTrue(!requestFile.isEmpty(), BusinessErrorCode.FILE_CONTENT_EMPTY);
-        // 文件名清洗：防路径穿越与非法字符
-        String originalFilename = FileUtil.getName(requestFile.getOriginalFilename());
+        String originalFilename = requestFile.getOriginalFilename();
         long fileSize = requestFile.getSize();
-        // 后缀白名单校验（服务端权威）
         String fileSuffix = FileUtil.getSuffix(originalFilename);
         SysFileEntity sysFileEntity = new SysFileEntity();
-        sysFileEntity.setFileOriginalName(originalFilename);
+        sysFileEntity.setFileOriginalName(SysFileUtils.getFileName(originalFilename, fileSuffix));
         sysFileEntity.setFileSize(fileSize);
         sysFileEntity.setFileSizeInfo(FileUtil.readableFileSize(fileSize));
         sysFileEntity.setFileSuffix(fileSuffix);
@@ -83,36 +86,29 @@ public class FileStorageServiceImpl implements IFileStorageService {
         sysFileEntity.setFileUsed(fileUsed);
         sysFileEntity.setFileUploadUser(SecurityUtils.getUserName());
         sysFileEntity.setFileUploadTime(LocalDateTime.now());
-        // 文件头探测 MIME，无歧义类型与后缀交叉校验（防改名绕过）
         sysFileEntity.setFileType(MimeTypeEnums.getByFileSuffix(fileSuffix).getContentType());
-        // 拼装存储信息：统一 / 分隔符，兼容跨平台
         String fileStorageKey = IdUtils.simpleUUID();
         String fileStorageName = fileStorageKey + StringConstant.POINT + fileSuffix;
         String fileStoragePath = filePathPrefix + File.separator + fileStorageName;
-        sysFileEntity.setFileStorageType(fileStorageRepository.storageType().getValue());
         sysFileEntity.setFileStorageName(fileStorageName);
         sysFileEntity.setFileStorageKey(fileStorageKey);
-        sysFileEntity.setFileStoragePath(fileStoragePath);
-        // 长文件名兜底：原始文件名被截断时，完整名称记录到元数据
         sysFileEntity.setFileMetadata(FileMetadataBuilder
                 .builder()
-                .fullOriginalFilename(originalFilename)
+                .fullOriginalFilename(requestFile.getOriginalFilename())
                 .build());
-        // 单流双工：探测用的头部字节与原流拼接后包 DigestInputStream，边落盘边计算哈希，不再二次读盘
         try (InputStream digestIn = requestFile.getInputStream()) {
-            fileStorageRepository.upload(digestIn, fileStoragePath);
-            sysFileEntity.setFilePreviewUrl(fileStorageRepository.generatePreviewUrl(fileStoragePath));
-            sysFileEntity.setFileHash(MD5Utils.generateSignature(IoUtil.readBytes(digestIn)));
+            UploadResponse upload = fileStorageRepository.upload(digestIn, fileStoragePath);
+            sysFileEntity.setFileStorageType(upload.getStorageType());
+            sysFileEntity.setFileHash(upload.getFileMd5());
+            sysFileEntity.setFileStoragePath(upload.getFileStoragePath());
         } catch (BusinessException e) {
-            // 业务异常（如路径不合法）保留原始错误码，仅补偿已写入文件
             fileStorageRepository.remove(fileStoragePath);
             throw e;
         } catch (Exception e) {
-            log.error("文件上传异常，fileStoragePath：{}", fileStoragePath, e);
+            log.error("文件上传异常:fileStoragePath:{} 信息:{}", fileStoragePath, e.getMessage(), e);
             fileStorageRepository.remove(fileStoragePath);
             throw new BusinessException(BusinessErrorCode.FILE_UPLOAD_FAIL, e.getMessage(), e);
         }
-        // 元数据入库：失败时补偿删除已落盘文件，避免产生孤儿文件
         try {
             sysFileDao.save(sysFileEntity);
         } catch (Exception e) {
@@ -120,7 +116,7 @@ public class FileStorageServiceImpl implements IFileStorageService {
             fileStorageRepository.remove(fileStoragePath);
             throw new BusinessException(BusinessErrorCode.FILE_UPLOAD_FAIL, e.getMessage(), e);
         }
-        return new UploadResponse(sysFileEntity.getFileStorageKey(), sysFileEntity.getFilePreviewUrl());
+        return sysFileConverter.toResponse(sysFileEntity);
     }
 
     /**

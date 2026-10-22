@@ -4,7 +4,7 @@ import com.xht.framework.common.domain.R;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.IsAdmin;
 import com.xht.platform.common.file.bo.UploadBO;
-import com.xht.platform.file.domain.response.UploadResponse;
+import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.service.IFileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Set;
 
 /**
  * 描述： 文件存储控制器
@@ -36,44 +35,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class FileStorageController {
 
-    /**
-     * 内联预览：浏览器可直接渲染展示（图片、PDF、音视频等）
-     */
-    private static final String DISPOSITION_INLINE = "inline";
-
-    /**
-     * 附件下载：浏览器以下载方式保存文件
-     */
-    private static final String DISPOSITION_ATTACHMENT = "attachment";
-
-    /**
-     * 禁止浏览器 MIME 嗅探的响应头名
-     */
-    private static final String X_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";
-
-    /**
-     * 协商缓存控制（私有缓存 1 天）
-     */
-    private static final String CACHE_CONTROL_PRIVATE = "private, max-age=86400";
-
-    /**
-     * 流拷贝缓冲区大小
-     */
-    private static final int COPY_BUFFER_SIZE = 8192;
-
-    /**
-     * 不允许内联预览的主动内容类型（可被浏览器执行脚本，存在同源 XSS 风险，预览时降级为附件下载）
-     */
-    private static final Set<String> UNSAFE_INLINE_CONTENT_TYPES = Set.of(
-            "text/html",
-            "application/xhtml+xml",
-            "image/svg+xml",
-            "application/xml",
-            "text/xml",
-            "application/javascript",
-            "text/javascript"
-    );
-
     private final IFileStorageService fileStorageService;
 
     /**
@@ -88,8 +49,8 @@ public class FileStorageController {
             @Parameter(name = "file", description = "上传文件", required = true, schema = @Schema(type = "string", format = "binary"))
     })
     @PostMapping("/upload")
-    public R<UploadResponse> uploadFile(@RequestPart(name = "file") MultipartFile file,
-                                        @RequestParam(value = "fileUsed", required = false) String fileUsed
+    public R<SysFileResponse> uploadFile(@RequestPart(name = "file") MultipartFile file,
+                                         @RequestParam(value = "fileUsed", required = false) String fileUsed
     ) {
         return R.ok().build(fileStorageService.uploadMultipartFile(UploadBO.builder(file).fileUsed(fileUsed).build()));
     }

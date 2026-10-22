@@ -1,6 +1,9 @@
 package com.xht.platform.audit.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.common.enums.LogStatusEnum;
 import com.xht.framework.mybatis.domain.entity.Entity;
 import lombok.Data;
@@ -66,6 +69,12 @@ public class BLogEntity extends Entity implements Serializable {
     private String serverAddr;
 
     /**
+     * 请求URL
+     */
+    @TableField(value = "request_url")
+    private String requestUrl;
+
+    /**
      * 请求IP（客户端真实IP）
      */
     @TableField(value = "request_ip")
@@ -78,16 +87,16 @@ public class BLogEntity extends Entity implements Serializable {
     private String requestHeaders;
 
     /**
-     * 请求账号（未登录为匿名）
-     */
-    @TableField(value = "request_account")
-    private String requestAccount;
-
-    /**
      * 请求类型（GET/POST/PUT/DELETE等）
      */
     @TableField(value = "request_type")
     private String requestType;
+
+    /**
+     * 执行账号（未登录为匿名）
+     */
+    @TableField(value = "execute_account")
+    private String executeAccount;
 
     /**
      * 执行时间（请求开始时间）

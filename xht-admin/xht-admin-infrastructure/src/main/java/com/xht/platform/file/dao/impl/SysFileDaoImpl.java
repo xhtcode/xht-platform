@@ -68,7 +68,6 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
                 SysFileEntity::getFileStorageType,
                 SysFileEntity::getFileStorageKey,
                 SysFileEntity::getFileStorageName,
-                SysFileEntity::getFilePreviewUrl,
                 SysFileEntity::getFileMetadata,
                 SysFileEntity::getFileUploadTime,
                 SysFileEntity::getFileAssociateTime,

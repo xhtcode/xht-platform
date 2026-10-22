@@ -16,6 +16,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.4.3</version>
+        </dependency>
+        <dependency>
             <groupId>com.xht.platform</groupId>
             <artifactId>xht-admin-common</artifactId>
         </dependency>

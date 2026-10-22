@@ -59,6 +59,12 @@ public class BLogDTO implements XhtDTO {
     private String serverAddr;
 
     /**
+     * 请求URL
+     */
+    @Schema(description = "请求URL")
+    private String requestUrl;
+
+    /**
      * 请求IP（客户端真实IP）
      */
     @Schema(description = "请求IP")
@@ -71,16 +77,16 @@ public class BLogDTO implements XhtDTO {
     private String requestHeaders;
 
     /**
-     * 请求账号（未登录为匿名）
-     */
-    @Schema(description = "请求账号")
-    private String requestAccount;
-
-    /**
      * 请求类型（GET/POST/PUT/DELETE等）
      */
     @Schema(description = "请求类型")
     private String requestType;
+
+    /**
+     * 执行账号（未登录为匿名）
+     */
+    @Schema(description = "执行账号（未登录为匿名）")
+    private String executeAccount;
 
     /**
      * 执行时间（请求开始时间）

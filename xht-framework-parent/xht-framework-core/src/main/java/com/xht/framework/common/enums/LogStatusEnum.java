@@ -21,12 +21,12 @@ public enum LogStatusEnum implements XhtEnum<Integer> {
     /**
      * 正常日志类型
      */
-    NORMAL(0, "正常"),
+    NORMAL(1, "正常"),
 
     /**
      * 错误日志类型
      */
-    ERROR(1, "错误");
+    ERROR(2, "错误");
 
     /**
      * 类型

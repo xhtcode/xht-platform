@@ -53,6 +53,12 @@ public class BLogResponse extends MetaResponse {
     private String classMethod;
 
     /**
+     * 请求URL
+     */
+    @Schema(description = "请求URL")
+    private String requestUrl;
+
+    /**
      * 调用参数（GET/POST参数，JSON格式）
      */
     @Schema(description = "调用参数")
@@ -77,16 +83,16 @@ public class BLogResponse extends MetaResponse {
     private String requestHeaders;
 
     /**
-     * 请求账号（未登录为匿名）
-     */
-    @Schema(description = "请求账号")
-    private String requestAccount;
-
-    /**
      * 请求类型（GET/POST/PUT/DELETE等）
      */
     @Schema(description = "请求类型")
     private String requestType;
+
+    /**
+     * 执行账号（未登录为匿名）
+     */
+    @Schema(description = "执行账号（未登录为匿名）")
+    private String executeAccount;
 
     /**
      * 执行时间（请求开始时间）

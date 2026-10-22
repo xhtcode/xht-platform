@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.xht.framework.file.enums.StorageType;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import com.xht.platform.common.file.core.FileMetadata;
 import com.xht.platform.file.enums.FileStatusEnum;
@@ -80,25 +81,13 @@ public class SysFileEntity extends BasicEntity implements Serializable {
      * 文件存储类型
      */
     @TableField(value = "file_storage_type")
-    private String fileStorageType;
+    private StorageType fileStorageType;
 
     /**
      * 文件存储key
      */
     @TableField(value = "file_storage_key")
     private String fileStorageKey;
-
-    /**
-     * 缩略图存储key（图片类文件存在）
-     */
-    @TableField(value = "file_thumb_key")
-    private String fileThumbKey;
-
-    /**
-     * 缩略图存储路径（图片类文件存在）
-     */
-    @TableField(value = "file_thumb_path")
-    private String fileThumbPath;
 
     /**
      * 文件存储名称
@@ -111,12 +100,6 @@ public class SysFileEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "file_storage_path")
     private String fileStoragePath;
-
-    /**
-     * 文件预览地址
-     */
-    @TableField(value = "file_preview_url")
-    private String filePreviewUrl;
 
     /**
      * 文件元数据

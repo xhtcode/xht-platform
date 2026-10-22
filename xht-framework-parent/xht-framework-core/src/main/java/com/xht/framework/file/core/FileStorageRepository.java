@@ -1,7 +1,5 @@
 package com.xht.framework.file.core;
 
-import com.xht.framework.file.enums.StorageType;
-
 import java.io.InputStream;
 
 /**
@@ -21,7 +19,7 @@ public interface FileStorageRepository {
      * @param inputStream 文件输入流
      * @param filePath    文件路径
      */
-    String upload(InputStream inputStream, String filePath);
+    UploadResponse upload(InputStream inputStream, String filePath);
 
     /**
      * 下载文件
@@ -37,13 +35,6 @@ public interface FileStorageRepository {
      * @param filePath 文件路径
      */
     void remove(String filePath);
-
-    /**
-     * 获取文件存储类型
-     *
-     * @return 文件存储类型
-     */
-    StorageType storageType();
 
     /**
      * 生成文件预览地址

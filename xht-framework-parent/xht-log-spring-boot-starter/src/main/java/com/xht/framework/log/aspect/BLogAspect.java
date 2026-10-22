@@ -1,7 +1,6 @@
 package com.xht.framework.log.aspect;
 
 import cn.hutool.core.net.NetUtil;
-import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.common.constant.StringConstant;
 import com.xht.framework.common.enums.LogStatusEnum;
 import com.xht.framework.jackson.JsonUtils;
@@ -22,9 +21,12 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StopWatch;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -80,11 +82,12 @@ public class BLogAspect {
             bLogDTO.setServerAddr(NetUtil.getLocalhostStr());
             Optional<HttpServletRequest> optHttpServletRequest = ServletUtils.getOptHttpServletRequest();
             optHttpServletRequest.ifPresent(request -> {
+                bLogDTO.setRequestUrl(request.getRequestURI());
                 bLogDTO.setRequestIp(IpUtils.getClientIP(request));
                 bLogDTO.setRequestHeaders(JsonUtils.toJsonString(ServletUtils.getHeaderMap(request)));
-                bLogDTO.setRequestAccount(request.getHeader(HttpConstants.Header.USER_ACCOUNT.getValue()));
                 bLogDTO.setRequestType(request.getMethod());
             });
+            bLogDTO.setExecuteAccount(getUserName());
             bLogDTO.setExecuteTime(LocalDateTime.now());
             obj = point.proceed();
             bLogDTO.setClassMethod(decorateMethodName(className, methodName));
@@ -109,19 +112,19 @@ public class BLogAspect {
     /**
      * 装饰方法名，将类名和方法名组合成标准格式
      *
-     * @param className 类名
+     * @param className  类名
      * @param methodName 方法名
      * @return 格式化后的方法名，格式为"类名。方法名 ()"
      */
     private String decorateMethodName(String className, String methodName) {
-        return String.format("%s.%s()", className, methodName);
+        return String.format("%s.%s", className, methodName);
     }
 
     /**
      * 获取请求参数的 JSON 字符串表示
      *
      * @param parameterNames 参数名称数组
-     * @param args 参数值数组
+     * @param args           参数值数组
      * @return 参数的 JSON 字符串表示；如果参数为空则返回空 JSON 字符串
      */
     private String getRequestParams(String[] parameterNames, Object[] args) {
@@ -162,4 +165,17 @@ public class BLogAspect {
 
     }
 
+    /**
+     * 获取当前登录用户名
+     *
+     * @return 当前登录用户名
+     */
+    private String getUserName() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        return Optional
+                .ofNullable(context)
+                .map(SecurityContext::getAuthentication)
+                .map(Principal::getName)
+                .orElse(null);
+    }
 }

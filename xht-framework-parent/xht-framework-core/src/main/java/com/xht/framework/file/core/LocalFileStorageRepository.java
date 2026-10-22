@@ -2,10 +2,11 @@ package com.xht.framework.file.core;
 
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.file.configurers.StorageProperties;
 import com.xht.framework.file.enums.StorageType;
 import com.xht.framework.file.exception.FileStorageException;
-import com.xht.framework.file.configurers.StorageProperties;
 import com.xht.framework.utils.AssertUtils;
+import com.xht.framework.utils.crypto.MD5Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -56,7 +57,7 @@ public class LocalFileStorageRepository implements FileStorageRepository {
      * @param filePath    文件相对路径（相对于本地存储根路径），不能为空白
      */
     @Override
-    public String upload(InputStream inputStream, String filePath) {
+    public UploadResponse upload(InputStream inputStream, String filePath) {
         AssertUtils.notNull(inputStream, BusinessErrorCode.FILE_UPLOAD_EMPTY);
         AssertUtils.hasText(filePath, BusinessErrorCode.PARAM_ERROR);
         // 目标文件路径
@@ -69,11 +70,17 @@ public class LocalFileStorageRepository implements FileStorageRepository {
             // 写入文件，允许覆盖；不需要覆盖就删掉 REPLACE_EXISTING
             Files.copy(inputStream, targetPath, StandardCopyOption.REPLACE_EXISTING);
             log.debug("本地文件存储上传成功，文件路径：{}", targetPath);
+            return UploadResponse
+                    .builder()
+                    .storageType(StorageType.LOCAL)
+                    .bucket(storageProperties.getLocal().getBasePath())
+                    .fileStoragePath(filePath)
+                    .fileMd5(MD5Utils.generateSignature(Files.readAllBytes(targetPath)))
+                    .build();
         } catch (Exception e) {
             log.error("本地文件存储上传失败，文件路径：{}", targetPath, e);
             throw new FileStorageException(BusinessErrorCode.FILE_UPLOAD_FAIL, e);
         }
-        return targetPath.toString();
     }
 
     /**
@@ -156,16 +163,6 @@ public class LocalFileStorageRepository implements FileStorageRepository {
                 BusinessErrorCode.ILLEGAL_OPERATION,
                 "存储路径不合法:" + filePath);
         return targetPath;
-    }
-
-    /**
-     * 获取文件存储类型
-     *
-     * @return 文件存储类型
-     */
-    @Override
-    public StorageType storageType() {
-        return StorageType.LOCAL;
     }
 
     /**

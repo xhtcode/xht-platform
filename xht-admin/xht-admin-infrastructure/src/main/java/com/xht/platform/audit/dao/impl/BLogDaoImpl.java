@@ -30,6 +30,18 @@ public class BLogDaoImpl extends MapperRepositoryImpl<BLogMapper, BLogEntity> im
     @Override
     public Page<BLogEntity> findPageList(Page<BLogEntity> page, BLogQuery query) {
         LambdaQueryWrapper<BLogEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(
+                BLogEntity::getId,
+                BLogEntity::getTitle,
+                BLogEntity::getLogDesc,
+                BLogEntity::getTraceId,
+                BLogEntity::getServiceName,
+                BLogEntity::getClassMethod,
+                BLogEntity::getExecuteAccount,
+                BLogEntity::getExecuteTime,
+                BLogEntity::getExecuteCost,
+                BLogEntity::getExecuteStatus
+        );
         if (query.isQuick()) {
             // @formatter:off
             queryWrapper.and(

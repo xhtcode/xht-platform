@@ -1,4 +1,4 @@
-package com.xht.platform.client.blog;
+package com.xht.platform.blog;
 
 import com.xht.framework.log.dto.BLogDTO;
 import com.xht.framework.log.repository.BLogRepository;

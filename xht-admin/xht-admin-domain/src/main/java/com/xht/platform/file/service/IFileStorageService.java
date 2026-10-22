@@ -2,7 +2,7 @@ package com.xht.platform.file.service;
 
 import com.xht.platform.common.file.bo.DownloadBO;
 import com.xht.platform.common.file.bo.UploadBO;
-import com.xht.platform.file.domain.response.UploadResponse;
+import com.xht.platform.file.domain.response.SysFileResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -18,7 +18,7 @@ public interface IFileStorageService {
      * @param uploadBo 文件上传参数
      * @return 文件上传响应信息
      */
-    UploadResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo);
+    SysFileResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo);
 
     /**
      * 文件下载
