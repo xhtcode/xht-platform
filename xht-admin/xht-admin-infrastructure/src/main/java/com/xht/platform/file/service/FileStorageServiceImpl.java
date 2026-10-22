@@ -10,11 +10,8 @@ import com.xht.framework.file.enums.MimeTypeEnums;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.IdUtils;
-import com.xht.framework.utils.StringUtils;
 import com.xht.platform.common.file.FileMetadataBuilder;
-import com.xht.platform.common.file.bo.DownloadBO;
 import com.xht.platform.common.file.bo.UploadBO;
-import com.xht.platform.common.file.core.FileMetadata;
 import com.xht.platform.common.file.utils.SysFileUtils;
 import com.xht.platform.file.converter.SysFileConverter;
 import com.xht.platform.file.dao.SysFileDao;
@@ -121,29 +118,6 @@ public class FileStorageServiceImpl implements IFileStorageService {
     }
 
     /**
-     * 文件下载
-     *
-     * @param fileStorageKey 文件存储key
-     * @return 文件下载信息（文件流、原始文件名、内容类型、文件大小、hash、上传时间）
-     */
-    @Override
-    public DownloadBO downloadFile(String fileStorageKey) {
-        // 参数校验：文件存储key非空
-        AssertUtils.hasText(fileStorageKey, BusinessErrorCode.PARAM_ERROR);
-        // 文件记录必须存在且未被删除，并通过访问权限校验
-        SysFileEntity sysFileEntity = sysFileDao.findActiveByStorageKey(fileStorageKey);
-        AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
-        // 从底层存储仓库读取文件流，流由调用方（控制层）负责关闭
-        InputStream inputStream = fileStorageRepository.download(sysFileEntity.getFileStoragePath());
-        return DownloadBO.of(inputStream,
-                resolveDownloadFilename(sysFileEntity),
-                sysFileEntity.getFileType(),
-                sysFileEntity.getFileSize(),
-                sysFileEntity.getFileHash(),
-                sysFileEntity.getFileUploadTime());
-    }
-
-    /**
      * 关联文件业务（单文件）：标记为已关联（ASSOCIATED）并记录关联时间
      * <p>
      * 禁止使用批处理：每次仅处理一个文件
@@ -161,20 +135,4 @@ public class FileStorageServiceImpl implements IFileStorageService {
         sysFileDao.associateFile(fileStorageKey, fileUsed, fileDesc);
     }
 
-    /**
-     * 解析下载文件名：优先取元数据中的完整原始文件名（长文件名截断场景的兜底），其次取文件原始名称，最后兜底取文件存储名称
-     *
-     * @param sysFileEntity 系统文件实体
-     * @return 下载文件名
-     */
-    private String resolveDownloadFilename(SysFileEntity sysFileEntity) {
-        FileMetadata fileMetadata = sysFileEntity.getFileMetadata();
-        if (Objects.nonNull(fileMetadata)) {
-            String fullOriginalFilename = fileMetadata.getFullOriginalFilename();
-            if (StringUtils.hasText(fullOriginalFilename)) {
-                return fullOriginalFilename;
-            }
-        }
-        return StringUtils.emptyToDefault(sysFileEntity.getFileOriginalName(), sysFileEntity.getFileStorageName());
-    }
 }

@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +62,6 @@ public class FileStorageController {
      * 文件下载（支持 Range 断点续传与协商缓存）
      *
      * @param fileStorageKey 文件存储key
-     * @param request        Http请求
      * @param response       Http响应
      */
     @BLog(value = "文件管理", description = "下载文件")
@@ -71,7 +69,7 @@ public class FileStorageController {
             @Parameter(name = "fileStorageKey", description = "文件存储key", required = true)
     })
     @GetMapping("/download/{fileStorageKey}")
-    public void downloadFile(@PathVariable String fileStorageKey, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void downloadFile(@PathVariable String fileStorageKey, HttpServletResponse response) throws IOException {
     }
 
     /**
@@ -81,7 +79,6 @@ public class FileStorageController {
      * HTML、SVG 等可执行脚本的主动内容类型存在同源 XSS 风险，强制以 attachment 方式下载
      *
      * @param fileStorageKey 文件存储key
-     * @param request        Http请求
      * @param response       Http响应
      */
     @BLog(value = "文件管理", description = "预览文件")
@@ -89,7 +86,7 @@ public class FileStorageController {
             @Parameter(name = "fileStorageKey", description = "文件存储key", required = true)
     })
     @GetMapping("/preview/{fileStorageKey}")
-    public void previewFile(@PathVariable String fileStorageKey, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void previewFile(@PathVariable String fileStorageKey, HttpServletResponse response) throws IOException {
     }
 
 
