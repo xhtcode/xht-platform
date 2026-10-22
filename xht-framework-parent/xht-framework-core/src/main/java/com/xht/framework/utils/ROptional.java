@@ -3,6 +3,7 @@ package com.xht.framework.utils;
 import com.xht.framework.common.constant.RConstants;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.exception.BusinessException;
+import com.xht.framework.exception.core.ErrorCode;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -54,7 +55,17 @@ public final class ROptional<T> {
         if (isSuccess()) {
             return Optional.ofNullable(value.getData());
         }
-        throw new BusinessException("data is error!");
+        throw new BusinessException(new ErrorCode() {
+            @Override
+            public int getCode() {
+                return value.getCode();
+            }
+
+            @Override
+            public String getMessage() {
+                return value.getMsg();
+            }
+        });
     }
 
 

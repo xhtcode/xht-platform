@@ -1,5 +1,9 @@
 package com.xht.platform.message.impl;
 
+import com.xht.framework.common.domain.R;
+import com.xht.framework.exception.BusinessException;
+import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.utils.ROptional;
 import com.xht.platform.common.message.IMessagePublisher;
 import com.xht.platform.common.message.core.MessagePayload;
 import com.xht.platform.common.message.api.ISysMessageClient;
@@ -25,7 +29,10 @@ public class MessageClientPublisher implements IMessagePublisher {
      */
     @Override
     public void publish(String topic, MessagePayload payload) {
-        sysMessageClient.sendMessage(payload);
+        R<Void> voidR = sysMessageClient.sendMessage(payload);
+        if (!ROptional.of(voidR).isSuccess()) {
+            throw new BusinessException(BusinessErrorCode.MESSAGE_PUSH_FAIL);
+        }
     }
 
 }

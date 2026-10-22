@@ -138,6 +138,10 @@ public enum BusinessErrorCode implements ErrorCode {
      * 缩略图生成失败
      */
     FILE_THUMBNAIL_GENERATE_FAIL(50212, "缩略图生成失败，请稍后重试"),
+    /**
+     * 消息推送失败
+     */
+    MESSAGE_PUSH_FAIL(50301, "消息推送失败，请稍后重试"),
     ;
 
     /**
