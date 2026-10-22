@@ -265,7 +265,7 @@ xht-platform
     └── xht-platform-client-message              # 站内信发送
 ```
 
-> `xht-platform-common` 只放被共享的代码（契约、DTO、枚举、工具），`xht-platform-client` 只放让契约跑起来的自动装配。业务模块要用其它服务的能力时，加对应 `xht-platform-client-*` 依赖并注入门面（`ISysDictFactory`、`IMessagePublisher`），不需要写 `@EnableFeignClients`。详见 `doc/开发规范和编码指南.md` 第 2.7、2.8、9.2 节。
+> `xht-platform-common` 只放被共享的代码（契约、DTO、枚举、工具），`xht-platform-client` 只放让契约跑起来的自动装配。业务模块要用其它服务的能力时，加对应 `xht-platform-client-*` 依赖并注入门面（`ISysDictFactory`、`IMessagePublisher`），不需要写 `@EnableFeignClients`。详见 `doc/开发规范和编码指南.md` 第 2.6、2.7、6.2~6.4 节。
 
 ## 文档索引
 
@@ -273,7 +273,7 @@ xht-platform
 | --- | --- |
 | [本地启动](doc/安装部署/本地启动.md) | 环境准备、启动步骤、hosts、nginx 部署 |
 | [常见问题](doc/安装部署/问题.md) | 启动与运行期问题排查 |
-| [开发规范和编码指南](doc/开发规范和编码指南.md) | 分层、命名、编码、接口、SQL、Git 全量规范 |
+| [开发规范和编码指南](doc/开发规范和编码指南.md) | 项目概述、分层、命名、编码、接口、SQL、Git 全量规范 |
 | [开发需求](doc/开发需求.md) | 需求清单与完成情况 |
 
 ## 配置说明
