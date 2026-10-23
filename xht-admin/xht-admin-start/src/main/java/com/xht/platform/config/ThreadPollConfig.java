@@ -30,7 +30,7 @@ public class ThreadPollConfig implements AsyncConfigurer {
      * 配置线程池
      * <p>
      * 该 bean 同时作为全局默认异步执行器（见 {@link #getAsyncExecutor()}）以及 {@code @Async("xht-async-executor")}
-     * 显式指定的线程池（缩略图异步生成等场景）。
+     * 显式指定的线程池。
      *
      * @return 线程池
      */

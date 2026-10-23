@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.15</version>
+        <version>3.5.16</version>
         <relativePath/>
     </parent>
     <groupId>com.xht.framework</groupId>
@@ -31,7 +31,7 @@
         <mapstruct.version>1.6.3</mapstruct.version>
         <mybatis-plus.version>3.5.16</mybatis-plus.version>
         <mysql.version>9.4.0</mysql.version>
-        <spring-boot.version>3.5.15</spring-boot.version>
+        <spring-boot.version>3.5.16</spring-boot.version>
         <spring-cloud.version>2025.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
         <swagger.core.version>2.2.39</swagger.core.version>

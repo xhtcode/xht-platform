@@ -24,10 +24,14 @@
             <groupId>com.xht.platform</groupId>
             <artifactId>xht-admin-common</artifactId>
         </dependency>
-        <!-- Service 接口入参使用 MultipartFile / HttpServletRequest，只声明 API 包，不引入 Web starter -->
+        <!-- Service 接口入参使用 MultipartFile / 返回体使用 ResponseEntity<StreamingResponseBody>，只声明 Spring 模块，不引入 Web starter -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>

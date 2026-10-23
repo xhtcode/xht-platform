@@ -15,7 +15,7 @@ import com.xht.platform.file.domain.response.SysFileResponse;
 public interface ISysFileService {
 
     /**
-     * 根据文件ID删除文件记录（逻辑删除），并同步清理物理文件与缩略图
+     * 根据文件ID删除文件记录（逻辑删除），并同步清理物理文件
      *
      * @param fileId 文件ID
      */

@@ -32,7 +32,7 @@ public class SysFileController {
     private final ISysFileService sysFileService;
 
     /**
-     * 根据文件ID删除文件记录（逻辑删除），同步清理物理文件与缩略图
+     * 根据文件ID删除文件记录（逻辑删除），同步清理物理文件
      *
      * @param fileId 文件ID
      * @return 操作结果

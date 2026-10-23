@@ -49,7 +49,7 @@ xht-platform 是一个基于 Spring Cloud Alibaba 的微服务架构平台，专
 - 数据字典与字典项、行政区划（树形 + 经纬度）
 - 通知公告（草稿 / 定时发布 / 置顶 / 下架）、站内信（已读、置顶、删除）
 - 操作日志（`@BLog`）与登录日志、OAuth2 客户端管理
-- 文件上传/下载/预览/缩略图，本地与可扩展存储，孤儿文件定时清理
+- 文件上传/下载/预览，本地与可扩展存储，孤儿文件定时清理
 
 **代码生成（xht-generate）**
 
@@ -299,7 +299,7 @@ xht-platform
 | `xht.security.token.lightning-cache` | 令牌轻量缓存过期时间 |
 | `xht.oauth2.*` | 授权服务器端点、登录页、客户端、授权类型密钥 |
 | `xht.file.storage` / `xht.file.upload` | 文件存储方式、大小与后缀限制 |
-| `xht.file.thumbnail` / `xht.file.clean` | 缩略图生成、孤儿文件清理 |
+| `xht.file.clean` | 孤儿文件清理 |
 | `xht.blog.repository-type` | 操作日志落库方式：`default`（仅 debug 输出，**不落库**）、`feign`（上报 `xht-admin`）、`jdbc`（本地直写 `b_log`，目前仅 `xht-admin` 支持） |
 | `xht.gateway.internal-api.roots` | 网关受保护的服务间内部接口根路径集合，默认 `["/api"]`，可配多个；按入站路径 + 命中路由的 `StripPrefix` 段数判定，需重启生效 |
 

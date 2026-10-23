@@ -22,7 +22,7 @@ import java.util.Objects;
  * <p>
  * 提供系统文件记录（sys_file）的元数据 CRUD；围绕文件内容的操作类业务
  * （上传、下载、预览、访问权限等）见 {@link FileStorageServiceImpl}；
- * 删除前校验文件存在、未被关联业务、当前用户有权访问；删除时同步清理物理文件与缩略图
+ * 删除前校验文件存在、未被关联业务、当前用户有权访问；删除时同步清理物理文件
  *
  * @author xht
  **/
@@ -36,7 +36,7 @@ public class SysFileServiceImpl implements ISysFileService {
     private final SysFileConverter sysFileConverter;
 
     /**
-     * 根据文件ID删除文件记录（逻辑删除），并同步删除物理文件与缩略图
+     * 根据文件ID删除文件记录（逻辑删除），并同步删除物理文件
      *
      * @param fileId 文件ID
      */

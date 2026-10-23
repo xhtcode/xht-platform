@@ -135,10 +135,6 @@ public enum BusinessErrorCode implements ErrorCode {
      */
     FILE_ASSOCIATED(50211, "文件已关联业务，无法删除"),
     /**
-     * 缩略图生成失败
-     */
-    FILE_THUMBNAIL_GENERATE_FAIL(50212, "缩略图生成失败，请稍后重试"),
-    /**
      * 消息推送失败
      */
     MESSAGE_PUSH_FAIL(50301, "消息推送失败，请稍后重试"),

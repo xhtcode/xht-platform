@@ -10,18 +10,17 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 /**
  * 描述： 文件存储控制器
  * <p>
- * 提供文件内容的上传、下载、预览、缩略图预览能力；
+ * 提供文件内容的上传、下载、预览能力；
  * 文件记录元数据的管理接口见 {@link SysFileController}（共用 /sys/files 前缀）；
  * 下载/预览支持 Range 断点续传、ETag/Last-Modified 协商缓存（304）
  *
@@ -62,14 +61,15 @@ public class FileStorageController {
      * 文件下载（支持 Range 断点续传与协商缓存）
      *
      * @param fileStorageKey 文件存储key
-     * @param response       Http响应
+     * @return 文件响应（200 全量 / 206 部分内容 / 304 未修改）
      */
     @BLog(value = "文件管理", description = "下载文件")
     @Operation(summary = "文件下载", parameters = {
             @Parameter(name = "fileStorageKey", description = "文件存储key", required = true)
     })
     @GetMapping("/download/{fileStorageKey}")
-    public void downloadFile(@PathVariable String fileStorageKey, HttpServletResponse response) throws IOException {
+    public ResponseEntity<StreamingResponseBody> downloadFile(@PathVariable String fileStorageKey) {
+        return fileStorageService.downloadFile(fileStorageKey);
     }
 
     /**
@@ -79,14 +79,15 @@ public class FileStorageController {
      * HTML、SVG 等可执行脚本的主动内容类型存在同源 XSS 风险，强制以 attachment 方式下载
      *
      * @param fileStorageKey 文件存储key
-     * @param response       Http响应
+     * @return 文件响应（200 全量 / 206 部分内容 / 304 未修改）
      */
     @BLog(value = "文件管理", description = "预览文件")
     @Operation(summary = "文件预览", parameters = {
             @Parameter(name = "fileStorageKey", description = "文件存储key", required = true)
     })
     @GetMapping("/preview/{fileStorageKey}")
-    public void previewFile(@PathVariable String fileStorageKey, HttpServletResponse response) throws IOException {
+    public ResponseEntity<StreamingResponseBody> previewFile(@PathVariable String fileStorageKey) {
+        return fileStorageService.previewFile(fileStorageKey);
     }
 
 
