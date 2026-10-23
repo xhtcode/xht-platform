@@ -12,10 +12,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 /**
  * 描述： 文件存储控制器
@@ -56,39 +54,5 @@ public class FileStorageController {
                 .build())
         );
     }
-
-    /**
-     * 文件下载（支持 Range 断点续传与协商缓存）
-     *
-     * @param fileStorageKey 文件存储key
-     * @return 文件响应（200 全量 / 206 部分内容 / 304 未修改）
-     */
-    @BLog(value = "文件管理", description = "下载文件")
-    @Operation(summary = "文件下载", parameters = {
-            @Parameter(name = "fileStorageKey", description = "文件存储key", required = true)
-    })
-    @GetMapping("/download/{fileStorageKey}")
-    public ResponseEntity<StreamingResponseBody> downloadFile(@PathVariable String fileStorageKey) {
-        return fileStorageService.downloadFile(fileStorageKey);
-    }
-
-    /**
-     * 文件预览
-     * <p>
-     * 浏览器可直接渲染的类型（图片、PDF、音视频、文本等）以 inline 方式内联预览；
-     * HTML、SVG 等可执行脚本的主动内容类型存在同源 XSS 风险，强制以 attachment 方式下载
-     *
-     * @param fileStorageKey 文件存储key
-     * @return 文件响应（200 全量 / 206 部分内容 / 304 未修改）
-     */
-    @BLog(value = "文件管理", description = "预览文件")
-    @Operation(summary = "文件预览", parameters = {
-            @Parameter(name = "fileStorageKey", description = "文件存储key", required = true)
-    })
-    @GetMapping("/preview/{fileStorageKey}")
-    public ResponseEntity<StreamingResponseBody> previewFile(@PathVariable String fileStorageKey) {
-        return fileStorageService.previewFile(fileStorageKey);
-    }
-
 
 }
