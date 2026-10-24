@@ -9,28 +9,27 @@
         <version>1.0.0</version>
     </parent>
 
-    <name>xht-resource-server-spring-boot-starter</name>
-    <artifactId>xht-resource-server-spring-boot-starter</artifactId>
+    <name>xht-spring-boot-starter-openfeign</name>
+    <artifactId>xht-spring-boot-starter-openfeign</artifactId>
     <packaging>jar</packaging>
-    <description>xht-resource-server-spring-boot-starter 资源服务器</description>
+    <description>xht-spring-boot-starter-openfeign openfeign</description>
 
     <dependencies>
         <dependency>
             <groupId>com.xht.framework</groupId>
-            <artifactId>xht-security-spring-boot-starter</artifactId>
+            <artifactId>xht-framework-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-            <scope>provided</scope>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
     </dependencies>
     <build>

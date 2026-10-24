@@ -25,19 +25,19 @@
         </dependency>
         <dependency>
             <groupId>com.xht.framework</groupId>
-            <artifactId>xht-mybatis-plus-spring-boot-starter</artifactId>
+            <artifactId>xht-spring-boot-starter-mybatis-plus</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xht.framework</groupId>
-            <artifactId>xht-cache-spring-boot-starter</artifactId>
+            <artifactId>xht-spring-boot-starter-cache</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xht.framework</groupId>
-            <artifactId>xht-resource-server-spring-boot-starter</artifactId>
+            <artifactId>xht-spring-boot-starter-resource-server</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xht.framework</groupId>
-            <artifactId>xht-log-spring-boot-starter</artifactId>
+            <artifactId>xht-spring-boot-starter-log</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>

@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>com.xht.framework</groupId>
-            <artifactId>xht-spring-cloud-starter</artifactId>
+            <artifactId>xht-spring-boot-starter-spring-cloud</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.xiaoymin</groupId>

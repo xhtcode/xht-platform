@@ -25,7 +25,7 @@
         </dependency>
         <dependency>
             <groupId>com.xht.framework</groupId>
-            <artifactId>xht-swagger-spring-boot-starter</artifactId>
+            <artifactId>xht-spring-boot-starter-swagger</artifactId>
         </dependency>
         <!-- 运行时数据库驱动 -->
         <dependency>
@@ -34,7 +34,7 @@
         </dependency>
         <dependency>
             <groupId>com.xht.framework</groupId>
-            <artifactId>xht-spring-cloud-starter</artifactId>
+            <artifactId>xht-spring-boot-starter-spring-cloud</artifactId>
         </dependency>
     </dependencies>
 

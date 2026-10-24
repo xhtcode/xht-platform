@@ -21,11 +21,11 @@
         </dependency>
         <dependency>
             <groupId>com.xht.framework</groupId>
-            <artifactId>xht-log-spring-boot-starter</artifactId>
+            <artifactId>xht-spring-boot-starter-log</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xht.framework</groupId>
-            <artifactId>xht-openfeign-spring-boot-starter</artifactId>
+            <artifactId>xht-spring-boot-starter-openfeign</artifactId>
         </dependency>
     </dependencies>
 

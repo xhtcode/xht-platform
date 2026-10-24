@@ -7,10 +7,10 @@
         <version>1.0.0</version>
     </parent>
 
-    <name>xht-sms-spring-boot-starter</name>
-    <artifactId>xht-sms-spring-boot-starter</artifactId>
+    <name>xht-spring-boot-starter-sms</name>
+    <artifactId>xht-spring-boot-starter-sms</artifactId>
     <packaging>jar</packaging>
-    <description>xht-sms-spring-boot-starter 短信模块</description>
+    <description>xht-spring-boot-starter-sms 短信模块</description>
 
     <dependencies>
         <dependency>

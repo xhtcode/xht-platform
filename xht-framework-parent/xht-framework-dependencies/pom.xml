@@ -141,61 +141,61 @@
             <!-- redis缓存模块依赖 -->
             <dependency>
                 <groupId>com.xht.framework</groupId>
-                <artifactId>xht-cache-spring-boot-starter</artifactId>
+                <artifactId>xht-spring-boot-starter-cache</artifactId>
                 <version>${xht.version}</version>
             </dependency>
             <!-- log日志记录模块依赖 -->
             <dependency>
                 <groupId>com.xht.framework</groupId>
-                <artifactId>xht-log-spring-boot-starter</artifactId>
+                <artifactId>xht-spring-boot-starter-log</artifactId>
                 <version>${xht.version}</version>
             </dependency>
             <!-- mybatis模块依赖 -->
             <dependency>
                 <groupId>com.xht.framework</groupId>
-                <artifactId>xht-mybatis-plus-spring-boot-starter</artifactId>
+                <artifactId>xht-spring-boot-starter-mybatis-plus</artifactId>
                 <version>${xht.version}</version>
             </dependency>
             <!-- openfeign模块依赖 -->
             <dependency>
                 <groupId>com.xht.framework</groupId>
-                <artifactId>xht-openfeign-spring-boot-starter</artifactId>
+                <artifactId>xht-spring-boot-starter-openfeign</artifactId>
                 <version>${xht.version}</version>
             </dependency>
             <!-- resource-server资源服务器模块依赖 -->
             <dependency>
                 <groupId>com.xht.framework</groupId>
-                <artifactId>xht-resource-server-spring-boot-starter</artifactId>
+                <artifactId>xht-spring-boot-starter-resource-server</artifactId>
                 <version>${xht.version}</version>
             </dependency>
             <!-- security安全模块依赖 -->
             <dependency>
                 <groupId>com.xht.framework</groupId>
-                <artifactId>xht-security-spring-boot-starter</artifactId>
+                <artifactId>xht-spring-boot-starter-security</artifactId>
                 <version>${xht.version}</version>
             </dependency>
             <!-- 短信模块依赖 -->
             <dependency>
                 <groupId>com.xht.framework</groupId>
-                <artifactId>xht-sms-spring-boot-starter</artifactId>
+                <artifactId>xht-spring-boot-starter-sms</artifactId>
                 <version>${xht.version}</version>
             </dependency>
             <!-- swagger模块依赖 -->
             <dependency>
                 <groupId>com.xht.framework</groupId>
-                <artifactId>xht-swagger-spring-boot-starter</artifactId>
+                <artifactId>xht-spring-boot-starter-swagger</artifactId>
                 <version>${xht.version}</version>
             </dependency>
             <!-- web通信模块依赖 -->
             <dependency>
                 <groupId>com.xht.framework</groupId>
-                <artifactId>xht-web-spring-boot-starter</artifactId>
+                <artifactId>xht-spring-boot-starter-web</artifactId>
                 <version>${xht.version}</version>
             </dependency>
             <!-- nacos模块依赖 -->
             <dependency>
                 <groupId>com.xht.framework</groupId>
-                <artifactId>xht-spring-cloud-starter</artifactId>
+                <artifactId>xht-spring-boot-starter-spring-cloud</artifactId>
                 <version>${xht.version}</version>
             </dependency>
         </dependencies>

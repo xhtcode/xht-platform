@@ -62,16 +62,16 @@ xht-platform 是一个基于 Spring Cloud Alibaba 的微服务架构平台，专
 | --- | --- |
 | `xht-framework-core` | 统一响应 `R`、异常体系、通用 DTO、校验分组、Jackson、文件存储、工具类（非 starter） |
 | `xht-framework-dependencies` | 纯 BOM，统一 Spring / 三方 / 自研模块版本 |
-| `xht-cache-spring-boot-starter` | RedisTemplate、CacheManager、`RedisRepository` 仓储封装 |
-| `xht-web-spring-boot-starter` | 全局异常处理、CORS、XSS 过滤、TraceId、接口加解密 |
-| `xht-mybatis-plus-spring-boot-starter` | 分页/乐观锁/数据权限插件、字段自动填充、逻辑删除、Repository 基类 |
-| `xht-security-spring-boot-starter` | `@IgnoreAuth` 白名单、密码编码器、安全异常处理 |
-| `xht-resource-server-spring-boot-starter` | OAuth2 资源服务器与 `@CheckMenu` / `@CheckRole` / `@IsAdmin` |
-| `xht-openfeign-spring-boot-starter` | Feign 内部认证头、Token 透传、链路日志拦截 |
-| `xht-log-spring-boot-starter` | `@BLog` 操作日志、方法耗时统计 |
-| `xht-sms-spring-boot-starter` | 短信验证码生成、手机号格式校验 |
-| `xht-swagger-spring-boot-starter` | Knife4j / OpenAPI 文档（需 `@EnableCustomSwagger` 开启） |
-| `xht-spring-cloud-starter` | Nacos 注册/配置、LoadBalancer、OpenFeign、`@LoadBalanced RestClient` |
+| `xht-spring-boot-starter-cache` | RedisTemplate、CacheManager、`RedisRepository` 仓储封装 |
+| `xht-spring-boot-starter-web` | 全局异常处理、CORS、XSS 过滤、TraceId、接口加解密 |
+| `xht-spring-boot-starter-mybatis-plus` | 分页/乐观锁/数据权限插件、字段自动填充、逻辑删除、Repository 基类 |
+| `xht-spring-boot-starter-security` | `@IgnoreAuth` 白名单、密码编码器、安全异常处理 |
+| `xht-spring-boot-starter-resource-server` | OAuth2 资源服务器与 `@CheckMenu` / `@CheckRole` / `@IsAdmin` |
+| `xht-spring-boot-starter-openfeign` | Feign 内部认证头、Token 透传、链路日志拦截 |
+| `xht-spring-boot-starter-log` | `@BLog` 操作日志、方法耗时统计 |
+| `xht-spring-boot-starter-sms` | 短信验证码生成、手机号格式校验 |
+| `xht-spring-boot-starter-swagger` | Knife4j / OpenAPI 文档（需 `@EnableCustomSwagger` 开启） |
+| `xht-spring-boot-starter-spring-cloud` | Nacos 注册/配置、LoadBalancer、OpenFeign、`@LoadBalanced RestClient` |
 
 ## 软件架构
 
@@ -234,16 +234,16 @@ xht-platform
 ├── xht-framework-parent                 # 框架父工程（12 个模块）
 │   ├── xht-framework-dependencies               # 依赖版本 BOM（无源码）
 │   ├── xht-framework-core                       # 核心库：R、异常、通用 DTO、工具类
-│   ├── xht-cache-spring-boot-starter            # Redis 缓存
-│   ├── xht-web-spring-boot-starter              # 全局异常、CORS、XSS、TraceId、加解密
-│   ├── xht-mybatis-plus-spring-boot-starter     # 分页/乐观锁/数据权限/字段填充/逻辑删除
-│   ├── xht-security-spring-boot-starter         # @IgnoreAuth、密码编码、安全异常
-│   ├── xht-resource-server-spring-boot-starter  # 资源服务器、@CheckMenu/@CheckRole/@IsAdmin
-│   ├── xht-openfeign-spring-boot-starter        # Feign 认证头与链路拦截
-│   ├── xht-log-spring-boot-starter              # @BLog 操作日志、方法耗时
-│   ├── xht-sms-spring-boot-starter              # 短信验证码、手机号校验
-│   ├── xht-swagger-spring-boot-starter          # OpenAPI / Knife4j
-│   └── xht-spring-cloud-starter                 # Nacos + LoadBalancer + OpenFeign（根包 com.xht.cloud）
+│   ├── xht-spring-boot-starter-cache            # Redis 缓存
+│   ├── xht-spring-boot-starter-web              # 全局异常、CORS、XSS、TraceId、加解密
+│   ├── xht-spring-boot-starter-mybatis-plus     # 分页/乐观锁/数据权限/字段填充/逻辑删除
+│   ├── xht-spring-boot-starter-security         # @IgnoreAuth、密码编码、安全异常
+│   ├── xht-spring-boot-starter-resource-server  # 资源服务器、@CheckMenu/@CheckRole/@IsAdmin
+│   ├── xht-spring-boot-starter-openfeign        # Feign 认证头与链路拦截
+│   ├── xht-spring-boot-starter-log              # @BLog 操作日志、方法耗时
+│   ├── xht-spring-boot-starter-sms              # 短信验证码、手机号校验
+│   ├── xht-spring-boot-starter-swagger          # OpenAPI / Knife4j
+│   └── xht-spring-boot-starter-spring-cloud                 # Nacos + LoadBalancer + OpenFeign（根包 com.xht.cloud）
 ├── xht-auth                             # 认证中心（OAuth2 授权服务器）
 ├── xht-gateway                          # 网关服务
 ├── xht-admin                            # 后台管理服务

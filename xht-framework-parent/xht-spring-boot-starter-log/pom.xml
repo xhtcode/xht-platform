@@ -9,10 +9,10 @@
         <version>1.0.0</version>
     </parent>
 
-    <name>xht-log-spring-boot-starter</name>
-    <artifactId>xht-log-spring-boot-starter</artifactId>
+    <name>xht-spring-boot-starter-log</name>
+    <artifactId>xht-spring-boot-starter-log</artifactId>
     <packaging>jar</packaging>
-    <description>xht-log-spring-boot-starter 日志记录模块</description>
+    <description>xht-spring-boot-starter-log 日志记录模块</description>
 
     <dependencies>
         <!-- xht-framework-core核心模块 -->
