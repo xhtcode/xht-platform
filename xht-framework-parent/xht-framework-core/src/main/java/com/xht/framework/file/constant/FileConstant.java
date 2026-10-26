@@ -22,4 +22,8 @@ public interface FileConstant {
      */
     int DEFAULT_BUFFER_SIZE = 2 << 12;
 
+    /**
+     * 替换文件key
+     */
+    String REPLACE_FILE_KEY = "replaceFile";
 }

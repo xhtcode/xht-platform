@@ -139,11 +139,13 @@ public enum BusinessErrorCode implements ErrorCode {
      */
     FILE_ASSOCIATE_FAIL(50212, "文件关联业务失败"),
     /**
+     * 文件解关联业务失败
+     */
+    FILE_DISASSOCIATE_FAIL(50213, "文件关联业务失败"),
+    /**
      * 未指定文件上传用户
      */
-    FILE_UPLOAD_USER_ILLEGAL(50213, "未指定文件上传用户"),
-
-
+    FILE_UPLOAD_USER_ILLEGAL(50214, "未指定文件上传用户"),
     /**
      * 消息推送失败
      */

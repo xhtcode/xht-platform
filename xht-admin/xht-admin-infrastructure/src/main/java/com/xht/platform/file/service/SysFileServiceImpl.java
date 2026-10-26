@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -92,6 +93,7 @@ public class SysFileServiceImpl implements ISysFileService {
      * @return 文件信息
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public SysFileResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo) {
         return sysFileConverter.toResponse(fileStorageDao.uploadMultipartFile(uploadBo));
     }

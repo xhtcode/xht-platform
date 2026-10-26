@@ -56,7 +56,7 @@ public final class FileMetadataBuilder {
      * @param value 元数据值
      * @return FileMetadataBuilder实例，支持链式调用
      */
-    public FileMetadataBuilder put(String key, String value) {
+    public FileMetadataBuilder put(String key, Object value) {
         if (StringUtils.hasText(key) && Objects.nonNull(value)) {
             this.fileMetadata.put(key, value);
         }
