@@ -28,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -153,7 +152,7 @@ public class FileStorageServiceImpl implements IFileStorageService {
      * @param fileStorageKey 文件存储Key
      */
     @Override
-    public void downloadFile(HttpServletResponse response, String fileStorageKey) throws IOException {
+    public void downloadFile(HttpServletResponse response, String fileStorageKey) {
         SysFileEntity activeByStorageKey = sysFileDao.findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey)
                 .orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
         InputStream download = fileStorageRepository.download(activeByStorageKey.getFileStoragePath());

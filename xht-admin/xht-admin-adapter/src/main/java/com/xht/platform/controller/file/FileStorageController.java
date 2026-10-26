@@ -16,8 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
 /**
  * 描述： 文件存储控制器
  * <p>
@@ -65,10 +63,9 @@ public class FileStorageController {
      * @param fileStorageKey 文件存储Key
      */
     @BLog(value = "文件管理", description = "下载文件")
-    @IsAdmin
     @Operation(summary = "文件下载")
     @GetMapping("/download/{fileStorageKey}")
-    public void downloadFile(HttpServletResponse response, @PathVariable String fileStorageKey) throws IOException {
+    public void downloadFile(HttpServletResponse response, @PathVariable String fileStorageKey) {
         fileStorageService.downloadFile(response, fileStorageKey);
     }
 
