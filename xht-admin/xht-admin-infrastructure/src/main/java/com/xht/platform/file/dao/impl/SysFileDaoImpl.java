@@ -14,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -26,20 +24,6 @@ import java.util.Objects;
 @Slf4j
 @Repository
 public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileEntity> implements SysFileDao {
-
-    /**
-     * 根据文件存储名称查询文件
-     *
-     * @param fileStorageKey 文件存储名称
-     * @return 文件信息
-     */
-    @Override
-    public SysFileEntity findActiveByStorageKey(String fileStorageKey) {
-        LambdaQueryWrapper<SysFileEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(SysFileEntity::getFileStorageKey, fileStorageKey);
-        wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.DELETED);
-        return getOne(wrapper);
-    }
 
     /**
      * 分页查询文件
@@ -106,40 +90,6 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
         wrapper.set(SysFileEntity::getFileStatus, fileStatusEnum);
         wrapper.eq(SysFileEntity::getId, fileId);
         wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.DELETED);
-        update(wrapper);
-    }
-
-    /**
-     * 分页查询过期的未关联文件（UPLOADED 且上传时间早于指定时间）
-     *
-     * @param page             分页对象
-     * @param expireBeforeTime 过期时间界限
-     * @return 过期的未关联文件列表
-     */
-    @Override
-    public List<SysFileEntity> findExpiredUploadedFiles(Page<SysFileEntity> page, LocalDateTime expireBeforeTime) {
-        LambdaQueryWrapper<SysFileEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(SysFileEntity::getFileStatus, FileStatusEnum.UPLOADED);
-        wrapper.lt(SysFileEntity::getFileUploadTime, expireBeforeTime);
-        return page(page, wrapper).getRecords();
-    }
-
-    /**
-     * 关联文件
-     *
-     * @param fileStorageKey 文件存储名称
-     * @param fileUsed       文件用途
-     * @param fileDesc       文件描述
-     */
-    @Override
-    public void associateFile(String fileStorageKey, String fileUsed, String fileDesc) {
-        LambdaUpdateWrapper<SysFileEntity> wrapper = new LambdaUpdateWrapper<>();
-        wrapper.set(SysFileEntity::getFileUsed, fileUsed);
-        wrapper.set(SysFileEntity::getFileDesc, fileDesc);
-        wrapper.set(SysFileEntity::getFileStatus, FileStatusEnum.ASSOCIATED);
-        wrapper.set(SysFileEntity::getFileAssociateTime, LocalDateTime.now());
-        wrapper.eq(SysFileEntity::getFileStorageKey, fileStorageKey);
-        wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.UPLOADED);
         update(wrapper);
     }
 

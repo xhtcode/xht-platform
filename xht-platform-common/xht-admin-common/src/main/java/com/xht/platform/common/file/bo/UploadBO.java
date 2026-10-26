@@ -43,6 +43,11 @@ public class UploadBO<T> implements XhtBO {
     private final String fileDesc;
 
     /**
+     * 文件上传用户
+     */
+    private final String fileUploadUser;
+
+    /**
      * 构建UploadBo，必须传入文件对象作为必填项
      *
      * @param requestFile 文件对象
@@ -79,6 +84,11 @@ public class UploadBO<T> implements XhtBO {
          * 文件描述
          */
         private String fileDesc;
+
+        /**
+         * 文件上传用户
+         */
+        private String fileUploadUser;
 
         /**
          * 私有构造，由builder方法入口实例化
@@ -127,6 +137,18 @@ public class UploadBO<T> implements XhtBO {
         }
 
         /**
+         * 设置文件上传用户
+         *
+         * @param fileUploadUser 文件上传用户
+         * @return 当前建造器
+         */
+        public UploadBoBuilder<T> fileUploadUser(final String fileUploadUser) {
+            AssertUtils.hasText(fileUploadUser, BusinessErrorCode.FILE_UPLOAD_USER_ILLEGAL);
+            this.fileUploadUser = fileUploadUser;
+            return this;
+        }
+
+        /**
          * 执行参数校验，生成最终UploadBo实例
          * <p>校验规则：文件不能为空、路径前缀不能为空；
          * 路径前缀为空时自动生成默认存储路径</p>
@@ -134,11 +156,12 @@ public class UploadBO<T> implements XhtBO {
          * @return 校验完成的UploadBo
          */
         public UploadBO<T> build() {
+            AssertUtils.hasText(fileUploadUser, BusinessErrorCode.FILE_UPLOAD_USER_ILLEGAL);
             // 兜底：前缀为空则生成默认文件存储路径
             this.filePathPrefix = StringUtils.emptyToDefault(filePathPrefix, SysFileUtils.generateDefaultFilePath());
             String normalize = Path.of(this.filePathPrefix).normalize().toString();
             AssertUtils.isTrue(!normalize.contains(SysFileConstant.PATH_POINT), BusinessErrorCode.FILE_PATH_ILLEGAL);
-            return new UploadBO<>(this.requestFile, this.fileUsed, normalize, this.fileDesc);
+            return new UploadBO<>(this.requestFile, this.fileUsed, normalize, this.fileDesc, this.fileUploadUser);
         }
     }
 

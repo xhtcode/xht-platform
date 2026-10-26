@@ -6,23 +6,12 @@ import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 /**
  * 描述： 系统文件数据访问层
  *
  * @author xht
  **/
 public interface SysFileDao extends MapperRepository<SysFileEntity> {
-
-    /**
-     * 根据文件存储名称查询文件
-     *
-     * @param fileStorageKey 文件存储名称
-     * @return 文件信息
-     */
-    SysFileEntity findActiveByStorageKey(String fileStorageKey);
 
     /**
      * 分页查询文件
@@ -43,23 +32,5 @@ public interface SysFileDao extends MapperRepository<SysFileEntity> {
      * @param fileStatusEnum 文件状态枚举
      */
     void updateFileStatusById(Long fileId, FileStatusEnum fileStatusEnum);
-
-    /**
-     * 分页查询过期的未关联文件（孤儿文件候选：UPLOADED 且上传时间早于指定时间）
-     *
-     * @param page             分页对象
-     * @param expireBeforeTime 过期时间界限
-     * @return 过期的未关联文件列表
-     */
-    List<SysFileEntity> findExpiredUploadedFiles(Page<SysFileEntity> page, LocalDateTime expireBeforeTime);
-
-    /**
-     * 关联文件
-     *
-     * @param fileStorageKey 文件存储名称
-     * @param fileUsed       文件用途
-     * @param fileDesc       文件描述
-     */
-    void associateFile(String fileStorageKey, String fileUsed, String fileDesc);
 
 }

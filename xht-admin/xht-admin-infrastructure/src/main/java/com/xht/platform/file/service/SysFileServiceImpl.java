@@ -2,26 +2,32 @@ package com.xht.platform.file.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.AssertUtils;
+import com.xht.framework.utils.file.XhtFileUtils;
+import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.converter.SysFileConverter;
+import com.xht.platform.file.dao.FileStorageDao;
 import com.xht.platform.file.dao.SysFileDao;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.util.Objects;
 
 /**
  * 描述： 系统文件服务实现
  * <p>
  * 提供系统文件记录（sys_file）的元数据 CRUD；围绕文件内容的操作类业务
- * （上传、下载、预览、访问权限等）见 {@link FileStorageServiceImpl}；
  * 删除前校验文件存在、未被关联业务、当前用户有权访问；删除时同步清理物理文件
  *
  * @author xht
@@ -34,6 +40,8 @@ public class SysFileServiceImpl implements ISysFileService {
     private final SysFileDao sysFileDao;
 
     private final SysFileConverter sysFileConverter;
+
+    private final FileStorageDao fileStorageDao;
 
     /**
      * 根据文件ID删除文件记录（逻辑删除），并同步删除物理文件
@@ -77,4 +85,28 @@ public class SysFileServiceImpl implements ISysFileService {
         return sysFileConverter.toResponse(page);
     }
 
+    /**
+     * 文件上传
+     *
+     * @param uploadBo 文件上传参数
+     * @return 文件信息
+     */
+    @Override
+    public SysFileResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo) {
+        return sysFileConverter.toResponse(fileStorageDao.uploadMultipartFile(uploadBo));
+    }
+
+    /**
+     * 文件下载
+     *
+     * @param response       响应
+     * @param fileStorageKey 文件存储Key
+     */
+    @Override
+    public void downloadFile(HttpServletResponse response, String fileStorageKey) {
+        SysFileEntity sysFileEntity = sysFileDao.findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey)
+                .orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
+        InputStream download = fileStorageDao.download(sysFileEntity);
+        XhtFileUtils.writeFile(response, sysFileEntity.getFileMetadata().getFullOriginalFilename(), sysFileEntity.getFileType(), download);
+    }
 }

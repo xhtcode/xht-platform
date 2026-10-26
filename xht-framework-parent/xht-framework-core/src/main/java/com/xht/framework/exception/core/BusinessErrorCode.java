@@ -135,11 +135,21 @@ public enum BusinessErrorCode implements ErrorCode {
      */
     FILE_ASSOCIATED(50211, "文件已关联业务，无法删除"),
     /**
+     * 文件关联业务失败
+     */
+    FILE_ASSOCIATE_FAIL(50212, "文件关联业务失败"),
+    /**
+     * 未指定文件上传用户
+     */
+    FILE_UPLOAD_USER_ILLEGAL(50213, "未指定文件上传用户"),
+
+
+    /**
      * 消息推送失败
      */
     MESSAGE_PUSH_FAIL(50301, "消息推送失败，请稍后重试"),
-    ;
 
+    ;
     /**
      * 业务错误码
      * <p>
