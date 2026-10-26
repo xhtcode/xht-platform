@@ -10,10 +10,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
  * 描述： 文件存储控制器
@@ -53,6 +56,20 @@ public class FileStorageController {
                 .fileUsed(fileUsed)
                 .build())
         );
+    }
+
+    /**
+     * 文件下载
+     *
+     * @param response       响应
+     * @param fileStorageKey 文件存储Key
+     */
+    @BLog(value = "文件管理", description = "下载文件")
+    @IsAdmin
+    @Operation(summary = "文件下载")
+    @GetMapping("/download/{fileStorageKey}")
+    public void downloadFile(HttpServletResponse response, @PathVariable String fileStorageKey) throws IOException {
+        fileStorageService.downloadFile(response, fileStorageKey);
     }
 
 }

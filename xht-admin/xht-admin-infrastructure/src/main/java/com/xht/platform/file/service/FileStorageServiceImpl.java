@@ -10,6 +10,7 @@ import com.xht.framework.file.enums.MimeTypeEnums;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.IdUtils;
+import com.xht.framework.utils.file.XhtFileUtils;
 import com.xht.platform.common.file.FileMetadataBuilder;
 import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.common.file.utils.SysFileUtils;
@@ -19,6 +20,7 @@ import com.xht.platform.file.dao.SysFileDao;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -141,6 +144,20 @@ public class FileStorageServiceImpl implements IFileStorageService {
         AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
         AssertUtils.isTrue(Objects.equals(sysFileEntity.getFileStatus(), FileStatusEnum.ASSOCIATED), BusinessErrorCode.FILE_ACCESS_DENIED);
         sysFileDao.associateFile(fileStorageKey, fileUsed, fileDesc);
+    }
+
+    /**
+     * 文件下载
+     *
+     * @param response       响应
+     * @param fileStorageKey 文件存储Key
+     */
+    @Override
+    public void downloadFile(HttpServletResponse response, String fileStorageKey) throws IOException {
+        SysFileEntity activeByStorageKey = sysFileDao.findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey)
+                .orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
+        InputStream download = fileStorageRepository.download(activeByStorageKey.getFileStoragePath());
+        XhtFileUtils.writeFile(response, activeByStorageKey.getFileOriginalName(), activeByStorageKey.getFileType(), download);
     }
 
 }

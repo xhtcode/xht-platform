@@ -61,4 +61,5 @@ public interface SysFileDao extends MapperRepository<SysFileEntity> {
      * @param fileDesc       文件描述
      */
     void associateFile(String fileStorageKey, String fileUsed, String fileDesc);
+
 }

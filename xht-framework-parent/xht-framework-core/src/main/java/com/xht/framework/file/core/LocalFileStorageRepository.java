@@ -11,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.Objects;
 
 /**
@@ -106,7 +103,7 @@ public class LocalFileStorageRepository implements FileStorageRepository {
         // 目标文件必须存在
         AssertUtils.isTrue(Files.isRegularFile(targetPath),
                 BusinessErrorCode.FILE_NOT_EXIST,
-                "文件不存在:" + filePath);
+                String.format("文件不存在:%s", filePath));
         try {
             InputStream inputStream = Files.newInputStream(targetPath);
             log.debug("本地文件存储下载成功，文件路径：{}", targetPath);
@@ -161,7 +158,7 @@ public class LocalFileStorageRepository implements FileStorageRepository {
         // 防路径穿越校验
         AssertUtils.isTrue(targetPath.startsWith(basePath),
                 BusinessErrorCode.ILLEGAL_OPERATION,
-                "存储路径不合法:" + filePath);
+                String.format("存储路径不合法:%s", filePath));
         return targetPath;
     }
 

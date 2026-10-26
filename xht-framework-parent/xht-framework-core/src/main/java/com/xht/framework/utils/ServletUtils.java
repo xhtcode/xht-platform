@@ -8,6 +8,7 @@ import cn.hutool.core.map.CaseInsensitiveMap;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.common.constant.StringConstant;
 import com.xht.framework.jackson.JsonUtils;
 import jakarta.servlet.ServletRequest;

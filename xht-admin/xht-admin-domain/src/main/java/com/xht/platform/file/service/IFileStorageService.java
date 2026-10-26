@@ -2,7 +2,10 @@ package com.xht.platform.file.service;
 
 import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.domain.response.SysFileResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
  * 描述： 文件存储服务
@@ -30,4 +33,11 @@ public interface IFileStorageService {
      */
     void associateFile(String fileStorageKey, String fileUsed, String fileDesc);
 
+    /**
+     * 文件下载
+     *
+     * @param response       响应
+     * @param fileStorageKey 文件存储Key
+     */
+    void downloadFile(HttpServletResponse response, String fileStorageKey) throws IOException;
 }
