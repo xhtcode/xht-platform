@@ -108,7 +108,10 @@ public class SysFileServiceImpl implements ISysFileService {
     public void downloadFile(HttpServletResponse response, String fileStorageKey) {
         SysFileEntity sysFileEntity = sysFileDao.findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey)
                 .orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
-        InputStream download = fileStorageDao.download(sysFileEntity);
-        XhtFileUtils.writeFile(response, sysFileEntity.getFileMetadata().getFullOriginalFilename(), sysFileEntity.getFileType(), download);
+        try (InputStream download = fileStorageDao.download(sysFileEntity)) {
+            XhtFileUtils.writeFile(response, sysFileEntity.getFileMetadata().getFullOriginalFilename(), sysFileEntity.getFileType(), download);
+        } catch (Exception e) {
+            throw new BusinessException(BusinessErrorCode.FILE_DOWNLOAD_FAIL, e);
+        }
     }
 }
