@@ -55,4 +55,11 @@ public interface ISysFileService {
      */
     void downloadFile(HttpServletResponse response, String fileStorageKey);
 
+    /**
+     * 文件预览
+     *
+     * @param response       响应
+     * @param fileStorageKey 文件存储Key
+     */
+    void filePreview(HttpServletResponse response, String fileStorageKey);
 }

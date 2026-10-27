@@ -141,11 +141,15 @@ public enum BusinessErrorCode implements ErrorCode {
     /**
      * 文件解关联业务失败
      */
-    FILE_DISASSOCIATE_FAIL(50213, "文件关联业务失败"),
+    FILE_DISASSOCIATE_FAIL(50213, "文件解关联业务失败"),
     /**
      * 未指定文件上传用户
      */
     FILE_UPLOAD_USER_ILLEGAL(50214, "未指定文件上传用户"),
+    /**
+     * 当前附件类型不支持预览
+     */
+    FILE_PREVIEW_NOT_SUPPORT(50215, "当前附件类型不支持预览，请下载后查看"),
     /**
      * 消息推送失败
      */

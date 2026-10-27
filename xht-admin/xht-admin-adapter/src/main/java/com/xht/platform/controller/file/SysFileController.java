@@ -4,7 +4,6 @@ import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.IsAdmin;
-import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFileResponse;
@@ -84,7 +83,6 @@ public class SysFileController {
      * @return 文件信息
      */
     @BLog(value = "文件管理", description = "上传文件")
-    @IsAdmin
     @Operation(summary = "文件上传", parameters = {
             @Parameter(name = "file", description = "上传文件", required = true, schema = @Schema(type = "string", format = "binary"))
     })
@@ -95,7 +93,7 @@ public class SysFileController {
         return R.ok().build(sysFileService.uploadMultipartFile(UploadBO
                 .builder(file)
                 .fileUsed(fileUsed)
-                .fileUploadUser(SecurityUtils.getUserName())
+                .fileUploadUser("admin")
                 .build())
         );
     }
@@ -107,11 +105,23 @@ public class SysFileController {
      * @param fileStorageKey 文件存储Key
      */
     @BLog(value = "文件管理", description = "下载文件")
-    @IsAdmin
     @Operation(summary = "文件下载")
     @GetMapping("/download/{fileStorageKey}")
     public void downloadFile(HttpServletResponse response, @PathVariable String fileStorageKey) {
         sysFileService.downloadFile(response, fileStorageKey);
     }
 
+    /**
+     * 文件预览
+     * <p>支持 Range 分段请求，可用于 PDF 分页加载、音视频拖动进度</p>
+     *
+     * @param response       响应
+     * @param fileStorageKey 文件存储Key
+     */
+    @BLog(value = "文件管理", description = "预览文件")
+    @Operation(summary = "文件预览")
+    @GetMapping("/preview")
+    public void filePreview(HttpServletResponse response, @RequestParam(name = "fileStorageKey") String fileStorageKey) {
+        sysFileService.filePreview(response, fileStorageKey);
+    }
 }

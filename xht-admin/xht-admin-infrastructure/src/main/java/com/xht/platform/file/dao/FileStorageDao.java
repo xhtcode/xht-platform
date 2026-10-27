@@ -66,6 +66,31 @@ public interface FileStorageDao {
     InputStream download(String fileStoragePath);
 
     /**
+     * 按偏移、长度读取文件片段（断点续传、视频分片播放等 Range 场景）
+     * <p>【契约说明】返回的输入流由调用方负责关闭，推荐 try-with-resources，防止文件句柄泄漏</p>
+     *
+     * @param sysFileEntity 文件实体
+     * @param offset        起始字节偏移，不能小于 0
+     * @param length        需要读取多少字节，必须大于 0；超出文件剩余大小时按实际长度返回
+     * @return 片段输入流，由调用方负责关闭
+     */
+    default InputStream downloadRange(SysFileEntity sysFileEntity, long offset, long length) {
+        AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
+        return downloadRange(sysFileEntity.getFileStoragePath(), offset, length);
+    }
+
+    /**
+     * 按偏移、长度读取文件片段（断点续传、视频分片播放等 Range 场景）
+     * <p>【契约说明】返回的输入流由调用方负责关闭，推荐 try-with-resources，防止文件句柄泄漏</p>
+     *
+     * @param fileStoragePath 文件存储路径（{@link SysFileEntity#getFileStoragePath()}）
+     * @param offset          起始字节偏移，不能小于 0
+     * @param length          需要读取多少字节，必须大于 0；超出文件剩余大小时按实际长度返回
+     * @return 片段输入流，由调用方负责关闭
+     */
+    InputStream downloadRange(String fileStoragePath, long offset, long length);
+
+    /**
      * 关联文件业务（单文件）：标记为已关联（ASSOCIATED）并记录关联时间
      * <p>
      * 禁止使用批处理：每次仅处理一个文件

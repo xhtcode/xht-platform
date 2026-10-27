@@ -122,6 +122,26 @@ public class FileStorageDaoImpl implements FileStorageDao {
     }
 
     /**
+     * 按偏移、长度读取文件片段（断点续传、视频分片播放等 Range 场景）
+     * <p>【契约说明】返回的输入流由调用方负责关闭，推荐 try-with-resources，防止文件句柄泄漏</p>
+     * <p>偏移量、长度参数在此处统一校验，具体的定位读取能力由底层存储实现（{@link FileStorageRepository}）提供：
+     * 偏移量或长度非法抛 PARAM_ERROR；文件不存在抛 FILE_NOT_EXIST；读取失败抛 FILE_DOWNLOAD_FAIL</p>
+     *
+     * @param fileStoragePath 文件存储路径
+     * @param offset          起始字节偏移，不能小于 0
+     * @param length          需要读取多少字节，必须大于 0；超出文件剩余大小时按实际长度返回
+     * @return 片段输入流，由调用方负责关闭
+     * @throws FileStorageException 文件不存在、读取失败等存储异常
+     */
+    @Override
+    public InputStream downloadRange(String fileStoragePath, long offset, long length) {
+        AssertUtils.hasText(fileStoragePath, BusinessErrorCode.FILE_NOT_EXIST);
+        AssertUtils.isTrue(offset >= 0, BusinessErrorCode.PARAM_ERROR, "起始偏移量不能小于0");
+        AssertUtils.isTrue(length > 0, BusinessErrorCode.PARAM_ERROR, "读取长度必须大于0");
+        return fileStorageRepository.downloadRange(fileStoragePath, offset, length);
+    }
+
+    /**
      * 关联文件业务（单文件）：标记为已关联（ASSOCIATED）并记录关联时间
      * <p>
      * 禁止使用批处理：每次仅处理一个文件
