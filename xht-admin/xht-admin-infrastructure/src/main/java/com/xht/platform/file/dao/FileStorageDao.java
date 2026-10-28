@@ -4,12 +4,15 @@ import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.file.exception.FileStorageException;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.common.file.FileMetadataBuilder;
+import com.xht.platform.common.file.bo.ChunkMergeBO;
+import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.FileMetadataSupplier;
 import com.xht.platform.file.entity.SysFileEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * 描述： 文件存储数据访问层
@@ -41,6 +44,35 @@ public interface FileStorageDao {
      * @throws FileStorageException 文件存储异常
      */
     SysFileEntity uploadMultipartFile(UploadBO<MultipartFile> multipartFileUploadBO, FileMetadataSupplier<MultipartFile> fileMetadataSupplier);
+
+    /**
+     * 查询已上传分片序号列表（断点续传）
+     * <p>分片按约定路径 {chunks}/{uploadId}/{chunkIndex}.part 存放，列举目录后按文件名解析序号</p>
+     *
+     * @param uploadId 分片上传标识
+     * @return 已上传分片序号列表（升序），无已上传分片时返回空集合
+     * @throws FileStorageException 目录列举失败等存储异常
+     */
+    List<Integer> findUploadedChunkIndexes(String uploadId);
+
+    /**
+     * 上传单个文件分片
+     * <p>分片重复上传时直接覆盖（幂等），支持断点续传场景下的失败重传</p>
+     *
+     * @param chunkUploadBO 分片上传入参（封装分片文件）
+     * @throws FileStorageException 分片写入失败等存储异常
+     */
+    void uploadChunk(ChunkUploadBO<MultipartFile> chunkUploadBO);
+
+    /**
+     * 合并文件分片：校验分片完整性（0 ~ chunkTotal-1 全部存在），
+     * 按分片序号顺序合并为完整文件并生成文件记录（sys_file），合并成功后清理分片临时文件
+     *
+     * @param chunkMergeBO 分片合并入参
+     * @return 文件实体
+     * @throws FileStorageException 分片缺失、合并失败等存储异常
+     */
+    SysFileEntity mergeChunks(ChunkMergeBO chunkMergeBO);
 
     /**
      * 下载文件

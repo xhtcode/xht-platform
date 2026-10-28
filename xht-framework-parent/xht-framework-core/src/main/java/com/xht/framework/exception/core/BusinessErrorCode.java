@@ -151,6 +151,14 @@ public enum BusinessErrorCode implements ErrorCode {
      */
     FILE_PREVIEW_NOT_SUPPORT(50215, "当前附件类型不支持预览，请下载后查看"),
     /**
+     * 分片缺失，文件不完整
+     */
+    FILE_CHUNK_MISSING(50216, "分片缺失，文件不完整"),
+    /**
+     * 分片合并后文件校验失败
+     */
+    FILE_CHUNK_VERIFY_FAIL(50217, "分片合并后文件校验失败"),
+    /**
      * 消息推送失败
      */
     MESSAGE_PUSH_FAIL(50301, "消息推送失败，请稍后重试"),

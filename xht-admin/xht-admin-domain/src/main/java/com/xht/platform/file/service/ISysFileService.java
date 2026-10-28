@@ -1,11 +1,15 @@
 package com.xht.platform.file.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.platform.common.file.bo.ChunkMergeBO;
+import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 描述： 系统文件服务接口
@@ -46,6 +50,29 @@ public interface ISysFileService {
      * @return 文件上传响应信息
      */
     SysFileResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo);
+
+    /**
+     * 查询已上传分片序号列表（断点续传）
+     *
+     * @param uploadId 分片上传标识
+     * @return 已上传分片序号列表（升序），无已上传分片时返回空集合
+     */
+    List<Integer> findUploadedChunkIndexes(String uploadId);
+
+    /**
+     * 分片上传（单分片）
+     *
+     * @param chunkUploadBo 分片上传参数
+     */
+    void uploadChunk(ChunkUploadBO<MultipartFile> chunkUploadBo);
+
+    /**
+     * 合并文件分片：校验分片完整性，合并为完整文件并生成文件记录
+     *
+     * @param chunkMergeBo 分片合并参数
+     * @return 文件上传响应信息
+     */
+    SysFileResponse mergeChunks(ChunkMergeBO chunkMergeBo);
 
     /**
      * 文件下载

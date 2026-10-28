@@ -15,7 +15,10 @@ import java.io.InputStream;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.file.*;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * 描述： 本地文件存储
@@ -190,6 +193,43 @@ public class LocalFileStorageRepository implements FileStorageRepository {
             channel.close();
         } catch (Exception e) {
             log.warn("本地文件存储通道关闭失败", e);
+        }
+    }
+
+    /**
+     * 列举本地目录下的文件名
+     * <p>
+     * 行为说明：
+     * <ul>
+     *     <li>目录路径为空白时，抛出携带 PARAM_ERROR 错误码的 {@link BusinessException}</li>
+     *     <li>以配置的本地存储根路径为基准解析目标路径，目标路径越出根路径（如 ../ 路径穿越）时，抛出携带 ILLEGAL_OPERATION 错误码的 {@link BusinessException}</li>
+     *     <li>目录不存在时返回空集合</li>
+     *     <li>仅返回目录下的普通文件名（不含路径），不递归子目录，按文件名自然顺序排序</li>
+     *     <li>列举过程发生 IO 异常时，包装为携带 FILE_DOWNLOAD_FAIL 错误码的 {@link FileStorageException} 抛出，保留原始堆栈</li>
+     * </ul>
+     *
+     * @param dirPath 目录相对路径（相对于本地存储根路径），不能为空白
+     * @return 文件名列表（按文件名排序），目录不存在时返回空集合
+     */
+    @Override
+    public List<String> listFileNames(String dirPath) {
+        AssertUtils.hasText(dirPath, BusinessErrorCode.PARAM_ERROR);
+        // 目标目录路径（复用防路径穿越校验）
+        Path targetPath = resolveStoragePath(dirPath);
+        if (!Files.isDirectory(targetPath)) {
+            return Collections.emptyList();
+        }
+        try (Stream<Path> stream = Files.list(targetPath)) {
+            List<String> fileNames = stream
+                    .filter(Files::isRegularFile)
+                    .map(path -> path.getFileName().toString())
+                    .sorted()
+                    .toList();
+            log.debug("本地文件存储列举目录成功，目录路径：{}，文件数：{}", targetPath, fileNames.size());
+            return fileNames;
+        } catch (Exception e) {
+            log.error("本地文件存储列举目录失败，目录路径：{}", targetPath, e);
+            throw new FileStorageException(BusinessErrorCode.FILE_DOWNLOAD_FAIL, e);
         }
     }
 

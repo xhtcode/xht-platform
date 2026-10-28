@@ -4,7 +4,11 @@ import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.IsAdmin;
+import com.xht.framework.oauth2.utils.SecurityUtils;
+import com.xht.platform.common.file.bo.ChunkMergeBO;
+import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
+import com.xht.platform.file.domain.form.FileMergeChunksForm;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.service.ISysFileService;
@@ -17,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 描述： 系统文件接口
@@ -93,7 +99,74 @@ public class SysFileController {
         return R.ok().build(sysFileService.uploadMultipartFile(UploadBO
                 .builder(file)
                 .fileUsed(fileUsed)
-                .fileUploadUser("admin")
+                .fileUploadUser(SecurityUtils.getUserName())
+                .build())
+        );
+    }
+
+    /**
+     * 查询已上传分片序号列表（断点续传）
+     * <p>前端可据此跳过已上传分片，仅续传缺失部分</p>
+     *
+     * @param uploadId 分片上传标识（推荐使用文件MD5或UUID）
+     * @return 已上传分片序号列表（升序），无已上传分片时返回空集合
+     */
+    @Operation(summary = "查询分片上传进度")
+    @GetMapping("/chunk/progress/{uploadId}")
+    public R<List<Integer>> findUploadedChunkIndexes(@PathVariable String uploadId) {
+        return R.ok().build(sysFileService.findUploadedChunkIndexes(uploadId));
+    }
+
+    /**
+     * 分片上传（单分片）
+     *
+     * @param file       分片文件
+     * @param uploadId   分片上传标识，同一文件的所有分片共用
+     * @param chunkIndex 分片序号，从0开始
+     * @return 操作结果
+     */
+    @BLog(value = "文件管理", description = "上传文件分片")
+    @Operation(summary = "分片上传", parameters = {
+            @Parameter(name = "file", description = "分片文件", required = true, schema = @Schema(type = "string", format = "binary")),
+            @Parameter(name = "uploadId", description = "分片上传标识", required = true),
+            @Parameter(name = "chunkIndex", description = "分片序号，从0开始", required = true)
+    })
+    @PostMapping("/chunk/upload")
+    public R<Void> uploadChunk(@RequestPart(name = "file") MultipartFile file,
+                               @RequestParam(name = "uploadId") String uploadId,
+                               @RequestParam(name = "chunkIndex") Integer chunkIndex
+    ) {
+        sysFileService.uploadChunk(ChunkUploadBO
+                .builder(file)
+                .uploadId(uploadId)
+                .chunkIndex(chunkIndex)
+                .fileUploadUser(SecurityUtils.getUserName())
+                .build()
+        );
+        return R.ok().build();
+    }
+
+    /**
+     * 合并文件分片
+     * <p>校验分片完整性（0 ~ chunkTotal-1 全部存在）后按序号顺序合并为完整文件并生成文件记录；
+     * fileHash 非空时校验合并结果与文件MD5的一致性</p>
+     *
+     * @param fileMergeChunksForm 分片上传标识，与分片上传时保持一致，包含文件名、分片总数、文件用途、文件描述、文件MD5
+     * @return 文件信息
+     */
+    @BLog(value = "文件管理", description = "合并文件分片")
+    @Operation(summary = "合并文件分片")
+    @PostMapping("/chunk/merge")
+    public R<SysFileResponse> mergeChunks(@RequestBody FileMergeChunksForm fileMergeChunksForm) {
+        return R.ok().build(sysFileService.mergeChunks(ChunkMergeBO
+                .builder()
+                .uploadId(fileMergeChunksForm.getUploadId())
+                .fileName(fileMergeChunksForm.getFileName())
+                .chunkTotal(fileMergeChunksForm.getChunkTotal())
+                .fileUsed(fileMergeChunksForm.getFileUsed())
+                .fileDesc(fileMergeChunksForm.getFileDesc())
+                .fileHash(fileMergeChunksForm.getFileHash())
+                .fileUploadUser(SecurityUtils.getUserName())
                 .build())
         );
     }

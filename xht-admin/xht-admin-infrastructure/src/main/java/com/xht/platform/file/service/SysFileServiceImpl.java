@@ -9,6 +9,8 @@ import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.file.XhtFileUtils;
+import com.xht.platform.common.file.bo.ChunkMergeBO;
+import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.common.file.core.FileMetadata;
 import com.xht.platform.file.XhtFilePreview;
@@ -104,6 +106,39 @@ public class SysFileServiceImpl implements ISysFileService {
     @Transactional(rollbackFor = Exception.class)
     public SysFileResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo) {
         return sysFileConverter.toResponse(fileStorageDao.uploadMultipartFile(uploadBo));
+    }
+
+    /**
+     * 查询已上传分片序号列表（断点续传）
+     *
+     * @param uploadId 分片上传标识
+     * @return 已上传分片序号列表（升序），无已上传分片时返回空集合
+     */
+    @Override
+    public List<Integer> findUploadedChunkIndexes(String uploadId) {
+        return fileStorageDao.findUploadedChunkIndexes(uploadId);
+    }
+
+    /**
+     * 分片上传（单分片）
+     *
+     * @param chunkUploadBo 分片上传参数
+     */
+    @Override
+    public void uploadChunk(ChunkUploadBO<MultipartFile> chunkUploadBo) {
+        fileStorageDao.uploadChunk(chunkUploadBo);
+    }
+
+    /**
+     * 合并文件分片：校验分片完整性，合并为完整文件并生成文件记录
+     *
+     * @param chunkMergeBo 分片合并参数
+     * @return 文件信息
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public SysFileResponse mergeChunks(ChunkMergeBO chunkMergeBo) {
+        return sysFileConverter.toResponse(fileStorageDao.mergeChunks(chunkMergeBo));
     }
 
     /**
