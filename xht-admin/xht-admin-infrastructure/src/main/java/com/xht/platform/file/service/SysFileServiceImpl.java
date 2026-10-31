@@ -13,7 +13,6 @@ import com.xht.platform.common.file.bo.ChunkMergeBO;
 import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.common.file.core.FileMetadata;
-import com.xht.platform.file.XhtFilePreview;
 import com.xht.platform.file.converter.SysFileConverter;
 import com.xht.platform.file.dao.FileStorageDao;
 import com.xht.platform.file.dao.SysFileDao;
@@ -22,6 +21,7 @@ import com.xht.platform.file.domain.response.SysFilePreviewResponse;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
+import com.xht.platform.file.permission.XhtFilePermissionContext;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +54,7 @@ public class SysFileServiceImpl implements ISysFileService {
 
     private final FileStorageDao fileStorageDao;
 
-    private final XhtFilePreview xhtFilePreview;
+    private final XhtFilePermissionContext filePermissionContext;
 
     /**
      * 根据文件ID删除文件记录（逻辑删除），并同步删除物理文件
@@ -156,7 +156,7 @@ public class SysFileServiceImpl implements ISysFileService {
         SysFileEntity sysFileEntity = sysFileDao
                 .findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey)
                 .orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
-        checkPreviewPermission(sysFileEntity);
+        filePermissionContext.check(sysFileEntity);
         return sysFileConverter.buildPreviewInfo(sysFileEntity);
     }
 
@@ -169,6 +169,7 @@ public class SysFileServiceImpl implements ISysFileService {
     @Override
     public void downloadFile(HttpServletResponse response, String fileStorageKey) {
         SysFileEntity sysFileEntity = sysFileDao.findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey).orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
+        filePermissionContext.check(sysFileEntity);
         try (InputStream download = fileStorageDao.download(sysFileEntity)) {
             XhtFileUtils.writeFile(response, resolveOriginalFilename(sysFileEntity), sysFileEntity.getFileType(), download);
         } catch (Exception e) {
@@ -178,7 +179,8 @@ public class SysFileServiceImpl implements ISysFileService {
 
     /**
      * 文件预览
-     * <p>支持 HTTP Range 分段请求（PDF 分页加载、视频拖动进度），命中区间返回 206 + Content-Range；
+     * <p>按文件存储路径直接输出原文件内容，不做格式转换；是否可内联渲染由调用方按文件后缀／MIME 判断。
+     * 支持 HTTP Range 分段请求（PDF 分页加载、视频拖动进度），命中区间返回 206 + Content-Range；
      * 无 Range 头、Range 解析失败或多区间请求时退化为全量 200 响应；区间起点超出文件大小时返回 416</p>
      *
      * @param response       响应
@@ -187,9 +189,8 @@ public class SysFileServiceImpl implements ISysFileService {
     @Override
     public void filePreview(HttpServletResponse response, String fileStorageKey) {
         SysFileEntity sysFileEntity = sysFileDao.findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey).orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
-        // 预览能力由预览器决定，不支持的格式提示下载
-        AssertUtils.isTrue(xhtFilePreview.support(sysFileEntity.getFileSuffix()), BusinessErrorCode.FILE_PREVIEW_NOT_SUPPORT);
-        String previewPath = xhtFilePreview.filePreviewHandle(sysFileEntity.getFileStoragePath());
+        filePermissionContext.check(sysFileEntity);
+        String previewPath = sysFileEntity.getFileStoragePath();
         String fileName = resolveOriginalFilename(sysFileEntity);
         String contentType = sysFileEntity.getFileType();
         long totalSize = sysFileEntity.getFileSize();
@@ -273,19 +274,6 @@ public class SysFileServiceImpl implements ISysFileService {
             return fileMetadata.getFullOriginalFilename();
         }
         return sysFileEntity.getFileOriginalName();
-    }
-
-    /**
-     * 校验预览权限
-     * <p>文件用途取自文件记录（{@link SysFileEntity#getFileUsed()}、{@link SysFileEntity#getFileUploadUser()} 等），
-     * 当前不做限制；后续按用途细分规则（如合同附件仅授权人可预览、头像仅本人可预览）在此扩展，
-     * 校验失败抛 {@link BusinessErrorCode#FILE_ACCESS_DENIED}，接口契约不变</p>
-     *
-     * @param sysFileEntity 文件实体
-     */
-    private void checkPreviewPermission(SysFileEntity sysFileEntity) {
-        log.debug("文件预览权限校验，文件Key：{}，用途：{}，上传用户：{}", sysFileEntity.getFileStorageKey(),
-                sysFileEntity.getFileUsed(), sysFileEntity.getFileUploadUser());
     }
 
 }

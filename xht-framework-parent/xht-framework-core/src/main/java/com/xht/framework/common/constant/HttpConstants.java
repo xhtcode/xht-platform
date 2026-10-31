@@ -76,6 +76,7 @@ public final class HttpConstants {
          * 下载文件头部，用于指定下载文件的名称
          */
         DOWNLOAD_FILE("xht-download-filename"),
+
         ;
 
         /**
