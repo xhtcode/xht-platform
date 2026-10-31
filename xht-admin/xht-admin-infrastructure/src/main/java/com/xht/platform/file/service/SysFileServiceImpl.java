@@ -13,14 +13,17 @@ import com.xht.platform.common.file.bo.ChunkMergeBO;
 import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.common.file.core.FileMetadata;
+import com.xht.platform.file.FileConstant;
 import com.xht.platform.file.XhtFilePreview;
 import com.xht.platform.file.converter.SysFileConverter;
 import com.xht.platform.file.dao.FileStorageDao;
 import com.xht.platform.file.dao.SysFileDao;
 import com.xht.platform.file.domain.query.SysFileQuery;
+import com.xht.platform.file.domain.response.SysFilePreviewResponse;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
+import com.xht.platform.file.enums.FileUsedEnum;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -158,6 +161,22 @@ public class SysFileServiceImpl implements ISysFileService {
     }
 
     /**
+     * 初始化文件预览信息
+     * <p>先按文件存储Key定位文件记录，再按调用方声明的用途做权限校验，通过后返回预览所需的元数据与访问地址
+     *
+     * @param fileStorageKey 文件存储Key
+     * @param fileUsed       调用方声明的文件用途
+     * @return 文件预览初始化信息
+     */
+    @Override
+    public SysFilePreviewResponse initPreviewInfo(String fileStorageKey, String fileUsed) {
+        AssertUtils.hasText(fileStorageKey, BusinessErrorCode.PARAM_ERROR);
+        SysFileEntity sysFileEntity = sysFileDao.findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey).orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
+        checkPreviewPermission(sysFileEntity, fileUsed);
+        return buildPreviewInfo(sysFileEntity);
+    }
+
+    /**
      * 文件预览
      * <p>支持 HTTP Range 分段请求（PDF 分页加载、视频拖动进度），命中区间返回 206 + Content-Range；
      * 无 Range 头、Range 解析失败或多区间请求时退化为全量 200 响应；区间起点超出文件大小时返回 416</p>
@@ -254,6 +273,47 @@ public class SysFileServiceImpl implements ISysFileService {
             return fileMetadata.getFullOriginalFilename();
         }
         return sysFileEntity.getFileOriginalName();
+    }
+
+    /**
+     * 构建预览初始化信息
+     * <p>预览能力由预览器决定：不支持预览的后缀仍返回下载地址，由前端引导下载查看；地址为相对服务根路径，
+     * 前端按自身接口前缀拼接</p>
+     *
+     * @param sysFileEntity 文件实体
+     * @return 预览初始化信息
+     */
+    private SysFilePreviewResponse buildPreviewInfo(SysFileEntity sysFileEntity) {
+        SysFilePreviewResponse response = new SysFilePreviewResponse();
+        response.setFileId(sysFileEntity.getId());
+        response.setFileOriginalName(resolveOriginalFilename(sysFileEntity));
+        response.setFileSize(sysFileEntity.getFileSize());
+        response.setFileSizeInfo(sysFileEntity.getFileSizeInfo());
+        response.setFileType(sysFileEntity.getFileType());
+        response.setFileSuffix(sysFileEntity.getFileSuffix());
+        response.setFileUsed(sysFileEntity.getFileUsed());
+        response.setPreviewSupported(xhtFilePreview.support(sysFileEntity.getFileSuffix()));
+        response.setPreviewUrl(FileConstant.PREVIEW_PATH + "?fileStorageKey=" + sysFileEntity.getFileStorageKey());
+        response.setDownloadUrl(FileConstant.DOWNLOAD_PATH + "/" + sysFileEntity.getFileStorageKey());
+        return response;
+    }
+
+    /**
+     * 校验预览权限
+     * <p>当前规则：调用方声明的用途必须与文件记录的用途一致，避免按用途跨域引用文件；
+     * 用途标识统一按 {@link FileUsedEnum#normalize(String)} 归一化后比较（空值视为临时文件、忽略大小写），
+     * 记录中存在非法用途时归一化结果为 null，与声明用途必然不等，按无权限处理。
+     * 后续需要按用途细分规则（如合同附件仅授权人可预览、头像仅本人可预览）时在此扩展，接口契约不变</p>
+     *
+     * @param sysFileEntity 文件实体
+     * @param fileUsed      调用方声明的文件用途
+     */
+    private void checkPreviewPermission(SysFileEntity sysFileEntity, String fileUsed) {
+        String requestFileUsed = FileUsedEnum.normalize(fileUsed);
+        AssertUtils.notNull(requestFileUsed, BusinessErrorCode.PARAM_ERROR, "文件用途不合法");
+        String recordFileUsed = FileUsedEnum.normalize(sysFileEntity.getFileUsed());
+        AssertUtils.isTrue(Objects.equals(requestFileUsed, recordFileUsed),
+                BusinessErrorCode.FILE_ACCESS_DENIED, "文件用途不匹配，无权预览");
     }
 
 }

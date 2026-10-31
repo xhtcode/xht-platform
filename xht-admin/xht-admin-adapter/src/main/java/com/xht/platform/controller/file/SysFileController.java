@@ -5,11 +5,14 @@ import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.IsAdmin;
 import com.xht.framework.oauth2.utils.SecurityUtils;
+import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.platform.common.file.bo.ChunkMergeBO;
 import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
+import com.xht.platform.file.FileConstant;
 import com.xht.platform.file.domain.form.FileMergeChunksForm;
 import com.xht.platform.file.domain.query.SysFileQuery;
+import com.xht.platform.file.domain.response.SysFilePreviewResponse;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.service.ISysFileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,7 +38,7 @@ import java.util.List;
 @Slf4j
 @Tag(name = "文件管理")
 @RestController
-@RequestMapping("/sys/files")
+@RequestMapping(FileConstant.BASE_PATH)
 @RequiredArgsConstructor
 public class SysFileController {
 
@@ -88,7 +91,6 @@ public class SysFileController {
      * @param file 上传文件
      * @return 文件信息
      */
-    @BLog(value = "文件管理", description = "上传文件")
     @Operation(summary = "文件上传", parameters = {
             @Parameter(name = "file", description = "上传文件", required = true, schema = @Schema(type = "string", format = "binary"))
     })
@@ -125,7 +127,6 @@ public class SysFileController {
      * @param chunkIndex 分片序号，从0开始
      * @return 操作结果
      */
-    @BLog(value = "文件管理", description = "上传文件分片")
     @Operation(summary = "分片上传", parameters = {
             @Parameter(name = "file", description = "分片文件", required = true, schema = @Schema(type = "string", format = "binary")),
             @Parameter(name = "uploadId", description = "分片上传标识", required = true),
@@ -154,7 +155,6 @@ public class SysFileController {
      * @param fileMergeChunksForm 分片上传标识，与分片上传时保持一致，包含文件名、分片总数、文件用途、文件描述、文件MD5
      * @return 文件信息
      */
-    @BLog(value = "文件管理", description = "合并文件分片")
     @Operation(summary = "合并文件分片")
     @PostMapping("/chunk/merge")
     public R<SysFileResponse> mergeChunks(@RequestBody FileMergeChunksForm fileMergeChunksForm) {
@@ -177,11 +177,31 @@ public class SysFileController {
      * @param response       响应
      * @param fileStorageKey 文件存储Key
      */
-    @BLog(value = "文件管理", description = "下载文件")
     @Operation(summary = "文件下载")
     @GetMapping("/download/{fileStorageKey}")
     public void downloadFile(HttpServletResponse response, @PathVariable String fileStorageKey) {
         sysFileService.downloadFile(response, fileStorageKey);
+    }
+
+
+    /**
+     * 初始化文件预览信息
+     * <p>前端打开预览前调用：返回文件元数据、是否支持在线预览以及预览/下载地址；
+     * 同时按文件用途做权限校验，用途与文件记录不一致时拒绝访问，后续可在此基础上扩展更细的业务权限规则</p>
+     *
+     * @param fileStorageKey 文件存储Key
+     * @param fileUsed       文件用途（必须与文件记录的用途一致）
+     * @return 预览初始化信息
+     */
+    @IgnoreAuth(aop = false)
+    @Operation(summary = "初始化文件预览信息", parameters = {
+            @Parameter(name = "fileStorageKey", description = "文件存储Key", required = true),
+            @Parameter(name = "fileUsed", description = "文件用途，必须与文件记录的用途一致", required = true)
+    })
+    @GetMapping("/preview/init")
+    public R<SysFilePreviewResponse> initPreviewInfo(@RequestParam(name = "fileStorageKey") String fileStorageKey,
+                                                     @RequestParam(name = "fileUsed") String fileUsed) {
+        return R.ok().build(sysFileService.initPreviewInfo(fileStorageKey, fileUsed));
     }
 
     /**
@@ -191,10 +211,11 @@ public class SysFileController {
      * @param response       响应
      * @param fileStorageKey 文件存储Key
      */
-    @BLog(value = "文件管理", description = "预览文件")
+    @IgnoreAuth(aop = false)
     @Operation(summary = "文件预览")
     @GetMapping("/preview")
     public void filePreview(HttpServletResponse response, @RequestParam(name = "fileStorageKey") String fileStorageKey) {
         sysFileService.filePreview(response, fileStorageKey);
     }
+
 }

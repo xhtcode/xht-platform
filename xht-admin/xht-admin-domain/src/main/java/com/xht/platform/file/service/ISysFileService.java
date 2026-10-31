@@ -5,6 +5,7 @@ import com.xht.platform.common.file.bo.ChunkMergeBO;
 import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.domain.query.SysFileQuery;
+import com.xht.platform.file.domain.response.SysFilePreviewResponse;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
@@ -81,6 +82,18 @@ public interface ISysFileService {
      * @param fileStorageKey 文件存储Key
      */
     void downloadFile(HttpServletResponse response, String fileStorageKey);
+
+    /**
+     * 初始化文件预览信息
+     * <p>返回预览所需的文件元数据、是否支持在线预览以及预览/下载地址；
+     * 调用方必须声明文件用途（fileUsed），服务端在返回信息前按用途做权限校验，
+     * 用途与文件记录不一致时拒绝访问，后续可按用途细化更严格的校验规则</p>
+     *
+     * @param fileStorageKey 文件存储Key
+     * @param fileUsed       调用方声明的文件用途
+     * @return 文件预览初始化信息
+     */
+    SysFilePreviewResponse initPreviewInfo(String fileStorageKey, String fileUsed);
 
     /**
      * 文件预览
