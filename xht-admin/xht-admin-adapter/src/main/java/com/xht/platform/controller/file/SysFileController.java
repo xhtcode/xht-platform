@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -204,15 +205,19 @@ public class SysFileController {
     /**
      * 文件预览
      * <p>支持 Range 分段请求，可用于 PDF 分页加载、音视频拖动进度</p>
+     * <p>按文件存储路径直接输出原文件内容，不做格式转换；是否可内联渲染由调用方按文件后缀／MIME 判断。
+     * 支持 HTTP Range 分段请求（PDF 分页加载、视频拖动进度），命中区间返回 206 + Content-Range；
+     * 无 Range 头、Range 解析失败或多区间请求时退化为全量 200 响应；区间起点超出文件大小时返回 416</p>
      *
+     * @param request        请求
      * @param response       响应
      * @param fileStorageKey 文件存储Key
      */
     @IgnoreAuth(aop = false)
     @Operation(summary = "文件预览")
     @GetMapping("/preview")
-    public void filePreview(HttpServletResponse response, @RequestParam(name = "fileStorageKey") String fileStorageKey) {
-        sysFileService.filePreview(response, fileStorageKey);
+    public void filePreview(HttpServletRequest request, HttpServletResponse response, @RequestParam(name = "fileStorageKey") String fileStorageKey) {
+        sysFileService.filePreview(request, response, fileStorageKey);
     }
 
 }

@@ -8,10 +8,12 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpRange;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * 描述： 文件写入工具类
@@ -22,6 +24,23 @@ import java.nio.charset.StandardCharsets;
 public abstract class XhtFileUtils {
 
     private XhtFileUtils() {
+    }
+
+    /**
+     * 解析 Range 请求头
+     * <p>解析失败或多区间请求返回 null，由调用方按全量响应处理（HTTP 允许服务端忽略 Range）</p>
+     *
+     * @param rangeHeader Range 请求头
+     * @return 单区间对象；按全量响应时返回 null
+     */
+    public static HttpRange resolvePreviewRange(List<HttpRange> ranges) {
+        if (ranges == null || ranges.isEmpty()) {
+            return null;
+        }
+        if (ranges.size() != 1) {
+            return null;
+        }
+        return ranges.get(0);
     }
 
     /**

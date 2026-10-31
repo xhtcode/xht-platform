@@ -8,7 +8,6 @@ import cn.hutool.core.map.CaseInsensitiveMap;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.common.constant.StringConstant;
 import com.xht.framework.jackson.JsonUtils;
 import jakarta.servlet.ServletRequest;
@@ -16,6 +15,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRange;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -140,8 +141,8 @@ public final class ServletUtils {
     /**
      * 获得请求header中的信息
      *
-     * @param request     请求对象{@link HttpServletRequest}
-     * @param name        头信息的KEY
+     * @param request 请求对象{@link HttpServletRequest}
+     * @param name    头信息的KEY
      * @return header值
      */
     public static String getHeader(HttpServletRequest request, String name) {
@@ -152,8 +153,8 @@ public final class ServletUtils {
     /**
      * 获得请求header中的信息
      *
-     * @param request     请求对象{@link HttpServletRequest}
-     * @param name        头信息的KEY
+     * @param request 请求对象{@link HttpServletRequest}
+     * @param name    头信息的KEY
      * @return header值
      */
     public static String getHeader(HttpServletRequest request, String name, String defaultValue) {
@@ -261,6 +262,20 @@ public final class ServletUtils {
         return request.getParameter(name);
     }
 
+    /**
+     * 获取请求头中的Range信息
+     *
+     * @param request 请求对象{@link HttpServletRequest}
+     * @return Range信息
+     */
+    public static List<HttpRange> httpRange(HttpServletRequest request) {
+        String rangeHeader = request.getHeader(HttpHeaders.RANGE);
+        if (StringUtils.isEmpty(rangeHeader)) {
+            return null;
+        }
+        return HttpRange.parseRanges(rangeHeader);
+    }
+
     // --------------------------------------------------------- Response start
 
 
@@ -276,9 +291,10 @@ public final class ServletUtils {
 
     /**
      * 响应json数据
-     * @param response 响应对象
+     *
+     * @param response   响应对象
      * @param httpStatus 状态码{@link HttpStatus}
-     * @param obj 响应数据
+     * @param obj        响应数据
      */
     public static void writeJson(HttpServletResponse response, HttpStatus httpStatus, Object obj) {
         PrintWriter writer = null;

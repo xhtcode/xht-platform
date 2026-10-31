@@ -7,6 +7,7 @@ import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFilePreviewResponse;
 import com.xht.platform.file.domain.response.SysFileResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -95,9 +96,14 @@ public interface ISysFileService {
 
     /**
      * 文件预览
+     * <p>支持 Range 分段请求，可用于 PDF 分页加载、音视频拖动进度</p>
+     * <p>按文件存储路径直接输出原文件内容，不做格式转换；是否可内联渲染由调用方按文件后缀／MIME 判断。
+     * 支持 HTTP Range 分段请求（PDF 分页加载、视频拖动进度），命中区间返回 206 + Content-Range；
+     * 无 Range 头、Range 解析失败或多区间请求时退化为全量 200 响应；区间起点超出文件大小时返回 416</p>
      *
+     * @param request        请求
      * @param response       响应
      * @param fileStorageKey 文件存储Key
      */
-    void filePreview(HttpServletResponse response, String fileStorageKey);
+    void filePreview(HttpServletRequest request, HttpServletResponse response, String fileStorageKey);
 }
