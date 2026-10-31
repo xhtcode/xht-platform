@@ -79,7 +79,6 @@ xht:
       add-default-ignore-urls: true
       add-swagger-ignore-urls: true
       endpoints:
-        - /**
     xss:
       enable: true
     header:

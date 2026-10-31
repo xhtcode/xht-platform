@@ -3,7 +3,6 @@ package com.xht.auth.configuration;
 import com.xht.auth.captcha.service.ICaptchaService;
 import com.xht.auth.configuration.properties.RememberMeProperties;
 import com.xht.auth.configuration.properties.XhtOauth2Properties;
-import com.xht.framework.oauth2.filter.TraceIdRequestFilter;
 import com.xht.auth.security.authentication.dao.CustomAuthenticationProvider;
 import com.xht.auth.security.oauth2.client.CustomOAuth2LoginConfigurer;
 import com.xht.auth.security.web.authentication.AuthorizationServerFailureHandler;
@@ -15,7 +14,7 @@ import com.xht.auth.security.web.authentication.qr.XhtQrCodeLoginConfigurer;
 import com.xht.auth.security.web.authentication.qr.manager.AbstractQrManager;
 import com.xht.auth.security.web.authentication.session.XhtSessionLimit;
 import com.xht.framework.common.domain.R;
-import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
+import com.xht.framework.oauth2.filter.TraceIdRequestFilter;
 import com.xht.framework.security.configurers.CustomAuthorizeHttpRequestsConfigurer;
 import com.xht.framework.security.core.userdetails.BasicUserDetailsService;
 import com.xht.framework.security.properties.PermitAllUrlProperties;
@@ -90,7 +89,6 @@ public class SecurityAutoConfiguration {
         http.oauth2ResourceServer(configurer -> {
             configurer.opaqueToken(opaqueTokenConfigurer -> opaqueTokenConfigurer.introspector(opaqueTokenIntrospector));
             configurer.authenticationEntryPoint(new XhtAuthenticationEntryPoint());
-            configurer.bearerTokenResolver(new ResourceBearerTokenResolver(permitAllUrlProperties));
         });
         http.exceptionHandling(handlingConfigurer -> {
             handlingConfigurer.accessDeniedHandler(new XhtAccessDeniedHandler());// 请求未授权的接口

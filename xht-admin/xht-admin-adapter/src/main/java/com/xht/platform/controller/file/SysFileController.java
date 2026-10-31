@@ -186,22 +186,19 @@ public class SysFileController {
 
     /**
      * 初始化文件预览信息
-     * <p>前端打开预览前调用：返回文件元数据、是否支持在线预览以及预览/下载地址；
-     * 同时按文件用途做权限校验，用途与文件记录不一致时拒绝访问，后续可在此基础上扩展更细的业务权限规则</p>
+     * <p>前端打开预览前调用：返回文件名称、大小、类型以及预览/下载地址；
+     * 文件用途由服务端查库取得，权限校验在服务端完成，调用方只需提供文件存储Key</p>
      *
      * @param fileStorageKey 文件存储Key
-     * @param fileUsed       文件用途（必须与文件记录的用途一致）
      * @return 预览初始化信息
      */
     @IgnoreAuth(aop = false)
     @Operation(summary = "初始化文件预览信息", parameters = {
-            @Parameter(name = "fileStorageKey", description = "文件存储Key", required = true),
-            @Parameter(name = "fileUsed", description = "文件用途，必须与文件记录的用途一致", required = true)
+            @Parameter(name = "fileStorageKey", description = "文件存储Key", required = true)
     })
-    @GetMapping("/preview/init")
-    public R<SysFilePreviewResponse> initPreviewInfo(@RequestParam(name = "fileStorageKey") String fileStorageKey,
-                                                     @RequestParam(name = "fileUsed") String fileUsed) {
-        return R.ok().build(sysFileService.initPreviewInfo(fileStorageKey, fileUsed));
+    @PostMapping("/preview/init")
+    public R<SysFilePreviewResponse> initPreviewInfo(@RequestParam(name = "fileStorageKey") String fileStorageKey) {
+        return R.ok().build(sysFileService.initPreviewInfo(fileStorageKey));
     }
 
     /**
