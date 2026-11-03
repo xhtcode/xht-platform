@@ -14,11 +14,13 @@ import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.converter.SysFileConverter;
 import com.xht.platform.file.dao.FileStorageDao;
 import com.xht.platform.file.dao.SysFileDao;
+import com.xht.platform.file.dao.SysFileTypeDao;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFilePreviewResponse;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
+import com.xht.platform.file.enums.PreviewTypeEnum;
 import com.xht.platform.file.permission.XhtFilePermissionContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -48,6 +50,8 @@ import java.util.Objects;
 public class SysFileServiceImpl implements ISysFileService {
 
     private final SysFileDao sysFileDao;
+
+    private final SysFileTypeDao sysFileTypeDao;
 
     private final SysFileConverter sysFileConverter;
 
@@ -156,7 +160,10 @@ public class SysFileServiceImpl implements ISysFileService {
                 .findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey)
                 .orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
         filePermissionContext.check(sysFileEntity);
-        return sysFileConverter.buildPreviewInfo(sysFileEntity);
+        PreviewTypeEnum previewType = sysFileTypeDao.findBySuffix(sysFileEntity.getFileSuffix()).getPreviewType();
+        SysFilePreviewResponse sysFilePreviewResponse = sysFileConverter.buildPreviewInfo(sysFileEntity);
+        sysFilePreviewResponse.setPreviewType(previewType);
+        return sysFilePreviewResponse;
     }
 
     /**

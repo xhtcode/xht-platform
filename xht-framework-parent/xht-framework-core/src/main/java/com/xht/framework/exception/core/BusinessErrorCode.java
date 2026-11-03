@@ -159,6 +159,14 @@ public enum BusinessErrorCode implements ErrorCode {
      */
     FILE_CHUNK_VERIFY_FAIL(50217, "分片合并后文件校验失败"),
     /**
+     * 文件后缀已存在预览类型配置
+     */
+    FILE_TYPE_SUFFIX_EXIST(50218, "该文件后缀已存在预览类型配置"),
+    /**
+     * 预览类型配置不存在
+     */
+    FILE_TYPE_NOT_EXIST(50219, "预览类型配置不存在"),
+    /**
      * 消息推送失败
      */
     MESSAGE_PUSH_FAIL(50301, "消息推送失败，请稍后重试"),

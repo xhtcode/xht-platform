@@ -9,7 +9,6 @@ import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.platform.common.file.bo.ChunkMergeBO;
 import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
-import com.xht.platform.file.FileConstant;
 import com.xht.platform.file.domain.form.FileMergeChunksForm;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFilePreviewResponse;
@@ -39,7 +38,7 @@ import java.util.List;
 @Slf4j
 @Tag(name = "文件管理")
 @RestController
-@RequestMapping(FileConstant.BASE_PATH)
+@RequestMapping("/sys/files")
 @RequiredArgsConstructor
 public class SysFileController {
 

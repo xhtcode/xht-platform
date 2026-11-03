@@ -518,5 +518,23 @@ CREATE TABLE `sys_file_group`
     `update_time`     datetime     NULL DEFAULT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB COMMENT = '系统管理-文件分组表' ROW_FORMAT = Dynamic;
+-- ----------------------------
+-- Table structure for sys_file_type
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_file_type`;
+CREATE TABLE `sys_file_type`
+(
+    `id`           bigint      NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `preview_type` varchar(20) NOT NULL COMMENT '预览类型编码(image/pdf/video/audio/text/json/other)',
+    `preview_name` varchar(30) NOT NULL COMMENT '预览类型名称(图片/PDF/视频/音频/文本/JSON/其他)',
+    `file_suffix`  varchar(30) NULL DEFAULT NULL COMMENT '文件后缀，单个，不带点，如：jpg',
+    `del_flag`     tinyint     NOT NULL DEFAULT 0 COMMENT '删除标识，0：未删除，1：已删除',
+    `create_by`    varchar(32) NULL DEFAULT NULL COMMENT '创建人',
+    `create_time`  datetime    NULL DEFAULT NULL COMMENT '创建时间',
+    `update_by`    varchar(32) NULL DEFAULT NULL COMMENT '更新人',
+    `update_time`  datetime    NULL DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE INDEX `uk_suffix`(`file_suffix` ASC, `del_flag` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 28 COMMENT = '文件预览类型配置表' ROW_FORMAT = Dynamic;
 SET
 FOREIGN_KEY_CHECKS = 1;

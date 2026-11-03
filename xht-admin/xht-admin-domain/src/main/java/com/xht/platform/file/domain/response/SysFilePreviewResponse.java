@@ -1,5 +1,6 @@
 package com.xht.platform.file.domain.response;
 
+import com.xht.platform.file.enums.PreviewTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -49,5 +50,7 @@ public class SysFilePreviewResponse implements Serializable {
      */
     @Schema(description = "文件后缀")
     private String fileSuffix;
+
+    private PreviewTypeEnum previewType;
 
 }
