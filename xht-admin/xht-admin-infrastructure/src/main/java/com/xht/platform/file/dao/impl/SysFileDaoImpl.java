@@ -55,7 +55,8 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
                 SysFileEntity::getFileMetadata,
                 SysFileEntity::getFileUploadTime,
                 SysFileEntity::getFileAssociateTime,
-                SysFileEntity::getFileUploadUser
+                SysFileEntity::getFileUploadUser,
+                SysFileEntity::getFilePreviewType
         );
         // 关键字模糊匹配文件原始名称、文件存储key与文件存储名称
         wrapper.and(condition(query.getKeyWord()), queryWrapper -> queryWrapper

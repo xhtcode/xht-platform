@@ -109,7 +109,11 @@ public class SysFileServiceImpl implements ISysFileService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public SysFileResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo) {
-        return sysFileConverter.toResponse(fileStorageDao.uploadMultipartFile(uploadBo));
+        SysFileEntity sysFileEntity = fileStorageDao.uploadMultipartFile(uploadBo);
+        PreviewTypeEnum previewType = sysFileTypeDao.findBySuffix(sysFileEntity.getFileSuffix());
+        sysFileEntity.setFilePreviewType(previewType);
+        sysFileDao.save(sysFileEntity);
+        return sysFileConverter.toResponse(sysFileEntity);
     }
 
     /**
@@ -160,7 +164,7 @@ public class SysFileServiceImpl implements ISysFileService {
                 .findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey)
                 .orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
         filePermissionContext.check(sysFileEntity);
-        PreviewTypeEnum previewType = sysFileTypeDao.findBySuffix(sysFileEntity.getFileSuffix()).getPreviewType();
+        PreviewTypeEnum previewType = sysFileTypeDao.findBySuffix(sysFileEntity.getFileSuffix());
         SysFilePreviewResponse sysFilePreviewResponse = sysFileConverter.buildPreviewInfo(sysFileEntity);
         sysFilePreviewResponse.setPreviewType(previewType);
         return sysFilePreviewResponse;

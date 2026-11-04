@@ -5,6 +5,7 @@ import com.xht.framework.mybatis.repository.MapperRepository;
 import com.xht.platform.file.domain.form.SysFileTypeForm;
 import com.xht.platform.file.domain.query.SysFileTypeQuery;
 import com.xht.platform.file.entity.SysFileTypeEntity;
+import com.xht.platform.file.enums.PreviewTypeEnum;
 
 /**
  * 描述： 文件预览类型配置数据访问层
@@ -35,9 +36,9 @@ public interface SysFileTypeDao extends MapperRepository<SysFileTypeEntity> {
      * 根据文件后缀查询配置
      *
      * @param fileSuffix 文件后缀
-     * @return 配置实体，未配置返回 null
+     * @return {@link PreviewTypeEnum}
      */
-    SysFileTypeEntity findBySuffix(String fileSuffix);
+    PreviewTypeEnum findBySuffix(String fileSuffix);
 
     /**
      * 根据ID更新配置（仅更新表单中的字段）

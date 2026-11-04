@@ -9,6 +9,7 @@ import com.xht.framework.file.enums.StorageType;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
 import com.xht.platform.common.file.core.FileMetadata;
 import com.xht.platform.file.enums.FileStatusEnum;
+import com.xht.platform.file.enums.PreviewTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -124,6 +125,12 @@ public class SysFileEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "file_associate_time")
     private LocalDateTime fileAssociateTime;
+
+    /**
+     * 文件预览类型
+     */
+    @TableField(value = "file_preview_type")
+    private PreviewTypeEnum filePreviewType;
 
     /**
      * 文件描述

@@ -109,13 +109,6 @@ public class FileStorageDaoImpl implements FileStorageDao {
             fileStorageRepository.remove(fileStoragePath);
             throw new BusinessException(BusinessErrorCode.FILE_UPLOAD_FAIL, e.getMessage(), e);
         }
-        try {
-            sysFileMapper.insert(sysFileEntity);
-        } catch (Exception e) {
-            log.error("文件记录入库失败，已清理存储文件：{}", fileStoragePath, e);
-            fileStorageRepository.remove(fileStoragePath);
-            throw new BusinessException(BusinessErrorCode.FILE_UPLOAD_FAIL, e.getMessage(), e);
-        }
         return sysFileEntity;
     }
 

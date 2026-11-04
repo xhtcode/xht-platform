@@ -10,10 +10,11 @@ import com.xht.platform.file.dao.mapper.SysFileTypeMapper;
 import com.xht.platform.file.domain.form.SysFileTypeForm;
 import com.xht.platform.file.domain.query.SysFileTypeQuery;
 import com.xht.platform.file.entity.SysFileTypeEntity;
+import com.xht.platform.file.enums.PreviewTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * 描述： 文件预览类型配置数据访问层实现类
@@ -57,13 +58,15 @@ public class SysFileTypeDaoImpl extends MapperRepositoryImpl<SysFileTypeMapper, 
      * 根据文件后缀查询配置
      *
      * @param fileSuffix 文件后缀
-     * @return 配置实体，未配置返回 null
+     * @return {@link PreviewTypeEnum}
      */
     @Override
-    public SysFileTypeEntity findBySuffix(String fileSuffix) {
+    public PreviewTypeEnum findBySuffix(String fileSuffix) {
         LambdaQueryWrapper<SysFileTypeEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.select(SysFileTypeEntity::getId, SysFileTypeEntity::getPreviewType);
         wrapper.eq(SysFileTypeEntity::getFileSuffix, fileSuffix);
-        return getOne(wrapper);
+        SysFileTypeEntity one = getOne(wrapper);
+        return Optional.ofNullable(one).map(SysFileTypeEntity::getPreviewType).orElse(PreviewTypeEnum.OTHER);
     }
 
     /**
