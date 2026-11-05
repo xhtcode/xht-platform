@@ -6,7 +6,6 @@ import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.AssertUtils;
-import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.file.XhtFileUtils;
 import com.xht.platform.common.file.bo.ChunkMergeBO;
 import com.xht.platform.common.file.bo.ChunkUploadBO;
@@ -22,12 +21,11 @@ import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
 import com.xht.platform.file.enums.PreviewTypeEnum;
 import com.xht.platform.file.permission.XhtFilePermissionContext;
+import com.xht.platform.file.preview.TxtPreview;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRange;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,6 +56,8 @@ public class SysFileServiceImpl implements ISysFileService {
     private final FileStorageDao fileStorageDao;
 
     private final XhtFilePermissionContext filePermissionContext;
+
+    private final TxtPreview txtPreview;
 
     /**
      * 根据文件ID删除文件记录（逻辑删除），并同步删除物理文件
@@ -166,7 +166,7 @@ public class SysFileServiceImpl implements ISysFileService {
         filePermissionContext.check(sysFileEntity);
         PreviewTypeEnum previewType = sysFileTypeDao.findBySuffix(sysFileEntity.getFileSuffix());
         SysFilePreviewResponse sysFilePreviewResponse = sysFileConverter.buildPreviewInfo(sysFileEntity);
-        sysFilePreviewResponse.setPreviewType(previewType);
+        sysFilePreviewResponse.setPreviewMode(previewType);
         return sysFilePreviewResponse;
     }
 
@@ -202,39 +202,40 @@ public class SysFileServiceImpl implements ISysFileService {
     public void filePreview(HttpServletRequest request, HttpServletResponse response, String fileStorageKey) {
         SysFileEntity sysFileEntity = sysFileDao.findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey).orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
         filePermissionContext.check(sysFileEntity);
-        String previewPath = sysFileEntity.getFileStoragePath();
-        String fileName = sysFileEntity.getFileStorageName();
-        String contentType = sysFileEntity.getFileType();
-        long totalSize = sysFileEntity.getFileSize();
-        List<HttpRange> httpRanges = ServletUtils.httpRange(request);
-        HttpRange httpRange = XhtFileUtils.resolvePreviewRange(httpRanges);
-        if (Objects.isNull(httpRange)) {
-            try (InputStream inputStream = fileStorageDao.download(previewPath)) {
-                XhtFileUtils.writePreviewFile(response, fileName, contentType, inputStream, totalSize);
-            } catch (BusinessException e) {
-                throw e;
-            } catch (Exception e) {
-                log.error("文件预览失败，存储路径：{}", previewPath, e);
-                throw new BusinessException(BusinessErrorCode.FILE_DOWNLOAD_FAIL, e);
-            }
-            return;
-        }
-        long start = httpRange.getRangeStart(totalSize);
-        long end = httpRange.getRangeEnd(totalSize);
-        if (start >= totalSize) {
-            // 区间不可满足：416 + Content-Range: bytes */总大小
-            response.setStatus(HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE);
-            response.setHeader(HttpHeaders.CONTENT_RANGE, "bytes */" + totalSize);
-            return;
-        }
-        try (InputStream inputStream = fileStorageDao.downloadRange(previewPath, start, end - start + 1)) {
-            XhtFileUtils.writeRangeFile(response, fileName, contentType, inputStream, start, end, totalSize);
-        } catch (BusinessException e) {
-            throw e;
-        } catch (Exception e) {
-            log.error("文件分段预览失败，文件Key：{}，区间：{}-{}", fileStorageKey, start, end, e);
-            throw new BusinessException(BusinessErrorCode.FILE_DOWNLOAD_FAIL, e);
-        }
+        txtPreview.filePreview(request, response, sysFileEntity);
+//        String previewPath = sysFileEntity.getFileStoragePath();
+//        String fileName = sysFileEntity.getFileStorageName();
+//        String contentType = sysFileEntity.getFileType();
+//        long totalSize = sysFileEntity.getFileSize();
+//        List<HttpRange> httpRanges = ServletUtils.httpRange(request);
+//        HttpRange httpRange = XhtFileUtils.resolvePreviewRange(httpRanges);
+//        if (Objects.isNull(httpRange)) {
+//            try (InputStream inputStream = fileStorageDao.download(previewPath)) {
+//                XhtFileUtils.writePreviewFile(response, fileName, contentType, inputStream, totalSize);
+//            } catch (BusinessException e) {
+//                throw e;
+//            } catch (Exception e) {
+//                log.error("文件预览失败，存储路径：{}", previewPath, e);
+//                throw new BusinessException(BusinessErrorCode.FILE_DOWNLOAD_FAIL, e);
+//            }
+//            return;
+//        }
+//        long start = httpRange.getRangeStart(totalSize);
+//        long end = httpRange.getRangeEnd(totalSize);
+//        if (start >= totalSize) {
+//            // 区间不可满足：416 + Content-Range: bytes */总大小
+//            response.setStatus(HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE);
+//            response.setHeader(HttpHeaders.CONTENT_RANGE, "bytes */" + totalSize);
+//            return;
+//        }
+//        try (InputStream inputStream = fileStorageDao.downloadRange(previewPath, start, end - start + 1)) {
+//            XhtFileUtils.writeRangeFile(response, fileName, contentType, inputStream, start, end, totalSize);
+//        } catch (BusinessException e) {
+//            throw e;
+//        } catch (Exception e) {
+//            log.error("文件分段预览失败，文件Key：{}，区间：{}-{}", fileStorageKey, start, end, e);
+//            throw new BusinessException(BusinessErrorCode.FILE_DOWNLOAD_FAIL, e);
+//        }
     }
 
 }

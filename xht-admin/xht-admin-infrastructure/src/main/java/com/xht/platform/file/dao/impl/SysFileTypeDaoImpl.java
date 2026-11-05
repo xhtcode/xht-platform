@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
+import com.xht.framework.utils.StringUtils;
 import com.xht.platform.file.dao.SysFileTypeDao;
 import com.xht.platform.file.dao.mapper.SysFileTypeMapper;
 import com.xht.platform.file.domain.form.SysFileTypeForm;
@@ -49,7 +50,11 @@ public class SysFileTypeDaoImpl extends MapperRepositoryImpl<SysFileTypeMapper, 
     @Override
     public boolean existsBySuffix(String fileSuffix, Long excludeId) {
         LambdaQueryWrapper<SysFileTypeEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(SysFileTypeEntity::getFileSuffix, fileSuffix);
+        if (StringUtils.hasText(fileSuffix)) {
+            wrapper.eq(SysFileTypeEntity::getFileSuffix, fileSuffix);
+        } else {
+            wrapper.isNull(SysFileTypeEntity::getFileSuffix);
+        }
         wrapper.ne(condition(excludeId), SysFileTypeEntity::getId, excludeId);
         return exists(wrapper);
     }

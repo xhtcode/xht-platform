@@ -167,6 +167,10 @@ public enum BusinessErrorCode implements ErrorCode {
      */
     FILE_TYPE_NOT_EXIST(50219, "预览类型配置不存在"),
     /**
+     * 文件预览失败
+     */
+    FILE_PREVIEW_FAIL(50220, "文件预览失败，请稍后重试"),
+    /**
      * 消息推送失败
      */
     MESSAGE_PUSH_FAIL(50301, "消息推送失败，请稍后重试"),

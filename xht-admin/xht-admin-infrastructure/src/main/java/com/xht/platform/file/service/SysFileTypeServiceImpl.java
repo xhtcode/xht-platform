@@ -5,7 +5,6 @@ import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.AssertUtils;
-import com.xht.framework.utils.StringUtils;
 import com.xht.platform.file.converter.SysFileTypeConverter;
 import com.xht.platform.file.dao.SysFileTypeDao;
 import com.xht.platform.file.domain.form.SysFileTypeForm;
@@ -117,9 +116,6 @@ public class SysFileTypeServiceImpl implements ISysFileTypeService {
      * @param fileSuffix 文件后缀
      */
     private void checkSuffixUnique(Long excludeId, String fileSuffix) {
-        if (!StringUtils.hasText(fileSuffix)) {
-            return;
-        }
         AssertUtils.isTrue(!sysFileTypeDao.existsBySuffix(fileSuffix, excludeId), BusinessErrorCode.FILE_TYPE_SUFFIX_EXIST);
     }
 

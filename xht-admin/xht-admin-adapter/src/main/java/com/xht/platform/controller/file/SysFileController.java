@@ -203,17 +203,23 @@ public class SysFileController {
 
     /**
      * 文件预览
-     * <p>支持 Range 分段请求，可用于 PDF 分页加载、音视频拖动进度</p>
-     * <p>按文件存储路径直接输出原文件内容，不做格式转换；是否可内联渲染由调用方按文件后缀／MIME 判断。
-     * 支持 HTTP Range 分段请求（PDF 分页加载、视频拖动进度），命中区间返回 206 + Content-Range；
-     * 无 Range 头、Range 解析失败或多区间请求时退化为全量 200 响应；区间起点超出文件大小时返回 416</p>
+     * <p>文本文件按字节块分页返回 JSON，其余文件按原内容输出</p>
+     * <p>文本预览单页默认 64KB（约 2 万汉字），页尾对齐到换行符；续读时把上一页返回的 offset 原样回传，
+     * 也可按 pageNo 跳页。单页字节数可用 size 调整（4KB~256KB），编码可用 charset 指定，
+     * 不传时由服务端按 BOM、UTF-8 严格解码、GB18030 依次探测</p>
      *
      * @param request        请求
      * @param response       响应
      * @param fileStorageKey 文件存储Key
      */
     @IgnoreAuth(aop = false)
-    @Operation(summary = "文件预览")
+    @Operation(summary = "文件预览", parameters = {
+            @Parameter(name = "fileStorageKey", description = "文件存储Key", required = true),
+            @Parameter(name = "offset", description = "文本预览游标：上一页返回的 offset，续读时原样回传；优先于 pageNo"),
+            @Parameter(name = "pageNo", description = "文本预览页码，从 1 开始，未传 offset 时生效"),
+            @Parameter(name = "size", description = "文本预览单页字节数，默认 65536，取值 4096~262144"),
+            @Parameter(name = "charset", description = "文本编码，首屏可不传由服务端探测，后续请求建议回传")
+    })
     @GetMapping("/preview")
     public void filePreview(HttpServletRequest request, HttpServletResponse response, @RequestParam(name = "fileStorageKey") String fileStorageKey) {
         sysFileService.filePreview(request, response, fileStorageKey);

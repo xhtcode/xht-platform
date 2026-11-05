@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Optional;
 
 /**
  * 描述： 文件预览初始化信息
@@ -51,6 +52,9 @@ public class SysFilePreviewResponse implements Serializable {
     @Schema(description = "文件后缀")
     private String fileSuffix;
 
-    private PreviewTypeEnum previewType;
+    private PreviewTypeEnum previewMode;
 
+    public String getPreviewModeValue() {
+        return Optional.ofNullable(previewMode).orElse(PreviewTypeEnum.OTHER).getDesc();
+    }
 }

@@ -27,7 +27,7 @@ public class StorageProperties {
     /**
      * 本地存储配置
      */
-    private final LocalProperties local = new LocalProperties();
+    private LocalProperties local = new LocalProperties();
 
 
     /**
