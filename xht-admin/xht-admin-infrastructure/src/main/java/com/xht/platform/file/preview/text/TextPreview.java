@@ -3,7 +3,6 @@ package com.xht.platform.file.preview.text;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.utils.ServletUtils;
-import com.xht.framework.utils.StringUtils;
 import com.xht.platform.file.dao.FileStorageDao;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.PreviewTypeEnum;
@@ -54,6 +53,16 @@ public class TextPreview implements FilePreview {
      */
     private static final int MAX_LINE_EXTEND = 8 * 1024;
 
+    /**
+     * 编码探测采样字节数
+     */
+    private static final int CHARSET_SAMPLE_SIZE = 8 * 1024;
+
+    /**
+     * 国产文本文件常见编码，GBK 的超集
+     */
+    private static final Charset GB18030 = Charset.forName("GB18030");
+
     private final FileStorageDao fileStorageDao;
 
     /**
@@ -78,13 +87,15 @@ public class TextPreview implements FilePreview {
      */
     public void filePreview(HttpServletRequest request, HttpServletResponse response, SysFileEntity sysFileEntity) {
         String fileStoragePath = sysFileEntity.getFileStoragePath();
-        long fileSize = sysFileEntity.getFileSize();
+        long fileSize = sysFileEntity.getFileSize() == null ? 0L : sysFileEntity.getFileSize();
         int pageSize = resolvePageSize(request);
+
         TextPreviewVO vo = new TextPreviewVO();
         vo.setContent("");
         vo.setSize(pageSize);
         vo.setTotal(fileSize);
         vo.setPages(fileSize == 0 ? 0 : (fileSize + pageSize - 1) / pageSize);
+
         long offset = resolveOffset(request, pageSize, fileSize);
         vo.setOffset(offset);
         vo.setCurrent(Math.min(offset / pageSize + 1, Math.max(1, vo.getPages())));
@@ -92,6 +103,7 @@ public class TextPreview implements FilePreview {
             ServletUtils.writeJson(response, vo);
             return;
         }
+
         try {
             // 多读一段用于页尾对齐换行符，保证下一页从行首开始
             byte[] data = readRange(fileStoragePath, offset, pageSize + MAX_LINE_EXTEND);
@@ -103,8 +115,9 @@ public class TextPreview implements FilePreview {
             }
             int end = data.length > pageSize ? alignToLineEnd(data, pageSize) : data.length;
             byte[] page = end == data.length ? data : Arrays.copyOf(data, end);
-            Charset utf8 = StandardCharsets.UTF_8;
-            DecodedText decoded = decode(page, utf8);
+
+            Charset charset = resolveCharset(request, fileStoragePath, offset, page);
+            DecodedText decoded = decode(page, charset);
             String content = decoded.text();
             // 首屏去掉 UTF-8/UTF-16 BOM，避免正文开头出现不可见字符
             if (offset == 0 && !content.isEmpty() && content.charAt(0) == '\uFEFF') {
@@ -114,7 +127,7 @@ public class TextPreview implements FilePreview {
             // 剩余字节不足以构成一个字符（编码与内容不符）时视为读到末尾，防止游标原地打转
             int consumed = decoded.consumed();
             long nextOffset = consumed > 0 ? offset + consumed : fileSize;
-            vo.setCharset(utf8.name());
+            vo.setCharset(charset.name());
             vo.setContent(content);
             vo.setOffset(nextOffset);
             vo.setHasMore(nextOffset < fileSize);
@@ -167,6 +180,60 @@ public class TextPreview implements FilePreview {
         return pageSize;
     }
 
+    /**
+     * 解析文本编码：请求参数优先，其次按 BOM 识别，最后用严格 UTF-8 解码探测，失败回退 GB18030
+     */
+    private Charset resolveCharset(HttpServletRequest request, String fileStoragePath, long offset, byte[] page) throws IOException {
+        String charsetName = request.getParameter("charset");
+        if (charsetName != null && !charsetName.isBlank()) {
+            try {
+                return Charset.forName(charsetName.trim());
+            } catch (Exception e) {
+                throw new BusinessException(BusinessErrorCode.PARAM_ERROR, "不支持的字符集：" + charsetName);
+            }
+        }
+        // 非首屏时当前页数据不足以判断编码，回读文件头部采样
+        byte[] sample = offset > 0 ? readRange(fileStoragePath, 0, CHARSET_SAMPLE_SIZE) : page;
+        return detectCharset(sample);
+    }
+
+    /**
+     * 探测文本编码
+     */
+    private static Charset detectCharset(byte[] sample) {
+        if (startsWith(sample, 0xEF, 0xBB, 0xBF)) {
+            return StandardCharsets.UTF_8;
+        }
+        if (startsWith(sample, 0xFF, 0xFE)) {
+            return StandardCharsets.UTF_16LE;
+        }
+        if (startsWith(sample, 0xFE, 0xFF)) {
+            return StandardCharsets.UTF_16BE;
+        }
+        return canDecode(sample, StandardCharsets.UTF_8) ? StandardCharsets.UTF_8 : GB18030;
+    }
+
+    private static boolean startsWith(byte[] data, int... prefix) {
+        if (data.length < prefix.length) {
+            return false;
+        }
+        for (int i = 0; i < prefix.length; i++) {
+            if ((data[i] & 0xFF) != prefix[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 能否用指定编码完整解码（采样末尾允许有半个多字节字符，不算解码失败）
+     */
+    private static boolean canDecode(byte[] data, Charset charset) {
+        CharsetDecoder decoder = charset.newDecoder()
+                .onMalformedInput(CodingErrorAction.REPORT)
+                .onUnmappableCharacter(CodingErrorAction.REPORT);
+        return !decoder.decode(ByteBuffer.wrap(data), CharBuffer.allocate(data.length + 16), false).isError();
+    }
 
     /**
      * 解码一个页块
@@ -198,7 +265,7 @@ public class TextPreview implements FilePreview {
 
     private static long longParam(HttpServletRequest request, String name, long defaultValue) {
         String value = request.getParameter(name);
-        if (!StringUtils.hasText(value)) {
+        if (value == null || value.isBlank()) {
             return defaultValue;
         }
         try {

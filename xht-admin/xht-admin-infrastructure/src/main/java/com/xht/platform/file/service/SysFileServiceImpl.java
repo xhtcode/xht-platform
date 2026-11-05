@@ -146,7 +146,11 @@ public class SysFileServiceImpl implements ISysFileService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public SysFileResponse mergeChunks(ChunkMergeBO chunkMergeBo) {
-        return sysFileConverter.toResponse(fileStorageDao.mergeChunks(chunkMergeBo));
+        SysFileEntity sysFileEntity = fileStorageDao.mergeChunks(chunkMergeBo);
+        // 合并入库发生在存储层，这里补写预览类型，与上传路径保持一致，否则预览时按类型找不到处理器
+        sysFileEntity.setFilePreviewType(sysFileTypeDao.findBySuffix(sysFileEntity.getFileSuffix()));
+        sysFileDao.updateById(sysFileEntity);
+        return sysFileConverter.toResponse(sysFileEntity);
     }
 
     /**
@@ -208,39 +212,6 @@ public class SysFileServiceImpl implements ISysFileService {
                 break;
             }
         }
-//        String previewPath = sysFileEntity.getFileStoragePath();
-//        String fileName = sysFileEntity.getFileStorageName();
-//        String contentType = sysFileEntity.getFileType();
-//        long totalSize = sysFileEntity.getFileSize();
-//        List<HttpRange> httpRanges = ServletUtils.httpRange(request);
-//        HttpRange httpRange = XhtFileUtils.resolvePreviewRange(httpRanges);
-//        if (Objects.isNull(httpRange)) {
-//            try (InputStream inputStream = fileStorageDao.download(previewPath)) {
-//                XhtFileUtils.writePreviewFile(response, fileName, contentType, inputStream, totalSize);
-//            } catch (BusinessException e) {
-//                throw e;
-//            } catch (Exception e) {
-//                log.error("文件预览失败，存储路径：{}", previewPath, e);
-//                throw new BusinessException(BusinessErrorCode.FILE_DOWNLOAD_FAIL, e);
-//            }
-//            return;
-//        }
-//        long start = httpRange.getRangeStart(totalSize);
-//        long end = httpRange.getRangeEnd(totalSize);
-//        if (start >= totalSize) {
-//            // 区间不可满足：416 + Content-Range: bytes */总大小
-//            response.setStatus(HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE);
-//            response.setHeader(HttpHeaders.CONTENT_RANGE, "bytes */" + totalSize);
-//            return;
-//        }
-//        try (InputStream inputStream = fileStorageDao.downloadRange(previewPath, start, end - start + 1)) {
-//            XhtFileUtils.writeRangeFile(response, fileName, contentType, inputStream, start, end, totalSize);
-//        } catch (BusinessException e) {
-//            throw e;
-//        } catch (Exception e) {
-//            log.error("文件分段预览失败，文件Key：{}，区间：{}-{}", fileStorageKey, start, end, e);
-//            throw new BusinessException(BusinessErrorCode.FILE_DOWNLOAD_FAIL, e);
-//        }
     }
 
 }
