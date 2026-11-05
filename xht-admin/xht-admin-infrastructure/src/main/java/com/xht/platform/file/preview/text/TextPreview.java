@@ -1,4 +1,4 @@
-package com.xht.platform.file.preview;
+package com.xht.platform.file.preview.text;
 
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
@@ -6,6 +6,8 @@ import com.xht.framework.utils.ServletUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.platform.file.dao.FileStorageDao;
 import com.xht.platform.file.entity.SysFileEntity;
+import com.xht.platform.file.enums.PreviewTypeEnum;
+import com.xht.platform.file.preview.FilePreview;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.*;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * 描述： 文本文件预览
@@ -29,7 +32,7 @@ import java.util.Arrays;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class TxtPreview {
+public class TextPreview implements FilePreview {
 
     /**
      * 单页默认字节数：约 2 万汉字，前端一次渲染不卡顿
@@ -54,6 +57,17 @@ public class TxtPreview {
     private final FileStorageDao fileStorageDao;
 
     /**
+     * 是否支持文件预览
+     *
+     * @param previewTypeEnum 预览类型
+     * @return 布尔值
+     */
+    @Override
+    public boolean supports(PreviewTypeEnum previewTypeEnum) {
+        return Objects.equals(previewTypeEnum, PreviewTypeEnum.TEXT);
+    }
+
+    /**
      * 文本文件预览
      * <p>请求参数：offset（上一页返回的游标，优先使用）、pageNo（页码，从 1 开始）、
      * size（单页字节数，默认 64KB，取值 4KB~256KB）、charset（编码，首屏可省略由服务端探测）</p>
@@ -66,7 +80,7 @@ public class TxtPreview {
         String fileStoragePath = sysFileEntity.getFileStoragePath();
         long fileSize = sysFileEntity.getFileSize();
         int pageSize = resolvePageSize(request);
-        TxtPreviewVO vo = new TxtPreviewVO();
+        TextPreviewVO vo = new TextPreviewVO();
         vo.setContent("");
         vo.setSize(pageSize);
         vo.setTotal(fileSize);

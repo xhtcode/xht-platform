@@ -1,4 +1,4 @@
-package com.xht.platform.file.preview;
+package com.xht.platform.file.preview.text;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import lombok.Data;
  * @author xht
  **/
 @Data
-public class TxtPreviewVO {
+public class TextPreviewVO {
 
     /**
      * 当前页文本内容

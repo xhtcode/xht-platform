@@ -21,7 +21,7 @@ import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
 import com.xht.platform.file.enums.PreviewTypeEnum;
 import com.xht.platform.file.permission.XhtFilePermissionContext;
-import com.xht.platform.file.preview.TxtPreview;
+import com.xht.platform.file.preview.FilePreview;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +57,7 @@ public class SysFileServiceImpl implements ISysFileService {
 
     private final XhtFilePermissionContext filePermissionContext;
 
-    private final TxtPreview txtPreview;
+    private final List<FilePreview> filePreviewList;
 
     /**
      * 根据文件ID删除文件记录（逻辑删除），并同步删除物理文件
@@ -202,7 +202,12 @@ public class SysFileServiceImpl implements ISysFileService {
     public void filePreview(HttpServletRequest request, HttpServletResponse response, String fileStorageKey) {
         SysFileEntity sysFileEntity = sysFileDao.findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey).orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
         filePermissionContext.check(sysFileEntity);
-        txtPreview.filePreview(request, response, sysFileEntity);
+        for (FilePreview filePreview : filePreviewList) {
+            if (filePreview.supports(sysFileEntity.getFilePreviewType())) {
+                filePreview.filePreview(request, response, sysFileEntity);
+                break;
+            }
+        }
 //        String previewPath = sysFileEntity.getFileStoragePath();
 //        String fileName = sysFileEntity.getFileStorageName();
 //        String contentType = sysFileEntity.getFileType();
