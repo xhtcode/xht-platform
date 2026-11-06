@@ -2,10 +2,9 @@ package com.xht.framework.cache.utils;
 
 import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.ArrayUtil;
-import com.xht.framework.cache.constant.CacheConstant;
+import com.xht.framework.cache.core.CacheConstant;
 import com.xht.framework.exception.UtilException;
 import com.xht.framework.utils.StringUtils;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;

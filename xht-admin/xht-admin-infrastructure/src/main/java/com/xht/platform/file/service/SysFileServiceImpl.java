@@ -110,9 +110,6 @@ public class SysFileServiceImpl implements ISysFileService {
     @Transactional(rollbackFor = Exception.class)
     public SysFileResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo) {
         SysFileEntity sysFileEntity = fileStorageDao.uploadMultipartFile(uploadBo);
-        PreviewTypeEnum previewType = sysFileTypeDao.findBySuffix(sysFileEntity.getFileSuffix());
-        sysFileEntity.setFilePreviewType(previewType);
-        sysFileDao.save(sysFileEntity);
         return sysFileConverter.toResponse(sysFileEntity);
     }
 
@@ -147,8 +144,6 @@ public class SysFileServiceImpl implements ISysFileService {
     @Transactional(rollbackFor = Exception.class)
     public SysFileResponse mergeChunks(ChunkMergeBO chunkMergeBo) {
         SysFileEntity sysFileEntity = fileStorageDao.mergeChunks(chunkMergeBo);
-        // 合并入库发生在存储层，这里补写预览类型，与上传路径保持一致，否则预览时按类型找不到处理器
-        sysFileEntity.setFilePreviewType(sysFileTypeDao.findBySuffix(sysFileEntity.getFileSuffix()));
         sysFileDao.updateById(sysFileEntity);
         return sysFileConverter.toResponse(sysFileEntity);
     }

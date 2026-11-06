@@ -1,4 +1,4 @@
-package com.xht.framework.cache.constant;
+package com.xht.framework.cache.core;
 
 /**
  * 描述 ：redis常用常量

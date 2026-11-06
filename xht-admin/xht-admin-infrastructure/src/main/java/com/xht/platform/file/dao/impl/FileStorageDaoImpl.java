@@ -3,6 +3,8 @@ package com.xht.platform.file.dao.impl;
 import cn.hutool.core.io.FileUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.xht.framework.cache.core.CacheErrorCode;
+import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.common.constant.StringConstant;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
@@ -22,6 +24,7 @@ import com.xht.platform.common.file.utils.SysFileUtils;
 import com.xht.platform.file.FileMetadataSupplier;
 import com.xht.platform.file.dao.FileStorageDao;
 import com.xht.platform.file.dao.mapper.SysFileMapper;
+import com.xht.platform.file.domain.response.SysFilePreviewResponse;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileStatusEnum;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +38,8 @@ import java.io.FilterInputStream;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 描述：
@@ -59,6 +60,11 @@ public class FileStorageDaoImpl implements FileStorageDao {
      * 文件Mapper
      */
     private final SysFileMapper sysFileMapper;
+
+    /**
+     * redis仓库
+     */
+    private final RedisRepository redisRepository;
 
     /**
      * 上传文件
@@ -106,6 +112,13 @@ public class FileStorageDaoImpl implements FileStorageDao {
             throw e;
         } catch (Exception e) {
             log.error("文件上传异常:fileStoragePath:{} 信息:{}", fileStoragePath, e.getMessage(), e);
+            fileStorageRepository.remove(fileStoragePath);
+            throw new BusinessException(BusinessErrorCode.FILE_UPLOAD_FAIL, e.getMessage(), e);
+        }
+        try {
+            sysFileMapper.insert(sysFileEntity);
+        } catch (Exception e) {
+            log.error("文件记录入库失败，已清理存储文件：{}", fileStoragePath, e);
             fileStorageRepository.remove(fileStoragePath);
             throw new BusinessException(BusinessErrorCode.FILE_UPLOAD_FAIL, e.getMessage(), e);
         }
@@ -438,5 +451,44 @@ public class FileStorageDaoImpl implements FileStorageDao {
         wrapper.eq(SysFileEntity::getFileStatus, FileStatusEnum.ASSOCIATED);
         AssertUtils.isTrue(SqlHelper.retBool(sysFileMapper.update(wrapper)), BusinessErrorCode.FILE_DISASSOCIATE_FAIL);
     }
+
+    /**
+     * 保存文件预览信息
+     *
+     * @param cacheKey               文件存储cacheKey
+     * @param sysFilePreviewResponse 文件预览信息
+     * @param timeout                缓存超时时间
+     * @param unit                   缓存超时时间单位
+     */
+    @Override
+    public void saveFilePreview(String cacheKey, SysFilePreviewResponse sysFilePreviewResponse, long timeout, TimeUnit unit) {
+        AssertUtils.hasText(cacheKey, CacheErrorCode.CACHE_KEY_ILLEGAL);
+        AssertUtils.notNull(sysFilePreviewResponse, CacheErrorCode.CACHE_VALUE_ILLEGAL);
+        redisRepository.set(cacheKey, sysFilePreviewResponse, timeout, unit);
+    }
+
+    /**
+     * 根据文件存储cacheKey获取文件预览信息
+     *
+     * @param cacheKey 文件存储cacheKey
+     * @return 文件预览信息
+     */
+    @Override
+    public Optional<SysFilePreviewResponse> getFilePreview(String cacheKey) {
+        AssertUtils.hasText(cacheKey, CacheErrorCode.CACHE_KEY_ILLEGAL);
+        return redisRepository.getOptional(cacheKey);
+    }
+
+    /**
+     * 根据文件存储cacheKey删除文件预览信息
+     *
+     * @param cacheKey 文件存储cacheKey
+     */
+    @Override
+    public void deleteFilePreview(String cacheKey) {
+        AssertUtils.hasText(cacheKey, CacheErrorCode.CACHE_KEY_ILLEGAL);
+        redisRepository.delete(cacheKey);
+    }
+
 
 }

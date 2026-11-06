@@ -4,7 +4,6 @@ import com.xht.framework.common.domain.response.MetaResponse;
 import com.xht.framework.file.enums.StorageType;
 import com.xht.platform.common.file.core.FileMetadata;
 import com.xht.platform.file.enums.FileStatusEnum;
-import com.xht.platform.file.enums.PreviewTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -128,12 +127,6 @@ public class SysFileResponse extends MetaResponse {
      */
     @Schema(description = "文件关联时间（文件关联业务时时间）")
     private LocalDateTime fileAssociateTime;
-
-    /**
-     * 文件预览类型
-     */
-    @Schema(description = "文件预览类型")
-    private PreviewTypeEnum filePreviewType;
 
     /**
      * 文件描述

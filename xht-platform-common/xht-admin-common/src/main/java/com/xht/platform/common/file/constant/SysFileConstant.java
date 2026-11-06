@@ -37,4 +37,14 @@ public interface SysFileConstant {
      * 分片上传标识合法格式（字母、数字、中划线，长度8~64，防路径穿越）
      */
     String UPLOAD_ID_PATTERN = "^[a-zA-Z0-9-]{8,64}$";
+
+    /**
+     * 公共缓存的前缀
+     */
+    String CACHE_PREFIX = "file:public:";
+
+    /**
+     * 私有缓存的前缀
+     */
+    String CACHE_PREFIX_PRIVATE = "file:private:";
 }

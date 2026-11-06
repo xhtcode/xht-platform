@@ -1,7 +1,7 @@
 package com.xht.auth.security.web.authentication.qr;
 
 import cn.hutool.core.util.StrUtil;
-import com.xht.framework.cache.constant.CacheConstant;
+import com.xht.framework.cache.core.CacheConstant;
 import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.security.constant.SecurityConstant;
 import lombok.Data;

@@ -8,11 +8,14 @@ import com.xht.platform.common.file.bo.ChunkMergeBO;
 import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.FileMetadataSupplier;
+import com.xht.platform.file.domain.response.SysFilePreviewResponse;
 import com.xht.platform.file.entity.SysFileEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 描述： 文件存储数据访问层
@@ -141,5 +144,31 @@ public interface FileStorageDao {
      * @param fileStorageKey 文件存储key
      */
     void disassociateFile(String fileStorageKey);
+
+
+    /**
+     * 保存文件预览信息
+     *
+     * @param cacheKey               文件存储cacheKey
+     * @param sysFilePreviewResponse 文件预览信息
+     * @param timeout                缓存超时时间
+     * @param unit                   缓存超时时间单位
+     */
+    void saveFilePreview(String cacheKey, SysFilePreviewResponse sysFilePreviewResponse, long timeout, TimeUnit unit);
+
+    /**
+     * 根据文件存储cacheKey获取文件预览信息
+     *
+     * @param cacheKey 文件存储cacheKey
+     * @return 文件预览信息
+     */
+    Optional<SysFilePreviewResponse> getFilePreview(String cacheKey);
+
+    /**
+     * 根据文件存储cacheKey删除文件预览信息
+     *
+     * @param cacheKey 文件存储cacheKey
+     */
+    void deleteFilePreview(String cacheKey);
 
 }
