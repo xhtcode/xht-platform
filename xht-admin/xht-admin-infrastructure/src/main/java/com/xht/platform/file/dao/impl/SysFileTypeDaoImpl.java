@@ -4,18 +4,25 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.framework.cache.repository.RedisRepository;
+import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.StringUtils;
+import com.xht.platform.common.file.constant.SysFileConstant;
 import com.xht.platform.file.dao.SysFileTypeDao;
 import com.xht.platform.file.dao.mapper.SysFileTypeMapper;
 import com.xht.platform.file.domain.form.SysFileTypeForm;
 import com.xht.platform.file.domain.query.SysFileTypeQuery;
 import com.xht.platform.file.entity.SysFileTypeEntity;
 import com.xht.platform.file.enums.PreviewTypeEnum;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 描述： 文件预览类型配置数据访问层实现类
@@ -24,7 +31,10 @@ import java.util.Optional;
  **/
 @Slf4j
 @Repository
+@RequiredArgsConstructor
 public class SysFileTypeDaoImpl extends MapperRepositoryImpl<SysFileTypeMapper, SysFileTypeEntity> implements SysFileTypeDao {
+
+    private final RedisRepository redisRepository;
 
     /**
      * 分页查询文件预览类型配置
@@ -67,11 +77,17 @@ public class SysFileTypeDaoImpl extends MapperRepositoryImpl<SysFileTypeMapper, 
      */
     @Override
     public PreviewTypeEnum findBySuffix(String fileSuffix) {
-        LambdaQueryWrapper<SysFileTypeEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.select(SysFileTypeEntity::getId, SysFileTypeEntity::getPreviewType);
-        wrapper.eq(SysFileTypeEntity::getFileSuffix, fileSuffix);
-        SysFileTypeEntity one = getOne(wrapper);
-        return Optional.ofNullable(one).map(SysFileTypeEntity::getPreviewType).orElse(PreviewTypeEnum.OTHER);
+        AssertUtils.hasText(fileSuffix, "文件后缀不能为空");
+        String key = Keys.createKeyTemplate(SysFileConstant.CACHE_PREFIX_FILE_TYPE, fileSuffix);
+        SysFileTypeEntity entity = redisRepository.get(key);
+        if (Objects.isNull(entity)) {
+            LambdaQueryWrapper<SysFileTypeEntity> wrapper = new LambdaQueryWrapper<>();
+            wrapper.select(SysFileTypeEntity::getId, SysFileTypeEntity::getPreviewType);
+            wrapper.eq(SysFileTypeEntity::getFileSuffix, fileSuffix);
+            entity = getOne(wrapper);
+            redisRepository.set(key, entity, Keys.randomExpire(60, 120), TimeUnit.MINUTES);
+        }
+        return Optional.ofNullable(entity).map(SysFileTypeEntity::getPreviewType).orElse(PreviewTypeEnum.OTHER);
     }
 
     /**
@@ -88,6 +104,18 @@ public class SysFileTypeDaoImpl extends MapperRepositoryImpl<SysFileTypeMapper, 
         wrapper.set(SysFileTypeEntity::getFileSuffix, form.getFileSuffix());
         wrapper.eq(SysFileTypeEntity::getId, fileTypeId);
         update(wrapper);
+    }
+
+    /**
+     * 根据文件后缀删除缓存
+     *
+     * @param fileSuffix 文件后缀
+     */
+    @Override
+    public void removeCache(String fileSuffix) {
+        AssertUtils.hasText(fileSuffix, "文件后缀不能为空");
+        String key = Keys.createKeyTemplate(SysFileConstant.CACHE_PREFIX_FILE_TYPE, fileSuffix);
+        redisRepository.delete(key);
     }
 
     /**

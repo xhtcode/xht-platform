@@ -196,7 +196,7 @@ public class SysFileController {
     @Operation(summary = "初始化文件预览信息", parameters = {
             @Parameter(name = "fileStorageKey", description = "文件存储Key", required = true)
     })
-    @PostMapping("/preview/init")
+    @GetMapping("/preview/init")
     public R<SysFilePreviewResponse> initPreviewInfo(@RequestParam(name = "fileStorageKey") String fileStorageKey) {
         return R.ok().build(sysFileService.initPreviewInfo(fileStorageKey));
     }

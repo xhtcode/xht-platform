@@ -30,6 +30,13 @@ public interface ISysFileTypeService {
     void removeById(Long fileTypeId);
 
     /**
+     * 根据文件后缀删除缓存
+     *
+     * @param fileSuffix 文件后缀
+     */
+    void removeCache(String fileSuffix);
+
+    /**
      * 根据ID更新文件预览类型配置
      *
      * @param fileTypeId 配置ID

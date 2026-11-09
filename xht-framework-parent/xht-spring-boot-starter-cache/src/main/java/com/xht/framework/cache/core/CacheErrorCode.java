@@ -76,7 +76,28 @@ public enum CacheErrorCode implements ErrorCode {
     /**
      * 缓存请求限流
      */
-    CACHE_RATE_LIMIT(30415, "缓存请求限流，请稍后重试");;
+    CACHE_RATE_LIMIT(30415, "缓存请求限流，请稍后重试"),
+    /**
+     * 缓存key模板非法
+     */
+    CACHE_KEY_TEMPLATE_ILLEGAL(30416, "缓存key模板非法"),
+    /**
+     * 基础过期时间不能小于等于0
+     */
+    CACHE_BASE_TTL_ILLEGAL(30417, "基础过期时间不能小于等于0"),
+    /**
+     * 随机浮动范围不能小于等于0
+     */
+    CACHE_RANDOM_FLOAT_RANGE_ILLEGAL(30418, "随机浮动范围不能小于等于0"),
+    /**
+     * 最小过期时间不能小于0
+     */
+    CACHE_MIN_TTL_ILLEGAL(30419, "最小过期时间不能小于0"),
+    /**
+     * 最大过期时间不能小于等于最小过期时间
+     */
+    CACHE_MAX_TTL_ILLEGAL(30420, "最大过期时间不能小于等于最小过期时间"),
+    ;
 
     /**
      * 业务错误码

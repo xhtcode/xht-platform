@@ -41,7 +41,6 @@ public class DefaultFilePermissionFilter implements FilePermissionFilter {
      */
     @Override
     public void doFilter(SysFileEntity sysFileEntity) {
-
     }
 
     /**

@@ -10,6 +10,7 @@ import com.xht.framework.utils.file.XhtFileUtils;
 import com.xht.platform.common.file.bo.ChunkMergeBO;
 import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
+import com.xht.platform.file.SysFilePreviewBuilder;
 import com.xht.platform.file.converter.SysFileConverter;
 import com.xht.platform.file.dao.FileStorageDao;
 import com.xht.platform.file.dao.SysFileDao;
@@ -163,10 +164,10 @@ public class SysFileServiceImpl implements ISysFileService {
                 .findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey)
                 .orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
         filePermissionContext.check(sysFileEntity);
+        SysFilePreviewBuilder builder = SysFilePreviewBuilder.builder();
         PreviewTypeEnum previewType = sysFileTypeDao.findBySuffix(sysFileEntity.getFileSuffix());
-        SysFilePreviewResponse sysFilePreviewResponse = sysFileConverter.buildPreviewInfo(sysFileEntity);
-        sysFilePreviewResponse.setPreviewMode(previewType);
-        return sysFilePreviewResponse;
+        builder.previewMode(previewType);
+        return builder.build(sysFileEntity);
     }
 
     /**
@@ -201,8 +202,9 @@ public class SysFileServiceImpl implements ISysFileService {
     public void filePreview(HttpServletRequest request, HttpServletResponse response, String fileStorageKey) {
         SysFileEntity sysFileEntity = sysFileDao.findOneOptional(SysFileEntity::getFileStorageKey, fileStorageKey).orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
         filePermissionContext.check(sysFileEntity);
+        PreviewTypeEnum previewType = sysFileTypeDao.findBySuffix(sysFileEntity.getFileSuffix());
         for (FilePreview filePreview : filePreviewList) {
-            if (filePreview.supports(sysFileEntity.getFilePreviewType())) {
+            if (filePreview.supports(previewType)) {
                 filePreview.filePreview(request, response, sysFileEntity);
                 break;
             }

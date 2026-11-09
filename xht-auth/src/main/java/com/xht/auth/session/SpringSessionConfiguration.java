@@ -45,6 +45,8 @@ public class SpringSessionConfiguration implements BeanClassLoaderAware {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.registerModule(new Jdk8Module());
         objectMapper.registerModules(new CustomJacksonModule());
+        // 关闭默认的类型信息，避免@class序列化问题
+        objectMapper.deactivateDefaultTyping();
         return new Jackson2JsonRedisSerializer<>(objectMapper, Object.class);
     }
 

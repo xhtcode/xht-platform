@@ -1,12 +1,12 @@
 package com.xht.platform.file.domain.response;
 
+import com.xht.platform.file.enums.FileInitStatusEnum;
 import com.xht.platform.file.enums.PreviewTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Optional;
 
 /**
  * 描述： 文件预览初始化信息
@@ -23,6 +23,12 @@ public class SysFilePreviewResponse implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 状态
+     */
+    @Schema(description = "状态")
+    private FileInitStatusEnum initStatus;
+
+    /**
      * 文件完整原始名称（含后缀，优先取元数据，不受入库截断影响）
      */
     @Schema(description = "文件完整原始名称（含后缀）")
@@ -32,7 +38,7 @@ public class SysFilePreviewResponse implements Serializable {
      * 文件完整原始名称（含后缀，优先取元数据，不受入库截断影响）
      */
     @Schema(description = "文件完整原始名称（含后缀，优先取元数据，不受入库截断影响）")
-    private String fullOriginalFileName;
+    private String fileOriginalName;
 
     /**
      * 文件大小（单位：字节）
@@ -52,9 +58,17 @@ public class SysFilePreviewResponse implements Serializable {
     @Schema(description = "文件后缀")
     private String fileSuffix;
 
+    /**
+     * 预览模式
+     */
+    @Schema(description = "预览模式")
     private PreviewTypeEnum previewMode;
 
-    public String getPreviewModeValue() {
-        return Optional.ofNullable(previewMode).orElse(PreviewTypeEnum.OTHER).getDesc();
-    }
+    /**
+     * 预览ID
+     */
+    @Schema(description = "预览ID")
+    private String previewId;
+
+
 }

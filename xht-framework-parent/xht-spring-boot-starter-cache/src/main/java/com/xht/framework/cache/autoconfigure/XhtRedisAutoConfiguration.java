@@ -20,9 +20,7 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.serializer.*;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -56,7 +54,7 @@ public class XhtRedisAutoConfiguration {
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = getJsonRedisSerializer();
+        RedisSerializer<Object> jackson2JsonRedisSerializer = getJsonRedisSerializer();
         // string序列化
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer(StandardCharsets.UTF_8);
         // key
@@ -90,7 +88,7 @@ public class XhtRedisAutoConfiguration {
                 .build();
     }
 
-    public static Jackson2JsonRedisSerializer<Object> getJsonRedisSerializer() {
+    public static RedisSerializer<Object> getJsonRedisSerializer() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new CustomJacksonModule());
         // 所有属性访问器（字段、getter和setter），将自动检测所有字段属性
@@ -101,7 +99,7 @@ public class XhtRedisAutoConfiguration {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         // 自动查找并注册相关模块
         objectMapper.findAndRegisterModules();
-        return new Jackson2JsonRedisSerializer<>(objectMapper, Object.class);
+        return new GenericJackson2JsonRedisSerializer(objectMapper);
     }
 
 }

@@ -54,8 +54,19 @@ public class SysFileTypeServiceImpl implements ISysFileTypeService {
     @Transactional(rollbackFor = Exception.class)
     public void removeById(Long fileTypeId) {
         AssertUtils.notNull(fileTypeId, BusinessErrorCode.PARAM_ERROR);
-        requireExist(fileTypeId);
+        SysFileTypeEntity sysFileTypeEntity = requireExist(fileTypeId);
+        sysFileTypeDao.removeCache(sysFileTypeEntity.getFileSuffix());
         sysFileTypeDao.removeById(fileTypeId);
+    }
+
+    /**
+     * 根据文件后缀删除缓存
+     *
+     * @param fileSuffix 文件后缀
+     */
+    @Override
+    public void removeCache(String fileSuffix) {
+        sysFileTypeDao.removeCache(fileSuffix);
     }
 
     /**
@@ -68,7 +79,8 @@ public class SysFileTypeServiceImpl implements ISysFileTypeService {
     @Transactional(rollbackFor = Exception.class)
     public void updateById(Long fileTypeId, SysFileTypeForm form) {
         AssertUtils.notNull(fileTypeId, BusinessErrorCode.PARAM_ERROR);
-        requireExist(fileTypeId);
+        SysFileTypeEntity sysFileTypeEntity = requireExist(fileTypeId);
+        sysFileTypeDao.removeCache(sysFileTypeEntity.getFileSuffix());
         checkSuffixUnique(fileTypeId, form.getFileSuffix());
         sysFileTypeDao.updateFormRequest(fileTypeId, form);
     }

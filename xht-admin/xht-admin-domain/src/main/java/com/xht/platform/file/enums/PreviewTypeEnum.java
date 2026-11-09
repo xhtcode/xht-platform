@@ -1,5 +1,6 @@
 package com.xht.platform.file.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.xht.framework.common.enums.XhtEnum;
 import lombok.AllArgsConstructor;
@@ -63,4 +64,21 @@ public enum PreviewTypeEnum implements XhtEnum<String> {
      * 预览类型名称
      */
     private final String desc;
+
+    /**
+     * jackson 反序列化调用，根据字符串匹配枚举
+     */
+    @JsonCreator
+    public static PreviewTypeEnum getByValue(String value) {
+        if (value == null) {
+            return null;
+        }
+        for (PreviewTypeEnum e : PreviewTypeEnum.values()) {
+            if (e.getValue().equals(value)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
 }

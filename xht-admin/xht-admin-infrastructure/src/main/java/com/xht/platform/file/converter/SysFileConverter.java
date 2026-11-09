@@ -37,7 +37,7 @@ public interface SysFileConverter extends BasicConverter<SysFileEntity, SysFileF
         }
         SysFilePreviewResponse response = new SysFilePreviewResponse();
         response.setFileName(sysFileEntity.getFileStorageName());
-        response.setFullOriginalFileName(Optional.ofNullable(sysFileEntity.getFileMetadata()).map(FileMetadata::getFullOriginalFilename).orElse(""));
+        response.setFileOriginalName(Optional.ofNullable(sysFileEntity.getFileMetadata()).map(FileMetadata::getFullOriginalFilename).orElse(""));
         response.setFileSize(sysFileEntity.getFileSize());
         response.setFileSizeInfo(sysFileEntity.getFileSizeInfo());
         response.setFileSuffix(sysFileEntity.getFileSuffix());

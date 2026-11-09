@@ -41,10 +41,15 @@ public interface SysFileConstant {
     /**
      * 公共缓存的前缀
      */
-    String CACHE_PREFIX = "file:public:";
+    String CACHE_PREFIX = "file:public:{}";
 
     /**
      * 私有缓存的前缀
      */
-    String CACHE_PREFIX_PRIVATE = "file:private:";
+    String CACHE_PREFIX_PRIVATE = "file:private:{}";
+
+    /**
+     * 文件预览类型配置的缓存前缀
+     */
+    String CACHE_PREFIX_FILE_TYPE = "file:preview:type:{}";
 }
