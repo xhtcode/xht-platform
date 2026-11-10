@@ -10,8 +10,10 @@ import com.xht.platform.common.file.bo.ChunkMergeBO;
 import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.domain.form.FileMergeChunksForm;
+import com.xht.platform.file.domain.form.FilePreviewInitForm;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFilePreviewResponse;
+import com.xht.platform.file.domain.response.SysFilePreviewStatusResponse;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.service.ISysFileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -172,57 +174,74 @@ public class SysFileController {
     }
 
     /**
-     * 文件下载
-     *
-     * @param response       响应
-     * @param fileStorageKey 文件存储Key
-     */
-    @Operation(summary = "文件下载")
-    @GetMapping("/download/{fileStorageKey}")
-    public void downloadFile(HttpServletResponse response, @PathVariable String fileStorageKey) {
-        sysFileService.downloadFile(response, fileStorageKey);
-    }
-
-
-    /**
      * 初始化文件预览信息
-     * <p>前端打开预览前调用：返回文件名称、大小、类型以及预览/下载地址；
-     * 文件用途由服务端查库取得，权限校验在服务端完成，调用方只需提供文件存储Key</p>
+     * <p>支持登录、匿名公开、分享票据三种入口；匿名与分享入口需要放行，
+     * 登录态由 token 解析，权限由服务端决策器完成</p>
      *
-     * @param fileStorageKey 文件存储Key
+     * @param form     初始化请求
+     * @param request  请求
+     * @param response 响应
      * @return 预览初始化信息
      */
     @IgnoreAuth(aop = false)
-    @Operation(summary = "初始化文件预览信息", parameters = {
-            @Parameter(name = "fileStorageKey", description = "文件存储Key", required = true)
-    })
-    @GetMapping("/preview/init")
-    public R<SysFilePreviewResponse> initPreviewInfo(@RequestParam(name = "fileStorageKey") String fileStorageKey) {
-        return R.ok().build(sysFileService.initPreviewInfo(fileStorageKey));
+    @Operation(summary = "初始化文件预览信息")
+    @PostMapping("/preview/init")
+    public R<SysFilePreviewResponse> initPreviewInfo(@RequestBody FilePreviewInitForm form,
+                                                     HttpServletRequest request,
+                                                     HttpServletResponse response) {
+        return R.ok().build(sysFileService.initPreviewInfo(form, request, response));
     }
 
     /**
-     * 文件预览
-     * <p>文本文件按字节块分页返回 JSON，其余文件按原内容输出</p>
-     * <p>文本预览单页默认 64KB（约 2 万汉字），页尾对齐到换行符；续读时把上一页返回的 offset 原样回传，
-     * 也可按 pageNo 跳页。单页字节数可用 size 调整（4KB~256KB），编码可用 charset 指定，
-     * 不传时由服务端按 BOM、UTF-8 严格解码、GB18030 依次探测</p>
+     * 查询预览状态
      *
-     * @param request        请求
-     * @param response       响应
-     * @param fileStorageKey 文件存储Key
+     * @param previewId 预览ID
+     * @return 预览状态
      */
     @IgnoreAuth(aop = false)
-    @Operation(summary = "文件预览", parameters = {
-            @Parameter(name = "fileStorageKey", description = "文件存储Key", required = true),
-            @Parameter(name = "offset", description = "文本预览游标：上一页返回的 offset，续读时原样回传；优先于 pageNo"),
-            @Parameter(name = "pageNo", description = "文本预览页码，从 1 开始，未传 offset 时生效"),
-            @Parameter(name = "size", description = "文本预览单页字节数，默认 65536，取值 4096~262144"),
-            @Parameter(name = "charset", description = "文本编码，首屏可不传由服务端探测，后续请求建议回传")
+    @Operation(summary = "查询预览状态", parameters = {
+            @Parameter(name = "previewId", description = "预览ID", required = true)
     })
-    @GetMapping("/preview")
-    public void filePreview(HttpServletRequest request, HttpServletResponse response, @RequestParam(name = "fileStorageKey") String fileStorageKey) {
-        sysFileService.filePreview(request, response, fileStorageKey);
+    @GetMapping("/preview/status")
+    public R<SysFilePreviewStatusResponse> previewStatus(@RequestParam(name = "previewId") String previewId) {
+        return R.ok().build(sysFileService.previewStatus(previewId));
+    }
+
+    /**
+     * 文件预览内容
+     * <p>文本文件按字节块分页返回 JSON，其余文件按原内容输出；支持 Range</p>
+     *
+     * @param request   请求
+     * @param response  响应
+     * @param previewId 预览ID
+     */
+    @IgnoreAuth(aop = false)
+    @Operation(summary = "文件预览内容", parameters = {
+            @Parameter(name = "previewId", description = "预览ID", required = true),
+            @Parameter(name = "offset", description = "文本预览游标"),
+            @Parameter(name = "pageNo", description = "文本预览页码"),
+            @Parameter(name = "size", description = "文本预览单页字节数"),
+            @Parameter(name = "charset", description = "文本编码")
+    })
+    @GetMapping("/preview/content")
+    public void filePreview(HttpServletRequest request, HttpServletResponse response,
+                            @RequestParam(name = "previewId") String previewId) {
+        sysFileService.filePreview(request, response, previewId);
+    }
+
+    /**
+     * 文件下载
+     *
+     * @param response  响应
+     * @param previewId 预览ID
+     */
+    @IgnoreAuth(aop = false)
+    @Operation(summary = "文件下载", parameters = {
+            @Parameter(name = "previewId", description = "预览ID", required = true)
+    })
+    @GetMapping("/preview/download")
+    public void downloadFile(HttpServletResponse response, @RequestParam(name = "previewId") String previewId) {
+        sysFileService.downloadFile(response, previewId);
     }
 
 }

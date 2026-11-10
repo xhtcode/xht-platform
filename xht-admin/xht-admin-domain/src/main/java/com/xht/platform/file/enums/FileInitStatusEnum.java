@@ -25,7 +25,17 @@ public enum FileInitStatusEnum implements XhtEnum<Integer> {
     /**
      * NOT_SUPPORTED：不支持的文件类型
      */
-    NOT_SUPPORTED(2, "不支持的文件类型");
+    NOT_SUPPORTED(2, "不支持的文件类型"),
+
+    /**
+     * FAILED：文件转换失败
+     */
+    FAILED(3, "文件转换失败"),
+
+    /**
+     * DOWNLOAD_ONLY：仅支持下载，无在线预览
+     */
+    DOWNLOAD_ONLY(4, "仅支持下载");
 
     /**
      * 状态值

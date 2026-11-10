@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 系统模块启动类
@@ -15,6 +16,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  **/
 @Slf4j
 @EnableAsync
+@EnableScheduling
 @EnableCustomSwagger
 @EnableResourceServer
 @EnableDiscoveryClient

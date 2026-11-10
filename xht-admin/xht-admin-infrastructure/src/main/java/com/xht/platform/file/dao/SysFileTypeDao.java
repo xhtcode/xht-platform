@@ -41,6 +41,15 @@ public interface SysFileTypeDao extends MapperRepository<SysFileTypeEntity> {
     PreviewTypeEnum findBySuffix(String fileSuffix);
 
     /**
+     * 根据文件后缀查询完整配置
+     * <p>先查精确后缀，未命中再查 file_suffix 为空的默认行</p>
+     *
+     * @param fileSuffix 文件后缀
+     * @return 配置实体，未命中返回 null
+     */
+    SysFileTypeEntity findConfigBySuffix(String fileSuffix);
+
+    /**
      * 根据ID更新配置（仅更新表单中的字段）
      *
      * @param fileTypeId 配置ID

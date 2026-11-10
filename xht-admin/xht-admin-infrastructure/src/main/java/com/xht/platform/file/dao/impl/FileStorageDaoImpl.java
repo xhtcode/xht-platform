@@ -416,6 +416,18 @@ public class FileStorageDaoImpl implements FileStorageDao {
     }
 
     /**
+     * 删除存储对象
+     *
+     * @param fileStoragePath 文件存储路径
+     */
+    @Override
+    public void remove(String fileStoragePath) {
+        if (StringUtils.hasText(fileStoragePath)) {
+            fileStorageRepository.remove(fileStoragePath);
+        }
+    }
+
+    /**
      * 关联文件业务（单文件）：标记为已关联（ASSOCIATED）并记录关联时间
      * <p>
      * 禁止使用批处理：每次仅处理一个文件

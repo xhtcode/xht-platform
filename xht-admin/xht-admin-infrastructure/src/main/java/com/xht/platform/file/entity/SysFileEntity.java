@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.xht.framework.file.enums.StorageType;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
+import com.xht.platform.common.file.core.FileConfig;
 import com.xht.platform.common.file.core.FileMetadata;
+import com.xht.platform.file.enums.FileAccessScopeEnum;
 import com.xht.platform.file.enums.FileStatusEnum;
 import lombok.Data;
 
@@ -76,6 +78,18 @@ public class SysFileEntity extends BasicEntity implements Serializable {
      */
     @TableField(value = "file_used")
     private String fileUsed;
+
+    /**
+     * 访问范围：private/public
+     */
+    @TableField(value = "access_scope")
+    private FileAccessScopeEnum accessScope;
+
+    /**
+     * 文件级配置覆盖
+     */
+    @TableField(value = "file_config", typeHandler = JacksonTypeHandler.class)
+    private FileConfig fileConfig;
 
     /**
      * 文件存储类型

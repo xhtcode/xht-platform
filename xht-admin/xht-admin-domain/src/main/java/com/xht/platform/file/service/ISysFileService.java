@@ -4,8 +4,10 @@ import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.platform.common.file.bo.ChunkMergeBO;
 import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
+import com.xht.platform.file.domain.form.FilePreviewInitForm;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFilePreviewResponse;
+import com.xht.platform.file.domain.response.SysFilePreviewStatusResponse;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -78,32 +80,38 @@ public interface ISysFileService {
 
     /**
      * 初始化文件预览信息
-     * <p>返回预览所需的文件名称、大小、类型以及预览/下载地址；文件用途由服务端从文件记录中取得，
-     * 权限校验（含按用途细分的规则）在该方法内完成，无需调用方声明</p>
+     * <p>支持登录、匿名公开、分享票据三种入口；返回 previewId、文件信息、能力清单与转换状态</p>
      *
-     * @param fileStorageKey 文件存储Key
+     * @param form     初始化请求
+     * @param request  请求
+     * @param response 响应
      * @return 文件预览初始化信息
      */
-    SysFilePreviewResponse initPreviewInfo(String fileStorageKey);
+    SysFilePreviewResponse initPreviewInfo(FilePreviewInitForm form, HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     * 查询预览状态
+     *
+     * @param previewId 预览ID
+     * @return 预览状态
+     */
+    SysFilePreviewStatusResponse previewStatus(String previewId);
 
     /**
      * 文件下载
      *
-     * @param response       响应
-     * @param fileStorageKey 文件存储Key
+     * @param response  响应
+     * @param previewId 预览ID
      */
-    void downloadFile(HttpServletResponse response, String fileStorageKey);
+    void downloadFile(HttpServletResponse response, String previewId);
 
     /**
      * 文件预览
-     * <p>支持 Range 分段请求，可用于 PDF 分页加载、音视频拖动进度</p>
-     * <p>按文件存储路径直接输出原文件内容，不做格式转换；是否可内联渲染由调用方按文件后缀／MIME 判断。
-     * 支持 HTTP Range 分段请求（PDF 分页加载、视频拖动进度），命中区间返回 206 + Content-Range；
-     * 无 Range 头、Range 解析失败或多区间请求时退化为全量 200 响应；区间起点超出文件大小时返回 416</p>
+     * <p>按 previewId 解析会话与文件，支持 Range 分段请求</p>
      *
-     * @param request        请求
-     * @param response       响应
-     * @param fileStorageKey 文件存储Key
+     * @param request   请求
+     * @param response  响应
+     * @param previewId 预览ID
      */
-    void filePreview(HttpServletRequest request, HttpServletResponse response, String fileStorageKey);
+    void filePreview(HttpServletRequest request, HttpServletResponse response, String previewId);
 }

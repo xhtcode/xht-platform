@@ -52,4 +52,29 @@ public interface SysFileConstant {
      * 文件预览类型配置的缓存前缀
      */
     String CACHE_PREFIX_FILE_TYPE = "file:preview:type:{}";
+
+    /**
+     * 文件用途配置的缓存前缀
+     */
+    String CACHE_PREFIX_FILE_USED = "file:used:{}";
+
+    /**
+     * 文件模块全局配置的缓存前缀
+     */
+    String CACHE_PREFIX_FILE_SETTING = "file:setting:{}";
+
+    /**
+     * 预览会话缓存前缀
+     */
+    String CACHE_PREFIX_PREVIEW_SESSION = "file:preview:session:{}";
+
+    /**
+     * 预览初始化锁前缀
+     */
+    String CACHE_PREFIX_PREVIEW_INIT_LOCK = "file:preview:init:{}";
+
+    /**
+     * 分享票据前缀
+     */
+    String CACHE_PREFIX_SHARE_TICKET = "file:share:ticket:{}";
 }

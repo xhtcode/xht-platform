@@ -3,6 +3,7 @@ package com.xht.platform.controller.file;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.log.annotations.BLog;
+import com.xht.framework.oauth2.annotation.IsAdmin;
 import com.xht.framework.validation.Groups;
 import com.xht.platform.file.domain.form.SysFileTypeForm;
 import com.xht.platform.file.domain.query.SysFileTypeQuery;
@@ -36,6 +37,7 @@ public class SysFileTypeController {
      * @param form 文件预览类型配置表单
      * @return 操作结果
      */
+    @IsAdmin
     @Operation(summary = "创建文件预览类型配置")
     @PostMapping("/create")
     public R<Void> create(@Validated(Groups.Create.class) @RequestBody SysFileTypeForm form) {
@@ -49,6 +51,7 @@ public class SysFileTypeController {
      * @param fileTypeId 配置ID
      * @return 操作结果
      */
+    @IsAdmin
     @Operation(summary = "根据ID删除文件预览类型配置")
     @PostMapping("/remove/{fileTypeId}")
     public R<Void> removeById(@PathVariable Long fileTypeId) {
@@ -63,6 +66,7 @@ public class SysFileTypeController {
      * @param form       文件预览类型配置表单
      * @return 操作结果
      */
+    @IsAdmin
     @Operation(summary = "根据ID更新文件预览类型配置")
     @PostMapping("/update/{fileTypeId}")
     public R<Void> updateById(@PathVariable Long fileTypeId, @Validated(Groups.Update.class) @RequestBody SysFileTypeForm form) {
@@ -76,6 +80,7 @@ public class SysFileTypeController {
      * @param fileTypeId 配置ID
      * @return 文件预览类型配置
      */
+    @IsAdmin
     @Operation(summary = "根据ID查询文件预览类型配置")
     @GetMapping("/get/{fileTypeId}")
     public R<SysFileTypeResponse> findById(@PathVariable Long fileTypeId) {
@@ -88,6 +93,7 @@ public class SysFileTypeController {
      * @param query 分页查询参数
      * @return 分页结果
      */
+    @IsAdmin
     @Operation(summary = "分页查询文件预览类型配置")
     @PostMapping("/page")
     public R<PageResponse<SysFileTypeResponse>> findPageList(@RequestBody SysFileTypeQuery query) {

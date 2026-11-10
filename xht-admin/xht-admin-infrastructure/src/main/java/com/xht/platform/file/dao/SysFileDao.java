@@ -33,4 +33,21 @@ public interface SysFileDao extends MapperRepository<SysFileEntity> {
      */
     void updateFileStatusById(Long fileId, FileStatusEnum fileStatusEnum);
 
+    /**
+     * 统计指定用途的文件数
+     *
+     * @param fileUsed 文件用途
+     * @return 数量
+     */
+    long countByUsed(String fileUsed);
+
+    /**
+     * 按用途批量更新访问范围
+     *
+     * @param fileUsed    文件用途
+     * @param accessScope 访问范围
+     * @return 影响行数
+     */
+    int updateAccessScopeByUsed(String fileUsed, com.xht.platform.file.enums.FileAccessScopeEnum accessScope);
+
 }

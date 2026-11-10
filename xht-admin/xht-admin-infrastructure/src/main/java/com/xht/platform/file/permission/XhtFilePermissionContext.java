@@ -2,7 +2,10 @@ package com.xht.platform.file.permission;
 
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.utils.AssertUtils;
+import com.xht.platform.file.domain.access.FileAccessDecision;
+import com.xht.platform.file.domain.access.FileAccessSubject;
 import com.xht.platform.file.entity.SysFileEntity;
+import com.xht.platform.file.enums.FileActionEnum;
 import com.xht.platform.file.permission.filter.DefaultFilePermissionFilter;
 import com.xht.platform.file.permission.filter.FilePermissionFilter;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +33,35 @@ public class XhtFilePermissionContext {
      * 文件权限过滤器集合（按 order 升序）
      */
     private final List<FilePermissionFilter> filePermissionFilters;
+
+    /**
+     * 统一访问决策器
+     */
+    private final FileAccessEvaluator fileAccessEvaluator;
+
+    /**
+     * 计算访问决策（新链路使用，支持动作、分享主体与业务提供者）
+     *
+     * @param sysFileEntity 文件实体
+     * @param subject       访问主体
+     * @return 决策
+     */
+    public FileAccessDecision decide(SysFileEntity sysFileEntity, FileAccessSubject subject) {
+        AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
+        return fileAccessEvaluator.decide(sysFileEntity, subject);
+    }
+
+    /**
+     * 校验指定动作（新链路使用）
+     *
+     * @param sysFileEntity 文件实体
+     * @param subject       访问主体
+     * @param action        动作
+     */
+    public void check(SysFileEntity sysFileEntity, FileAccessSubject subject, FileActionEnum action) {
+        AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
+        fileAccessEvaluator.check(sysFileEntity, subject, action);
+    }
 
     /**
      * 执行文件权限校验：所有命中的过滤器依次执行，校验不通过抛业务异常（FILE_ACCESS_DENIED）

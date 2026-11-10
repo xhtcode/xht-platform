@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.platform.common.file.constant.SysFileConstant;
 import com.xht.platform.file.dao.SysFileTypeDao;
@@ -77,17 +76,43 @@ public class SysFileTypeDaoImpl extends MapperRepositoryImpl<SysFileTypeMapper, 
      */
     @Override
     public PreviewTypeEnum findBySuffix(String fileSuffix) {
-        AssertUtils.hasText(fileSuffix, "文件后缀不能为空");
-        String key = Keys.createKeyTemplate(SysFileConstant.CACHE_PREFIX_FILE_TYPE, fileSuffix);
-        SysFileTypeEntity entity = redisRepository.get(key);
-        if (Objects.isNull(entity)) {
-            LambdaQueryWrapper<SysFileTypeEntity> wrapper = new LambdaQueryWrapper<>();
-            wrapper.select(SysFileTypeEntity::getId, SysFileTypeEntity::getPreviewType);
-            wrapper.eq(SysFileTypeEntity::getFileSuffix, fileSuffix);
-            entity = getOne(wrapper);
-            redisRepository.set(key, entity, Keys.randomExpire(60, 120), TimeUnit.MINUTES);
-        }
+        SysFileTypeEntity entity = findConfigBySuffix(fileSuffix);
         return Optional.ofNullable(entity).map(SysFileTypeEntity::getPreviewType).orElse(PreviewTypeEnum.OTHER);
+    }
+
+    /**
+     * 根据文件后缀查询完整配置
+     * <p>先查精确后缀，未命中再查 file_suffix 为空的默认行</p>
+     *
+     * @param fileSuffix 文件后缀
+     * @return 配置实体，未命中返回 null
+     */
+    @Override
+    public SysFileTypeEntity findConfigBySuffix(String fileSuffix) {
+        String cacheKey = Keys.createKeyTemplate(SysFileConstant.CACHE_PREFIX_FILE_TYPE,
+                "config:" + (StringUtils.hasText(fileSuffix) ? fileSuffix : "__default__"));
+        SysFileTypeEntity cached = redisRepository.get(cacheKey);
+        if (Objects.nonNull(cached)) {
+            return cached;
+        }
+        LambdaQueryWrapper<SysFileTypeEntity> wrapper = new LambdaQueryWrapper<>();
+        if (StringUtils.hasText(fileSuffix)) {
+            wrapper.eq(SysFileTypeEntity::getFileSuffix, fileSuffix);
+        } else {
+            wrapper.isNull(SysFileTypeEntity::getFileSuffix);
+        }
+        wrapper.last("LIMIT 1");
+        SysFileTypeEntity entity = getOne(wrapper, false);
+        if (Objects.isNull(entity) && StringUtils.hasText(fileSuffix)) {
+            LambdaQueryWrapper<SysFileTypeEntity> defaultWrapper = new LambdaQueryWrapper<>();
+            defaultWrapper.isNull(SysFileTypeEntity::getFileSuffix);
+            defaultWrapper.last("LIMIT 1");
+            entity = getOne(defaultWrapper, false);
+        }
+        if (Objects.nonNull(entity)) {
+            redisRepository.set(cacheKey, entity, Keys.randomExpire(60, 120), TimeUnit.MINUTES);
+        }
+        return entity;
     }
 
     /**
@@ -102,6 +127,10 @@ public class SysFileTypeDaoImpl extends MapperRepositoryImpl<SysFileTypeMapper, 
         wrapper.set(SysFileTypeEntity::getPreviewType, form.getPreviewType());
         wrapper.set(SysFileTypeEntity::getPreviewName, form.getPreviewName());
         wrapper.set(SysFileTypeEntity::getFileSuffix, form.getFileSuffix());
+        wrapper.set(SysFileTypeEntity::getPreviewSource, form.getPreviewSource());
+        wrapper.set(SysFileTypeEntity::getConvertTarget, form.getConvertTarget());
+        wrapper.set(SysFileTypeEntity::getEnabled, form.getEnabled() == null ? 1 : form.getEnabled());
+        wrapper.set(SysFileTypeEntity::getSort, form.getSort() == null ? 0 : form.getSort());
         wrapper.eq(SysFileTypeEntity::getId, fileTypeId);
         update(wrapper);
     }
@@ -113,9 +142,13 @@ public class SysFileTypeDaoImpl extends MapperRepositoryImpl<SysFileTypeMapper, 
      */
     @Override
     public void removeCache(String fileSuffix) {
-        AssertUtils.hasText(fileSuffix, "文件后缀不能为空");
-        String key = Keys.createKeyTemplate(SysFileConstant.CACHE_PREFIX_FILE_TYPE, fileSuffix);
-        redisRepository.delete(key);
+        if (!StringUtils.hasText(fileSuffix)) {
+            redisRepository.delete(Keys.createKeyTemplate(SysFileConstant.CACHE_PREFIX_FILE_TYPE, "config:__default__"));
+            return;
+        }
+        redisRepository.delete(Keys.createKeyTemplate(SysFileConstant.CACHE_PREFIX_FILE_TYPE, fileSuffix));
+        redisRepository.delete(Keys.createKeyTemplate(SysFileConstant.CACHE_PREFIX_FILE_TYPE, "config:" + fileSuffix));
+        redisRepository.delete(Keys.createKeyTemplate(SysFileConstant.CACHE_PREFIX_FILE_TYPE, "config:__default__"));
     }
 
     /**

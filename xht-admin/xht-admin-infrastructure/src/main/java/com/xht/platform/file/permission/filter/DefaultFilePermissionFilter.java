@@ -1,6 +1,9 @@
 package com.xht.platform.file.permission.filter;
 
 import com.xht.platform.file.entity.SysFileEntity;
+import com.xht.platform.file.enums.FileActionEnum;
+import com.xht.platform.file.permission.FileAccessEvaluator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
@@ -8,20 +11,21 @@ import org.springframework.stereotype.Component;
 /**
  * 描述： 默认文件权限过滤器（兜底策略）
  * <p>
- * 对所有文件生效，作为链式校验的最后一道规则：管理员、文件上传人本人可访问，其他已登录用户拒绝；
- * 未登录请求在此不做判定——认证是接口层的职责（联调期预览/下载接口以 {@code @IgnoreAuth} 放开），
- * 待接口收回鉴权后未登录请求到不了这里
+ * 对所有文件生效，作为链式校验的最后一道规则：统一委托 {@link FileAccessEvaluator}，
+ * 由归属/管理员、公开范围、分享权限、业务提供者和配置闸门共同决定；
+ * 未登录访问私有文件会被拒绝，公开文件按匿名策略放行
  * <p>
- * 后续按文件用途细分规则（如合同附件仅授权人可见）时，新增 {@link FilePermissionFilter} 实现即可，
- * 会在本规则之前一起执行（叠加，任一不通过即拒绝）；
- * 若某个用途需要比本规则更宽松（如头像允许所有登录用户查看），把 {@link #support(SysFileEntity)}
- * 收窄为排除该用途即可，该用途的文件便不再受本规则约束
+ * 后续按文件用途细分规则时，新增 {@link com.xht.platform.file.permission.FilePermissionProvider} 实现即可，
+ * 决策器会把所有命中的提供者决策取交集
  *
  * @author xht
  **/
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class DefaultFilePermissionFilter implements FilePermissionFilter {
+
+    private final FileAccessEvaluator fileAccessEvaluator;
 
     /**
      * 是否处理该文件的权限校验：兜底实现，参与所有文件的校验
@@ -35,12 +39,13 @@ public class DefaultFilePermissionFilter implements FilePermissionFilter {
     }
 
     /**
-     * 权限校验：管理员或上传人本人可访问，其他用户拒绝
+     * 权限校验：通过统一决策器判断当前主体能否查看
      *
      * @param sysFileEntity 文件实体
      */
     @Override
     public void doFilter(SysFileEntity sysFileEntity) {
+        fileAccessEvaluator.check(sysFileEntity, fileAccessEvaluator.currentSubject(), FileActionEnum.PREVIEW);
     }
 
     /**
