@@ -1,6 +1,8 @@
 package com.xht.platform.file.dao;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.MapperRepository;
+import com.xht.platform.file.domain.query.SysFileUsedQuery;
 import com.xht.platform.file.entity.SysFileUsedEntity;
 
 import java.util.List;
@@ -22,11 +24,15 @@ public interface SysFileUsedDao extends MapperRepository<SysFileUsedEntity> {
     Optional<SysFileUsedEntity> findByCode(String usedCode);
 
     /**
-     * 查询全部用途
+     * 分页查询用途
+     * <p>
+     * 查询条件均为动态条件：用途编码、用途名称模糊匹配，其余字段非空时才参与等值过滤
      *
-     * @return 用途列表
+     * @param page  分页对象（包含分页参数与排序信息）
+     * @param query 查询参数
+     * @return 分页结果
      */
-    List<SysFileUsedEntity> findAll();
+    Page<SysFileUsedEntity> findPageList(Page<SysFileUsedEntity> page, SysFileUsedQuery query);
 
     /**
      * 查询全部启用用途

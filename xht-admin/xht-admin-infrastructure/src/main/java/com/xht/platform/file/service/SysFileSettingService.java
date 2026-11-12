@@ -6,12 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 描述： 文件模块全局配置服务
@@ -157,7 +152,7 @@ public class SysFileSettingService {
                         overridable.add(entity.getSettingKey());
                     }
                 }
-                this.cache = java.util.Collections.unmodifiableMap(loaded);
+                this.cache = Collections.unmodifiableMap(loaded);
                 this.overridableKeys = Set.copyOf(overridable);
                 this.loadedAt = now;
             } catch (Exception e) {

@@ -1,5 +1,6 @@
 package com.xht.platform.file.service;
 
+import cn.hutool.core.date.DateUtil;
 import com.xht.framework.file.core.FileStorageRepository;
 import com.xht.framework.file.core.UploadResponse;
 import com.xht.platform.file.convert.FileConverter;
@@ -14,16 +15,12 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 描述： 文件转换执行器
@@ -35,8 +32,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class FileConvertExecutor {
-
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     private final SysFileConvertDao sysFileConvertDao;
 
@@ -100,7 +95,7 @@ public class FileConvertExecutor {
                 throw new IllegalStateException("转换产物为空");
             }
 
-            String storagePath = "convert/" + LocalDate.now().format(DATE_FORMAT) + "/"
+            String storagePath = "convert/" + DateUtil.now() + "/"
                     + task.getId() + "." + targetExtension;
             UploadResponse upload;
             try (InputStream in = Files.newInputStream(target)) {

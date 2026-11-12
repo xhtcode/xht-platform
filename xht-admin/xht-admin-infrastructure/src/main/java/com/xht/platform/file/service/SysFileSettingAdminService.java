@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * 描述： 文件全局配置管理服务
@@ -124,7 +125,7 @@ public class SysFileSettingAdminService implements ISysFileSettingAdminService {
             }
         }
         if (StringUtils.hasText(entity.getOverrideOptions())) {
-            boolean matched = List.of(entity.getOverrideOptions().split(",")).stream()
+            boolean matched = Stream.of(entity.getOverrideOptions().split(","))
                     .map(String::trim)
                     .anyMatch(option -> option.equalsIgnoreCase(value));
             if (!matched) {

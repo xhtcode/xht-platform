@@ -63,9 +63,9 @@ public class WatermarkService {
                     content.setNonStrokingColor(new Color(120, 120, 120));
                     float width = page.getMediaBox().getWidth();
                     float height = page.getMediaBox().getHeight();
-                    drawText(content, safeText, 40, 40, 30);
-                    drawText(content, safeText, width / 2 - 120, height / 2, 30);
-                    drawText(content, safeText, width - 260, height - 100, 30);
+                    drawText(content, safeText, 40, 40);
+                    drawText(content, safeText, width / 2 - 120, height / 2);
+                    drawText(content, safeText, width - 260, height - 100);
                 }
             }
             document.save(output);
@@ -134,8 +134,8 @@ public class WatermarkService {
     /**
      * 绘制旋转文字
      */
-    private void drawText(PDPageContentStream content, String text, float x, float y, float angle) throws Exception {
-        double radians = Math.toRadians(angle);
+    private void drawText(PDPageContentStream content, String text, float x, float y) throws Exception {
+        double radians = Math.toRadians((float) 30);
         float cos = (float) Math.cos(radians);
         float sin = (float) Math.sin(radians);
         content.beginText();

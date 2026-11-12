@@ -155,6 +155,19 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
         return getBaseMapper().update(null, wrapper);
     }
 
+    /**
+     * 根据文件存储键查询文件
+     *
+     * @param fileStorageKey 文件存储键
+     * @return 文件信息
+     */
+    @Override
+    public SysFileEntity findByFileStorageKey(String fileStorageKey) {
+        LambdaQueryWrapper<SysFileEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysFileEntity::getFileStorageKey, fileStorageKey);
+        return super.getOne(wrapper);
+    }
+
     @Override
     protected SFunction<SysFileEntity, ?> getFieldId() {
         return SysFileEntity::getId;

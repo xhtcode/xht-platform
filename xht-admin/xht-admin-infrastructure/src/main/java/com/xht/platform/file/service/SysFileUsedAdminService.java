@@ -1,12 +1,16 @@
 package com.xht.platform.file.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.platform.file.dao.SysFileDao;
 import com.xht.platform.file.dao.SysFileUsedDao;
 import com.xht.platform.file.domain.form.SysFileUsedForm;
+import com.xht.platform.file.domain.query.SysFileUsedQuery;
 import com.xht.platform.file.domain.response.SysFileUsedResponse;
 import com.xht.platform.file.entity.SysFileUsedEntity;
 import com.xht.platform.file.enums.FileAccessScopeEnum;
@@ -47,12 +51,27 @@ public class SysFileUsedAdminService implements ISysFileUsedAdminService {
     }
 
     /**
-     * 全部用途列表
+     * 分页查询用途
      *
-     * @return 用途列表
+     * @param query 分页查询参数
+     * @return 分页结果
      */
-    public List<SysFileUsedResponse> listAll() {
-        return sysFileUsedDao.findAll().stream().map(this::toResponse).toList();
+    public PageResponse<SysFileUsedResponse> findPageList(SysFileUsedQuery query) {
+        Page<SysFileUsedEntity> page = sysFileUsedDao.findPageList(PageTool.getPage(query), query);
+        return PageTool.createPageVo(page.getCurrent(), page.getSize(), page.getTotal(),
+                page.getRecords().stream().map(this::toResponse).toList());
+    }
+
+    /**
+     * 根据ID查询用途
+     *
+     * @param id 用途ID
+     * @return 用途详情
+     */
+    public SysFileUsedResponse findById(Long id) {
+        SysFileUsedEntity entity = sysFileUsedDao.findById(id);
+        AssertUtils.notNull(entity, BusinessErrorCode.FILE_USED_NOT_EXIST);
+        return toResponse(entity);
     }
 
     /**

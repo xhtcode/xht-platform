@@ -2,9 +2,11 @@ package com.xht.platform.file.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.platform.file.dao.SysFileUsedDao;
 import com.xht.platform.file.dao.mapper.SysFileUsedMapper;
+import com.xht.platform.file.domain.query.SysFileUsedQuery;
 import com.xht.platform.file.entity.SysFileUsedEntity;
 import org.springframework.stereotype.Repository;
 
@@ -25,8 +27,15 @@ public class SysFileUsedDaoImpl extends MapperRepositoryImpl<SysFileUsedMapper, 
     }
 
     @Override
-    public List<SysFileUsedEntity> findAll() {
-        return list();
+    public Page<SysFileUsedEntity> findPageList(Page<SysFileUsedEntity> page, SysFileUsedQuery query) {
+        LambdaQueryWrapper<SysFileUsedEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.like(condition(query.getUsedCode()), SysFileUsedEntity::getUsedCode, query.getUsedCode());
+        wrapper.like(condition(query.getUsedName()), SysFileUsedEntity::getUsedName, query.getUsedName());
+        wrapper.eq(condition(query.getEnabled()), SysFileUsedEntity::getEnabled, query.getEnabled());
+        wrapper.eq(condition(query.getBuiltIn()), SysFileUsedEntity::getBuiltIn, query.getBuiltIn());
+        wrapper.orderByAsc(SysFileUsedEntity::getSort);
+        wrapper.orderByAsc(SysFileUsedEntity::getId);
+        return page(page, wrapper);
     }
 
     @Override

@@ -1,16 +1,13 @@
 package com.xht.platform.file.policy;
 
+import com.xht.framework.utils.SafeGetUtil;
 import com.xht.framework.utils.StringUtils;
 import com.xht.platform.file.dao.SysFileTypeDao;
 import com.xht.platform.file.domain.access.FilePolicy;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.entity.SysFileTypeEntity;
 import com.xht.platform.file.entity.SysFileUsedEntity;
-import com.xht.platform.file.enums.FileAccessScopeEnum;
-import com.xht.platform.file.enums.ImageModeEnum;
-import com.xht.platform.file.enums.PreviewSourceEnum;
-import com.xht.platform.file.enums.PreviewTypeEnum;
-import com.xht.platform.file.enums.WatermarkLevelEnum;
+import com.xht.platform.file.enums.*;
 import com.xht.platform.file.service.SysFileSettingService;
 import com.xht.platform.file.service.SysFileUsedService;
 import lombok.RequiredArgsConstructor;
@@ -31,10 +28,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class FilePolicyResolver {
 
-    /**
-     * 全局配置：默认用途
-     */
-    private static final String KEY_DEFAULT_USED = "file.default-used";
     /**
      * 全局配置：默认允许下载
      */
@@ -73,66 +66,53 @@ public class FilePolicyResolver {
     /**
      * 解析文件最终生效策略
      *
-     * @param file 文件实体
+     * @param sysFileEntity 文件实体
      * @return 生效策略
      */
-    public FilePolicy resolve(SysFileEntity file) {
-        String usedCode = StringUtils.hasText(file.getFileUsed())
-                ? file.getFileUsed()
-                : sysFileSettingService.getString(KEY_DEFAULT_USED, "temp");
+    public FilePolicy resolve(SysFileEntity sysFileEntity) {
+        String usedCode = StringUtils.emptyToDefault(sysFileEntity.getFileUsed(), "temp");
         SysFileUsedEntity used = sysFileUsedService.findByCode(usedCode);
         if (Objects.isNull(used)) {
             used = sysFileUsedService.findByCode("other");
-            log.warn("文件用途 [{}] 未配置，按 other 兜底，fileId={}", usedCode, file.getId());
+            log.warn("文件用途 [{}] 未配置，按 other 兜底，fileId={}", usedCode, sysFileEntity.getId());
         }
-        SysFileTypeEntity type = sysFileTypeDao.findConfigBySuffix(file.getFileSuffix());
-        Map<String, Object> fileConfig = Objects.isNull(file.getFileConfig()) ? Map.of() : file.getFileConfig();
-
-        PreviewTypeEnum previewType = Objects.isNull(type) || Objects.isNull(type.getPreviewType())
-                ? PreviewTypeEnum.OTHER : type.getPreviewType();
-        PreviewSourceEnum previewSource = Objects.isNull(type) || Objects.isNull(type.getPreviewSource())
-                ? PreviewSourceEnum.ORIGINAL : type.getPreviewSource();
-        String convertTarget = Objects.isNull(type) ? null : type.getConvertTarget();
-
-        boolean usedDownload = used == null || !Objects.equals(used.getDownloadAllowed(), 0);
-        boolean usedPrint = used == null || !Objects.equals(used.getPrintAllowed(), 0);
-        boolean usedShare = used == null || !Objects.equals(used.getShareAllowed(), 0);
-        boolean publicAllowed = used != null && Objects.equals(used.getPublicAllowed(), 1);
-
+        SysFileTypeEntity sysFileTypeEntity = sysFileTypeDao.findConfigBySuffix(sysFileEntity.getFileSuffix());
+        Map<String, Object> fileConfig = Objects.isNull(sysFileEntity.getFileConfig()) ? Map.of() : sysFileEntity.getFileConfig();
+        PreviewTypeEnum previewType = SafeGetUtil.getSafe(sysFileTypeEntity, SysFileTypeEntity::getPreviewType, () -> PreviewTypeEnum.OTHER);
+        PreviewSourceEnum previewSource = SafeGetUtil.getSafe(sysFileTypeEntity, SysFileTypeEntity::getPreviewSource, () -> PreviewSourceEnum.ORIGINAL);
+        String convertTarget = SafeGetUtil.getSafe(sysFileTypeEntity, SysFileTypeEntity::getConvertTarget);
+        boolean usedDownload = Objects.equals(used.getDownloadAllowed(), 0);
+        boolean usedPrint = Objects.equals(used.getPrintAllowed(), 0);
+        boolean usedShare = Objects.equals(used.getShareAllowed(), 0);
+        boolean publicAllowed = Objects.equals(used.getPublicAllowed(), 1);
         boolean downloadAllowed = resolveTightenBoolean(fileConfig, "downloadAllowed",
                 KEY_DOWNLOAD_DEFAULT, usedDownload && sysFileSettingService.getBoolean(KEY_DOWNLOAD_DEFAULT, true));
         boolean printAllowed = resolveTightenBoolean(fileConfig, "printAllowed",
                 KEY_PRINT_DEFAULT, usedPrint && sysFileSettingService.getBoolean(KEY_PRINT_DEFAULT, true));
         boolean shareAllowed = resolveTightenBoolean(fileConfig, "shareAllowed",
                 KEY_SHARE_ENABLED, usedShare && sysFileSettingService.getBoolean(KEY_SHARE_ENABLED, true));
-
-        int defaultShareExpire = used != null && used.getShareExpireDays() != null
-                ? used.getShareExpireDays()
-                : sysFileSettingService.getInt(KEY_SHARE_EXPIRE_DAYS, 7);
+        int defaultShareExpire = SafeGetUtil.getSafe(used, SysFileUsedEntity::getShareExpireDays, () -> sysFileSettingService.getInt(KEY_SHARE_EXPIRE_DAYS, 7));
         Integer shareExpireDays = resolveTightenInt(fileConfig, "shareExpireDays",
                 KEY_SHARE_EXPIRE_DAYS, defaultShareExpire);
 
-        int defaultMaxAccess = used != null && used.getShareMaxAccessCount() != null
+        int defaultMaxAccess = used.getShareMaxAccessCount() != null
                 ? used.getShareMaxAccessCount()
                 : sysFileSettingService.getInt(KEY_SHARE_MAX_ACCESS, 0);
         Integer shareMaxAccess = resolveTightenInt(fileConfig, "shareMaxAccessCount",
                 KEY_SHARE_MAX_ACCESS, defaultMaxAccess);
 
-        WatermarkLevelEnum usedWatermark = WatermarkLevelEnum.getByValue(
-                used == null ? null : used.getWatermarkLevel());
+        WatermarkLevelEnum usedWatermark = WatermarkLevelEnum.getByValue(used.getWatermarkLevel());
         if (usedWatermark == null) {
             usedWatermark = WatermarkLevelEnum.getByValue(
                     sysFileSettingService.getString(KEY_WATERMARK_LEVEL, "l1"));
         }
         WatermarkLevelEnum watermarkLevel = resolveWatermark(fileConfig, usedWatermark);
-
-        ImageModeEnum usedImageMode = ImageModeEnum.getByValue(used == null ? null : used.getImageMode());
+        ImageModeEnum usedImageMode = ImageModeEnum.getByValue(used.getImageMode());
         if (usedImageMode == null) {
             usedImageMode = ImageModeEnum.getByValue(
                     sysFileSettingService.getString(KEY_IMAGE_MODE, "original"));
         }
         ImageModeEnum imageMode = resolveImageMode(fileConfig, usedImageMode);
-
         // 图片按用途/文件级策略决定是否转换；Office 等非图片类型走后缀配置
         if (PreviewTypeEnum.IMAGE == previewType) {
             if (ImageModeEnum.PDF == imageMode) {
@@ -142,22 +122,20 @@ public class FilePolicyResolver {
             } else if (ImageModeEnum.WEBP == imageMode) {
                 previewSource = PreviewSourceEnum.CONVERT;
                 convertTarget = "webp";
-            } else if (isIncompatibleImage(file.getFileSuffix())) {
+            } else if (isIncompatibleImage(sysFileEntity.getFileSuffix())) {
                 previewSource = PreviewSourceEnum.CONVERT;
                 convertTarget = "png";
             }
         }
-
-        FileAccessScopeEnum accessScope = Objects.nonNull(file.getAccessScope())
-                ? file.getAccessScope()
-                : (used == null ? FileAccessScopeEnum.PRIVATE : used.getAccessScope());
+        FileAccessScopeEnum accessScope = Objects.nonNull(sysFileEntity.getAccessScope())
+                ? sysFileEntity.getAccessScope()
+                : used.getAccessScope();
         if (!publicAllowed) {
             accessScope = FileAccessScopeEnum.PRIVATE;
         }
-
         return FilePolicy.builder()
                 .usedCode(usedCode)
-                .usedName(used == null ? usedCode : used.getUsedName())
+                .usedName(used.getUsedName())
                 .previewType(previewType)
                 .previewSource(previewSource)
                 .convertTarget(convertTarget)
@@ -193,10 +171,10 @@ public class FilePolicyResolver {
      * 解析只能收紧的布尔覆盖
      * <p>用户只能把 true 改成 false，不能把 false 改成 true</p>
      *
-     * @param fileConfig  文件级配置
-     * @param key         文件级 key
-     * @param globalKey   全局配置 key，用于判断是否允许覆盖
-     * @param baseValue   基础值
+     * @param fileConfig 文件级配置
+     * @param key        文件级 key
+     * @param globalKey  全局配置 key，用于判断是否允许覆盖
+     * @param baseValue  基础值
      * @return 最终值
      */
     private boolean resolveTightenBoolean(Map<String, Object> fileConfig, String key, String globalKey, boolean baseValue) {

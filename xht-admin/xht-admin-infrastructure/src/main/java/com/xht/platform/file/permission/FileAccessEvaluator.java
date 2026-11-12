@@ -2,7 +2,6 @@ package com.xht.platform.file.permission;
 
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
-import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.platform.file.domain.access.FileAccessDecision;
 import com.xht.platform.file.domain.access.FileAccessSubject;
@@ -59,7 +58,7 @@ public class FileAccessEvaluator {
      * @return 决策
      */
     public FileAccessDecision decide(SysFileEntity file, FileAccessSubject subject) {
-        if (Objects.isNull(file) || Objects.isNull(subject) || Objects.isNull(subject.getType())) {
+        if (Objects.isNull(subject) || Objects.isNull(subject.getType())) {
             return FileAccessDecision.denyAll();
         }
         FilePolicy policy = filePolicyResolver.resolve(file);
@@ -201,18 +200,6 @@ public class FileAccessEvaluator {
         if (!allowed) {
             throw new BusinessException(BusinessErrorCode.FILE_ACCESS_DENIED);
         }
-    }
-
-    /**
-     * 获取当前登录主体，未登录返回匿名主体
-     *
-     * @return 访问主体
-     */
-    public FileAccessSubject currentSubject() {
-        if (SecurityUtils.isLogin()) {
-            return FileAccessSubject.user(SecurityUtils.getUserId(), SecurityUtils.getUserName(), SecurityUtils.isAdmin());
-        }
-        return FileAccessSubject.anonymous();
     }
 
 }

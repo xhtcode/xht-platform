@@ -89,25 +89,25 @@ public class SysFileTypeDaoImpl extends MapperRepositoryImpl<SysFileTypeMapper, 
      */
     @Override
     public SysFileTypeEntity findConfigBySuffix(String fileSuffix) {
-        String cacheKey = Keys.createKeyTemplate(SysFileConstant.CACHE_PREFIX_FILE_TYPE,
-                "config:" + (StringUtils.hasText(fileSuffix) ? fileSuffix : "__default__"));
+        String cacheKey = Keys.createKey(SysFileConstant.CACHE_PREFIX_FILE_TYPE, "config", StringUtils.emptyToDefault(fileSuffix, "__default__"));
         SysFileTypeEntity cached = redisRepository.get(cacheKey);
         if (Objects.nonNull(cached)) {
             return cached;
         }
+
+
         LambdaQueryWrapper<SysFileTypeEntity> wrapper = new LambdaQueryWrapper<>();
         if (StringUtils.hasText(fileSuffix)) {
             wrapper.eq(SysFileTypeEntity::getFileSuffix, fileSuffix);
         } else {
             wrapper.isNull(SysFileTypeEntity::getFileSuffix);
         }
-        wrapper.last("LIMIT 1");
         SysFileTypeEntity entity = getOne(wrapper, false);
+
         if (Objects.isNull(entity) && StringUtils.hasText(fileSuffix)) {
             LambdaQueryWrapper<SysFileTypeEntity> defaultWrapper = new LambdaQueryWrapper<>();
             defaultWrapper.isNull(SysFileTypeEntity::getFileSuffix);
-            defaultWrapper.last("LIMIT 1");
-            entity = getOne(defaultWrapper, false);
+            entity = getOne(defaultWrapper);
         }
         if (Objects.nonNull(entity)) {
             redisRepository.set(cacheKey, entity, Keys.randomExpire(60, 120), TimeUnit.MINUTES);

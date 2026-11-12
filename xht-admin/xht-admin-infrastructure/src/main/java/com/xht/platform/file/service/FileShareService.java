@@ -31,9 +31,7 @@ import com.xht.platform.file.domain.session.ShareTicket;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.entity.SysFileShareEntity;
 import com.xht.platform.file.entity.SysFileShareReceiverEntity;
-import com.xht.platform.file.enums.FileAccessSubjectTypeEnum;
 import com.xht.platform.file.enums.ShareModeEnum;
-import com.xht.platform.file.enums.SharePermissionEnum;
 import com.xht.platform.file.permission.FileAccessEvaluator;
 import com.xht.platform.file.policy.FilePolicyResolver;
 import com.xht.platform.file.utils.AccessCodeUtils;
@@ -68,7 +66,6 @@ import java.util.concurrent.TimeUnit;
 public class FileShareService implements ISysFileShareService {
 
     private static final String FAIL_KEY_TOKEN = "file:share:code:fail:{}:{}";
-    private static final String FAIL_KEY_USER = "file:share:code:fail:user:{}:{}";
 
     private final SysFileShareDao sysFileShareDao;
 
@@ -136,9 +133,9 @@ public class FileShareService implements ISysFileShareService {
         boolean requireCode = form.getRequireCode() != null
                 ? form.getRequireCode()
                 : sysFileSettingService.getBoolean(
-                        ShareModeEnum.LINK == form.getShareMode()
-                                ? "share.link.require-code-default" : "share.user.require-code-default",
-                        ShareModeEnum.LINK == form.getShareMode());
+                ShareModeEnum.LINK == form.getShareMode()
+                ? "share.link.require-code-default" : "share.user.require-code-default",
+                ShareModeEnum.LINK == form.getShareMode());
         if (!requireCode && ShareModeEnum.LINK == form.getShareMode()) {
             int noCodeMax = sysFileSettingService.getInt("share.link.no-code-max-expire-days", 7);
             expireDays = Math.min(expireDays, Math.max(1, noCodeMax));
@@ -600,7 +597,6 @@ public class FileShareService implements ISysFileShareService {
             try {
                 count = Integer.parseInt(text);
             } catch (NumberFormatException ignored) {
-                count = 0;
             }
         }
         if (count >= limit) {
@@ -747,7 +743,8 @@ public class FileShareService implements ISysFileShareService {
             case USER -> FileAccessSubject.user(session.getUserId(), session.getUserName(), session.isAdmin());
             case ANON -> FileAccessSubject.anonymous();
             case SHARE_LINK -> FileAccessSubject.shareLink(session.getShareId(), session.getSharePermission());
-            case SHARE_USER -> FileAccessSubject.shareUser(session.getShareId(), session.getReceiverId(), session.getSharePermission());
+            case SHARE_USER ->
+                    FileAccessSubject.shareUser(session.getShareId(), session.getReceiverId(), session.getSharePermission());
         };
     }
 

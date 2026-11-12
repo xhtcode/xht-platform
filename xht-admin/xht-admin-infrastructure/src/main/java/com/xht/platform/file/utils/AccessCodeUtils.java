@@ -87,7 +87,7 @@ public final class AccessCodeUtils {
      * 编码提取码
      *
      * @param code 提取码
-     * @return BCrypt 哈希
+     * @return Bcrypt 哈希
      */
     public static String encode(String code) {
         return ENCODER.encode(normalize(code));

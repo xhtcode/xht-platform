@@ -50,4 +50,11 @@ public interface SysFileDao extends MapperRepository<SysFileEntity> {
      */
     int updateAccessScopeByUsed(String fileUsed, com.xht.platform.file.enums.FileAccessScopeEnum accessScope);
 
+    /**
+     * 根据文件存储键查询文件
+     *
+     * @param fileStorageKey 文件存储键
+     * @return 文件信息
+     */
+    SysFileEntity findByFileStorageKey(String fileStorageKey);
 }

@@ -1,9 +1,11 @@
 package com.xht.platform.controller.file;
 
 import com.xht.framework.common.domain.R;
+import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.IsAdmin;
 import com.xht.platform.file.domain.form.SysFileUsedForm;
+import com.xht.platform.file.domain.query.SysFileUsedQuery;
 import com.xht.platform.file.domain.response.SysFileUsedResponse;
 import com.xht.platform.file.service.ISysFileUsedAdminService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,15 +40,29 @@ public class SysFileUsedController {
     }
 
     /**
-     * 全部用途列表
+     * 分页查询用途
      *
-     * @return 用途列表
+     * @param query 分页查询参数
+     * @return 分页结果
      */
     @IsAdmin
-    @Operation(summary = "全部用途列表")
-    @GetMapping("/list-all")
-    public R<List<SysFileUsedResponse>> listAll() {
-        return R.ok().build(sysFileUsedAdminService.listAll());
+    @Operation(summary = "分页查询用途")
+    @PostMapping("/page")
+    public R<PageResponse<SysFileUsedResponse>> findPageList(@RequestBody SysFileUsedQuery query) {
+        return R.ok().build(sysFileUsedAdminService.findPageList(query));
+    }
+
+    /**
+     * 根据ID查询用途
+     *
+     * @param id 用途ID
+     * @return 用途详情
+     */
+    @IsAdmin
+    @Operation(summary = "根据ID查询用途")
+    @GetMapping("/get/{id}")
+    public R<SysFileUsedResponse> findById(@PathVariable Long id) {
+        return R.ok().build(sysFileUsedAdminService.findById(id));
     }
 
     /**
