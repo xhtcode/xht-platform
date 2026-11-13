@@ -16,16 +16,17 @@ import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.converter.SysFileConverter;
 import com.xht.platform.file.dao.FileStorageDao;
 import com.xht.platform.file.dao.SysFileDao;
-import com.xht.platform.file.dao.SysFileShareReceiverDao;
 import com.xht.platform.file.domain.access.FileAccessDecision;
 import com.xht.platform.file.domain.access.FileAccessSubject;
 import com.xht.platform.file.domain.access.FilePolicy;
 import com.xht.platform.file.domain.form.FilePreviewInitForm;
 import com.xht.platform.file.domain.query.SysFileQuery;
-import com.xht.platform.file.domain.response.*;
+import com.xht.platform.file.domain.response.FileCapabilityResponse;
+import com.xht.platform.file.domain.response.SysFilePreviewResponse;
+import com.xht.platform.file.domain.response.SysFilePreviewStatusResponse;
+import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.domain.session.FilePreviewSession;
 import com.xht.platform.file.entity.SysFileEntity;
-import com.xht.platform.file.entity.SysFileShareReceiverEntity;
 import com.xht.platform.file.enums.*;
 import com.xht.platform.file.permission.FileAccessEvaluator;
 import com.xht.platform.file.policy.FilePolicyResolver;
@@ -39,7 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,26 +54,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class SysFileServiceImpl implements ISysFileService {
 
-    /**
-     * 登录用户会话滑动 TTL：30 分钟
-     */
-    private static final long USER_SESSION_TTL_SECONDS = 1800L;
-    /**
-     * 登录用户会话绝对上限：2 小时
-     */
-    private static final long USER_SESSION_ABSOLUTE_SECONDS = 7200L;
-    /**
-     * 匿名会话滑动 TTL：10 分钟
-     */
-    private static final long ANON_SESSION_TTL_SECONDS = 600L;
-    /**
-     * 匿名会话绝对上限：30 分钟
-     */
-    private static final long ANON_SESSION_ABSOLUTE_SECONDS = 1800L;
-
     private final SysFileDao sysFileDao;
-
-    private final SysFileShareReceiverDao sysFileShareReceiverDao;
 
     private final SysFileConverter sysFileConverter;
 
@@ -86,8 +67,6 @@ public class SysFileServiceImpl implements ISysFileService {
     private final FileAccessEvaluator fileAccessEvaluator;
 
     private final PreviewSessionService previewSessionService;
-
-    private final ISysFileShareService fileShareService;
 
     /**
      * 根据文件ID删除文件记录（逻辑删除），并同步删除物理文件
@@ -203,8 +182,6 @@ public class SysFileServiceImpl implements ISysFileService {
         boolean downloadOnly = isDownloadOnly(subjectContext.subject())
                 || (!decision.isView() && decision.isDownload());
         FileInitStatusEnum initStatus = resolveInitStatus(policy, downloadOnly);
-        long ttl = ttlSeconds(subjectContext.subject());
-        long absolute = absoluteSeconds(subjectContext.subject());
         FilePreviewSession session = FilePreviewSession.builder()
                 .previewId(previewSessionService.newPreviewId())
                 .subjectType(subjectContext.subject().getType())
@@ -212,19 +189,14 @@ public class SysFileServiceImpl implements ISysFileService {
                 .userId(subjectContext.subject().getUserId())
                 .userName(subjectContext.subject().getUserName())
                 .admin(subjectContext.subject().isAdmin())
-                .shareId(subjectContext.subject().getShareId())
-                .receiverId(subjectContext.subject().getReceiverId())
                 .sharePermission(subjectContext.subject().getSharePermission())
                 .fileId(sysFileEntity.getId())
-                .previewMode(policy.getPreviewType())
-                .ttlSeconds(ttl)
-                .absoluteExpireAt(LocalDateTime.now().plusSeconds(absolute))
                 .build();
         previewSessionService.create(session);
         previewResponse.setPreviewId(session.getPreviewId());
         previewResponse.setInitStatus(initStatus);
         previewResponse.setPreviewMode(policy.getPreviewType());
-        previewResponse.setCapabilities(buildCapabilities(decision, initStatus));
+        previewResponse.setCapabilities(buildCapabilities());
         return previewResponse;
     }
 
@@ -238,17 +210,14 @@ public class SysFileServiceImpl implements ISysFileService {
     public SysFilePreviewStatusResponse previewStatus(String previewId) {
         FilePreviewSession session = previewSessionService.getRequired(previewId);
         previewSessionService.refresh(session);
-        fileShareService.validateSession(session);
         SysFileEntity file = findFile(session.getFileId());
-        FileAccessSubject subject = toSubject(session);
-        FileAccessDecision decision = fileAccessEvaluator.decide(file, subject);
+        FileAccessDecision decision = fileAccessEvaluator.decide(file, null);
         if (!decision.hasAny()) {
             throw new BusinessException(BusinessErrorCode.FILE_ACCESS_DENIED);
         }
         FilePolicy policy = filePolicyResolver.resolve(file);
-        boolean downloadOnly = isDownloadOnly(subject) || (!decision.isView() && decision.isDownload());
-        FileInitStatusEnum initStatus = resolveInitStatus(policy, downloadOnly);
-        return buildStatusResponse(session, policy, decision, initStatus);
+        FileInitStatusEnum initStatus = resolveInitStatus(policy, true);
+        return buildStatusResponse(session, policy, initStatus);
     }
 
     /**
@@ -261,11 +230,9 @@ public class SysFileServiceImpl implements ISysFileService {
     public void downloadFile(HttpServletResponse response, String previewId) {
         FilePreviewSession session = previewSessionService.getRequired(previewId);
         previewSessionService.refresh(session);
-        fileShareService.validateSession(session);
         SysFileEntity file = findFile(session.getFileId());
-        FileAccessSubject subject = toSubject(session);
+        FileAccessSubject subject = FileAccessSubject.anonymous();
         fileAccessEvaluator.check(file, subject, FileActionEnum.DOWNLOAD);
-        incrementReceiverDownload(session);
         try (InputStream download = fileStorageDao.download(file)) {
             String downloadName = StringUtils.hasText(file.getFileOriginalName())
                     ? file.getFileOriginalName() : file.getFileStorageName();
@@ -286,9 +253,8 @@ public class SysFileServiceImpl implements ISysFileService {
     public void filePreview(HttpServletRequest request, HttpServletResponse response, String previewId) {
         FilePreviewSession session = previewSessionService.getRequired(previewId);
         previewSessionService.refresh(session);
-        fileShareService.validateSession(session);
         SysFileEntity file = findFile(session.getFileId());
-        FileAccessSubject subject = toSubject(session);
+        FileAccessSubject subject = FileAccessSubject.anonymous();
         if (isDownloadOnly(subject)) {
             throw new BusinessException(BusinessErrorCode.SHARE_PERMISSION_DENIED);
         }
@@ -305,22 +271,6 @@ public class SysFileServiceImpl implements ISysFileService {
             }
         }
         throw new BusinessException(BusinessErrorCode.FILE_PREVIEW_NOT_SUPPORT);
-    }
-
-    /**
-     * 累加接收人下载次数
-     *
-     * @param session 会话
-     */
-    private void incrementReceiverDownload(FilePreviewSession session) {
-        if (session.getReceiverId() == null) {
-            return;
-        }
-        SysFileShareReceiverEntity receiver = sysFileShareReceiverDao.findById(session.getReceiverId());
-        if (receiver != null) {
-            receiver.setDownloadCount((receiver.getDownloadCount() == null ? 0 : receiver.getDownloadCount()) + 1);
-            sysFileShareReceiverDao.updateById(receiver);
-        }
     }
 
     /**
@@ -351,22 +301,6 @@ public class SysFileServiceImpl implements ISysFileService {
     }
 
     /**
-     * 会话还原为访问主体
-     *
-     * @param session 会话
-     * @return 访问主体
-     */
-    private FileAccessSubject toSubject(FilePreviewSession session) {
-        return switch (session.getSubjectType()) {
-            case USER -> FileAccessSubject.user(session.getUserId(), session.getUserName(), session.isAdmin());
-            case ANON -> FileAccessSubject.anonymous();
-            case SHARE_LINK -> FileAccessSubject.shareLink(session.getShareId(), session.getSharePermission());
-            case SHARE_USER ->
-                    FileAccessSubject.shareUser(session.getShareId(), session.getReceiverId(), session.getSharePermission());
-        };
-    }
-
-    /**
      * 是否仅下载分享
      *
      * @param subject 主体
@@ -376,28 +310,6 @@ public class SysFileServiceImpl implements ISysFileService {
         return subject != null
                 && subject.isShare()
                 && SharePermissionEnum.DOWNLOAD == subject.getSharePermission();
-    }
-
-    /**
-     * 会话滑动 TTL
-     *
-     * @param subject 主体
-     * @return 秒
-     */
-    private long ttlSeconds(FileAccessSubject subject) {
-        return subject != null && FileAccessSubjectTypeEnum.ANON == subject.getType()
-                ? ANON_SESSION_TTL_SECONDS : USER_SESSION_TTL_SECONDS;
-    }
-
-    /**
-     * 会话绝对 TTL
-     *
-     * @param subject 主体
-     * @return 秒
-     */
-    private long absoluteSeconds(FileAccessSubject subject) {
-        return subject != null && FileAccessSubjectTypeEnum.ANON == subject.getType()
-                ? ANON_SESSION_ABSOLUTE_SECONDS : USER_SESSION_ABSOLUTE_SECONDS;
     }
 
     /**
@@ -419,29 +331,25 @@ public class SysFileServiceImpl implements ISysFileService {
      *
      * @param session    会话
      * @param policy     策略
-     * @param decision   决策
      * @param initStatus 初始化状态
      * @return 状态响应
      */
     private SysFilePreviewStatusResponse buildStatusResponse(FilePreviewSession session, FilePolicy policy,
-                                                             FileAccessDecision decision, FileInitStatusEnum initStatus) {
+                                                             FileInitStatusEnum initStatus) {
         SysFilePreviewStatusResponse response = new SysFilePreviewStatusResponse();
         response.setPreviewId(session.getPreviewId());
         response.setInitStatus(initStatus);
         response.setPreviewMode(policy.getPreviewType());
-        response.setCapabilities(buildCapabilities(decision, initStatus));
-        response.setExpireAt(session.getAbsoluteExpireAt());
+        response.setCapabilities(buildCapabilities());
         return response;
     }
 
     /**
      * 构建能力清单
      *
-     * @param decision   决策
-     * @param initStatus 初始化状态
      * @return 能力清单
      */
-    private FileCapabilityResponse buildCapabilities(FileAccessDecision decision, FileInitStatusEnum initStatus) {
+    private FileCapabilityResponse buildCapabilities() {
         FileCapabilityResponse capabilities = new FileCapabilityResponse();
         capabilities.setPreview(true);
         capabilities.setDownload(true);

@@ -1,5 +1,6 @@
 package com.xht.platform.file.service;
 
+import cn.hutool.core.util.RandomUtil;
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.exception.BusinessException;
@@ -9,8 +10,6 @@ import com.xht.platform.common.file.constant.SysFileConstant;
 import com.xht.platform.file.domain.session.FilePreviewSession;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -52,14 +51,7 @@ public class PreviewSessionService {
         if (session == null || session.getPreviewId() == null) {
             throw new BusinessException(BusinessErrorCode.PARAM_ERROR);
         }
-        LocalDateTime now = LocalDateTime.now();
-        session.setCreatedAt(now);
-        long ttl = session.getTtlSeconds() == null ? 1800L : session.getTtlSeconds();
-        session.setTtlSeconds(ttl);
-        if (session.getAbsoluteExpireAt() == null) {
-            session.setAbsoluteExpireAt(now.plusSeconds(ttl));
-        }
-        redisRepository.set(key(session.getPreviewId()), session, ttl, TimeUnit.SECONDS);
+        redisRepository.set(key(session.getPreviewId()), session, RandomUtil.randomLong(1800, 7200), TimeUnit.SECONDS);
     }
 
     /**
@@ -74,10 +66,6 @@ public class PreviewSessionService {
         }
         FilePreviewSession session = redisRepository.get(key(previewId));
         if (Objects.isNull(session)) {
-            return null;
-        }
-        if (session.getAbsoluteExpireAt() != null && LocalDateTime.now().isAfter(session.getAbsoluteExpireAt())) {
-            remove(previewId);
             return null;
         }
         return session;
@@ -106,16 +94,7 @@ public class PreviewSessionService {
         if (session == null || session.getPreviewId() == null) {
             return;
         }
-        long ttl = session.getTtlSeconds() == null ? 1800L : session.getTtlSeconds();
-        if (session.getAbsoluteExpireAt() != null) {
-            long remain = Duration.between(LocalDateTime.now(), session.getAbsoluteExpireAt()).getSeconds();
-            if (remain <= 0) {
-                remove(session.getPreviewId());
-                return;
-            }
-            ttl = Math.min(ttl, remain);
-        }
-        redisRepository.set(key(session.getPreviewId()), session, ttl, TimeUnit.SECONDS);
+        redisRepository.set(key(session.getPreviewId()), session, RandomUtil.randomLong(200, 12323), TimeUnit.SECONDS);
     }
 
     /**

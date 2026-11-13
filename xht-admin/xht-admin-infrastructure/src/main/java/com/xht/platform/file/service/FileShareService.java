@@ -16,16 +16,11 @@ import com.xht.platform.file.dao.SysFileShareReceiverDao;
 import com.xht.platform.file.domain.access.FileAccessDecision;
 import com.xht.platform.file.domain.access.FileAccessSubject;
 import com.xht.platform.file.domain.access.FilePolicy;
-import com.xht.platform.file.domain.access.ShareAccessContext;
 import com.xht.platform.file.domain.form.FileShareCreateForm;
 import com.xht.platform.file.domain.form.FileShareOpenForm;
 import com.xht.platform.file.domain.query.SysFileShareQuery;
 import com.xht.platform.file.domain.query.SysFileShareReceivedQuery;
-import com.xht.platform.file.domain.response.FileShareMetaResponse;
-import com.xht.platform.file.domain.response.FileShareOpenResponse;
-import com.xht.platform.file.domain.response.FileShareReceiverResponse;
-import com.xht.platform.file.domain.response.FileShareReceivedResponse;
-import com.xht.platform.file.domain.response.FileShareResponse;
+import com.xht.platform.file.domain.response.*;
 import com.xht.platform.file.domain.session.FilePreviewSession;
 import com.xht.platform.file.domain.session.ShareTicket;
 import com.xht.platform.file.entity.SysFileEntity;
@@ -46,12 +41,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -107,7 +97,7 @@ public class FileShareService implements ISysFileShareService {
         SysFileEntity file = sysFileDao.findById(session.getFileId());
         AssertUtils.notNull(file, BusinessErrorCode.FILE_NOT_EXIST);
 
-        FileAccessSubject subject = toSubject(session);
+        FileAccessSubject subject = FileAccessSubject.anonymous();
         FileAccessDecision decision = fileAccessEvaluator.decide(file, subject);
         if (!decision.isShare()) {
             throw new BusinessException(BusinessErrorCode.FILE_ACCESS_DENIED);
@@ -349,62 +339,6 @@ public class FileShareService implements ISysFileShareService {
                 share.getPermission(), receiver.getId(), share.getCodeVersion(), share.getExpireTime());
         sysFileShareDao.incrementAccessCount(share.getId());
         return buildOpenResponse(ticket, share);
-    }
-
-    /**
-     * 解析分享票据
-     *
-     * @param ticketValue 票据
-     * @return 分享访问上下文
-     */
-    public ShareAccessContext resolveTicket(String ticketValue) {
-        ShareTicket ticket = shareTicketService.get(ticketValue);
-        AssertUtils.notNull(ticket, BusinessErrorCode.SHARE_NOT_EXIST_OR_EXPIRED);
-        SysFileShareEntity fileShareEntity = sysFileShareDao.findById(ticket.getShareId());
-        AssertUtils.notNull(fileShareEntity, BusinessErrorCode.SHARE_NOT_EXIST_OR_EXPIRED);
-        if (!Objects.equals(fileShareEntity.getStatus(), 1)
-                || fileShareEntity.getExpireTime() == null || fileShareEntity.getExpireTime().isBefore(LocalDateTime.now())
-                || !Objects.equals(ticket.getCodeVersion(), fileShareEntity.getCodeVersion())) {
-            throw new BusinessException(BusinessErrorCode.SHARE_NOT_EXIST_OR_EXPIRED);
-        }
-        if (ShareModeEnum.USER == fileShareEntity.getShareMode()) {
-            if (ticket.getReceiverId() == null) {
-                throw new BusinessException(BusinessErrorCode.SHARE_RECEIVER_NOT_FOUND);
-            }
-            SysFileShareReceiverEntity receiver = sysFileShareReceiverDao.findById(ticket.getReceiverId());
-            if (receiver == null || !Objects.equals(receiver.getShareId(), fileShareEntity.getId())) {
-                throw new BusinessException(BusinessErrorCode.SHARE_RECEIVER_NOT_FOUND);
-            }
-        }
-        FileAccessSubject subject = ShareModeEnum.USER == fileShareEntity.getShareMode()
-                ? FileAccessSubject.shareUser(fileShareEntity.getId(), ticket.getReceiverId(), fileShareEntity.getPermission())
-                : FileAccessSubject.shareLink(fileShareEntity.getId(), fileShareEntity.getPermission());
-
-
-
-        return new ShareAccessContext(subject, fileShareEntity.getFileId(), fileShareEntity.getId(), ticket.getReceiverId());
-    }
-
-    /**
-     * 校验分享会话仍然有效
-     *
-     * @param session 预览会话
-     */
-    @Override
-    public void validateSession(FilePreviewSession session) {
-        if (session == null || !session.isShare()) {
-            return;
-        }
-        SysFileShareEntity share = assertValid(sysFileShareDao.findById(session.getShareId()));
-        if (ShareModeEnum.USER == share.getShareMode()) {
-            if (session.getReceiverId() == null) {
-                throw new BusinessException(BusinessErrorCode.SHARE_RECEIVER_NOT_FOUND);
-            }
-            SysFileShareReceiverEntity receiver = sysFileShareReceiverDao.findById(session.getReceiverId());
-            if (receiver == null || !Objects.equals(receiver.getShareId(), share.getId())) {
-                throw new BusinessException(BusinessErrorCode.SHARE_RECEIVER_NOT_FOUND);
-            }
-        }
     }
 
     /**
@@ -735,19 +669,6 @@ public class FileShareService implements ISysFileShareService {
         response.setTotal(page.getTotal());
         response.setRecords(list);
         return response;
-    }
-
-    /**
-     * 会话还原主体
-     */
-    private FileAccessSubject toSubject(FilePreviewSession session) {
-        return switch (session.getSubjectType()) {
-            case USER -> FileAccessSubject.user(session.getUserId(), session.getUserName(), session.isAdmin());
-            case ANON -> FileAccessSubject.anonymous();
-            case SHARE_LINK -> FileAccessSubject.shareLink(session.getShareId(), session.getSharePermission());
-            case SHARE_USER ->
-                    FileAccessSubject.shareUser(session.getShareId(), session.getReceiverId(), session.getSharePermission());
-        };
     }
 
     private Long currentUserId() {

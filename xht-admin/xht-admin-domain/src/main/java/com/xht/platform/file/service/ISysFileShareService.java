@@ -1,17 +1,11 @@
 package com.xht.platform.file.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.platform.file.domain.access.ShareAccessContext;
 import com.xht.platform.file.domain.form.FileShareCreateForm;
 import com.xht.platform.file.domain.form.FileShareOpenForm;
 import com.xht.platform.file.domain.query.SysFileShareQuery;
 import com.xht.platform.file.domain.query.SysFileShareReceivedQuery;
-import com.xht.platform.file.domain.response.FileShareMetaResponse;
-import com.xht.platform.file.domain.response.FileShareOpenResponse;
-import com.xht.platform.file.domain.response.FileShareReceiverResponse;
-import com.xht.platform.file.domain.response.FileShareReceivedResponse;
-import com.xht.platform.file.domain.response.FileShareResponse;
-import com.xht.platform.file.domain.session.FilePreviewSession;
+import com.xht.platform.file.domain.response.*;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
@@ -65,21 +59,6 @@ public interface ISysFileShareService {
      * @return 票据
      */
     FileShareOpenResponse openByShareId(Long shareId, FileShareOpenForm form);
-
-    /**
-     * 解析分享票据
-     *
-     * @param ticket 票据
-     * @return 分享访问上下文
-     */
-    ShareAccessContext resolveTicket(String ticket);
-
-    /**
-     * 校验分享会话仍然有效（撤销、过期、接收人删除后立即失效）
-     *
-     * @param session 预览会话
-     */
-    void validateSession(FilePreviewSession session);
 
     /**
      * 我创建的分享

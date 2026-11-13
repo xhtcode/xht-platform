@@ -67,44 +67,5 @@ public class FilePreviewSession implements Serializable {
      */
     private Long fileId;
 
-    /**
-     * 预览模式
-     */
-    private PreviewTypeEnum previewMode;
-
-    /**
-     * 分享ID
-     */
-    private Long shareId;
-
-    /**
-     * 接收人记录ID
-     */
-    private Long receiverId;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createdAt;
-
-    /**
-     * 绝对过期时间
-     */
-    private LocalDateTime absoluteExpireAt;
-
-    /**
-     * 滑动 TTL（秒）
-     */
-    private Long ttlSeconds;
-
-    /**
-     * 是否分享主体
-     *
-     * @return true：分享
-     */
-    public boolean isShare() {
-        return FileAccessSubjectTypeEnum.SHARE_LINK == subjectType
-                || FileAccessSubjectTypeEnum.SHARE_USER == subjectType;
-    }
 
 }
