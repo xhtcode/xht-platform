@@ -1,7 +1,5 @@
 package com.xht.platform.file.permission;
 
-import com.xht.framework.exception.BusinessException;
-import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.utils.StringUtils;
 import com.xht.platform.file.domain.access.FileAccessDecision;
 import com.xht.platform.file.domain.access.FileAccessSubject;
@@ -9,7 +7,6 @@ import com.xht.platform.file.domain.access.FilePolicy;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileAccessScopeEnum;
 import com.xht.platform.file.enums.FileAccessSubjectTypeEnum;
-import com.xht.platform.file.enums.FileActionEnum;
 import com.xht.platform.file.enums.SharePermissionEnum;
 import com.xht.platform.file.policy.FilePolicyResolver;
 import com.xht.platform.file.service.SysFileSettingService;
@@ -180,26 +177,6 @@ public class FileAccessEvaluator {
             decision = decision == null ? current : decision.intersect(current);
         }
         return decision == null ? FileAccessDecision.denyAll() : decision;
-    }
-
-    /**
-     * 校验指定动作，失败抛业务异常
-     *
-     * @param file    文件
-     * @param subject 主体
-     * @param action  动作
-     */
-    public void check(SysFileEntity file, FileAccessSubject subject, FileActionEnum action) {
-        FileAccessDecision decision = decide(file, subject);
-        boolean allowed = switch (action) {
-            case PREVIEW -> decision.isView();
-            case DOWNLOAD -> decision.isDownload();
-            case PRINT -> decision.isPrint();
-            case SHARE -> decision.isShare();
-        };
-        if (!allowed) {
-            throw new BusinessException(BusinessErrorCode.FILE_ACCESS_DENIED);
-        }
     }
 
 }

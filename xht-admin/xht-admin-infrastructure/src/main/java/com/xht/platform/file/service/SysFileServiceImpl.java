@@ -231,8 +231,6 @@ public class SysFileServiceImpl implements ISysFileService {
         FilePreviewSession session = previewSessionService.getRequired(previewId);
         previewSessionService.refresh(session);
         SysFileEntity file = findFile(session.getFileId());
-        FileAccessSubject subject = FileAccessSubject.anonymous();
-        fileAccessEvaluator.check(file, subject, FileActionEnum.DOWNLOAD);
         try (InputStream download = fileStorageDao.download(file)) {
             String downloadName = StringUtils.hasText(file.getFileOriginalName())
                     ? file.getFileOriginalName() : file.getFileStorageName();
@@ -258,8 +256,6 @@ public class SysFileServiceImpl implements ISysFileService {
         if (isDownloadOnly(subject)) {
             throw new BusinessException(BusinessErrorCode.SHARE_PERMISSION_DENIED);
         }
-        fileAccessEvaluator.check(file, subject, FileActionEnum.PREVIEW);
-
         FilePolicy policy = filePolicyResolver.resolve(file);
         if (!policy.isPreviewable()) {
             throw new BusinessException(BusinessErrorCode.FILE_PREVIEW_NOT_SUPPORT);
