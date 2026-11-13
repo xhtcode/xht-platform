@@ -1,7 +1,6 @@
 package com.xht.platform.file.domain.response;
 
 import com.xht.framework.common.domain.response.MetaResponse;
-import com.xht.platform.file.enums.PreviewSourceEnum;
 import com.xht.platform.file.enums.PreviewTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -49,22 +48,10 @@ public class SysFileTypeResponse extends MetaResponse {
     private String fileSuffix;
 
     /**
-     * 预览来源
-     */
-    @Schema(description = "预览来源 original/convert")
-    private PreviewSourceEnum previewSource;
-
-    /**
      * 转换目标格式
      */
     @Schema(description = "转换目标格式")
     private String convertTarget;
-
-    /**
-     * 是否启用
-     */
-    @Schema(description = "是否启用")
-    private Integer enabled;
 
     /**
      * 排序

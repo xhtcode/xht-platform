@@ -105,12 +105,6 @@ public class SysFileUsedEntity extends BasicEntity {
     private Integer shareMaxAccessCount;
 
     /**
-     * 水印等级：off/l1/l2
-     */
-    @TableField(value = "watermark_level")
-    private String watermarkLevel;
-
-    /**
      * 图片模式：original/webp/pdf，空则继承全局
      */
     @TableField(value = "image_mode")

@@ -92,11 +92,7 @@ public class SysFileServiceImpl implements ISysFileService {
 
     private final FileConvertService fileConvertService;
 
-    private final SysFileSettingService sysFileSettingService;
-
     private final ISysFileShareService fileShareService;
-
-    private final WatermarkService watermarkService;
 
     /**
      * 根据文件ID删除文件记录（逻辑删除），并同步删除物理文件
@@ -201,11 +197,11 @@ public class SysFileServiceImpl implements ISysFileService {
         SubjectContext subjectContext;
         if (StringUtils.hasText(form.getShareTicket())) {
             ShareAccessContext shareContext = fileShareService.resolveTicket(form.getShareTicket());
-            sysFileEntity = findFile(shareContext.getFileId());
-            String subjectId = shareContext.getReceiverId() != null
-                    ? String.valueOf(shareContext.getReceiverId())
-                    : String.valueOf(shareContext.getShareId());
-            subjectContext = new SubjectContext(shareContext.getSubject(), subjectId);
+            sysFileEntity = sysFileDao
+                    .findOptionalById(shareContext.getFileId())
+                    .orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
+            Long subjectId = Objects.requireNonNullElse(shareContext.getReceiverId(), shareContext.getShareId());
+            subjectContext = new SubjectContext(shareContext.getSubject(), String.valueOf(subjectId));
         } else {
             sysFileEntity = sysFileDao.findByFileStorageKey(form.getFileStorageKey());
             subjectContext = resolveSubject();
@@ -332,11 +328,6 @@ public class SysFileServiceImpl implements ISysFileService {
             }
             source = buildConvertedFile(file, task);
         }
-        if (WatermarkLevelEnum.L2 == policy.getWatermarkLevel()
-                && (PreviewTypeEnum.PDF == policy.getPreviewType() || PreviewTypeEnum.IMAGE == policy.getPreviewType())) {
-            writeWatermarked(response, source, policy, session);
-            return;
-        }
         for (FilePreview filePreview : filePreviewList) {
             if (filePreview.supports(policy.getPreviewType())) {
                 filePreview.filePreview(request, response, source);
@@ -344,43 +335,6 @@ public class SysFileServiceImpl implements ISysFileService {
             }
         }
         throw new BusinessException(BusinessErrorCode.FILE_PREVIEW_NOT_SUPPORT);
-    }
-
-    /**
-     * 输出带服务端水印的预览内容
-     *
-     * @param response 响应
-     * @param source   源文件或转换产物
-     * @param policy   策略
-     * @param session  会话
-     */
-    private void writeWatermarked(HttpServletResponse response, SysFileEntity source,
-                                  FilePolicy policy, FilePreviewSession session) {
-        String text = watermarkText(session, true);
-        try (InputStream input = fileStorageDao.download(source)) {
-            byte[] data = PreviewTypeEnum.PDF == policy.getPreviewType()
-                    ? watermarkService.watermarkPdf(input, text)
-                    : watermarkService.watermarkImage(input, text);
-            String contentType = PreviewTypeEnum.PDF == policy.getPreviewType()
-                    ? "application/pdf" : "image/png";
-            String fileName = StringUtils.hasText(source.getFileOriginalName())
-                    ? source.getFileOriginalName() : source.getFileStorageName();
-            response.setContentType(contentType);
-            response.setHeader(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION,
-                    org.springframework.http.ContentDisposition.inline()
-                            .filename(fileName, java.nio.charset.StandardCharsets.UTF_8)
-                            .build().toString());
-            response.setHeader("X-Content-Type-Options", "nosniff");
-            response.setHeader(org.springframework.http.HttpHeaders.CACHE_CONTROL, "private, no-store");
-            response.setContentLengthLong(data.length);
-            response.getOutputStream().write(data);
-            response.flushBuffer();
-        } catch (BusinessException e) {
-            throw e;
-        } catch (Exception e) {
-            log.error("服务端水印预览失败，fileId={}", source.getId(), e);
-            throw new BusinessException(BusinessErrorCode.FILE_PREVIEW_FAIL, e);
-        }
     }
 
     /**
@@ -622,7 +576,6 @@ public class SysFileServiceImpl implements ISysFileService {
         response.setPreviewSource(policy.getPreviewSource());
         response.setCapabilities(buildCapabilities(decision, conversion.initStatus()));
         response.setConversion(conversion.response());
-        response.setWatermark(buildWatermark(policy, session));
         response.setExpireAt(session.getAbsoluteExpireAt());
         return response;
     }
@@ -644,44 +597,6 @@ public class SysFileServiceImpl implements ISysFileService {
         capabilities.setPrint(decision.isPrint());
         capabilities.setShare(decision.isShare());
         return capabilities;
-    }
-
-    /**
-     * 构建水印信息
-     *
-     * @param policy  策略
-     * @param session 会话
-     * @return 水印信息
-     */
-    private FileWatermarkResponse buildWatermark(FilePolicy policy, FilePreviewSession session) {
-        FileWatermarkResponse response = new FileWatermarkResponse();
-        WatermarkLevelEnum level = policy.getWatermarkLevel();
-        response.setLevel(level == null ? WatermarkLevelEnum.OFF.getValue() : level.getValue());
-        response.setEnabled(level != null && level != WatermarkLevelEnum.OFF && policy.isPreviewable());
-        response.setOpacity(sysFileSettingService.getDecimal("watermark.opacity", java.math.BigDecimal.valueOf(0.10)).doubleValue());
-        response.setText(watermarkText(session, response.isEnabled()));
-        return response;
-    }
-
-    /**
-     * 生成水印文案
-     *
-     * @param session 会话
-     * @param enabled 是否启用水印
-     * @return 文案
-     */
-    private String watermarkText(FilePreviewSession session, boolean enabled) {
-        if (!enabled) {
-            return null;
-        }
-        String template = sysFileSettingService.getString("watermark.text-template",
-                "{userName}({userId}) {time} 禁止外传");
-        String userName = StringUtils.hasText(session.getUserName()) ? session.getUserName() : "访客";
-        String userId = session.getUserId() == null ? session.getSubjectId() : String.valueOf(session.getUserId());
-        return template
-                .replace("{userName}", userName)
-                .replace("{userId}", userId == null ? "" : userId)
-                .replace("{time}", LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
     }
 
     /**

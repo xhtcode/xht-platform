@@ -4,7 +4,6 @@ import com.xht.platform.file.enums.FileAccessScopeEnum;
 import com.xht.platform.file.enums.ImageModeEnum;
 import com.xht.platform.file.enums.PreviewSourceEnum;
 import com.xht.platform.file.enums.PreviewTypeEnum;
-import com.xht.platform.file.enums.WatermarkLevelEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -92,11 +91,6 @@ public class FilePolicy implements Serializable {
      * 分享访问次数上限，0=不限
      */
     private Integer shareMaxAccessCount;
-
-    /**
-     * 水印等级
-     */
-    private WatermarkLevelEnum watermarkLevel;
 
     /**
      * 图片处理模式

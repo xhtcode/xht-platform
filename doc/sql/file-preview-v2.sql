@@ -75,23 +75,10 @@ WHERE `file_used` IN ('avatar', 'notice')
 -- 2. sys_file_type 变更（只承载技术配置）
 -- ============================================================
 
--- 2.1 preview_source
+-- 2.1 convert_target
 SET @sql = (SELECT IF(
     COUNT(*) = 0,
-    'ALTER TABLE `sys_file_type` ADD COLUMN `preview_source` varchar(20) NOT NULL DEFAULT ''original'' COMMENT ''预览来源：original/convert'' AFTER `file_suffix`',
-    'SET @noop = 1'
-) FROM information_schema.COLUMNS
- WHERE TABLE_SCHEMA = DATABASE()
-   AND TABLE_NAME = 'sys_file_type'
-   AND COLUMN_NAME = 'preview_source');
-PREPARE stmt FROM @sql;
-EXECUTE stmt;
-DEALLOCATE PREPARE stmt;
-
--- 2.2 convert_target
-SET @sql = (SELECT IF(
-    COUNT(*) = 0,
-    'ALTER TABLE `sys_file_type` ADD COLUMN `convert_target` varchar(20) DEFAULT NULL COMMENT ''转换目标格式，如 pdf'' AFTER `preview_source`',
+    'ALTER TABLE `sys_file_type` ADD COLUMN `convert_target` varchar(20) DEFAULT NULL COMMENT ''转换目标格式，如 pdf'' AFTER `file_suffix`',
     'SET @noop = 1'
 ) FROM information_schema.COLUMNS
  WHERE TABLE_SCHEMA = DATABASE()
@@ -101,23 +88,10 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
--- 2.3 enabled
+-- 2.2 sort
 SET @sql = (SELECT IF(
     COUNT(*) = 0,
-    'ALTER TABLE `sys_file_type` ADD COLUMN `enabled` tinyint NOT NULL DEFAULT 1 COMMENT ''是否启用'' AFTER `convert_target`',
-    'SET @noop = 1'
-) FROM information_schema.COLUMNS
- WHERE TABLE_SCHEMA = DATABASE()
-   AND TABLE_NAME = 'sys_file_type'
-   AND COLUMN_NAME = 'enabled');
-PREPARE stmt FROM @sql;
-EXECUTE stmt;
-DEALLOCATE PREPARE stmt;
-
--- 2.4 sort
-SET @sql = (SELECT IF(
-    COUNT(*) = 0,
-    'ALTER TABLE `sys_file_type` ADD COLUMN `sort` int NOT NULL DEFAULT 0 COMMENT ''排序'' AFTER `enabled`',
+    'ALTER TABLE `sys_file_type` ADD COLUMN `sort` int NOT NULL DEFAULT 0 COMMENT ''排序'' AFTER `convert_target`',
     'SET @noop = 1'
 ) FROM information_schema.COLUMNS
  WHERE TABLE_SCHEMA = DATABASE()
@@ -127,10 +101,9 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
--- 2.5 存量 Office 后缀改为转换 PDF
+-- 2.3 存量 Office 后缀改为转换 PDF
 UPDATE `sys_file_type`
-SET `preview_source` = 'convert',
-    `convert_target` = 'pdf'
+SET `convert_target` = 'pdf'
 WHERE `file_suffix` IN ('doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'rtf', 'odt', 'ods', 'odp')
   AND `del_flag` = 0;
 
@@ -431,62 +404,62 @@ VALUES
 -- 6. 初始化数据：文件后缀预览类型
 -- ============================================================
 INSERT IGNORE INTO `sys_file_type`
-(`preview_type`, `preview_name`, `file_suffix`, `preview_source`, `convert_target`,
- `enabled`, `sort`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`)
+(`preview_type`, `preview_name`, `file_suffix`, `convert_target`,
+ `sort`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`)
 VALUES
-('image', '图片', 'jpg',  'original', NULL, 1, 10, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'jpeg', 'original', NULL, 1, 11, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'png',  'original', NULL, 1, 12, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'gif',  'original', NULL, 1, 13, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'webp', 'original', NULL, 1, 14, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'bmp',  'original', NULL, 1, 15, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'tif',  'original', NULL, 1, 16, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'tiff', 'original', NULL, 1, 17, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'heic', 'original', NULL, 1, 18, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'svg',  'original', NULL, 1, 19, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'jpg',  NULL, 10, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'jpeg', NULL, 11, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'png',  NULL, 12, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'gif',  NULL, 13, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'webp', NULL, 14, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'bmp',  NULL, 15, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'tif',  NULL, 16, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'tiff', NULL, 17, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'heic', NULL, 18, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'svg',  NULL, 19, 0, 'system', NOW(), 'system', NOW()),
 
-('pdf', 'PDF', 'pdf', 'original', NULL, 1, 30, 0, 'system', NOW(), 'system', NOW()),
+('pdf', 'PDF', 'pdf', NULL, 30, 0, 'system', NOW(), 'system', NOW()),
 
-('pdf', 'PDF', 'doc',  'convert', 'pdf', 1, 40, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'docx', 'convert', 'pdf', 1, 41, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'xls',  'convert', 'pdf', 1, 42, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'xlsx', 'convert', 'pdf', 1, 43, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'ppt',  'convert', 'pdf', 1, 44, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'pptx', 'convert', 'pdf', 1, 45, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'rtf',  'convert', 'pdf', 1, 46, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'odt',  'convert', 'pdf', 1, 47, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'ods',  'convert', 'pdf', 1, 48, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'odp',  'convert', 'pdf', 1, 49, 0, 'system', NOW(), 'system', NOW()),
+('pdf', 'PDF', 'doc',  'pdf', 40, 0, 'system', NOW(), 'system', NOW()),
+('pdf', 'PDF', 'docx', 'pdf', 41, 0, 'system', NOW(), 'system', NOW()),
+('pdf', 'PDF', 'xls',  'pdf', 42, 0, 'system', NOW(), 'system', NOW()),
+('pdf', 'PDF', 'xlsx', 'pdf', 43, 0, 'system', NOW(), 'system', NOW()),
+('pdf', 'PDF', 'ppt',  'pdf', 44, 0, 'system', NOW(), 'system', NOW()),
+('pdf', 'PDF', 'pptx', 'pdf', 45, 0, 'system', NOW(), 'system', NOW()),
+('pdf', 'PDF', 'rtf',  'pdf', 46, 0, 'system', NOW(), 'system', NOW()),
+('pdf', 'PDF', 'odt',  'pdf', 47, 0, 'system', NOW(), 'system', NOW()),
+('pdf', 'PDF', 'ods',  'pdf', 48, 0, 'system', NOW(), 'system', NOW()),
+('pdf', 'PDF', 'odp',  'pdf', 49, 0, 'system', NOW(), 'system', NOW()),
 
-('text', '文本', 'txt',  'original', NULL, 1, 60, 0, 'system', NOW(), 'system', NOW()),
-('text', '文本', 'md',   'original', NULL, 1, 61, 0, 'system', NOW(), 'system', NOW()),
-('text', '文本', 'log',  'original', NULL, 1, 62, 0, 'system', NOW(), 'system', NOW()),
-('text', '文本', 'csv',  'original', NULL, 1, 63, 0, 'system', NOW(), 'system', NOW()),
+('text', '文本', 'txt',  NULL, 60, 0, 'system', NOW(), 'system', NOW()),
+('text', '文本', 'md',   NULL, 61, 0, 'system', NOW(), 'system', NOW()),
+('text', '文本', 'log',  NULL, 62, 0, 'system', NOW(), 'system', NOW()),
+('text', '文本', 'csv',  NULL, 63, 0, 'system', NOW(), 'system', NOW()),
 
-('json', 'JSON', 'json', 'original', NULL, 1, 70, 0, 'system', NOW(), 'system', NOW()),
-('json', 'JSON', 'xml',  'original', NULL, 1, 71, 0, 'system', NOW(), 'system', NOW()),
-('json', 'JSON', 'yaml', 'original', NULL, 1, 72, 0, 'system', NOW(), 'system', NOW()),
-('json', 'JSON', 'yml',  'original', NULL, 1, 73, 0, 'system', NOW(), 'system', NOW()),
+('json', 'JSON', 'json', NULL, 70, 0, 'system', NOW(), 'system', NOW()),
+('json', 'JSON', 'xml',  NULL, 71, 0, 'system', NOW(), 'system', NOW()),
+('json', 'JSON', 'yaml', NULL, 72, 0, 'system', NOW(), 'system', NOW()),
+('json', 'JSON', 'yml',  NULL, 73, 0, 'system', NOW(), 'system', NOW()),
 
-('video', '视频', 'mp4',  'original', NULL, 1, 80, 0, 'system', NOW(), 'system', NOW()),
-('video', '视频', 'webm', 'original', NULL, 1, 81, 0, 'system', NOW(), 'system', NOW()),
-('video', '视频', 'mov',  'original', NULL, 1, 82, 0, 'system', NOW(), 'system', NOW()),
+('video', '视频', 'mp4',  NULL, 80, 0, 'system', NOW(), 'system', NOW()),
+('video', '视频', 'webm', NULL, 81, 0, 'system', NOW(), 'system', NOW()),
+('video', '视频', 'mov',  NULL, 82, 0, 'system', NOW(), 'system', NOW()),
 
-('audio', '音频', 'mp3',  'original', NULL, 1, 90, 0, 'system', NOW(), 'system', NOW()),
-('audio', '音频', 'wav',  'original', NULL, 1, 91, 0, 'system', NOW(), 'system', NOW()),
-('audio', '音频', 'aac',  'original', NULL, 1, 92, 0, 'system', NOW(), 'system', NOW()),
-('audio', '音频', 'flac', 'original', NULL, 1, 93, 0, 'system', NOW(), 'system', NOW()),
-('audio', '音频', 'm4a',  'original', NULL, 1, 94, 0, 'system', NOW(), 'system', NOW()),
+('audio', '音频', 'mp3',  NULL, 90, 0, 'system', NOW(), 'system', NOW()),
+('audio', '音频', 'wav',  NULL, 91, 0, 'system', NOW(), 'system', NOW()),
+('audio', '音频', 'aac',  NULL, 92, 0, 'system', NOW(), 'system', NOW()),
+('audio', '音频', 'flac', NULL, 93, 0, 'system', NOW(), 'system', NOW()),
+('audio', '音频', 'm4a',  NULL, 94, 0, 'system', NOW(), 'system', NOW()),
 
-('other', '其他', 'zip', 'original', NULL, 1, 200, 0, 'system', NOW(), 'system', NOW()),
-('other', '其他', 'rar', 'original', NULL, 1, 201, 0, 'system', NOW(), 'system', NOW()),
-('other', '其他', '7z',  'original', NULL, 1, 202, 0, 'system', NOW(), 'system', NOW());
+('other', '其他', 'zip', NULL, 200, 0, 'system', NOW(), 'system', NOW()),
+('other', '其他', 'rar', NULL, 201, 0, 'system', NOW(), 'system', NOW()),
+('other', '其他', '7z',  NULL, 202, 0, 'system', NOW(), 'system', NOW());
 
 -- 兜底默认行（file_suffix 为空）
 INSERT IGNORE INTO `sys_file_type`
-(`preview_type`, `preview_name`, `file_suffix`, `preview_source`, `convert_target`,
- `enabled`, `sort`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`)
-VALUES ('other', '其他', NULL, 'original', NULL, 1, 999, 0, 'system', NOW(), 'system', NOW());
+(`preview_type`, `preview_name`, `file_suffix`, `convert_target`,
+ `sort`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`)
+VALUES ('other', '其他', NULL, NULL, 999, 0, 'system', NOW(), 'system', NOW());
 
 -- ============================================================
 -- 7. 演示数据：文件、分享、接收人
@@ -611,7 +584,7 @@ WHERE `del_flag` = 0
 ORDER BY `setting_group`, `setting_key`;
 
 -- 8.3 后缀配置
-SELECT `file_suffix`, `preview_type`, `preview_source`, `convert_target`, `enabled`
+SELECT `file_suffix`, `preview_type`, `convert_target`
 FROM `sys_file_type`
 WHERE `del_flag` = 0
 ORDER BY `sort`
@@ -650,9 +623,7 @@ ORDER BY r.`id`;
 -- DROP TABLE IF EXISTS `sys_file_used`;
 -- ALTER TABLE `sys_file_type`
 --   DROP COLUMN `sort`,
---   DROP COLUMN `enabled`,
---   DROP COLUMN `convert_target`,
---   DROP COLUMN `preview_source`;
+--   DROP COLUMN `convert_target`;
 -- ALTER TABLE `sys_file`
 --   DROP COLUMN `file_config`,
 --   DROP COLUMN `access_scope`;

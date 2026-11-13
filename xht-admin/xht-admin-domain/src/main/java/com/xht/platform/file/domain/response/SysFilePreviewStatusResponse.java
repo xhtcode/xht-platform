@@ -59,12 +59,6 @@ public class SysFilePreviewStatusResponse implements Serializable {
     private FileConversionResponse conversion;
 
     /**
-     * 水印信息
-     */
-    @Schema(description = "水印信息")
-    private FileWatermarkResponse watermark;
-
-    /**
      * 会话过期时间
      */
     @Schema(description = "会话过期时间")

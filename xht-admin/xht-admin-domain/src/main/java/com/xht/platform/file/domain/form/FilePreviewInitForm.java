@@ -19,12 +19,6 @@ public class FilePreviewInitForm implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 文件ID
-     */
-    @Schema(description = "文件ID，与 fileStorageKey 二选一")
-    private Long fileId;
-
-    /**
      * 文件存储Key
      */
     @Schema(description = "文件存储Key，与 fileId 二选一")

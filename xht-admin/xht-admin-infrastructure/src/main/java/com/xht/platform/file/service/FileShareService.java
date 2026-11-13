@@ -359,28 +359,30 @@ public class FileShareService implements ISysFileShareService {
      */
     public ShareAccessContext resolveTicket(String ticketValue) {
         ShareTicket ticket = shareTicketService.get(ticketValue);
-        if (ticket == null) {
+        AssertUtils.notNull(ticket, BusinessErrorCode.SHARE_NOT_EXIST_OR_EXPIRED);
+        SysFileShareEntity fileShareEntity = sysFileShareDao.findById(ticket.getShareId());
+        AssertUtils.notNull(fileShareEntity, BusinessErrorCode.SHARE_NOT_EXIST_OR_EXPIRED);
+        if (!Objects.equals(fileShareEntity.getStatus(), 1)
+                || fileShareEntity.getExpireTime() == null || fileShareEntity.getExpireTime().isBefore(LocalDateTime.now())
+                || !Objects.equals(ticket.getCodeVersion(), fileShareEntity.getCodeVersion())) {
             throw new BusinessException(BusinessErrorCode.SHARE_NOT_EXIST_OR_EXPIRED);
         }
-        SysFileShareEntity share = sysFileShareDao.findById(ticket.getShareId());
-        if (share == null || !Objects.equals(share.getStatus(), 1)
-                || share.getExpireTime() == null || share.getExpireTime().isBefore(LocalDateTime.now())
-                || !Objects.equals(ticket.getCodeVersion(), share.getCodeVersion())) {
-            throw new BusinessException(BusinessErrorCode.SHARE_NOT_EXIST_OR_EXPIRED);
-        }
-        if (ShareModeEnum.USER == share.getShareMode()) {
+        if (ShareModeEnum.USER == fileShareEntity.getShareMode()) {
             if (ticket.getReceiverId() == null) {
                 throw new BusinessException(BusinessErrorCode.SHARE_RECEIVER_NOT_FOUND);
             }
             SysFileShareReceiverEntity receiver = sysFileShareReceiverDao.findById(ticket.getReceiverId());
-            if (receiver == null || !Objects.equals(receiver.getShareId(), share.getId())) {
+            if (receiver == null || !Objects.equals(receiver.getShareId(), fileShareEntity.getId())) {
                 throw new BusinessException(BusinessErrorCode.SHARE_RECEIVER_NOT_FOUND);
             }
         }
-        FileAccessSubject subject = ShareModeEnum.USER == share.getShareMode()
-                ? FileAccessSubject.shareUser(share.getId(), ticket.getReceiverId(), share.getPermission())
-                : FileAccessSubject.shareLink(share.getId(), share.getPermission());
-        return new ShareAccessContext(subject, share.getFileId(), share.getId(), ticket.getReceiverId());
+        FileAccessSubject subject = ShareModeEnum.USER == fileShareEntity.getShareMode()
+                ? FileAccessSubject.shareUser(fileShareEntity.getId(), ticket.getReceiverId(), fileShareEntity.getPermission())
+                : FileAccessSubject.shareLink(fileShareEntity.getId(), fileShareEntity.getPermission());
+
+
+
+        return new ShareAccessContext(subject, fileShareEntity.getFileId(), fileShareEntity.getId(), ticket.getReceiverId());
     }
 
     /**

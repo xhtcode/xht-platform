@@ -111,10 +111,6 @@ xht:
       libreoffice-path: soffice
       timeout-seconds: 120
       cleanup-cron: "0 0 3 * * ?"
-    watermark:
-      # 中文字体路径，留空时回退 Helvetica 并过滤非 ASCII 字符
-      # Windows 示例：C:/Windows/Fonts/simhei.ttf；Linux 示例：/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc
-      font-path: C:/Windows/Fonts/simhei.ttf
 mybatis-plus:
   configuration:
     default-executor-type: batch

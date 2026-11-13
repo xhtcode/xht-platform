@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.platform.file.enums.PreviewSourceEnum;
 import com.xht.platform.file.enums.PreviewTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -47,22 +46,10 @@ public class SysFileTypeEntity extends BasicEntity {
     private String fileSuffix;
 
     /**
-     * 预览来源：original/convert
-     */
-    @TableField(value = "preview_source")
-    private PreviewSourceEnum previewSource;
-
-    /**
      * 转换目标格式，如 pdf
      */
     @TableField(value = "convert_target")
     private String convertTarget;
-
-    /**
-     * 是否启用：1 是
-     */
-    @TableField(value = "enabled")
-    private Integer enabled;
 
     /**
      * 排序

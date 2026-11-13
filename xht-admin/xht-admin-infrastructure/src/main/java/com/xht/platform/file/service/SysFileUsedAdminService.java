@@ -15,7 +15,6 @@ import com.xht.platform.file.domain.response.SysFileUsedResponse;
 import com.xht.platform.file.entity.SysFileUsedEntity;
 import com.xht.platform.file.enums.FileAccessScopeEnum;
 import com.xht.platform.file.enums.ImageModeEnum;
-import com.xht.platform.file.enums.WatermarkLevelEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -167,9 +166,6 @@ public class SysFileUsedAdminService implements ISysFileUsedAdminService {
         entity.setShareAllowed(form.getShareAllowed() == null ? 1 : form.getShareAllowed());
         entity.setShareExpireDays(form.getShareExpireDays());
         entity.setShareMaxAccessCount(form.getShareMaxAccessCount());
-        WatermarkLevelEnum watermark = form.getWatermarkLevel() == null
-                ? WatermarkLevelEnum.L1 : form.getWatermarkLevel();
-        entity.setWatermarkLevel(watermark.getValue());
         ImageModeEnum imageMode = form.getImageMode();
         entity.setImageMode(imageMode == null ? null : imageMode.getValue());
     }
@@ -193,7 +189,6 @@ public class SysFileUsedAdminService implements ISysFileUsedAdminService {
         response.setShareAllowed(entity.getShareAllowed());
         response.setShareExpireDays(entity.getShareExpireDays());
         response.setShareMaxAccessCount(entity.getShareMaxAccessCount());
-        response.setWatermarkLevel(WatermarkLevelEnum.getByValue(entity.getWatermarkLevel()));
         response.setImageMode(ImageModeEnum.getByValue(entity.getImageMode()));
         response.setFileCount(sysFileDao.countByUsed(entity.getUsedCode()));
         response.setUpdateTime(entity.getUpdateTime());

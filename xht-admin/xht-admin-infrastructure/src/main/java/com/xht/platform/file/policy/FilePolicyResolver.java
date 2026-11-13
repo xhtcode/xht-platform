@@ -49,10 +49,6 @@ public class FilePolicyResolver {
      */
     private static final String KEY_SHARE_MAX_ACCESS = "share.default-max-access-count";
     /**
-     * 全局配置：默认水印等级
-     */
-    private static final String KEY_WATERMARK_LEVEL = "watermark.default-level";
-    /**
      * 全局配置：默认图片模式
      */
     private static final String KEY_IMAGE_MODE = "image.default-mode";
@@ -79,8 +75,10 @@ public class FilePolicyResolver {
         SysFileTypeEntity sysFileTypeEntity = sysFileTypeDao.findConfigBySuffix(sysFileEntity.getFileSuffix());
         Map<String, Object> fileConfig = Objects.isNull(sysFileEntity.getFileConfig()) ? Map.of() : sysFileEntity.getFileConfig();
         PreviewTypeEnum previewType = SafeGetUtil.getSafe(sysFileTypeEntity, SysFileTypeEntity::getPreviewType, () -> PreviewTypeEnum.OTHER);
-        PreviewSourceEnum previewSource = SafeGetUtil.getSafe(sysFileTypeEntity, SysFileTypeEntity::getPreviewSource, () -> PreviewSourceEnum.ORIGINAL);
         String convertTarget = SafeGetUtil.getSafe(sysFileTypeEntity, SysFileTypeEntity::getConvertTarget);
+        // 预览来源由后缀配置的转换目标推导：配了目标即走转换，否则原文输出
+        PreviewSourceEnum previewSource = StringUtils.hasText(convertTarget)
+                ? PreviewSourceEnum.CONVERT : PreviewSourceEnum.ORIGINAL;
         boolean usedDownload = Objects.equals(used.getDownloadAllowed(), 0);
         boolean usedPrint = Objects.equals(used.getPrintAllowed(), 0);
         boolean usedShare = Objects.equals(used.getShareAllowed(), 0);
@@ -101,12 +99,6 @@ public class FilePolicyResolver {
         Integer shareMaxAccess = resolveTightenInt(fileConfig, "shareMaxAccessCount",
                 KEY_SHARE_MAX_ACCESS, defaultMaxAccess);
 
-        WatermarkLevelEnum usedWatermark = WatermarkLevelEnum.getByValue(used.getWatermarkLevel());
-        if (usedWatermark == null) {
-            usedWatermark = WatermarkLevelEnum.getByValue(
-                    sysFileSettingService.getString(KEY_WATERMARK_LEVEL, "l1"));
-        }
-        WatermarkLevelEnum watermarkLevel = resolveWatermark(fileConfig, usedWatermark);
         ImageModeEnum usedImageMode = ImageModeEnum.getByValue(used.getImageMode());
         if (usedImageMode == null) {
             usedImageMode = ImageModeEnum.getByValue(
@@ -147,7 +139,6 @@ public class FilePolicyResolver {
                 .shareAllowed(shareAllowed)
                 .shareExpireDays(shareExpireDays)
                 .shareMaxAccessCount(shareMaxAccess)
-                .watermarkLevel(watermarkLevel)
                 .imageMode(imageMode)
                 .build();
     }
@@ -211,22 +202,6 @@ public class FilePolicyResolver {
             return baseValue;
         }
         return Math.min(value, baseValue);
-    }
-
-    /**
-     * 解析水印等级，只允许调高
-     *
-     * @param fileConfig 文件级配置
-     * @param baseValue  基础等级
-     * @return 最终等级
-     */
-    private WatermarkLevelEnum resolveWatermark(Map<String, Object> fileConfig, WatermarkLevelEnum baseValue) {
-        WatermarkLevelEnum base = baseValue == null ? WatermarkLevelEnum.L1 : baseValue;
-        if (sysFileSettingService.isUserOverridable(KEY_WATERMARK_LEVEL) || !fileConfig.containsKey("watermarkLevel")) {
-            return base;
-        }
-        WatermarkLevelEnum value = WatermarkLevelEnum.getByValue(String.valueOf(fileConfig.get("watermarkLevel")));
-        return WatermarkLevelEnum.max(base, value);
     }
 
     /**
