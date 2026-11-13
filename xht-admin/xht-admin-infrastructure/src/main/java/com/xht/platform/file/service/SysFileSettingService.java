@@ -5,7 +5,6 @@ import com.xht.platform.file.entity.SysFileSettingEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -81,26 +80,6 @@ public class SysFileSettingService {
             return defaultValue;
         }
         return "true".equalsIgnoreCase(value.trim()) || "1".equals(value.trim());
-    }
-
-    /**
-     * 获取小数配置
-     *
-     * @param key          配置键
-     * @param defaultValue 默认值
-     * @return 配置值
-     */
-    public BigDecimal getDecimal(String key, BigDecimal defaultValue) {
-        String value = getString(key, null);
-        if (value == null || value.isBlank()) {
-            return defaultValue;
-        }
-        try {
-            return new BigDecimal(value.trim());
-        } catch (NumberFormatException e) {
-            log.warn("文件配置 [{}] 不是合法数字：{}，使用默认值 {}", key, value, defaultValue);
-            return defaultValue;
-        }
     }
 
     /**

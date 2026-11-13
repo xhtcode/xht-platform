@@ -30,9 +30,4 @@ public final class FileConfig extends HashMap<String, Object> {
      * 分享访问次数
      */
     public static final String KEY_SHARE_MAX_ACCESS_COUNT = "shareMaxAccessCount";
-    /**
-     * 图片模式
-     */
-    public static final String KEY_IMAGE_MODE = "imageMode";
-
 }

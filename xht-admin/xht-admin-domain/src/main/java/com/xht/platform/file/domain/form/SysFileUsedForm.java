@@ -1,7 +1,6 @@
 package com.xht.platform.file.domain.form;
 
 import com.xht.platform.file.enums.FileAccessScopeEnum;
-import com.xht.platform.file.enums.ImageModeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -55,8 +54,5 @@ public class SysFileUsedForm implements Serializable {
 
     @Schema(description = "分享访问次数上限")
     private Integer shareMaxAccessCount;
-
-    @Schema(description = "图片模式")
-    private ImageModeEnum imageMode;
 
 }

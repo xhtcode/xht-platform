@@ -2,8 +2,6 @@ package com.xht.platform.file.service;
 
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.cache.utils.Keys;
-import com.xht.framework.exception.core.BusinessErrorCode;
-import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.common.file.constant.SysFileConstant;
 import com.xht.platform.file.dao.SysFileUsedDao;
 import com.xht.platform.file.entity.SysFileUsedEntity;
@@ -55,19 +53,6 @@ public class SysFileUsedService {
         if (Objects.nonNull(entity)) {
             redisRepository.set(key, entity, CACHE_MINUTES, TimeUnit.MINUTES);
         }
-        return entity;
-    }
-
-    /**
-     * 获取启用用途，不存在或停用时抛业务异常
-     *
-     * @param usedCode 用途编码
-     * @return 用途配置
-     */
-    public SysFileUsedEntity getEnabledByCode(String usedCode) {
-        SysFileUsedEntity entity = findByCode(usedCode);
-        AssertUtils.notNull(entity, BusinessErrorCode.FILE_USED_NOT_EXIST);
-        AssertUtils.isTrue(Objects.equals(entity.getEnabled(), 1), BusinessErrorCode.FILE_USED_NOT_EXIST);
         return entity;
     }
 

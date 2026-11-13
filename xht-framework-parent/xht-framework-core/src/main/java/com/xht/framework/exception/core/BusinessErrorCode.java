@@ -175,18 +175,6 @@ public enum BusinessErrorCode implements ErrorCode {
      */
     PREVIEW_SESSION_EXPIRED(50221, "预览会话已过期，请重新初始化"),
     /**
-     * 文件转换中
-     */
-    FILE_CONVERTING(50222, "文件转换中，请稍后重试"),
-    /**
-     * 文件转换失败
-     */
-    FILE_CONVERT_FAIL(50223, "文件转换失败"),
-    /**
-     * 转换任务繁忙
-     */
-    FILE_CONVERT_BUSY(50224, "转换任务繁忙，请稍后重试"),
-    /**
      * 分享不存在或已过期
      */
     SHARE_NOT_EXIST_OR_EXPIRED(50225, "分享不存在或已过期"),

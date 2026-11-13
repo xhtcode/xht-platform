@@ -1,7 +1,6 @@
 package com.xht.platform.file.domain.session;
 
 import com.xht.platform.file.enums.FileAccessSubjectTypeEnum;
-import com.xht.platform.file.enums.PreviewSourceEnum;
 import com.xht.platform.file.enums.PreviewTypeEnum;
 import com.xht.platform.file.enums.SharePermissionEnum;
 import lombok.AllArgsConstructor;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 
 /**
  * 描述： 文件预览会话
- * <p>Redis 存储，绑定访问主体、文件、预览模式与转换产物</p>
+ * <p>Redis 存储，绑定访问主体、文件与预览模式</p>
  *
  * @author xht
  **/
@@ -72,16 +71,6 @@ public class FilePreviewSession implements Serializable {
      * 预览模式
      */
     private PreviewTypeEnum previewMode;
-
-    /**
-     * 预览来源
-     */
-    private PreviewSourceEnum previewSource;
-
-    /**
-     * 转换任务ID
-     */
-    private Long convertTaskId;
 
     /**
      * 分享ID

@@ -48,12 +48,6 @@ public class SysFileTypeResponse extends MetaResponse {
     private String fileSuffix;
 
     /**
-     * 转换目标格式
-     */
-    @Schema(description = "转换目标格式")
-    private String convertTarget;
-
-    /**
      * 排序
      */
     @Schema(description = "排序")

@@ -106,11 +106,6 @@ xht:
       local:
         base-path: ./data/file
       view-prefix: /file/storage/preview/
-    convert:
-      # LibreOffice 可执行文件，Windows 示例：D:/Program Files/LibreOffice/program/soffice.exe
-      libreoffice-path: soffice
-      timeout-seconds: 120
-      cleanup-cron: "0 0 3 * * ?"
 mybatis-plus:
   configuration:
     default-executor-type: batch

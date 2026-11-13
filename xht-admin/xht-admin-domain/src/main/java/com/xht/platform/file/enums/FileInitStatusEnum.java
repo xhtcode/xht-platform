@@ -19,18 +19,9 @@ public enum FileInitStatusEnum implements XhtEnum<Integer> {
      */
     SUCCESS(0, "文件预览请求处理成功"),
     /**
-     * CONVERTING：文件正在转换中
-     */
-    CONVERTING(1, "文件正在转换中"),
-    /**
      * NOT_SUPPORTED：不支持的文件类型
      */
     NOT_SUPPORTED(2, "不支持的文件类型"),
-
-    /**
-     * FAILED：文件转换失败
-     */
-    FAILED(3, "文件转换失败"),
 
     /**
      * DOWNLOAD_ONLY：仅支持下载，无在线预览

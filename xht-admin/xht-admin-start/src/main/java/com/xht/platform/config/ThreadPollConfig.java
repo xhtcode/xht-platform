@@ -27,11 +27,6 @@ public class ThreadPollConfig implements AsyncConfigurer {
     public static final String ASYNC_EXECUTOR_THREAD_NAME = "xht-async-executor";
 
     /**
-     * 文件转换线程池 bean 名称
-     */
-    public static final String FILE_CONVERT_EXECUTOR = "file-convert-executor";
-
-    /**
      * 配置线程池
      * <p>
      * 该 bean 同时作为全局默认异步执行器（见 {@link #getAsyncExecutor()}）以及 {@code @Async("xht-async-executor")}
@@ -49,25 +44,6 @@ public class ThreadPollConfig implements AsyncConfigurer {
         // 最大线程数量
         taskExecutor.setMaxPoolSize(threadCount);
         taskExecutor.setThreadNamePrefix(ASYNC_EXECUTOR_THREAD_NAME);
-        taskExecutor.initialize();
-        return taskExecutor;
-    }
-
-    /**
-     * 文件转换专用线程池
-     * <p>与通用异步线程池隔离，避免 Office 转换长时间占用影响站内信、审计等任务</p>
-     *
-     * @return 转换线程池
-     */
-    @Bean(name = FILE_CONVERT_EXECUTOR)
-    public AsyncTaskExecutor fileConvertExecutor() {
-        int processors = Runtime.getRuntime().availableProcessors();
-        int threadCount = Math.max(2, processors / 2);
-        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        taskExecutor.setCorePoolSize(threadCount);
-        taskExecutor.setMaxPoolSize(threadCount);
-        taskExecutor.setQueueCapacity(200);
-        taskExecutor.setThreadNamePrefix("file-convert-");
         taskExecutor.initialize();
         return taskExecutor;
     }

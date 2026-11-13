@@ -46,13 +46,6 @@ public class SysFileTypeForm extends BasicForm {
     private String fileSuffix;
 
     /**
-     * 转换目标格式
-     */
-    @Size(max = 20, message = "转换目标格式长度不能超过20", groups = {Groups.Create.class, Groups.Update.class})
-    @Schema(description = "转换目标格式，如 pdf")
-    private String convertTarget;
-
-    /**
      * 排序
      */
     @Schema(description = "排序")

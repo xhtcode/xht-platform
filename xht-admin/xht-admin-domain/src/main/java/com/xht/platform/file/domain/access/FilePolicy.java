@@ -1,8 +1,6 @@
 package com.xht.platform.file.domain.access;
 
 import com.xht.platform.file.enums.FileAccessScopeEnum;
-import com.xht.platform.file.enums.ImageModeEnum;
-import com.xht.platform.file.enums.PreviewSourceEnum;
 import com.xht.platform.file.enums.PreviewTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,21 +41,6 @@ public class FilePolicy implements Serializable {
     private PreviewTypeEnum previewType;
 
     /**
-     * 预览来源
-     */
-    private PreviewSourceEnum previewSource;
-
-    /**
-     * 转换目标格式
-     */
-    private String convertTarget;
-
-    /**
-     * 是否需要转换
-     */
-    private boolean needConvert;
-
-    /**
      * 访问范围
      */
     private FileAccessScopeEnum accessScope;
@@ -91,11 +74,6 @@ public class FilePolicy implements Serializable {
      * 分享访问次数上限，0=不限
      */
     private Integer shareMaxAccessCount;
-
-    /**
-     * 图片处理模式
-     */
-    private ImageModeEnum imageMode;
 
     /**
      * 是否为图片类型

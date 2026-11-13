@@ -48,10 +48,6 @@ public class FilePolicyResolver {
      * 全局配置：分享默认访问次数
      */
     private static final String KEY_SHARE_MAX_ACCESS = "share.default-max-access-count";
-    /**
-     * 全局配置：默认图片模式
-     */
-    private static final String KEY_IMAGE_MODE = "image.default-mode";
 
     private final SysFileUsedService sysFileUsedService;
 
@@ -75,10 +71,6 @@ public class FilePolicyResolver {
         SysFileTypeEntity sysFileTypeEntity = sysFileTypeDao.findConfigBySuffix(sysFileEntity.getFileSuffix());
         Map<String, Object> fileConfig = Objects.isNull(sysFileEntity.getFileConfig()) ? Map.of() : sysFileEntity.getFileConfig();
         PreviewTypeEnum previewType = SafeGetUtil.getSafe(sysFileTypeEntity, SysFileTypeEntity::getPreviewType, () -> PreviewTypeEnum.OTHER);
-        String convertTarget = SafeGetUtil.getSafe(sysFileTypeEntity, SysFileTypeEntity::getConvertTarget);
-        // 预览来源由后缀配置的转换目标推导：配了目标即走转换，否则原文输出
-        PreviewSourceEnum previewSource = StringUtils.hasText(convertTarget)
-                ? PreviewSourceEnum.CONVERT : PreviewSourceEnum.ORIGINAL;
         boolean usedDownload = Objects.equals(used.getDownloadAllowed(), 0);
         boolean usedPrint = Objects.equals(used.getPrintAllowed(), 0);
         boolean usedShare = Objects.equals(used.getShareAllowed(), 0);
@@ -99,26 +91,6 @@ public class FilePolicyResolver {
         Integer shareMaxAccess = resolveTightenInt(fileConfig, "shareMaxAccessCount",
                 KEY_SHARE_MAX_ACCESS, defaultMaxAccess);
 
-        ImageModeEnum usedImageMode = ImageModeEnum.getByValue(used.getImageMode());
-        if (usedImageMode == null) {
-            usedImageMode = ImageModeEnum.getByValue(
-                    sysFileSettingService.getString(KEY_IMAGE_MODE, "original"));
-        }
-        ImageModeEnum imageMode = resolveImageMode(fileConfig, usedImageMode);
-        // 图片按用途/文件级策略决定是否转换；Office 等非图片类型走后缀配置
-        if (PreviewTypeEnum.IMAGE == previewType) {
-            if (ImageModeEnum.PDF == imageMode) {
-                previewType = PreviewTypeEnum.PDF;
-                previewSource = PreviewSourceEnum.CONVERT;
-                convertTarget = "pdf";
-            } else if (ImageModeEnum.WEBP == imageMode) {
-                previewSource = PreviewSourceEnum.CONVERT;
-                convertTarget = "webp";
-            } else if (isIncompatibleImage(sysFileEntity.getFileSuffix())) {
-                previewSource = PreviewSourceEnum.CONVERT;
-                convertTarget = "png";
-            }
-        }
         FileAccessScopeEnum accessScope = Objects.nonNull(sysFileEntity.getAccessScope())
                 ? sysFileEntity.getAccessScope()
                 : used.getAccessScope();
@@ -129,9 +101,6 @@ public class FilePolicyResolver {
                 .usedCode(usedCode)
                 .usedName(used.getUsedName())
                 .previewType(previewType)
-                .previewSource(previewSource)
-                .convertTarget(convertTarget)
-                .needConvert(PreviewSourceEnum.CONVERT == previewSource && StringUtils.hasText(convertTarget))
                 .accessScope(accessScope)
                 .publicAllowed(publicAllowed)
                 .downloadAllowed(downloadAllowed)
@@ -139,23 +108,7 @@ public class FilePolicyResolver {
                 .shareAllowed(shareAllowed)
                 .shareExpireDays(shareExpireDays)
                 .shareMaxAccessCount(shareMaxAccess)
-                .imageMode(imageMode)
                 .build();
-    }
-
-    /**
-     * 是否浏览器不兼容的图片格式
-     *
-     * @param fileSuffix 文件后缀
-     * @return true：需要转换
-     */
-    private boolean isIncompatibleImage(String fileSuffix) {
-        if (!StringUtils.hasText(fileSuffix)) {
-            return false;
-        }
-        String suffix = fileSuffix.toLowerCase();
-        return "bmp".equals(suffix) || "tif".equals(suffix) || "tiff".equals(suffix)
-                || "heic".equals(suffix) || "heif".equals(suffix);
     }
 
     /**
@@ -202,22 +155,6 @@ public class FilePolicyResolver {
             return baseValue;
         }
         return Math.min(value, baseValue);
-    }
-
-    /**
-     * 解析图片模式
-     *
-     * @param fileConfig 文件级配置
-     * @param baseValue  基础模式
-     * @return 最终模式
-     */
-    private ImageModeEnum resolveImageMode(Map<String, Object> fileConfig, ImageModeEnum baseValue) {
-        ImageModeEnum base = baseValue == null ? ImageModeEnum.ORIGINAL : baseValue;
-        if (sysFileSettingService.isUserOverridable(KEY_IMAGE_MODE) || !fileConfig.containsKey("imageMode")) {
-            return base;
-        }
-        ImageModeEnum value = ImageModeEnum.getByValue(String.valueOf(fileConfig.get("imageMode")));
-        return value == null ? base : value;
     }
 
     /**

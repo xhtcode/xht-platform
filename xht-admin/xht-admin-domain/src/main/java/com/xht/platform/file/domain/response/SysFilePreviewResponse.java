@@ -1,7 +1,6 @@
 package com.xht.platform.file.domain.response;
 
 import com.xht.platform.file.enums.FileInitStatusEnum;
-import com.xht.platform.file.enums.PreviewSourceEnum;
 import com.xht.platform.file.enums.PreviewTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -70,12 +69,6 @@ public class SysFilePreviewResponse implements Serializable {
      */
     @Schema(description = "预览模式")
     private PreviewTypeEnum previewMode;
-
-    /**
-     * 预览来源
-     */
-    @Schema(description = "预览来源")
-    private PreviewSourceEnum previewSource;
 
     /**
      * 能力清单

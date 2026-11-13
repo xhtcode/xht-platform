@@ -105,12 +105,6 @@ public class SysFileUsedEntity extends BasicEntity {
     private Integer shareMaxAccessCount;
 
     /**
-     * 图片模式：original/webp/pdf，空则继承全局
-     */
-    @TableField(value = "image_mode")
-    private String imageMode;
-
-    /**
      * 配置版本
      */
     @TableField(value = "config_version")

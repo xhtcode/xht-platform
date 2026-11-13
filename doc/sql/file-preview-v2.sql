@@ -75,23 +75,10 @@ WHERE `file_used` IN ('avatar', 'notice')
 -- 2. sys_file_type 变更（只承载技术配置）
 -- ============================================================
 
--- 2.1 convert_target
+-- 2.1 sort
 SET @sql = (SELECT IF(
     COUNT(*) = 0,
-    'ALTER TABLE `sys_file_type` ADD COLUMN `convert_target` varchar(20) DEFAULT NULL COMMENT ''转换目标格式，如 pdf'' AFTER `file_suffix`',
-    'SET @noop = 1'
-) FROM information_schema.COLUMNS
- WHERE TABLE_SCHEMA = DATABASE()
-   AND TABLE_NAME = 'sys_file_type'
-   AND COLUMN_NAME = 'convert_target');
-PREPARE stmt FROM @sql;
-EXECUTE stmt;
-DEALLOCATE PREPARE stmt;
-
--- 2.2 sort
-SET @sql = (SELECT IF(
-    COUNT(*) = 0,
-    'ALTER TABLE `sys_file_type` ADD COLUMN `sort` int NOT NULL DEFAULT 0 COMMENT ''排序'' AFTER `convert_target`',
+    'ALTER TABLE `sys_file_type` ADD COLUMN `sort` int NOT NULL DEFAULT 0 COMMENT ''排序'' AFTER `file_suffix`',
     'SET @noop = 1'
 ) FROM information_schema.COLUMNS
  WHERE TABLE_SCHEMA = DATABASE()
@@ -101,9 +88,10 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
--- 2.3 存量 Office 后缀改为转换 PDF
+-- 2.2 存量 Office 后缀改为仅下载（已移除文件转换能力，不再在线预览）
 UPDATE `sys_file_type`
-SET `convert_target` = 'pdf'
+SET `preview_type` = 'other',
+    `preview_name` = '其他'
 WHERE `file_suffix` IN ('doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'rtf', 'odt', 'ods', 'odp')
   AND `del_flag` = 0;
 
@@ -129,7 +117,6 @@ CREATE TABLE IF NOT EXISTS `sys_file_used`
     `share_expire_days`      int          NULL DEFAULT NULL COMMENT '默认分享天数，空则继承全局',
     `share_max_access_count` int          NULL DEFAULT NULL COMMENT '分享访问次数上限，空则继承全局；0=不限',
     `watermark_level`        varchar(10)  NOT NULL DEFAULT 'l1' COMMENT '水印等级 off/l1/l2',
-    `image_mode`             varchar(20)  NULL DEFAULT NULL COMMENT '图片模式 original/webp/pdf，空则继承全局',
     `config_version`         int          NOT NULL DEFAULT 0 COMMENT '配置版本',
     `create_by`              varchar(32)  NULL DEFAULT NULL COMMENT '创建人',
     `create_time`            datetime     NULL DEFAULT NULL COMMENT '创建时间',
@@ -148,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `sys_file_setting`
     `setting_key`         varchar(100) NOT NULL COMMENT '配置键',
     `setting_value`       varchar(500) NULL DEFAULT NULL COMMENT '当前值',
     `value_type`          varchar(20)  NOT NULL DEFAULT 'string' COMMENT 'string/int/bool/json',
-    `setting_group`       varchar(50)  NOT NULL COMMENT 'download/share/watermark/convert/public/session',
+    `setting_group`       varchar(50)  NOT NULL COMMENT 'download/share/watermark/public/session',
     `setting_name`        varchar(100) NOT NULL COMMENT '配置名称',
     `description`         varchar(500) NULL DEFAULT NULL COMMENT '说明',
     `default_value`       varchar(500) NULL DEFAULT NULL COMMENT '默认值',
@@ -172,31 +159,7 @@ CREATE TABLE IF NOT EXISTS `sys_file_setting`
     KEY `idx_setting_group` (`setting_group`) USING BTREE
 ) ENGINE = InnoDB COMMENT = '文件模块运行时配置' ROW_FORMAT = Dynamic;
 
--- 3.3 文件转换任务
-CREATE TABLE IF NOT EXISTS `sys_file_convert`
-(
-    `id`                    bigint       NOT NULL COMMENT '主键ID',
-    `file_id`               bigint       NOT NULL COMMENT '源文件ID',
-    `source_suffix`         varchar(32)  NOT NULL COMMENT '源后缀',
-    `target_format`         varchar(20)  NOT NULL DEFAULT 'pdf' COMMENT '目标格式',
-    `status`                tinyint      NOT NULL DEFAULT 0 COMMENT '0待处理 1处理中 2成功 3失败',
-    `converted_storage_key` varchar(64)  NULL DEFAULT NULL COMMENT '转换产物存储路径（本地/对象存储）',
-    `converted_size`        bigint       NULL DEFAULT NULL COMMENT '转换产物大小',
-    `error_msg`             varchar(500) NULL DEFAULT NULL COMMENT '失败原因',
-    `retry_count`           tinyint      NOT NULL DEFAULT 0 COMMENT '重试次数',
-    `expire_time`           datetime     NULL DEFAULT NULL COMMENT '产物过期时间',
-    `start_time`            datetime     NULL DEFAULT NULL COMMENT '开始时间',
-    `end_time`              datetime     NULL DEFAULT NULL COMMENT '结束时间',
-    `create_by`             varchar(32)  NULL DEFAULT NULL COMMENT '创建人',
-    `create_time`           datetime     NULL DEFAULT NULL COMMENT '创建时间',
-    `update_by`             varchar(32)  NULL DEFAULT NULL COMMENT '更新人',
-    `update_time`           datetime     NULL DEFAULT NULL COMMENT '更新时间',
-    PRIMARY KEY (`id`) USING BTREE,
-    UNIQUE KEY `uk_file_target` (`file_id`, `target_format`) USING BTREE,
-    KEY `idx_convert_status_expire` (`status`, `expire_time`) USING BTREE
-) ENGINE = InnoDB COMMENT = '文件转换任务' ROW_FORMAT = Dynamic;
-
--- 3.4 文件分享
+-- 3.3 文件分享
 CREATE TABLE IF NOT EXISTS `sys_file_share`
 (
     `id`               bigint       NOT NULL COMMENT '主键ID',
@@ -231,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `sys_file_share`
     KEY `idx_share_mode` (`share_mode`) USING BTREE
 ) ENGINE = InnoDB COMMENT = '文件分享' ROW_FORMAT = Dynamic;
 
--- 3.4.1 已有 sys_file_share 表补充提取码版本列
+-- 3.3.1 已有 sys_file_share 表补充提取码版本列
 SET @sql = (SELECT IF(
     COUNT(*) = 0,
     'ALTER TABLE `sys_file_share` ADD COLUMN `code_version` int NOT NULL DEFAULT 0 COMMENT ''提取码版本，重置时递增'' AFTER `require_code`',
@@ -244,7 +207,7 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
--- 3.5 分享接收人
+-- 3.4 分享接收人
 CREATE TABLE IF NOT EXISTS `sys_file_share_receiver`
 (
     `id`              bigint      NOT NULL COMMENT '主键ID',
@@ -266,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `sys_file_share_receiver`
     KEY `idx_receiver_share` (`share_id`) USING BTREE
 ) ENGINE = InnoDB COMMENT = '文件分享接收人' ROW_FORMAT = Dynamic;
 
--- 3.6 配置变更日志
+-- 3.5 配置变更日志
 CREATE TABLE IF NOT EXISTS `sys_file_config_log`
 (
     `id`           bigint       NOT NULL COMMENT '主键ID',
@@ -290,21 +253,21 @@ CREATE TABLE IF NOT EXISTS `sys_file_config_log`
 INSERT IGNORE INTO `sys_file_used`
 (`id`, `used_code`, `used_name`, `description`, `built_in`, `enabled`, `sort`,
  `access_scope`, `public_allowed`, `download_allowed`, `print_allowed`, `share_allowed`,
- `share_expire_days`, `share_max_access_count`, `watermark_level`, `image_mode`,
+ `share_expire_days`, `share_max_access_count`, `watermark_level`,
  `config_version`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`)
 VALUES
 (1, 'temp',     '临时文件', '上传后未关联业务的临时文件', 1, 1, 10,
- 'private', 0, 1, 1, 1, NULL, NULL, 'off', NULL, 0, 'system', NOW(), 'system', NOW(), 0),
+ 'private', 0, 1, 1, 1, NULL, NULL, 'off', 0, 'system', NOW(), 'system', NOW(), 0),
 (2, 'avatar',   '头像',     '用户头像等公开图片',         1, 1, 20,
- 'public',  1, 1, 0, 0, NULL, NULL, 'off', 'original', 0, 'system', NOW(), 'system', NOW(), 0),
+ 'public',  1, 1, 0, 0, NULL, NULL, 'off', 0, 'system', NOW(), 'system', NOW(), 0),
 (3, 'notice',   '通知附件', '通知公告附件',               1, 1, 30,
- 'public',  1, 1, 1, 0, NULL, NULL, 'l2', 'original', 0, 'system', NOW(), 'system', NOW(), 0),
+ 'public',  1, 1, 1, 0, NULL, NULL, 'l2', 0, 'system', NOW(), 'system', NOW(), 0),
 (4, 'contract', '合同附件', '合同、协议等敏感文件',       1, 1, 40,
- 'private', 0, 0, 0, 1, NULL, NULL, 'l2', 'pdf',      0, 'system', NOW(), 'system', NOW(), 0),
+ 'private', 0, 0, 0, 1, NULL, NULL, 'l2', 0, 'system', NOW(), 'system', NOW(), 0),
 (5, 'document', '文档资料', '内部文档、资料',             1, 1, 50,
- 'private', 0, 1, 1, 1, NULL, NULL, 'l2', NULL,       0, 'system', NOW(), 'system', NOW(), 0),
+ 'private', 0, 1, 1, 1, NULL, NULL, 'l2', 0, 'system', NOW(), 'system', NOW(), 0),
 (6, 'other',    '其他',     '未归类的业务附件',           1, 1, 99,
- 'private', 0, 1, 1, 1, NULL, NULL, 'l1', NULL,       0, 'system', NOW(), 'system', NOW(), 0);
+ 'private', 0, 1, 1, 1, NULL, NULL, 'l1', 0, 'system', NOW(), 'system', NOW(), 0);
 
 -- ============================================================
 -- 5. 初始化数据：全局配置
@@ -373,26 +336,6 @@ VALUES
 (1044, 'watermark.degrade-threshold', '0.8', 'string', 'watermark', '水印降级阈值', 'CPU 使用率超过该值时降级为 L1',
  '0.8', '0.5', '0.95', 0, 'LOCKED', NULL, NULL, NULL, NULL, 1, 0, 'system', NOW(), 'system', NOW(), 0),
 
-(1050, 'image.default-mode', 'original', 'string', 'image', '图片默认模式', '用途未配置时的图片处理方式',
- 'original', NULL, NULL, 1, 'FREE', NULL, NULL, 'original,webp,pdf', '按业务选择，部分用途仅允许 original', 1, 0, 'system', NOW(), 'system', NOW(), 0),
-
-(1060, 'convert.enabled', 'true', 'bool', 'convert', '转换总开关', '文件转换功能总开关',
- 'true', NULL, NULL, 0, 'LOCKED', NULL, NULL, NULL, NULL, 1, 0, 'system', NOW(), 'system', NOW(), 0),
-(1061, 'convert.retention-days', '7', 'int', 'convert', '转换产物保留天数', '默认保留天数',
- '7', '1', '90', 0, 'LOCKED', NULL, NULL, NULL, NULL, 1, 0, 'system', NOW(), 'system', NOW(), 0),
-(1062, 'convert.share-buffer-days', '1', 'int', 'convert', '分享到期缓冲天数', '分享到期后产物额外保留的天数',
- '1', '0', '7', 0, 'LOCKED', NULL, NULL, NULL, NULL, 1, 0, 'system', NOW(), 'system', NOW(), 0),
-(1063, 'convert.max-retention-days', '31', 'int', 'convert', '转换产物最长保留天数', '分享延期后的硬上限',
- '31', '7', '120', 0, 'LOCKED', NULL, NULL, NULL, NULL, 1, 0, 'system', NOW(), 'system', NOW(), 0),
-(1064, 'convert.max-file-size-mb', '100', 'int', 'convert', '转换文件大小上限', '超过该大小的文件不转换',
- '100', '1', '500', 0, 'LOCKED', NULL, NULL, NULL, NULL, 1, 0, 'system', NOW(), 'system', NOW(), 0),
-(1065, 'convert.timeout-seconds', '120', 'int', 'convert', '单任务转换超时', '超时后标记失败',
- '120', '10', '600', 0, 'LOCKED', NULL, NULL, NULL, NULL, 1, 0, 'system', NOW(), 'system', NOW(), 0),
-(1066, 'convert.max-retry', '3', 'int', 'convert', '转换最大重试次数', '失败后的最大重试次数',
- '3', '0', '5', 0, 'LOCKED', NULL, NULL, NULL, NULL, 1, 0, 'system', NOW(), 'system', NOW(), 0),
-(1067, 'convert.queue-capacity', '200', 'int', 'convert', '转换队列上限', '队列满时返回忙碌',
- '200', '10', '2000', 0, 'LOCKED', NULL, NULL, NULL, NULL, 1, 0, 'system', NOW(), 'system', NOW(), 0),
-
 (1070, 'preview.session.ttl-minutes', '30', 'int', 'session', '登录预览会话 TTL', '登录用户会话滑动过期分钟数',
  '30', '5', '120', 0, 'LOCKED', NULL, NULL, NULL, NULL, 1, 0, 'system', NOW(), 'system', NOW(), 0),
 (1071, 'preview.session.max-hours', '2', 'int', 'session', '预览会话绝对上限', '会话最长存活小时数',
@@ -404,62 +347,62 @@ VALUES
 -- 6. 初始化数据：文件后缀预览类型
 -- ============================================================
 INSERT IGNORE INTO `sys_file_type`
-(`preview_type`, `preview_name`, `file_suffix`, `convert_target`,
+(`preview_type`, `preview_name`, `file_suffix`,
  `sort`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`)
 VALUES
-('image', '图片', 'jpg',  NULL, 10, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'jpeg', NULL, 11, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'png',  NULL, 12, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'gif',  NULL, 13, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'webp', NULL, 14, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'bmp',  NULL, 15, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'tif',  NULL, 16, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'tiff', NULL, 17, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'heic', NULL, 18, 0, 'system', NOW(), 'system', NOW()),
-('image', '图片', 'svg',  NULL, 19, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'jpg',  10, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'jpeg', 11, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'png',  12, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'gif',  13, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'webp', 14, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'bmp',  15, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'tif',  16, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'tiff', 17, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'heic', 18, 0, 'system', NOW(), 'system', NOW()),
+('image', '图片', 'svg',  19, 0, 'system', NOW(), 'system', NOW()),
 
-('pdf', 'PDF', 'pdf', NULL, 30, 0, 'system', NOW(), 'system', NOW()),
+('pdf', 'PDF', 'pdf', 30, 0, 'system', NOW(), 'system', NOW()),
 
-('pdf', 'PDF', 'doc',  'pdf', 40, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'docx', 'pdf', 41, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'xls',  'pdf', 42, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'xlsx', 'pdf', 43, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'ppt',  'pdf', 44, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'pptx', 'pdf', 45, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'rtf',  'pdf', 46, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'odt',  'pdf', 47, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'ods',  'pdf', 48, 0, 'system', NOW(), 'system', NOW()),
-('pdf', 'PDF', 'odp',  'pdf', 49, 0, 'system', NOW(), 'system', NOW()),
+('text', '文本', 'txt',  60, 0, 'system', NOW(), 'system', NOW()),
+('text', '文本', 'md',   61, 0, 'system', NOW(), 'system', NOW()),
+('text', '文本', 'log',  62, 0, 'system', NOW(), 'system', NOW()),
+('text', '文本', 'csv',  63, 0, 'system', NOW(), 'system', NOW()),
 
-('text', '文本', 'txt',  NULL, 60, 0, 'system', NOW(), 'system', NOW()),
-('text', '文本', 'md',   NULL, 61, 0, 'system', NOW(), 'system', NOW()),
-('text', '文本', 'log',  NULL, 62, 0, 'system', NOW(), 'system', NOW()),
-('text', '文本', 'csv',  NULL, 63, 0, 'system', NOW(), 'system', NOW()),
+('json', 'JSON', 'json', 70, 0, 'system', NOW(), 'system', NOW()),
+('json', 'JSON', 'xml',  71, 0, 'system', NOW(), 'system', NOW()),
+('json', 'JSON', 'yaml', 72, 0, 'system', NOW(), 'system', NOW()),
+('json', 'JSON', 'yml',  73, 0, 'system', NOW(), 'system', NOW()),
 
-('json', 'JSON', 'json', NULL, 70, 0, 'system', NOW(), 'system', NOW()),
-('json', 'JSON', 'xml',  NULL, 71, 0, 'system', NOW(), 'system', NOW()),
-('json', 'JSON', 'yaml', NULL, 72, 0, 'system', NOW(), 'system', NOW()),
-('json', 'JSON', 'yml',  NULL, 73, 0, 'system', NOW(), 'system', NOW()),
+('video', '视频', 'mp4',  80, 0, 'system', NOW(), 'system', NOW()),
+('video', '视频', 'webm', 81, 0, 'system', NOW(), 'system', NOW()),
+('video', '视频', 'mov',  82, 0, 'system', NOW(), 'system', NOW()),
 
-('video', '视频', 'mp4',  NULL, 80, 0, 'system', NOW(), 'system', NOW()),
-('video', '视频', 'webm', NULL, 81, 0, 'system', NOW(), 'system', NOW()),
-('video', '视频', 'mov',  NULL, 82, 0, 'system', NOW(), 'system', NOW()),
+('audio', '音频', 'mp3',  90, 0, 'system', NOW(), 'system', NOW()),
+('audio', '音频', 'wav',  91, 0, 'system', NOW(), 'system', NOW()),
+('audio', '音频', 'aac',  92, 0, 'system', NOW(), 'system', NOW()),
+('audio', '音频', 'flac', 93, 0, 'system', NOW(), 'system', NOW()),
+('audio', '音频', 'm4a',  94, 0, 'system', NOW(), 'system', NOW()),
 
-('audio', '音频', 'mp3',  NULL, 90, 0, 'system', NOW(), 'system', NOW()),
-('audio', '音频', 'wav',  NULL, 91, 0, 'system', NOW(), 'system', NOW()),
-('audio', '音频', 'aac',  NULL, 92, 0, 'system', NOW(), 'system', NOW()),
-('audio', '音频', 'flac', NULL, 93, 0, 'system', NOW(), 'system', NOW()),
-('audio', '音频', 'm4a',  NULL, 94, 0, 'system', NOW(), 'system', NOW()),
+('other', '其他', 'doc',  100, 0, 'system', NOW(), 'system', NOW()),
+('other', '其他', 'docx', 101, 0, 'system', NOW(), 'system', NOW()),
+('other', '其他', 'xls',  102, 0, 'system', NOW(), 'system', NOW()),
+('other', '其他', 'xlsx', 103, 0, 'system', NOW(), 'system', NOW()),
+('other', '其他', 'ppt',  104, 0, 'system', NOW(), 'system', NOW()),
+('other', '其他', 'pptx', 105, 0, 'system', NOW(), 'system', NOW()),
+('other', '其他', 'rtf',  106, 0, 'system', NOW(), 'system', NOW()),
+('other', '其他', 'odt',  107, 0, 'system', NOW(), 'system', NOW()),
+('other', '其他', 'ods',  108, 0, 'system', NOW(), 'system', NOW()),
+('other', '其他', 'odp',  109, 0, 'system', NOW(), 'system', NOW()),
 
-('other', '其他', 'zip', NULL, 200, 0, 'system', NOW(), 'system', NOW()),
-('other', '其他', 'rar', NULL, 201, 0, 'system', NOW(), 'system', NOW()),
-('other', '其他', '7z',  NULL, 202, 0, 'system', NOW(), 'system', NOW());
+('other', '其他', 'zip', 200, 0, 'system', NOW(), 'system', NOW()),
+('other', '其他', 'rar', 201, 0, 'system', NOW(), 'system', NOW()),
+('other', '其他', '7z',  202, 0, 'system', NOW(), 'system', NOW());
 
 -- 兜底默认行（file_suffix 为空）
 INSERT IGNORE INTO `sys_file_type`
-(`preview_type`, `preview_name`, `file_suffix`, `convert_target`,
+(`preview_type`, `preview_name`, `file_suffix`,
  `sort`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`)
-VALUES ('other', '其他', NULL, NULL, 999, 0, 'system', NOW(), 'system', NOW());
+VALUES ('other', '其他', NULL, 999, 0, 'system', NOW(), 'system', NOW());
 
 -- ============================================================
 -- 7. 演示数据：文件、分享、接收人
@@ -554,25 +497,12 @@ VALUES
 (920000000000000003, 910000000000000004, 109, '张三', 'USER', 109,
  0, NULL, DATE_SUB(NOW(), INTERVAL 5 MINUTE), 1, 0, 'system', NOW());
 
--- 7.4 演示转换任务（可选，不影响分享列表）
--- 说明：演示数据只放一条失败记录，便于前端验证 FAILED 状态展示；
---       不要给演示文件放 PENDING，否则会被初始化流程反复拾取。
-INSERT IGNORE INTO `sys_file_convert`
-(`id`, `file_id`, `source_suffix`, `target_format`, `status`,
- `converted_storage_key`, `converted_size`, `error_msg`, `retry_count`,
- `expire_time`, `start_time`, `end_time`, `create_by`, `create_time`, `update_by`, `update_time`)
-VALUES
-(930000000000000001, 900000000000000002, 'docx', 'pdf', 3,
- NULL, NULL, '演示数据：LibreOffice 转换器未部署', 1,
- NULL, DATE_SUB(NOW(), INTERVAL 10 MINUTE), DATE_SUB(NOW(), INTERVAL 9 MINUTE),
- 'system', NOW(), 'system', NOW());
-
 -- ============================================================
 -- 8. 验证查询
 -- ============================================================
 -- 8.1 用途
 SELECT `used_code`, `used_name`, `access_scope`, `public_allowed`,
-       `download_allowed`, `print_allowed`, `share_allowed`, `watermark_level`, `image_mode`
+       `download_allowed`, `print_allowed`, `share_allowed`, `watermark_level`
 FROM `sys_file_used`
 WHERE `del_flag` = 0
 ORDER BY `sort`;
@@ -584,7 +514,7 @@ WHERE `del_flag` = 0
 ORDER BY `setting_group`, `setting_key`;
 
 -- 8.3 后缀配置
-SELECT `file_suffix`, `preview_type`, `convert_target`
+SELECT `file_suffix`, `preview_type`
 FROM `sys_file_type`
 WHERE `del_flag` = 0
 ORDER BY `sort`
@@ -606,7 +536,6 @@ ORDER BY r.`id`;
 -- ============================================================
 -- 9. 演示数据清理（需要时取消注释执行）
 -- ============================================================
--- DELETE FROM `sys_file_convert` WHERE `id` BETWEEN 930000000000000001 AND 930000000000000099;
 -- DELETE FROM `sys_file_share_receiver` WHERE `id` BETWEEN 920000000000000001 AND 920000000000000099;
 -- DELETE FROM `sys_file_share` WHERE `id` BETWEEN 910000000000000001 AND 910000000000000099;
 -- DELETE FROM `sys_file` WHERE `id` BETWEEN 900000000000000001 AND 900000000000000099;
@@ -618,12 +547,10 @@ ORDER BY r.`id`;
 -- DROP TABLE IF EXISTS `sys_file_config_log`;
 -- DROP TABLE IF EXISTS `sys_file_share_receiver`;
 -- DROP TABLE IF EXISTS `sys_file_share`;
--- DROP TABLE IF EXISTS `sys_file_convert`;
 -- DROP TABLE IF EXISTS `sys_file_setting`;
 -- DROP TABLE IF EXISTS `sys_file_used`;
 -- ALTER TABLE `sys_file_type`
---   DROP COLUMN `sort`,
---   DROP COLUMN `convert_target`;
+--   DROP COLUMN `sort`;
 -- ALTER TABLE `sys_file`
 --   DROP COLUMN `file_config`,
 --   DROP COLUMN `access_scope`;

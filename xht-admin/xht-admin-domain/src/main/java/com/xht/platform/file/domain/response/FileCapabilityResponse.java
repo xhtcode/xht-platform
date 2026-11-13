@@ -30,16 +30,4 @@ public class FileCapabilityResponse implements Serializable {
     @Schema(description = "允许下载")
     private boolean download;
 
-    /**
-     * 允许打印
-     */
-    @Schema(description = "允许打印")
-    private boolean print;
-
-    /**
-     * 允许分享
-     */
-    @Schema(description = "允许分享")
-    private boolean share;
-
 }

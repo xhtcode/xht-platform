@@ -20,12 +20,10 @@ import com.xht.platform.file.dao.SysFileShareReceiverDao;
 import com.xht.platform.file.domain.access.FileAccessDecision;
 import com.xht.platform.file.domain.access.FileAccessSubject;
 import com.xht.platform.file.domain.access.FilePolicy;
-import com.xht.platform.file.domain.access.ShareAccessContext;
 import com.xht.platform.file.domain.form.FilePreviewInitForm;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.*;
 import com.xht.platform.file.domain.session.FilePreviewSession;
-import com.xht.platform.file.entity.SysFileConvertEntity;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.entity.SysFileShareReceiverEntity;
 import com.xht.platform.file.enums.*;
@@ -44,7 +42,6 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * 描述： 系统文件服务实现
@@ -89,8 +86,6 @@ public class SysFileServiceImpl implements ISysFileService {
     private final FileAccessEvaluator fileAccessEvaluator;
 
     private final PreviewSessionService previewSessionService;
-
-    private final FileConvertService fileConvertService;
 
     private final ISysFileShareService fileShareService;
 
@@ -193,31 +188,21 @@ public class SysFileServiceImpl implements ISysFileService {
      */
     @Override
     public SysFilePreviewResponse initPreviewInfo(FilePreviewInitForm form, HttpServletRequest request, HttpServletResponse response) {
-        SysFileEntity sysFileEntity;
-        SubjectContext subjectContext;
-        if (StringUtils.hasText(form.getShareTicket())) {
-            ShareAccessContext shareContext = fileShareService.resolveTicket(form.getShareTicket());
-            sysFileEntity = sysFileDao
-                    .findOptionalById(shareContext.getFileId())
-                    .orElseThrow(() -> new BusinessException(BusinessErrorCode.FILE_NOT_EXIST));
-            Long subjectId = Objects.requireNonNullElse(shareContext.getReceiverId(), shareContext.getShareId());
-            subjectContext = new SubjectContext(shareContext.getSubject(), String.valueOf(subjectId));
-        } else {
-            sysFileEntity = sysFileDao.findByFileStorageKey(form.getFileStorageKey());
-            subjectContext = resolveSubject();
-        }
+        SysFilePreviewResponse previewResponse = new SysFilePreviewResponse();
+        SysFileEntity sysFileEntity = sysFileDao.findByFileStorageKey(form.getFileStorageKey());
         AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
+        previewResponse.setFileName(sysFileEntity.getFileStorageName());
+        previewResponse.setFileOriginalName(sysFileEntity.getFileOriginalName());
+        previewResponse.setFileSize(sysFileEntity.getFileSize());
+        previewResponse.setFileSizeInfo(sysFileEntity.getFileSizeInfo());
+        previewResponse.setFileSuffix(sysFileEntity.getFileSuffix());
+        previewResponse.setFileType(sysFileEntity.getFileType());
+        SubjectContext subjectContext = resolveSubject();
         FileAccessDecision decision = fileAccessEvaluator.decide(sysFileEntity, subjectContext.subject());
-        if (!decision.isView() && !decision.isDownload()) {
-            throw new BusinessException(BusinessErrorCode.FILE_ACCESS_DENIED);
-        }
         FilePolicy policy = filePolicyResolver.resolve(sysFileEntity);
         boolean downloadOnly = isDownloadOnly(subjectContext.subject())
                 || (!decision.isView() && decision.isDownload());
-        ConversionResult conversion = downloadOnly
-                ? new ConversionResult(FileInitStatusEnum.DOWNLOAD_ONLY, null,
-                conversion(false, "NONE", null, null, null))
-                : resolveConversion(sysFileEntity, policy, true);
+        FileInitStatusEnum initStatus = resolveInitStatus(policy, downloadOnly);
         long ttl = ttlSeconds(subjectContext.subject());
         long absolute = absoluteSeconds(subjectContext.subject());
         FilePreviewSession session = FilePreviewSession.builder()
@@ -232,13 +217,15 @@ public class SysFileServiceImpl implements ISysFileService {
                 .sharePermission(subjectContext.subject().getSharePermission())
                 .fileId(sysFileEntity.getId())
                 .previewMode(policy.getPreviewType())
-                .previewSource(policy.getPreviewSource())
-                .convertTaskId(conversion.taskId())
                 .ttlSeconds(ttl)
                 .absoluteExpireAt(LocalDateTime.now().plusSeconds(absolute))
                 .build();
         previewSessionService.create(session);
-        return buildPreviewResponse(session, sysFileEntity, policy, decision, conversion);
+        previewResponse.setPreviewId(session.getPreviewId());
+        previewResponse.setInitStatus(initStatus);
+        previewResponse.setPreviewMode(policy.getPreviewType());
+        previewResponse.setCapabilities(buildCapabilities(decision, initStatus));
+        return previewResponse;
     }
 
     /**
@@ -260,11 +247,8 @@ public class SysFileServiceImpl implements ISysFileService {
         }
         FilePolicy policy = filePolicyResolver.resolve(file);
         boolean downloadOnly = isDownloadOnly(subject) || (!decision.isView() && decision.isDownload());
-        ConversionResult conversion = downloadOnly
-                ? new ConversionResult(FileInitStatusEnum.DOWNLOAD_ONLY, null,
-                conversion(false, "NONE", null, null, null))
-                : resolveConversion(file, policy, false);
-        return buildStatusResponse(session, policy, decision, conversion);
+        FileInitStatusEnum initStatus = resolveInitStatus(policy, downloadOnly);
+        return buildStatusResponse(session, policy, decision, initStatus);
     }
 
     /**
@@ -314,23 +298,9 @@ public class SysFileServiceImpl implements ISysFileService {
         if (!policy.isPreviewable()) {
             throw new BusinessException(BusinessErrorCode.FILE_PREVIEW_NOT_SUPPORT);
         }
-        SysFileEntity source = file;
-        if (policy.isNeedConvert()) {
-            SysFileConvertEntity task = fileConvertService
-                    .find(file.getId(), policy.getConvertTarget())
-                    .orElse(null);
-            if (fileConvertService.isProcessing(task)) {
-                throw new BusinessException(BusinessErrorCode.FILE_CONVERTING);
-            }
-            if (!fileConvertService.isSuccess(task)) {
-                throw new BusinessException(BusinessErrorCode.FILE_CONVERT_FAIL,
-                        task == null ? "转换任务不存在" : task.getErrorMsg());
-            }
-            source = buildConvertedFile(file, task);
-        }
         for (FilePreview filePreview : filePreviewList) {
             if (filePreview.supports(policy.getPreviewType())) {
-                filePreview.filePreview(request, response, source);
+                filePreview.filePreview(request, response, file);
                 return;
             }
         }
@@ -351,44 +321,6 @@ public class SysFileServiceImpl implements ISysFileService {
             receiver.setDownloadCount((receiver.getDownloadCount() == null ? 0 : receiver.getDownloadCount()) + 1);
             sysFileShareReceiverDao.updateById(receiver);
         }
-    }
-
-    /**
-     * 构建转换产物文件视图
-     *
-     * @param source 源文件
-     * @param task   转换任务
-     * @return 转换产物文件视图
-     */
-    private SysFileEntity buildConvertedFile(SysFileEntity source, SysFileConvertEntity task) {
-        if (task == null || !StringUtils.hasText(task.getConvertedStorageKey())) {
-            throw new BusinessException(BusinessErrorCode.FILE_CONVERT_FAIL, "转换产物不存在");
-        }
-        String path = task.getConvertedStorageKey();
-        String extension = "pdf";
-        int dot = path.lastIndexOf('.');
-        if (dot > -1 && dot < path.length() - 1) {
-            extension = path.substring(dot + 1).toLowerCase();
-        }
-        String baseName = StringUtils.hasText(source.getFileOriginalName())
-                ? source.getFileOriginalName() : source.getFileStorageName();
-        if (StringUtils.hasText(baseName)) {
-            int nameDot = baseName.lastIndexOf('.');
-            if (nameDot > 0) {
-                baseName = baseName.substring(0, nameDot);
-            }
-        }
-        String convertedName = (baseName == null ? "preview" : baseName) + "." + extension;
-        SysFileEntity converted = new SysFileEntity();
-        converted.setId(source.getId());
-        converted.setFileStoragePath(path);
-        converted.setFileStorageName(convertedName);
-        converted.setFileOriginalName(convertedName);
-        converted.setFileSuffix(extension);
-        converted.setFileType("pdf".equals(extension) ? "application/pdf" : "image/png");
-        converted.setFileSize(task.getConvertedSize());
-        converted.setFileStatus(source.getFileStatus());
-        return converted;
     }
 
     /**
@@ -469,93 +401,17 @@ public class SysFileServiceImpl implements ISysFileService {
     }
 
     /**
-     * 解析转换状态
+     * 解析初始化状态
      *
-     * @param file        文件
-     * @param policy      策略
-     * @param allowSubmit 是否允许提交任务
-     * @return 转换结果
+     * @param policy       策略
+     * @param downloadOnly 是否仅下载
+     * @return 初始化状态
      */
-    private ConversionResult resolveConversion(SysFileEntity file, FilePolicy policy, boolean allowSubmit) {
-        if (!policy.isPreviewable()) {
-            return new ConversionResult(FileInitStatusEnum.NOT_SUPPORTED, null,
-                    conversion(false, "NONE", null, "当前文件类型不支持在线预览", null));
+    private FileInitStatusEnum resolveInitStatus(FilePolicy policy, boolean downloadOnly) {
+        if (downloadOnly) {
+            return FileInitStatusEnum.DOWNLOAD_ONLY;
         }
-        if (!policy.isNeedConvert()) {
-            return new ConversionResult(FileInitStatusEnum.SUCCESS, null,
-                    conversion(false, "NONE", null, null, null));
-        }
-        Optional<SysFileConvertEntity> existing = fileConvertService.find(file.getId(), policy.getConvertTarget());
-        SysFileConvertEntity task = existing.orElse(null);
-        if (Objects.isNull(task) && allowSubmit) {
-            task = fileConvertService.submit(file, policy);
-        }
-        if (Objects.isNull(task)) {
-            return new ConversionResult(FileInitStatusEnum.CONVERTING, null,
-                    conversion(true, "PENDING", 0, "等待转换", 1000L));
-        }
-        if (allowSubmit && Objects.equals(task.getStatus(), FileConvertService.STATUS_FAILED)) {
-            task = fileConvertService.retry(task);
-        }
-        if (fileConvertService.isSuccess(task)) {
-            return new ConversionResult(FileInitStatusEnum.SUCCESS, task.getId(),
-                    conversion(true, "SUCCESS", 100, null, null));
-        }
-        if (fileConvertService.isProcessing(task)) {
-            String status = Objects.equals(task.getStatus(), FileConvertService.STATUS_PENDING) ? "PENDING" : "PROCESSING";
-            return new ConversionResult(FileInitStatusEnum.CONVERTING, task.getId(),
-                    conversion(true, status, 50, "正在转换为 PDF", 1000L));
-        }
-        return new ConversionResult(FileInitStatusEnum.FAILED, task.getId(),
-                conversion(true, "FAILED", 0, task.getErrorMsg(), null));
-    }
-
-    /**
-     * 构建转换响应
-     *
-     * @param required     是否需要转换
-     * @param status       状态
-     * @param progress     进度
-     * @param message      提示
-     * @param retryAfterMs 重试间隔
-     * @return 转换响应
-     */
-    private FileConversionResponse conversion(boolean required, String status, Integer progress, String message, Long retryAfterMs) {
-        FileConversionResponse response = new FileConversionResponse();
-        response.setRequired(required);
-        response.setStatus(status);
-        response.setProgress(progress);
-        response.setMessage(message);
-        response.setRetryAfterMs(retryAfterMs);
-        return response;
-    }
-
-    /**
-     * 构建初始化响应
-     *
-     * @param session    会话
-     * @param file       文件
-     * @param policy     策略
-     * @param decision   决策
-     * @param conversion 转换结果
-     * @return 初始化响应
-     */
-    private SysFilePreviewResponse buildPreviewResponse(FilePreviewSession session, SysFileEntity file,
-                                                        FilePolicy policy, FileAccessDecision decision,
-                                                        ConversionResult conversion) {
-        SysFilePreviewResponse response = new SysFilePreviewResponse();
-        response.setPreviewId(session.getPreviewId());
-        response.setInitStatus(conversion.initStatus());
-        response.setFileName(file.getFileStorageName());
-        response.setFileOriginalName(file.getFileOriginalName());
-        response.setFileSize(file.getFileSize());
-        response.setFileSizeInfo(file.getFileSizeInfo());
-        response.setFileSuffix(file.getFileSuffix());
-        response.setFileType(file.getFileType());
-        response.setPreviewMode(policy.getPreviewType());
-        response.setPreviewSource(policy.getPreviewSource());
-        response.setCapabilities(buildCapabilities(decision, conversion.initStatus()));
-        return response;
+        return policy.isPreviewable() ? FileInitStatusEnum.SUCCESS : FileInitStatusEnum.NOT_SUPPORTED;
     }
 
     /**
@@ -564,18 +420,16 @@ public class SysFileServiceImpl implements ISysFileService {
      * @param session    会话
      * @param policy     策略
      * @param decision   决策
-     * @param conversion 转换结果
+     * @param initStatus 初始化状态
      * @return 状态响应
      */
     private SysFilePreviewStatusResponse buildStatusResponse(FilePreviewSession session, FilePolicy policy,
-                                                             FileAccessDecision decision, ConversionResult conversion) {
+                                                             FileAccessDecision decision, FileInitStatusEnum initStatus) {
         SysFilePreviewStatusResponse response = new SysFilePreviewStatusResponse();
         response.setPreviewId(session.getPreviewId());
-        response.setInitStatus(conversion.initStatus());
+        response.setInitStatus(initStatus);
         response.setPreviewMode(policy.getPreviewType());
-        response.setPreviewSource(policy.getPreviewSource());
-        response.setCapabilities(buildCapabilities(decision, conversion.initStatus()));
-        response.setConversion(conversion.response());
+        response.setCapabilities(buildCapabilities(decision, initStatus));
         response.setExpireAt(session.getAbsoluteExpireAt());
         return response;
     }
@@ -588,25 +442,10 @@ public class SysFileServiceImpl implements ISysFileService {
      * @return 能力清单
      */
     private FileCapabilityResponse buildCapabilities(FileAccessDecision decision, FileInitStatusEnum initStatus) {
-        boolean previewable = initStatus != FileInitStatusEnum.NOT_SUPPORTED
-                && initStatus != FileInitStatusEnum.DOWNLOAD_ONLY
-                && initStatus != FileInitStatusEnum.FAILED;
         FileCapabilityResponse capabilities = new FileCapabilityResponse();
-        capabilities.setPreview(decision.isView() && previewable);
-        capabilities.setDownload(decision.isDownload());
-        capabilities.setPrint(decision.isPrint());
-        capabilities.setShare(decision.isShare());
+        capabilities.setPreview(true);
+        capabilities.setDownload(true);
         return capabilities;
-    }
-
-    /**
-     * 转换结果
-     *
-     * @param initStatus 初始化状态
-     * @param taskId     任务ID
-     * @param response   转换响应
-     */
-    private record ConversionResult(FileInitStatusEnum initStatus, Long taskId, FileConversionResponse response) {
     }
 
     /**

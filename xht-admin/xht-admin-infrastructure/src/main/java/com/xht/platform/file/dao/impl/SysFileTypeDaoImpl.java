@@ -127,7 +127,6 @@ public class SysFileTypeDaoImpl extends MapperRepositoryImpl<SysFileTypeMapper, 
         wrapper.set(SysFileTypeEntity::getPreviewType, form.getPreviewType());
         wrapper.set(SysFileTypeEntity::getPreviewName, form.getPreviewName());
         wrapper.set(SysFileTypeEntity::getFileSuffix, form.getFileSuffix());
-        wrapper.set(SysFileTypeEntity::getConvertTarget, form.getConvertTarget());
         wrapper.set(SysFileTypeEntity::getSort, form.getSort() == null ? 0 : form.getSort());
         wrapper.eq(SysFileTypeEntity::getId, fileTypeId);
         update(wrapper);

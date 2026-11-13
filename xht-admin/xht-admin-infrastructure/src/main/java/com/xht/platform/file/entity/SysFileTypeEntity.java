@@ -46,12 +46,6 @@ public class SysFileTypeEntity extends BasicEntity {
     private String fileSuffix;
 
     /**
-     * 转换目标格式，如 pdf
-     */
-    @TableField(value = "convert_target")
-    private String convertTarget;
-
-    /**
      * 排序
      */
     @TableField(value = "sort")
