@@ -199,8 +199,6 @@ public class SysFileServiceImpl implements ISysFileService {
     public SysFilePreviewResponse initPreviewInfo(FilePreviewInitForm form, HttpServletRequest request, HttpServletResponse response) {
         SysFileEntity sysFileEntity;
         SubjectContext subjectContext;
-
-
         if (StringUtils.hasText(form.getShareTicket())) {
             ShareAccessContext shareContext = fileShareService.resolveTicket(form.getShareTicket());
             sysFileEntity = findFile(shareContext.getFileId());
@@ -213,14 +211,10 @@ public class SysFileServiceImpl implements ISysFileService {
             subjectContext = resolveSubject();
         }
         AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
-
-
         FileAccessDecision decision = fileAccessEvaluator.decide(sysFileEntity, subjectContext.subject());
         if (!decision.isView() && !decision.isDownload()) {
             throw new BusinessException(BusinessErrorCode.FILE_ACCESS_DENIED);
         }
-
-
         FilePolicy policy = filePolicyResolver.resolve(sysFileEntity);
         boolean downloadOnly = isDownloadOnly(subjectContext.subject())
                 || (!decision.isView() && decision.isDownload());
@@ -604,14 +598,9 @@ public class SysFileServiceImpl implements ISysFileService {
         response.setFileSizeInfo(file.getFileSizeInfo());
         response.setFileSuffix(file.getFileSuffix());
         response.setFileType(file.getFileType());
-        response.setAccessScope(policy.getAccessScope());
         response.setPreviewMode(policy.getPreviewType());
         response.setPreviewSource(policy.getPreviewSource());
         response.setCapabilities(buildCapabilities(decision, conversion.initStatus()));
-        response.setConversion(conversion.response());
-        response.setWatermark(buildWatermark(policy, session));
-        response.setUrls(buildUrls(session.getPreviewId()));
-        response.setExpireAt(session.getAbsoluteExpireAt());
         return response;
     }
 
@@ -693,20 +682,6 @@ public class SysFileServiceImpl implements ISysFileService {
                 .replace("{userName}", userName)
                 .replace("{userId}", userId == null ? "" : userId)
                 .replace("{time}", LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-    }
-
-    /**
-     * 构建访问地址
-     *
-     * @param previewId 预览ID
-     * @return 地址
-     */
-    private FilePreviewUrlsResponse buildUrls(String previewId) {
-        FilePreviewUrlsResponse urls = new FilePreviewUrlsResponse();
-        urls.setPreviewUrl("/sys/files/preview/content?previewId=" + previewId);
-        urls.setDownloadUrl("/sys/files/preview/download?previewId=" + previewId);
-        urls.setStatusUrl("/sys/files/preview/status?previewId=" + previewId);
-        return urls;
     }
 
     /**

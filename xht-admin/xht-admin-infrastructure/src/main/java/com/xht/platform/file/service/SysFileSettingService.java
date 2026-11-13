@@ -104,16 +104,6 @@ public class SysFileSettingService {
     }
 
     /**
-     * 获取配置实体
-     *
-     * @param key 配置键
-     * @return 配置实体，不存在返回 null
-     */
-    public SysFileSettingEntity findEntity(String key) {
-        return sysFileSettingDao.findByKey(key).orElse(null);
-    }
-
-    /**
      * 刷新本地缓存
      */
     public void refresh() {
@@ -173,7 +163,7 @@ public class SysFileSettingService {
      */
     public boolean isUserOverridable(String key) {
         ensureLoaded();
-        return overridableKeys.contains(key);
+        return !overridableKeys.contains(key);
     }
 
 }

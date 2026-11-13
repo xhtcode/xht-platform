@@ -109,15 +109,6 @@ public class FilePreviewSession implements Serializable {
     private Long ttlSeconds;
 
     /**
-     * 是否匿名主体
-     *
-     * @return true：匿名
-     */
-    public boolean isAnonymous() {
-        return FileAccessSubjectTypeEnum.ANON == subjectType;
-    }
-
-    /**
      * 是否分享主体
      *
      * @return true：分享

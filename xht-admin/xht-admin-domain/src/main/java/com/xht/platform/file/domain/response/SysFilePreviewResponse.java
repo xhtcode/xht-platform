@@ -1,6 +1,5 @@
 package com.xht.platform.file.domain.response;
 
-import com.xht.platform.file.enums.FileAccessScopeEnum;
 import com.xht.platform.file.enums.FileInitStatusEnum;
 import com.xht.platform.file.enums.PreviewSourceEnum;
 import com.xht.platform.file.enums.PreviewTypeEnum;
@@ -9,7 +8,6 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 描述： 文件预览初始化信息
@@ -68,12 +66,6 @@ public class SysFilePreviewResponse implements Serializable {
     private String fileType;
 
     /**
-     * 访问范围
-     */
-    @Schema(description = "访问范围")
-    private FileAccessScopeEnum accessScope;
-
-    /**
      * 预览模式
      */
     @Schema(description = "预览模式")
@@ -92,34 +84,10 @@ public class SysFilePreviewResponse implements Serializable {
     private FileCapabilityResponse capabilities;
 
     /**
-     * 转换状态
-     */
-    @Schema(description = "转换状态")
-    private FileConversionResponse conversion;
-
-    /**
-     * 水印信息
-     */
-    @Schema(description = "水印信息")
-    private FileWatermarkResponse watermark;
-
-    /**
-     * 访问地址
-     */
-    @Schema(description = "访问地址")
-    private FilePreviewUrlsResponse urls;
-
-    /**
      * 预览ID
      */
     @Schema(description = "预览ID")
     private String previewId;
-
-    /**
-     * 会话过期时间
-     */
-    @Schema(description = "会话过期时间")
-    private LocalDateTime expireAt;
 
 
 }

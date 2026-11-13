@@ -181,7 +181,7 @@ public class FilePolicyResolver {
         if (!baseValue) {
             return false;
         }
-        if (!sysFileSettingService.isUserOverridable(globalKey) || !fileConfig.containsKey(key)) {
+        if (sysFileSettingService.isUserOverridable(globalKey) || !fileConfig.containsKey(key)) {
             return true;
         }
         return parseBoolean(fileConfig.get(key), true);
@@ -197,7 +197,7 @@ public class FilePolicyResolver {
      * @return 最终值
      */
     private Integer resolveTightenInt(Map<String, Object> fileConfig, String key, String globalKey, int baseValue) {
-        if (!sysFileSettingService.isUserOverridable(globalKey) || !fileConfig.containsKey(key)) {
+        if (sysFileSettingService.isUserOverridable(globalKey) || !fileConfig.containsKey(key)) {
             return baseValue;
         }
         Integer value = parseInteger(fileConfig.get(key));
@@ -222,7 +222,7 @@ public class FilePolicyResolver {
      */
     private WatermarkLevelEnum resolveWatermark(Map<String, Object> fileConfig, WatermarkLevelEnum baseValue) {
         WatermarkLevelEnum base = baseValue == null ? WatermarkLevelEnum.L1 : baseValue;
-        if (!sysFileSettingService.isUserOverridable(KEY_WATERMARK_LEVEL) || !fileConfig.containsKey("watermarkLevel")) {
+        if (sysFileSettingService.isUserOverridable(KEY_WATERMARK_LEVEL) || !fileConfig.containsKey("watermarkLevel")) {
             return base;
         }
         WatermarkLevelEnum value = WatermarkLevelEnum.getByValue(String.valueOf(fileConfig.get("watermarkLevel")));
@@ -238,7 +238,7 @@ public class FilePolicyResolver {
      */
     private ImageModeEnum resolveImageMode(Map<String, Object> fileConfig, ImageModeEnum baseValue) {
         ImageModeEnum base = baseValue == null ? ImageModeEnum.ORIGINAL : baseValue;
-        if (!sysFileSettingService.isUserOverridable(KEY_IMAGE_MODE) || !fileConfig.containsKey("imageMode")) {
+        if (sysFileSettingService.isUserOverridable(KEY_IMAGE_MODE) || !fileConfig.containsKey("imageMode")) {
             return base;
         }
         ImageModeEnum value = ImageModeEnum.getByValue(String.valueOf(fileConfig.get("imageMode")));
