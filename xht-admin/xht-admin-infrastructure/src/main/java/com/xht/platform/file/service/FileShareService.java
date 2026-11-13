@@ -21,7 +21,6 @@ import com.xht.platform.file.domain.form.FileShareOpenForm;
 import com.xht.platform.file.domain.query.SysFileShareQuery;
 import com.xht.platform.file.domain.query.SysFileShareReceivedQuery;
 import com.xht.platform.file.domain.response.*;
-import com.xht.platform.file.domain.session.FilePreviewSession;
 import com.xht.platform.file.domain.session.ShareTicket;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.entity.SysFileShareEntity;
@@ -67,8 +66,6 @@ public class FileShareService implements ISysFileShareService {
 
     private final SysUserRoleDao sysUserRoleDao;
 
-    private final PreviewSessionService previewSessionService;
-
     private final ShareTicketService shareTicketService;
 
     private final FilePolicyResolver filePolicyResolver;
@@ -91,12 +88,8 @@ public class FileShareService implements ISysFileShareService {
         AssertUtils.hasText(form.getPreviewId(), BusinessErrorCode.PARAM_ERROR);
         AssertUtils.notNull(form.getShareMode(), BusinessErrorCode.PARAM_ERROR);
         AssertUtils.notNull(form.getPermission(), BusinessErrorCode.PARAM_ERROR);
-
-        FilePreviewSession session = previewSessionService.getRequired(form.getPreviewId());
-        previewSessionService.refresh(session);
-        SysFileEntity file = sysFileDao.findById(session.getFileId());
+        SysFileEntity file = sysFileDao.findById(form.getPreviewId());
         AssertUtils.notNull(file, BusinessErrorCode.FILE_NOT_EXIST);
-
         FileAccessSubject subject = FileAccessSubject.anonymous();
         FileAccessDecision decision = fileAccessEvaluator.decide(file, subject);
         if (!decision.isShare()) {
@@ -160,8 +153,6 @@ public class FileShareService implements ISysFileShareService {
         share.setShareToken("sh_" + IdUtils.simpleUUID());
         share.setShareMode(form.getShareMode());
         share.setFileId(file.getId());
-        share.setCreatorId(session.getUserId() == null ? 0L : session.getUserId());
-        share.setCreatorName(session.getUserName());
         share.setPermission(form.getPermission());
         share.setRequireCode(requireCode ? 1 : 0);
         share.setCodeVersion(0);

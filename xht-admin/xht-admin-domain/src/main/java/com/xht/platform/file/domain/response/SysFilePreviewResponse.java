@@ -23,6 +23,12 @@ public class SysFilePreviewResponse implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 文件存储Key
+     */
+    @Schema(description = "文件存储Key")
+    private String fileStorageKey;
+
+    /**
      * 状态
      */
     @Schema(description = "状态")

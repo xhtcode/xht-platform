@@ -3,14 +3,13 @@ package com.xht.platform.file.service;
 import cn.hutool.core.util.RandomUtil;
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.cache.utils.Keys;
-import com.xht.framework.exception.BusinessException;
-import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.utils.IdUtils;
 import com.xht.platform.common.file.constant.SysFileConstant;
-import com.xht.platform.file.domain.session.FilePreviewSession;
+import com.xht.platform.file.domain.response.SysFilePreviewResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,7 +18,9 @@ import java.util.concurrent.TimeUnit;
  *
  * @author xht
  **/
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class PreviewSessionService {
 
     /**
@@ -29,83 +30,26 @@ public class PreviewSessionService {
 
     private final RedisRepository redisRepository;
 
-    public PreviewSessionService(RedisRepository redisRepository) {
-        this.redisRepository = redisRepository;
-    }
-
     /**
      * 生成 previewId
      *
      * @return previewId
      */
-    public String newPreviewId() {
+    public String createPreviewId() {
         return PREVIEW_ID_PREFIX + IdUtils.simpleUUID();
     }
 
     /**
      * 创建会话
      *
-     * @param session 会话
+     * @param sysFilePreviewResponse 会话
      */
-    public void create(FilePreviewSession session) {
-        if (session == null || session.getPreviewId() == null) {
-            throw new BusinessException(BusinessErrorCode.PARAM_ERROR);
-        }
-        redisRepository.set(key(session.getPreviewId()), session, RandomUtil.randomLong(1800, 7200), TimeUnit.SECONDS);
+    public void save(String previewId, SysFilePreviewResponse sysFilePreviewResponse) {
+        redisRepository.set(key(previewId), sysFilePreviewResponse, RandomUtil.randomLong(1800, 7200), TimeUnit.SECONDS);
     }
 
-    /**
-     * 获取会话
-     *
-     * @param previewId 预览ID
-     * @return 会话，不存在或过期返回 null
-     */
-    public FilePreviewSession get(String previewId) {
-        if (previewId == null || previewId.isBlank()) {
-            return null;
-        }
-        FilePreviewSession session = redisRepository.get(key(previewId));
-        if (Objects.isNull(session)) {
-            return null;
-        }
-        return session;
-    }
-
-    /**
-     * 获取会话，不存在或过期抛业务异常
-     *
-     * @param previewId 预览ID
-     * @return 会话
-     */
-    public FilePreviewSession getRequired(String previewId) {
-        FilePreviewSession session = get(previewId);
-        if (Objects.isNull(session)) {
-            throw new BusinessException(BusinessErrorCode.PREVIEW_SESSION_EXPIRED);
-        }
-        return session;
-    }
-
-    /**
-     * 滑动续期
-     *
-     * @param session 会话
-     */
-    public void refresh(FilePreviewSession session) {
-        if (session == null || session.getPreviewId() == null) {
-            return;
-        }
-        redisRepository.set(key(session.getPreviewId()), session, RandomUtil.randomLong(200, 12323), TimeUnit.SECONDS);
-    }
-
-    /**
-     * 删除会话
-     *
-     * @param previewId 预览ID
-     */
-    public void remove(String previewId) {
-        if (previewId != null && !previewId.isBlank()) {
-            redisRepository.delete(key(previewId));
-        }
+    public SysFilePreviewResponse get(String previewId) {
+        return redisRepository.get(key(previewId));
     }
 
     /**
