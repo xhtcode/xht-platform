@@ -53,15 +53,6 @@ public class SysFileUsedResponse implements Serializable {
     @Schema(description = "打印闸门")
     private Integer printAllowed;
 
-    @Schema(description = "分享闸门")
-    private Integer shareAllowed;
-
-    @Schema(description = "默认分享天数")
-    private Integer shareExpireDays;
-
-    @Schema(description = "分享访问次数上限")
-    private Integer shareMaxAccessCount;
-
     @Schema(description = "引用文件数")
     private Long fileCount;
 

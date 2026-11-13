@@ -175,22 +175,6 @@ public enum BusinessErrorCode implements ErrorCode {
      */
     PREVIEW_SESSION_EXPIRED(50221, "预览会话已过期，请重新初始化"),
     /**
-     * 分享不存在或已过期
-     */
-    SHARE_NOT_EXIST_OR_EXPIRED(50225, "分享不存在或已过期"),
-    /**
-     * 提取码错误
-     */
-    SHARE_CODE_ERROR(50226, "提取码错误"),
-    /**
-     * 提取码错误次数过多
-     */
-    SHARE_CODE_LOCKED(50227, "提取码错误次数过多，请稍后再试"),
-    /**
-     * 当前分享不允许该操作
-     */
-    SHARE_PERMISSION_DENIED(50228, "当前分享不允许该操作"),
-    /**
      * 文件用途不存在或已停用
      */
     FILE_USED_NOT_EXIST(50229, "文件用途不存在或已停用"),
@@ -198,14 +182,6 @@ public enum BusinessErrorCode implements ErrorCode {
      * 配置不允许用户覆盖
      */
     FILE_CONFIG_NOT_OVERRIDABLE(50230, "该项配置不允许用户覆盖"),
-    /**
-     * 分享未授权给当前用户
-     */
-    SHARE_RECEIVER_NOT_FOUND(50231, "该分享未授权给当前用户"),
-    /**
-     * 分享接收人数量超过上限
-     */
-    SHARE_RECEIVER_LIMIT(50232, "分享接收人数量超过上限"),
     /**
      * 消息推送失败
      */

@@ -6,8 +6,6 @@ import com.xht.platform.file.domain.access.FileAccessSubject;
 import com.xht.platform.file.domain.access.FilePolicy;
 import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileAccessScopeEnum;
-import com.xht.platform.file.enums.FileAccessSubjectTypeEnum;
-import com.xht.platform.file.enums.SharePermissionEnum;
 import com.xht.platform.file.policy.FilePolicyResolver;
 import com.xht.platform.file.service.SysFileSettingService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +17,7 @@ import java.util.Objects;
 
 /**
  * 描述： 文件访问决策器
- * <p>组合“归属/管理员、公开范围、分享权限、业务提供者、配置闸门”计算最终能力</p>
+ * <p>组合“归属/管理员、公开范围、业务提供者、配置闸门”计算最终能力</p>
  *
  * @author xht
  **/
@@ -62,7 +60,6 @@ public class FileAccessEvaluator {
         return switch (subject.getType()) {
             case USER -> decideUser(file, policy, subject);
             case ANON -> decideAnonymous(policy);
-            case SHARE_LINK, SHARE_USER -> decideShare(policy, subject);
         };
     }
 
@@ -87,7 +84,6 @@ public class FileAccessEvaluator {
                     .view(true)
                     .download(download)
                     .print(print)
-                    .share(policy.isShareAllowed())
                     .build();
         }
 
@@ -98,7 +94,6 @@ public class FileAccessEvaluator {
                     .view(true)
                     .download(download)
                     .print(download && policy.isPrintAllowed())
-                    .share(false)
                     .build();
         }
 
@@ -110,7 +105,6 @@ public class FileAccessEvaluator {
                 .view(providerDecision.isView())
                 .download(providerDecision.isDownload() && policy.isDownloadAllowed())
                 .print(providerDecision.isPrint() && policy.isPrintAllowed())
-                .share(providerDecision.isShare() && policy.isShareAllowed())
                 .build();
     }
 
@@ -130,30 +124,6 @@ public class FileAccessEvaluator {
                 .view(true)
                 .download(download)
                 .print(false)
-                .share(false)
-                .build();
-    }
-
-    /**
-     * 分享访问决策
-     *
-     * @param policy  策略
-     * @param subject 主体
-     * @return 决策
-     */
-    private FileAccessDecision decideShare(FilePolicy policy, FileAccessSubject subject) {
-        SharePermissionEnum permission = subject.getSharePermission();
-        if (permission == null) {
-            return FileAccessDecision.denyAll();
-        }
-        if (FileAccessSubjectTypeEnum.SHARE_USER == subject.getType() && subject.getReceiverId() == null) {
-            return FileAccessDecision.denyAll();
-        }
-        return FileAccessDecision.builder()
-                .view(permission.isPreview())
-                .download(permission.isDownload() && policy.isDownloadAllowed())
-                .print(permission.isPrint() && policy.isPrintAllowed())
-                .share(false)
                 .build();
     }
 

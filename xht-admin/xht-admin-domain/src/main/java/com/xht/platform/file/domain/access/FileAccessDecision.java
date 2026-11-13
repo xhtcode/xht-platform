@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 /**
  * 描述： 文件访问决策
- * <p>权限位相互独立，DOWNLOAD 分享允许“无预览、仅下载”</p>
+ * <p>权限位相互独立</p>
  *
  * @author xht
  **/
@@ -39,11 +39,6 @@ public class FileAccessDecision implements Serializable {
     private boolean print;
 
     /**
-     * 允许分享
-     */
-    private boolean share;
-
-    /**
      * 全部允许
      *
      * @return 决策
@@ -53,7 +48,6 @@ public class FileAccessDecision implements Serializable {
                 .view(true)
                 .download(true)
                 .print(true)
-                .share(true)
                 .build();
     }
 
@@ -89,7 +83,6 @@ public class FileAccessDecision implements Serializable {
                 .view(this.view && other.view)
                 .download(this.download && other.download)
                 .print(this.print && other.print)
-                .share(this.share && other.share)
                 .build();
     }
 
@@ -99,7 +92,7 @@ public class FileAccessDecision implements Serializable {
      * @return true：有任意能力
      */
     public boolean hasAny() {
-        return view || download || print || share;
+        return view || download || print;
     }
 
 }

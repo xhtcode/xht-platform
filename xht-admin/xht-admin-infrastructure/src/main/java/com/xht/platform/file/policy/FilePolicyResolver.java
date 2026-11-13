@@ -36,18 +36,6 @@ public class FilePolicyResolver {
      * 全局配置：默认允许打印
      */
     private static final String KEY_PRINT_DEFAULT = "print.default-allow";
-    /**
-     * 全局配置：分享总开关
-     */
-    private static final String KEY_SHARE_ENABLED = "share.enabled";
-    /**
-     * 全局配置：分享默认有效期
-     */
-    private static final String KEY_SHARE_EXPIRE_DAYS = "share.default-expire-days";
-    /**
-     * 全局配置：分享默认访问次数
-     */
-    private static final String KEY_SHARE_MAX_ACCESS = "share.default-max-access-count";
 
     private final SysFileUsedService sysFileUsedService;
 
@@ -73,23 +61,11 @@ public class FilePolicyResolver {
         PreviewTypeEnum previewType = SafeGetUtil.getSafe(sysFileTypeEntity, SysFileTypeEntity::getPreviewType, () -> PreviewTypeEnum.OTHER);
         boolean usedDownload = Objects.equals(used.getDownloadAllowed(), 0);
         boolean usedPrint = Objects.equals(used.getPrintAllowed(), 0);
-        boolean usedShare = Objects.equals(used.getShareAllowed(), 0);
         boolean publicAllowed = Objects.equals(used.getPublicAllowed(), 1);
         boolean downloadAllowed = resolveTightenBoolean(fileConfig, "downloadAllowed",
                 KEY_DOWNLOAD_DEFAULT, usedDownload && sysFileSettingService.getBoolean(KEY_DOWNLOAD_DEFAULT, true));
         boolean printAllowed = resolveTightenBoolean(fileConfig, "printAllowed",
                 KEY_PRINT_DEFAULT, usedPrint && sysFileSettingService.getBoolean(KEY_PRINT_DEFAULT, true));
-        boolean shareAllowed = resolveTightenBoolean(fileConfig, "shareAllowed",
-                KEY_SHARE_ENABLED, usedShare && sysFileSettingService.getBoolean(KEY_SHARE_ENABLED, true));
-        int defaultShareExpire = SafeGetUtil.getSafe(used, SysFileUsedEntity::getShareExpireDays, () -> sysFileSettingService.getInt(KEY_SHARE_EXPIRE_DAYS, 7));
-        Integer shareExpireDays = resolveTightenInt(fileConfig, "shareExpireDays",
-                KEY_SHARE_EXPIRE_DAYS, defaultShareExpire);
-
-        int defaultMaxAccess = used.getShareMaxAccessCount() != null
-                ? used.getShareMaxAccessCount()
-                : sysFileSettingService.getInt(KEY_SHARE_MAX_ACCESS, 0);
-        Integer shareMaxAccess = resolveTightenInt(fileConfig, "shareMaxAccessCount",
-                KEY_SHARE_MAX_ACCESS, defaultMaxAccess);
 
         FileAccessScopeEnum accessScope = Objects.nonNull(sysFileEntity.getAccessScope())
                 ? sysFileEntity.getAccessScope()
@@ -105,9 +81,6 @@ public class FilePolicyResolver {
                 .publicAllowed(publicAllowed)
                 .downloadAllowed(downloadAllowed)
                 .printAllowed(printAllowed)
-                .shareAllowed(shareAllowed)
-                .shareExpireDays(shareExpireDays)
-                .shareMaxAccessCount(shareMaxAccess)
                 .build();
     }
 
@@ -129,32 +102,6 @@ public class FilePolicyResolver {
             return true;
         }
         return parseBoolean(fileConfig.get(key), true);
-    }
-
-    /**
-     * 解析只能收紧的整数覆盖
-     *
-     * @param fileConfig 文件级配置
-     * @param key        文件级 key
-     * @param globalKey  全局配置 key
-     * @param baseValue  基础值
-     * @return 最终值
-     */
-    private Integer resolveTightenInt(Map<String, Object> fileConfig, String key, String globalKey, int baseValue) {
-        if (sysFileSettingService.isUserOverridable(globalKey) || !fileConfig.containsKey(key)) {
-            return baseValue;
-        }
-        Integer value = parseInteger(fileConfig.get(key));
-        if (value == null || value < 0) {
-            return baseValue;
-        }
-        if (baseValue == 0) {
-            return value;
-        }
-        if (value == 0) {
-            return baseValue;
-        }
-        return Math.min(value, baseValue);
     }
 
     /**
@@ -182,26 +129,6 @@ public class FilePolicyResolver {
             return false;
         }
         return defaultValue;
-    }
-
-    /**
-     * 解析整数
-     *
-     * @param value 原始值
-     * @return 整数，非法返回 null
-     */
-    private Integer parseInteger(Object value) {
-        if (value == null) {
-            return null;
-        }
-        if (value instanceof Number n) {
-            return n.intValue();
-        }
-        try {
-            return Integer.parseInt(String.valueOf(value).trim());
-        } catch (NumberFormatException e) {
-            return null;
-        }
     }
 
 }

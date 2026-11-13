@@ -61,21 +61,6 @@ public class FilePolicy implements Serializable {
     private boolean printAllowed;
 
     /**
-     * 分享闸门
-     */
-    private boolean shareAllowed;
-
-    /**
-     * 分享有效期（天）
-     */
-    private Integer shareExpireDays;
-
-    /**
-     * 分享访问次数上限，0=不限
-     */
-    private Integer shareMaxAccessCount;
-
-    /**
      * 是否为图片类型
      *
      * @return true：图片

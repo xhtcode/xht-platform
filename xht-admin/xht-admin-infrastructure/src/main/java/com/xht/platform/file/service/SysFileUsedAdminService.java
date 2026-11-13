@@ -162,9 +162,6 @@ public class SysFileUsedAdminService implements ISysFileUsedAdminService {
         entity.setPublicAllowed(form.getPublicAllowed() == null ? 0 : form.getPublicAllowed());
         entity.setDownloadAllowed(form.getDownloadAllowed() == null ? 1 : form.getDownloadAllowed());
         entity.setPrintAllowed(form.getPrintAllowed() == null ? 1 : form.getPrintAllowed());
-        entity.setShareAllowed(form.getShareAllowed() == null ? 1 : form.getShareAllowed());
-        entity.setShareExpireDays(form.getShareExpireDays());
-        entity.setShareMaxAccessCount(form.getShareMaxAccessCount());
     }
 
     /**
@@ -183,9 +180,6 @@ public class SysFileUsedAdminService implements ISysFileUsedAdminService {
         response.setPublicAllowed(entity.getPublicAllowed());
         response.setDownloadAllowed(entity.getDownloadAllowed());
         response.setPrintAllowed(entity.getPrintAllowed());
-        response.setShareAllowed(entity.getShareAllowed());
-        response.setShareExpireDays(entity.getShareExpireDays());
-        response.setShareMaxAccessCount(entity.getShareMaxAccessCount());
         response.setFileCount(sysFileDao.countByUsed(entity.getUsedCode()));
         response.setUpdateTime(entity.getUpdateTime());
         return response;

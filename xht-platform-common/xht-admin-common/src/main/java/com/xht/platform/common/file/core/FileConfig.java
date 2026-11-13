@@ -18,16 +18,4 @@ public final class FileConfig extends HashMap<String, Object> {
      * 允许打印
      */
     public static final String KEY_PRINT_ALLOWED = "printAllowed";
-    /**
-     * 允许分享
-     */
-    public static final String KEY_SHARE_ALLOWED = "shareAllowed";
-    /**
-     * 分享有效期
-     */
-    public static final String KEY_SHARE_EXPIRE_DAYS = "shareExpireDays";
-    /**
-     * 分享访问次数
-     */
-    public static final String KEY_SHARE_MAX_ACCESS_COUNT = "shareMaxAccessCount";
 }

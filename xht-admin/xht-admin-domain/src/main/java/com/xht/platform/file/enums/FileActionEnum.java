@@ -29,11 +29,6 @@ public enum FileActionEnum implements XhtEnum<String> {
      * 打印
      */
     PRINT("PRINT", "打印"),
-
-    /**
-     * 分享
-     */
-    SHARE("SHARE", "分享"),
     ;
 
     @JsonValue

@@ -80,7 +80,7 @@ public interface ISysFileService {
 
     /**
      * 初始化文件预览信息
-     * <p>支持登录、匿名公开、分享票据三种入口；返回 previewId、文件信息、能力清单与转换状态</p>
+     * <p>支持登录与匿名公开两种入口；返回 previewId、文件信息与能力清单</p>
      *
      * @param form     初始化请求
      * @param request  请求

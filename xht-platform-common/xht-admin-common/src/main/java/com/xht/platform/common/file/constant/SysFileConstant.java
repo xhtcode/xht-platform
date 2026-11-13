@@ -72,9 +72,4 @@ public interface SysFileConstant {
      * 预览初始化锁前缀
      */
     String CACHE_PREFIX_PREVIEW_INIT_LOCK = "file:preview:init:{}";
-
-    /**
-     * 分享票据前缀
-     */
-    String CACHE_PREFIX_SHARE_TICKET = "file:share:ticket:{}";
 }

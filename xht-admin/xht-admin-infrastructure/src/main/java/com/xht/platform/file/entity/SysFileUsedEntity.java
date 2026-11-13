@@ -87,24 +87,6 @@ public class SysFileUsedEntity extends BasicEntity {
     private Integer printAllowed;
 
     /**
-     * 分享闸门：1 允许
-     */
-    @TableField(value = "share_allowed")
-    private Integer shareAllowed;
-
-    /**
-     * 默认分享天数，空则继承全局
-     */
-    @TableField(value = "share_expire_days")
-    private Integer shareExpireDays;
-
-    /**
-     * 分享访问次数上限，空则继承全局；0=不限
-     */
-    @TableField(value = "share_max_access_count")
-    private Integer shareMaxAccessCount;
-
-    /**
      * 配置版本
      */
     @TableField(value = "config_version")

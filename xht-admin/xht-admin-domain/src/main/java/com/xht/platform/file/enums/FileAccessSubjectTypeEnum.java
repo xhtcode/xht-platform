@@ -24,16 +24,6 @@ public enum FileAccessSubjectTypeEnum implements XhtEnum<String> {
      * 匿名公开访问
      */
     ANON("ANON", "匿名公开访问"),
-
-    /**
-     * 链接分享
-     */
-    SHARE_LINK("SHARE_LINK", "链接分享"),
-
-    /**
-     * 指定用户分享
-     */
-    SHARE_USER("SHARE_USER", "指定用户分享"),
     ;
 
     @JsonValue

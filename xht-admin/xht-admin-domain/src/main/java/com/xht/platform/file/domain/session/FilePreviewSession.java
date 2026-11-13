@@ -1,8 +1,6 @@
 package com.xht.platform.file.domain.session;
 
 import com.xht.platform.file.enums.FileAccessSubjectTypeEnum;
-import com.xht.platform.file.enums.PreviewTypeEnum;
-import com.xht.platform.file.enums.SharePermissionEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 描述： 文件预览会话
@@ -38,7 +35,7 @@ public class FilePreviewSession implements Serializable {
     private FileAccessSubjectTypeEnum subjectType;
 
     /**
-     * 主体标识：用户ID/匿名会话ID/分享ID/接收人ID
+     * 主体标识：用户ID/匿名会话ID
      */
     private String subjectId;
 
@@ -56,11 +53,6 @@ public class FilePreviewSession implements Serializable {
      * 是否管理员
      */
     private boolean admin;
-
-    /**
-     * 分享权限
-     */
-    private SharePermissionEnum sharePermission;
 
     /**
      * 文件ID
