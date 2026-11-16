@@ -42,6 +42,15 @@ public interface MapperRepository<T> extends CrudRepository<T> {
     void removeByIdTransactional(Serializable id);
 
     /**
+     * 根据指定字段和值查询单个实体对象
+     *
+     * @param field 查询字段（使用 Lambda 表达式）
+     * @param value 查询值
+     * @return 实体对象，若不存在则返回空
+     */
+    T findOne(SFunction<T, ?> field, Object value);
+
+    /**
      * 根据指定字段和值查询单个实体对象，返回 Optional 封装结果。
      *
      * @param field 查询字段（使用 Lambda 表达式）

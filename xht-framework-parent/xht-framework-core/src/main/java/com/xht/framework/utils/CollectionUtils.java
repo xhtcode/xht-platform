@@ -31,7 +31,7 @@ public abstract class CollectionUtils extends org.springframework.util.Collectio
      * @return 原集合，若为null返回默认集合
      */
     public static <T> Collection<T> emptyToDefault(Collection<T> collection, Collection<T> defaultCollection) {
-        return Objects.requireNonNullElseGet(collection, () -> defaultCollection);
+        return Objects.requireNonNullElse(collection, defaultCollection);
     }
 
 
@@ -68,7 +68,7 @@ public abstract class CollectionUtils extends org.springframework.util.Collectio
      * @return 原集合，若为null返回默认集合
      */
     public static <T> Set<T> emptyToDefault(Set<T> set, Set<T> defaultSet) {
-        return Objects.requireNonNullElseGet(set, () -> defaultSet);
+        return Objects.requireNonNullElse(set, defaultSet);
     }
 
     /**
@@ -81,7 +81,7 @@ public abstract class CollectionUtils extends org.springframework.util.Collectio
      * @return 原集合，若为null返回默认集合
      */
     public static <T> List<T> emptyToDefault(List<T> list, List<T> defaultList) {
-        return Objects.requireNonNullElseGet(list, () -> defaultList);
+        return Objects.requireNonNullElse(list, defaultList);
     }
 
     /**

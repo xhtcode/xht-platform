@@ -20,6 +20,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,18 +59,13 @@ public class LoginServiceImpl implements ILoginService {
     /**
      * 表单登录
      *
-     * @param servletRequest HTTP请求对象
+     * @param servletRequest    HTTP请求对象
      * @param passwordLoginForm 表单登录请求参数，包含用户名、密码、验证码等信息
      * @return OAuth2响应对象，包含访问令牌等信息
      */
     @Override
     public LoginResponse formLogin(HttpServletRequest servletRequest, PasswordLoginForm passwordLoginForm) {
-        MultiValueMap<String, String> formParams = new LinkedMultiValueMap<>();
-        formParams.add(SecurityConstant.REQUEST_USERNAME, passwordLoginForm.getUsername());
-        formParams.add(SecurityConstant.REQUEST_PASSWORD, passwordLoginForm.getPassword());
-        formParams.add(SecurityConstant.REQUEST_CAPTCHA_CODE_KEY, passwordLoginForm.getCaptchaKey());
-        formParams.add(SecurityConstant.REQUEST_CAPTCHA_CODE, passwordLoginForm.getCaptchaCode());
-        formParams.add(SecurityConstant.REQUEST_OAUTH2_GRANT_TYPE, LoginTypeEnum.PASSWORD.getValue());
+        MultiValueMap<String, String> formParams = getStringStringMultiValueMap(passwordLoginForm);
         try {
             Oauth2TokenResponse oauth2TokenResponse = createOauth2Request(formParams);
             loginManager.saveLoginLog(servletRequest, passwordLoginForm.getUsername(), oauth2TokenResponse.getAccessToken(), passwordLoginForm, oauth2TokenResponse);
@@ -83,6 +79,22 @@ public class LoginServiceImpl implements ILoginService {
             log.error("登录失败，未知异常：{}", e.getMessage(), e);
             throw new LoginException(e.getMessage());
         }
+    }
+
+    /**
+     * 表单登录参数转换
+     *
+     * @param passwordLoginForm 表单登录请求参数，包含用户名、密码、验证码等信息
+     * @return 表单参数
+     */
+    private static @NonNull MultiValueMap<String, String> getStringStringMultiValueMap(PasswordLoginForm passwordLoginForm) {
+        MultiValueMap<String, String> formParams = new LinkedMultiValueMap<>();
+        formParams.add(SecurityConstant.REQUEST_USERNAME, passwordLoginForm.getUsername());
+        formParams.add(SecurityConstant.REQUEST_PASSWORD, passwordLoginForm.getPassword());
+        formParams.add(SecurityConstant.REQUEST_CAPTCHA_CODE_KEY, passwordLoginForm.getCaptchaKey());
+        formParams.add(SecurityConstant.REQUEST_CAPTCHA_CODE, passwordLoginForm.getCaptchaCode());
+        formParams.add(SecurityConstant.REQUEST_OAUTH2_GRANT_TYPE, LoginTypeEnum.PASSWORD.getValue());
+        return formParams;
     }
 
     /**
@@ -115,6 +127,7 @@ public class LoginServiceImpl implements ILoginService {
 
     /**
      * 创建OAuth2请求
+     *
      * @param formParams 表单参数
      * @return OAuth2响应对象
      */

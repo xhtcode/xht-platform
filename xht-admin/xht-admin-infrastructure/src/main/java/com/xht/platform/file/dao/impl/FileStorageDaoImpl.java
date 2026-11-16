@@ -15,7 +15,6 @@ import com.xht.framework.file.exception.FileStorageException;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.IdUtils;
 import com.xht.framework.utils.StringUtils;
-import com.xht.platform.common.file.FileMetadataBuilder;
 import com.xht.platform.common.file.bo.ChunkMergeBO;
 import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
@@ -30,6 +29,7 @@ import com.xht.platform.file.enums.FileStatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -101,7 +101,6 @@ public class FileStorageDaoImpl implements FileStorageDao {
         sysFileEntity.setFileStorageName(fileStorageName);
         sysFileEntity.setFileStorageKey(fileStorageKey);
         sysFileEntity.setFileDesc(multipartFileUploadBO.getFileDesc());
-        sysFileEntity.setFileMetadata(fileMetadataSupplier.get(multipartFileUploadBO));
         try (InputStream digestIn = requestFile.getInputStream()) {
             UploadResponse upload = fileStorageRepository.upload(digestIn, fileStoragePath);
             sysFileEntity.setFileStorageType(upload.getStorageType());
@@ -292,10 +291,6 @@ public class FileStorageDaoImpl implements FileStorageDao {
         sysFileEntity.setFileStorageKey(fileStorageKey);
         sysFileEntity.setFileStorageName(fileStorageName);
         sysFileEntity.setFileDesc(chunkMergeBO.getFileDesc());
-        sysFileEntity.setFileMetadata(FileMetadataBuilder
-                .builder()
-                .fullOriginalFilename(chunkMergeBO.getFileName())
-                .build());
         return sysFileEntity;
     }
 
@@ -363,7 +358,7 @@ public class FileStorageDaoImpl implements FileStorageDao {
         }
 
         @Override
-        public int read(byte[] buffer, int offset, int length) throws java.io.IOException {
+        public int read(byte @NonNull [] buffer, int offset, int length) throws java.io.IOException {
             int readCount = super.read(buffer, offset, length);
             if (readCount > 0) {
                 count += readCount;

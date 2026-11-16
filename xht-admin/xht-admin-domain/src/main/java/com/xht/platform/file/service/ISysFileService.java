@@ -114,4 +114,5 @@ public interface ISysFileService {
      * @param previewId 预览ID
      */
     void filePreview(HttpServletRequest request, HttpServletResponse response, String previewId);
+
 }

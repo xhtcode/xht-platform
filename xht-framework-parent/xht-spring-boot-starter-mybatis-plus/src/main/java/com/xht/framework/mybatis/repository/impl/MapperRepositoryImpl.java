@@ -215,6 +215,17 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
         return count(Wrappers.emptyWrapper());
     }
 
+    /**
+     * 根据指定字段和值查询单个实体对象
+     *
+     * @param field 查询字段（使用 Lambda 表达式）
+     * @param value 查询值
+     * @return 实体对象，若不存在则返回空
+     */
+    @Override
+    public T findOne(SFunction<T, ?> field, Object value) {
+        return baseMapper.selectOne(field, value);
+    }
 
     /**
      * 查询一个
@@ -224,7 +235,7 @@ public abstract class MapperRepositoryImpl<M extends BaseMapperX<T>, T> extends 
      */
     @Override
     public Optional<T> findOneOptional(SFunction<T, ?> field, Object value) {
-        return getOneOpt(new LambdaQueryWrapper<T>().eq(field, value));
+        return baseMapper.selectOneOptional(field, value);
     }
 
     /**

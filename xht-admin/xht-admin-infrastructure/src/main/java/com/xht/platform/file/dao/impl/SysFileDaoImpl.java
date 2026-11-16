@@ -52,7 +52,6 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
                 SysFileEntity::getFileStorageType,
                 SysFileEntity::getFileStorageKey,
                 SysFileEntity::getFileStorageName,
-                SysFileEntity::getFileMetadata,
                 SysFileEntity::getFileUploadTime,
                 SysFileEntity::getFileAssociateTime,
                 SysFileEntity::getFileUploadUser
@@ -119,40 +118,6 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
         wrapper.eq(SysFileEntity::getId, id);
         wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.DELETED);
         return super.exists(wrapper);
-    }
-
-    /**
-     * 获取主键字段名
-     *
-     * @return 主键字段名
-     */
-    /**
-     * 统计指定用途的文件数
-     *
-     * @param fileUsed 文件用途
-     * @return 数量
-     */
-    @Override
-    public long countByUsed(String fileUsed) {
-        LambdaQueryWrapper<SysFileEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(SysFileEntity::getFileUsed, fileUsed);
-        return count(wrapper);
-    }
-
-    /**
-     * 按用途批量更新访问范围
-     *
-     * @param fileUsed    文件用途
-     * @param accessScope 访问范围
-     * @return 影响行数
-     */
-    @Override
-    public int updateAccessScopeByUsed(String fileUsed, com.xht.platform.file.enums.FileAccessScopeEnum accessScope) {
-        LambdaUpdateWrapper<SysFileEntity> wrapper = new LambdaUpdateWrapper<>();
-        wrapper.set(SysFileEntity::getAccessScope, accessScope);
-        wrapper.eq(SysFileEntity::getFileUsed, fileUsed);
-        wrapper.eq(SysFileEntity::getAccessScope, com.xht.platform.file.enums.FileAccessScopeEnum.PUBLIC);
-        return getBaseMapper().update(null, wrapper);
     }
 
     /**

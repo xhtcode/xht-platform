@@ -4,13 +4,10 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.xht.framework.file.enums.StorageType;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.platform.common.file.core.FileConfig;
-import com.xht.platform.common.file.core.FileMetadata;
-import com.xht.platform.file.enums.FileAccessScopeEnum;
 import com.xht.platform.file.enums.FileStatusEnum;
+import com.xht.platform.file.enums.PreviewTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -80,18 +77,6 @@ public class SysFileEntity extends BasicEntity implements Serializable {
     private String fileUsed;
 
     /**
-     * 访问范围：private/public
-     */
-    @TableField(value = "access_scope")
-    private FileAccessScopeEnum accessScope;
-
-    /**
-     * 文件级配置覆盖
-     */
-    @TableField(value = "file_config", typeHandler = JacksonTypeHandler.class)
-    private FileConfig fileConfig;
-
-    /**
      * 文件存储类型
      */
     @TableField(value = "file_storage_type")
@@ -116,12 +101,6 @@ public class SysFileEntity extends BasicEntity implements Serializable {
     private String fileStoragePath;
 
     /**
-     * 文件元数据
-     */
-    @TableField(value = "file_metadata", typeHandler = JacksonTypeHandler.class)
-    private FileMetadata fileMetadata;
-
-    /**
      * 文件上传时间上传时间
      */
     @TableField(value = "file_upload_time")
@@ -140,8 +119,14 @@ public class SysFileEntity extends BasicEntity implements Serializable {
     private LocalDateTime fileAssociateTime;
 
     /**
+     * 文件预览类型
+     */
+    @TableField(value = "preview_type")
+    private PreviewTypeEnum previewType;
+
+    /**
      * 文件描述
      */
-    @TableField(value = "file_des")
+    @TableField(value = "file_desc")
     private String fileDesc;
 }

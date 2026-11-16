@@ -102,7 +102,7 @@ WHERE `file_suffix` IN ('doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'rtf', 'odt
 CREATE TABLE IF NOT EXISTS `sys_file_used`
 (
     `id`                     bigint       NOT NULL COMMENT '主键ID',
-    `used_code`              varchar(32)  NOT NULL COMMENT '用途编码，创建后不可改',
+    `used_code`              varchar(32)  NOT NULL COMMENT '用途编码',
     `used_name`              varchar(64)  NOT NULL COMMENT '用途名称',
     `description`            varchar(500) NULL DEFAULT NULL COMMENT '说明',
     `built_in`               tinyint      NOT NULL DEFAULT 0 COMMENT '1=内置，不可删除',

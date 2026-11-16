@@ -55,7 +55,6 @@ public class CacheProperties {
      * @param keyPrefix  字典项缓存Key
      * @param timeOut    字典项缓存时间
      * @param unit       字典项缓存时间单位
-     * @param properties 扩展属性
      */
     public CacheProperties(String keyPrefix, Long timeOut, TimeUnit unit) {
         this.keyPrefix = StringUtils.emptyToDefault(keyPrefix, DEFAULT_KEY_PREFIX);

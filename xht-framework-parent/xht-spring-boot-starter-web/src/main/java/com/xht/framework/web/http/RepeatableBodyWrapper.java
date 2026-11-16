@@ -41,10 +41,9 @@ public class RepeatableBodyWrapper extends HttpServletRequestWrapper {
     /**
      * 重写获取输入流方法，每次返回全新的ByteArrayInputStream，支持重复读取
      * @return 可重复读取的Servlet输入流
-     * @throws IOException IO异常
      */
     @Override
-    public ServletInputStream getInputStream() throws IOException {
+    public ServletInputStream getInputStream() {
         final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(this.requestBody);
         return new ServletInputStream() {
 
@@ -52,7 +51,7 @@ public class RepeatableBodyWrapper extends HttpServletRequestWrapper {
              * 读取单个字节
              */
             @Override
-            public int read() throws IOException {
+            public int read() {
                 return byteArrayInputStream.read();
             }
 
@@ -86,10 +85,9 @@ public class RepeatableBodyWrapper extends HttpServletRequestWrapper {
     /**
      * 重写获取字符读取器，基于缓存流构建，保证与输入流数据一致
      * @return BufferedReader
-     * @throws IOException IO异常
      */
     @Override
-    public BufferedReader getReader() throws IOException {
+    public BufferedReader getReader() {
         return new BufferedReader(new InputStreamReader(getInputStream(), StandardCharsets.UTF_8));
     }
 

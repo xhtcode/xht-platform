@@ -30,7 +30,7 @@ public abstract class XhtFileUtils {
      * 解析 Range 请求头
      * <p>解析失败或多区间请求返回 null，由调用方按全量响应处理（HTTP 允许服务端忽略 Range）</p>
      *
-     * @param rangeHeader Range 请求头
+     * @param ranges Range 请求头
      * @return 单区间对象；按全量响应时返回 null
      */
     public static HttpRange resolvePreviewRange(List<HttpRange> ranges) {

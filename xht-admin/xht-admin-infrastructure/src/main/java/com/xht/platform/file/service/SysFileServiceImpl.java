@@ -15,7 +15,6 @@ import com.xht.platform.file.converter.SysFileConverter;
 import com.xht.platform.file.dao.FileStorageDao;
 import com.xht.platform.file.dao.SysFileDao;
 import com.xht.platform.file.dao.SysFileTypeDao;
-import com.xht.platform.file.domain.access.FilePolicy;
 import com.xht.platform.file.domain.form.FilePreviewInitForm;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.FileCapabilityResponse;
@@ -26,7 +25,6 @@ import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.file.enums.FileInitStatusEnum;
 import com.xht.platform.file.enums.FileStatusEnum;
 import com.xht.platform.file.enums.PreviewTypeEnum;
-import com.xht.platform.file.policy.FilePolicyResolver;
 import com.xht.platform.file.preview.FilePreview;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -58,8 +56,6 @@ public class SysFileServiceImpl implements ISysFileService {
     private final FileStorageDao fileStorageDao;
 
     private final List<FilePreview> filePreviewList;
-
-    private final FilePolicyResolver filePolicyResolver;
 
     private final PreviewSessionService previewSessionService;
 
@@ -225,9 +221,8 @@ public class SysFileServiceImpl implements ISysFileService {
         SysFilePreviewResponse sysFilePreviewResponse = previewSessionService.get(previewId);
         AssertUtils.notNull(sysFilePreviewResponse, BusinessErrorCode.DATA_NOT_EXIST);
         SysFileEntity file = sysFileDao.findByFileStorageKey(sysFilePreviewResponse.getFileStorageKey());
-        FilePolicy policy = filePolicyResolver.resolve(file);
         for (FilePreview filePreview : filePreviewList) {
-            if (filePreview.supports(policy.getPreviewType())) {
+            if (filePreview.supports(file.getPreviewType())) {
                 filePreview.filePreview(request, response, file);
                 return;
             }

@@ -57,10 +57,4 @@ public interface SysFileTypeDao extends MapperRepository<SysFileTypeEntity> {
      */
     void updateFormRequest(Long fileTypeId, SysFileTypeForm form);
 
-    /**
-     * 根据文件后缀删除缓存
-     *
-     * @param fileSuffix 文件后缀
-     */
-    void removeCache(String fileSuffix);
 }

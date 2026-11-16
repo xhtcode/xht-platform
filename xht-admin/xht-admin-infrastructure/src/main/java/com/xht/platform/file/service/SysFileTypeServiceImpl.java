@@ -41,12 +41,14 @@ public class SysFileTypeServiceImpl implements ISysFileTypeService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(SysFileTypeForm form) {
-        checkSuffixUnique(null, form.getFileSuffix());
+        boolean existsBySuffix = sysFileTypeDao.existsBySuffix(form.getFileSuffix(), null);
+        AssertUtils.isTrue(!existsBySuffix, BusinessErrorCode.FILE_TYPE_SUFFIX_EXIST);
         sysFileTypeDao.save(sysFileTypeConverter.toEntity(form));
     }
 
     /**
      * 根据ID删除文件预览类型配置
+     * <p>同时清理该类型在用途授权关系中的残留记录，避免授权数据与类型配置不一致</p>
      *
      * @param fileTypeId 配置ID
      */
@@ -54,19 +56,7 @@ public class SysFileTypeServiceImpl implements ISysFileTypeService {
     @Transactional(rollbackFor = Exception.class)
     public void removeById(Long fileTypeId) {
         AssertUtils.notNull(fileTypeId, BusinessErrorCode.PARAM_ERROR);
-        SysFileTypeEntity sysFileTypeEntity = requireExist(fileTypeId);
-        sysFileTypeDao.removeCache(sysFileTypeEntity.getFileSuffix());
         sysFileTypeDao.removeById(fileTypeId);
-    }
-
-    /**
-     * 根据文件后缀删除缓存
-     *
-     * @param fileSuffix 文件后缀
-     */
-    @Override
-    public void removeCache(String fileSuffix) {
-        sysFileTypeDao.removeCache(fileSuffix);
     }
 
     /**
@@ -79,9 +69,8 @@ public class SysFileTypeServiceImpl implements ISysFileTypeService {
     @Transactional(rollbackFor = Exception.class)
     public void updateById(Long fileTypeId, SysFileTypeForm form) {
         AssertUtils.notNull(fileTypeId, BusinessErrorCode.PARAM_ERROR);
-        SysFileTypeEntity sysFileTypeEntity = requireExist(fileTypeId);
-        sysFileTypeDao.removeCache(sysFileTypeEntity.getFileSuffix());
-        checkSuffixUnique(fileTypeId, form.getFileSuffix());
+        boolean existsBySuffix = sysFileTypeDao.existsBySuffix(form.getFileSuffix(), fileTypeId);
+        AssertUtils.isTrue(!existsBySuffix, BusinessErrorCode.FILE_TYPE_SUFFIX_EXIST);
         sysFileTypeDao.updateFormRequest(fileTypeId, form);
     }
 
@@ -94,7 +83,7 @@ public class SysFileTypeServiceImpl implements ISysFileTypeService {
     @Override
     public SysFileTypeResponse findById(Long fileTypeId) {
         AssertUtils.notNull(fileTypeId, BusinessErrorCode.PARAM_ERROR);
-        return sysFileTypeConverter.toResponse(requireExist(fileTypeId));
+        return sysFileTypeConverter.toResponse(sysFileTypeDao.findById(fileTypeId));
     }
 
     /**
@@ -107,28 +96,6 @@ public class SysFileTypeServiceImpl implements ISysFileTypeService {
     public PageResponse<SysFileTypeResponse> findPageList(SysFileTypeQuery query) {
         Page<SysFileTypeEntity> page = sysFileTypeDao.findPageList(PageTool.getPage(query), query);
         return sysFileTypeConverter.toResponse(page);
-    }
-
-    /**
-     * 校验配置存在，返回配置实体
-     *
-     * @param fileTypeId 配置ID
-     * @return 配置实体
-     */
-    private SysFileTypeEntity requireExist(Long fileTypeId) {
-        SysFileTypeEntity entity = sysFileTypeDao.findById(fileTypeId);
-        AssertUtils.notNull(entity, BusinessErrorCode.FILE_TYPE_NOT_EXIST);
-        return entity;
-    }
-
-    /**
-     * 校验文件后缀唯一（非空时不允许与已有配置冲突）
-     *
-     * @param excludeId  需要排除的配置ID（更新场景），可为 null
-     * @param fileSuffix 文件后缀
-     */
-    private void checkSuffixUnique(Long excludeId, String fileSuffix) {
-        AssertUtils.isTrue(!sysFileTypeDao.existsBySuffix(fileSuffix, excludeId), BusinessErrorCode.FILE_TYPE_SUFFIX_EXIST);
     }
 
 }

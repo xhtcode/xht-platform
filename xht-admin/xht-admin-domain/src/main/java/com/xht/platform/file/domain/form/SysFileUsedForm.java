@@ -1,7 +1,8 @@
 package com.xht.platform.file.domain.form;
 
-import com.xht.platform.file.enums.FileAccessScopeEnum;
+import com.xht.framework.common.domain.form.BasicForm;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 import java.io.Serial;
@@ -14,36 +15,44 @@ import java.io.Serializable;
  **/
 @Data
 @Schema(description = "文件用途配置表单")
-public class SysFileUsedForm implements Serializable {
+public class SysFileUsedForm extends BasicForm implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "用途编码，创建后不可改")
+    /**
+     * 用途编码
+     */
+    @NotEmpty(message = "用途编码不能为空")
+    @Schema(description = "used_code")
     private String usedCode;
 
-    @Schema(description = "用途名称")
+    /**
+     * 用途名称
+     */
+    @NotEmpty(message = "用途名称不能为空")
+    @Schema(description = "used_name")
     private String usedName;
 
-    @Schema(description = "说明")
-    private String description;
+    /**
+     * 说明
+     */
+    @NotEmpty(message = "说明不能为空")
+    @Schema(description = "used_desc")
+    private String usedDesc;
 
-    @Schema(description = "是否启用")
-    private Integer enabled;
+    /**
+     * 是否启用：1 是
+     */
+    @NotEmpty(message = "是否启用不能为空")
+    @Schema(description = "used_enabled")
+    private Integer usedEnabled;
 
-    @Schema(description = "排序")
-    private Integer sort;
-
-    @Schema(description = "默认访问范围")
-    private FileAccessScopeEnum accessScope;
-
-    @Schema(description = "是否允许设为 public")
-    private Integer publicAllowed;
-
-    @Schema(description = "下载闸门")
-    private Integer downloadAllowed;
-
-    @Schema(description = "打印闸门")
-    private Integer printAllowed;
+    /**
+     * 排序
+     */
+    @NotEmpty(message = "排序不能为空")
+    @Schema(description = "used_sort")
+    private Integer usedSort;
 
 }

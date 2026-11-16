@@ -1,7 +1,6 @@
 package com.xht.platform.file.converter;
 
 import com.xht.framework.mybatis.converter.BasicConverter;
-import com.xht.platform.common.file.core.FileMetadata;
 import com.xht.platform.file.domain.form.SysFileForm;
 import com.xht.platform.file.domain.response.SysFilePreviewResponse;
 import com.xht.platform.file.domain.response.SysFileResponse;
@@ -9,8 +8,6 @@ import com.xht.platform.file.entity.SysFileEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
-
-import java.util.Optional;
 
 /**
  * 描述： 系统文件转换器
@@ -37,7 +34,7 @@ public interface SysFileConverter extends BasicConverter<SysFileEntity, SysFileF
         }
         SysFilePreviewResponse response = new SysFilePreviewResponse();
         response.setFileName(sysFileEntity.getFileStorageName());
-        response.setFileOriginalName(Optional.ofNullable(sysFileEntity.getFileMetadata()).map(FileMetadata::getFullOriginalFilename).orElse(""));
+        response.setFileOriginalName(sysFileEntity.getFileOriginalName());
         response.setFileSize(sysFileEntity.getFileSize());
         response.setFileSizeInfo(sysFileEntity.getFileSizeInfo());
         response.setFileSuffix(sysFileEntity.getFileSuffix());

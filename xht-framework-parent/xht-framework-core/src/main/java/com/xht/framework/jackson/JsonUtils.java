@@ -63,7 +63,7 @@ public final class JsonUtils {
                 if (Objects.equals(String.class, clazz)) {
                     return (T) json;
                 }
-                return (T) objectMapper.readValue(json, clazz);
+                return objectMapper.readValue(json, clazz);
             } catch (Exception e) {
                 throw new UtilException("json 序列化有问题!", e);
             }

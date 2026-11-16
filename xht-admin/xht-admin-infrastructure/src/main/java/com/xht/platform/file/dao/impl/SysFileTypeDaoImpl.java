@@ -133,22 +133,6 @@ public class SysFileTypeDaoImpl extends MapperRepositoryImpl<SysFileTypeMapper, 
     }
 
     /**
-     * 根据文件后缀删除缓存
-     *
-     * @param fileSuffix 文件后缀
-     */
-    @Override
-    public void removeCache(String fileSuffix) {
-        if (!StringUtils.hasText(fileSuffix)) {
-            redisRepository.delete(Keys.createKeyTemplate(SysFileConstant.CACHE_PREFIX_FILE_TYPE, "config:__default__"));
-            return;
-        }
-        redisRepository.delete(Keys.createKeyTemplate(SysFileConstant.CACHE_PREFIX_FILE_TYPE, fileSuffix));
-        redisRepository.delete(Keys.createKeyTemplate(SysFileConstant.CACHE_PREFIX_FILE_TYPE, "config:" + fileSuffix));
-        redisRepository.delete(Keys.createKeyTemplate(SysFileConstant.CACHE_PREFIX_FILE_TYPE, "config:__default__"));
-    }
-
-    /**
      * 构建动态查询条件
      *
      * @param query 查询参数

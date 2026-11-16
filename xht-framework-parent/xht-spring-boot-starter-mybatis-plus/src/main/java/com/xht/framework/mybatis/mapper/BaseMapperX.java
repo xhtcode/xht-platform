@@ -17,6 +17,16 @@ import java.util.Optional;
 @SuppressWarnings("unused")
 public interface BaseMapperX<T> extends BaseMapper<T> {
 
+    /**
+     * 查询一个
+     *
+     * @param field 字段name
+     * @param value 字段value
+     * @return 对象信息
+     */
+    default T selectOne(SFunction<T, ?> field, Object value) {
+        return selectOne(new LambdaQueryWrapper<T>().eq(field, value));
+    }
 
     /**
      * 查询一个
@@ -25,7 +35,7 @@ public interface BaseMapperX<T> extends BaseMapper<T> {
      * @param value 字段value
      * @return 对象信息
      */
-    default Optional<T> selectOne(SFunction<T, ?> field, Object value) {
+    default Optional<T> selectOneOptional(SFunction<T, ?> field, Object value) {
         return Optional.ofNullable(selectOne(new LambdaQueryWrapper<T>().eq(field, value)));
     }
 
