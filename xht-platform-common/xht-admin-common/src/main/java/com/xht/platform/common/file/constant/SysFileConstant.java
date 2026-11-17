@@ -12,7 +12,6 @@ public interface SysFileConstant {
      */
     String PATH_POINT = "..";
 
-
     /**
      * 文件占位符
      */
@@ -24,52 +23,8 @@ public interface SysFileConstant {
     int FILE_NAME_PLACEHOLDER_LENGTH = FILE_NAME_PLACEHOLDER.length();
 
     /**
-     * 分片临时目录名（相对于存储根路径：{chunks}/{uploadId}/{chunkIndex}.part）
-     */
-    String CHUNK_DIR = "chunks";
-
-    /**
-     * 分片文件后缀
-     */
-    String CHUNK_PART_SUFFIX = ".part";
-
-    /**
      * 分片上传标识合法格式（字母、数字、中划线，长度8~64，防路径穿越）
      */
     String UPLOAD_ID_PATTERN = "^[a-zA-Z0-9-]{8,64}$";
 
-    /**
-     * 公共缓存的前缀
-     */
-    String CACHE_PREFIX = "file:public:{}";
-
-    /**
-     * 私有缓存的前缀
-     */
-    String CACHE_PREFIX_PRIVATE = "file:private:{}";
-
-    /**
-     * 文件预览类型配置的缓存前缀
-     */
-    String CACHE_PREFIX_FILE_TYPE = "file:preview:type:{}";
-
-    /**
-     * 文件用途配置的缓存前缀
-     */
-    String CACHE_PREFIX_FILE_USED = "file:used:{}";
-
-    /**
-     * 文件模块全局配置的缓存前缀
-     */
-    String CACHE_PREFIX_FILE_SETTING = "file:setting:{}";
-
-    /**
-     * 预览会话缓存前缀
-     */
-    String CACHE_PREFIX_PREVIEW_SESSION = "file:preview:session:{}";
-
-    /**
-     * 预览初始化锁前缀
-     */
-    String CACHE_PREFIX_PREVIEW_INIT_LOCK = "file:preview:init:{}";
 }

@@ -4,24 +4,17 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xht.framework.cache.repository.RedisRepository;
-import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.framework.utils.StringUtils;
-import com.xht.platform.common.file.constant.SysFileConstant;
 import com.xht.platform.file.dao.SysFileTypeDao;
 import com.xht.platform.file.dao.mapper.SysFileTypeMapper;
 import com.xht.platform.file.domain.form.SysFileTypeForm;
 import com.xht.platform.file.domain.query.SysFileTypeQuery;
 import com.xht.platform.file.entity.SysFileTypeEntity;
-import com.xht.platform.file.enums.PreviewTypeEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 描述： 文件预览类型配置数据访问层实现类
@@ -32,8 +25,6 @@ import java.util.concurrent.TimeUnit;
 @Repository
 @RequiredArgsConstructor
 public class SysFileTypeDaoImpl extends MapperRepositoryImpl<SysFileTypeMapper, SysFileTypeEntity> implements SysFileTypeDao {
-
-    private final RedisRepository redisRepository;
 
     /**
      * 分页查询文件预览类型配置
@@ -66,53 +57,6 @@ public class SysFileTypeDaoImpl extends MapperRepositoryImpl<SysFileTypeMapper, 
         }
         wrapper.ne(condition(excludeId), SysFileTypeEntity::getId, excludeId);
         return exists(wrapper);
-    }
-
-    /**
-     * 根据文件后缀查询配置
-     *
-     * @param fileSuffix 文件后缀
-     * @return {@link PreviewTypeEnum}
-     */
-    @Override
-    public PreviewTypeEnum findBySuffix(String fileSuffix) {
-        SysFileTypeEntity entity = findConfigBySuffix(fileSuffix);
-        return Optional.ofNullable(entity).map(SysFileTypeEntity::getPreviewType).orElse(PreviewTypeEnum.OTHER);
-    }
-
-    /**
-     * 根据文件后缀查询完整配置
-     * <p>先查精确后缀，未命中再查 file_suffix 为空的默认行</p>
-     *
-     * @param fileSuffix 文件后缀
-     * @return 配置实体，未命中返回 null
-     */
-    @Override
-    public SysFileTypeEntity findConfigBySuffix(String fileSuffix) {
-        String cacheKey = Keys.createKey(SysFileConstant.CACHE_PREFIX_FILE_TYPE, "config", StringUtils.emptyToDefault(fileSuffix, "__default__"));
-        SysFileTypeEntity cached = redisRepository.get(cacheKey);
-        if (Objects.nonNull(cached)) {
-            return cached;
-        }
-
-
-        LambdaQueryWrapper<SysFileTypeEntity> wrapper = new LambdaQueryWrapper<>();
-        if (StringUtils.hasText(fileSuffix)) {
-            wrapper.eq(SysFileTypeEntity::getFileSuffix, fileSuffix);
-        } else {
-            wrapper.isNull(SysFileTypeEntity::getFileSuffix);
-        }
-        SysFileTypeEntity entity = getOne(wrapper, false);
-
-        if (Objects.isNull(entity) && StringUtils.hasText(fileSuffix)) {
-            LambdaQueryWrapper<SysFileTypeEntity> defaultWrapper = new LambdaQueryWrapper<>();
-            defaultWrapper.isNull(SysFileTypeEntity::getFileSuffix);
-            entity = getOne(defaultWrapper);
-        }
-        if (Objects.nonNull(entity)) {
-            redisRepository.set(cacheKey, entity, Keys.randomExpire(60, 120), TimeUnit.MINUTES);
-        }
-        return entity;
     }
 
     /**

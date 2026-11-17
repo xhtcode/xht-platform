@@ -1,7 +1,6 @@
 package com.xht.platform.file.domain.query;
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import com.xht.platform.file.enums.PreviewTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,7 +26,7 @@ public class SysFileTypeQuery extends PageBasicQuery {
      * 预览类型编码（精确查询）
      */
     @Schema(description = "预览类型编码（精确查询）")
-    private PreviewTypeEnum previewType;
+    private String previewType;
 
     /**
      * 预览类型名称（模糊查询）

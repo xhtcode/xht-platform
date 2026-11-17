@@ -2,40 +2,23 @@ package com.xht.platform.file.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.AssertUtils;
-import com.xht.framework.utils.StringUtils;
-import com.xht.framework.utils.file.XhtFileUtils;
-import com.xht.platform.common.file.bo.ChunkMergeBO;
-import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.converter.SysFileConverter;
 import com.xht.platform.file.dao.FileStorageDao;
 import com.xht.platform.file.dao.SysFileDao;
-import com.xht.platform.file.dao.SysFileTypeDao;
-import com.xht.platform.file.domain.form.FilePreviewInitForm;
 import com.xht.platform.file.domain.query.SysFileQuery;
-import com.xht.platform.file.domain.response.FileCapabilityResponse;
-import com.xht.platform.file.domain.response.SysFilePreviewResponse;
-import com.xht.platform.file.domain.response.SysFilePreviewStatusResponse;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.entity.SysFileEntity;
-import com.xht.platform.file.enums.FileInitStatusEnum;
 import com.xht.platform.file.enums.FileStatusEnum;
-import com.xht.platform.file.enums.PreviewTypeEnum;
-import com.xht.platform.file.preview.FilePreview;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -54,12 +37,6 @@ public class SysFileServiceImpl implements ISysFileService {
     private final SysFileConverter sysFileConverter;
 
     private final FileStorageDao fileStorageDao;
-
-    private final List<FilePreview> filePreviewList;
-
-    private final PreviewSessionService previewSessionService;
-
-    private final SysFileTypeDao sysFileTypeDao;
 
     /**
      * 根据文件ID删除文件记录（逻辑删除），并同步删除物理文件
@@ -113,133 +90,6 @@ public class SysFileServiceImpl implements ISysFileService {
     public SysFileResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo) {
         SysFileEntity sysFileEntity = fileStorageDao.uploadMultipartFile(uploadBo);
         return sysFileConverter.toResponse(sysFileEntity);
-    }
-
-    /**
-     * 查询已上传分片序号列表（断点续传）
-     *
-     * @param uploadId 分片上传标识
-     * @return 已上传分片序号列表（升序）
-     */
-    @Override
-    public List<Integer> findUploadedChunkIndexes(String uploadId) {
-        return fileStorageDao.findUploadedChunkIndexes(uploadId);
-    }
-
-    /**
-     * 分片上传（单分片）
-     *
-     * @param chunkUploadBo 分片上传参数
-     */
-    @Override
-    public void uploadChunk(ChunkUploadBO<MultipartFile> chunkUploadBo) {
-        fileStorageDao.uploadChunk(chunkUploadBo);
-    }
-
-    /**
-     * 合并文件分片：校验分片完整性，合并为完整文件并生成文件记录
-     *
-     * @param chunkMergeBo 分片合并参数
-     * @return 文件信息
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public SysFileResponse mergeChunks(ChunkMergeBO chunkMergeBo) {
-        SysFileEntity sysFileEntity = fileStorageDao.mergeChunks(chunkMergeBo);
-        sysFileDao.updateById(sysFileEntity);
-        return sysFileConverter.toResponse(sysFileEntity);
-    }
-
-    /**
-     * 初始化文件预览信息
-     *
-     * @param form     初始化请求
-     * @param request  请求
-     * @param response 响应
-     * @return 文件预览初始化信息
-     */
-    @Override
-    public SysFilePreviewResponse initPreviewInfo(FilePreviewInitForm form, HttpServletRequest request, HttpServletResponse response) {
-        SysFilePreviewResponse previewResponse = new SysFilePreviewResponse();
-        SysFileEntity sysFileEntity = sysFileDao.findByFileStorageKey(form.getFileStorageKey());
-        AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
-        PreviewTypeEnum previewTypeEnum = sysFileTypeDao.findBySuffix(sysFileEntity.getFileSuffix());
-        previewResponse.setFileName(sysFileEntity.getFileStorageName());
-        previewResponse.setFileOriginalName(sysFileEntity.getFileOriginalName());
-        previewResponse.setFileSize(sysFileEntity.getFileSize());
-        previewResponse.setFileStorageKey(sysFileEntity.getFileStorageKey());
-        previewResponse.setFileSizeInfo(sysFileEntity.getFileSizeInfo());
-        previewResponse.setFileSuffix(sysFileEntity.getFileSuffix());
-        previewResponse.setFileType(sysFileEntity.getFileType());
-        String previewId = previewSessionService.createPreviewId();
-        previewResponse.setPreviewId(previewId);
-        previewSessionService.save(previewId, previewResponse);
-        previewResponse.setInitStatus(FileInitStatusEnum.SUCCESS);
-        previewResponse.setPreviewMode(previewTypeEnum);
-        previewResponse.setCapabilities(buildCapabilities());
-        return previewResponse;
-    }
-
-    /**
-     * 查询预览状态
-     *
-     * @param previewId 预览ID
-     * @return 预览状态
-     */
-    @Override
-    public SysFilePreviewStatusResponse previewStatus(String previewId) {
-        return null;
-    }
-
-    /**
-     * 文件下载
-     *
-     * @param response  响应
-     * @param previewId 预览ID
-     */
-    @Override
-    public void downloadFile(HttpServletResponse response, String previewId) {
-        SysFileEntity file = sysFileDao.findByFileStorageKey(previewId);
-        try (InputStream download = fileStorageDao.download(file)) {
-            String downloadName = StringUtils.hasText(file.getFileOriginalName())
-                    ? file.getFileOriginalName() : file.getFileStorageName();
-            XhtFileUtils.writeFile(response, downloadName, file.getFileType(), download);
-        } catch (Exception e) {
-            throw new BusinessException(BusinessErrorCode.FILE_DOWNLOAD_FAIL, e);
-        }
-    }
-
-    /**
-     * 文件预览
-     *
-     * @param request   请求
-     * @param response  响应
-     * @param previewId 预览ID
-     */
-    @Override
-    public void filePreview(HttpServletRequest request, HttpServletResponse response, String previewId) {
-        SysFilePreviewResponse sysFilePreviewResponse = previewSessionService.get(previewId);
-        AssertUtils.notNull(sysFilePreviewResponse, BusinessErrorCode.DATA_NOT_EXIST);
-        SysFileEntity file = sysFileDao.findByFileStorageKey(sysFilePreviewResponse.getFileStorageKey());
-        for (FilePreview filePreview : filePreviewList) {
-            if (filePreview.supports(file.getPreviewType())) {
-                filePreview.filePreview(request, response, file);
-                return;
-            }
-        }
-        throw new BusinessException(BusinessErrorCode.FILE_PREVIEW_NOT_SUPPORT);
-    }
-
-    /**
-     * 构建能力清单
-     *
-     * @return 能力清单
-     */
-    private FileCapabilityResponse buildCapabilities() {
-        FileCapabilityResponse capabilities = new FileCapabilityResponse();
-        capabilities.setPreview(true);
-        capabilities.setDownload(true);
-        return capabilities;
     }
 
 }

@@ -31,6 +31,7 @@
         <module>xht-spring-boot-starter-swagger</module>
         <module>xht-spring-boot-starter-web</module>
         <module>xht-spring-boot-starter-spring-cloud</module>
+        <module>xht-spring-boot-starter-file-preview</module>
     </modules>
     <dependencies>
         <!-- lombok -->

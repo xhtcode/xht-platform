@@ -3,19 +3,11 @@ package com.xht.platform.file.dao;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.file.exception.FileStorageException;
 import com.xht.framework.utils.AssertUtils;
-import com.xht.platform.common.file.FileMetadataBuilder;
-import com.xht.platform.common.file.bo.ChunkMergeBO;
-import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
-import com.xht.platform.file.FileMetadataSupplier;
-import com.xht.platform.file.domain.response.SysFilePreviewResponse;
 import com.xht.platform.file.entity.SysFileEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 描述： 文件存储数据访问层
@@ -31,51 +23,7 @@ public interface FileStorageDao {
      * @return 文件上传响应信息
      * @throws FileStorageException 文件存储异常
      */
-    default SysFileEntity uploadMultipartFile(UploadBO<MultipartFile> multipartFileUploadBO) {
-        return uploadMultipartFile(multipartFileUploadBO, (uploadBO) -> FileMetadataBuilder
-                .builder()
-                .fullOriginalFilename(uploadBO.getRequestFile().getOriginalFilename())
-                .build());
-    }
-
-    /**
-     * 上传文件
-     *
-     * @param multipartFileUploadBO 上传入参（封装MultipartFile）
-     * @param fileMetadataSupplier  文件元数据提供者
-     * @return 文件上传响应信息
-     * @throws FileStorageException 文件存储异常
-     */
-    SysFileEntity uploadMultipartFile(UploadBO<MultipartFile> multipartFileUploadBO, FileMetadataSupplier<MultipartFile> fileMetadataSupplier);
-
-    /**
-     * 查询已上传分片序号列表（断点续传）
-     * <p>分片按约定路径 {chunks}/{uploadId}/{chunkIndex}.part 存放，列举目录后按文件名解析序号</p>
-     *
-     * @param uploadId 分片上传标识
-     * @return 已上传分片序号列表（升序），无已上传分片时返回空集合
-     * @throws FileStorageException 目录列举失败等存储异常
-     */
-    List<Integer> findUploadedChunkIndexes(String uploadId);
-
-    /**
-     * 上传单个文件分片
-     * <p>分片重复上传时直接覆盖（幂等），支持断点续传场景下的失败重传</p>
-     *
-     * @param chunkUploadBO 分片上传入参（封装分片文件）
-     * @throws FileStorageException 分片写入失败等存储异常
-     */
-    void uploadChunk(ChunkUploadBO<MultipartFile> chunkUploadBO);
-
-    /**
-     * 合并文件分片：校验分片完整性（0 ~ chunkTotal-1 全部存在），
-     * 按分片序号顺序合并为完整文件并生成文件记录（sys_file），合并成功后清理分片临时文件
-     *
-     * @param chunkMergeBO 分片合并入参
-     * @return 文件实体
-     * @throws FileStorageException 分片缺失、合并失败等存储异常
-     */
-    SysFileEntity mergeChunks(ChunkMergeBO chunkMergeBO);
+    SysFileEntity uploadMultipartFile(UploadBO<MultipartFile> multipartFileUploadBO);
 
     /**
      * 下载文件
@@ -99,83 +47,5 @@ public interface FileStorageDao {
      * @throws FileStorageException 文件不存在、读取失败等存储异常
      */
     InputStream download(String fileStoragePath);
-
-    /**
-     * 按偏移、长度读取文件片段（断点续传、视频分片播放等 Range 场景）
-     * <p>【契约说明】返回的输入流由调用方负责关闭，推荐 try-with-resources，防止文件句柄泄漏</p>
-     *
-     * @param sysFileEntity 文件实体
-     * @param offset        起始字节偏移，不能小于 0
-     * @param length        需要读取多少字节，必须大于 0；超出文件剩余大小时按实际长度返回
-     * @return 片段输入流，由调用方负责关闭
-     */
-    default InputStream downloadRange(SysFileEntity sysFileEntity, long offset, long length) {
-        AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
-        return downloadRange(sysFileEntity.getFileStoragePath(), offset, length);
-    }
-
-    /**
-     * 按偏移、长度读取文件片段（断点续传、视频分片播放等 Range 场景）
-     * <p>【契约说明】返回的输入流由调用方负责关闭，推荐 try-with-resources，防止文件句柄泄漏</p>
-     *
-     * @param fileStoragePath 文件存储路径（{@link SysFileEntity#getFileStoragePath()}）
-     * @param offset          起始字节偏移，不能小于 0
-     * @param length          需要读取多少字节，必须大于 0；超出文件剩余大小时按实际长度返回
-     * @return 片段输入流，由调用方负责关闭
-     */
-    InputStream downloadRange(String fileStoragePath, long offset, long length);
-
-    /**
-     * 删除存储对象
-     *
-     * @param fileStoragePath 文件存储路径
-     */
-    void remove(String fileStoragePath);
-
-    /**
-     * 关联文件业务（单文件）：标记为已关联（ASSOCIATED）并记录关联时间
-     * <p>
-     * 禁止使用批处理：每次仅处理一个文件
-     *
-     * @param fileStorageKey 文件存储key
-     * @param fileUsed       文件用途
-     * @param fileDesc       文件描述
-     */
-    void associateFile(String fileStorageKey, String fileUsed, String fileDesc);
-
-    /**
-     * 解关联文件业务（单文件）：标记为已解关联（DISASSOCIATED）并记录解关联时间
-     * <p>
-     * 禁止使用批处理：每次仅处理一个文件
-     *
-     * @param fileStorageKey 文件存储key
-     */
-    void disassociateFile(String fileStorageKey);
-
-
-    /**
-     * 保存文件预览信息
-     *
-     * @param cacheKey               文件存储cacheKey
-     * @param sysFilePreviewResponse 文件预览信息
-     * @param timeout                缓存超时时间
-     * @param unit                   缓存超时时间单位
-     */
-    void saveFilePreview(String cacheKey, SysFilePreviewResponse sysFilePreviewResponse, long timeout, TimeUnit unit);
-
-    /**
-     * 根据文件存储cacheKey获取文件预览信息
-     *
-     * @param cacheKey 文件存储cacheKey
-     * @return 文件预览信息
-     */
-    Optional<SysFilePreviewResponse> getFilePreview(String cacheKey);
-
-    /**
-     * 根据文件存储cacheKey删除文件预览信息
-     *
-     * @param cacheKey 文件存储cacheKey
-     */
-    void deleteFilePreview(String cacheKey);
 
 }

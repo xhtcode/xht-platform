@@ -105,12 +105,6 @@ public class SysFileResponse extends MetaResponse {
     private String fileStoragePath;
 
     /**
-     * 文件元数据（JSON 字符串）
-     */
-    @Schema(description = "文件元数据（JSON 字符串）")
-    private FileMetadata fileMetadata;
-
-    /**
      * 文件上传时间
      */
     @Schema(description = "文件上传时间")

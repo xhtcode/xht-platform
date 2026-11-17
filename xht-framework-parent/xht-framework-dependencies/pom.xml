@@ -144,6 +144,12 @@
                 <artifactId>xht-spring-boot-starter-cache</artifactId>
                 <version>${xht.version}</version>
             </dependency>
+            <!-- file-preview文件预览模块依赖 -->
+            <dependency>
+                <groupId>com.xht.framework</groupId>
+                <artifactId>xht-spring-boot-starter-file-preview</artifactId>
+                <version>${xht.version}</version>
+            </dependency>
             <!-- log日志记录模块依赖 -->
             <dependency>
                 <groupId>com.xht.framework</groupId>

@@ -1,7 +1,6 @@
 package com.xht.platform.file.domain.response;
 
 import com.xht.framework.common.domain.response.MetaResponse;
-import com.xht.platform.file.enums.PreviewTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,7 +32,7 @@ public class SysFileTypeResponse extends MetaResponse {
      * 预览类型编码
      */
     @Schema(description = "预览类型编码(image/pdf/video/audio/text/json/other)")
-    private PreviewTypeEnum previewType;
+    private String previewType;
 
     /**
      * 预览类型名称

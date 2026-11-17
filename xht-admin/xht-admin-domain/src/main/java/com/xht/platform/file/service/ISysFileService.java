@@ -1,19 +1,10 @@
 package com.xht.platform.file.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.platform.common.file.bo.ChunkMergeBO;
-import com.xht.platform.common.file.bo.ChunkUploadBO;
 import com.xht.platform.common.file.bo.UploadBO;
-import com.xht.platform.file.domain.form.FilePreviewInitForm;
 import com.xht.platform.file.domain.query.SysFileQuery;
-import com.xht.platform.file.domain.response.SysFilePreviewResponse;
-import com.xht.platform.file.domain.response.SysFilePreviewStatusResponse;
 import com.xht.platform.file.domain.response.SysFileResponse;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * 描述： 系统文件服务接口
@@ -54,65 +45,5 @@ public interface ISysFileService {
      * @return 文件上传响应信息
      */
     SysFileResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo);
-
-    /**
-     * 查询已上传分片序号列表（断点续传）
-     *
-     * @param uploadId 分片上传标识
-     * @return 已上传分片序号列表（升序），无已上传分片时返回空集合
-     */
-    List<Integer> findUploadedChunkIndexes(String uploadId);
-
-    /**
-     * 分片上传（单分片）
-     *
-     * @param chunkUploadBo 分片上传参数
-     */
-    void uploadChunk(ChunkUploadBO<MultipartFile> chunkUploadBo);
-
-    /**
-     * 合并文件分片：校验分片完整性，合并为完整文件并生成文件记录
-     *
-     * @param chunkMergeBo 分片合并参数
-     * @return 文件上传响应信息
-     */
-    SysFileResponse mergeChunks(ChunkMergeBO chunkMergeBo);
-
-    /**
-     * 初始化文件预览信息
-     * <p>支持登录与匿名公开两种入口；返回 previewId、文件信息与能力清单</p>
-     *
-     * @param form     初始化请求
-     * @param request  请求
-     * @param response 响应
-     * @return 文件预览初始化信息
-     */
-    SysFilePreviewResponse initPreviewInfo(FilePreviewInitForm form, HttpServletRequest request, HttpServletResponse response);
-
-    /**
-     * 查询预览状态
-     *
-     * @param previewId 预览ID
-     * @return 预览状态
-     */
-    SysFilePreviewStatusResponse previewStatus(String previewId);
-
-    /**
-     * 文件下载
-     *
-     * @param response  响应
-     * @param previewId 预览ID
-     */
-    void downloadFile(HttpServletResponse response, String previewId);
-
-    /**
-     * 文件预览
-     * <p>按 previewId 解析会话与文件，支持 Range 分段请求</p>
-     *
-     * @param request   请求
-     * @param response  响应
-     * @param previewId 预览ID
-     */
-    void filePreview(HttpServletRequest request, HttpServletResponse response, String previewId);
 
 }

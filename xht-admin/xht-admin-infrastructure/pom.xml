@@ -38,6 +38,10 @@
         </dependency>
         <dependency>
             <groupId>com.xht.framework</groupId>
+            <artifactId>xht-spring-boot-starter-file-preview</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xht.framework</groupId>
             <artifactId>xht-spring-boot-starter-resource-server</artifactId>
         </dependency>
         <dependency>

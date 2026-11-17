@@ -2,7 +2,6 @@ package com.xht.platform.file.domain.form;
 
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
-import com.xht.platform.file.enums.PreviewTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,7 +27,7 @@ public class SysFileTypeForm extends BasicForm {
      */
     @NotNull(message = "预览类型编码参数不合法", groups = {Groups.Create.class, Groups.Update.class})
     @Schema(description = "预览类型编码(image/pdf/video/audio/text/json/other)")
-    private PreviewTypeEnum previewType;
+    private String previewType;
 
     /**
      * 预览类型名称
