@@ -121,8 +121,8 @@ public class SysFileEntity extends BasicEntity implements Serializable {
     /**
      * 文件预览类型
      */
-    @TableField(value = "preview_type")
-    private PreviewTypeEnum previewType;
+    @TableField(value = "file_preview_type")
+    private PreviewTypeEnum filePreviewType;
 
     /**
      * 文件描述

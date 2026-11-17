@@ -24,7 +24,6 @@ import java.time.LocalDateTime;
  * @author xht
  **/
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Schema(description = "系统文件表单")
 public class SysFileForm extends BasicForm {
 

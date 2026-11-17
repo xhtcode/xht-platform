@@ -42,7 +42,7 @@ public class AdminFilePreviewServiceImpl implements IAdminFilePreviewService {
     @Override
     public void downloadFile(HttpServletResponse response, String fileStorageKey) {
         SysFileEntity file = sysFileDao.findByFileStorageKey(fileStorageKey);
-        try (InputStream download = fileStorageDao.download(file)) {
+        try (InputStream download = fileStorageDao.download(file.getFileStoragePath())) {
             String downloadName = StringUtils.hasText(file.getFileOriginalName()) ? file.getFileOriginalName() : file.getFileStorageName();
             XhtFileUtils.writeFile(response, downloadName, file.getFileType(), download);
         } catch (Exception e) {
@@ -69,7 +69,6 @@ public class AdminFilePreviewServiceImpl implements IAdminFilePreviewService {
                 .fileStorageType(file.getFileStorageType())
                 .fileStorageName(file.getFileStorageName())
                 .fileStoragePath(file.getFileStoragePath())
-                .previewType(file.getPreviewType())
                 .build()
         );
     }

@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.framework.preview.core.enums.PreviewTypeEnum;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 描述： 文件预览类型配置实体
@@ -17,7 +15,6 @@ import lombok.EqualsAndHashCode;
  * @author xht
  **/
 @Data
-@EqualsAndHashCode(callSuper = true)
 @TableName(value = "sys_file_type")
 public class SysFileTypeEntity extends BasicEntity {
 
@@ -31,7 +28,7 @@ public class SysFileTypeEntity extends BasicEntity {
      * 预览类型编码(image/pdf/video/audio/text/json/other)
      */
     @TableField(value = "preview_type")
-    private PreviewTypeEnum previewType;
+    private String previewType;
 
     /**
      * 预览类型名称(图片/PDF/视频/音频/文本/JSON/其他)

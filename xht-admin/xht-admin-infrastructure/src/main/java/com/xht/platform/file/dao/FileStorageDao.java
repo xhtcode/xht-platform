@@ -29,19 +29,6 @@ public interface FileStorageDao {
      * 下载文件
      * <p>【契约说明】返回的输入流由调用方负责关闭，推荐 try-with-resources，防止文件句柄泄漏</p>
      *
-     * @param sysFileEntity 文件实体
-     * @return 文件输入流
-     * @throws FileStorageException 文件不存在、读取失败等存储异常
-     */
-    default InputStream download(SysFileEntity sysFileEntity) {
-        AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
-        return download(sysFileEntity.getFileStoragePath());
-    }
-
-    /**
-     * 下载文件
-     * <p>【契约说明】返回的输入流由调用方负责关闭，推荐 try-with-resources，防止文件句柄泄漏</p>
-     *
      * @param fileStoragePath 文件存储路径
      * @return 文件输入流
      * @throws FileStorageException 文件不存在、读取失败等存储异常

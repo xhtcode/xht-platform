@@ -18,7 +18,6 @@ import lombok.EqualsAndHashCode;
  * @author xht
  **/
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Schema(description = "文件预览类型配置表单")
 public class SysFileTypeForm extends BasicForm {
 

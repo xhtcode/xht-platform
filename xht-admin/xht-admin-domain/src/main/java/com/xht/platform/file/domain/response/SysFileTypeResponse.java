@@ -3,7 +3,6 @@ package com.xht.platform.file.domain.response;
 import com.xht.framework.common.domain.response.MetaResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
 
@@ -15,7 +14,6 @@ import java.io.Serial;
  * @author xht
  **/
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Schema(description = "文件预览类型配置响应实体")
 public class SysFileTypeResponse extends MetaResponse {
 

@@ -66,28 +66,10 @@ public interface FileStorageRepository {
     }
 
     /**
-     * 列举目录下的文件名
-     * <p>仅返回目录下的普通文件名（不含路径），不递归子目录；目录不存在时返回空集合；
-     * 各存储实现按文件名自然顺序返回，便于调用方按序号切分</p>
-     *
-     * @param dirPath 目录路径
-     * @return 文件名列表，由调用方负责排序/过滤语义
-     */
-    List<String> listFileNames(String dirPath);
-
-    /**
      * 删除文件
      *
      * @param filePath 文件路径
      */
     void remove(String filePath);
-
-    /**
-     * 生成文件预览地址
-     *
-     * @param fileStorageKey 文件存储key
-     * @return 文件预览地址
-     */
-    String generatePreviewUrl(String fileStorageKey);
 
 }

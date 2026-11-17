@@ -2,11 +2,9 @@ package com.xht.platform.file.domain.response;
 
 import com.xht.framework.common.domain.response.MetaResponse;
 import com.xht.framework.file.enums.StorageType;
-import com.xht.platform.common.file.core.FileMetadata;
 import com.xht.platform.file.enums.FileStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
@@ -19,7 +17,6 @@ import java.time.LocalDateTime;
  * @author xht
  **/
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Schema(description = "系统文件响应实体")
 public class SysFileResponse extends MetaResponse {
 
@@ -39,21 +36,21 @@ public class SysFileResponse extends MetaResponse {
     private String fileOriginalName;
 
     /**
-     * 文件大小（单位：字节）
+     * 文件大小（字节）
      */
-    @Schema(description = "文件大小（单位：字节）")
+    @Schema(description = "文件大小（字节）")
     private Long fileSize;
 
     /**
-     * 文件大小信息
+     * 文件大小展示信息（如：10MB、2.5GB）
      */
-    @Schema(description = "文件大小信息")
+    @Schema(description = "文件大小展示信息（如：10MB、2.5GB）")
     private String fileSizeInfo;
 
     /**
-     * 文件hash
+     * 文件hash值
      */
-    @Schema(description = "文件hash")
+    @Schema(description = "文件hash值")
     private String fileHash;
 
     /**
@@ -117,10 +114,16 @@ public class SysFileResponse extends MetaResponse {
     private String fileUploadUser;
 
     /**
-     * 文件关联时间（文件关联业务时时间）
+     * 文件关联业务时间（文件关联业务时时间）
      */
-    @Schema(description = "文件关联时间（文件关联业务时时间）")
+    @Schema(description = "文件关联业务时间（文件关联业务时时间）")
     private LocalDateTime fileAssociateTime;
+
+    /**
+     * 文件预览类型
+     */
+    @Schema(description = "文件预览类型")
+    private String filePreviewType;
 
     /**
      * 文件描述

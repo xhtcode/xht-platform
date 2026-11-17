@@ -38,24 +38,6 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
     @Override
     public Page<SysFileEntity> findPageList(Page<SysFileEntity> page, SysFileQuery query) {
         LambdaQueryWrapper<SysFileEntity> wrapper = new LambdaQueryWrapper<>();
-        // @formatter:off
-        wrapper.select(
-                SysFileEntity::getId,
-                SysFileEntity::getFileOriginalName,
-                SysFileEntity::getFileSize,
-                SysFileEntity::getFileSizeInfo,
-                SysFileEntity::getFileHash,
-                SysFileEntity::getFileType,
-                SysFileEntity::getFileSuffix,
-                SysFileEntity::getFileStatus,
-                SysFileEntity::getFileUsed,
-                SysFileEntity::getFileStorageType,
-                SysFileEntity::getFileStorageKey,
-                SysFileEntity::getFileStorageName,
-                SysFileEntity::getFileUploadTime,
-                SysFileEntity::getFileAssociateTime,
-                SysFileEntity::getFileUploadUser
-        );
         // 关键字模糊匹配文件原始名称、文件存储key与文件存储名称
         wrapper.and(condition(query.getKeyWord()), queryWrapper -> queryWrapper
                 .like(SysFileEntity::getFileOriginalName, query.getKeyWord())
@@ -64,15 +46,9 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
                 .or()
                 .like(SysFileEntity::getFileStorageName, query.getKeyWord())
         );
+        wrapper.like(condition(query.getFileStorageName()), SysFileEntity::getFileStorageName, query.getFileStorageName());
         wrapper.eq(condition(query.getFileStorageKey()), SysFileEntity::getFileStorageKey, query.getFileStorageKey());
-        wrapper.eq(condition(query.getFileSuffix()), SysFileEntity::getFileSuffix, query.getFileSuffix());
-        wrapper.eq(condition(query.getFileType()), SysFileEntity::getFileType, query.getFileType());
         wrapper.eq(Objects.nonNull(query.getFileStatus()), SysFileEntity::getFileStatus, query.getFileStatus());
-        wrapper.eq(condition(query.getFileUsed()), SysFileEntity::getFileUsed, query.getFileUsed());
-        wrapper.eq(condition(query.getFileUploadUser()), SysFileEntity::getFileUploadUser, query.getFileUploadUser());
-        wrapper.between(Objects.nonNull(query.getStartUploadTime()) || Objects.nonNull(query.getEndUploadTime()),
-                SysFileEntity::getFileUploadTime, query.getStartUploadTime(), query.getEndUploadTime());
-        wrapper.ne(SysFileEntity::getFileStatus, FileStatusEnum.DELETED);
         // @formatter:on
         return page(page, wrapper);
     }
