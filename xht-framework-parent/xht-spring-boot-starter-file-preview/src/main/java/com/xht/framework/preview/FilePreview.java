@@ -1,7 +1,7 @@
 package com.xht.framework.preview;
 
 import com.xht.framework.preview.core.bo.FilePreviewBO;
-import com.xht.framework.preview.core.enums.PreviewTypeEnum;
+import com.xht.framework.file.enums.PreviewTypeEnum;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

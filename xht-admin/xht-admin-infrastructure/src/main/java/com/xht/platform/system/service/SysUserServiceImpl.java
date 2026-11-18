@@ -17,7 +17,11 @@ import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.tree.INode;
 import com.xht.framework.utils.tree.TreeNode;
 import com.xht.framework.utils.tree.TreeUtils;
+import com.xht.platform.common.file.bo.UploadBO;
+import com.xht.platform.common.file.constant.SysFileConstant;
 import com.xht.platform.common.router.dto.RouterDTO;
+import com.xht.platform.file.dao.FileStorageDao;
+import com.xht.platform.file.entity.SysFileEntity;
 import com.xht.platform.system.converter.SysMenuConverter;
 import com.xht.platform.system.converter.SysUserConverter;
 import com.xht.platform.system.dao.*;
@@ -40,6 +44,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -68,6 +73,8 @@ public class SysUserServiceImpl implements ISysUserService {
     private final SysUserConverter sysUserConverter;
 
     private final SysUserDetailDao sysUserDetailDao;
+
+    private final FileStorageDao fileStorageDao;
 
     /**
      * 用户注册
@@ -268,6 +275,24 @@ public class SysUserServiceImpl implements ISysUserService {
             result.add(new TreeNode<>(menu.getId(), menu.getParentId(), menu.getMenuSort()).setExtra(routerDTO));
         }
         return TreeUtils.buildList(result, Boolean.FALSE);
+    }
+
+    /**
+     * 上传头像
+     *
+     * @param avatar 头像文件
+     */
+    @Override
+    public String uploadAvatar(MultipartFile avatar) {
+        String userName = SecurityUtils.getUserName();
+        SysFileEntity sysFileEntity = fileStorageDao
+                .uploadMultipartFile(UploadBO
+                        .builder(avatar)
+                        .fileUsed(SysFileConstant.FILE_USED_AVATAR)
+                        .filePathPrefix(userName + "/avatar")
+                        .fileUploadUser(userName)
+                        .build());
+        return "/img/user-avatar/" + sysFileEntity.getFileStorageKey();
     }
 
 }

@@ -15,7 +15,7 @@ import com.xht.platform.common.file.utils.SysFileUtils;
 import com.xht.platform.file.dao.FileStorageDao;
 import com.xht.platform.file.dao.mapper.SysFileMapper;
 import com.xht.platform.file.entity.SysFileEntity;
-import com.xht.platform.file.enums.FileStatusEnum;
+import com.xht.framework.file.enums.FileStatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

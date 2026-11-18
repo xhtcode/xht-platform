@@ -2,11 +2,10 @@ package com.xht.framework.preview.other;
 
 import com.xht.framework.preview.FilePreview;
 import com.xht.framework.preview.core.bo.FilePreviewBO;
-import com.xht.framework.preview.core.enums.PreviewTypeEnum;
+import com.xht.framework.file.enums.PreviewTypeEnum;
 import com.xht.framework.utils.ServletUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 

@@ -1,6 +1,6 @@
 package com.xht.framework.preview.other;
 
-import com.xht.framework.preview.core.enums.PreviewTypeEnum;;
+import com.xht.framework.file.enums.PreviewTypeEnum;;
 import lombok.Data;
 
 /**

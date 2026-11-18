@@ -1,7 +1,7 @@
 package com.xht.platform.file.domain.query;
 
 import com.xht.framework.common.domain.query.PageBasicQuery;
-import com.xht.platform.file.enums.FileStatusEnum;
+import com.xht.framework.file.enums.FileStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

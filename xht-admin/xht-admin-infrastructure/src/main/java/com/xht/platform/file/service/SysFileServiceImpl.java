@@ -12,7 +12,7 @@ import com.xht.platform.file.dao.SysFileDao;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.entity.SysFileEntity;
-import com.xht.platform.file.enums.FileStatusEnum;
+import com.xht.framework.file.enums.FileStatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

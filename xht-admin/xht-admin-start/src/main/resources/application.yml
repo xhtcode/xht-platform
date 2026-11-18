@@ -81,6 +81,9 @@ xht:
       endpoints:
     xss:
       enable: true
+      # 头像预览为公开只读接口，且需读取带双引号的 If-None-Match 做强校验（XSS 过滤器会把双引号转义成 &quot;），整路径排除
+      exclude-urls:
+        - /img/user-avatar/**
     header:
       auth-key: X-Auth-Token
       # 内部调用共享密钥：禁止写入仓库，由环境变量 XHT_SECURITY_AUTH_VALUE 注入；为空时 aop = true 的内部接口一律拒绝（fail-closed）

@@ -8,6 +8,7 @@ import com.xht.platform.system.domain.form.UpdatePwdFrom;
 import com.xht.platform.system.domain.query.SysUserQuery;
 import com.xht.platform.system.domain.response.SysUserResponse;
 import com.xht.platform.system.domain.vo.SysUserVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -92,4 +93,10 @@ public interface ISysUserService {
      */
     List<INode<Long>> getRouters();
 
+    /**
+     * 上传头像
+     *
+     * @param avatar 头像文件
+     */
+    String uploadAvatar(MultipartFile avatar);
 }

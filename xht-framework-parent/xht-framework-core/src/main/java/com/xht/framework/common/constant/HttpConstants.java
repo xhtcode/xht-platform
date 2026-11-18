@@ -77,7 +77,19 @@ public final class HttpConstants {
          */
         DOWNLOAD_FILE("xht-download-filename"),
 
-        ;
+        /**
+         * 文件原始名称头部，用于传递文件的原始名称
+         */
+        HEADER_X_FILE_ORIGINAL_NAME("X-File-Original-Name"),
+        /**
+         * 文件后缀头部，用于传递文件的后缀名
+         */
+        HEADER_X_FILE_SUFFIX("X-File-Suffix"),
+
+        /**
+         * 文件存储密钥头部，用于传递文件的存储密钥
+         */
+        HEADER_X_FILE_STORAGE_KEY("X-File-Storage-Key");
 
         /**
          * 请求头字段的实际值

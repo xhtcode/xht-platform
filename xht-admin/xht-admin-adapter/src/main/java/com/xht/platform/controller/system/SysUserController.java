@@ -20,6 +20,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -112,6 +113,15 @@ public class SysUserController {
     }
 
     /**
+     * 用户头像上传
+     */
+    @Operation(summary = "用户头像上传", description = "用户头像上传")
+    @PostMapping("/upload/avatar")
+    public R<String> uploadAvatar(@RequestParam("avatar") MultipartFile avatar) {
+        return R.ok().build(userService.uploadAvatar(avatar));
+    }
+
+    /**
      * 用户状态修改
      *
      * @param userId     用户ID
@@ -172,5 +182,6 @@ public class SysUserController {
     public R<List<INode<Long>>> getRouters() {
         return R.ok().build(userService.getRouters());
     }
+
 
 }

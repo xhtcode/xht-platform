@@ -13,6 +13,11 @@ public interface SysFileConstant {
     String PATH_POINT = "..";
 
     /**
+     * 文件用途：用户头像
+     */
+    String FILE_USED_AVATAR = "avatar";
+
+    /**
      * 文件占位符
      */
     String FILE_NAME_PLACEHOLDER = "***";

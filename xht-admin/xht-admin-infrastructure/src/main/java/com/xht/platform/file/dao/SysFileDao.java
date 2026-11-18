@@ -1,10 +1,13 @@
 package com.xht.platform.file.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.framework.file.core.XhtFileBO;
 import com.xht.framework.mybatis.repository.MapperRepository;
+import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.entity.SysFileEntity;
-import com.xht.platform.file.enums.FileStatusEnum;
+import com.xht.framework.file.enums.FileStatusEnum;
+import com.xht.platform.file.enums.FileUsedEnum;
 
 /**
  * 描述： 系统文件数据访问层
@@ -40,4 +43,25 @@ public interface SysFileDao extends MapperRepository<SysFileEntity> {
      * @return 文件信息
      */
     SysFileEntity findByFileStorageKey(String fileStorageKey);
+
+    /**
+     * 根据文件存储键查询文件
+     *
+     * @param fileStorageKey 文件存储键
+     * @param fileUsed       文件用途
+     * @return 文件信息
+     */
+    default XhtFileBO findFileInfoByFileStorageKey(String fileStorageKey, FileUsedEnum fileUsed) {
+        AssertUtils.notNull(fileUsed, "文件用途不能为空");
+        return findFileInfoByFileStorageKey(fileStorageKey, fileUsed.getValue());
+    }
+
+    /**
+     * 根据文件存储键查询文件
+     *
+     * @param fileStorageKey 文件存储键
+     * @param fileUsed       文件用途
+     * @return 文件信息
+     */
+    XhtFileBO findFileInfoByFileStorageKey(String fileStorageKey, String fileUsed);
 }

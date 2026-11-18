@@ -1,4 +1,4 @@
-package com.xht.platform.file.enums;
+package com.xht.framework.file.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.xht.framework.common.enums.XhtEnum;

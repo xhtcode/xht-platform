@@ -2,17 +2,8 @@ package com.xht.platform.file.domain.form;
 
 import com.xht.framework.common.domain.form.BasicForm;
 import com.xht.framework.validation.Groups;
-import com.xht.platform.common.file.core.FileMetadata;
-import com.xht.platform.file.enums.FileStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import java.io.Serial;
-import java.time.LocalDateTime;
 
 /**
  * 描述： 系统文件表单（新增/修改共用）

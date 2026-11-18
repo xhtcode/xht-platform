@@ -2,7 +2,7 @@ package com.xht.framework.preview.core.bo;
 
 import com.xht.framework.common.domain.bo.XhtBO;
 import com.xht.framework.file.enums.StorageType;
-import com.xht.framework.preview.core.enums.PreviewTypeEnum;
+import com.xht.framework.file.enums.PreviewTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

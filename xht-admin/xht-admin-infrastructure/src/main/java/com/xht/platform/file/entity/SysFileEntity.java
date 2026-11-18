@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xht.framework.file.enums.StorageType;
 import com.xht.framework.mybatis.domain.entity.BasicEntity;
-import com.xht.framework.preview.core.enums.PreviewTypeEnum;
-import com.xht.platform.file.enums.FileStatusEnum;
+import com.xht.framework.file.enums.PreviewTypeEnum;
+import com.xht.framework.file.enums.FileStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;

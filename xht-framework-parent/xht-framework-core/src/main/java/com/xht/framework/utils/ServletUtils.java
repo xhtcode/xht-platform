@@ -276,6 +276,38 @@ public final class ServletUtils {
         return HttpRange.parseRanges(rangeHeader);
     }
 
+    /**
+     * 判断请求是否命中 304 Not Modified（If-None-Match 匹配当前 ETag）
+     * <p>支持 {@code *} 通配、{@code W/} 弱校验前缀、逗号分隔多变值；命中后由调用方 {@code setStatus(304)} 并结束响应</p>
+     *
+     * @param request 请求对象{@link HttpServletRequest}
+     * @param etag    当前资源的 ETag（形如 {@code "hash"}，带双引号）
+     * @return true 表示客户端缓存有效，可返回 304
+     */
+    public static boolean isNotModified(HttpServletRequest request, String etag) {
+        String ifNoneMatch = request.getHeader(HttpHeaders.IF_NONE_MATCH);
+        if (StringUtils.isEmpty(ifNoneMatch)) {
+            return false;
+        }
+        // "*": 客户端已有任意表示即视为命中
+        if ("*".equals(ifNoneMatch)) {
+            return true;
+        }
+        if (ifNoneMatch.contains("&quot;")) {
+            ifNoneMatch = ifNoneMatch.replace("&quot;", "\"");
+        }
+        for (String candidate : ifNoneMatch.split(",")) {
+            String value = candidate.trim();
+            if (value.startsWith("W/")) {
+                value = value.substring(2);
+            }
+            if (etag.equals(value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // --------------------------------------------------------- Response start
 
 
