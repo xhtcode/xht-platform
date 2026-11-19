@@ -4,49 +4,36 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.common.enums.UserStatusEnum;
-import com.xht.framework.common.enums.UserTypeEnum;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
-import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import com.xht.framework.security.utils.PassWordUtils;
 import com.xht.framework.utils.AssertUtils;
-import com.xht.framework.utils.CollectionUtils;
 import com.xht.framework.utils.StringUtils;
-import com.xht.framework.utils.tree.INode;
-import com.xht.framework.utils.tree.TreeNode;
-import com.xht.framework.utils.tree.TreeUtils;
-import com.xht.platform.common.file.bo.UploadBO;
-import com.xht.platform.common.file.constant.SysFileConstant;
-import com.xht.platform.common.router.dto.RouterDTO;
-import com.xht.platform.file.dao.FileStorageDao;
-import com.xht.platform.file.entity.SysFileEntity;
-import com.xht.platform.system.converter.SysMenuConverter;
 import com.xht.platform.system.converter.SysUserConverter;
-import com.xht.platform.system.dao.*;
+import com.xht.platform.system.dao.SysRoleDao;
+import com.xht.platform.system.dao.SysUserDao;
+import com.xht.platform.system.dao.SysUserDetailDao;
 import com.xht.platform.system.domain.form.SysUserDetailForm;
 import com.xht.platform.system.domain.form.SysUserForm;
 import com.xht.platform.system.domain.form.UpdatePwdFrom;
 import com.xht.platform.system.domain.query.SysUserQuery;
-import com.xht.platform.system.domain.response.SysMenuResponse;
 import com.xht.platform.system.domain.response.SysUserDetailResponse;
 import com.xht.platform.system.domain.response.SysUserResponse;
 import com.xht.platform.system.domain.vo.SysUserVO;
-import com.xht.platform.system.entity.SysMenuEntity;
 import com.xht.platform.system.entity.SysRoleEntity;
 import com.xht.platform.system.entity.SysUserDetailEntity;
 import com.xht.platform.system.entity.SysUserEntity;
 import com.xht.platform.system.enums.RoleTypeEnums;
 import com.xht.platform.system.helper.SysUserHelper;
-import com.xht.platform.system.utils.RouterUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 用户Service实现类
@@ -60,21 +47,11 @@ public class SysUserServiceImpl implements ISysUserService {
 
     private final SysUserDao sysUserDao;
 
-    private final SysUserRoleDao sysUserRoleDao;
-
     private final SysRoleDao sysRoleDao;
-
-    private final SysRoleMenuDao sysRoleMenuDao;
-
-    private final SysMenuDao sysMenuDao;
-
-    private final SysMenuConverter sysMenuConverter;
 
     private final SysUserConverter sysUserConverter;
 
     private final SysUserDetailDao sysUserDetailDao;
-
-    private final FileStorageDao fileStorageDao;
 
     /**
      * 用户注册
@@ -200,19 +177,6 @@ public class SysUserServiceImpl implements ISysUserService {
         sysUserDao.updateStatus(userId, status);
     }
 
-    /**
-     * 获取当前登录的用户信息
-     *
-     * @return 用户信息
-     */
-    @Override
-    public SysUserVO getUserProfileInfo() {
-        BasicUserDetails userDetails = SecurityUtils.getUser();
-        SysUserVO userVo = findByUserId(userDetails.getUserId());
-        userVo.setRoleCodes(userDetails.getRoleCodes());
-        userVo.setMenuButtonCodes(userDetails.getMenuButtonCodes());
-        return userVo;
-    }
 
     /**
      * 根据ID查找用户
@@ -245,54 +209,5 @@ public class SysUserServiceImpl implements ISysUserService {
         return sysUserConverter.toResponse(sysUserEntityPage);
     }
 
-    /**
-     * 获取路由信息
-     *
-     * @return 路由信息
-     */
-    @Override
-    public List<INode<Long>> getRouters() {
-        BasicUserDetails user = SecurityUtils.getUser();
-        List<SysMenuResponse> menus;
-        if (UserTypeEnum.isAdmin(user.getUserType())) {
-            List<SysMenuEntity> menuList = sysMenuDao.selectAdminMenu();
-            menus = sysMenuConverter.toResponse(menuList);
-        } else {
-            List<Long> roleIds = sysUserRoleDao.findBindRoleIds(user.getUserId());
-            Set<Long> menuIds = sysRoleMenuDao.findMenuIdByRoleIds(roleIds);
-            menus = sysMenuConverter.toResponse(sysMenuDao.findRouterMenus(menuIds));
-        }
-        List<INode<Long>> result = new ArrayList<>();
-        if (CollectionUtils.isEmpty(menus)) {
-            return Collections.emptyList();
-        }
-        for (SysMenuResponse menu : menus) {
-            RouterDTO routerDTO = new RouterDTO();
-            routerDTO.setPath(menu.getMenuPath());
-            routerDTO.setName(StringUtils.emptyToDefault(menu.getViewName(), menu.getId() + ""));
-            routerDTO.setComponent(menu.getViewPath());
-            routerDTO.setMeta(RouterUtils.generateRouter(menu));
-            result.add(new TreeNode<>(menu.getId(), menu.getParentId(), menu.getMenuSort()).setExtra(routerDTO));
-        }
-        return TreeUtils.buildList(result, Boolean.FALSE);
-    }
-
-    /**
-     * 上传头像
-     *
-     * @param avatar 头像文件
-     */
-    @Override
-    public String uploadAvatar(MultipartFile avatar) {
-        String userName = SecurityUtils.getUserName();
-        SysFileEntity sysFileEntity = fileStorageDao
-                .uploadMultipartFile(UploadBO
-                        .builder(avatar)
-                        .fileUsed(SysFileConstant.FILE_USED_AVATAR)
-                        .filePathPrefix(userName + "/avatar")
-                        .fileUploadUser(userName)
-                        .build());
-        return "/img/user-avatar/" + sysFileEntity.getFileStorageKey();
-    }
 
 }

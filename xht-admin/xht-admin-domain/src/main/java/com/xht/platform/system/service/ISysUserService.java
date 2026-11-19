@@ -2,15 +2,11 @@ package com.xht.platform.system.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.common.enums.UserStatusEnum;
-import com.xht.framework.utils.tree.INode;
 import com.xht.platform.system.domain.form.SysUserForm;
 import com.xht.platform.system.domain.form.UpdatePwdFrom;
 import com.xht.platform.system.domain.query.SysUserQuery;
 import com.xht.platform.system.domain.response.SysUserResponse;
 import com.xht.platform.system.domain.vo.SysUserVO;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * 用户服务接口
@@ -64,13 +60,6 @@ public interface ISysUserService {
     void updateStatus(Long userId, UserStatusEnum status);
 
     /**
-     * 获取当前登录的用户信息
-     *
-     * @return 用户信息
-     */
-    SysUserVO getUserProfileInfo();
-
-    /**
      * 根据 ID 查找用户
      *
      * @param userId 用户 ID
@@ -86,17 +75,4 @@ public interface ISysUserService {
      */
     PageResponse<SysUserResponse> findPageList(SysUserQuery query);
 
-    /**
-     * 获取当前登录用户的路由信息
-     *
-     * @return 路由信息
-     */
-    List<INode<Long>> getRouters();
-
-    /**
-     * 上传头像
-     *
-     * @param avatar 头像文件
-     */
-    String uploadAvatar(MultipartFile avatar);
 }

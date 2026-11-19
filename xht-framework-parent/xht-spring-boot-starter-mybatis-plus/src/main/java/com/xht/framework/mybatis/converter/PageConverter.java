@@ -38,7 +38,6 @@ public interface PageConverter<T extends Entity, Response extends XhtResponse> {
         if (CollectionUtils.isEmpty(entityList)) {
             return List.of(); // 使用Java 9+的不可变空列表
         }
-
         return entityList.stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());

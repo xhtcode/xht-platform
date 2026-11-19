@@ -135,7 +135,7 @@ public final class FileHeaderAssembler {
      * @param xhtFileBO 文件信息
      */
     private void setContentLength(@Nonnull HttpServletResponse response, @Nonnull XhtFileBO xhtFileBO) {
-        Long fileSize = xhtFileBO.fileSize();
+        Long fileSize = xhtFileBO.getFileSize();
         if (fileSize != null && fileSize >= 0) {
             response.setHeader(HttpHeaders.CONTENT_LENGTH, fileSize.toString());
         }
@@ -149,7 +149,7 @@ public final class FileHeaderAssembler {
      * @param xhtFileBO 文件信息
      */
     private void setContentType(@Nonnull HttpServletResponse response, @Nonnull XhtFileBO xhtFileBO) {
-        String fileType = xhtFileBO.fileType();
+        String fileType = xhtFileBO.getFileType();
         if (StringUtils.hasText(fileType)) {
             response.setContentType(fileType);
         }
@@ -163,7 +163,7 @@ public final class FileHeaderAssembler {
      * @param xhtFileBO 文件信息
      */
     private void setContentDisposition(@Nonnull HttpServletResponse response, @Nonnull XhtFileBO xhtFileBO) {
-        String originalName = xhtFileBO.fileOriginalName();
+        String originalName = xhtFileBO.getFileOriginalName();
         if (!StringUtils.hasText(originalName)) {
             return;
         }
@@ -189,17 +189,17 @@ public final class FileHeaderAssembler {
      * @param xhtFileBO 文件信息
      */
     private void setCustomFileHeaders(@Nonnull HttpServletResponse response, @Nonnull XhtFileBO xhtFileBO) {
-        String originalName = xhtFileBO.fileOriginalName();
+        String originalName = xhtFileBO.getFileOriginalName();
         if (StringUtils.hasText(originalName)) {
             // 固定URL编码
             String encodedName = URLEncoder.encode(originalName, StandardCharsets.UTF_8);
             response.setHeader(HEADER_X_FILE_ORIGINAL_NAME, encodedName);
         }
-        if (StringUtils.hasText(xhtFileBO.fileSuffix())) {
-            response.setHeader(HEADER_X_FILE_SUFFIX, xhtFileBO.fileSuffix());
+        if (StringUtils.hasText(xhtFileBO.getFileSuffix())) {
+            response.setHeader(HEADER_X_FILE_SUFFIX, xhtFileBO.getFileSuffix());
         }
-        if (StringUtils.hasText(xhtFileBO.fileStorageKey())) {
-            response.setHeader(HEADER_X_FILE_STORAGE_KEY, xhtFileBO.fileStorageKey());
+        if (StringUtils.hasText(xhtFileBO.getFileStorageKey())) {
+            response.setHeader(HEADER_X_FILE_STORAGE_KEY, xhtFileBO.getFileStorageKey());
         }
     }
 
@@ -211,7 +211,7 @@ public final class FileHeaderAssembler {
      * @param xhtFileBO 文件信息
      */
     private void setEtag(@Nonnull HttpServletResponse response, @Nonnull XhtFileBO xhtFileBO) {
-        String fileHash = xhtFileBO.fileHash();
+        String fileHash = xhtFileBO.getFileHash();
         if (StringUtils.hasText(fileHash)) {
             response.setHeader(HttpHeaders.ETAG, "\"" + fileHash + "\"");
         }

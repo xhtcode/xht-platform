@@ -42,7 +42,7 @@ public class FilePreviewServiceImpl implements IFilePreviewService {
         AssertUtils.isTrue(StringUtils.hasText(fileStorageKey), BusinessErrorCode.PARAM_ERROR);
         XhtFileBO xhtFileBO = sysFileDao.findFileInfoByFileStorageKey(fileStorageKey, FileUsedEnum.AVATAR);
         AssertUtils.notNull(xhtFileBO, BusinessErrorCode.FILE_NOT_EXIST);
-        String etag = "\"" + xhtFileBO.fileHash() + "\"";
+        String etag = "\"" + xhtFileBO.getFileHash() + "\"";
         response.setHeader(HttpHeaders.ETAG, etag);
         // 命中 If-None-Match 则返回 304，不再读取文件内容
         if (ServletUtils.isNotModified(request, etag)) {
@@ -51,7 +51,7 @@ public class FilePreviewServiceImpl implements IFilePreviewService {
             response.setHeader(HttpHeaders.CACHE_CONTROL, "public, max-age=600, stale-while-revalidate=3600");
             return;
         }
-        try (InputStream inputStream = fileStorageDao.download(xhtFileBO.fileStoragePath())) {
+        try (InputStream inputStream = fileStorageDao.download(xhtFileBO.getFileStoragePath())) {
             FileHeaderAssembler.preview()
                     .andThen(aBoolean -> {
                         response.setHeader("X-Content-Type-Options", "nosniff");
@@ -63,10 +63,10 @@ public class FilePreviewServiceImpl implements IFilePreviewService {
             IOUtils.copy(inputStream, outputStream);
             outputStream.flush();
         } catch (IOException e) {
-            log.error("头像读取IO异常，fileName:{}, path:{}", xhtFileBO.fileStorageName(), xhtFileBO.fileStoragePath(), e);
+            log.error("头像读取IO异常，fileName:{}, path:{}", xhtFileBO.getFileStorageName(), xhtFileBO.getFileStoragePath(), e);
             throw new BusinessException(BusinessErrorCode.FILE_PREVIEW_FAIL, "文件读取IO失败", e);
         } catch (Exception e) {
-            log.error("头像预览异常，fileName:{}, path:{}", xhtFileBO.fileStorageName(), xhtFileBO.fileStoragePath(), e);
+            log.error("头像预览异常，fileName:{}, path:{}", xhtFileBO.getFileStorageName(), xhtFileBO.getFileStoragePath(), e);
             throw new BusinessException(BusinessErrorCode.FILE_PREVIEW_FAIL, "头像预览失败", e);
         }
     }

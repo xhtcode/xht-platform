@@ -6,7 +6,6 @@ import com.xht.framework.common.enums.UserStatusEnum;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.oauth2.annotation.IsAdmin;
-import com.xht.framework.utils.tree.INode;
 import com.xht.framework.validation.Groups;
 import com.xht.platform.system.domain.form.SysUserForm;
 import com.xht.platform.system.domain.form.UpdatePwdFrom;
@@ -20,22 +19,19 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * 用户管理相关的API
  *
  * @author xht
  **/
+@Tag(name = "用户管理", description = "用户管理相关的API")
 @RestController
 @RequestMapping("/sys/user")
-@Tag(name = "用户管理", description = "用户管理相关的API")
 @RequiredArgsConstructor
 public class SysUserController {
 
-    private final ISysUserService userService;
+    private final ISysUserService sysUserService;
 
     /**
      * 用户添加
@@ -48,7 +44,7 @@ public class SysUserController {
     @Operation(summary = "用户添加", description = "用户添加")
     @PostMapping("/create")
     public R<Void> create(@Valid @RequestBody SysUserForm userForm) {
-        userService.create(userForm);
+        sysUserService.create(userForm);
         return R.ok().build();
     }
 
@@ -63,7 +59,7 @@ public class SysUserController {
     @Operation(summary = "删除用户", description = "根据ID删除用户")
     @PostMapping("/remove/{userId}")
     public R<Void> removeById(@PathVariable Long userId) {
-        userService.removeByUserId(userId);
+        sysUserService.removeByUserId(userId);
         return R.ok().build();
     }
 
@@ -78,7 +74,7 @@ public class SysUserController {
     @Operation(summary = "更新用户信息", description = "根据ID更新用户信息")
     @PostMapping("/update/{userId}")
     public R<Void> updateById(@PathVariable Long userId, @Validated(value = {Groups.Update.class}) @RequestBody SysUserForm userForm) {
-        userService.updateById(userId, userForm);
+        sysUserService.updateById(userId, userForm);
         return R.ok().build();
     }
 
@@ -93,7 +89,7 @@ public class SysUserController {
     @Operation(summary = "密码重置", description = "密码重置")
     @PostMapping("/reset/{userId}/pwd")
     public R<Void> resetPassword(@Valid @PathVariable Long userId) {
-        userService.resetPassword(userId);
+        sysUserService.resetPassword(userId);
         return R.ok().build();
     }
 
@@ -108,17 +104,8 @@ public class SysUserController {
     @Operation(summary = "密码修改", description = "密码修改")
     @PostMapping("/update/pwd")
     public R<Void> updatePassword(@Valid @RequestBody UpdatePwdFrom form) {
-        userService.updatePassword(form);
+        sysUserService.updatePassword(form);
         return R.ok().build();
-    }
-
-    /**
-     * 用户头像上传
-     */
-    @Operation(summary = "用户头像上传", description = "用户头像上传")
-    @PostMapping("/upload/avatar")
-    public R<String> uploadAvatar(@RequestParam("avatar") MultipartFile avatar) {
-        return R.ok().build(userService.uploadAvatar(avatar));
     }
 
     /**
@@ -133,7 +120,7 @@ public class SysUserController {
     @Operation(summary = "用户状态修改", description = "用户状态修改")
     @PostMapping("/update/{userId}/{userStatus}")
     public R<Void> updateStatus(@PathVariable Long userId, @PathVariable UserStatusEnum userStatus) {
-        userService.updateStatus(userId, userStatus);
+        sysUserService.updateStatus(userId, userStatus);
         return R.ok().build();
     }
 
@@ -146,7 +133,7 @@ public class SysUserController {
     @Operation(summary = "获取详情", description = "根据ID获取用户详情")
     @GetMapping("/get/{userId}")
     public R<SysUserVO> findById(@PathVariable Long userId) {
-        return R.ok().build(userService.findByUserId(userId));
+        return R.ok().build(sysUserService.findByUserId(userId));
     }
 
     /**
@@ -158,30 +145,7 @@ public class SysUserController {
     @Operation(summary = "分页查询", description = "分页获取用户列表")
     @PostMapping("/page")
     public R<PageResponse<SysUserResponse>> findPageList(@RequestBody SysUserQuery query) {
-        return R.ok().build(userService.findPageList(query));
+        return R.ok().build(sysUserService.findPageList(query));
     }
-
-    /**
-     * 获取当前登录用户的信息
-     *
-     * @return 登录用户信息
-     */
-    @Operation(summary = "获取当前登录的用户信息", description = "获取当前登录的用户信息")
-    @GetMapping("/profile")
-    public R<SysUserVO> getUserProfileInfo() {
-        return R.ok().build(userService.getUserProfileInfo());
-    }
-
-    /**
-     * 获取当前登录用户所拥有的路由
-     *
-     * @return 当前登录用户所拥有的路由
-     */
-    @Operation(summary = "获取当前登录用户所拥有的路由", description = "获取当前登录用户所拥有的路由")
-    @GetMapping("/profile/routers")
-    public R<List<INode<Long>>> getRouters() {
-        return R.ok().build(userService.getRouters());
-    }
-
 
 }

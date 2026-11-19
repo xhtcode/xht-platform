@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.cache.utils.Keys;
+import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.file.core.XhtFileBO;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
 import com.xht.framework.utils.AssertUtils;
@@ -154,6 +155,7 @@ public class SysFileDaoImpl extends MapperRepositoryImpl<SysFileMapper, SysFileE
             wrapper.eq(SysFileEntity::getFileStorageKey, fileStorageKey);
             wrapper.eq(SysFileEntity::getFileUsed, fileUsed);
             SysFileEntity sysFileEntity = getOne(wrapper);
+            AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
             xhtFileBO = XhtFileBO.builder()
                     .fileOriginalName(sysFileEntity.getFileOriginalName())
                     .fileSize(sysFileEntity.getFileSize())

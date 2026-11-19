@@ -20,7 +20,11 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.*;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -48,28 +52,44 @@ public class XhtRedisAutoConfiguration {
      * @param redisConnectionFactory redis连接工厂
      * @return RedisTemplate
      */
-    @Bean("redisTemplate")
+    @Bean
     @Order
     @ConditionalOnMissingBean(RedisTemplate.class)
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         RedisSerializer<Object> jackson2JsonRedisSerializer = getJsonRedisSerializer();
-        // string序列化
-        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer(StandardCharsets.UTF_8);
-        // key
-        redisTemplate.setKeySerializer(stringRedisSerializer);
-        // value
+        // 设置Key序列化器
+        redisTemplate.setKeySerializer(RedisSerializer.string());
+        redisTemplate.setHashKeySerializer(RedisSerializer.string());
+        // 设置Value序列化器
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-        // hash-key
-        redisTemplate.setHashKeySerializer(stringRedisSerializer);
-        // hash-value
         redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
-        // 初始化
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
 
+    /**
+     * 配置StringRedisTemplate（专用字符串操作）
+     *
+     * @param factory redis连接工厂
+     * @return StringRedisTemplate
+     */
+    @Bean
+    @Order
+    @ConditionalOnMissingBean(StringRedisTemplate.class)
+    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory factory) {
+        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
+        stringRedisTemplate.setConnectionFactory(factory);
+        return stringRedisTemplate;
+    }
+
+    /**
+     * 配置RedisCacheManager.
+     *
+     * @param redisConnectionFactory redis连接工厂
+     * @return CacheManager
+     */
     @Bean
     @Order
     @ConditionalOnMissingBean(CacheManager.class)

@@ -50,7 +50,7 @@ public final class PageTool {
      * @param <T>     泛型对象
      * @return IPage
      */
-    public static <T> IPage<T> getPage(long current, long size) {
+    public static <T> Page<T> getPage(long current, long size) {
         return getPage(current, size, EMP_ARRAY, EMP_ARRAY);
     }
 

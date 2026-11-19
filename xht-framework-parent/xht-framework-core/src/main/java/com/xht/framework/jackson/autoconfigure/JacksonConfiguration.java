@@ -1,6 +1,8 @@
 package com.xht.framework.jackson.autoconfigure;
 
 import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.xht.framework.jackson.CustomJacksonModule;
@@ -34,6 +36,11 @@ public class JacksonConfiguration {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer customizer() {
         return builder -> {
+            // 启用Record支持
+            builder.featuresToEnable(
+                    MapperFeature.ALLOW_FINAL_FIELDS_AS_MUTATORS,
+                    DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
+            );
             builder.locale(Locale.CHINA);
             builder.featuresToEnable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
             builder.timeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
