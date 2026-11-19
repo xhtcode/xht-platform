@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.common.enums.UserStatusEnum;
+import com.xht.framework.common.enums.UserTypeEnum;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
@@ -63,6 +64,8 @@ public class SysUserServiceImpl implements ISysUserService {
         SysUserDetailForm detail = userForm.getProfile();
         String idCard = detail.getIdCard();
         String userPhone = userForm.getUserPhone();
+        UserTypeEnum userType = userForm.getUserType();
+        AssertUtils.isTrue(!Objects.equals(UserTypeEnum.ADMIN, userType), "管理员用户不能注册");
         // 校验当前用户信息是否已经注册过
         boolean userPhoneExists = sysUserDao.checkUserPhoneExists(userPhone, null);
         AssertUtils.isTrue(!userPhoneExists, BusinessErrorCode.DATA_EXIST, "该手机号已注册过账号，若为本人操作，可直接登录或联系客服核实！");
@@ -107,6 +110,10 @@ public class SysUserServiceImpl implements ISysUserService {
         AssertUtils.isTrue(userExists, BusinessErrorCode.DATA_NOT_EXIST);
         Boolean userInfoExists = sysUserDetailDao.exists(SysUserDetailEntity::getUserId, userId);
         AssertUtils.isTrue(userInfoExists, BusinessErrorCode.DATA_NOT_EXIST);
+        UserTypeEnum userType = userForm.getUserType();
+        if (!SecurityUtils.isAdmin()) {
+            AssertUtils.isTrue(!Objects.equals(UserTypeEnum.ADMIN, userType), "暂无权限修改用户");
+        }
         // 校验当前用户信息是否已经注册过
         boolean userPhoneExists = sysUserDao.checkUserPhoneExists(userPhone, userId);
         AssertUtils.isTrue(!userPhoneExists, BusinessErrorCode.DATA_EXIST, "该手机号已注册过账号，若为本人操作，可直接登录或联系客服核实！");

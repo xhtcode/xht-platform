@@ -37,8 +37,8 @@ public class UserProfileController {
      */
     @Operation(summary = "用户头像上传", description = "上传用户头像文件，返回头像URL地址")
     @PostMapping("/upload/avatar")
-    public R<String> uploadAvatar(@RequestParam("avatar") MultipartFile avatar) {
-        return R.ok().build(userProfileService.uploadAvatar(avatar));
+    public R<String> uploadUserAvatar(@RequestParam("avatar") MultipartFile avatar) {
+        return R.ok().build(userProfileService.uploadUserAvatar(avatar));
     }
 
     /**
@@ -47,8 +47,8 @@ public class UserProfileController {
      * @return 用户信息VO（昵称、手机号、头像、角色等）
      */
     @Operation(summary = "获取用户信息", description = "获取当前登录账号基础信息")
-    @GetMapping("/info")
-    public R<SysUserVO> getLoginUserInfo() {
+    @GetMapping("/profile/info")
+    public R<SysUserVO> getUserProfileInfo() {
         return R.ok().build(userProfileService.getUserProfileInfo());
     }
 
@@ -58,9 +58,9 @@ public class UserProfileController {
      * @return 菜单路由树节点集合，用于前端渲染侧边栏菜单
      */
     @Operation(summary = "获取路由菜单", description = "根据当前用户权限生成前端可渲染的菜单路由树")
-    @GetMapping("/routers")
-    public R<List<INode<Long>>> getLoginUserRouters() {
-        return R.ok().build(userProfileService.getRouters());
+    @GetMapping("/profile/routers")
+    public R<List<INode<Long>>> getUserProfileRouters() {
+        return R.ok().build(userProfileService.getUserProfileRouters());
     }
 
     /**
@@ -69,9 +69,9 @@ public class UserProfileController {
      * @return 登录日志信息（示例接口，待业务完善）
      */
     @Operation(summary = "获取登录日志", description = "查询当前用户登录记录日志")
-    @GetMapping("/getLoginLog")
-    public R<List<UserLoginLogResponse>> getLoginLog() {
-        return R.ok().build(userProfileService.getLoginLog());
+    @GetMapping("/profile/login")
+    public R<List<UserLoginLogResponse>> getUserProfileLoginLog() {
+        return R.ok().build(userProfileService.getUserProfileLoginLog());
     }
 
 }

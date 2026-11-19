@@ -67,7 +67,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
      * @param avatar 头像文件
      */
     @Override
-    public String uploadAvatar(MultipartFile avatar) {
+    public String uploadUserAvatar(MultipartFile avatar) {
         String userName = SecurityUtils.getUserName();
         SysFileEntity sysFileEntity = fileStorageDao
                 .uploadMultipartFile(UploadBO
@@ -105,7 +105,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
      * @return 路由信息
      */
     @Override
-    public List<INode<Long>> getRouters() {
+    public List<INode<Long>> getUserProfileRouters() {
         BasicUserDetails user = SecurityUtils.getUser();
         List<SysMenuResponse> menus;
         if (UserTypeEnum.isAdmin(user.getUserType())) {
@@ -137,7 +137,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
      * @return 登录日志信息
      */
     @Override
-    public List<UserLoginLogResponse> getLoginLog() {
+    public List<UserLoginLogResponse> getUserProfileLoginLog() {
         Page<SysLoginLogEntity> loginLogEntityIPage = PageTool.getPage(1, 10);
         IPage<SysLoginLogEntity> page = sysLoginLogDao.findPageByUserName(loginLogEntityIPage, SecurityUtils.getUserName());
         return loginLogConverter.toResponse(page.getRecords());

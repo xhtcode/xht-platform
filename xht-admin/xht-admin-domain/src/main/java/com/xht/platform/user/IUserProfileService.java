@@ -19,7 +19,7 @@ public interface IUserProfileService {
      *
      * @param avatar 头像文件
      */
-    String uploadAvatar(MultipartFile avatar);
+    String uploadUserAvatar(MultipartFile avatar);
 
     /**
      * 获取当前登录的用户信息
@@ -33,13 +33,13 @@ public interface IUserProfileService {
      *
      * @return 路由信息
      */
-    List<INode<Long>> getRouters();
+    List<INode<Long>> getUserProfileRouters();
 
     /**
      * 获取当前登录用户登录日志
      *
      * @return 登录日志信息
      */
-    List<UserLoginLogResponse> getLoginLog();
+    List<UserLoginLogResponse> getUserProfileLoginLog();
 
 }

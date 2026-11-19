@@ -51,12 +51,6 @@ public class SysUserForm extends BasicForm {
     private String userPhone;
 
     /**
-     * 头像地址
-     */
-    @Schema(description = "头像地址")
-    private String userAvatar;
-
-    /**
      * 部门id
      */
     @Schema(description = "部门ID")
