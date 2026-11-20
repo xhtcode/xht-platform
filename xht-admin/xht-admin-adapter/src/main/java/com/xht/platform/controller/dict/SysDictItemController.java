@@ -5,6 +5,7 @@ import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.CheckMenu;
 import com.xht.framework.validation.Groups;
+import com.xht.platform.common.dict.domain.DictVO;
 import com.xht.platform.dict.domain.form.SysDictItemForm;
 import com.xht.platform.dict.domain.query.SysDictItemQuery;
 import com.xht.platform.dict.domain.response.SysDictItemResponse;
@@ -14,6 +15,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 字典项管理
@@ -96,6 +99,18 @@ public class SysDictItemController {
     @PostMapping("/page")
     public R<PageResponse<SysDictItemResponse>> findPageList(@RequestBody SysDictItemQuery query) {
         return R.ok().build(sysDictItemService.findPageList(query));
+    }
+
+    /**
+     * 根据字典编码查询
+     *
+     * @param dictCode 字典编码
+     * @return 字典项列表
+     */
+    @Operation(summary = "根据字典编码查询")
+    @GetMapping("/code/{dictCode}")
+    public R<List<DictVO>> getByDictCode(@PathVariable String dictCode) {
+        return R.ok().build(sysDictItemService.getByDictCode(dictCode));
     }
 
 }

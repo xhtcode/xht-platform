@@ -1,8 +1,11 @@
 package com.xht.platform.user;
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.framework.common.constant.StringConstant;
 import com.xht.framework.common.enums.UserTypeEnum;
+import com.xht.framework.file.core.MultipartFileUploadBO;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.oauth2.utils.SecurityUtils;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
@@ -12,27 +15,33 @@ import com.xht.framework.utils.StringUtils;
 import com.xht.framework.utils.tree.INode;
 import com.xht.framework.utils.tree.TreeNode;
 import com.xht.framework.utils.tree.TreeUtils;
-import com.xht.platform.common.file.bo.UploadBO;
-import com.xht.platform.common.file.constant.SysFileConstant;
 import com.xht.platform.common.router.dto.RouterDTO;
 import com.xht.platform.file.dao.FileStorageDao;
 import com.xht.platform.file.entity.SysFileEntity;
+import com.xht.platform.file.enums.FileUsedEnum;
+import com.xht.platform.file.properties.FilePreviewProperties;
 import com.xht.platform.login.converter.LoginLogConverter;
 import com.xht.platform.login.dao.SysLoginLogDao;
 import com.xht.platform.login.domain.response.UserLoginLogResponse;
 import com.xht.platform.login.entity.SysLoginLogEntity;
 import com.xht.platform.system.converter.SysMenuConverter;
-import com.xht.platform.system.dao.*;
+import com.xht.platform.system.dao.SysMenuDao;
+import com.xht.platform.system.dao.SysRoleMenuDao;
+import com.xht.platform.system.dao.SysUserDao;
+import com.xht.platform.system.dao.SysUserRoleDao;
 import com.xht.platform.system.domain.response.SysMenuResponse;
 import com.xht.platform.system.domain.response.SysUserDetailResponse;
 import com.xht.platform.system.domain.vo.SysUserVO;
 import com.xht.platform.system.entity.SysMenuEntity;
 import com.xht.platform.system.utils.RouterUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -44,6 +53,8 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class UserProfileServiceImpl implements IUserProfileService {
+
+    private static final String AVATAR_DATE_PATTERN = "yyyyMMdd_HHmmss";
 
     private final SysUserDao sysUserDao;
 
@@ -61,22 +72,49 @@ public class UserProfileServiceImpl implements IUserProfileService {
 
     private final LoginLogConverter loginLogConverter;
 
+    private final FilePreviewProperties filePreviewProperties;
+
     /**
-     * 上传头像
+     * 上传用户头像
      *
-     * @param avatar 头像文件
+     * @param request HTTP请求对象
+     * @param avatar  头像文件，支持jpg、png等图片格式
+     * @return 上传成功后返回文件预览访问地址
      */
     @Override
-    public String uploadUserAvatar(MultipartFile avatar) {
-        String userName = SecurityUtils.getUserName();
-        SysFileEntity sysFileEntity = fileStorageDao
-                .uploadMultipartFile(UploadBO
-                        .builder(avatar)
-                        .fileUsed(SysFileConstant.FILE_USED_AVATAR)
-                        .filePathPrefix(userName + "/avatar")
-                        .fileUploadUser(userName)
-                        .build());
-        return "/img/user-avatar/" + sysFileEntity.getFileStorageKey();
+    @Transactional(rollbackFor = Exception.class)
+    public String uploadUserAvatar(HttpServletRequest request, MultipartFile avatar) {
+        BasicUserDetails userDetails = SecurityUtils.getUser();
+        String username = userDetails.getUsername();
+        Long userId = userDetails.getUserId();
+        MultipartFileUploadBO multipartFileUploadBO = new MultipartFileUploadBO(request, avatar);
+        long fileSize = multipartFileUploadBO.getFileSize();
+        AssertUtils.isTrue(fileSize > 0, "上传的头像大小必须大于0!");
+        // 头像不能大于1mb
+        AssertUtils.isTrue(fileSize <= 1024 * 1024, "上传的头像大小不能大于1MB!");
+        FileUsedEnum fileUsed = FileUsedEnum.AVATAR;
+        multipartFileUploadBO.setFileUsed(fileUsed.getValue());
+        multipartFileUploadBO.setFilePathPrefix(generateAvatarFilePath(username));
+        multipartFileUploadBO.setFileDesc(fileUsed.getDesc());
+        multipartFileUploadBO.setFileUploadUser(username);
+        SysFileEntity sysFileEntity = fileStorageDao.uploadMultipartFile(multipartFileUploadBO);
+        String userAvatar = filePreviewProperties.getUserAvatar(sysFileEntity.getFileStorageKey());
+        fileStorageDao.removeUserAvatar(username, sysFileEntity.getFileStorageKey());
+        sysUserDao.updateUserAvatar(userId, userAvatar);
+        fileStorageDao.associateFile(sysFileEntity.getFileStorageKey(), fileUsed.getValue(), fileUsed.getDesc());
+        return userAvatar;
+    }
+
+    /**
+     * 生成用户头像默认存储路径前缀
+     * 路径规则：{uploadUser}/avatar/yyyyMMdd_HHmmss
+     *
+     * @param uploadUser 上传用户标识
+     * @return 头像基础路径
+     */
+    private String generateAvatarFilePath(String uploadUser) {
+        String dateNow = DateUtil.format(LocalDateTime.now(), AVATAR_DATE_PATTERN);
+        return uploadUser + StringConstant.SEPARATOR_SLASH + FileUsedEnum.AVATAR.getValue() + StringConstant.SEPARATOR_SLASH + dateNow;
     }
 
     /**

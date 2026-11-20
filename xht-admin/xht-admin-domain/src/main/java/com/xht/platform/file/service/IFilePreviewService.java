@@ -11,13 +11,13 @@ import jakarta.servlet.http.HttpServletResponse;
 public interface IFilePreviewService {
 
     /**
-     * 头像预览
-     * <p>地址只暴露文件存储 key，不带文件后缀；可选携带 {@code ~宽x高} 尺寸后缀按需输出缩略图</p>
+     * 用户头像预览
+     * <p>根据文件存储key读取头像文件流，直接写入response输出给前端预览/访问</p>
      *
-     * @param request
-     * @param response       响应对象，用于输出头像图片流
-     * @param fileStorageKey 头像文件名：{@code 文件存储key[~宽x高]}
+     * @param request        请求对象
+     * @param response       响应对象，用于输出文件流
+     * @param fileStorageKey 文件存储唯一标识key（文件索引）
      */
-    void preview(HttpServletRequest request, HttpServletResponse response, String fileStorageKey);
+    void previewUserAvatar(HttpServletRequest request, HttpServletResponse response, String fileStorageKey);
 
 }

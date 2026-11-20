@@ -2,10 +2,9 @@ package com.xht.platform.controller.file;
 
 import com.xht.framework.common.domain.R;
 import com.xht.framework.common.domain.response.PageResponse;
+import com.xht.framework.file.core.MultipartFileUploadBO;
 import com.xht.framework.log.annotations.BLog;
 import com.xht.framework.oauth2.annotation.IsAdmin;
-import com.xht.framework.oauth2.utils.SecurityUtils;
-import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.service.ISysFileService;
@@ -13,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -83,18 +83,14 @@ public class SysFileController {
      * @return 文件信息
      */
     @Operation(summary = "文件上传", parameters = {
-            @Parameter(name = "file", description = "上传文件", required = true, schema = @Schema(type = "string", format = "binary"))
+            @Parameter(name = "file", description = "上传文件", required = true,
+                    schema = @Schema(type = "string", format = "binary"))
     })
     @PostMapping("/upload")
-    public R<SysFileResponse> uploadFile(@RequestPart(name = "file") MultipartFile file,
-                                         @RequestParam(value = "fileUsed", required = false) String fileUsed
-    ) {
-        return R.ok().build(sysFileService.uploadMultipartFile(UploadBO
-                .builder(file)
-                .fileUsed(fileUsed)
-                .fileUploadUser(SecurityUtils.getUserName())
-                .build())
-        );
+    public R<SysFileResponse> uploadFile(HttpServletRequest request, @RequestPart(name = "file") MultipartFile file, @RequestParam(value = "fileUsed", required = false) String fileUsed) {
+        MultipartFileUploadBO multipartFileUploadBO = new MultipartFileUploadBO(request, file);
+        multipartFileUploadBO.setFileUsed(fileUsed);
+        return R.ok().build(sysFileService.uploadMultipartFile(multipartFileUploadBO));
     }
 
 }

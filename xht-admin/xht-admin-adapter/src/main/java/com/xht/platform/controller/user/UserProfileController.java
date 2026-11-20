@@ -7,6 +7,7 @@ import com.xht.platform.system.domain.vo.SysUserVO;
 import com.xht.platform.user.IUserProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +38,8 @@ public class UserProfileController {
      */
     @Operation(summary = "用户头像上传", description = "上传用户头像文件，返回头像URL地址")
     @PostMapping("/upload/avatar")
-    public R<String> uploadUserAvatar(@RequestParam("avatar") MultipartFile avatar) {
-        return R.ok().build(userProfileService.uploadUserAvatar(avatar));
+    public R<String> uploadUserAvatar(HttpServletRequest request, @RequestParam("avatar") MultipartFile avatar) {
+        return R.ok().build(userProfileService.uploadUserAvatar(request, avatar));
     }
 
     /**

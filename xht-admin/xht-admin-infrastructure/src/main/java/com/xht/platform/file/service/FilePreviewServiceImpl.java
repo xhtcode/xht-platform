@@ -1,5 +1,6 @@
 package com.xht.platform.file.service;
 
+import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.file.core.FileHeaderAssembler;
@@ -7,7 +8,6 @@ import com.xht.framework.file.core.XhtFileBO;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.ServletUtils;
 import com.xht.platform.file.dao.FileStorageDao;
-import com.xht.platform.file.dao.SysFileDao;
 import com.xht.platform.file.enums.FileUsedEnum;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 用户头像预览服务实现
@@ -32,15 +33,21 @@ import java.io.InputStream;
 @RequiredArgsConstructor
 public class FilePreviewServiceImpl implements IFilePreviewService {
 
-    private final SysFileDao sysFileDao;
-
     private final FileStorageDao fileStorageDao;
 
+    /**
+     * 用户头像预览
+     * <p>根据文件存储key读取头像文件流，直接写入response输出给前端预览/访问</p>
+     *
+     * @param request        请求对象
+     * @param response       响应对象，用于输出文件流
+     * @param fileStorageKey 文件存储唯一标识key（文件索引）
+     */
     @Override
-    public void preview(HttpServletRequest request, HttpServletResponse response, String fileStorageKey) {
+    public void previewUserAvatar(HttpServletRequest request, HttpServletResponse response, String fileStorageKey) {
         // 入参非空校验
         AssertUtils.isTrue(StringUtils.hasText(fileStorageKey), BusinessErrorCode.PARAM_ERROR);
-        XhtFileBO xhtFileBO = sysFileDao.findFileInfoByFileStorageKey(fileStorageKey, FileUsedEnum.AVATAR);
+        XhtFileBO xhtFileBO = fileStorageDao.findFileInfoByFileStorageKey(fileStorageKey, FileUsedEnum.AVATAR, Keys.randomExpire(7, 15), TimeUnit.DAYS);
         AssertUtils.notNull(xhtFileBO, BusinessErrorCode.FILE_NOT_EXIST);
         String etag = "\"" + xhtFileBO.getFileHash() + "\"";
         response.setHeader(HttpHeaders.ETAG, etag);

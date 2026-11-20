@@ -6,6 +6,10 @@ package com.xht.framework.file.constant;
  * @author xht
  **/
 public interface FileConstant {
+    /**
+     * 目录
+     */
+    String PATH_POINT = "..";
 
     /**
      * 配置项key
@@ -16,6 +20,11 @@ public interface FileConstant {
      * 存储类型配置项key
      */
     String CONFIG_STORAGE_TYPE_KEY = "xht.file.storage.type";
+
+    /**
+     * 文件缓存key前缀
+     */
+    String FILE_CACHE_KEY_PREFIX = "xht:file";
 
     /**
      * 默认缓存大小 8192 8KB

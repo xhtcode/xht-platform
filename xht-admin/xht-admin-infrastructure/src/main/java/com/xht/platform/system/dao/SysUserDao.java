@@ -56,4 +56,11 @@ public interface SysUserDao extends MapperRepository<SysUserEntity> {
      */
     boolean checkUserPhoneExists(String userPhone, Long neUserId);
 
+    /**
+     * 更新用户头像
+     *
+     * @param userId     用户ID
+     * @param userAvatar 用户头像
+     */
+    void updateUserAvatar(Long userId, String userAvatar);
 }

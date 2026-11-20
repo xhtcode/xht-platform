@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.WebRequest;
 
 /**
  * 描述： 文件预览控制器
@@ -32,21 +31,19 @@ public class FilePreviewController {
 
     /**
      * 用户头像预览
-     * <p>地址格式：{@code /img/user-avatar/{fileStorageKey}}；追加 {@code ~宽x高} 尺寸后缀时按目标尺寸等比缩放输出，
-     * 如 {@code /img/user-avatar/{fileStorageKey}~200x200}，省略尺寸后缀输出原图</p>
+     * <p>根据文件存储key读取头像文件流，直接写入response输出给前端预览/访问</p>
      *
-     * @param response       响应
-     * @param fileStorageKey 头像文件名：{@code 文件存储key[~宽x高]}
+     * @param request        请求对象
+     * @param response       响应对象，用于输出文件流
+     * @param fileStorageKey 文件存储唯一标识key（文件索引）
      */
     @IgnoreAuth(aop = false)
     @Operation(summary = "用户头像预览", parameters = {
-            @Parameter(name = "fileStorageKey", description = "头像文件名：文件存储key[~宽x高]，不带文件后缀", required = true)
+            @Parameter(name = "fileStorageKey", description = "文件存储唯一标识key（文件索引）", required = true)
     })
     @GetMapping("/user-avatar/{fileStorageKey}")
-    public void previewUserAvatar(HttpServletRequest request,
-            WebRequest webRequest
-            , HttpServletResponse response, @PathVariable String fileStorageKey) {
-        userAvatarPreviewService.preview(request, response, fileStorageKey);
+    public void previewUserAvatar(HttpServletRequest request, HttpServletResponse response, @PathVariable String fileStorageKey) {
+        userAvatarPreviewService.previewUserAvatar(request, response, fileStorageKey);
     }
 
 }

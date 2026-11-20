@@ -3,21 +3,20 @@ package com.xht.platform.file.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.file.core.MultipartFileUploadBO;
+import com.xht.framework.file.enums.FileStatusEnum;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.AssertUtils;
-import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.converter.SysFileConverter;
 import com.xht.platform.file.dao.FileStorageDao;
 import com.xht.platform.file.dao.SysFileDao;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFileResponse;
 import com.xht.platform.file.entity.SysFileEntity;
-import com.xht.framework.file.enums.FileStatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
@@ -87,7 +86,7 @@ public class SysFileServiceImpl implements ISysFileService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public SysFileResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo) {
+    public SysFileResponse uploadMultipartFile(MultipartFileUploadBO uploadBo) {
         SysFileEntity sysFileEntity = fileStorageDao.uploadMultipartFile(uploadBo);
         return sysFileConverter.toResponse(sysFileEntity);
     }

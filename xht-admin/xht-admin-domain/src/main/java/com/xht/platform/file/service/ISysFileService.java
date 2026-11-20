@@ -1,10 +1,9 @@
 package com.xht.platform.file.service;
 
 import com.xht.framework.common.domain.response.PageResponse;
-import com.xht.platform.common.file.bo.UploadBO;
+import com.xht.framework.file.core.MultipartFileUploadBO;
 import com.xht.platform.file.domain.query.SysFileQuery;
 import com.xht.platform.file.domain.response.SysFileResponse;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 描述： 系统文件服务接口
@@ -44,6 +43,6 @@ public interface ISysFileService {
      * @param uploadBo 文件上传参数
      * @return 文件上传响应信息
      */
-    SysFileResponse uploadMultipartFile(UploadBO<MultipartFile> uploadBo);
+    SysFileResponse uploadMultipartFile(MultipartFileUploadBO uploadBo);
 
 }

@@ -130,6 +130,20 @@ public class SysUserDaoImpl extends MapperRepositoryImpl<SysUserMapper, SysUserE
     }
 
     /**
+     * 更新用户头像
+     *
+     * @param userId     用户ID
+     * @param userAvatar 用户头像
+     */
+    @Override
+    public void updateUserAvatar(Long userId, String userAvatar) {
+        LambdaUpdateWrapper<SysUserEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.set(SysUserEntity::getUserAvatar, userAvatar);
+        lambdaUpdateWrapper.eq(SysUserEntity::getId, userId);
+        update(lambdaUpdateWrapper);
+    }
+
+    /**
      * 获取主键字段名
      *
      * @return 主键字段名

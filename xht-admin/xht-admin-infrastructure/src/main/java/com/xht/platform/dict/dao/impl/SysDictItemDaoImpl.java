@@ -117,7 +117,7 @@ public class SysDictItemDaoImpl extends MapperRepositoryImpl<SysDictItemMapper, 
         LambdaQueryWrapper<SysDictItemEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysDictItemEntity::getDictCode, dictCode);
         queryWrapper.eq(condition(dictStatus), SysDictItemEntity::getStatus, DictStatusEnum.ENABLE);
-        queryWrapper.orderByDesc(SysDictItemEntity::getSortOrder);
+        queryWrapper.orderByAsc(SysDictItemEntity::getSortOrder);
         return list(queryWrapper);
     }
 

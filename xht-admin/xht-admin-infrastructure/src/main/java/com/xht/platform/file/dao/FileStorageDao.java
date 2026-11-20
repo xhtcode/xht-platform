@@ -1,13 +1,14 @@
 package com.xht.platform.file.dao;
 
-import com.xht.framework.exception.core.BusinessErrorCode;
+import com.xht.framework.file.core.XhtFileBO;
 import com.xht.framework.file.exception.FileStorageException;
+import com.xht.framework.file.core.AbstractUploadBO;
 import com.xht.framework.utils.AssertUtils;
-import com.xht.platform.common.file.bo.UploadBO;
 import com.xht.platform.file.entity.SysFileEntity;
-import org.springframework.web.multipart.MultipartFile;
+import com.xht.platform.file.enums.FileUsedEnum;
 
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 描述： 文件存储数据访问层
@@ -23,7 +24,7 @@ public interface FileStorageDao {
      * @return 文件上传响应信息
      * @throws FileStorageException 文件存储异常
      */
-    SysFileEntity uploadMultipartFile(UploadBO<MultipartFile> multipartFileUploadBO);
+    <T> SysFileEntity uploadMultipartFile(AbstractUploadBO<T> multipartFileUploadBO);
 
     /**
      * 下载文件
@@ -34,5 +35,54 @@ public interface FileStorageDao {
      * @throws FileStorageException 文件不存在、读取失败等存储异常
      */
     InputStream download(String fileStoragePath);
+
+    /**
+     * 根据文件存储键查询文件
+     *
+     * @param fileStorageKey 文件存储键
+     * @param fileUsed       文件用途
+     * @return 文件信息
+     */
+    default XhtFileBO findFileInfoByFileStorageKey(String fileStorageKey, FileUsedEnum fileUsed, long timeout, TimeUnit timeUnit) {
+        AssertUtils.notNull(fileUsed, "文件用途不能为空");
+        return findFileInfoByFileStorageKey(fileStorageKey, fileUsed.getValue(), timeout, timeUnit);
+    }
+
+    /**
+     * 根据文件存储键查询文件
+     *
+     * @param fileStorageKey 文件存储键
+     * @param fileUsed       文件用途
+     * @param timeout        超时时间
+     * @param timeUnit       时间单位
+     * @return 文件信息
+     */
+    XhtFileBO findFileInfoByFileStorageKey(String fileStorageKey, String fileUsed, long timeout, TimeUnit timeUnit);
+
+    /**
+     * 关联文件
+     *
+     * @param fileStorageKey 文件存储名称
+     * @param fileUsed       文件用途
+     * @param fileDesc       文件描述
+     */
+    void associateFile(String fileStorageKey, String fileUsed, String fileDesc);
+
+    /**
+     * 根据文件存储key删除文件
+     *
+     * @param fileStorageKey 文件存储key
+     * @throws FileStorageException 文件存储异常
+     */
+    void removeByFileStorageKey(String fileStorageKey);
+
+    /**
+     * 根据用户名删除用户头像
+     *
+     * @param username          用户名
+     * @param newFileStorageKey 新文件存储key
+     * @throws FileStorageException 文件存储异常
+     */
+    void removeUserAvatar(String username, String newFileStorageKey);
 
 }
