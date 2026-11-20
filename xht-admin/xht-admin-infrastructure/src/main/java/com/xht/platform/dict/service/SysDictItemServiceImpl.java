@@ -1,12 +1,15 @@
 package com.xht.platform.dict.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.framework.cache.repository.RedisRepository;
+import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.BusinessException;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.platform.common.dict.domain.DictVO;
+import com.xht.platform.dict.DictConstant;
 import com.xht.platform.dict.converter.SysDictItemConverter;
 import com.xht.platform.dict.dao.SysDictDao;
 import com.xht.platform.dict.dao.SysDictItemDao;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 系统字典项Service实现
@@ -40,6 +44,8 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
 
     private final SysDictItemConverter sysDictItemConverter;
 
+    private final RedisRepository redisRepository;
+
     /**
      * 根据创建请求创建系统字典项
      *
@@ -56,6 +62,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         SysDictItemEntity entity = sysDictItemConverter.toEntity(form);
         entity.setDictCode(dictEntity.getDictCode());
         sysDictItemDao.saveTransactional(entity);
+        redisRepository.delete(Keys.createKey(DictConstant.DICT_CACHE_PREFIX, entity.getDictCode()));
     }
 
     /**
@@ -65,8 +72,9 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      */
     @Override
     public void removeById(Long dictItemId) {
-        validateDictItemId(dictItemId);
+        SysDictItemEntity sysDictItem = validateDictItemId(dictItemId);
         sysDictItemDao.removeById(dictItemId);
+        redisRepository.delete(Keys.createKey(DictConstant.DICT_CACHE_PREFIX, sysDictItem.getDictCode()));
     }
 
     /**
@@ -88,6 +96,7 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
         SysDictItemEntity dbDictItemEntity = validateDictItemId(dictItemId);
         AssertUtils.isTrue(Objects.equals(dbDictItemEntity.getDictId(), dictId), BusinessErrorCode.DICT_ITEM_NOT_EXIST);
         sysDictItemDao.updateFormRequest(dictItemId, form, dictEntity);
+        redisRepository.delete(Keys.createKey(DictConstant.DICT_CACHE_PREFIX, dictEntity.getDictCode()));
     }
 
     /**
@@ -133,12 +142,15 @@ public class SysDictItemServiceImpl implements ISysDictItemService {
      */
     @Override
     public List<DictVO> getByDictCode(String dictCode) {
-        SysDictEntity sysDictEntity = sysDictDao.findOneOptional(SysDictEntity::getDictCode, dictCode)
-                .orElseThrow(() -> new BusinessException(BusinessErrorCode.DICT_NOT_EXIST));
-        DictShowDisabledEnum showDisabled = sysDictEntity.getShowDisabled();
-        DictStatusEnum dictStatusEnum = Objects.equals(DictShowDisabledEnum.SHOW, showDisabled) ? null : DictStatusEnum.ENABLE;
-        List<SysDictItemEntity> dictItemEntities = sysDictItemDao.findByDictCode(dictCode, dictStatusEnum);
-        return sysDictItemConverter.toVo(dictItemEntities);
+        AssertUtils.hasText(dictCode, BusinessErrorCode.PARAM_ERROR);
+        return redisRepository.getSet(Keys.createKey(DictConstant.DICT_CACHE_PREFIX, dictCode), Keys.randomExpire(30, 60), TimeUnit.MINUTES, () -> {
+            SysDictEntity sysDictEntity = sysDictDao.findOneOptional(SysDictEntity::getDictCode, dictCode)
+                    .orElseThrow(() -> new BusinessException(BusinessErrorCode.DICT_NOT_EXIST));
+            DictShowDisabledEnum showDisabled = sysDictEntity.getShowDisabled();
+            DictStatusEnum dictStatusEnum = Objects.equals(DictShowDisabledEnum.SHOW, showDisabled) ? null : DictStatusEnum.ENABLE;
+            List<SysDictItemEntity> dictItemEntities = sysDictItemDao.findByDictCode(dictCode, dictStatusEnum);
+            return sysDictItemConverter.toVo(dictItemEntities);
+        });
     }
 
 }

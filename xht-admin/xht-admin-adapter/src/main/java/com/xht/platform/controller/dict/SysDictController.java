@@ -59,6 +59,21 @@ public class SysDictController {
     }
 
     /**
+     * 根据字典编码清楚缓存
+     *
+     * @param dictCode 字典编码
+     */
+    @BLog(value = "字典管理", description = "根据字典编码清楚缓存")
+    @CheckMenu("sys:dict:clearCache")
+    @Operation(summary = "根据字典编码清楚缓存")
+    @PostMapping("/clearCache/{dictCode}")
+    public R<Void> clearCache(@PathVariable String dictCode) {
+        sysDictService.clearCacheByDictCode(dictCode);
+        return R.ok().build();
+    }
+
+
+    /**
      * 修改字典类型
      *
      * @param dictId 字典类型ID

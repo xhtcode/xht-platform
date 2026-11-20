@@ -1,7 +1,6 @@
 package com.xht.framework.core.properties;
 
 import com.xht.framework.core.properties.basic.EnableProperties;
-import com.xht.framework.core.properties.cache.CacheProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -30,11 +29,5 @@ public class XhtConfigProperties {
      */
     @NestedConfigurationProperty
     private EnableProperties banner = new EnableProperties(true);
-
-    /**
-     * 字典缓存配置属性
-     */
-    @NestedConfigurationProperty
-    private CacheProperties dict = new CacheProperties();
 
 }

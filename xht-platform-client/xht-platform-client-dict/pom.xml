@@ -21,10 +21,6 @@
         </dependency>
         <dependency>
             <groupId>com.xht.framework</groupId>
-            <artifactId>xht-spring-boot-starter-cache</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xht.framework</groupId>
             <artifactId>xht-spring-boot-starter-openfeign</artifactId>
         </dependency>
     </dependencies>

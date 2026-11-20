@@ -1,10 +1,13 @@
 package com.xht.platform.dict.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xht.framework.cache.repository.RedisRepository;
+import com.xht.framework.cache.utils.Keys;
 import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.AssertUtils;
+import com.xht.platform.dict.DictConstant;
 import com.xht.platform.dict.converter.SysDictConverter;
 import com.xht.platform.dict.dao.SysDictDao;
 import com.xht.platform.dict.dao.SysDictItemDao;
@@ -35,6 +38,8 @@ public class SysDictServiceImpl implements ISysDictService {
 
     private final SysDictConverter sysDictConverter;
 
+    private final RedisRepository redisRepository;
+
     /**
      * 创建字典类型
      *
@@ -46,6 +51,7 @@ public class SysDictServiceImpl implements ISysDictService {
         AssertUtils.isTrue(!checkDictCode, BusinessErrorCode.DICT_CODE_EXIST);
         SysDictEntity entity = sysDictConverter.toEntity(form);
         sysDictDao.saveTransactional(entity);
+        redisRepository.delete(Keys.createKey(DictConstant.DICT_CACHE_PREFIX, entity.getDictCode()));
     }
 
     /**
@@ -56,10 +62,22 @@ public class SysDictServiceImpl implements ISysDictService {
     @Override
     public void removeById(Long dictId) {
         AssertUtils.notNull(dictId, BusinessErrorCode.PARAM_ERROR);
-        validateDictId(dictId);
+        SysDictEntity sysDictEntity = validateDictId(dictId);
         long dictItemCount = sysDictItemDao.count(SysDictItemEntity::getDictId, dictId);
         AssertUtils.isTrue(dictItemCount < 0, BusinessErrorCode.DICT_EXIST_DICT_ITEM);
         sysDictDao.removeById(dictId);
+        redisRepository.delete(Keys.createKey(DictConstant.DICT_CACHE_PREFIX, sysDictEntity.getDictCode()));
+    }
+
+    /**
+     * 根据字典编码清楚缓存
+     *
+     * @param dictCode 字典编码
+     */
+    @Override
+    public void clearCacheByDictCode(String dictCode) {
+        AssertUtils.hasText(dictCode, BusinessErrorCode.PARAM_ERROR);
+        redisRepository.delete(Keys.createKey(DictConstant.DICT_CACHE_PREFIX, dictCode));
     }
 
     /**
@@ -78,6 +96,7 @@ public class SysDictServiceImpl implements ISysDictService {
         // 检查是否需要更新字典项状态和code
         boolean updateItemStatus = Objects.equals(exists.getStatus(), form.getStatus()) && Objects.equals(exists.getDictCode(), form.getDictCode());
         sysDictDao.updateRequest(dictId, form, !updateItemStatus);
+        redisRepository.delete(Keys.createKey(DictConstant.DICT_CACHE_PREFIX, exists.getDictCode()));
     }
 
     /**

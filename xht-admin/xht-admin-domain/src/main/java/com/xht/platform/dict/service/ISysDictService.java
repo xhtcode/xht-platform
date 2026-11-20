@@ -27,6 +27,13 @@ public interface ISysDictService {
     void removeById(Long dictId);
 
     /**
+     * 根据字典编码清楚缓存
+     *
+     * @param dictCode 字典编码
+     */
+    void clearCacheByDictCode(String dictCode);
+
+    /**
      * 修改字典类型
      *
      * @param dictId 字典ID

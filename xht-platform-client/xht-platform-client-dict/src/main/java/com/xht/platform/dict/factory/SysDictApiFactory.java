@@ -1,20 +1,15 @@
 package com.xht.platform.dict.factory;
 
-import com.xht.framework.cache.repository.RedisRepository;
 import com.xht.framework.common.domain.R;
-import com.xht.framework.core.properties.XhtConfigProperties;
-import com.xht.framework.core.properties.cache.CacheProperties;
-import com.xht.framework.exception.BusinessException;
 import com.xht.framework.utils.ROptional;
 import com.xht.platform.common.dict.api.ISysDictClient;
-import com.xht.platform.common.dict.factory.ISysDictFactory;
 import com.xht.platform.common.dict.domain.DictVO;
+import com.xht.platform.common.dict.factory.ISysDictFactory;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 字典项查询服务工厂
@@ -27,12 +22,6 @@ public class SysDictApiFactory implements ISysDictFactory {
     @Resource
     private ISysDictClient sysDictClient;
 
-    @Resource
-    private RedisRepository redisRepository;
-
-    @Resource
-    private XhtConfigProperties xhtConfigProperties;
-
     /**
      * 根据字典编码查询
      *
@@ -41,13 +30,7 @@ public class SysDictApiFactory implements ISysDictFactory {
      */
     @Override
     public List<DictVO> getDictList(String dictCode) {
-        CacheProperties dictCache = Optional
-                .ofNullable(xhtConfigProperties)
-                .map(XhtConfigProperties::getDict)
-                .orElseThrow(() -> new BusinessException("字典配置查询不到"));
-        return redisRepository.getSet(dictCache.getDictCacheKey(dictCode), dictCache.getTimeOut(), dictCache.getUnit(), () -> {
-            R<List<DictVO>> byDictCode = sysDictClient.getByDictCode(dictCode);
-            return ROptional.of(byDictCode).get().orElse(Collections.emptyList());
-        });
+        R<List<DictVO>> byDictCode = sysDictClient.getByDictCode(dictCode);
+        return ROptional.of(byDictCode).get().orElse(Collections.emptyList());
     }
 }
