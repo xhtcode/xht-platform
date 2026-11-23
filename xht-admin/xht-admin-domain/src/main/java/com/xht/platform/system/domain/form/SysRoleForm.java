@@ -46,6 +46,12 @@ public class SysRoleForm extends BasicForm {
     private RoleStatusEnum roleStatus;
 
     /**
+     * 角色类型ID
+     */
+    @Schema(description = "角色类型ID")
+    private Long roleTypeId;
+
+    /**
      * 显示顺序
      */
     @NotNull(message = "显示顺序参数不合法", groups = {Groups.Create.class, Groups.Update.class})

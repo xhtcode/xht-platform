@@ -26,11 +26,13 @@ import java.util.Objects;
 public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
     private final static String TOKEN_KEY_PREFIX = "opaque:token:";
+
     private final SpringOpaqueTokenIntrospector opaqueTokenIntrospector;
+
     private final TokenInfoLightningCache tokenInfoLightningCache;
 
     public ResourceOpaqueTokenIntrospector(TokenInfoLightningCache tokenInfoLightningCache, OAuth2ResourceServerProperties.Opaquetoken opaquetoken) {
-        log.debug("opaquetoken:{}", opaquetoken);
+        log.debug("ResourceOpaqueTokenIntrospector:{}", opaquetoken);
         this.tokenInfoLightningCache = tokenInfoLightningCache;
         this.opaqueTokenIntrospector = SpringOpaqueTokenIntrospector.withIntrospectionUri(opaquetoken.getIntrospectionUri()).clientId(opaquetoken.getClientId()).clientSecret(opaquetoken.getClientSecret()).build();
     }

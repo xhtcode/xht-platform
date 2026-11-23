@@ -41,6 +41,7 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
         updateWrapper.set(condition(form.getRoleCode()), SysRoleEntity::getRoleCode, form.getRoleCode());
         updateWrapper.set(condition(form.getRoleName()), SysRoleEntity::getRoleName, form.getRoleName());
         updateWrapper.set(condition(form.getRoleStatus()), SysRoleEntity::getRoleStatus, form.getRoleStatus());
+        updateWrapper.set(condition(form.getRoleTypeId()), SysRoleEntity::getRoleTypeId, form.getRoleTypeId());
         updateWrapper.set(condition(form.getRoleSort()), SysRoleEntity::getRoleSort, form.getRoleSort());
         updateWrapper.set(condition(form.getRemark()), SysRoleEntity::getRemark, form.getRemark());
         updateWrapper.eq(SysRoleEntity::getId, roleId);

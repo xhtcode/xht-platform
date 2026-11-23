@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
  * @author xht
  **/
 @Slf4j
-@SuppressWarnings("all")
 @RequiredArgsConstructor
 public class RedisTokenInfoLightningCache implements TokenInfoLightningCache {
 
@@ -33,6 +32,7 @@ public class RedisTokenInfoLightningCache implements TokenInfoLightningCache {
      * @return 返回与指定键关联的token信息，如果不存在则返回null
      */
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T getTokenInfo(String key) {
         Long expire = redisTemplate.getExpire(key);
         if (expire <= 0) {

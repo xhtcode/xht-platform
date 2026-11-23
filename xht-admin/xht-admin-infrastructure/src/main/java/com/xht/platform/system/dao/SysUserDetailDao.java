@@ -1,11 +1,8 @@
 package com.xht.platform.system.dao;
 
 import com.xht.framework.mybatis.repository.MapperRepository;
-import com.xht.platform.system.entity.SysRoleEntity;
 import com.xht.platform.system.entity.SysUserDetailEntity;
 import com.xht.platform.system.entity.SysUserEntity;
-
-import java.util.List;
 
 /**
  * 管理员用户信息 Dao
@@ -19,9 +16,8 @@ public interface SysUserDetailDao extends MapperRepository<SysUserDetailEntity> 
      *
      * @param sysUserEntity       用户信息
      * @param sysUserDetailEntity 用户详细信息
-     * @param roleEntityList       需要保存的角色信息
      */
-    void saveUserInfo(SysUserEntity sysUserEntity, SysUserDetailEntity sysUserDetailEntity, List<SysRoleEntity> roleEntityList);
+    void saveUserInfo(SysUserEntity sysUserEntity, SysUserDetailEntity sysUserDetailEntity);
 
     /**
      * 更新用户信息

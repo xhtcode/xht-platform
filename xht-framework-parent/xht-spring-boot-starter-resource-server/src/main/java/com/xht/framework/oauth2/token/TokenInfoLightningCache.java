@@ -29,7 +29,6 @@ public interface TokenInfoLightningCache {
      */
     <T> void setTokenInfo(String key, Instant expiresAt, T value);
 
-
     /**
      * 删除缓存的token信息
      * @param key 缓存的键值，用于标识特定的token信息

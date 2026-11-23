@@ -2,7 +2,6 @@ package com.xht.platform.system.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.xht.framework.common.domain.response.MetaResponse;
-import com.xht.platform.system.enums.RoleTypeEnums;
 import com.xht.platform.system.enums.RoleStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -48,10 +47,16 @@ public class SysRoleResponse extends MetaResponse {
     private RoleStatusEnum roleStatus;
 
     /**
-     *创建用户时默认导入的角色
+     * 角色类型ID
      */
-    @Schema(description = "创建用户时默认导入的角色")
-    private RoleTypeEnums importRoleType;
+    @Schema(description = "角色类型ID")
+    private Long roleTypeId;
+
+    /**
+     * 角色类型名称
+     */
+    @Schema(description = "角色类型名称")
+    private String roleTypeName;
 
     /**
      * 显示顺序

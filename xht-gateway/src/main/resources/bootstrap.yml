@@ -13,25 +13,3 @@ spring:
         password: @nacos.password@
         namespace: @nacos.namespace@
         group: @nacos.group@
-  thymeleaf:
-    cache: false
-  security:
-    oauth2:
-      client:
-        registration:
-          spring:
-            client-name: spring
-            client-id: oidc-client2
-            client-secret: secret
-            authorization-grant-type: authorization_code
-            redirect-uri: http://www.xht.com:8080/login/oauth2/code/spring
-            scope: openid,write
-        provider:
-          spring:
-            authorization-uri: http://www.xht.sso.com:9000/oauth2/authorize
-            token-uri: http://www.xht.sso.com:9000/oauth2/token
-            jwk-set-uri: http://www.xht.sso.com:9000/oauth2/jwks
-            # 用户信息端点（获取登录用户信息，授权服务器默认接口）
-            user-info-uri: http://www.xht.sso.com:9000/userinfo
-            user-name-attribute: sub
-

@@ -157,7 +157,6 @@ public class FileStorageDaoImpl implements FileStorageDao {
             );
             wrapper.eq(SysFileEntity::getFileStorageKey, fileStorageKey);
             wrapper.eq(SysFileEntity::getFileUsed, fileUsed);
-            wrapper.eq(SysFileEntity::getFileStatus, FileStatusEnum.UPLOADED);
             SysFileEntity sysFileEntity = sysFileMapper.selectOne(wrapper);
             AssertUtils.notNull(sysFileEntity, BusinessErrorCode.FILE_NOT_EXIST);
             xhtFileBO = XhtFileBO.builder()

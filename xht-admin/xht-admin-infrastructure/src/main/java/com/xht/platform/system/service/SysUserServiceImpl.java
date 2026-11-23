@@ -13,7 +13,6 @@ import com.xht.framework.security.utils.PassWordUtils;
 import com.xht.framework.utils.AssertUtils;
 import com.xht.framework.utils.StringUtils;
 import com.xht.platform.system.converter.SysUserConverter;
-import com.xht.platform.system.dao.SysRoleDao;
 import com.xht.platform.system.dao.SysUserDao;
 import com.xht.platform.system.dao.SysUserDetailDao;
 import com.xht.platform.system.domain.form.SysUserDetailForm;
@@ -23,10 +22,8 @@ import com.xht.platform.system.domain.query.SysUserQuery;
 import com.xht.platform.system.domain.response.SysUserDetailResponse;
 import com.xht.platform.system.domain.response.SysUserResponse;
 import com.xht.platform.system.domain.vo.SysUserVO;
-import com.xht.platform.system.entity.SysRoleEntity;
 import com.xht.platform.system.entity.SysUserDetailEntity;
 import com.xht.platform.system.entity.SysUserEntity;
-import com.xht.platform.system.enums.RoleTypeEnums;
 import com.xht.platform.system.helper.SysUserHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,8 +44,6 @@ import java.util.Objects;
 public class SysUserServiceImpl implements ISysUserService {
 
     private final SysUserDao sysUserDao;
-
-    private final SysRoleDao sysRoleDao;
 
     private final SysUserConverter sysUserConverter;
 
@@ -78,8 +73,7 @@ public class SysUserServiceImpl implements ISysUserService {
         sysUser.setPassWord(PassWordUtils.encodePassword(password));
         sysUser.setPassWordPlainText(password);
         SysUserDetailEntity detailEntity = SysUserHelper.formatUser(detail, sysUser.getId());
-        List<SysRoleEntity> roleEntityList = sysRoleDao.findList(SysRoleEntity::getRoleType, RoleTypeEnums.NONE);
-        sysUserDetailDao.saveUserInfo(sysUser, detailEntity, roleEntityList);
+        sysUserDetailDao.saveUserInfo(sysUser, detailEntity);
     }
 
     /**

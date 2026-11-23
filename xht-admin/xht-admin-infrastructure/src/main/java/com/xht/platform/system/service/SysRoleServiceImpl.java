@@ -5,22 +5,28 @@ import com.xht.framework.common.domain.response.PageResponse;
 import com.xht.framework.exception.core.BusinessErrorCode;
 import com.xht.framework.mybatis.utils.PageTool;
 import com.xht.framework.utils.AssertUtils;
+import com.xht.framework.utils.CollectionUtils;
 import com.xht.platform.system.converter.SysRoleConverter;
 import com.xht.platform.system.dao.SysRoleDao;
+import com.xht.platform.system.dao.SysRoleTypeDao;
 import com.xht.platform.system.dao.SysUserRoleDao;
 import com.xht.platform.system.domain.form.SysRoleForm;
 import com.xht.platform.system.domain.query.SysRoleQuery;
 import com.xht.platform.system.domain.response.SysRoleResponse;
 import com.xht.platform.system.entity.SysRoleEntity;
+import com.xht.platform.system.entity.SysRoleTypeEntity;
 import com.xht.platform.system.entity.SysUserRoleEntity;
 import com.xht.platform.system.enums.RoleStatusEnum;
-import com.xht.platform.system.enums.RoleTypeEnums;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 角色service实现类
@@ -33,6 +39,8 @@ import java.util.List;
 public class SysRoleServiceImpl implements ISysRoleService {
 
     private final SysRoleDao sysRoleDao;
+
+    private final SysRoleTypeDao sysRoleTypeDao;
 
     private final SysUserRoleDao sysUserRoleDao;
 
@@ -47,8 +55,8 @@ public class SysRoleServiceImpl implements ISysRoleService {
     public void create(SysRoleForm form) {
         Boolean exists = sysRoleDao.existsRoleCode(null, form.getRoleCode());
         AssertUtils.isTrue(!exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
+        checkRoleType(form.getRoleTypeId());
         SysRoleEntity entity = sysRoleConverter.toEntity(form);
-        entity.setRoleType(RoleTypeEnums.NONE);
         sysRoleDao.saveTransactional(entity);
     }
 
@@ -78,6 +86,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         AssertUtils.isTrue(!exists, BusinessErrorCode.DATA_EXIST, "角色编码已存在");
         Boolean roleExists = sysRoleDao.exists(SysRoleEntity::getId, roleId);
         AssertUtils.isTrue(roleExists, BusinessErrorCode.DATA_NOT_EXIST, "角色不存在");
+        checkRoleType(form.getRoleTypeId());
         sysRoleDao.updateFormRequest(roleId, form);
     }
 
@@ -103,7 +112,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     public SysRoleResponse findById(Long roleId) {
         SysRoleEntity sysRoleEntity = sysRoleDao.findOptionalById(roleId).orElse(null);
-        return sysRoleConverter.toResponse(sysRoleEntity);
+        SysRoleResponse response = sysRoleConverter.toResponse(sysRoleEntity);
+        fillRoleTypeName(response);
+        return response;
     }
 
     /**
@@ -115,7 +126,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     public PageResponse<SysRoleResponse> findPageList(SysRoleQuery query) {
         Page<SysRoleEntity> page = sysRoleDao.findPageList(PageTool.getPage(query), query);
-        return sysRoleConverter.toResponse(page);
+        PageResponse<SysRoleResponse> response = sysRoleConverter.toResponse(page);
+        fillRoleTypeName(response.getRecords());
+        return response;
     }
 
     /**
@@ -125,7 +138,52 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public List<SysRoleResponse> list() {
-        return sysRoleConverter.toResponse(sysRoleDao.findListByStatus(RoleStatusEnum.NORMAL));
+        List<SysRoleResponse> responses = sysRoleConverter.toResponse(sysRoleDao.findListByStatus(RoleStatusEnum.NORMAL));
+        fillRoleTypeName(responses);
+        return responses;
+    }
+
+    /**
+     * 校验角色类型存在
+     *
+     * @param roleTypeId 角色类型ID
+     */
+    private void checkRoleType(Long roleTypeId) {
+        if (Objects.nonNull(roleTypeId)) {
+            Boolean typeExists = sysRoleTypeDao.exists(SysRoleTypeEntity::getId, roleTypeId);
+            AssertUtils.isTrue(typeExists, BusinessErrorCode.DATA_NOT_EXIST, "角色类型不存在");
+        }
+    }
+
+    /**
+     * 填充角色类型名称
+     *
+     * @param responses 角色响应集合
+     */
+    private void fillRoleTypeName(List<SysRoleResponse> responses) {
+        List<Long> typeIds = responses.stream()
+                .map(SysRoleResponse::getRoleTypeId)
+                .filter(Objects::nonNull)
+                .distinct()
+                .collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(typeIds)) {
+            return;
+        }
+        Map<Long, String> typeNameMap = sysRoleTypeDao.findListByIds(typeIds).stream()
+                .collect(Collectors.toMap(SysRoleTypeEntity::getId, SysRoleTypeEntity::getTypeName, (a, b) -> a));
+        responses.forEach(item -> item.setRoleTypeName(typeNameMap.get(item.getRoleTypeId())));
+    }
+
+    /**
+     * 填充角色类型名称
+     *
+     * @param response 角色响应
+     */
+    private void fillRoleTypeName(SysRoleResponse response) {
+        if (Objects.isNull(response) || Objects.isNull(response.getRoleTypeId())) {
+            return;
+        }
+        fillRoleTypeName(List.of(response));
     }
 
 }

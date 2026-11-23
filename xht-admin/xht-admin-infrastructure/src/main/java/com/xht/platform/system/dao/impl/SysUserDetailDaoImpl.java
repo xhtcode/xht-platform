@@ -5,22 +5,15 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.xht.framework.mybatis.repository.impl.MapperRepositoryImpl;
-import com.xht.framework.utils.CollectionUtils;
 import com.xht.platform.system.dao.SysUserDetailDao;
 import com.xht.platform.system.dao.mapper.SysUserDetailMapper;
 import com.xht.platform.system.dao.mapper.SysUserMapper;
-import com.xht.platform.system.dao.mapper.SysUserRoleMapper;
-import com.xht.platform.system.entity.SysRoleEntity;
 import com.xht.platform.system.entity.SysUserDetailEntity;
 import com.xht.platform.system.entity.SysUserEntity;
-import com.xht.platform.system.entity.SysUserRoleEntity;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 管理员用户信息
@@ -34,32 +27,18 @@ public class SysUserDetailDaoImpl extends MapperRepositoryImpl<SysUserDetailMapp
     @Resource
     private SysUserMapper sysUserMapper;
 
-    @Resource
-    private SysUserRoleMapper sysUserRoleMapper;
-
 
     /**
      * 保存用户信息
      *
      * @param sysUserEntity       用户信息
      * @param sysUserDetailEntity 用户详细信息
-     * @param roleEntityList      需要保存的角色信息
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void saveUserInfo(SysUserEntity sysUserEntity, SysUserDetailEntity sysUserDetailEntity, List<SysRoleEntity> roleEntityList) {
+    public void saveUserInfo(SysUserEntity sysUserEntity, SysUserDetailEntity sysUserDetailEntity) {
         sysUserMapper.insert(sysUserEntity);
         save(sysUserDetailEntity);
-        if (!CollectionUtils.isEmpty(roleEntityList)) {
-            List<SysUserRoleEntity> userRoleEntities = new ArrayList<>();
-            roleEntityList.forEach(item -> {
-                SysUserRoleEntity result = new SysUserRoleEntity();
-                result.setRoleId(item.getId());
-                result.setUserId(sysUserEntity.getId());
-                userRoleEntities.add(result);
-            });
-            sysUserRoleMapper.insert(userRoleEntities);
-        }
     }
 
     /**

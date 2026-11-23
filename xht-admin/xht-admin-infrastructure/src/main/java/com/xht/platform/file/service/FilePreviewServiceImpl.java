@@ -49,6 +49,7 @@ public class FilePreviewServiceImpl implements IFilePreviewService {
         AssertUtils.isTrue(StringUtils.hasText(fileStorageKey), BusinessErrorCode.PARAM_ERROR);
         XhtFileBO xhtFileBO = fileStorageDao.findFileInfoByFileStorageKey(fileStorageKey, FileUsedEnum.AVATAR, Keys.randomExpire(7, 15), TimeUnit.DAYS);
         AssertUtils.notNull(xhtFileBO, BusinessErrorCode.FILE_NOT_EXIST);
+        AssertUtils.isTrue(xhtFileBO.isAssociated(), BusinessErrorCode.FILE_NOT_EXIST);
         String etag = "\"" + xhtFileBO.getFileHash() + "\"";
         response.setHeader(HttpHeaders.ETAG, etag);
         // 命中 If-None-Match 则返回 304，不再读取文件内容

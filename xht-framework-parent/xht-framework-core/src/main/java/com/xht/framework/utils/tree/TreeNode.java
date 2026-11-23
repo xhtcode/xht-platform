@@ -15,7 +15,6 @@ import java.util.Map;
  *
  * @author xht
  **/
-@SuppressWarnings("all")
 public class TreeNode<T> extends LinkedHashMap<String, Object> implements INode<T> {
 
     @Serial
@@ -50,6 +49,7 @@ public class TreeNode<T> extends LinkedHashMap<String, Object> implements INode<
      * @return ID
      */
     @Override
+    @SuppressWarnings("unchecked")
     public T getId() {
         return (T) this.get(KEY_ID);
     }
@@ -72,6 +72,7 @@ public class TreeNode<T> extends LinkedHashMap<String, Object> implements INode<
      * @return 父节点ID
      */
     @Override
+    @SuppressWarnings("unchecked")
     public T getParentId() {
         return (T) this.get(KEY_PARENT_ID);
     }
@@ -130,6 +131,7 @@ public class TreeNode<T> extends LinkedHashMap<String, Object> implements INode<
      * 子节点
      */
     @Override
+    @SuppressWarnings("unchecked")
     public List<INode<T>> getChildren() {
         return (List<INode<T>>) this.get(KEY_CHILDREN);
     }

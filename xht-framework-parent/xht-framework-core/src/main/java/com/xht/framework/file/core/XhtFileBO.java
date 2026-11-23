@@ -1,5 +1,6 @@
 package com.xht.framework.file.core;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xht.framework.common.domain.bo.XhtBO;
 import com.xht.framework.file.enums.FileStatusEnum;
 import com.xht.framework.file.enums.PreviewTypeEnum;
@@ -100,5 +101,22 @@ public class XhtFileBO implements XhtBO {
      * 文件预览类型
      */
     private final PreviewTypeEnum filePreviewType;
+
+    /**
+     * 判断文件状态是否已上传
+     */
+    @JsonIgnore
+    public boolean isUploaded() {
+        return FileStatusEnum.UPLOADED.equals(this.fileStatus);
+    }
+
+    /**
+     * 判断文件状态是否已关联业务
+     */
+    @JsonIgnore
+    public boolean isAssociated() {
+        return FileStatusEnum.ASSOCIATED.equals(this.fileStatus);
+    }
+
 
 }
