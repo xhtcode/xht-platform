@@ -70,12 +70,12 @@ public class TokenServiceImpl implements ITokenService {
     @Override
     public void checkToken(String token) {
         if (StringUtils.isEmpty(token)) {
-            throw new BusinessException(GlobalErrorStatusCode.TOKEN_EXPIRED);
+            throw new BusinessException(GlobalErrorStatusCode.UNAUTHORIZED);
         }
         OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
         // 如果令牌不存在，返回 401 错误
         if (Objects.isNull(Optional.ofNullable(authorization).map(OAuth2Authorization::getAccessToken).orElse(null))) {
-            throw new BusinessException(GlobalErrorStatusCode.TOKEN_EXPIRED);
+            throw new BusinessException(GlobalErrorStatusCode.UNAUTHORIZED);
         }
     }
 

@@ -59,6 +59,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     /**
      * 捕获 {@link Exception} 异常
      */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = Exception.class)
     public ErrorR<Void> handle(Exception e) {
         log.error("系统异常: {}", e.getMessage(), e);
@@ -68,6 +69,7 @@ public class DefaultGlobalExceptionHandler implements Serializable {
     /**
      * 捕获 {@link BusinessException}  异常
      */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = {BusinessException.class})
     public ErrorR<Void> handle(BusinessException e) {
         log.error("自定义异常: code={} MESSAGE={}", e.getCode(), e.getMessage(), e);

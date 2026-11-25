@@ -70,15 +70,12 @@ xht:
       enable: true
     app-name: 后台管理
     host-name: www.xht.com
-    dict:
-      key-prefix: 'xht:'
-      time-out: 3600
-      unit: seconds
   security:
     whitelist:
       add-default-ignore-urls: true
       add-swagger-ignore-urls: true
       endpoints:
+        - /test/six21312
     xss:
       enable: true
       # 头像预览为公开只读接口，且需读取带双引号的 If-None-Match 做强校验（XSS 过滤器会把双引号转义成 &quot;），整路径排除

@@ -7,11 +7,10 @@ import com.xht.framework.security.core.BasicUserDetailsConvert;
 import com.xht.framework.security.core.userdetails.BasicUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
-import org.springframework.security.oauth2.server.resource.introspection.OAuth2IntrospectionAuthenticatedPrincipal;
-import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
-import org.springframework.security.oauth2.server.resource.introspection.SpringOpaqueTokenIntrospector;
+import org.springframework.security.oauth2.server.resource.introspection.*;
 
 import java.time.Instant;
 import java.util.Map;
@@ -51,14 +50,20 @@ public class ResourceOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
         if (Objects.nonNull(tokenInfo)) {
             return tokenInfo;
         }
-        OAuth2AuthenticatedPrincipal introspect = opaqueTokenIntrospector.introspect(token);
-        if (introspect instanceof OAuth2IntrospectionAuthenticatedPrincipal principal) {
-            Instant expiresAt = principal.getExpiresAt();
-            OAuth2AuthenticatedPrincipal convert = convert(principal);
-            tokenInfoLightningCache.setTokenInfo(key, expiresAt, convert);
-            return convert;
+        try {
+            OAuth2AuthenticatedPrincipal introspect = opaqueTokenIntrospector.introspect(token);
+            if (introspect instanceof OAuth2IntrospectionAuthenticatedPrincipal principal) {
+                Instant expiresAt = principal.getExpiresAt();
+                OAuth2AuthenticatedPrincipal convert = convert(principal);
+                tokenInfoLightningCache.setTokenInfo(key, expiresAt, convert);
+                return convert;
+            }
+            return introspect;
+        } catch (BadOpaqueTokenException failed) {
+            throw new BadOpaqueTokenException(failed.getMessage(), failed.getCause());
+        } catch (OAuth2IntrospectionException failed) {
+            throw new AuthenticationServiceException("认证服务暂时无法访问，请稍后重试~", failed.getCause());
         }
-        return introspect;
     }
 
     /**

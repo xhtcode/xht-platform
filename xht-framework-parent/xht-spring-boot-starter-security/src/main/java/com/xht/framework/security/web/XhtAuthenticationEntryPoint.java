@@ -25,8 +25,7 @@ public class XhtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
         String error = buildErrorMessage(authException);
         GlobalErrorStatusCode unauthorized = GlobalErrorStatusCode.UNAUTHORIZED;
-        if (authException instanceof InsufficientAuthenticationException || authException instanceof OAuth2AuthenticationException) {
-            unauthorized = GlobalErrorStatusCode.TOKEN_EXPIRED;
+        if (authException instanceof OAuth2AuthenticationException) {
             error = unauthorized.getMessage();
         }
         log.debug("身份验证失败处理器: url={} ex_class={} message={}", request.getRequestURI(), authException.getClass().getName(), error, authException);

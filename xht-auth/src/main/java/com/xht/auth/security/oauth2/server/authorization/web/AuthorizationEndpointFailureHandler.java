@@ -35,7 +35,7 @@ public class AuthorizationEndpointFailureHandler implements AuthenticationFailur
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (Objects.isNull(authentication)) {
             // 登录已失效
-            ServletUtils.writeJson(response, R.error().info(GlobalErrorStatusCode.TOKEN_EXPIRED).build());
+            ServletUtils.writeJson(response, R.error().info(GlobalErrorStatusCode.UNAUTHORIZED).build());
             return;
         }
         SecurityContextHolder.clearContext();
