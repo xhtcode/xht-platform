@@ -60,7 +60,9 @@ public class RedisTokenInfoLightningCache implements TokenInfoLightningCache {
             }
         }
         log.debug("将token信息保存到缓存中，key:{},value:{},timeOut:{}", key, value, timeOut);
-        redisTemplate.opsForValue().set(key, value, timeOut, TimeUnit.SECONDS);
+        if (timeOut > 0) {
+            redisTemplate.opsForValue().set(key, value, timeOut, TimeUnit.SECONDS);
+        }
     }
 
     /**

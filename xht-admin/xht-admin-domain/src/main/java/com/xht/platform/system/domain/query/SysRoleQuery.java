@@ -3,7 +3,6 @@ package com.xht.platform.system.domain.query;
 import com.xht.framework.common.domain.query.PageBasicQuery;
 import com.xht.platform.system.enums.RoleStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -32,5 +31,11 @@ public class SysRoleQuery extends PageBasicQuery {
      */
     @Schema(description = "状态（0正常 1停用）")
     private RoleStatusEnum roleStatus;
+
+    /**
+     * 角色类型ID
+     */
+    @Schema(description = "角色类型ID")
+    private Long roleTypeId;
 
 }

@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.session.DisableEncodeUrlFilter;
 
@@ -28,12 +29,17 @@ public class ResourceServerAutoConfiguration {
 
     private final PermitAllUrlProperties permitAllUrlProperties;
 
+    private final BearerTokenResolver bearerTokenResolver;
+
     private final OpaqueTokenIntrospector opaqueTokenIntrospector;
 
+
     public ResourceServerAutoConfiguration(PermitAllUrlProperties permitAllUrlProperties,
+                                           BearerTokenResolver bearerTokenResolver,
                                            OpaqueTokenIntrospector opaqueTokenIntrospector
     ) {
         this.permitAllUrlProperties = permitAllUrlProperties;
+        this.bearerTokenResolver = bearerTokenResolver;
         this.opaqueTokenIntrospector = opaqueTokenIntrospector;
         log.info("【xht-resource-server-spring-boot-starter】资源服务器配置 初始化 ... <<<<<<");
     }
@@ -61,6 +67,7 @@ public class ResourceServerAutoConfiguration {
                 .oauth2ResourceServer(configurer -> {
                     configurer.opaqueToken(opaqueToken -> opaqueToken.introspector(opaqueTokenIntrospector));
                     configurer.authenticationEntryPoint(new XhtAuthenticationEntryPoint());
+                    configurer.bearerTokenResolver(bearerTokenResolver);
                 })
                 .exceptionHandling(handlingConfigurer -> {
                     handlingConfigurer.authenticationEntryPoint(new XhtAuthenticationEntryPoint());//请求未认证的接口

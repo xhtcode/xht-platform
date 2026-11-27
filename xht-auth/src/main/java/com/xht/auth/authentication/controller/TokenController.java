@@ -5,6 +5,7 @@ import com.xht.auth.authentication.service.ITokenService;
 import com.xht.framework.common.constant.HttpConstants;
 import com.xht.framework.common.domain.R;
 import com.xht.framework.oauth2.utils.SecurityUtils;
+import com.xht.framework.security.annotation.IgnoreAuth;
 import com.xht.framework.security.utils.Oauth2Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -47,10 +48,11 @@ public class TokenController {
      * @param request 请求对象
      * @return R<Void> 操作结果，成功返回 OK，失败返回错误信息
      */
+    @IgnoreAuth(aop = false)
     @PostMapping("/logout")
     @ResponseBody
     @Operation(summary = "注销并删除令牌", description = "注销并删除令牌")
-    public R<Void> logout(HttpServletRequest request) {
+    public R<Void> logout(HttpServletRequest request,String token) {
         tokenService.removeToken(Oauth2Utils.getBearerAuthorization(request.getHeader(HttpConstants.Header.AUTHORIZATION.getValue())));
         return R.ok().msg("注销成功").build();
     }

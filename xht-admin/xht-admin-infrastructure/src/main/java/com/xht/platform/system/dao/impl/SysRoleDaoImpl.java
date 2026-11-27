@@ -99,8 +99,9 @@ public class SysRoleDaoImpl extends MapperRepositoryImpl<SysRoleMapper, SysRoleE
         } else {
             queryWrapper.like(condition(query.getRoleCode()), SysRoleEntity::getRoleCode, query.getRoleCode());
             queryWrapper.like(condition(query.getRoleName()), SysRoleEntity::getRoleName, query.getRoleName());
-            queryWrapper.eq(Objects.nonNull(query.getRoleStatus()), SysRoleEntity::getRoleStatus, query.getRoleStatus());
+            queryWrapper.eq(condition(query.getRoleStatus()), SysRoleEntity::getRoleStatus, query.getRoleStatus());
         }
+        queryWrapper.eq(condition(query.getRoleTypeId()), SysRoleEntity::getRoleTypeId, query.getRoleTypeId());
         return page(page, queryWrapper);
     }
 

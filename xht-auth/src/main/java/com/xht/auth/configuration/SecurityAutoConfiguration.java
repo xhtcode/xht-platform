@@ -31,6 +31,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -53,6 +54,8 @@ public class SecurityAutoConfiguration {
     private final XhtOauth2Properties xhtOauth2Properties;
 
     private final PermitAllUrlProperties permitAllUrlProperties;
+
+    private final BearerTokenResolver bearerTokenResolver;
 
     private final PersistentTokenRepository persistentTokenRepository;
 
@@ -89,6 +92,7 @@ public class SecurityAutoConfiguration {
         http.oauth2ResourceServer(configurer -> {
             configurer.opaqueToken(opaqueTokenConfigurer -> opaqueTokenConfigurer.introspector(opaqueTokenIntrospector));
             configurer.authenticationEntryPoint(new XhtAuthenticationEntryPoint());
+            configurer.bearerTokenResolver(bearerTokenResolver);
         });
         http.exceptionHandling(handlingConfigurer -> {
             handlingConfigurer.accessDeniedHandler(new XhtAccessDeniedHandler());// 请求未授权的接口

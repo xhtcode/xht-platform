@@ -1,10 +1,12 @@
 package com.xht.framework.oauth2.autoconfigure;
 
 import com.xht.framework.oauth2.handler.PermissionCheckHandler;
+import com.xht.framework.oauth2.handler.ResourceBearerTokenResolver;
 import com.xht.framework.oauth2.introspection.ResourceOpaqueTokenIntrospector;
 import com.xht.framework.oauth2.token.RedisTokenInfoLightningCache;
 import com.xht.framework.oauth2.token.TokenInfoLightningCache;
 import com.xht.framework.oauth2.token.TokenLightningCacheProperties;
+import com.xht.framework.security.properties.PermitAllUrlProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 
 import java.util.Objects;
 
@@ -73,6 +76,17 @@ public class SecurityAutoConfiguration {
     @Bean("xht")
     public PermissionCheckHandler permissionCheckHandler() {
         return new PermissionCheckHandler();
+    }
+
+    /**
+     * 创建并配置资源服务器令牌解析器Bean
+     *
+     * @param permitAllUrlProperties 免认证URL属性
+     * @return BearerTokenResolver 令牌解析器实例
+     */
+    @Bean
+    public BearerTokenResolver resourceBearerTokenResolver(PermitAllUrlProperties permitAllUrlProperties) {
+        return new ResourceBearerTokenResolver(permitAllUrlProperties);
     }
 
 }
