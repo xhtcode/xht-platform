@@ -524,7 +524,7 @@ CREATE TABLE `sys_role_type_menu`
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`
 (
-    `id`                   bigint UNSIGNED                                               NOT NULL COMMENT '用户ID',
+    `id`                   bigint                                                        NOT NULL COMMENT '用户ID',
     `user_type`            tinyint                                                       NULL     DEFAULT NULL COMMENT '用户类型',
     `user_name`            varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '用户账号',
     `nick_name`            varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '用户昵称',
