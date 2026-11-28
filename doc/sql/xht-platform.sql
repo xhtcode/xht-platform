@@ -446,18 +446,18 @@ CREATE TABLE `sys_oauth2_client`
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role`
 (
-    `id`          bigint                                                        NOT NULL COMMENT '主键',
-    `role_code`   varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '角色编码',
-    `role_name`   varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '角色名称',
-    `role_status` tinyint                                                       NULL DEFAULT NULL COMMENT '角色状态(0:正常;1:停用)',
-    `role_type`   varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色类型',
-    `role_sort`   int                                                           NULL DEFAULT NULL COMMENT '显示顺序',
-    `remark`      varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色描述',
-    `del_flag`    tinyint                                                       NULL DEFAULT 0 COMMENT '删除标识(0:未删除;1:已删除)',
-    `create_by`   varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '创建人',
-    `create_time` datetime                                                      NULL DEFAULT NULL COMMENT '创建时间',
-    `update_by`   varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '更新人',
-    `update_time` datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
+    `id`           bigint                                                        NOT NULL COMMENT '主键',
+    `role_type_id` bigint                                                        NULL DEFAULT NULL COMMENT '角色类型ID',
+    `role_code`    varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '角色编码',
+    `role_name`    varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '角色名称',
+    `role_status`  tinyint                                                       NULL DEFAULT NULL COMMENT '角色状态(0:正常;1:停用)',
+    `role_sort`    int                                                           NULL DEFAULT NULL COMMENT '显示顺序',
+    `remark`       varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色描述',
+    `del_flag`     tinyint                                                       NULL DEFAULT 0 COMMENT '删除标识(0:未删除;1:已删除)',
+    `create_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '创建人',
+    `create_time`  datetime                                                      NULL DEFAULT NULL COMMENT '创建时间',
+    `update_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '更新人',
+    `update_time`  datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `idx_role_code` (`role_code` ASC) USING BTREE
 ) ENGINE = InnoDB
@@ -479,6 +479,46 @@ CREATE TABLE `sys_role_menu`
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '系统管理-角色菜单关联表'
   ROW_FORMAT = DYNAMIC;
+-- ----------------------------
+-- Table structure for sys_role_type
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role_type`;
+CREATE TABLE `sys_role_type`
+(
+    `id`          bigint                                                        NOT NULL COMMENT '主键',
+    `type_code`   varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '类型编码',
+    `type_name`   varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '类型名称',
+    `type_status` tinyint                                                       NULL DEFAULT 0 COMMENT '类型状态(0:正常;1:停用)',
+    `type_sort`   int                                                           NULL DEFAULT NULL COMMENT '显示顺序',
+    `remark`      varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
+    `del_flag`    tinyint                                                       NULL DEFAULT 0 COMMENT '删除标识(0:未删除;1:已删除)',
+    `create_by`   varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '创建人',
+    `create_time` datetime                                                      NULL DEFAULT NULL COMMENT '创建时间',
+    `update_by`   varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '更新人',
+    `update_time` datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE INDEX `idx_type_code` (`type_code` ASC) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '系统管理-角色类型表'
+  ROW_FORMAT = DYNAMIC;
+-- ----------------------------
+-- Table structure for sys_role_type_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role_type_menu`;
+CREATE TABLE `sys_role_type_menu`
+(
+    `role_type_id` bigint                                                       NOT NULL COMMENT '角色类型id',
+    `menu_id`      bigint                                                       NOT NULL COMMENT '菜单id',
+    `create_by`    varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+    `create_time`  datetime                                                     NULL DEFAULT NULL COMMENT '创建时间',
+    PRIMARY KEY (`role_type_id`, `menu_id`) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '系统管理-角色类型菜单关联表'
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
 -- Table structure for sys_user
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;

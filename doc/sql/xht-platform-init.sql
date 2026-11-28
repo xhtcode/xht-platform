@@ -331,227 +331,79 @@ VALUES (111, 'other', '其他', NULL, 999, 1, 'system', '2026-11-09 18:50:03', '
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu`
-VALUES (1, 0, 'M', '首页', 'i-menu-dashboard', '/', 1, NULL, 0, NULL, 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin',
-        '2026-09-22 16:14:56', 'admin', '2026-09-22 16:14:56');
-INSERT INTO `sys_menu`
-VALUES (2, 1, 'C', '工作台', 'i-menu-admin', '/dashboard', 1, 0, 0, NULL, 1, 'DashboardSystemViewIndex',
-        '/views/dashboard/system/index.vue', NULL, 1, 0, 0, 'admin', '2026-09-22 16:14:56', 'admin',
-        '2026-09-22 16:14:56');
-INSERT INTO `sys_menu`
-VALUES (3, 1, 'C', '个人工作台', 'i-menu-dashboard', '/dashboard/personal', 1, 0, 0, NULL, 2,
-        'DashboardPersonalViewIndex', '/views/dashboard/personal/index.vue', NULL, 1, 0, 0, 'admin',
-        '2026-09-22 16:14:56', 'admin', '2026-09-22 16:14:56');
-INSERT INTO `sys_menu`
-VALUES (4, 0, 'M', '系统管理', 'i-menu-system', '/system', 1, NULL, 0, NULL, 2, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:56', 'admin', '2026-09-22 16:14:56');
-INSERT INTO `sys_menu`
-VALUES (5, 4, 'C', '用户管理', 'i-menu-user', '/system/user', 1, 1, 0, NULL, 1, 'UserViewIndex',
-        '/views/system/user/index.vue', NULL, 0, 0, 0, 'admin', '2026-09-22 16:14:56', 'admin', '2026-09-22 16:14:56');
-INSERT INTO `sys_menu`
-VALUES (6, 5, 'B', '用户增加', NULL, NULL, NULL, NULL, 0, 'sys:user:create', 1, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:56', 'admin', '2026-09-22 16:14:56');
-INSERT INTO `sys_menu`
-VALUES (7, 5, 'B', '用户密码修改', NULL, NULL, NULL, NULL, 0, 'sys:user:pwd', 2, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:56', 'admin', '2026-09-22 16:14:56');
-INSERT INTO `sys_menu`
-VALUES (8, 5, 'B', '用户删除', NULL, NULL, NULL, NULL, 0, 'sys:user:remove', 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:56', 'admin', '2026-09-22 16:14:56');
-INSERT INTO `sys_menu`
-VALUES (9, 5, 'B', '用户角色绑定', NULL, NULL, NULL, NULL, 0, 'sys:user:role:bind', 4, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:56', 'admin', '2026-09-22 16:14:56');
-INSERT INTO `sys_menu`
-VALUES (10, 5, 'B', '用户修改', NULL, NULL, NULL, NULL, 0, 'sys:user:update', 5, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:56', 'admin', '2026-09-22 16:14:56');
-INSERT INTO `sys_menu`
-VALUES (11, 4, 'C', '角色管理', 'i-menu-role', '/system/role', 1, 1, 0, NULL, 2, 'RoleViewIndex',
-        '/views/system/role/index.vue', NULL, 0, 0, 0, 'admin', '2026-09-22 16:14:56', 'admin', '2026-09-22 16:14:56');
-INSERT INTO `sys_menu`
-VALUES (12, 11, 'B', '角色增加', NULL, NULL, NULL, NULL, 0, 'sys:role:create', 1, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:56', 'admin', '2026-09-22 16:14:56');
-INSERT INTO `sys_menu`
-VALUES (13, 11, 'B', '角色菜单绑定', NULL, NULL, NULL, NULL, 0, 'sys:role:menu:bind', 2, NULL, NULL, NULL, NULL, NULL,
-        0, 'admin', '2026-09-22 16:14:56', 'admin', '2026-09-22 16:14:56');
-INSERT INTO `sys_menu`
-VALUES (14, 11, 'B', '角色删除', NULL, NULL, NULL, NULL, 0, 'sys:role:remove', 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:57', 'admin', '2026-09-22 16:14:57');
-INSERT INTO `sys_menu`
-VALUES (15, 11, 'B', '角色修改', NULL, NULL, NULL, NULL, 0, 'sys:role:update', 4, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:57', 'admin', '2026-09-22 16:14:57');
-INSERT INTO `sys_menu`
-VALUES (16, 4, 'C', '菜单管理', 'i-menu-menu', '/system/menu', 1, 1, 0, NULL, 3, 'SysMenuViewIndex',
-        '/views/system/menu/index.vue', NULL, 0, 0, 0, 'admin', '2026-09-22 16:14:57', 'admin', '2026-09-22 16:14:57');
-INSERT INTO `sys_menu`
-VALUES (17, 16, 'B', '菜单增加', NULL, NULL, NULL, NULL, 0, 'sys:menu:create', 1, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:57', 'admin', '2026-09-22 16:14:57');
-INSERT INTO `sys_menu`
-VALUES (18, 16, 'B', '菜单删除', NULL, NULL, NULL, NULL, 0, 'sys:menu:remove', 2, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:57', 'admin', '2026-09-22 16:14:57');
-INSERT INTO `sys_menu`
-VALUES (19, 16, 'B', '菜单修改', NULL, NULL, NULL, NULL, 0, 'sys:menu:update', 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:57', 'admin', '2026-09-22 16:14:57');
-INSERT INTO `sys_menu`
-VALUES (20, 4, 'C', '部门管理', 'i-menu-tree', '/system/dept', 1, 1, 0, NULL, 4, 'SysDeptViewIndex',
-        '/views/system/dept/index.vue', '/system/dept', 0, 0, 0, 'admin', '2026-09-22 16:14:57', 'admin',
-        '2026-09-22 16:14:57');
-INSERT INTO `sys_menu`
-VALUES (21, 20, 'B', '部门增加', NULL, NULL, NULL, NULL, 0, 'sys:dept:create', 1, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:57', 'admin', '2026-09-22 16:14:57');
-INSERT INTO `sys_menu`
-VALUES (22, 20, 'B', '部门删除', NULL, NULL, NULL, NULL, 0, 'sys:dept:remove', 2, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:57', 'admin', '2026-09-22 16:14:57');
-INSERT INTO `sys_menu`
-VALUES (23, 20, 'B', '部门修改', NULL, NULL, NULL, NULL, 0, 'sys:dept:update', 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:57', 'admin', '2026-09-22 16:14:57');
-INSERT INTO `sys_menu`
-VALUES (28, 4, 'C', '字典管理', 'i-menu-dict', '/system/dict', 1, 1, 0, NULL, 6, 'SysDictViewIndex',
-        '/views/system/dict/index.vue', NULL, 0, 0, 0, 'admin', '2026-09-22 16:14:58', 'admin', '2026-09-22 16:14:58');
-INSERT INTO `sys_menu`
-VALUES (29, 28, 'B', '字典增加', NULL, NULL, NULL, NULL, 0, 'sys:dict:create', 1, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:58', 'admin', '2026-09-22 16:14:58');
-INSERT INTO `sys_menu`
-VALUES (30, 28, 'B', '字典删除', NULL, NULL, NULL, NULL, 0, 'sys:dict:remove', 2, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:58', 'admin', '2026-09-22 16:14:58');
-INSERT INTO `sys_menu`
-VALUES (31, 28, 'B', '字典修改', NULL, NULL, NULL, NULL, 0, 'sys:dict:update', 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:58', 'admin', '2026-09-22 16:14:58');
-INSERT INTO `sys_menu`
-VALUES (32, 4, 'C', '字典项管理', 'i-menu-dict', '/system/dict/:id', 0, 1, 0, NULL, 7, 'SysDictItemViewIndex',
-        '/views/system/dict-item/index.vue', '/system/dict', 0, 0, 0, 'admin', '2026-09-22 16:14:58', 'admin',
-        '2026-09-22 16:14:58');
-INSERT INTO `sys_menu`
-VALUES (33, 32, 'B', '字典项增加', NULL, NULL, NULL, NULL, 0, 'sys:dict:item:create', 1, NULL, NULL, NULL, NULL, NULL,
-        0, 'admin', '2026-09-22 16:14:58', 'admin', '2026-09-22 16:14:58');
-INSERT INTO `sys_menu`
-VALUES (34, 32, 'B', '字典项删除', NULL, NULL, NULL, NULL, 0, 'sys:dict:item:remove', 2, NULL, NULL, NULL, NULL, NULL,
-        0, 'admin', '2026-09-22 16:14:58', 'admin', '2026-09-22 16:14:58');
-INSERT INTO `sys_menu`
-VALUES (35, 32, 'B', '字典项修改', NULL, NULL, NULL, NULL, 0, 'sys:dict:item:update', 3, NULL, NULL, NULL, NULL, NULL,
-        0, 'admin', '2026-09-22 16:14:58', 'admin', '2026-09-22 16:14:58');
-INSERT INTO `sys_menu`
-VALUES (36, 4, 'C', '客户端', 'i-login-code', '/sys/oauth2/client', 1, 1, 0, NULL, 8, 'SysOauth2ClientViewIndex',
-        '/views/system/oauth2-client/index.vue', NULL, 0, 0, 0, 'admin', '2026-09-22 16:14:58', 'admin',
-        '2026-09-22 16:14:58');
-INSERT INTO `sys_menu`
-VALUES (37, 36, 'B', '客户端增加', NULL, NULL, NULL, NULL, 0, 'sys:oauth2:client:create', 1, NULL, NULL, NULL, NULL,
-        NULL, 0, 'admin', '2026-09-22 16:14:58', 'admin', '2026-09-22 16:14:58');
-INSERT INTO `sys_menu`
-VALUES (38, 36, 'B', '客户端删除', NULL, NULL, NULL, NULL, 0, 'sys:oauth2:client:remove', 2, NULL, NULL, NULL, NULL,
-        NULL, 0, 'admin', '2026-09-22 16:14:58', 'admin', '2026-09-22 16:14:58');
-INSERT INTO `sys_menu`
-VALUES (39, 36, 'B', '客户端修改', NULL, NULL, NULL, NULL, 0, 'sys:oauth2:client:update', 3, NULL, NULL, NULL, NULL,
-        NULL, 0, 'admin', '2026-09-22 16:14:58', 'admin', '2026-09-22 16:14:58');
-INSERT INTO `sys_menu`
-VALUES (40, 4, 'C', '行政区划', 'i-menu-address', '/sys/area', 1, 1, 0, NULL, 9, 'SysAreaViewIndex',
-        '/views/system/area/index.vue', NULL, 0, 0, 0, 'admin', '2026-09-22 16:14:59', 'admin', '2026-09-22 16:14:59');
-INSERT INTO `sys_menu`
-VALUES (41, 40, 'B', '行政区划增加', NULL, NULL, NULL, NULL, 0, 'sys:area:create', 1, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:59', 'admin', '2026-09-22 16:14:59');
-INSERT INTO `sys_menu`
-VALUES (42, 40, 'B', '行政区划删除', NULL, NULL, NULL, NULL, 0, 'sys:area:remove', 2, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:59', 'admin', '2026-09-22 16:14:59');
-INSERT INTO `sys_menu`
-VALUES (43, 40, 'B', '行政区划修改', NULL, NULL, NULL, NULL, 0, 'sys:area:update', 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:59', 'admin', '2026-09-22 16:14:59');
-INSERT INTO `sys_menu`
-VALUES (44, 0, 'M', '通知中心', 'i-menu-notice', '/notice', 1, NULL, 0, NULL, 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:59', 'admin', '2026-09-22 16:14:59');
-INSERT INTO `sys_menu`
-VALUES (45, 44, 'C', '通知类型管理', 'i-menu-notice-type', '/sys/notice/type', 1, 1, 0, NULL, 1,
-        'SysNoticeTypeViewIndex', '/views/system/notice-type/index.vue', NULL, 0, 0, 0, 'admin', '2026-09-22 16:14:59',
-        'admin', '2026-09-22 16:14:59');
-INSERT INTO `sys_menu`
-VALUES (46, 45, 'B', '通知类型增加', NULL, NULL, NULL, NULL, 0, 'sys:notice:type:create', 1, NULL, NULL, NULL, NULL,
-        NULL, 0, 'admin', '2026-09-22 16:14:59', 'admin', '2026-09-22 16:14:59');
-INSERT INTO `sys_menu`
-VALUES (47, 45, 'B', '通知类型删除', NULL, NULL, NULL, NULL, 0, 'sys:notice:type:remove', 2, NULL, NULL, NULL, NULL,
-        NULL, 0, 'admin', '2026-09-22 16:14:59', 'admin', '2026-09-22 16:14:59');
-INSERT INTO `sys_menu`
-VALUES (48, 45, 'B', '通知类型修改', NULL, NULL, NULL, NULL, 0, 'sys:notice:type:update', 3, NULL, NULL, NULL, NULL,
-        NULL, 0, 'admin', '2026-09-22 16:14:59', 'admin', '2026-09-22 16:14:59');
-INSERT INTO `sys_menu`
-VALUES (49, 44, 'C', '通知管理', 'i-menu-notice', '/sys/notice', 1, 1, 0, NULL, 2, 'SysNoticeViewIndex',
-        '/views/system/notice/index.vue', NULL, 0, 0, 0, 'admin', '2026-09-22 16:14:59', 'admin',
-        '2026-09-22 16:14:59');
-INSERT INTO `sys_menu`
-VALUES (50, 49, 'B', '通知增加', NULL, NULL, NULL, NULL, 0, 'sys:notice:create', 1, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:59', 'admin', '2026-09-22 16:14:59');
-INSERT INTO `sys_menu`
-VALUES (51, 49, 'B', '通知删除', NULL, NULL, NULL, NULL, 0, 'sys:notice:remove', 2, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:59', 'admin', '2026-09-22 16:14:59');
-INSERT INTO `sys_menu`
-VALUES (52, 49, 'B', '通知修改', NULL, NULL, NULL, NULL, 0, 'sys:notice:update', 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:14:59', 'admin', '2026-09-22 16:14:59');
-INSERT INTO `sys_menu`
-VALUES (53, 44, 'C', '站内信管理', 'i-menu-message', '/sys/message', 1, 1, 0, NULL, 3, 'SysMessageViewIndex',
-        '/views/system/message/index.vue', NULL, 0, 0, 0, 'admin', '2026-09-22 16:15:00', 'admin',
-        '2026-09-22 16:15:00');
-INSERT INTO `sys_menu`
-VALUES (54, 53, 'B', '站内信增加', NULL, NULL, NULL, NULL, 0, 'sys:message:create', 1, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:15:00', 'admin', '2026-09-22 16:15:00');
-INSERT INTO `sys_menu`
-VALUES (55, 53, 'B', '站内信删除', NULL, NULL, NULL, NULL, 0, 'sys:message:remove', 2, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:15:00', 'admin', '2026-09-22 16:15:00');
-INSERT INTO `sys_menu`
-VALUES (56, 53, 'B', '站内信修改', NULL, NULL, NULL, NULL, 0, 'sys:message:update', 3, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:15:00', 'admin', '2026-09-22 16:15:00');
-INSERT INTO `sys_menu`
-VALUES (57, 0, 'M', '监控中心', 'i-menu-monitor', '/monitor', 1, NULL, 0, NULL, 4, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:15:00', 'admin', '2026-09-22 16:15:00');
-INSERT INTO `sys_menu`
-VALUES (58, 57, 'C', '操作日志', 'i-menu-monitor', '/monitor/log', 1, 1, 0, NULL, 1, 'SysOperLogViewIndex',
-        '/views/monitor/blog/index.vue', NULL, 0, 0, 0, 'admin', '2026-09-22 16:15:00', 'admin', '2026-09-22 16:15:00');
-INSERT INTO `sys_menu`
-VALUES (59, 0, 'M', '在线开发', 'i-menu-model', '/tool', NULL, NULL, 0, NULL, 5, NULL, NULL, NULL, NULL, NULL, 0,
-        'admin', '2026-09-22 16:15:00', 'admin', '2026-09-22 16:15:00');
-INSERT INTO `sys_menu`
-VALUES (60, 59, 'C', '数据源', 'i-menu-database', '/tool/datasource', 1, 1, 0, NULL, 1, 'GenDataSourceViewIndex',
-        '/views/generate/datasource/index.vue', NULL, 0, 0, 0, 'admin', '2026-09-22 16:15:00', 'admin',
-        '2026-09-22 16:15:00');
-INSERT INTO `sys_menu`
-VALUES (61, 59, 'C', '类型映射', 'i-menu-dataPermission', '/tool/type/mapping', 1, 1, 0, NULL, 2,
-        'GenTypeMappingViewIndex', '/views/generate/type-mapping/index.vue', NULL, 0, 0, 0, 'admin',
-        '2026-09-22 16:15:00', 'admin', '2026-09-22 16:15:00');
-INSERT INTO `sys_menu`
-VALUES (62, 59, 'C', '模板管理', 'i-menu-template', '/tool/template', 1, 1, 0, NULL, 3, 'GenTemplateViewIndex',
-        '/views/generate/template/index.vue', NULL, 0, 0, 0, 'admin', '2026-09-22 16:15:00', 'admin',
-        '2026-09-22 16:15:00');
-INSERT INTO `sys_menu`
-VALUES (63, 59, 'C', '表管理', 'i-menu-database-table', '/tool/table', 1, 1, 0, NULL, 4, 'GenTableInfoViewIndex',
-        '/views/generate/table/index.vue', NULL, 0, 0, 0, 'admin', '2026-09-22 16:15:00', 'admin',
-        '2026-09-22 16:15:00');
-INSERT INTO `sys_menu`
-VALUES (64, 0, 'M', '外部链接', 'i-menu-guide', '/web', 1, NULL, 0, NULL, 6, NULL, NULL, NULL, NULL, NULL, 0, 'admin',
-        '2026-09-22 16:15:00', 'admin', '2026-09-22 16:15:00');
-INSERT INTO `sys_menu`
-VALUES (65, 64, 'C', '接口文档', 'i-menu-monitor', 'http://localhost:8080/doc.html', 1, 0, 0, NULL, 1, NULL, NULL, NULL,
-        0, 1, 0, 'admin', '2026-09-22 16:15:00', 'admin', '2026-09-22 16:15:00');
-INSERT INTO `sys_menu`
-VALUES (66, 64, 'C', '文档中心', 'i-menu-monitor', 'https://xhtcode.github.io/xht-cloud-doc/', 1, 0, 0, NULL, 2, NULL,
-        NULL, NULL, 0, 1, 0, 'admin', '2026-09-22 16:15:00', 'admin', '2026-09-22 16:15:00');
-INSERT INTO `sys_menu`
-VALUES (2110543788454744065, 0, 'M', '基础工具', 'i-menu-system-tools', '/basic', 1, 0, 0, NULL, 3, NULL, NULL, NULL,
-        NULL, 0, 0, 'admin', '2026-10-15 09:30:26', 'admin', '2026-10-15 09:30:26');
-INSERT INTO `sys_menu`
-VALUES (2110548606925705218, 2110543788454744065, 'C', '附件管理', 'i-menu-folder', '/basic/file', 1, 1, 0, NULL, 1,
-        'SysFileViewIndex', '/views/system/file/index.vue', '/basic/file', 0, 0, 0, 'admin', '2026-10-15 09:49:35',
-        'admin', '2026-10-15 09:49:35');
-INSERT INTO `sys_menu`
-VALUES (2117856162048143361, 2110543788454744065, 'C', '文件预览类型', 'i-menu-model', '/basic/file-type', 1, 1, 0,
-        NULL, 5, 'SysFileTypeViewIndex', '/views/system/file-type/index.vue', '/basic/file-type', 0, 0, 0, 'admin',
-        '2026-11-04 13:47:12', '系统生成', '2026-11-10 17:24:54');
-INSERT INTO `sys_menu`
-VALUES (2120000000000000032, 2117856162048143361, 'B', '预览类型增加', NULL, NULL, NULL, NULL, 0,
-        'sys:file:type:create', 1, NULL, NULL, NULL, NULL, NULL, 0, '系统生成', '2026-11-10 17:24:54', '系统生成',
-        '2026-11-10 17:24:54');
-INSERT INTO `sys_menu`
-VALUES (2120000000000000033, 2117856162048143361, 'B', '预览类型修改', NULL, NULL, NULL, NULL, 0,
-        'sys:file:type:update', 2, NULL, NULL, NULL, NULL, NULL, 0, '系统生成', '2026-11-10 17:24:54', '系统生成',
-        '2026-11-10 17:24:54');
-INSERT INTO `sys_menu`
-VALUES (2120000000000000034, 2117856162048143361, 'B', '预览类型删除', NULL, NULL, NULL, NULL, 0,
-        'sys:file:type:remove', 3, NULL, NULL, NULL, NULL, NULL, 0, '系统生成', '2026-11-10 17:24:54', '系统生成',
-        '2026-11-10 17:24:54');
+INSERT INTO `sys_menu` VALUES (1, 0, 'M', '首页', 'i-menu-dashboard', '/', 1, NULL, 0, NULL, 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:01', 'admin', '2026-11-25 16:48:01');
+INSERT INTO `sys_menu` VALUES (2, 1, 'C', '工作台', 'i-menu-admin', '/dashboard', 1, 0, 0, NULL, 1, 'DashboardSystemViewIndex', '/views/dashboard/system/index.vue', NULL, 1, 0, 0, 'admin', '2026-11-25 16:48:02', 'admin', '2026-11-25 16:48:02');
+INSERT INTO `sys_menu` VALUES (3, 1, 'C', '个人工作台', 'i-menu-dashboard', '/dashboard/personal', 1, 0, 0, NULL, 2, 'DashboardPersonalViewIndex', '/views/dashboard/personal/index.vue', NULL, 1, 0, 0, 'admin', '2026-11-25 16:48:02', 'admin', '2026-11-25 16:48:02');
+INSERT INTO `sys_menu` VALUES (4, 0, 'M', '系统管理', 'i-menu-system', '/system', 1, NULL, 0, NULL, 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:02', 'admin', '2026-11-25 16:48:02');
+INSERT INTO `sys_menu` VALUES (5, 4, 'C', '用户管理', 'i-menu-user', '/system/user', 1, 1, 0, NULL, 1, 'UserViewIndex', '/views/system/user/index.vue', NULL, 0, 0, 0, 'admin', '2026-11-25 16:48:02', 'admin', '2026-11-25 16:48:02');
+INSERT INTO `sys_menu` VALUES (6, 5, 'B', '用户增加', NULL, NULL, NULL, NULL, 0, 'sys:user:create', 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:02', 'admin', '2026-11-25 16:48:02');
+INSERT INTO `sys_menu` VALUES (7, 5, 'B', '用户密码修改', NULL, NULL, NULL, NULL, 0, 'sys:user:pwd', 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:02', 'admin', '2026-11-25 16:48:02');
+INSERT INTO `sys_menu` VALUES (8, 5, 'B', '用户删除', NULL, NULL, NULL, NULL, 0, 'sys:user:remove', 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:02', 'admin', '2026-11-25 16:48:02');
+INSERT INTO `sys_menu` VALUES (9, 5, 'B', '用户角色绑定', NULL, NULL, NULL, NULL, 0, 'sys:user:role:bind', 4, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:02', 'admin', '2026-11-25 16:48:02');
+INSERT INTO `sys_menu` VALUES (10, 5, 'B', '用户修改', NULL, NULL, NULL, NULL, 0, 'sys:user:update', 5, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:02', 'admin', '2026-11-25 16:48:02');
+INSERT INTO `sys_menu` VALUES (11, 4, 'C', '菜单管理', 'i-menu-menu', '/system/menu', 1, 1, 0, NULL, 2, 'SysMenuViewIndex', '/views/system/menu/index.vue', NULL, 0, 0, 0, 'admin', '2026-11-25 16:48:02', 'admin', '2026-11-25 16:48:02');
+INSERT INTO `sys_menu` VALUES (12, 11, 'B', '菜单增加', NULL, NULL, NULL, NULL, 0, 'sys:menu:create', 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:02', 'admin', '2026-11-25 16:48:02');
+INSERT INTO `sys_menu` VALUES (13, 11, 'B', '菜单删除', NULL, NULL, NULL, NULL, 0, 'sys:menu:remove', 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:03', 'admin', '2026-11-25 16:48:03');
+INSERT INTO `sys_menu` VALUES (14, 11, 'B', '菜单修改', NULL, NULL, NULL, NULL, 0, 'sys:menu:update', 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:03', 'admin', '2026-11-25 16:48:03');
+INSERT INTO `sys_menu` VALUES (15, 4, 'C', '角色分类', 'i-menu-role', '/system/roleType', 1, 1, 0, NULL, 3, 'RoleTypeViewIndex', '/views/system/role-type/index.vue', '/system/roleType', 0, 0, 0, 'admin', '2026-11-25 16:48:03', 'admin', '2026-11-25 16:48:03');
+INSERT INTO `sys_menu` VALUES (16, 15, 'B', '角色类型增加', NULL, NULL, NULL, NULL, 0, 'sys:roleType:create', 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:03', 'admin', '2026-11-25 16:48:03');
+INSERT INTO `sys_menu` VALUES (17, 15, 'B', '角色类型删除', NULL, NULL, NULL, NULL, 0, 'sys:roleType:remove', 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:03', 'admin', '2026-11-25 16:48:03');
+INSERT INTO `sys_menu` VALUES (18, 15, 'B', '角色类型修改', NULL, NULL, NULL, NULL, 0, 'sys:roleType:updateById', 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:03', 'admin', '2026-11-25 16:48:03');
+INSERT INTO `sys_menu` VALUES (19, 15, 'B', '角色类型绑定菜单', NULL, NULL, NULL, NULL, 0, 'sys:roleType:menu:bind', 4, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:03', 'admin', '2026-11-25 16:48:03');
+INSERT INTO `sys_menu` VALUES (20, 4, 'C', '角色管理', 'i-menu-role', '/system/role', 1, 1, 0, NULL, 4, 'RoleViewIndex', '/views/system/role/index.vue', NULL, 0, 0, 0, 'admin', '2026-11-25 16:48:03', 'admin', '2026-11-25 16:48:03');
+INSERT INTO `sys_menu` VALUES (21, 20, 'B', '角色增加', NULL, NULL, NULL, NULL, 0, 'sys:role:create', 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:03', 'admin', '2026-11-25 16:48:03');
+INSERT INTO `sys_menu` VALUES (22, 20, 'B', '角色菜单绑定', NULL, NULL, NULL, NULL, 0, 'sys:role:menu:bind', 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:03', 'admin', '2026-11-25 16:48:03');
+INSERT INTO `sys_menu` VALUES (23, 20, 'B', '角色删除', NULL, NULL, NULL, NULL, 0, 'sys:role:remove', 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:03', 'admin', '2026-11-25 16:48:03');
+INSERT INTO `sys_menu` VALUES (24, 20, 'B', '角色修改', NULL, NULL, NULL, NULL, 0, 'sys:role:update', 4, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:03', 'admin', '2026-11-25 16:48:03');
+INSERT INTO `sys_menu` VALUES (25, 4, 'C', '部门管理', 'i-menu-tree', '/system/dept', 1, 1, 0, NULL, 5, 'SysDeptViewIndex', '/views/system/dept/index.vue', '/system/dept', 0, 0, 0, 'admin', '2026-11-25 16:48:03', 'admin', '2026-11-25 16:48:03');
+INSERT INTO `sys_menu` VALUES (26, 25, 'B', '部门增加', NULL, NULL, NULL, NULL, 0, 'sys:dept:create', 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:04', 'admin', '2026-11-25 16:48:04');
+INSERT INTO `sys_menu` VALUES (27, 25, 'B', '部门删除', NULL, NULL, NULL, NULL, 0, 'sys:dept:remove', 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:04', 'admin', '2026-11-25 16:48:04');
+INSERT INTO `sys_menu` VALUES (28, 25, 'B', '部门修改', NULL, NULL, NULL, NULL, 0, 'sys:dept:update', 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:04', 'admin', '2026-11-25 16:48:04');
+INSERT INTO `sys_menu` VALUES (29, 4, 'C', '字典管理', 'i-menu-dict', '/system/dict', 1, 1, 0, NULL, 6, 'SysDictViewIndex', '/views/system/dict/index.vue', NULL, 0, 0, 0, 'admin', '2026-11-25 16:48:04', 'admin', '2026-11-25 16:48:04');
+INSERT INTO `sys_menu` VALUES (30, 29, 'B', '字典增加', NULL, NULL, NULL, NULL, 0, 'sys:dict:create', 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:04', 'admin', '2026-11-25 16:48:04');
+INSERT INTO `sys_menu` VALUES (31, 29, 'B', '字典删除', NULL, NULL, NULL, NULL, 0, 'sys:dict:remove', 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:04', 'admin', '2026-11-25 16:48:04');
+INSERT INTO `sys_menu` VALUES (32, 29, 'B', '字典修改', NULL, NULL, NULL, NULL, 0, 'sys:dict:update', 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:04', 'admin', '2026-11-25 16:48:04');
+INSERT INTO `sys_menu` VALUES (33, 4, 'C', '字典项管理', 'i-menu-dict', '/system/dict/:id', 0, 1, 0, NULL, 7, 'SysDictItemViewIndex', '/views/system/dict-item/index.vue', '/system/dict', 0, 0, 0, 'admin', '2026-11-25 16:48:05', 'admin', '2026-11-25 16:48:05');
+INSERT INTO `sys_menu` VALUES (34, 33, 'B', '字典项增加', NULL, NULL, NULL, NULL, 0, 'sys:dict:item:create', 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:05', 'admin', '2026-11-25 16:48:05');
+INSERT INTO `sys_menu` VALUES (35, 33, 'B', '字典项删除', NULL, NULL, NULL, NULL, 0, 'sys:dict:item:remove', 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:05', 'admin', '2026-11-25 16:48:05');
+INSERT INTO `sys_menu` VALUES (36, 33, 'B', '字典项修改', NULL, NULL, NULL, NULL, 0, 'sys:dict:item:update', 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:05', 'admin', '2026-11-25 16:48:05');
+INSERT INTO `sys_menu` VALUES (37, 4, 'C', '客户端', 'i-login-code', '/sys/oauth2/client', 1, 1, 0, NULL, 8, 'SysOauth2ClientViewIndex', '/views/system/oauth2-client/index.vue', NULL, 0, 0, 0, 'admin', '2026-11-25 16:48:05', 'admin', '2026-11-25 16:48:05');
+INSERT INTO `sys_menu` VALUES (38, 37, 'B', '客户端增加', NULL, NULL, NULL, NULL, 0, 'sys:oauth2:client:create', 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:05', 'admin', '2026-11-25 16:48:05');
+INSERT INTO `sys_menu` VALUES (39, 37, 'B', '客户端删除', NULL, NULL, NULL, NULL, 0, 'sys:oauth2:client:remove', 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:05', 'admin', '2026-11-25 16:48:05');
+INSERT INTO `sys_menu` VALUES (40, 37, 'B', '客户端修改', NULL, NULL, NULL, NULL, 0, 'sys:oauth2:client:update', 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:05', 'admin', '2026-11-25 16:48:05');
+INSERT INTO `sys_menu` VALUES (41, 4, 'C', '行政区划', 'i-menu-address', '/sys/area', 1, 1, 0, NULL, 9, 'SysAreaViewIndex', '/views/system/area/index.vue', NULL, 0, 0, 0, 'admin', '2026-11-25 16:48:05', 'admin', '2026-11-25 16:48:05');
+INSERT INTO `sys_menu` VALUES (42, 41, 'B', '行政区划增加', NULL, NULL, NULL, NULL, 0, 'sys:area:create', 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:05', 'admin', '2026-11-25 16:48:05');
+INSERT INTO `sys_menu` VALUES (43, 41, 'B', '行政区划删除', NULL, NULL, NULL, NULL, 0, 'sys:area:remove', 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:05', 'admin', '2026-11-25 16:48:05');
+INSERT INTO `sys_menu` VALUES (44, 41, 'B', '行政区划修改', NULL, NULL, NULL, NULL, 0, 'sys:area:update', 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:05', 'admin', '2026-11-25 16:48:05');
+INSERT INTO `sys_menu` VALUES (45, 0, 'M', '通知中心', 'i-menu-notice', '/notice', 1, NULL, 0, NULL, 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:06', 'admin', '2026-11-25 16:48:06');
+INSERT INTO `sys_menu` VALUES (46, 45, 'C', '通知类型管理', 'i-menu-notice-type', '/sys/notice/type', 1, 1, 0, NULL, 1, 'SysNoticeTypeViewIndex', '/views/system/notice-type/index.vue', NULL, 0, 0, 0, 'admin', '2026-11-25 16:48:06', 'admin', '2026-11-25 16:48:06');
+INSERT INTO `sys_menu` VALUES (47, 46, 'B', '通知类型增加', NULL, NULL, NULL, NULL, 0, 'sys:notice:type:create', 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:06', 'admin', '2026-11-25 16:48:06');
+INSERT INTO `sys_menu` VALUES (48, 46, 'B', '通知类型删除', NULL, NULL, NULL, NULL, 0, 'sys:notice:type:remove', 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:06', 'admin', '2026-11-25 16:48:06');
+INSERT INTO `sys_menu` VALUES (49, 46, 'B', '通知类型修改', NULL, NULL, NULL, NULL, 0, 'sys:notice:type:update', 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:06', 'admin', '2026-11-25 16:48:06');
+INSERT INTO `sys_menu` VALUES (50, 45, 'C', '通知管理', 'i-menu-notice', '/sys/notice', 1, 1, 0, NULL, 2, 'SysNoticeViewIndex', '/views/system/notice/index.vue', NULL, 0, 0, 0, 'admin', '2026-11-25 16:48:06', 'admin', '2026-11-25 16:48:06');
+INSERT INTO `sys_menu` VALUES (51, 50, 'B', '通知增加', NULL, NULL, NULL, NULL, 0, 'sys:notice:create', 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:06', 'admin', '2026-11-25 16:48:06');
+INSERT INTO `sys_menu` VALUES (52, 50, 'B', '通知删除', NULL, NULL, NULL, NULL, 0, 'sys:notice:remove', 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:06', 'admin', '2026-11-25 16:48:06');
+INSERT INTO `sys_menu` VALUES (53, 50, 'B', '通知修改', NULL, NULL, NULL, NULL, 0, 'sys:notice:update', 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:06', 'admin', '2026-11-25 16:48:06');
+INSERT INTO `sys_menu` VALUES (54, 45, 'C', '站内信管理', 'i-menu-message', '/sys/message', 1, 1, 0, NULL, 3, 'SysMessageViewIndex', '/views/system/message/index.vue', NULL, 0, 0, 0, 'admin', '2026-11-25 16:48:06', 'admin', '2026-11-25 16:48:06');
+INSERT INTO `sys_menu` VALUES (55, 54, 'B', '站内信增加', NULL, NULL, NULL, NULL, 0, 'sys:message:create', 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:06', 'admin', '2026-11-25 16:48:06');
+INSERT INTO `sys_menu` VALUES (56, 54, 'B', '站内信删除', NULL, NULL, NULL, NULL, 0, 'sys:message:remove', 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:06', 'admin', '2026-11-25 16:48:06');
+INSERT INTO `sys_menu` VALUES (57, 54, 'B', '站内信修改', NULL, NULL, NULL, NULL, 0, 'sys:message:update', 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:07', 'admin', '2026-11-25 16:48:07');
+INSERT INTO `sys_menu` VALUES (58, 0, 'M', '基础工具', 'i-menu-system-tools', '/basic', 1, 0, 0, NULL, 4, NULL, NULL, NULL, NULL, 0, 0, 'admin', '2026-11-25 16:48:07', 'admin', '2026-11-25 16:48:07');
+INSERT INTO `sys_menu` VALUES (59, 58, 'C', '附件管理', 'i-menu-folder', '/basic/file', 1, 1, 0, NULL, 1, 'SysFileViewIndex', '/views/system/file/index.vue', '/basic/file', 0, 0, 0, 'admin', '2026-11-25 16:48:07', 'admin', '2026-11-25 16:48:07');
+INSERT INTO `sys_menu` VALUES (60, 58, 'C', '文件预览类型', 'i-menu-model', '/basic/file-type', 1, 1, 0, NULL, 2, 'SysFileTypeViewIndex', '/views/system/file-type/index.vue', '/basic/file-type', 0, 0, 0, 'admin', '2026-11-25 16:48:07', 'admin', '2026-11-25 16:48:07');
+INSERT INTO `sys_menu` VALUES (61, 60, 'B', '预览类型增加', NULL, NULL, NULL, NULL, 0, 'sys:file:type:create', 1, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:07', 'admin', '2026-11-25 16:48:07');
+INSERT INTO `sys_menu` VALUES (62, 60, 'B', '预览类型修改', NULL, NULL, NULL, NULL, 0, 'sys:file:type:update', 2, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:07', 'admin', '2026-11-25 16:48:07');
+INSERT INTO `sys_menu` VALUES (63, 60, 'B', '预览类型删除', NULL, NULL, NULL, NULL, 0, 'sys:file:type:remove', 3, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:07', 'admin', '2026-11-25 16:48:07');
+INSERT INTO `sys_menu` VALUES (64, 0, 'M', '监控中心', 'i-menu-monitor', '/monitor', 1, NULL, 0, NULL, 5, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:07', 'admin', '2026-11-25 16:48:07');
+INSERT INTO `sys_menu` VALUES (65, 64, 'C', '操作日志', 'i-menu-monitor', '/monitor/log', 1, 1, 0, NULL, 1, 'SysOperLogViewIndex', '/views/monitor/blog/index.vue', NULL, 0, 0, 0, 'admin', '2026-11-25 16:48:07', 'admin', '2026-11-25 16:48:07');
+INSERT INTO `sys_menu` VALUES (66, 0, 'M', '在线开发', 'i-menu-model', '/tool', NULL, NULL, 0, NULL, 6, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:07', 'admin', '2026-11-25 16:48:07');
+INSERT INTO `sys_menu` VALUES (67, 66, 'C', '数据源', 'i-menu-database', '/tool/datasource', 1, 1, 0, NULL, 1, 'GenDataSourceViewIndex', '/views/generate/datasource/index.vue', NULL, 0, 0, 0, 'admin', '2026-11-25 16:48:07', 'admin', '2026-11-25 16:48:07');
+INSERT INTO `sys_menu` VALUES (68, 66, 'C', '类型映射', 'i-menu-dataPermission', '/tool/type/mapping', 1, 1, 0, NULL, 2, 'GenTypeMappingViewIndex', '/views/generate/type-mapping/index.vue', NULL, 0, 0, 0, 'admin', '2026-11-25 16:48:07', 'admin', '2026-11-25 16:48:07');
+INSERT INTO `sys_menu` VALUES (69, 66, 'C', '模板管理', 'i-menu-template', '/tool/template', 1, 1, 0, NULL, 3, 'GenTemplateViewIndex', '/views/generate/template/index.vue', NULL, 0, 0, 0, 'admin', '2026-11-25 16:48:07', 'admin', '2026-11-25 16:48:07');
+INSERT INTO `sys_menu` VALUES (70, 66, 'C', '表管理', 'i-menu-database-table', '/tool/table', 1, 1, 0, NULL, 4, 'GenTableInfoViewIndex', '/views/generate/table/index.vue', NULL, 0, 0, 0, 'admin', '2026-11-25 16:48:07', 'admin', '2026-11-25 16:48:07');
+INSERT INTO `sys_menu` VALUES (71, 0, 'M', '外部链接', 'i-menu-guide', '/web', 1, NULL, 0, NULL, 7, NULL, NULL, NULL, NULL, NULL, 0, 'admin', '2026-11-25 16:48:08', 'admin', '2026-11-25 16:48:08');
+INSERT INTO `sys_menu` VALUES (72, 71, 'C', '接口文档', 'i-menu-monitor', 'http://localhost:8080/doc.html', 1, 0, 0, NULL, 1, NULL, NULL, NULL, 0, 1, 0, 'admin', '2026-11-25 16:48:08', 'admin', '2026-11-25 16:48:08');
+INSERT INTO `sys_menu` VALUES (73, 71, 'C', '文档中心', 'i-menu-monitor', 'https://xhtcode.github.io/xht-cloud-doc/', 1, 0, 0, NULL, 2, NULL, NULL, NULL, 0, 1, 0, 'admin', '2026-11-25 16:48:08', 'admin', '2026-11-25 16:48:08');
 -- ----------------------------
 -- Records of sys_notice_type
 -- ----------------------------
@@ -614,15 +466,3 @@ VALUES (112, '赵六', '110101200005055678', 0, '2000-05-05', 25, '北京市丰�
 INSERT INTO `sys_user_detail`
 VALUES (2123345743890563072, 'xhtli', '410325200001029870', 0, '2026-11-12', 123, '123123', '12312123', '13112312312',
         '01', 0, 'admin', '2026-11-19 17:20:50', 'admin', '2026-11-19 17:20:50');
--- ----------------------------
--- Records of sys_role
--- ----------------------------
-INSERT INTO `sys_role`
-VALUES (1, 'admin', '系统管理员', 0, NULL, 1, '拥有系统所有权限', 0, 'admin', '2025-09-15 14:46:26', 'admin',
-        '2025-09-15 14:46:26');
-INSERT INTO `sys_role`
-VALUES (2, 'user', '普通用户', 0, NULL, 2, '基础用户权限', 0, 'admin', '2025-09-15 14:46:27', 'admin',
-        '2025-09-15 14:46:27');
-INSERT INTO `sys_role`
-VALUES (3, 'audit', '审计员', 0, NULL, 3, '查看系统日志和审计信息', 0, 'admin', '2025-09-15 14:46:27', 'admin',
-        '2025-09-15 14:46:27');

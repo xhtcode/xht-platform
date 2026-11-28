@@ -77,6 +77,8 @@ public class SysRoleTypeServiceImpl implements ISysRoleTypeService {
         AssertUtils.isTrue(exists, BusinessErrorCode.DATA_NOT_EXIST, "角色类型不存在");
         Boolean roleExists = sysRoleDao.exists(SysRoleEntity::getRoleTypeId, id);
         AssertUtils.isTrue(!roleExists, BusinessErrorCode.DATA_EXIST, "角色类型已分配角色，禁止删除");
+        Boolean menuExists = sysRoleTypeMenuDao.exists(SysRoleTypeMenuEntity::getRoleTypeId, id);
+        AssertUtils.isTrue(!menuExists, BusinessErrorCode.DATA_EXIST, "角色类型已绑定菜单，禁止删除");
         sysRoleTypeDao.removeById(id);
     }
 
